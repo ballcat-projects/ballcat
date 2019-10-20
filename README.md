@@ -92,14 +92,13 @@ npm	| 6.0 +	|
 
 ## 代码下载
 
+- 后端：
+> git clone https://github.com/Hccake/ballcat.git
 
-::: tip 后端：
-git clone https://github.com
-:::
 
-::: tip 前端：
-git clone https://github.com
-::: 
+- 前端：
+> git clone https://github.com/Hccake/ballcat-ui-vue.git
+
 
 ## 数据库配置
 
@@ -112,7 +111,7 @@ git clone https://github.com
 # 建库语句
 scheme.sql   
 # 核心库
-ballcat.sql  
+2ballcat.sql  
 # 定时任务依赖库（可选）
 ballcat_job.sql  
 ```
