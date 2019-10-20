@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://ballcat-mysql:3306/ballcat?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: '123456'
+  redis:
+    host: ballcat-redis
+    password: ''
+    port: 6379
+

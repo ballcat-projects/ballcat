@@ -1,0 +1,39 @@
+import { axios } from '@/utils/request'
+
+export function getPage(query) {
+  return axios({
+    url: '/${moduleName}/${pathName}/page',
+    method: 'get',
+    params: query
+  })
+}
+
+export function addObj(obj) {
+  return axios({
+    url: '/${moduleName}/${pathName}',
+    method: 'post',
+    data: obj
+  })
+}
+
+export function getObj(id) {
+  return axios({
+    url: '/${moduleName}/${pathName}/' + id,
+    method: 'get'
+  })
+}
+
+export function delObj(id) {
+  return axios({
+    url: '/${moduleName}/${pathName}/' + id,
+    method: 'delete'
+  })
+}
+
+export function putObj(obj) {
+  return axios({
+    url: '/${moduleName}/${pathName}',
+    method: 'put',
+    data: obj
+  })
+}

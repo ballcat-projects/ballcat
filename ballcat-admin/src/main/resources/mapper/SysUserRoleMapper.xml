@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hccake.ballcat.admin.modules.sys.mapper.SysUserRoleMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hccake.ballcat.admin.modules.sys.model.entity.SysUserRole">
+		<id column="user_id" property="userId"/>
+		<result column="role_id" property="roleId"/>
+	</resultMap>
+
+
+	<!-- 通过用户ID查询其关联的角色ID-->
+	<select id="getRoles" resultType="com.hccake.ballcat.admin.modules.sys.model.entity.SysRole">
+        SELECT
+            r.id, r.name, r.code
+        FROM
+       		sys_user_role ur
+		left join
+			sys_role r
+		on r.id = ur.role_id
+        WHERE ur.user_id = #{userId}
+        and r.del_flag = 0
+    </select>
+
+
+	<!--新建用户角色关联关系-->
+	<insert id="insertUserRoles">
+		insert into
+			sys_user_role (user_id, role_id)
+		values
+		<foreach collection="roleIds" item="roleId" separator=",">
+			( #{userId}, #{roleId} )
+		</foreach>
+	</insert>
+
+	<!--根据UserId删除用户角色关联关系-->
+	<delete id="deleteByUserId">
+		DELETE FROM sys_user_role WHERE user_id = #{userId}
+	</delete>
+
+
+</mapper>

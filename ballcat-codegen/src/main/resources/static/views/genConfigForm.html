@@ -1,0 +1,32 @@
+<form class="layui-form" lay-filter="gen-config-form" style="width:380px; margin: 10px 0px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">包名</label>
+        <div class="layui-input-block">
+            <input type="text" name="packageName" required  lay-verify="required" placeholder="请输入包名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">模块名</label>
+        <div class="layui-input-block">
+            <input type="text" name="moduleName" required  lay-verify="required" placeholder="请输入模块名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">作者</label>
+        <div class="layui-input-block">
+            <input type="text" name="author" required  lay-verify="required" placeholder="请输入作者" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">表前缀</label>
+        <div class="layui-input-block">
+            <input type="text" name="tablePrefix" required  lay-verify="required" placeholder="请输入表前缀" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+</form>
+
+<script>
+layui.use('form', function(){
+    var form = layui.form;
+});
+</script>

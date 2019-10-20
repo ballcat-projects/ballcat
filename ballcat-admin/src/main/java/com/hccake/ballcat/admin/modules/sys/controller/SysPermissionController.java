@@ -1,0 +1,126 @@
+package com.hccake.ballcat.admin.modules.sys.controller;
+
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.hccake.ballcat.admin.constants.SysPermissionConst;
+import com.hccake.ballcat.admin.modules.sys.model.converter.SysPermissionConverter;
+import com.hccake.ballcat.admin.modules.sys.model.entity.SysPermission;
+import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.Router;
+import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
+import com.hccake.ballcat.admin.oauth.SysUserDetails;
+import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
+import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
+import com.hccake.ballcat.common.core.result.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * @author
+ * @date 2019/09/17
+ */
+@RestController
+@RequestMapping("/syspermission")
+@Api(value = "syspermission", tags = "权限管理模块")
+public class SysPermissionController {
+
+    @Autowired
+    private SysPermissionService sysPermissionService;
+
+    /**
+     * 返回当前用户的路由集合
+     *
+     * @return 当前用户的路由
+     */
+    @GetMapping("/router")
+    public R getUserPermission() {
+
+        //获取角色ID
+        SysUserDetails sysUserDetails = SecurityUtils.getSysUserDetails();
+        List<Integer> roleIds = sysUserDetails.getRoleIds();
+        if (CollectionUtil.isEmpty(roleIds)) {
+            return R.ok(new ArrayList<>());
+        }
+
+        // 获取符合条件的权限
+        Set<PermissionVO> all = new HashSet<>();
+        roleIds.forEach(roleId -> all.addAll(sysPermissionService.findPermissionVOByRoleId(roleId)));
+
+        // 筛选出菜单
+        List<Router> routerList = all.stream()
+                .filter(menuVo -> SysPermissionConst.Type.MENU.getValue() == menuVo.getType() || SysPermissionConst.Type.DIRECTORY.getValue() == menuVo.getType())
+                .sorted(Comparator.comparingInt(PermissionVO::getSort))
+                .map(SysPermissionConverter.INSTANCE::toRouter)
+                .collect(Collectors.toList());
+
+        return R.ok(routerList);
+    }
+
+
+    /**
+     * 所有的权限集合
+     *
+     * @return
+     */
+    @GetMapping(value = "/list")
+    public R<List<SysPermission>> getTree() {
+        List<SysPermission> list = sysPermissionService
+                .list(Wrappers.<SysPermission>lambdaQuery()
+                        .orderByAsc(SysPermission::getSort));
+        return R.ok(list);
+    }
+
+
+    /**
+     * 通过ID查询权限的详细信息
+     *
+     * @param id 权限ID
+     * @return 权限详细信息
+     */
+    @GetMapping("/{id}")
+    public R getById(@PathVariable Integer id) {
+        return R.ok(sysPermissionService.getById(id));
+    }
+
+
+    @ApiOperation(value = "新增权限", notes = "新增权限")
+    @OperationLogging("新增权限" )
+    @PostMapping
+    @PreAuthorize("@per.hasPermission('sys_syspermission_add')" )
+    public R save(@Valid @RequestBody SysPermission sysMenu) {
+        return R.ok(sysPermissionService.save(sysMenu));
+    }
+
+
+
+    /**
+     * 更新权限
+     *
+     * @param sysPermission
+     * @return R
+     */
+    @ApiOperation(value = "修改权限", notes = "修改权限")
+    @OperationLogging("修改权限" )
+    @PutMapping
+    @PreAuthorize("@per.hasPermission('sys_syspermission_edit')" )
+    public R update(@Valid @RequestBody SysPermission sysPermission) {
+        return R.ok(sysPermissionService.updatePermissionById(sysPermission));
+    }
+
+
+    @ApiOperation(value = "通过id删除权限", notes = "通过id删除权限")
+    @OperationLogging("通过id删除权限" )
+    @DeleteMapping("/{id}" )
+    @PreAuthorize("@per.hasPermission('sys_syspermission_del')" )
+    public R removeById(@PathVariable Integer id) {
+        return R.ok(sysPermissionService.removePermissionById(id));
+    }
+
+}

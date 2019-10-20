@@ -1,0 +1,67 @@
+<template>
+  <a-form @submit="handleSubmit" :form="form">
+
+#foreach ($column in $columns)
+  #if($column.columnName == $pk.lowerAttrName)
+    <a-form-item v-if="formAction === this.FORM_ACTION.UPDATE" style="display: none">
+      <a-input v-decorator="['${pk.lowerAttrName}']"/>
+    </a-form-item>
+
+  #elseif($column.columnName != "create_time" && $column.columnName != "update_time")
+    <a-form-item label="$column.comments"
+                 :labelCol=labelCol
+                 :wrapperCol=wrapperCol>
+      <a-input placeholder="$column.comments"
+               v-decorator="['$column.lowerAttrName']" />
+    </a-form-item>
+
+   #end
+#end
+
+    <div v-show="formAction === this.FORM_ACTION.UPDATE">
+      <a-form-item
+        label="创建时间"
+        :labelCol=labelCol
+        :wrapperCol=wrapperCol>
+        <span>{{ displayData.createTime }}</span>
+      </a-form-item>
+      <a-form-item
+        label="修改时间"
+        :labelCol=labelCol
+        :wrapperCol=wrapperCol>
+        <span>{{ displayData.updateTime }}</span>
+      </a-form-item>
+    </div>
+    <a-form-item
+      :wrapperCol="{offset: 3 }"
+    >
+      <a-button htmlType="submit" type="primary" :loading="submitLoading">提交</a-button>
+      <a-button style="margin-left: 8px" @click="backToPage(false)">取消</a-button>
+    </a-form-item>
+  </a-form>
+</template>
+
+<script>
+import { FormMixin } from '@/mixins'
+import AFormItem from 'ant-design-vue/es/form/FormItem'
+import { addObj, putObj } from '@/api/${moduleName}/${pathName}'
+
+export default {
+  name: '${className}FormPage',
+  components: {AFormItem },
+  mixins: [FormMixin],
+  data () {
+    return {
+      addObj: addObj,
+      putObj: putObj,
+
+      // 校验配置
+      decoratorOptions: {},
+    }
+  },
+  methods: {
+  }
+}
+</script>
+
+

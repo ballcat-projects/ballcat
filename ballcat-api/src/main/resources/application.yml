@@ -1,0 +1,32 @@
+# 当前激活配置，默认dev
+spring:
+  profiles:
+    active: @profiles.active@
+
+# 项目端口号
+server:
+  port: 9090
+
+# mybatis-plus相关配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      field-strategy: NOT_EMPTY
+
+# 密码加解密密钥
+password:
+  secret-key: '==BallCat-Auth=='
+
+
+# 定时任务相关
+
+#xxl:
+#  job:
+#    admin:
+#      addresses: http://ballcat-job:8888/xxl-job-admin # xxl-job-admin 接口地址
+#    executor:
+#      port: 6888 #通讯端口
+#      appName: ballcat-api-job

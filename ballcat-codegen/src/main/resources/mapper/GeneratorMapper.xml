@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hccake.ballcat.codegen.mapper.GeneratorMapper">
+    <select id="queryList" resultType="map">
+        SELECT
+            table_name tableName,
+            engine,
+            table_comment tableComment,
+            create_time createTime
+        FROM
+            information_schema.TABLES
+        WHERE
+             table_schema = ( SELECT DATABASE ( ) )
+        <if test="tableName != null and tableName.trim() != ''">
+            AND table_name LIKE concat('%', #{tableName}, '%')
+        </if>
+        ORDER BY
+        create_time DESC
+    </select>
+
+    <select id="queryTable" resultType="map">
+        SELECT
+            table_name tableName,
+            engine,
+            table_comment tableComment,
+            create_time createTime
+        FROM
+            information_schema.TABLES
+        WHERE
+            table_schema = ( SELECT DATABASE ( ) )
+            AND table_name = #{tableName}
+	</select>
+
+    <select id="queryColumns" resultType="map">
+        SELECT
+            column_name columnName,
+            data_type dataType,
+            column_comment columnComment,
+            column_key columnKey,
+            extra,
+            is_nullable AS isNullable,
+            column_type AS columnType
+        FROM
+            information_schema.COLUMNS
+        WHERE
+            table_name = #{tableName}
+            AND table_schema = ( SELECT DATABASE ( ) )
+        ORDER BY
+            ordinal_position
+	</select>
+</mapper>

@@ -1,0 +1,82 @@
+package com.hccake.ballcat.admin.modules.log.model.entity;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
+
+/**
+ * 操作日志
+ *
+ * @author hccake
+ * @date 2019-10-15 20:42:32
+ */
+@Data
+@TableName("admin_operation_log")
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(value = "操作日志")
+public class AdminOperationLog extends Model<AdminOperationLog> {
+private static final long serialVersionUID = 1L;
+
+    /**
+     * 编号
+     */
+    @TableId
+    @ApiModelProperty(value="编号")
+    private Long id;
+    /**
+     * 日志消息
+     */
+    @ApiModelProperty(value="日志消息")
+    private String msg;
+    /**
+     * 访问IP地址
+     */
+    @ApiModelProperty(value="访问IP地址")
+    private String ip;
+    /**
+     * 用户代理
+     */
+    @ApiModelProperty(value="用户代理")
+    private String userAgent;
+    /**
+     * 请求URI
+     */
+    @ApiModelProperty(value="请求URI")
+    private String uri;
+    /**
+     * 操作方式
+     */
+    @ApiModelProperty(value="操作方式")
+    private String method;
+    /**
+     * 操作提交的数据
+     */
+    @ApiModelProperty(value="操作提交的数据")
+    private String params;
+    /**
+     * 操作状态
+     */
+    @ApiModelProperty(value="操作状态")
+    private Integer status;
+    /**
+     * 执行时长
+     */
+    @ApiModelProperty(value="执行时长")
+    private Long time;
+    /**
+     * 创建者
+     */
+    @ApiModelProperty(value="创建者")
+    private String operator;
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value="创建时间")
+    private LocalDateTime createTime;
+}
