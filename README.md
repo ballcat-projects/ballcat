@@ -187,3 +187,7 @@ npm run serve
 默认用户名密码：admin/a123456
 
 
+# 感谢
+
+BallCat中不少地方都学习了pigx的设计思想，在此感谢 lengleng 大大
+[pigx微服务开发平台](https://www.pig4cloud.com/)
