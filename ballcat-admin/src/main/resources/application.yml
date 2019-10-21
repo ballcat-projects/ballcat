@@ -1,11 +1,24 @@
-# 当前激活配置，默认dev
-spring:
-  profiles:
-    active: @profiles.active@
-
-# 项目端口号
 server:
   port: 8080
+
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@  # 当前激活配置，默认dev
+  boot:
+    admin:
+      client:
+        url: http://ballcat-monitor:9999
+        username: admin
+        password: 123456
+
+# 暴露监控端口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 # mybatis-plus相关配置
 mybatis-plus:
@@ -19,6 +32,11 @@ mybatis-plus:
 # 密码加解密密钥
 password:
   secret-key: '==BallCat-Auth=='
+
+# 监控加解密密钥
+monitor:
+  secret-id: 'ballcat-monitor'
+  secret-key: '=BallCat-Monitor'
 
 
 # 定时任务相关配置

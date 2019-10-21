@@ -36,6 +36,14 @@ public class PasswordUtil {
     }
 
 
+    public static String encodeAESBase64(String pass, String secretKey){
+        AES aes = new AES(Mode.CBC, Padding.NoPadding,
+                new SecretKeySpec(secretKey.getBytes(), "AES"),
+                new IvParameterSpec(secretKey.getBytes()));
+        return aes.encryptBase64(pass, StandardCharsets.UTF_8);
+    }
+
+
     public static String encodeBCrypt(String pass){
         return ENCODER.encode(pass);
     }
