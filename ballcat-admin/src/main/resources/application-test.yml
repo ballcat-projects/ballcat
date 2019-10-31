@@ -7,8 +7,3 @@ spring:
     host: ballcat-redis
     password: ''
     port: 6379
-
-logging:
-  level:
-    root: debug
-

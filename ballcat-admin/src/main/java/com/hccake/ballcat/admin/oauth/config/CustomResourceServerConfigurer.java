@@ -8,7 +8,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
@@ -50,7 +49,10 @@ public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdap
         http
             // 拦截 url 配置
             .authorizeRequests()
+            // TODO Actuator权限控制
+            .antMatchers("/actuator/**").permitAll()
             .anyRequest().authenticated()
+
 
             // 使用token鉴权时 关闭 session 缓存
             .and()

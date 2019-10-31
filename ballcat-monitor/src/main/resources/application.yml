@@ -1,0 +1,19 @@
+# 项目端口号
+server:
+  port: 9999
+
+spring:
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@  # 当前激活配置，默认dev
+  security:
+    user:
+      name: admin
+      password: 123456
+
+
+# 请求Actuator加解密密钥
+monitor:
+  secret-id: 'ballcat-monitor'
+  secret-key: '=BallCat-Monitor'
