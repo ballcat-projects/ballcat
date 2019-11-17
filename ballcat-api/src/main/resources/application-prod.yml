@@ -8,3 +8,6 @@ spring:
     password: ''
     port: 6379
 
+# 生产环境关闭文档
+swagger:
+  enabled: false

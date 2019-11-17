@@ -45,3 +45,19 @@ password:
 #    executor:
 #      port: 6888 #通讯端口
 #      appName: ballcat-api-job
+
+
+swagger:
+  title: BallCat-Api Docs
+  description: BallCat 业务接口服务Api文档
+  version: 0.0.1
+  license: Powered By BallCat
+  licenseUrl: http://www.ballcat.cn/
+  terms-of-service-url: http://www.ballcat.cn/
+  host: http://localhost:9090
+  contact:
+    name: Hccake
+    email: chengbohua@foxmail.com
+    url: https://github.com/Hccake
+  aggregator:
+    origin: http://ballcat-admin:8080

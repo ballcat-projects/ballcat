@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  * @author Hccake
  */
 /*@EnableXxlJob*/
+/*@EnableSwagger2Aggregator*/
 @EnableAccessLog
 @ServletComponentScan("com.hccake.ballcat.admin.oauth.filter")
 @SpringBootApplication

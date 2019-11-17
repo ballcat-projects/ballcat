@@ -19,6 +19,7 @@
         <module>ballcat-common-log</module>
         <module>ballcat-common-conf</module>
         <module>ballcat-common-job</module>
+        <module>ballcat-common-swagger</module>
     </modules>
 
 

@@ -6,12 +6,12 @@ spring:
     name: @artifactId@
   profiles:
     active: @profiles.active@  # 当前激活配置，默认dev
-  boot:
-    admin:
-      client:
-        url: http://ballcat-monitor:9999
-        username: admin
-        password: 123456
+#  boot:
+#    admin:
+#      client:
+#        url: http://ballcat-monitor:9999
+#        username: admin
+#        password: 123456
 
 # 暴露监控端口
 management:
@@ -47,4 +47,21 @@ monitor:
 #    executor:
 #      port: 7888 #通讯端口
 #      appName: ballcat-admin-job
+
+
+swagger:
+  title: BallCat-Admin Docs
+  group-name: ballcat-admin
+  description: BallCat 后台管理服务Api文档
+  version: 0.0.1
+  license: Powered By BallCat
+  licenseUrl: http://www.ballcat.cn/
+  terms-of-service-url: http://www.ballcat.cn/
+  contact:
+    name: Hccake
+    email: chengbohua@foxmail.com
+    url: https://github.com/Hccake
+  provider:
+    resources:
+      - {name: ballcat-api,  url: http://ballcat-api:9090/v2/api-docs, swagger-version: 2.0}
 

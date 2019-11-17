@@ -49,8 +49,13 @@ public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdap
         http
             // 拦截 url 配置
             .authorizeRequests()
-            // TODO Actuator权限控制
             .antMatchers("/actuator/**").permitAll()
+            .antMatchers("/doc.html").permitAll()
+            .antMatchers("/v2/api-docs",
+                    "/swagger-resources/**",
+                    "/swagger-ui.html**",
+                    "/webjars/**",
+                    "favicon.ico").permitAll()
             .anyRequest().authenticated()
 
 

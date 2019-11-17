@@ -32,7 +32,6 @@
         <hutool.version>5.0.1</hutool.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <simple-cache.version>0.0.4</simple-cache.version>
-        <swagger-start.version>1.9.0.RELEASE</swagger-start.version>
         <swagger.core.version>1.5.2</swagger.core.version>
         <xxl-job.version>2.1.0</xxl-job.version>
         <spring-security.version>5.1.6.RELEASE</spring-security.version>
@@ -98,11 +97,10 @@
                 <artifactId>ballcat-common-modules</artifactId>
                 <version>${ballcat.version}</version>
             </dependency>
-            <!--swagger封装-->
             <dependency>
-                <groupId>com.spring4all</groupId>
-                <artifactId>swagger-spring-boot-starter</artifactId>
-                <version>${swagger-start.version}</version>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-swagger</artifactId>
+                <version>${ballcat.version}</version>
             </dependency>
             <!--swagger注解-->
             <dependency>

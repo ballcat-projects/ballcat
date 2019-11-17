@@ -22,6 +22,13 @@ public class AuthHeaderProvider implements HttpHeadersProvider {
     private String secretKey;
 
 
+    /**
+     * 当授权中心剥离时，目前BallCat的设计是简单启动
+     * 所以不做独立的授权中心，在此记录下拓展使用方式
+     * 可以考虑 client_credentials 客户端授权模式
+     * @param instance
+     * @return
+     */
     @Override
     public HttpHeaders getHeaders(Instance instance) {
         HttpHeaders headers = new HttpHeaders();

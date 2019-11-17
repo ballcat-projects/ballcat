@@ -1,6 +1,7 @@
 package com.hccake.ballcat.api.modules.api.controller;
 
 import com.hccake.ballcat.common.core.exception.BallCatException;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 public class TestController {
 
 
+    @ApiOperation("测试地址")
     @PostMapping("/test")
     public String test(){
         return "Hello word!";
