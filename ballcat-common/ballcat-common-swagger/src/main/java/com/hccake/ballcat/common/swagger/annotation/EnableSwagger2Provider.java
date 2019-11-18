@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  * @author Hccake
  * @version 1.0
  * @date 2019/11/1 19:43
- * 聚合者的swagger开启注解
+ * 提供者的swagger开启注解
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

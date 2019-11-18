@@ -55,6 +55,7 @@ public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdap
                     "/swagger-resources/**",
                     "/swagger-ui.html**",
                     "/webjars/**",
+                    "/bycdao-ui/**",
                     "favicon.ico").permitAll()
             .anyRequest().authenticated()
 

@@ -54,7 +54,7 @@ swagger:
   license: Powered By BallCat
   licenseUrl: http://www.ballcat.cn/
   terms-of-service-url: http://www.ballcat.cn/
-  host: http://localhost:9090
+  host: http://ballcat-api:9090
   contact:
     name: Hccake
     email: chengbohua@foxmail.com
