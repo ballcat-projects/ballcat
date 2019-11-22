@@ -57,6 +57,11 @@ public class Router {
 	@ApiModelProperty(value="重定向地址")
 	private String redirect;
 	/**
+	 * 链接跳转目标
+	 */
+	@ApiModelProperty(value="链接跳转目标")
+	private String target;
+	/**
 	 * 路由缓冲
 	 */
 	@ApiModelProperty(value = "开启路由缓冲")

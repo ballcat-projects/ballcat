@@ -21,9 +21,9 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnWebApplication
 public class FilterConfig {
 
-    @Value("${monitor.secret-id: ballcat-monitor}")
+    @Value("${monitor.secret-id:ballcat-monitor}")
     private String secretId;
-    @Value("${monitor.secret-key: =BallCat-Monitor}")
+    @Value("${monitor.secret-key:=BallCat-Monitor}")
     private String secretKey;
 
     @Bean

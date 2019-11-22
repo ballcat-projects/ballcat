@@ -49,6 +49,11 @@ public class PermissionVO {
     @ApiModelProperty(value="重定向地址")
     private String redirect;
     /**
+     * 链接跳转目标
+     */
+    @ApiModelProperty(value="链接跳转目标")
+    private String target;
+    /**
      * 父菜单ID
      */
     @ApiModelProperty(value="父菜单ID")

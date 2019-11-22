@@ -1,5 +1,6 @@
 package com.hccake.ballcat.commom.log.access.filter;
 
+import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.commom.log.access.service.AccessLogHandlerService;
 import com.hccake.ballcat.common.core.filter.RepeatBodyRequestWrapper;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,11 @@ public class AccessLogFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        // 排除监控请求 TODO 可配置
+        if (StrUtil.containsAnyIgnoreCase(request.getRequestURI(),"/actuator")){
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         RepeatBodyRequestWrapper requestWrapper = new RepeatBodyRequestWrapper(request);
 
@@ -67,4 +73,5 @@ public class AccessLogFilter extends OncePerRequestFilter {
         }
 
     }
+
 }

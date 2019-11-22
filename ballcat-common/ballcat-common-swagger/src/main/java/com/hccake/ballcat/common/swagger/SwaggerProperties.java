@@ -2,8 +2,6 @@ package com.hccake.ballcat.common.swagger;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +12,6 @@ import java.util.List;
  * @date 2019/11/1 19:37
  */
 @Data
-@Component
-@ConfigurationProperties("swagger")
 public class SwaggerProperties {
     /**
      * 是否开启swagger

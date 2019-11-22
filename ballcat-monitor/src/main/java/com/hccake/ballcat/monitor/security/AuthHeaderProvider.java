@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthHeaderProvider implements HttpHeadersProvider {
 
-    @Value("${monitor.secret-id: ballcat-monitor}")
+    @Value("${monitor.secret-id:ballcat-monitor}")
     private String secretId;
-    @Value("${monitor.secret-key: =BallCat-Monitor}")
+    @Value("${monitor.secret-key:=BallCat-Monitor}")
     private String secretKey;
 
 

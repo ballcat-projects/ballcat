@@ -1,8 +1,9 @@
 package com.hccake.ballcat.common.swagger;
 
 import io.swagger.annotations.ApiOperation;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,11 +22,12 @@ import java.util.List;
  * @version 1.0
  * @date 2019/11/1 19:43
  */
+@Configuration
 @EnableSwagger2
 public class SwaggerConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
+    @ConfigurationProperties("swagger")
     public SwaggerProperties swaggerProperties() {
         return new SwaggerProperties();
     }
@@ -70,7 +72,6 @@ public class SwaggerConfiguration {
                 .scopes(authorizationScopeList.toArray(authorizationScopes))
                 .build());
     }
-
 
     private OAuth securitySchema() {
         ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();

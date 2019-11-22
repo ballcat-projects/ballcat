@@ -1,3 +1,4 @@
+## 备注： 变量的使用方法，是mysql语法，基础生成部分是全数据库通用，若数据源非mysql，请只执行基础生成sql
 START TRANSACTION;
 
 -- 目录ID
@@ -5,6 +6,7 @@ set @pId = 目录ID;
 -- 菜单ID
 set @menuId = 菜单ID;
 
+## -----------------基础生成部分start-------------
 -- 插入菜单
 INSERT INTO `sys_permission`
     (`id`, `parent_id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`,  `icon`, `sort`, `keep_alive`, `hidden`, `type`, `del_flag`, `create_time`, `update_time`)
@@ -24,6 +26,8 @@ VALUES
 INSERT INTO `sys_permission` ( `id`, `parent_id`,`title`, `code`, `sort`, `type`, `del_flag`, `create_time`, `update_time` )
 VALUES
 ( @menuId + 3, @menuId, '${comments}删除', '${moduleName}_${pathName}_del', 2, 2, 0, '2019-10-13 22:00:24', NULL );
+
+## -----------------基础生成部分end-------------
 
 -- 清空变量
 set @menuId = null;

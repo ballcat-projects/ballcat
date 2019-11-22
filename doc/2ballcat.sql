@@ -105,26 +105,26 @@ INSERT INTO `oauth_client_details` VALUES ('test', NULL, '$2a$10$8DrIu79gvgx8.nQ
 -- Table structure for sys_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_permission`;
-CREATE TABLE `sys_permission`  (
+CREATE TABLE `sys_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `title` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单标题',
-  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单权限标识',
-  `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由URL',
-  `router_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由名称',
-  `component` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'component地址',
-  `redirect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '重定向地址',
-  `parent_id` int(11) NULL DEFAULT NULL COMMENT '父菜单ID',
-  `icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图标',
-  `sort` int(11) NULL DEFAULT 1 COMMENT '排序值',
-  `keep_alive` tinyint(1) NULL DEFAULT 0 COMMENT '0-开启，1- 关闭',
-  `hidden` tinyint(1) NULL DEFAULT 0 COMMENT '是否隐藏路由: 0否,1是',
-  `type` tinyint(1) NULL DEFAULT 0 COMMENT '菜单类型 （0菜单 1按钮）',
-  `del_flag` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除标记(0--正常 1--删除)',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `title` varchar(32) DEFAULT NULL COMMENT '菜单标题',
+  `code` varchar(32) DEFAULT NULL COMMENT '菜单权限标识',
+  `path` varchar(128) DEFAULT NULL COMMENT '路由URL',
+  `router_name` varchar(32) DEFAULT NULL COMMENT '路由名称',
+  `component` varchar(128) DEFAULT NULL COMMENT 'component地址',
+  `redirect` varchar(255) DEFAULT NULL COMMENT '重定向地址',
+  `target` varchar(20) DEFAULT NULL COMMENT '链接跳转目标',
+  `parent_id` int(11) DEFAULT NULL COMMENT '父菜单ID',
+  `icon` varchar(32) DEFAULT NULL COMMENT '图标',
+  `sort` int(11) DEFAULT '1' COMMENT '排序值',
+  `keep_alive` tinyint(1) DEFAULT '0' COMMENT '0-开启，1- 关闭',
+  `hidden` tinyint(1) DEFAULT '0' COMMENT '是否隐藏路由: 0否,1是',
+  `type` tinyint(1) DEFAULT '0' COMMENT '菜单类型 （0菜单 1按钮）',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记(0--正常 1--删除)',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 110301 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限' ROW_FORMAT = Dynamic;
-
+) ENGINE=InnoDB AUTO_INCREMENT=110301 DEFAULT CHARSET=utf8mb4 COMMENT='菜单权限';
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------

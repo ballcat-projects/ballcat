@@ -6,12 +6,12 @@ spring:
     name: @artifactId@
   profiles:
     active: @profiles.active@  # 当前激活配置，默认dev
-#  boot:
-#    admin:
-#      client:
-#        url: http://ballcat-monitor:9999
-#        username: admin
-#        password: 123456
+  boot:
+    admin:
+      client:
+        url: http://ballcat-monitor:9999
+        username: admin
+        password: 123456
 
 # 暴露监控端口
 management:
@@ -40,13 +40,13 @@ monitor:
 
 
 # 定时任务相关配置
-#xxl:
-#  job:
-#    admin:
-#      addresses: http://ballcat-job:8888/xxl-job-admin # xxl-job-admin 接口地址
-#    executor:
-#      port: 7888 #通讯端口
-#      appName: ballcat-admin-job
+xxl:
+  job:
+    admin:
+      addresses: http://ballcat-job:8888/xxl-job-admin # xxl-job-admin 接口地址
+    executor:
+      port: 7888 #通讯端口
+      appName: ballcat-admin-job
 
 
 swagger:
@@ -61,7 +61,14 @@ swagger:
     name: Hccake
     email: chengbohua@foxmail.com
     url: https://github.com/Hccake
+  authorization:
+    name: BallCat OAuth
+    auth-regex: ^.*$
+    authorization-scope-list:
+      - scope: server
+        description: server all
+    token-url-list:
+      - http://ballcat-admin:8080/oauth/token
   provider:
     resources:
       - {name: ballcat-api,  url: http://ballcat-api:9090/v2/api-docs, swagger-version: 2.0}
-

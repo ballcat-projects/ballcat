@@ -11,7 +11,10 @@ spring:
     user:
       name: admin
       password: 123456
-
+  boot:
+    admin:
+      ui:
+        title: 'BallCat Monitor'
 
 # 请求Actuator加解密密钥
 monitor:
