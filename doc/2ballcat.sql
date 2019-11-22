@@ -1,3 +1,18 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.1.6
+ Source Server Type    : MySQL
+ Source Server Version : 50727
+ Source Host           : 192.168.1.6:3306
+ Source Schema         : ballcat
+
+ Target Server Type    : MySQL
+ Target Server Version : 50727
+ File Encoding         : 65001
+
+ Date: 22/11/2019 18:39:38
+*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -26,7 +41,7 @@ CREATE TABLE `admin_access_log`  (
   INDEX `uri`(`uri`) USING BTREE,
   INDEX `httpStatus`(`http_status`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 703 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '访问日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11132 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '访问日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for admin_operation_log
@@ -49,7 +64,7 @@ CREATE TABLE `admin_operation_log`  (
   INDEX `uri`(`uri`) USING BTREE,
   INDEX `status`(`status`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for api_access_log
@@ -75,7 +90,7 @@ CREATE TABLE `api_access_log`  (
   INDEX `uri`(`uri`) USING BTREE,
   INDEX `httpStatus`(`http_status`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 222 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '访问日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 289 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '访问日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for oauth_client_details
@@ -99,67 +114,76 @@ CREATE TABLE `oauth_client_details`  (
 -- ----------------------------
 -- Records of oauth_client_details
 -- ----------------------------
-INSERT INTO `oauth_client_details` VALUES ('test', NULL, '$2a$10$8DrIu79gvgx8.nQXuWGPR.tG/SHh547krcxhMeDrikJjUWlLua4.K', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true');
+INSERT INTO `oauth_client_details` VALUES ('actuator', NULL, '$2a$10$frNrwNcb5rUeNBd7EhME6uN7zTOe0qKlDVsT2SgZZDitJXuJJ7wDO', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true');
+INSERT INTO `oauth_client_details` VALUES ('test', NULL, '$2a$10$8DrIu79gvgx8.nQXuWGPR.tG/SHh547krcxhMeDrikJjUWlLua4.K', 'server', 'password,client_credentials,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true');
+INSERT INTO `oauth_client_details` VALUES ('ui', NULL, '$2a$10$8UbJyUN9kdE16RlqSx9Sc.YLIjKLDWFS2Nvev.uN/P2OrrCtVkuMO', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true');
 
 -- ----------------------------
 -- Table structure for sys_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_permission`;
-CREATE TABLE `sys_permission` (
+CREATE TABLE `sys_permission`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `title` varchar(32) DEFAULT NULL COMMENT '菜单标题',
-  `code` varchar(32) DEFAULT NULL COMMENT '菜单权限标识',
-  `path` varchar(128) DEFAULT NULL COMMENT '路由URL',
-  `router_name` varchar(32) DEFAULT NULL COMMENT '路由名称',
-  `component` varchar(128) DEFAULT NULL COMMENT 'component地址',
-  `redirect` varchar(255) DEFAULT NULL COMMENT '重定向地址',
-  `target` varchar(20) DEFAULT NULL COMMENT '链接跳转目标',
-  `parent_id` int(11) DEFAULT NULL COMMENT '父菜单ID',
-  `icon` varchar(32) DEFAULT NULL COMMENT '图标',
-  `sort` int(11) DEFAULT '1' COMMENT '排序值',
-  `keep_alive` tinyint(1) DEFAULT '0' COMMENT '0-开启，1- 关闭',
-  `hidden` tinyint(1) DEFAULT '0' COMMENT '是否隐藏路由: 0否,1是',
-  `type` tinyint(1) DEFAULT '0' COMMENT '菜单类型 （0菜单 1按钮）',
-  `del_flag` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记(0--正常 1--删除)',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `title` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单标题',
+  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单权限标识',
+  `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由URL',
+  `router_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由名称',
+  `component` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'component地址',
+  `redirect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '重定向地址',
+  `target` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '链接跳转目标',
+  `parent_id` int(11) NULL DEFAULT NULL COMMENT '父菜单ID',
+  `icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图标',
+  `sort` int(11) NULL DEFAULT 1 COMMENT '排序值',
+  `keep_alive` tinyint(1) NULL DEFAULT 0 COMMENT '0-开启，1- 关闭',
+  `hidden` tinyint(1) NULL DEFAULT 0 COMMENT '是否隐藏路由: 0否,1是',
+  `type` tinyint(1) NULL DEFAULT 0 COMMENT '菜单类型 （0菜单 1按钮）',
+  `del_flag` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除标记(0--正常 1--删除)',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=110301 DEFAULT CHARSET=utf8mb4 COMMENT='菜单权限';
+) ENGINE = InnoDB AUTO_INCREMENT = 990501 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限' ROW_FORMAT = Dynamic;
+
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------
-INSERT INTO `sys_permission` VALUES (10028, '个人页', NULL, NULL, 'account', 'layouts/RouteView', '/account/center', 0, 'user', 2, 0, 1, 0, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (10029, '个人中心', NULL, NULL, 'center', 'account/center/Index', NULL, 10028, NULL, 1, 0, 1, 1, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (10030, '个人设置', NULL, NULL, 'settings', 'account/settings/Index', '/account/settings/base', 10028, NULL, 1, 0, 1, 0, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (10031, '基本设置', NULL, '/account/settings/base', 'BaseSettings', 'account/settings/BaseSetting', NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (10032, '安全设置', NULL, '/account/settings/security', 'SecuritySettings', 'account/settings/Security', NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (10033, '个性化设置', NULL, '/account/settings/custom', 'CustomSettings', 'account/settings/Custom', NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (10034, '账户绑定', NULL, '/account/settings/binding', 'BindingSettings', 'account/settings/Binding', NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (10035, '新消息通知', NULL, '/account/settings/notification', 'NotificationSettings', 'account/settings/Notification', NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (100000, '系统管理', NULL, '', 'sys', 'layouts/RouteView', '/sys/sysuser', 0, 'setting', 9, 0, 0, 0, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (100100, '系统用户', NULL, '/sys/sysuser', 'sysuser', 'sys/sysuser/SysUserPage', NULL, 100000, NULL, 1, 0, 0, 1, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (100101, '系统用户新增', 'sys_sysuser_add', NULL, NULL, NULL, NULL, 100100, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100102, '系统用户修改', 'sys_sysuser_edit', NULL, NULL, NULL, NULL, 100100, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100103, '系统用户删除', 'sys_sysuser_del', NULL, NULL, NULL, NULL, 100100, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100104, '系统用户授权', 'sys_sysuser_grant', NULL, NULL, NULL, NULL, 100100, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100105, '系统用户改密', 'sys_sysuser_pass', NULL, NULL, NULL, NULL, 100100, NULL, 4, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100200, '角色管理', NULL, '/sys/role', 'role', 'sys/role/RolePage', NULL, 100000, NULL, 1, 0, 0, 1, 0, NULL, NULL);
-INSERT INTO `sys_permission` VALUES (100201, '系统角色新增', 'sys_sysrole_add', NULL, NULL, NULL, NULL, 100200, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100202, '系统角色修改', 'sys_sysrole_edit', NULL, NULL, NULL, NULL, 100200, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100203, '系统角色删除', 'sys_sysrole_del', NULL, NULL, NULL, NULL, 100200, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100204, '系统角色授权', 'sys_sysrole_grant', NULL, NULL, NULL, NULL, 100200, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100300, '权限管理', NULL, '/sys/permission', 'permission', 'sys/permission/PermissionPage', NULL, 100000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
-INSERT INTO `sys_permission` VALUES (100301, '权限新增', 'sys_syspermission_add', NULL, NULL, NULL, NULL, 100300, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100302, '权限修改', 'sys_syspermission_edit', NULL, NULL, NULL, NULL, 100300, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100303, '权限删除', 'sys_syspermission_del', NULL, NULL, NULL, NULL, 100300, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100400, '配置信息', NULL, '/config/baseconfig', 'baseconfig', 'config/baseconfig/BaseConfigPage', NULL, 100000, NULL, 4, 0, 0, 1, 0, NULL, '2019-10-15 14:13:49');
-INSERT INTO `sys_permission` VALUES (100401, '配置新增', 'config_baseconfig_add', NULL, NULL, NULL, NULL, 100400, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
-INSERT INTO `sys_permission` VALUES (100402, '配置修改', 'config_baseconfig_edit', NULL, NULL, NULL, NULL, 100400, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:10');
-INSERT INTO `sys_permission` VALUES (100403, '配置删除', 'config_baseconfig_del', NULL, NULL, NULL, NULL, 100400, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:29');
-INSERT INTO `sys_permission` VALUES (110000, '日志管理', NULL, '', 'log', 'layouts/RouteView', '/log/adminoperationlog', 0, 'file-search', 9, 0, 0, 0, 0, NULL, '2019-10-16 18:30:07');
-INSERT INTO `sys_permission` VALUES (110100, '操作日志', NULL, '/log/adminoperationlog', 'adminOperationLog', 'log/adminoperationlog/AdminOperationLogPage', NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
-INSERT INTO `sys_permission` VALUES (110200, '访问日志(接口)', NULL, '/log/apiaccesslog', 'apiAccessLog', 'log/apiaccesslog/ApiAccessLogPage', NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
-INSERT INTO `sys_permission` VALUES (110300, '访问日志(后台)', NULL, '/log/adminaccesslog', 'adminAccessLog', 'log/adminaccesslog/AdminAccessLogPage', NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
+INSERT INTO `sys_permission` VALUES (10028, '个人页', NULL, NULL, 'account', 'layouts/RouteView', '/account/center', NULL, 0, 'user', 2, 0, 1, 0, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (10029, '个人中心', NULL, NULL, 'center', 'account/center/Index', NULL, NULL, 10028, NULL, 1, 0, 1, 1, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (10030, '个人设置', NULL, NULL, 'settings', 'account/settings/Index', '/account/settings/base', NULL, 10028, NULL, 1, 0, 1, 0, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (10031, '基本设置', NULL, '/account/settings/base', 'BaseSettings', 'account/settings/BaseSetting', NULL, NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (10032, '安全设置', NULL, '/account/settings/security', 'SecuritySettings', 'account/settings/Security', NULL, NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (10033, '个性化设置', NULL, '/account/settings/custom', 'CustomSettings', 'account/settings/Custom', NULL, NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (10034, '账户绑定', NULL, '/account/settings/binding', 'BindingSettings', 'account/settings/Binding', NULL, NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (10035, '新消息通知', NULL, '/account/settings/notification', 'NotificationSettings', 'account/settings/Notification', NULL, NULL, 10030, NULL, 1, 0, 0, 1, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (100000, '系统管理', NULL, '', 'sys', 'layouts/RouteView', '/sys/sysuser', NULL, 0, 'setting', 9, 0, 0, 0, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (100100, '系统用户', NULL, '/sys/sysuser', 'sysuser', 'sys/sysuser/SysUserPage', NULL, NULL, 100000, NULL, 1, 0, 0, 1, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (100101, '系统用户新增', 'sys_sysuser_add', NULL, NULL, NULL, NULL, NULL, 100100, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100102, '系统用户修改', 'sys_sysuser_edit', NULL, NULL, NULL, NULL, NULL, 100100, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100103, '系统用户删除', 'sys_sysuser_del', NULL, NULL, NULL, NULL, NULL, 100100, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100104, '系统用户授权', 'sys_sysuser_grant', NULL, NULL, NULL, NULL, NULL, 100100, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100105, '系统用户改密', 'sys_sysuser_pass', NULL, NULL, NULL, NULL, NULL, 100100, NULL, 4, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100200, '角色管理', NULL, '/sys/role', 'role', 'sys/role/RolePage', NULL, NULL, 100000, NULL, 1, 0, 0, 1, 0, NULL, NULL);
+INSERT INTO `sys_permission` VALUES (100201, '系统角色新增', 'sys_sysrole_add', NULL, NULL, NULL, NULL, NULL, 100200, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100202, '系统角色修改', 'sys_sysrole_edit', NULL, NULL, NULL, NULL, NULL, 100200, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100203, '系统角色删除', 'sys_sysrole_del', NULL, NULL, NULL, NULL, NULL, 100200, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100204, '系统角色授权', 'sys_sysrole_grant', NULL, NULL, NULL, NULL, NULL, 100200, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100300, '权限管理', NULL, '/sys/permission', 'permission', 'sys/permission/PermissionPage', NULL, NULL, 100000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
+INSERT INTO `sys_permission` VALUES (100301, '权限新增', 'sys_syspermission_add', NULL, NULL, NULL, NULL, NULL, 100300, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100302, '权限修改', 'sys_syspermission_edit', NULL, NULL, NULL, NULL, NULL, 100300, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100303, '权限删除', 'sys_syspermission_del', NULL, NULL, NULL, NULL, NULL, 100300, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100400, '配置信息', NULL, '/config/baseconfig', 'baseconfig', 'config/baseconfig/BaseConfigPage', NULL, NULL, 100000, NULL, 4, 0, 0, 1, 0, NULL, '2019-10-15 14:13:49');
+INSERT INTO `sys_permission` VALUES (100401, '配置新增', 'config_baseconfig_add', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
+INSERT INTO `sys_permission` VALUES (100402, '配置修改', 'config_baseconfig_edit', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:10');
+INSERT INTO `sys_permission` VALUES (100403, '配置删除', 'config_baseconfig_del', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:29');
+INSERT INTO `sys_permission` VALUES (110000, '日志管理', NULL, '', 'log', 'layouts/RouteView', '/log/adminoperationlog', NULL, 0, 'file-search', 9, 0, 0, 0, 0, NULL, '2019-10-16 18:30:07');
+INSERT INTO `sys_permission` VALUES (110100, '操作日志', NULL, '/log/adminoperationlog', 'adminOperationLog', 'log/adminoperationlog/AdminOperationLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
+INSERT INTO `sys_permission` VALUES (110200, '访问日志(接口)', NULL, '/log/apiaccesslog', 'apiAccessLog', 'log/apiaccesslog/ApiAccessLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
+INSERT INTO `sys_permission` VALUES (110300, '访问日志(后台)', NULL, '/log/adminaccesslog', 'adminAccessLog', 'log/adminaccesslog/AdminAccessLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
+INSERT INTO `sys_permission` VALUES (990000, '开发平台', '', '', 'develop', 'layouts/RouteView', '', NULL, 0, 'desktop', 99, 0, 0, 0, 0, NULL, '2019-11-22 16:49:56');
+INSERT INTO `sys_permission` VALUES (990100, '接口文档', '', 'http://ballcat-admin:8080/swagger-ui.html', 'swagger', '', '', '_blank', 990000, 'file', 1, 0, 0, 1, 0, NULL, '2019-11-22 16:48:42');
+INSERT INTO `sys_permission` VALUES (990200, '文档增强', '', 'http://ballcat-admin:8080/doc.html', 'doc', '', '', '_blank', 990000, 'file-text', 2, 0, 0, 1, 0, NULL, '2019-11-22 16:48:50');
+INSERT INTO `sys_permission` VALUES (990300, '调度中心', '', 'http://ballcat-job:8888/xxl-job-admin', 'job', '', '', '_blank', 990000, 'rocket', 3, 0, 0, 1, 0, NULL, '2019-11-22 16:49:14');
+INSERT INTO `sys_permission` VALUES (990400, '服务监控', '', 'http://ballcat-monitor:9999', 'monitor', '', '', '_blank', 990000, 'alert', 4, 0, 0, 1, 0, NULL, '2019-11-22 16:49:22');
+INSERT INTO `sys_permission` VALUES (990500, '代码生成', '', 'http://localhost:7777', 'codegen', '', '', '_blank', 990000, 'printer', 5, 0, 0, 1, 0, NULL, '2019-11-22 16:49:35');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -181,19 +205,7 @@ CREATE TABLE `sys_role`  (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, '管理员', 'ROLE_ADMIN', '管理员', 0, '2017-10-29 15:45:51', '2019-10-15 14:13:16');
-INSERT INTO `sys_role` VALUES (2, '测试工程师', 'ROLE_TEST', '测试1', 0, '2019-09-02 11:34:36', '2019-10-15 14:35:29');
-INSERT INTO `sys_role` VALUES (3, 'asdsad', 'asdad', NULL, 1, '2019-09-29 21:01:58', '2019-09-29 21:03:45');
-INSERT INTO `sys_role` VALUES (4, '这个角色3', 'codde ', '测试角色3', 1, '2019-09-29 21:04:37', '2019-09-29 21:09:24');
-INSERT INTO `sys_role` VALUES (5, 'ada', 'ROLE_1231', NULL, 1, '2019-09-29 21:09:41', '2019-09-29 21:32:58');
-INSERT INTO `sys_role` VALUES (6, '测试橘色', 'ROLE_1313', NULL, 1, '2019-09-29 21:11:05', '2019-09-29 21:33:00');
-INSERT INTO `sys_role` VALUES (7, 'asda', 'ROLE_123', 'ASDAD', 1, '2019-09-29 21:12:07', '2019-09-29 21:33:01');
-INSERT INTO `sys_role` VALUES (8, 'ada', 'ROLE_7879', NULL, 1, '2019-09-29 21:15:46', '2019-09-29 21:33:03');
-INSERT INTO `sys_role` VALUES (9, 'asdad', 'ROLE_13131313', 'de ada ', 1, '2019-09-29 21:17:49', '2019-09-29 21:33:04');
-INSERT INTO `sys_role` VALUES (10, 'hjkjhkkl', 'ROLE_jhkjlk', NULL, 1, '2019-09-29 21:20:41', '2019-09-29 21:33:06');
-INSERT INTO `sys_role` VALUES (11, '45456564564564', 'ROLE_ytghh', NULL, 1, '2019-09-29 21:23:02', '2019-09-29 21:33:08');
-INSERT INTO `sys_role` VALUES (12, 'adsad', 'ROLE_gfas', 'adadadadasdf', 1, '2019-09-29 21:32:43', '2019-09-29 21:33:10');
-INSERT INTO `sys_role` VALUES (13, '角色测试121321', 'ROLE_test', '角色测试1', 0, '2019-09-29 21:33:53', '2019-09-29 21:38:09');
-
+INSERT INTO `sys_role` VALUES (2, '测试工程师', 'ROLE_TEST', '测试工程师', 0, '2019-09-02 11:34:36', '2019-10-15 14:35:29');
 -- ----------------------------
 -- Table structure for sys_role_permission
 -- ----------------------------
@@ -235,36 +247,16 @@ INSERT INTO `sys_role_permission` VALUES (1, 100400);
 INSERT INTO `sys_role_permission` VALUES (1, 100401);
 INSERT INTO `sys_role_permission` VALUES (1, 100402);
 INSERT INTO `sys_role_permission` VALUES (1, 100403);
-INSERT INTO `sys_role_permission` VALUES (1, 100500);
-INSERT INTO `sys_role_permission` VALUES (1, 100501);
-INSERT INTO `sys_role_permission` VALUES (1, 100502);
-INSERT INTO `sys_role_permission` VALUES (1, 100503);
-INSERT INTO `sys_role_permission` VALUES (1, 100700);
-INSERT INTO `sys_role_permission` VALUES (1, 100701);
-INSERT INTO `sys_role_permission` VALUES (1, 100702);
-INSERT INTO `sys_role_permission` VALUES (1, 100703);
-INSERT INTO `sys_role_permission` VALUES (1, 100800);
-INSERT INTO `sys_role_permission` VALUES (1, 100801);
-INSERT INTO `sys_role_permission` VALUES (1, 100802);
-INSERT INTO `sys_role_permission` VALUES (1, 100803);
-INSERT INTO `sys_role_permission` VALUES (1, 100900);
-INSERT INTO `sys_role_permission` VALUES (1, 100901);
-INSERT INTO `sys_role_permission` VALUES (1, 100902);
-INSERT INTO `sys_role_permission` VALUES (1, 100903);
-INSERT INTO `sys_role_permission` VALUES (1, 101000);
-INSERT INTO `sys_role_permission` VALUES (1, 101001);
-INSERT INTO `sys_role_permission` VALUES (1, 101002);
-INSERT INTO `sys_role_permission` VALUES (1, 101003);
-INSERT INTO `sys_role_permission` VALUES (1, 101100);
-INSERT INTO `sys_role_permission` VALUES (1, 101101);
-INSERT INTO `sys_role_permission` VALUES (1, 101200);
-INSERT INTO `sys_role_permission` VALUES (1, 101201);
-INSERT INTO `sys_role_permission` VALUES (1, 101202);
-INSERT INTO `sys_role_permission` VALUES (1, 101203);
 INSERT INTO `sys_role_permission` VALUES (1, 110000);
 INSERT INTO `sys_role_permission` VALUES (1, 110100);
 INSERT INTO `sys_role_permission` VALUES (1, 110200);
 INSERT INTO `sys_role_permission` VALUES (1, 110300);
+INSERT INTO `sys_role_permission` VALUES (1, 990000);
+INSERT INTO `sys_role_permission` VALUES (1, 990100);
+INSERT INTO `sys_role_permission` VALUES (1, 990200);
+INSERT INTO `sys_role_permission` VALUES (1, 990300);
+INSERT INTO `sys_role_permission` VALUES (1, 990400);
+INSERT INTO `sys_role_permission` VALUES (1, 990500);
 INSERT INTO `sys_role_permission` VALUES (2, 100000);
 INSERT INTO `sys_role_permission` VALUES (2, 100100);
 INSERT INTO `sys_role_permission` VALUES (2, 100200);
@@ -342,6 +334,6 @@ CREATE TABLE `tbl_base_config`  (
 -- Records of tbl_base_config
 -- ----------------------------
 INSERT INTO `tbl_base_config` VALUES (3, '测试配置信息1', 'key', '123456', '123', '123', '2019-10-18 18:43:36', NULL);
-INSERT INTO `tbl_base_config` VALUES (4, '测试配置2', '213', '1231', '123123', '1231123', NULL, '2019-10-15 16:45:55');
+INSERT INTO `tbl_base_config` VALUES (4, '测试配置2', '213', '1231', '123123', '1231123', '2019-10-27 16:39:49', '2019-10-15 16:45:55');
 
 SET FOREIGN_KEY_CHECKS = 1;
