@@ -57,6 +57,11 @@ public class AdminAccessLog extends Model<AdminAccessLog> {
     @ApiModelProperty(value = "请求URI")
     private String uri;
     /**
+     * 请求映射地址
+     */
+    @ApiModelProperty(value = "请求映射地址")
+    private String matchingPattern;
+    /**
      * 操作方式
      */
     @ApiModelProperty(value = "操作方式")

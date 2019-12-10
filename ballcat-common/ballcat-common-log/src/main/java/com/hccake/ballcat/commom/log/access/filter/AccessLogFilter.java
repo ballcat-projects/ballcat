@@ -40,12 +40,11 @@ public class AccessLogFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
+        // 包装request，以保证可以重复读取body
         RepeatBodyRequestWrapper requestWrapper = new RepeatBodyRequestWrapper(request);
 
         // 开始时间
         Long startTime = System.currentTimeMillis();
-
         Throwable myThrowable = null;
         try {
             filterChain.doFilter(requestWrapper, response);
@@ -57,19 +56,14 @@ public class AccessLogFilter extends OncePerRequestFilter {
             // 结束时间
             Long endTime = System.currentTimeMillis();
             // 执行时长
-            Long time = endTime - startTime;
-
+            Long executionTime = endTime - startTime;
             // 记录在doFilter里被程序处理过后的异常，可参考 http://www.runoob.com/servlet/servlet-exception-handling.html
             Throwable throwable = (Throwable) requestWrapper.getAttribute("javax.servlet.error.exception");
             if (throwable != null) {
                 myThrowable = throwable;
             }
-
-            // 生产一个日志
-            // 备注这里的request已经被xss过滤器包装过了 所以可以重复读取body
-            Object object = accessLogService.prodLog(requestWrapper, response, time, myThrowable);
-            // 日志记录
-            accessLogService.saveLog(object);
+            // 生产一个日志并记录
+            accessLogService.logRecord(requestWrapper, response, executionTime, myThrowable);
         }
 
     }

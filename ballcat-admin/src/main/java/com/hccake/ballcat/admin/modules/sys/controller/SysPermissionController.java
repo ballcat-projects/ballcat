@@ -39,8 +39,9 @@ public class SysPermissionController {
      *
      * @return 当前用户的路由
      */
+    @ApiOperation(value = "动态路由", notes = "动态路由")
     @GetMapping("/router")
-    public R getUserPermission() {
+    public R<List<Router>> getUserPermission() {
 
         //获取角色ID
         SysUserDetails sysUserDetails = SecurityUtils.getSysUserDetails();

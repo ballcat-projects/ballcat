@@ -9,7 +9,7 @@
 基于`SpringBoot` + `Ant Design Vue`的前后端分离应用。  
 目前支持代码生成，前后台用户分离，权限控制，定时任务，访问日志，操作日志，异常日志，统一异常处理，XSS过滤，SQL防注入等功能
 
-- 前端ui git地址： https://github.com/Hccake/ballcat-ui
+- 前端ui git地址： https://github.com/Hccake/ballcat-ui-vue
 - 预览地址： http://preview.ballcat.cn
 - 代码生成： http://preview.ballcat.cn/codegen
 - 任务调度中心： http://preview.ballcat.cn/xxl-job-admin

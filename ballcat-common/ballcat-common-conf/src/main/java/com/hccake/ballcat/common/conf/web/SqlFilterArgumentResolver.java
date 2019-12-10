@@ -71,7 +71,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 			// 驼峰转下划线
 			sortField = StrUtil.toUnderlineCase(sortField);
 			// 正序/倒序
-			boolean isAsc = (StrUtil.isNotBlank(sortAsc) && Boolean.valueOf(sortAsc));
+			boolean isAsc = (StrUtil.isNotBlank(sortAsc) && Boolean.parseBoolean(sortAsc));
 			OrderItem orderItem = isAsc ? OrderItem.asc(sortField) : OrderItem.desc(sortField);
 
 			page.addOrder(orderItem);

@@ -2,14 +2,15 @@ package com.hccake.ballcat.api.modules.log.service;
 
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
+import com.hccake.ballcat.api.modules.api.model.entity.ApiAccessLog;
+import com.hccake.ballcat.api.modules.log.thread.ApiAccessLogSaveThread;
 import com.hccake.ballcat.commom.log.access.service.AccessLogHandlerService;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.core.util.IPUtil;
-import com.hccake.ballcat.api.modules.api.model.entity.ApiAccessLog;
-import com.hccake.ballcat.api.modules.log.thread.ApiAccessLogSaveThread;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +48,7 @@ public class ApiAccessLogHandlerServiceImpl implements AccessLogHandlerService<A
                 .setMethod(request.getMethod())
                 .setUserAgent(request.getHeader("user-agent"))
                 .setUri(URLUtil.getPath(request.getRequestURI()))
+                .setMatchingPattern(String.valueOf(request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE)))
                 .setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(null))
                 .setHttpStatus(response.getStatus())
                 .setReqParams(JSONUtil.toJsonStr(request.getParameterMap()))

@@ -38,13 +38,13 @@ password:
 
 # 定时任务相关
 
-#xxl:
-#  job:
-#    admin:
-#      addresses: http://ballcat-job:8888/xxl-job-admin # xxl-job-admin 接口地址
-#    executor:
-#      port: 6888 #通讯端口
-#      appName: ballcat-api-job
+xxl:
+  job:
+    admin:
+      addresses: http://ballcat-job:8888/xxl-job-admin # xxl-job-admin 接口地址
+    executor:
+      port: 9091 #通讯端口
+      appName: ballcat-api-job
 
 
 swagger:

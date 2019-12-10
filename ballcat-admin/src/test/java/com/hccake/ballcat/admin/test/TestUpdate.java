@@ -1,8 +1,9 @@
 package com.hccake.ballcat.admin.test;
 
-import com.hccake.ballcat.admin.modules.sys.service.SysRoleService;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -13,14 +14,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class TestUpdate {
 
-    @Autowired
-    private SysRoleService sysRoleService;
+
 
 
     @Test
-    public void test(){
+    public void test() {
 
-
+        Wrapper<SysRole> wrapper = Wrappers.query();
+        System.out.println(wrapper.getSqlSelect());
+        System.out.println(wrapper.getCustomSqlSegment());
+        System.out.println(wrapper.getExpression().getSqlSegment());
     }
 
 }

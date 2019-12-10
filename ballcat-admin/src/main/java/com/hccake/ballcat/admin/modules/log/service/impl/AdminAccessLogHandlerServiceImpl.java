@@ -12,6 +12,7 @@ import com.hccake.ballcat.common.core.util.IPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +51,7 @@ public class AdminAccessLogHandlerServiceImpl implements AccessLogHandlerService
                 .setMethod(request.getMethod())
                 .setUserAgent(request.getHeader("user-agent"))
                 .setUri(URLUtil.getPath(request.getRequestURI()))
+                .setMatchingPattern(String.valueOf(request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE)))
                 .setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(null))
                 .setHttpStatus(response.getStatus())
                 .setReqParams(JSONUtil.toJsonStr(request.getParameterMap()))

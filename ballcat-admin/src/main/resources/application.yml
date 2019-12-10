@@ -45,7 +45,7 @@ xxl:
     admin:
       addresses: http://ballcat-job:8888/xxl-job-admin # xxl-job-admin 接口地址
     executor:
-      port: 7888 #通讯端口
+      port: 8081 #通讯端口
       appName: ballcat-admin-job
 
 
