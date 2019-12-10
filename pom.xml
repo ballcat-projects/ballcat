@@ -8,6 +8,7 @@
     <version>0.0.1</version>
     <modules>
         <module>ballcat-admin</module>
+        <module>ballcat-api</module>
         <module>ballcat-common</module>
         <module>ballcat-codegen</module>
         <module>ballcat-job</module>

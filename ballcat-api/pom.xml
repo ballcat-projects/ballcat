@@ -7,7 +7,6 @@
         <artifactId>ballcat</artifactId>
         <version>0.0.1</version>
     </parent>
-    <groupId>com.hccake</groupId>
     <artifactId>ballcat-api</artifactId>
     <version>0.0.1</version>
     <name>ballcat-api</name>
@@ -62,7 +61,15 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-
+        <!--监控Client-->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
 
         <!-- spring-security oauth -->
