@@ -11,8 +11,6 @@
 
 - 前端ui git地址： https://github.com/Hccake/ballcat-ui-vue
 - 预览地址： http://preview.ballcat.cn
-- 代码生成： http://preview.ballcat.cn/codegen
-- 任务调度中心： http://preview.ballcat.cn/xxl-job-admin
 
 ## 结构
 
@@ -28,7 +26,8 @@ ballcat
 |   |-- ballcat-common-core  -- 核心的工具类
 |   |-- ballcat-common-job   -- 公用的job配置
 |   |-- ballcat-common-log   -- 公用的日志依赖
-|   `-- ballcat-common-modules  -- 业务模块
+|   |-- ballcat-common-modules   -- 公用的业务模块
+|   `-- ballcat-common-swagger  -- swagger文档
 |-- ballcat-job      -- 任务调度中心（xxl-job-admin）
 `-- doc              -- 初始化数据库脚本
 ```
@@ -64,7 +63,7 @@ ballcat
 
 依赖 |	版本 | 官网
 --- | --- | ---
-Spring Boot|	2.1.8.RELEASE| https://spring.io/projects/spring-boot#learn
+Spring Boot|	2.2.1.RELEASE| https://spring.io/projects/spring-boot#learn
 Spring Security OAuth2|	2.3.6.RELEASE| https://spring.io/projects/spring-security-oauth
 Mybatis Plus|	3.2.0|  https://mp.baomidou.com/
 XXL-JOB| 2.1.0 | http://www.xuxueli.com/xxl-job
