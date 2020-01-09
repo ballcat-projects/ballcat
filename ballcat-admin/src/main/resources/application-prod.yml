@@ -8,6 +8,15 @@ spring:
     password: ''
     port: 6379
 
+file:
+  storage:
+    type: aliyun
+    endpoint: oss-cn-shanghai.aliyuncs.com
+    access-key: your key here
+    access-secret: your secret here
+    bucket-name: your bucket here
+
+
 # 生产环境关闭文档
 swagger:
   enabled: false
