@@ -20,6 +20,7 @@
         <module>ballcat-common-conf</module>
         <module>ballcat-common-job</module>
         <module>ballcat-common-swagger</module>
+        <module>ballcat-common-storage</module>
     </modules>
 
 

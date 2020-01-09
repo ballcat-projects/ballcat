@@ -54,8 +54,12 @@ public class AdminAccessLogHandlerServiceImpl implements AccessLogHandlerService
                 .setMatchingPattern(String.valueOf(request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE)))
                 .setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(null))
                 .setHttpStatus(response.getStatus())
-                .setReqParams(JSONUtil.toJsonStr(request.getParameterMap()))
-                .setReqBody(LogUtils.getRequestBody(request));
+                .setReqParams(JSONUtil.toJsonStr(request.getParameterMap()));
+
+        // 非文件上传请求，记录body
+        if (!LogUtils.isMultipartContent(request)){
+            adminAccessLog.setReqBody(LogUtils.getRequestBody(request));
+        }
 
         // 如果登陆用户 则记录用户名和用户id
         Optional.ofNullable(SecurityUtils.getSysUserDetails())

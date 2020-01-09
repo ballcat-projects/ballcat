@@ -52,4 +52,20 @@ public class LogUtils {
         return body;
     }
 
+
+    /**
+     * 判断是否是multipart/form-data请求
+     *
+     * @param request
+     * @return
+     */
+    public static boolean isMultipartContent(HttpServletRequest request) {
+        if (!HttpMethod.POST.name().equals(request.getMethod().toUpperCase())) {
+            return false;
+        }
+        //获取Content-Type
+        String contentType = request.getContentType();
+        return (contentType != null) && (contentType.toLowerCase().startsWith("multipart/"));
+    }
+
 }

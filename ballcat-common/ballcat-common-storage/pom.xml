@@ -9,13 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ballcat-common-job</artifactId>
+    <artifactId>ballcat-common-storage</artifactId>
 
     <dependencies>
-        <!--xxl job-->
         <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

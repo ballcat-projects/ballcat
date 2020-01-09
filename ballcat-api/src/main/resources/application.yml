@@ -45,6 +45,7 @@ xxl:
     executor:
       port: 9091 #通讯端口
       appName: ballcat-api-job
+      logretentiondays: 30 #日志保留天数
 
 
 swagger:

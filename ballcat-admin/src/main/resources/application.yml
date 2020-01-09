@@ -46,7 +46,8 @@ xxl:
       addresses: http://ballcat-job:8888/xxl-job-admin # xxl-job-admin 接口地址
     executor:
       port: 8081 #通讯端口
-      appName: ballcat-admin-job
+      appName: ballcat-admin-jobs
+      logretentiondays: 30 #日志保留天数
 
 
 swagger:

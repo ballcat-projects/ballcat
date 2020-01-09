@@ -1,6 +1,9 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -16,15 +19,20 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.UserInfo;
+import com.hccake.ballcat.admin.modules.sys.service.FileService;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,15 +46,16 @@ import java.util.stream.Collectors;
  * @date 2019-09-12 20:39:31
  */
 @Service
+@RequiredArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+    private final FileService fileService;
+    private final SysPermissionService sysPermissionService;
+    private final SysUserRoleService sysUserRoleService;
 
-    @Autowired
-    private SysPermissionService sysPermissionService;
-    @Autowired
-    private SysUserRoleService sysUserRoleService;
 
     @Value("${password.secret-key}")
     private String secretKey;
+
 
 
     @Override
@@ -205,6 +214,23 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .set(SysUser::getStatus, status)
                 .in(SysUser::getUserId, userIds)
         );
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String updateAvatar(MultipartFile file, Integer userId) throws IOException {
+        // 获取系统用户头像的文件名
+        String objectName = "sysuser/" + userId + "/avatar/"
+                + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + StrUtil.SLASH
+                + IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+        fileService.uploadFile(file, objectName);
+
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(userId);
+        sysUser.setAvatar(objectName);
+        baseMapper.updateById(sysUser);
+
+        return objectName;
     }
 
 

@@ -17,14 +17,17 @@ import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.ResultStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,16 +35,14 @@ import java.util.List;
  * @author
  * @date 2018/12/16
  */
+@Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping("/sysuser")
 @Api(value = "sysuser", tags = "用户管理模块")
 public class SysUserController {
-
-    @Autowired
-    private SysUserService sysUserService;
-
-    @Autowired
-    private SysUserRoleService sysUserRoleService;
+    private final SysUserService sysUserService;
+    private final SysUserRoleService sysUserRoleService;
 
     /**
      * 分页查询用户
@@ -185,6 +186,22 @@ public class SysUserController {
         }
         return sysUserService.updateUserStatus(userIds, status) ?
                 R.ok() : R.failed(ResultStatus.SAVE_ERROR, "批量修改用户状态！");
+    }
+
+
+    @ApiOperation(value = "修改系统用户头像", notes = "修改系统用户头像")
+    @OperationLogging("修改系统用户头像")
+    @PreAuthorize("@per.hasPermission('sys_sysuser_edit')")
+    @PostMapping("/avatar")
+    public R<String> updateAvatar(@RequestParam("file") MultipartFile file, @RequestParam("userId") Integer userId) {
+        String objectName;
+        try {
+            objectName = sysUserService.updateAvatar(file, userId);
+        } catch (IOException e) {
+            log.error("修改系统用户头像异常", e);
+            return R.failed(ResultStatus.FILE_UPLOAD_ERROR);
+        }
+        return R.ok(objectName);
     }
 
 }

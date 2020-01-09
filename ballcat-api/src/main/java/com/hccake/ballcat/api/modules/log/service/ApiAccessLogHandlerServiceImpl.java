@@ -51,15 +51,12 @@ public class ApiAccessLogHandlerServiceImpl implements AccessLogHandlerService<A
                 .setMatchingPattern(String.valueOf(request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE)))
                 .setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(null))
                 .setHttpStatus(response.getStatus())
-                .setReqParams(JSONUtil.toJsonStr(request.getParameterMap()))
-                .setReqBody(LogUtils.getRequestBody(request));
+                .setReqParams(JSONUtil.toJsonStr(request.getParameterMap()));
 
-        /*Optional.ofNullable(SecurityUtils.getSysUserDetails())
-                .map(SysUserDetails::getSysUser)
-                .ifPresent(x -> {
-                    apiAccessLog.setUserId(x.getUserId());
-                    apiAccessLog.setUsername(x.getUsername());
-                });*/
+        // 非文件上传请求，记录body
+        if (!LogUtils.isMultipartContent(request)){
+            apiAccessLog.setReqBody(LogUtils.getRequestBody(request));
+        }
 
         return apiAccessLog;
     }

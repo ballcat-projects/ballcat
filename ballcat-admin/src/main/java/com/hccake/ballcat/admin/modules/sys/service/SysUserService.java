@@ -7,7 +7,9 @@ import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.UserInfo;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -91,4 +93,13 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     boolean updateUserStatus(List<Integer> userIds, Integer status);
+
+    /**
+     * 修改系统用户头像
+     * @param file 头像文件
+     * @param userId 用户ID
+     * @return 文件相对路径
+     * @throws IOException
+     */
+    String updateAvatar(MultipartFile file, Integer userId) throws IOException;
 }

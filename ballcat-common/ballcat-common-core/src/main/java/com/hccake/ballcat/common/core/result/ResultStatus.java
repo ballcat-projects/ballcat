@@ -60,6 +60,11 @@ public enum ResultStatus {
     MALICIOUS_REQUEST(90002, "Malicious Request"),
 
     /**
+     * 文件上传异常
+     */
+    FILE_UPLOAD_ERROR(90003, "File Upload Error"),
+
+    /**
      * 未知异常
      */
     UNKNOWN_ERROR(99999, "Unknown Error");

@@ -2,6 +2,7 @@ package com.hccake.ballcat.commom.log.access.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.commom.log.access.service.AccessLogHandlerService;
+import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.core.filter.RepeatBodyRequestWrapper;
 import lombok.AllArgsConstructor;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -36,12 +37,20 @@ public class AccessLogFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // 排除监控请求 TODO 可配置
-        if (StrUtil.containsAnyIgnoreCase(request.getRequestURI(),"/actuator")){
+        if (StrUtil.containsAnyIgnoreCase(request.getRequestURI(), "/actuator")) {
             filterChain.doFilter(request, response);
             return;
         }
-        // 包装request，以保证可以重复读取body
-        RepeatBodyRequestWrapper requestWrapper = new RepeatBodyRequestWrapper(request);
+
+
+        // 包装request，以保证可以重复读取body 但不对文件上传请求body进行处理
+        HttpServletRequest requestWrapper;
+        if (LogUtils.isMultipartContent(request)) {
+            requestWrapper = request;
+        }else {
+            requestWrapper = new RepeatBodyRequestWrapper(request);
+        }
+
 
         // 开始时间
         Long startTime = System.currentTimeMillis();
@@ -67,5 +76,8 @@ public class AccessLogFilter extends OncePerRequestFilter {
         }
 
     }
+
+
+
 
 }
