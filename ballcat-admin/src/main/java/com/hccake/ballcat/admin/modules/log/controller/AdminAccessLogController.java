@@ -8,8 +8,11 @@ import com.hccake.ballcat.admin.modules.log.service.AdminAccessLogService;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -19,11 +22,10 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019-10-16 16:09:25
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/log/adminaccesslog" )
 @Api(value = "adminaccesslog", tags = "访问日志管理")
 public class AdminAccessLogController {
-
     private final AdminAccessLogService adminAccessLogService;
 
     /**

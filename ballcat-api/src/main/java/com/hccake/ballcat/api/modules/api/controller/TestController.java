@@ -6,7 +6,7 @@ import com.hccake.ballcat.api.modules.api.model.entity.ApiAccessLog;
 import com.hccake.ballcat.api.modules.log.service.ApiAccessLogService;
 import com.hccake.ballcat.common.core.exception.BallCatException;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -19,10 +19,9 @@ import java.time.LocalDateTime;
  */
 @RequestMapping
 @RestController
+@RequiredArgsConstructor
 public class TestController {
-
-    @Autowired
-    private ApiAccessLogService apiAccessLogService;
+    private final ApiAccessLogService apiAccessLogService;
 
 
     @ApiOperation("测试地址")

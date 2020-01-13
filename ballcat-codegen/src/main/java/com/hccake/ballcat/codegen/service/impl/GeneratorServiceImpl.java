@@ -7,7 +7,7 @@ import com.hccake.ballcat.codegen.config.GenConfig;
 import com.hccake.ballcat.codegen.mapper.GeneratorMapper;
 import com.hccake.ballcat.codegen.service.GeneratorService;
 import com.hccake.ballcat.codegen.util.GenUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -19,10 +19,9 @@ import java.util.zip.ZipOutputStream;
  * @author Hccake
  */
 @Service
+@RequiredArgsConstructor
 public class GeneratorServiceImpl implements GeneratorService {
-
-	@Autowired
-	private GeneratorMapper generatorMapper;
+	private final GeneratorMapper generatorMapper;
 
 	/**
 	 * 生成代码

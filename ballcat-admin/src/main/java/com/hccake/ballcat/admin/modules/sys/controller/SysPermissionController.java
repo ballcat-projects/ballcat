@@ -14,7 +14,7 @@ import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +29,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/syspermission")
 @Api(value = "syspermission", tags = "权限管理模块")
+@RequiredArgsConstructor
 public class SysPermissionController {
-
-    @Autowired
-    private SysPermissionService sysPermissionService;
+    private final SysPermissionService sysPermissionService;
 
     /**
      * 返回当前用户的路由集合

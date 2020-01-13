@@ -4,7 +4,7 @@ import com.hccake.ballcat.admin.constants.SecurityConst;
 import com.hccake.ballcat.admin.oauth.CustomTokenEnhancer;
 import com.hccake.ballcat.admin.oauth.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.admin.oauth.exception.CustomWebResponseExceptionTranslator;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -30,20 +30,14 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableAuthorizationServer
+@RequiredArgsConstructor
 public class CustomAuthorizationServerConfigurer implements AuthorizationServerConfigurer {
-
-    @Autowired
-    private DataSource dataSource;
-    @Autowired
-    private SysUserDetailsServiceImpl sysUserDetailsService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-    @Autowired
-    private CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
+    private final DataSource dataSource;
+    private final SysUserDetailsServiceImpl sysUserDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final RedisConnectionFactory redisConnectionFactory;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
 
     /**
      * 定义资源权限控制的配置

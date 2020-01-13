@@ -3,13 +3,13 @@ package com.hccake.ballcat.admin.modules.config.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
-import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.api.modules.config.model.entity.BaseConfig;
 import com.hccake.ballcat.api.modules.config.service.BaseConfigService;
+import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
+import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +21,10 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019-10-14 17:42:23
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("config/baseconfig")
 @Api(value = "config/baseconfig", tags = "系统配置")
 public class BaseConfigController {
-
     private final BaseConfigService baseConfigService;
 
     /**

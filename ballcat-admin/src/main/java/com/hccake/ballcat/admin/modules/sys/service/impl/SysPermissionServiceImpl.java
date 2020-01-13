@@ -11,7 +11,7 @@ import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.common.core.exception.BallCatException;
 import com.hccake.ballcat.common.core.result.ResultStatus;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +26,7 @@ import java.util.List;
  * @since 2017-10-29
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
 	private final SysRolePermissionMapper sysRolePermissionMapper;
 

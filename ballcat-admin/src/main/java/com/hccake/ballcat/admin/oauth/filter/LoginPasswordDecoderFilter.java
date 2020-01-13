@@ -6,8 +6,8 @@ import com.hccake.ballcat.common.core.filter.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.ResultStatus;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,9 @@ import java.util.Optional;
 @Slf4j
 @Order(0)
 @WebFilter(urlPatterns = {UrlMappingConst.OAUTH_LOGIN})
+@RequiredArgsConstructor
 public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
+    private final ObjectMapper objectMapper;
 
     @Value("${password.secret-key}")
     private String secretKey;
@@ -47,8 +49,6 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
     private static final String TEST_CLIENT = "test";
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
     /**
      * Same contract as for {@code doFilter}, but guaranteed to be

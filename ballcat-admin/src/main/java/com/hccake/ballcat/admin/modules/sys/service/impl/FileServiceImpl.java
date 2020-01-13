@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import com.hccake.ballcat.admin.modules.sys.service.FileService;
 import com.hccake.ballcat.commom.storage.FileStorageClient;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +14,7 @@ import java.io.IOException;
  * @date 2020/1/8 11:16
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
     private final FileStorageClient fileStorageClient;
 

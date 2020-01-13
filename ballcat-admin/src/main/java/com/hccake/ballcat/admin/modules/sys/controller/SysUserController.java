@@ -17,7 +17,7 @@ import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.ResultStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -36,10 +36,10 @@ import java.util.List;
  * @date 2018/12/16
  */
 @Slf4j
-@AllArgsConstructor
 @RestController
 @RequestMapping("/sysuser")
 @Api(value = "sysuser", tags = "用户管理模块")
+@RequiredArgsConstructor
 public class SysUserController {
     private final SysUserService sysUserService;
     private final SysUserRoleService sysUserRoleService;

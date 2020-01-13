@@ -20,7 +20,6 @@ import java.io.IOException;
  * @date 2019/9/25 22:04
  */
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
     @Autowired
     private ObjectMapper objectMapper;
 

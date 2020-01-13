@@ -4,8 +4,8 @@ import com.hccake.ballcat.commom.log.error.service.ErrorLogHandlerService;
 import com.hccake.ballcat.common.core.exception.BallCatException;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.ResultStatus;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.SpringSecurityMessageSource;
@@ -25,10 +25,9 @@ import java.util.List;
  */
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandlerResolver {
-
-	@Autowired
-	private ErrorLogHandlerService errorLogHandlerService;
+	private final ErrorLogHandlerService errorLogHandlerService;
 
 	/**
 	 * 全局异常捕获

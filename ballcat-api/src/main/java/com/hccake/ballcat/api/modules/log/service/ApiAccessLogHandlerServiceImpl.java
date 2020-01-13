@@ -7,8 +7,8 @@ import com.hccake.ballcat.api.modules.log.thread.ApiAccessLogSaveThread;
 import com.hccake.ballcat.commom.log.access.service.AccessLogHandlerService;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.core.util.IPUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -25,10 +25,9 @@ import java.util.Optional;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ApiAccessLogHandlerServiceImpl implements AccessLogHandlerService<ApiAccessLog> {
-
-    @Autowired
-    private ApiAccessLogSaveThread apiAccessLogSaveThread;
+    private final ApiAccessLogSaveThread apiAccessLogSaveThread;
 
     /**
      * 生产一个日志

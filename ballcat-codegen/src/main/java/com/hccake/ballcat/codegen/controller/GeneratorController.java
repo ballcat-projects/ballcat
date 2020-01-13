@@ -8,12 +8,11 @@ import com.hccake.ballcat.codegen.config.GenConfig;
 import com.hccake.ballcat.codegen.config.ReqGenConfig;
 import com.hccake.ballcat.codegen.service.GeneratorService;
 import com.hccake.ballcat.codegen.vo.GeneratorVo;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
@@ -26,13 +25,10 @@ import java.util.Optional;
 @CrossOrigin
 @RestController
 @RequestMapping("/generator")
+@RequiredArgsConstructor
 public class GeneratorController {
-
-	@Autowired
-	private GeneratorService generatorService;
-
-	@Resource
-	private DefaultGenConfig defaultGenConfig;
+	private final GeneratorService generatorService;
+	private final DefaultGenConfig defaultGenConfig;
 
 	/**
 	 * 列表

@@ -3,13 +3,16 @@ package com.hccake.ballcat.admin.modules.log.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.api.modules.api.model.entity.ApiAccessLog;
 import com.hccake.ballcat.api.modules.log.service.ApiAccessLogService;
+import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -19,11 +22,10 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019-10-16 16:09:25
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/log/apiaccesslog")
 @Api(value = "/log/apiaccesslog", tags = "访问日志管理")
 public class ApiAccessLogController {
-
     private final ApiAccessLogService apiAccessLogService;
 
     /**

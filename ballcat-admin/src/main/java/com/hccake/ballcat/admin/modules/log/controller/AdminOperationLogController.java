@@ -9,6 +9,7 @@ import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,11 +20,10 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019-10-15 20:42:32
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/log/adminoperationlog")
 @Api(value = "adminoperationlog", tags = "操作日志管理")
 public class AdminOperationLogController {
-
     private final OperationLogAdminService operationLogAdminService;
 
     /**

@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.vo.UserInfo;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,10 +25,9 @@ import java.util.Set;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SysUserDetailsServiceImpl implements UserDetailsService {
-
-    @Autowired
-    private SysUserService sysUserService;
+    private final SysUserService sysUserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

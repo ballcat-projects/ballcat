@@ -3,7 +3,7 @@ package com.hccake.ballcat.admin.modules.log.thread;
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminAccessLog;
 import com.hccake.ballcat.admin.modules.log.service.AdminAccessLogService;
 import com.hccake.ballcat.common.core.thread.AbstractQueueThread;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +15,8 @@ import java.util.List;
  * @date 2019/10/16 15:30
  */
 @Slf4j
-@AllArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class AccessLogAdminSaveThread extends AbstractQueueThread<AdminAccessLog> {
     private final AdminAccessLogService adminAccessLogService;
 

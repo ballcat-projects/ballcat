@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.ResultStatus;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
@@ -22,10 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/oauth")
 @Api(value = "oauth", tags = "用户认证模块")
+@RequiredArgsConstructor
 public class AuthController {
-
-	@Autowired
-	TokenStore tokenStore;
+	private final TokenStore tokenStore;
 
 	/**
 	 * 退出token

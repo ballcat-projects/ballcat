@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @date ${datetime}
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/${moduleName}/${pathName}" )
 @Api(value = "${pathName}", tags = "${comments}管理")
 public class ${className}Controller {
