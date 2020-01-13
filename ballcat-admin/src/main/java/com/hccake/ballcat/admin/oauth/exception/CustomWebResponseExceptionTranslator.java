@@ -23,13 +23,13 @@ import java.io.IOException;
  * 覆盖默认的DefaultWebResponseExceptionTranslator的方法
  */
 @Component
-public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
 
     @Override
-    public ResponseEntity translate(Exception e) throws Exception {
+    public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
         // Try to extract a SpringSecurityException from the stacktrace
         Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);
         Exception ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
@@ -46,13 +46,13 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 
         ase = (AccessDeniedException) throwableAnalyzer
                 .getFirstThrowableOfType(AccessDeniedException.class, causeChain);
-        if (ase instanceof AccessDeniedException) {
+        if (ase != null) {
             return handleOAuth2Exception(new CustomWebResponseExceptionTranslator.ForbiddenException(ase.getMessage(), ase));
         }
 
         ase = (HttpRequestMethodNotSupportedException) throwableAnalyzer.getFirstThrowableOfType(
                 HttpRequestMethodNotSupportedException.class, causeChain);
-        if (ase instanceof HttpRequestMethodNotSupportedException) {
+        if (ase != null) {
             return handleOAuth2Exception(new MethodNotAllowed(ase.getMessage(), ase));
         }
 
@@ -70,10 +70,8 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
         }
 
         // 使用自定义的异常类进行包装
-        ResponseEntity<OAuth2Exception> response = new ResponseEntity<>( new CustomOAuth2Exception(e.getMessage(),e), headers,
+        return new ResponseEntity<>( new CustomOAuth2Exception(e.getMessage(),e), headers,
                 HttpStatus.valueOf(status));
-
-        return response;
 
     }
 

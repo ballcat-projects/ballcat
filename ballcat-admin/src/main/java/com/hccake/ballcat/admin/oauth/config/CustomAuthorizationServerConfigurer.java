@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -74,14 +73,6 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-
-        // TODO tokenService修改有效期方案
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        // access_token 的有效时长 (秒), 默认 12 小时
-        tokenServices.setAccessTokenValiditySeconds(60*60*2);
-        //refresh_token 的有效时长 (秒), 默认 30 天
-        tokenServices.setRefreshTokenValiditySeconds(60*60*3);
-
         endpoints.tokenStore(tokenStore())
                 .userDetailsService(sysUserDetailsService)
                 .authenticationManager(authenticationManager)
