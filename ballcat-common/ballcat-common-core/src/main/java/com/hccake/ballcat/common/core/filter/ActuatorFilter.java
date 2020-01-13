@@ -52,7 +52,7 @@ public class ActuatorFilter extends OncePerRequestFilter {
         if (verifySign(reqSecretId, sign, reqTime)) {
             filterChain.doFilter(request, response);
         }else {
-            response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8.toString());
+            response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.getWriter().write(JSONUtil.toJsonStr(R.failed(ResultStatus.UNAUTHORIZED)));
         }

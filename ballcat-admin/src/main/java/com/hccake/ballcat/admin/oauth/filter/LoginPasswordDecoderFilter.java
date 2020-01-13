@@ -81,7 +81,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
                 parameterMap.put(PASSWORD, new String[]{password});
             }
         }catch (Exception e){
-            response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8.toString());
+            response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.getWriter().write(
                     objectMapper.writeValueAsString(R.failed(ResultStatus.UNAUTHORIZED, e.getMessage()))
