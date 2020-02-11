@@ -4,6 +4,7 @@ import com.hccake.ballcat.admin.constants.SecurityConst;
 import com.hccake.ballcat.admin.oauth.CustomTokenEnhancer;
 import com.hccake.ballcat.admin.oauth.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.admin.oauth.exception.CustomWebResponseExceptionTranslator;
+import com.hccake.ballcat.admin.oauth.mobile.MobileTokenGranter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,12 +15,17 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Hccake
@@ -37,7 +43,6 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
     private final RedisConnectionFactory redisConnectionFactory;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
-
     /**
      * 定义资源权限控制的配置
      *
@@ -81,7 +86,9 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
                 // 强制刷新token时，重新生成refreshToken
                 .reuseRefreshTokens(false)
                 // 自定义的认证时异常转换
-                .exceptionTranslator(customWebResponseExceptionTranslator);
+                .exceptionTranslator(customWebResponseExceptionTranslator)
+                // 自定义tokenGranter
+                .tokenGranter(tokenGranter(endpoints));
     }
 
 
@@ -104,6 +111,14 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return new CustomTokenEnhancer();
+    }
+
+
+    private TokenGranter tokenGranter(final AuthorizationServerEndpointsConfigurer endpoints) {
+        // 获取默认的granter集合
+        List<TokenGranter> granters = new ArrayList<>(Collections.singletonList(endpoints.getTokenGranter()));
+        granters.add(new MobileTokenGranter(authenticationManager,endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory()));
+        return new CompositeTokenGranter(granters);
     }
 
 

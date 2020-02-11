@@ -1,12 +1,16 @@
 package com.hccake.ballcat.admin.oauth.config;
 
 import com.hccake.ballcat.admin.oauth.CustomAuthenticationEntryPoint;
+import com.hccake.ballcat.admin.oauth.mobile.MobileAuthenticationProvider;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -16,8 +20,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  * @date 2019/9/25 20:13
  */
 @Configuration
+@RequiredArgsConstructor
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    private final UserDetailsService userDetailsService;
 
     /**
      * 密码解析器
@@ -26,6 +31,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected PasswordEncoder passwordEncoder() {
         return PasswordUtil.ENCODER;
+    }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        MobileAuthenticationProvider mobileAuthenticationProvider = new MobileAuthenticationProvider();
+        mobileAuthenticationProvider.setUserDetailsService(userDetailsService);
+        http.authenticationProvider(mobileAuthenticationProvider);
     }
 
     /**
@@ -41,10 +54,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint(){
         return new CustomAuthenticationEntryPoint();
     }
-
 }

@@ -2,6 +2,7 @@ package com.hccake.ballcat.admin.oauth.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -65,6 +66,7 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cache-Control", "no-store");
         headers.set("Pragma", "no-cache");
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         if (status == HttpStatus.UNAUTHORIZED.value() || (e instanceof InsufficientScopeException)) {
             headers.set("WWW-Authenticate", String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
         }
