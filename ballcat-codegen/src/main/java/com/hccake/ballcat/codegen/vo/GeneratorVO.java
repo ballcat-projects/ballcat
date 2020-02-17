@@ -1,6 +1,5 @@
 package com.hccake.ballcat.codegen.vo;
 
-import com.hccake.ballcat.codegen.config.ReqGenConfig;
 import lombok.Data;
 
 /**
@@ -8,15 +7,16 @@ import lombok.Data;
  * 生成参数vo
  */
 @Data
-public class GeneratorVo {
+public class GeneratorVO {
 
 	/**
-	 * 配置信息
+	 * 配置
 	 */
-	private ReqGenConfig genConfig;
+	private GenConfigVO genConfigVO;
 	/**
 	 * 表名称
 	 */
 	private String[] tableNames;
+
 
 }

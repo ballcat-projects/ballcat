@@ -1,58 +1,48 @@
 package com.hccake.ballcat.codegen.config;
 
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Hccake
- * @version 1.0
- * @date 2019/9/12 20:11
+ * 生成配置
  */
-public interface GenConfig {
+@Data
+@Component
+@ConfigurationProperties(prefix = "gen")
+@PropertySource("generator.properties")
+public class GenConfig{
 
     /**
-     * 基础包名
-     * @return
+     * 包名
      */
-    String getPackageName();
-
+    private String packageName;
     /**
      * 作者
-     * @return
      */
-    String getAuthor();
-
+    private String author;
     /**
-     * 模块名
-     * @return
+     * 模块名称
      */
-    String getModuleName();
-
+    private String moduleName;
     /**
      * 表前缀
-     * @return
      */
-    String getTablePrefix();
-
+    private String tablePrefix;
 
     /**
-     * 类型映射
-     * @return
+     * column to javaType 映射关系
      */
-    Map<String, String> getTypeMapping();
+    private Map<String, String> typeMapping;
 
     /**
-     * swagger文档中隐藏的属性字段
-     * @return
+     * 需要隐藏的列
      */
-    Set<String> getHiddenColumns();
-
-
-    /**
-     * 合并配置项
-     * @param sourceConfig
-     * @return
-     */
-    GenConfig mergeConfig(GenConfig sourceConfig);
+    private Set<String> hiddenColumns;
 
 }

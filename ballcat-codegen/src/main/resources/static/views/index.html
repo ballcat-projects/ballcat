@@ -32,16 +32,14 @@
     </div>
   </div>
 
-  <div id="id" style="display: none">
-    text
-  </div>
   
   <script>
   layui.use(['admin', 'table'], function(){
 
     var table = layui.table
             ,$ = layui.$
-            , form = layui.form;
+            , form = layui.form
+            , admin = layui.admin;
 
     var TABLE_ID = 'table-codegen';
 
@@ -58,6 +56,29 @@
       ,page: true
       ,height: 'full-250' //高度最大化减去差值
     });
+
+    // 默认先读取到弹窗的html，避免多次点击重复加载
+    var formHtml;
+    $.ajax({
+      url: "./views/genConfigForm.html",
+      async: false,
+      type: "GET",
+      dataType: "html",
+      success: function(result){
+        formHtml = result;
+      }
+    })
+
+    var defaultConfig;
+    admin.req({
+      type: "GET",
+      url: "/generator/config",
+      async: false,
+      success: function (res) {
+        defaultConfig = res.data;
+      }
+    });
+
 
     var active = {
       reload: function(){
@@ -88,27 +109,23 @@
           tableNames.push(data[i].tableName);
         }
 
-        $.ajax({
-          url: "./views/genConfigForm.html",
-          type: "GET",
-          dataType: "html",
-          success: function(result){
-            layer.open({
-              id: "genConfigLayer",
-              type: 1,
-              area: ['420px', '350px'],
-              content: result,
-              btn: ['生成', '取消'],
-              yes: function(index, layero){
-                debugger
-                // 异步下载
-                active.download(tableNames, form.val("gen-config-form"));
-                // 关闭弹窗
-                layer.close(index)
-              }
-            })
+        layer.open({
+          id: "genConfigLayer",
+          type: 1,
+          area: ['420px', '350px'],
+          content: formHtml,
+          btn: ['生成', '取消'],
+          success: function() {
+            form.val("gen-config-form", defaultConfig);
+          },
+          yes: function(index, layero){
+            // 异步下载
+            active.download(tableNames, form.val("gen-config-form"));
+            // 关闭弹窗
+            layer.close(index)
           }
-        });
+        })
+
       },
       download: function (tableNames, genConfig) {
         var url = 'generator/code';
@@ -137,7 +154,7 @@
           }
         };
         // 发送ajax请求
-        xhr.send(JSON.stringify({tableNames: tableNames, genConfig: genConfig}));
+        xhr.send(JSON.stringify({tableNames: tableNames, genConfigVO: genConfig}));
       }
     };
     
