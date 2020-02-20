@@ -51,6 +51,7 @@ public class SysUserController {
      * @return 用户集合
      */
     @GetMapping("/page")
+    @PreAuthorize("@per.hasPermission('sys_sysuser_read')")
     public R<IPage<SysUser>> getUserPage(
             Page<SysUser> page, SysUserQO qo) {
         return R.ok(sysUserService.getUserPage(page, qo));
@@ -110,6 +111,7 @@ public class SysUserController {
      * @param userId userId
      */
     @GetMapping("/scope/{userId}")
+    @PreAuthorize("@per.hasPermission('sys_sysuser_grant')")
     public R<SysUserScope> getUserRoleIds(@PathVariable Integer userId) {
 
         List<SysRole> roleList = sysUserRoleService.getRoles(userId);

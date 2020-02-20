@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
  * @date 2019/09/17
  */
 @RestController
-@RequestMapping("/syspermission")
-@Api(value = "syspermission", tags = "权限管理模块")
+@RequestMapping("/syspermission" )
+@Api(value = "syspermission", tags = "权限管理模块" )
 @RequiredArgsConstructor
 public class SysPermissionController {
     private final SysPermissionService sysPermissionService;
@@ -38,7 +38,7 @@ public class SysPermissionController {
      *
      * @return 当前用户的路由
      */
-    @ApiOperation(value = "动态路由", notes = "动态路由")
+    @ApiOperation(value = "动态路由", notes = "动态路由" )
     @GetMapping("/router")
     public R<List<Router>> getUserPermission() {
 
@@ -69,7 +69,8 @@ public class SysPermissionController {
      *
      * @return
      */
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/list" )
+    @PreAuthorize("@per.hasPermission('sys_syspermission_read')")
     public R<List<SysPermission>> getTree() {
         List<SysPermission> list = sysPermissionService
                 .list(Wrappers.<SysPermission>lambdaQuery()
@@ -84,20 +85,20 @@ public class SysPermissionController {
      * @param id 权限ID
      * @return 权限详细信息
      */
-    @GetMapping("/{id}")
+    @GetMapping("/{id}" )
+    @PreAuthorize("@per.hasPermission('sys_syspermission_read')")
     public R getById(@PathVariable Integer id) {
         return R.ok(sysPermissionService.getById(id));
     }
 
 
-    @ApiOperation(value = "新增权限", notes = "新增权限")
+    @ApiOperation(value = "新增权限", notes = "新增权限" )
     @OperationLogging("新增权限" )
     @PostMapping
-    @PreAuthorize("@per.hasPermission('sys_syspermission_add')" )
+    @PreAuthorize("@per.hasPermission('sys_syspermission_add')")
     public R save(@Valid @RequestBody SysPermission sysMenu) {
         return R.ok(sysPermissionService.save(sysMenu));
     }
-
 
 
     /**
@@ -106,7 +107,7 @@ public class SysPermissionController {
      * @param sysPermission
      * @return R
      */
-    @ApiOperation(value = "修改权限", notes = "修改权限")
+    @ApiOperation(value = "修改权限", notes = "修改权限" )
     @OperationLogging("修改权限" )
     @PutMapping
     @PreAuthorize("@per.hasPermission('sys_syspermission_edit')" )
@@ -115,7 +116,7 @@ public class SysPermissionController {
     }
 
 
-    @ApiOperation(value = "通过id删除权限", notes = "通过id删除权限")
+    @ApiOperation(value = "通过id删除权限", notes = "通过id删除权限" )
     @OperationLogging("通过id删除权限" )
     @DeleteMapping("/{id}" )
     @PreAuthorize("@per.hasPermission('sys_syspermission_del')" )

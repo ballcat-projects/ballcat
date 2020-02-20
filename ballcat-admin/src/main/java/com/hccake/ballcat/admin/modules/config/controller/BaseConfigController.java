@@ -36,6 +36,7 @@ public class BaseConfigController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
+    @PreAuthorize("@per.hasPermission('config_baseconfig_read')")
     public R<IPage<BaseConfig>> getSysConfigPage(
             Page<BaseConfig> page, BaseConfig baseConfig) {
         return R.ok(baseConfigService.page(page, Wrappers.query(baseConfig)));
@@ -49,6 +50,7 @@ public class BaseConfigController {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{id}")
+    @PreAuthorize("@per.hasPermission('config_baseconfig_read')")
     public R<BaseConfig> getById(@PathVariable("id") Integer id) {
         return R.ok(baseConfigService.getById(id));
     }

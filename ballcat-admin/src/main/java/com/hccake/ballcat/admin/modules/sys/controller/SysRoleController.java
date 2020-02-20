@@ -39,6 +39,7 @@ public class SysRoleController {
      * @return 分页对象
      */
     @GetMapping("/page")
+    @PreAuthorize("@per.hasPermission('sys_sysrole_read')")
     public R getRolePage(Page page) {
         return R.ok(sysRoleService.page(page, Wrappers.emptyWrapper()));
     }
@@ -50,6 +51,7 @@ public class SysRoleController {
      * @return 角色信息
      */
     @GetMapping("/{id}")
+    @PreAuthorize("@per.hasPermission('sys_sysrole_read')")
     public R getById(@PathVariable Integer id) {
         return R.ok(sysRoleService.getById(id));
     }

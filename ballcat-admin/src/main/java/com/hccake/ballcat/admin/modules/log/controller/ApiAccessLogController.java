@@ -9,6 +9,7 @@ import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,7 @@ public class ApiAccessLogController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
+    @PreAuthorize("@per.hasPermission('log_apiaccesslog_read')")
     public R<IPage<ApiAccessLog>> getAccessLogApiPage(
             Page<ApiAccessLog> page, ApiAccessLog apiAccessLog) {
         return R.ok(apiAccessLogService.page(page, Wrappers.query(apiAccessLog)));
@@ -51,6 +53,7 @@ public class ApiAccessLogController {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{id}")
+    @PreAuthorize("@per.hasPermission('log_apiaccesslog_read')")
     public R<ApiAccessLog> getById(@PathVariable("id") Long id) {
         return R.ok(apiAccessLogService.getById(id));
     }

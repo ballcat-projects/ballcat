@@ -8,9 +8,12 @@ import com.hccake.ballcat.admin.modules.log.service.OperationLogAdminService;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -35,6 +38,7 @@ public class AdminOperationLogController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
+    @PreAuthorize("@per.hasPermission('log_adminoperationlog_read')")
     public R<IPage<AdminOperationLog>> getOperationLogAdminPage(
             Page<AdminOperationLog> page, AdminOperationLog adminOperationLog) {
         return R.ok(operationLogAdminService.page(page, Wrappers.query(adminOperationLog)));
@@ -49,6 +53,7 @@ public class AdminOperationLogController {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{id}")
+    @PreAuthorize("@per.hasPermission('log_adminoperationlog_read')")
     public R<AdminOperationLog> getById(@PathVariable("id") Long id) {
         return R.ok(operationLogAdminService.getById(id));
     }
