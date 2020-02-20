@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.oauth.config;
 
+import cn.hutool.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,7 +15,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  * @author Hccake
  * @version 1.0
  * @date 2019/9/27 17:28
- * 资源服务器
+ * 资源服务器配置
  */
 @Configuration
 @EnableResourceServer
@@ -22,6 +23,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @RequiredArgsConstructor
 public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdapter {
     private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final PermitAllUrlProperties permitAllUrlProperties;
 
 
     /**
@@ -48,14 +50,8 @@ public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdap
         http
             // 拦截 url 配置
             .authorizeRequests()
-            .antMatchers("/actuator/**").permitAll()
-            .antMatchers("/doc.html").permitAll()
-            .antMatchers("/v2/api-docs",
-                    "/swagger-resources/**",
-                    "/swagger-ui.html**",
-                    "/webjars/**",
-                    "/bycdao-ui/**",
-                    "favicon.ico").permitAll()
+                .antMatchers(ArrayUtil.toArray(permitAllUrlProperties.getIgnoreUrls(), String.class))
+                .permitAll()
             .anyRequest().authenticated()
 
 

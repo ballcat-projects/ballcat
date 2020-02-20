@@ -13,6 +13,20 @@ spring:
         username: admin
         password: 123456
 
+security:
+  oauth2:
+    ignore-urls:
+      - /public/**
+      - /actuator/**
+      - /doc.html
+      - /v2/api-docs
+      - /swagger-resources/**
+      - /swagger-ui.html**
+      - /webjars/**
+      - /bycdao-ui/**
+      - favicon.ico
+
+
 # 暴露监控端口
 management:
   endpoints:
@@ -22,7 +36,7 @@ management:
 
 # mybatis-plus相关配置
 mybatis-plus:
-  mapper-locations: classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:/mapper/*/*Mapper.xml
   global-config:
     banner: false
     db-config:
