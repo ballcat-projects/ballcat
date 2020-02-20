@@ -8,8 +8,6 @@
         <version>0.0.1</version>
     </parent>
     <artifactId>ballcat-api</artifactId>
-    <version>0.0.1</version>
-    <name>ballcat-api</name>
 
     <properties>
         <java.version>1.8</java.version>
