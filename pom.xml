@@ -109,6 +109,11 @@
                 <artifactId>ballcat-common-storage</artifactId>
                 <version>${ballcat.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-mail</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
             <!--swagger注解-->
             <dependency>
                 <groupId>io.swagger</groupId>
