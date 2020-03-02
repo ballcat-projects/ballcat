@@ -37,7 +37,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         // 排除监控请求 TODO 可配置
-        if (StrUtil.containsAnyIgnoreCase(request.getRequestURI(), "/actuator")) {
+        if (StrUtil.containsAnyIgnoreCase(request.getRequestURI(), "/actuator", "/webjars")) {
             filterChain.doFilter(request, response);
             return;
         }
