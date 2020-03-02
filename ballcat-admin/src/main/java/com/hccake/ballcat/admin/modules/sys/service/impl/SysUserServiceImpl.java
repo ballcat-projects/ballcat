@@ -24,6 +24,7 @@ import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
+import com.hccake.ballcat.common.core.vo.SelectData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -231,6 +232,29 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         baseMapper.updateById(sysUser);
 
         return objectName;
+    }
+
+    /**
+     * 根据角色查询用户
+     *
+     * @return
+     * @param roleCode
+     */
+    @Override
+    public List<SysUser> selectUsersByRoleCode(String roleCode) {
+        return baseMapper.selectUsersByRoleCode(roleCode);
+    }
+
+    /**
+     * 返回用户的select数据
+     * name=> username
+     * value => userId
+     *
+     * @return List<SelectData>
+     */
+    @Override
+    public List<SelectData> getSelectData() {
+        return baseMapper.getSelectData();
     }
 
 

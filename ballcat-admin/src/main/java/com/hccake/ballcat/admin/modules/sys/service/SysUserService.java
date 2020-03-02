@@ -7,6 +7,7 @@ import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.UserInfo;
+import com.hccake.ballcat.common.core.vo.SelectData;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -102,4 +103,19 @@ public interface SysUserService extends IService<SysUser> {
      * @throws IOException
      */
     String updateAvatar(MultipartFile file, Integer userId) throws IOException;
+
+    /**
+     * 根据角色查询用户
+     * @return
+     * @param roleCode
+     */
+    List<SysUser> selectUsersByRoleCode(String roleCode);
+
+    /**
+     * 返回用户的select数据
+     * name=> username
+     * value => userId
+     * @return List<SelectData>
+     */
+    List<SelectData> getSelectData();
 }

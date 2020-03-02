@@ -15,6 +15,7 @@ import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.ResultStatus;
+import com.hccake.ballcat.common.core.vo.SelectData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,17 @@ public class SysUserController {
     public R<IPage<SysUser>> getUserPage(
             Page<SysUser> page, SysUserQO qo) {
         return R.ok(sysUserService.getUserPage(page, qo));
+    }
+
+    /**
+     * 获取用户Select
+     *
+     * @return 用户SelectData
+     */
+    @GetMapping("/select")
+    @PreAuthorize("@per.hasPermission('sys_sysuser_read')")
+    public R<List<SelectData>> getSelectData() {
+        return R.ok(sysUserService.getSelectData());
     }
 
     /**

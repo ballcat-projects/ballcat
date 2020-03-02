@@ -1,8 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -85,6 +83,7 @@ private static final long serialVersionUID = 1L;
      * 创建时间
      */
     @ApiModelProperty(value="创建时间")
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     /**
      * 更新时间
