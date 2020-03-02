@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2017/10/29
  */
 @Configuration
-@MapperScan("com.hccake.ballcat.**.mapper")
+@MapperScan(basePackages = {"com.hccake.ballcat.**.mapper", "com.your.packages.**.mapper"})
 public class MybatisPlusConfig {
 
 	/**

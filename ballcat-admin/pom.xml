@@ -10,92 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ballcat-admin</artifactId>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-job</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-conf</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-modules</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-log</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-storage</artifactId>
-        </dependency>
-        <!-- swagger 文档聚合 -->
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-swagger</artifactId>
-        </dependency>
-        <!-- swagger 增强版 ui -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-ui</artifactId>
-            <version>1.9.6</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <!--mybatis plus-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-        <!--webmvc-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--undertow容器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <!--redis-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <!--mysql驱动-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <!-- spring-security oauth -->
-        <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
-        </dependency>
-        <!--监控Client-->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <modules>
+        <module>ballcat-admin-core</module>
+        <module>ballcat-admin-boot</module>
+    </modules>
 
 </project>

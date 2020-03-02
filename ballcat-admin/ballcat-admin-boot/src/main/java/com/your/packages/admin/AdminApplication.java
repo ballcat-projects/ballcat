@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin;
+package com.your.packages.admin;
 
 import com.hccake.ballcat.commom.log.access.annotation.EnableAccessLog;
 import com.hccake.ballcat.common.job.annotation.EnableXxlJob;
@@ -14,7 +14,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @EnableSwagger2Aggregator
 @EnableAccessLog
 @ServletComponentScan("com.hccake.ballcat.admin.oauth.filter")
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.hccake.ballcat.admin", "com.your.packages.admin"})
 public class AdminApplication {
 
     public static void main(String[] args) {
