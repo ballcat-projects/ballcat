@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.modules.config.controller;
+package com.hccake.ballcat.admin.modules.conf.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
