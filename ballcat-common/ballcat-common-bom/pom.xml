@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.hccake</groupId>
+    <artifactId>ballcat-common-bom</artifactId>
+    <version>0.0.1</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <ballcat.version>0.0.1</ballcat.version>
+
+        <hutool.version>5.0.1</hutool.version>
+        <mybatis-plus.version>3.2.0</mybatis-plus.version>
+        <simple-cache.version>0.0.4</simple-cache.version>
+        <swagger.core.version>1.5.2</swagger.core.version>
+        <xxl-job.version>2.1.0</xxl-job.version>
+        <spring-boot-admin.version>2.2.0</spring-boot-admin.version>
+        <oss.aliyun.version>3.8.0</oss.aliyun.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-admin-core</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-conf</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-core</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-job</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-log</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-modules</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-swagger</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-storage</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>ballcat-common-mail</artifactId>
+                <version>${ballcat.version}</version>
+            </dependency>
+
+
+
+
+
+            <!--swagger注解-->
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.core.version}</version>
+            </dependency>
+            <!--xxl-job-->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
+            </dependency>
+            <!--mybatis plus extension,包含了mybatis plus core-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--mybatis-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--aliyun oss sdk-->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${oss.aliyun.version}</version>
+            </dependency>
+            <!--监控server端-->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <!--监控Client-->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <!--hutool工具类-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
