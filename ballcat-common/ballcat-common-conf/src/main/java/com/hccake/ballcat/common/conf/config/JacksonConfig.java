@@ -1,12 +1,9 @@
 package com.hccake.ballcat.common.conf.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.jsr310.PackageVersion;
+import com.hccake.ballcat.common.core.jackson.ArraySerializerModifier;
 import com.hccake.ballcat.common.core.jackson.JavaTimeModule;
 import com.hccake.ballcat.common.core.jackson.NullSerializer;
-import com.hccake.ballcat.common.core.jackson.ArraySerializerModifier;
-import com.hccake.ballcat.common.core.jackson.XssStringJsonSerializer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,9 +36,9 @@ public class JacksonConfig {
         objectMapper.getSerializerProvider().setNullValueSerializer(new NullSerializer());
 
         //注册xss解析器
-        SimpleModule xssModule = new SimpleModule("XssStringJsonSerializer", PackageVersion.VERSION);
-        xssModule.addSerializer(new XssStringJsonSerializer());
-        objectMapper.registerModule(xssModule);
+//        SimpleModule xssModule = new SimpleModule("XssStringJsonSerializer", PackageVersion.VERSION);
+//        xssModule.addSerializer(new XssStringJsonSerializer());
+//        objectMapper.registerModule(xssModule);
 
         // 时间解析器
         objectMapper.registerModule(new JavaTimeModule());
