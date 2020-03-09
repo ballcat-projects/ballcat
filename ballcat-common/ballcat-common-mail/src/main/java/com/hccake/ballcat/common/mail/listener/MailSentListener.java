@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.mail.listener;
 
-import com.hccake.ballcat.common.mail.event.MailSentEvent;
+import com.hccake.ballcat.common.mail.event.MailSendEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 
@@ -12,9 +12,9 @@ import org.springframework.context.ApplicationListener;
  * @date 2020/2/27 18:11
  */
 @Slf4j
-public class MailSentListener implements ApplicationListener<MailSentEvent> {
+public class MailSentListener implements ApplicationListener<MailSendEvent> {
     @Override
-    public void onApplicationEvent(MailSentEvent mailSentEvent) {
-        log.info(mailSentEvent.toString());
+    public void onApplicationEvent(MailSendEvent mailSendEvent) {
+        log.info(mailSendEvent.toString());
     }
 }

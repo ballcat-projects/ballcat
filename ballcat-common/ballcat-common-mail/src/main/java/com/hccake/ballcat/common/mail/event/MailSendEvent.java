@@ -10,9 +10,9 @@ import org.springframework.context.ApplicationEvent;
  * @date 2020/2/27 18:00
  */
 @ToString
-public class MailSentEvent extends ApplicationEvent {
+public class MailSendEvent extends ApplicationEvent {
 
-    public MailSentEvent(MailDTO mailDTO) {
+    public MailSendEvent(MailDTO mailDTO) {
         super(mailDTO);
     }
 }

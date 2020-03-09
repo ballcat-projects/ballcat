@@ -1,8 +1,8 @@
 package com.hccake.ballcat.common.mail.service.impl;
 
 import com.hccake.ballcat.common.mail.dto.MailDTO;
-import com.hccake.ballcat.common.mail.event.MailSentEvent;
-import com.hccake.ballcat.common.mail.service.MailService;
+import com.hccake.ballcat.common.mail.event.MailSendEvent;
+import com.hccake.ballcat.common.mail.service.MailSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +20,7 @@ import java.io.File;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class MailServiceImpl implements MailService {
+public class MailSenderImpl implements MailSender {
     private final JavaMailSender mailSender;
     private final ApplicationContext applicationContext;
 
@@ -50,7 +50,7 @@ public class MailServiceImpl implements MailService {
             log.error("发送邮件失败:", e);
         }finally {
             // 发布邮件发送事件
-            applicationContext.publishEvent(new MailSentEvent(mailDTO));
+            applicationContext.publishEvent(new MailSendEvent(mailDTO));
         }
     }
 
