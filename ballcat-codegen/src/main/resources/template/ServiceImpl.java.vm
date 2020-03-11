@@ -2,6 +2,7 @@ package ${package}.${moduleName}.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ${package}.${moduleName}.model.entity.${className};
+import ${package}.${moduleName}.model.qo.${className}QO;
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.service.${className}Service;
 import org.springframework.stereotype.Service;
@@ -14,5 +15,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements ${className}Service {
+
+    /**
+    *  根据QueryObeject查询分页数据
+    * @param page 分页参数
+    * @param qo 查询参数对象
+    * @return  分页数据
+    */
+    @Override
+    IPage<${className}> page(IPage<${className}> page, ${className}QO qo) {
+        LambdaQueryWrapper<${className}> wrapper = Wrappers.<${className}>lambdaQuery()
+                .eq(ObjectUtil.isNotNull(qo.get${pk.caseAttrName}()}), ${className}::get${pk.caseAttrName}, qo.get${pk.caseAttrName}());
+        return baseMapper.selectPage(page, wrapper);
+    }
 
 }

@@ -1,0 +1,39 @@
+package ${package}.${moduleName}.model.entity;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+/**
+ * ${comments} 查询对象
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(value = "${comments}查询对象")
+public class ${className}  {
+private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+    /**
+     * $column.comments
+     */
+    #if($column.columnName == $pk.columnName)
+        private $column.attrType $column.lowerAttrName;
+        #break
+    #end
+#end
+}

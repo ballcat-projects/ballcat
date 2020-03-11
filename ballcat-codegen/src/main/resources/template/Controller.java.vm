@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
 import ${package}.${moduleName}.model.entity.${className};
+import ${package}.${moduleName}.model.qo.${className}QO;
 import ${package}.${moduleName}.service.${className}Service;
 import com.hccake.ballcat.common.core.result.ResultStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,10 +38,10 @@ public class ${className}Controller {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
-    @PreAuthorize("@per.hasPermission('${moduleName}_${pathName}_read')" )
+    @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:read')" )
     public R<IPage<${className}>> get${className}Page(
-            Page<${className}> page, ${className} ${classname}) {
-        return R.ok(${classname}Service.page(page, Wrappers.query(${classname})));
+            Page<${className}> page, ${className}QO ${classname}QO) {
+        return R.ok(${classname}Service.page(page, ${classname}QO);
     }
 
 
@@ -51,7 +52,7 @@ public class ${className}Controller {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{${pk.lowerAttrName}}" )
-    @PreAuthorize("@per.hasPermission('${moduleName}_${pathName}_read')" )
+    @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:read')" )
     public R<${className}> getById(@PathVariable("${pk.lowerAttrName}" ) ${pk.attrType} ${pk.lowerAttrName}) {
         return R.ok(${classname}Service.getById(${pk.lowerAttrName}));
     }
@@ -64,7 +65,7 @@ public class ${className}Controller {
     @ApiOperation(value = "新增${comments}", notes = "新增${comments}")
     @OperationLogging("新增${comments}" )
     @PostMapping
-    @PreAuthorize("@per.hasPermission('${moduleName}_${pathName}_add')" )
+    @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:add')" )
     public R save(@RequestBody ${className} ${classname}) {
         return ${classname}Service.save(${classname}) ?
                 R.ok() : R.failed(ResultStatus.SAVE_ERROR, "新增${comments}失败");
@@ -78,7 +79,7 @@ public class ${className}Controller {
     @ApiOperation(value = "修改${comments}", notes = "修改${comments}")
     @OperationLogging("修改${comments}" )
     @PutMapping
-    @PreAuthorize("@per.hasPermission('${moduleName}_${pathName}_edit')" )
+    @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:edit')" )
     public R updateById(@RequestBody ${className} ${classname}) {
         return ${classname}Service.updateById(${classname}) ?
                 R.ok() : R.failed(ResultStatus.SAVE_ERROR, "修改${comments}失败");
@@ -92,7 +93,7 @@ public class ${className}Controller {
     @ApiOperation(value = "通过id删除${comments}", notes = "通过id删除${comments}")
     @OperationLogging("通过id删除${comments}" )
     @DeleteMapping("/{${pk.lowerAttrName}}" )
-    @PreAuthorize("@per.hasPermission('${moduleName}_${pathName}_del')" )
+    @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:del')" )
     public R removeById(@PathVariable ${pk.attrType} ${pk.lowerAttrName}) {
         return ${classname}Service.removeById(${pk.lowerAttrName}) ?
               R.ok() : R.failed(ResultStatus.SAVE_ERROR, "通过id删除${comments}失败");

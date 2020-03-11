@@ -30,7 +30,7 @@
 
       <!-- 操作按钮区域 -->
       <div class="table-operator">
-        <a-button v-has="'${moduleName}_${pathName}_add'" type="primary" icon="plus" @click="handleAdd()">新建</a-button>
+        <a-button v-has="'${moduleName}:${pathName}:add'" type="primary" icon="plus" @click="handleAdd()">新建</a-button>
       </div>
 
       <!--数据表格区域-->
@@ -47,9 +47,9 @@
         >
           <span slot="action-slot" slot-scope="text, record">
             <template>
-              <a v-has="'${moduleName}_${pathName}_edit'" @click="handleEdit(record)">编辑</a>
+              <a v-has="'${moduleName}:${pathName}:edit'" @click="handleEdit(record)">编辑</a>
               <a-divider type="vertical"/>
-              <a-popconfirm v-has="'${moduleName}_${pathName}_del'"
+              <a-popconfirm v-has="'${moduleName}:${pathName}:del'"
                 title="确认要删除吗？"
                 @confirm="() => handleDel(record)">
                 <a href="javascript:;">删除</a>

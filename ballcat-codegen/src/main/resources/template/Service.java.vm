@@ -2,6 +2,7 @@ package ${package}.${moduleName}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import ${package}.${moduleName}.model.entity.${className};
+import ${package}.${moduleName}.model.qo.${className}QO;
 
 /**
  * ${comments}
@@ -10,5 +11,13 @@ import ${package}.${moduleName}.model.entity.${className};
  * @date ${datetime}
  */
 public interface ${className}Service extends IService<${className}> {
+
+    /**
+    *  根据QueryObeject查询分页数据
+    * @param page 分页参数
+    * @param qo 查询参数对象
+    * @return  分页数据
+    */
+    IPage<${className}> page(IPage<${className}> page, ${className}QO qo);
 
 }

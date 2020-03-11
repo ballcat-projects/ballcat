@@ -44,6 +44,7 @@ public class GenUtils {
 	private final String BACK_PROJECT_NAME = "ballcat";
 
 
+	private final String QO_JAVA_VM = "QO.java.vm";
 	private final String ENTITY_JAVA_VM = "Entity.java.vm";
 	private final String MAPPER_JAVA_VM = "Mapper.java.vm";
 	private final String SERVICE_JAVA_VM = "Service.java.vm";
@@ -59,6 +60,7 @@ public class GenUtils {
 
 	private List<String> getTemplates() {
 		List<String> templates = new ArrayList<>();
+		templates.add("template/QO.java.vm");
 		templates.add("template/Entity.java.vm");
 		templates.add("template/Mapper.java.vm");
 		templates.add("template/Mapper.xml.vm");
@@ -201,6 +203,10 @@ public class GenUtils {
 		String packagePath = BACK_PROJECT_NAME + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator;
 		if (StringUtils.isNotBlank(packageName)) {
 			packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
+		}
+
+		if (template.contains(QO_JAVA_VM)) {
+			return packagePath + "model" + File.separator +  "qo" + File.separator + className + "QO.java";
 		}
 
 		if (template.contains(ENTITY_JAVA_VM)) {

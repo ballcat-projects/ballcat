@@ -17,20 +17,20 @@ VALUES
 -- 菜单对应按钮SQL
 INSERT INTO `sys_permission` ( `id`, `parent_id`,`title`, `code`, `sort`, `type`, `del_flag`, `create_time`, `update_time` )
 VALUES
-( @menuId + 1, @menuId, '${comments}查询', '${moduleName}_${pathName}_read',  0, 2, 0, '2019-10-13 22:00:24', NULL );
+( @menuId + 1, @menuId, '${comments}查询', '${moduleName}:${pathName}:read',  0, 2, 0, '2019-10-13 22:00:24', NULL );
 
 
 INSERT INTO `sys_permission` ( `id`, `parent_id`,`title`, `code`, `sort`, `type`, `del_flag`, `create_time`, `update_time` )
 VALUES
-( @menuId + 2, @menuId, '${comments}新增', '${moduleName}_${pathName}_add',  1, 2, 0, '2019-10-13 22:00:24', NULL );
+( @menuId + 2, @menuId, '${comments}新增', '${moduleName}:${pathName}:add',  1, 2, 0, '2019-10-13 22:00:24', NULL );
 
 INSERT INTO `sys_permission` ( `id`, `parent_id`,`title`, `code`, `sort`, `type`, `del_flag`, `create_time`, `update_time` )
 VALUES
-( @menuId + 3, @menuId, '${comments}修改', '${moduleName}_${pathName}_edit', 2, 2, 0, '2019-10-13 22:00:24', NULL );
+( @menuId + 3, @menuId, '${comments}修改', '${moduleName}:${pathName}:edit', 2, 2, 0, '2019-10-13 22:00:24', NULL );
 
 INSERT INTO `sys_permission` ( `id`, `parent_id`,`title`, `code`, `sort`, `type`, `del_flag`, `create_time`, `update_time` )
 VALUES
-( @menuId + 4, @menuId, '${comments}删除', '${moduleName}_${pathName}_del', 3, 2, 0, '2019-10-13 22:00:24', NULL );
+( @menuId + 4, @menuId, '${comments}删除', '${moduleName}:${pathName}:del', 3, 2, 0, '2019-10-13 22:00:24', NULL );
 
 ## -----------------基础生成部分end-------------
 
