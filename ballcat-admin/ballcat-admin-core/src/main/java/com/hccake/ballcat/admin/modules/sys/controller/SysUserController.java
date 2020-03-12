@@ -52,7 +52,7 @@ public class SysUserController {
      * @return 用户集合
      */
     @GetMapping("/page")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_read')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:read')")
     public R<IPage<SysUser>> getUserPage(
             Page<SysUser> page, SysUserQO qo) {
         return R.ok(sysUserService.getUserPage(page, qo));
@@ -64,7 +64,7 @@ public class SysUserController {
      * @return 用户SelectData
      */
     @GetMapping("/select")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_read')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:read')")
     public R<List<SelectData>> getSelectData() {
         return R.ok(sysUserService.getSelectData());
     }
@@ -78,7 +78,7 @@ public class SysUserController {
     @PostMapping
     @ApiOperation(value = "新增系统用户", notes = "新增系统用户")
     @OperationLogging("新增系统用户")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_add')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:add')")
     public R addSysUser(@Valid @RequestBody SysUserDTO sysUserDto) {
         return sysUserService.addSysUser(sysUserDto) ?
                 R.ok() : R.failed(ResultStatus.SAVE_ERROR, "新增系统用户失败");
@@ -94,7 +94,7 @@ public class SysUserController {
     @PutMapping
     @ApiOperation(value = "修改系统用户", notes = "修改系统用户")
     @OperationLogging("修改系统用户")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_edit')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
     public R updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
         return sysUserService.updateSysUser(sysUserDto) ?
                 R.ok() : R.failed(ResultStatus.SAVE_ERROR, "修改系统用户失败");
@@ -110,7 +110,7 @@ public class SysUserController {
     @DeleteMapping("/{userId}")
     @ApiOperation(value = "通过id删除系统用户", notes = "通过id删除系统用户")
     @OperationLogging("通过id删除系统用户")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_del')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:del')")
     public R deleteByUserId(@PathVariable Integer userId) {
         return sysUserService.deleteByUserId(userId) ?
                 R.ok() : R.failed(ResultStatus.SAVE_ERROR, "删除系统用户失败");
@@ -123,7 +123,7 @@ public class SysUserController {
      * @param userId userId
      */
     @GetMapping("/scope/{userId}")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_grant')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:grant')")
     public R<SysUserScope> getUserRoleIds(@PathVariable Integer userId) {
 
         List<SysRole> roleList = sysUserRoleService.getRoles(userId);
@@ -153,7 +153,7 @@ public class SysUserController {
     @PutMapping("/scope/{userId}")
     @ApiOperation(value = "系统用户授权", notes = "系统用户授权")
     @OperationLogging("系统用户授权")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_grant')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:grant')")
     public R updateUserScope(@PathVariable Integer userId, @RequestBody SysUserScope sysUserScope) {
         return sysUserService.updateUserScope(userId, sysUserScope) ?
                 R.ok() : R.failed(ResultStatus.SAVE_ERROR, "系统用户授权失败");
@@ -171,7 +171,7 @@ public class SysUserController {
     @PutMapping("/pass/{userId}")
     @ApiOperation(value = "修改系统用户密码", notes = "修改系统用户密码")
     @OperationLogging("修改系统用户密码")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_pass')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:pass')")
     public R updateUserPass(@PathVariable Integer userId, String pass, String confirm) {
         if (StrUtil.isBlank(pass) || StrUtil.isBlank(confirm) || !pass.equals(confirm)) {
             return R.failed(ResultStatus.BAD_REQUEST, "错误的密码!");
@@ -191,7 +191,7 @@ public class SysUserController {
     @PutMapping("/status")
     @ApiOperation(value = "批量修改用户状态", notes = "批量修改用户状态")
     @OperationLogging("批量修改用户状态")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_edit')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
     public R updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
                               @NotNull(message = "用户状态不能为空") @RequestParam Integer status) {
 
@@ -205,7 +205,7 @@ public class SysUserController {
 
     @ApiOperation(value = "修改系统用户头像", notes = "修改系统用户头像")
     @OperationLogging("修改系统用户头像")
-    @PreAuthorize("@per.hasPermission('sys_sysuser_edit')")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
     @PostMapping("/avatar")
     public R<String> updateAvatar(@RequestParam("file") MultipartFile file, @RequestParam("userId") Integer userId) {
         String objectName;

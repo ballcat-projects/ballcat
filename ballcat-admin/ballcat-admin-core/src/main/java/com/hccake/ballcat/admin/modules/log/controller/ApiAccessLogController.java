@@ -38,7 +38,7 @@ public class ApiAccessLogController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
-    @PreAuthorize("@per.hasPermission('log_apiaccesslog_read')")
+    @PreAuthorize("@per.hasPermission('log:apiaccesslog:read')")
     public R<IPage<ApiAccessLog>> getAccessLogApiPage(
             Page<ApiAccessLog> page, ApiAccessLog apiAccessLog) {
         return R.ok(apiAccessLogService.page(page, Wrappers.query(apiAccessLog)));
@@ -53,7 +53,7 @@ public class ApiAccessLogController {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{id}")
-    @PreAuthorize("@per.hasPermission('log_apiaccesslog_read')")
+    @PreAuthorize("@per.hasPermission('log:apiaccesslog:read')")
     public R<ApiAccessLog> getById(@PathVariable("id") Long id) {
         return R.ok(apiAccessLogService.getById(id));
     }

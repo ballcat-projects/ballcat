@@ -38,7 +38,7 @@ public class AdminOperationLogController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
-    @PreAuthorize("@per.hasPermission('log_adminoperationlog_read')")
+    @PreAuthorize("@per.hasPermission('log:adminoperationlog:read')")
     public R<IPage<AdminOperationLog>> getOperationLogAdminPage(
             Page<AdminOperationLog> page, AdminOperationLog adminOperationLog) {
         return R.ok(operationLogAdminService.page(page, Wrappers.query(adminOperationLog)));
@@ -53,7 +53,7 @@ public class AdminOperationLogController {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{id}")
-    @PreAuthorize("@per.hasPermission('log_adminoperationlog_read')")
+    @PreAuthorize("@per.hasPermission('log:adminoperationlog:read')")
     public R<AdminOperationLog> getById(@PathVariable("id") Long id) {
         return R.ok(operationLogAdminService.getById(id));
     }

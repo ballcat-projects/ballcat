@@ -39,7 +39,7 @@ public class SysRoleController {
      * @return 分页对象
      */
     @GetMapping("/page")
-    @PreAuthorize("@per.hasPermission('sys_sysrole_read')")
+    @PreAuthorize("@per.hasPermission('sys:sysrole:read')")
     public R getRolePage(Page page) {
         return R.ok(sysRoleService.page(page, Wrappers.emptyWrapper()));
     }
@@ -51,7 +51,7 @@ public class SysRoleController {
      * @return 角色信息
      */
     @GetMapping("/{id}")
-    @PreAuthorize("@per.hasPermission('sys_sysrole_read')")
+    @PreAuthorize("@per.hasPermission('sys:sysrole:read')")
     public R getById(@PathVariable Integer id) {
         return R.ok(sysRoleService.getById(id));
     }
@@ -65,7 +65,7 @@ public class SysRoleController {
     @ApiOperation(value = "新增系统角色", notes = "新增系统角色")
     @OperationLogging("新增系统角色")
     @PostMapping
-    @PreAuthorize("@per.hasPermission('sys_sysrole_add')")
+    @PreAuthorize("@per.hasPermission('sys:sysrole:add')")
     public R save(@Valid @RequestBody SysRole sysRole) {
         return R.ok(sysRoleService.save(sysRole));
     }
@@ -79,7 +79,7 @@ public class SysRoleController {
     @ApiOperation(value = "修改系统角色", notes = "修改系统角色")
     @OperationLogging("修改系统角色")
     @PutMapping
-    @PreAuthorize("@per.hasPermission('sys_sysrole_edit')")
+    @PreAuthorize("@per.hasPermission('sys:sysrole:edit')")
     public R update(@Valid @RequestBody SysRole role) {
         return R.ok(sysRoleService.updateById(role));
     }
@@ -93,7 +93,7 @@ public class SysRoleController {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "通过id删除系统角色", notes = "通过id删除系统角色")
     @OperationLogging("通过id删除系统角色")
-    @PreAuthorize("@per.hasPermission('sys_sysrole_del')")
+    @PreAuthorize("@per.hasPermission('sys:sysrole:del')")
     public R removeById(@PathVariable Integer id) {
         return R.ok(sysRoleService.removeRoleById(id));
     }
@@ -119,7 +119,7 @@ public class SysRoleController {
     @PutMapping("/permission/ids/{roleId}")
     @ApiOperation(value = "更新角色权限", notes = "更新角色权限")
     @OperationLogging("更新角色权限")
-    @PreAuthorize("@per.hasPermission('sys_sysrole_grant')")
+    @PreAuthorize("@per.hasPermission('sys:sysrole:grant')")
     public R savePermissionIds(@PathVariable Integer roleId, @RequestBody Integer[] permissionIds) {
         return R.ok(sysRolePermissionService.saveRolePermissions(roleId, permissionIds));
     }

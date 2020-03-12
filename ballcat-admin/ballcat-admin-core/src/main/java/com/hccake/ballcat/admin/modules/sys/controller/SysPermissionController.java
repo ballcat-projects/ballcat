@@ -70,7 +70,7 @@ public class SysPermissionController {
      * @return
      */
     @GetMapping(value = "/list" )
-    @PreAuthorize("@per.hasPermission('sys_syspermission_read')")
+    @PreAuthorize("@per.hasPermission('sys:syspermission:read')")
     public R<List<SysPermission>> getTree() {
         List<SysPermission> list = sysPermissionService
                 .list(Wrappers.<SysPermission>lambdaQuery()
@@ -86,7 +86,7 @@ public class SysPermissionController {
      * @return 权限详细信息
      */
     @GetMapping("/{id}" )
-    @PreAuthorize("@per.hasPermission('sys_syspermission_read')")
+    @PreAuthorize("@per.hasPermission('sys:syspermission:read')")
     public R getById(@PathVariable Integer id) {
         return R.ok(sysPermissionService.getById(id));
     }
@@ -95,7 +95,7 @@ public class SysPermissionController {
     @ApiOperation(value = "新增权限", notes = "新增权限" )
     @OperationLogging("新增权限" )
     @PostMapping
-    @PreAuthorize("@per.hasPermission('sys_syspermission_add')")
+    @PreAuthorize("@per.hasPermission('sys:syspermission:add')")
     public R save(@Valid @RequestBody SysPermission sysMenu) {
         return R.ok(sysPermissionService.save(sysMenu));
     }
@@ -110,7 +110,7 @@ public class SysPermissionController {
     @ApiOperation(value = "修改权限", notes = "修改权限" )
     @OperationLogging("修改权限" )
     @PutMapping
-    @PreAuthorize("@per.hasPermission('sys_syspermission_edit')" )
+    @PreAuthorize("@per.hasPermission('sys:syspermission:edit')" )
     public R update(@Valid @RequestBody SysPermission sysPermission) {
         return R.ok(sysPermissionService.updatePermissionById(sysPermission));
     }
@@ -119,7 +119,7 @@ public class SysPermissionController {
     @ApiOperation(value = "通过id删除权限", notes = "通过id删除权限" )
     @OperationLogging("通过id删除权限" )
     @DeleteMapping("/{id}" )
-    @PreAuthorize("@per.hasPermission('sys_syspermission_del')" )
+    @PreAuthorize("@per.hasPermission('sys:syspermission:del')" )
     public R removeById(@PathVariable Integer id) {
         return R.ok(sysPermissionService.removePermissionById(id));
     }

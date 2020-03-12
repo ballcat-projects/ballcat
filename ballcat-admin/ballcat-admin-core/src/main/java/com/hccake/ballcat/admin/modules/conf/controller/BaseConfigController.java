@@ -36,7 +36,7 @@ public class BaseConfigController {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page")
-    @PreAuthorize("@per.hasPermission('config_baseconfig_read')")
+    @PreAuthorize("@per.hasPermission('config:baseconfig:read')")
     public R<IPage<BaseConfig>> getSysConfigPage(
             Page<BaseConfig> page, BaseConfig baseConfig) {
         return R.ok(baseConfigService.page(page, Wrappers.query(baseConfig)));
@@ -50,7 +50,7 @@ public class BaseConfigController {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{id}")
-    @PreAuthorize("@per.hasPermission('config_baseconfig_read')")
+    @PreAuthorize("@per.hasPermission('config:baseconfig:read')")
     public R<BaseConfig> getById(@PathVariable("id") Integer id) {
         return R.ok(baseConfigService.getById(id));
     }
@@ -64,7 +64,7 @@ public class BaseConfigController {
     @ApiOperation(value = "新增系统配置表", notes = "新增系统配置表")
     @OperationLogging("新增系统配置表")
     @PostMapping
-    @PreAuthorize("@per.hasPermission('config_baseconfig_add')")
+    @PreAuthorize("@per.hasPermission('config:baseconfig:add')")
     public R save(@RequestBody BaseConfig baseConfig) {
         return R.ok(baseConfigService.save(baseConfig));
     }
@@ -78,7 +78,7 @@ public class BaseConfigController {
     @ApiOperation(value = "修改系统配置表", notes = "修改系统配置表")
     @OperationLogging("修改系统配置表")
     @PutMapping
-    @PreAuthorize("@per.hasPermission('config_baseconfig_edit')")
+    @PreAuthorize("@per.hasPermission('config:baseconfig:edit')")
     public R updateById(@RequestBody BaseConfig baseConfig) {
         return R.ok(baseConfigService.updateById(baseConfig));
     }
@@ -92,7 +92,7 @@ public class BaseConfigController {
     @ApiOperation(value = "通过id删除系统配置表", notes = "通过id删除系统配置表")
     @OperationLogging("通过id删除系统配置表")
     @DeleteMapping("/{id}")
-    @PreAuthorize("@per.hasPermission('config_baseconfig_del')")
+    @PreAuthorize("@per.hasPermission('config:baseconfig:del')")
     public R removeById(@PathVariable Integer id) {
         return R.ok(baseConfigService.removeById(id));
     }
