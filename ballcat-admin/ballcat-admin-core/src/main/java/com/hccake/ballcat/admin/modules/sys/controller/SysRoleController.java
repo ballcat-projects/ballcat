@@ -1,8 +1,10 @@
 package com.hccake.ballcat.admin.modules.sys.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
+import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
@@ -40,8 +42,8 @@ public class SysRoleController {
      */
     @GetMapping("/page")
     @PreAuthorize("@per.hasPermission('sys:sysrole:read')")
-    public R getRolePage(Page page) {
-        return R.ok(sysRoleService.page(page, Wrappers.emptyWrapper()));
+    public R<IPage<SysRole>> getRolePage(Page<SysRole> page, SysRoleQO sysRoleQO) {
+        return R.ok(sysRoleService.page(page, sysRoleQO));
     }
 
     /**

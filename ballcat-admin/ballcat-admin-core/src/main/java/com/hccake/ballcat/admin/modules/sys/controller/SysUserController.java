@@ -55,7 +55,7 @@ public class SysUserController {
     @PreAuthorize("@per.hasPermission('sys:sysuser:read')")
     public R<IPage<SysUser>> getUserPage(
             Page<SysUser> page, SysUserQO qo) {
-        return R.ok(sysUserService.getUserPage(page, qo));
+        return R.ok(sysUserService.page(page, qo));
     }
 
     /**

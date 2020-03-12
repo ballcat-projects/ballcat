@@ -58,9 +58,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private String secretKey;
 
 
-
     @Override
-    public IPage<SysUser> getUserPage(IPage<SysUser> page, SysUserQO qo) {
+    public IPage<SysUser> page(IPage<SysUser> page, SysUserQO qo) {
 
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.<SysUser>lambdaQuery()
                 .like(ObjectUtil.isNotNull(qo.getUsername()), SysUser::getUsername, qo.getUsername())

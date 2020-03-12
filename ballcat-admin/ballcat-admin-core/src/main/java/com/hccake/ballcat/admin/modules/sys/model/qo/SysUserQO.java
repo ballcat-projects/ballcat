@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.model.qo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import lombok.Data;
  * @date 2019/9/22 17:22
  */
 @Data
+@ApiModel("系统用户查询对象")
 public class SysUserQO {
 
     /**

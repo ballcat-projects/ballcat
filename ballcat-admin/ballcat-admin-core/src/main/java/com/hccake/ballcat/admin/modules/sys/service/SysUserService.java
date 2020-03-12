@@ -27,7 +27,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param qo 查询参数
      * @return
      */
-    IPage<SysUser> getUserPage(IPage<SysUser> page, SysUserQO qo);
+    IPage<SysUser> page(IPage<SysUser> page, SysUserQO qo);
 
 
     /**
