@@ -1,5 +1,6 @@
 package ${package}.${moduleName}.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ${package}.${moduleName}.model.entity.${className};
 import ${package}.${moduleName}.model.qo.${className}QO;

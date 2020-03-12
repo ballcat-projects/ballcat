@@ -1,4 +1,4 @@
-package ${package}.${moduleName}.model.entity;
+package ${package}.${moduleName}.model.qo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -22,9 +22,8 @@ import java.time.LocalDateTime;
  * @date ${datetime}
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "${comments}查询对象")
-public class ${className}  {
+public class ${className}QO  {
 private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
@@ -32,7 +31,8 @@ private static final long serialVersionUID = 1L;
      * $column.comments
      */
     #if($column.columnName == $pk.columnName)
-        private $column.attrType $column.lowerAttrName;
+    @ApiModelProperty(value="$column.comments")
+    private $column.attrType $column.lowerAttrName;
         #break
     #end
 #end
