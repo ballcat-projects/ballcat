@@ -33,7 +33,7 @@ public class ${className}Controller {
     /**
      * 分页查询
      * @param page 分页对象
-     * @param ${classname} ${comments}
+     * @param ${classname}QO ${comments}
      * @return R
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
@@ -41,7 +41,7 @@ public class ${className}Controller {
     @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:read')" )
     public R<IPage<${className}>> get${className}Page(
             Page<${className}> page, ${className}QO ${classname}QO) {
-        return R.ok(${classname}Service.page(page, ${classname}QO);
+        return R.ok(${classname}Service.page(page, ${classname}QO));
     }
 
 
