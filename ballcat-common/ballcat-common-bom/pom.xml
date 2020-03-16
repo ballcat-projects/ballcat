@@ -12,7 +12,7 @@
         <ballcat.version>0.0.1-SNAPSHOT</ballcat.version>
 
         <hutool.version>5.0.1</hutool.version>
-        <mybatis-plus.version>3.2.0</mybatis-plus.version>
+        <mybatis-plus.version>3.3.0</mybatis-plus.version>
         <simple-cache.version>0.0.4</simple-cache.version>
         <swagger.core.version>1.5.2</swagger.core.version>
         <xxl-job.version>2.1.0</xxl-job.version>
