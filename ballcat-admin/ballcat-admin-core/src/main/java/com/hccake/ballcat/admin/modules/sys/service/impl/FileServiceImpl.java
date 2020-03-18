@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Hccake
@@ -28,5 +29,17 @@ public class FileServiceImpl implements FileService {
     @Override
     public void uploadFile(MultipartFile file, String objectName) throws IOException {
         fileStorageClient.putObject(objectName, file.getInputStream());
+    }
+
+    /**
+     * 文件上传
+     *
+     * @param inputStream 文件流
+     * @param objectName  文件对象名
+     *
+     */
+    @Override
+    public void uploadFile(InputStream inputStream, String objectName) {
+        fileStorageClient.putObject(objectName, inputStream);
     }
 }
