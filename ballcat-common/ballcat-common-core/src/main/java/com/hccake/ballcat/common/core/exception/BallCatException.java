@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.core.exception;
 
-import com.hccake.ballcat.common.core.result.ResultStatus;
+import com.hccake.ballcat.common.core.result.ResultMsg;
 import lombok.Getter;
 
 /**
@@ -13,16 +13,16 @@ public class BallCatException extends RuntimeException {
     private String msg;
     private int code;
     
-    public BallCatException(ResultStatus resultStatus) {
-		super(resultStatus.getMessage());
-		this.code = resultStatus.getCode();
-		this.msg = resultStatus.getMessage();
+    public BallCatException(ResultMsg resultMsg) {
+		super(resultMsg.getMessage());
+		this.code = resultMsg.getCode();
+		this.msg = resultMsg.getMessage();
 	}
 	
-	public BallCatException(ResultStatus resultStatus, Throwable e) {
-		super(resultStatus.getMessage(), e);
-		this.code = resultStatus.getCode();
-		this.msg = resultStatus.getMessage();
+	public BallCatException(ResultMsg resultMsg, Throwable e) {
+		super(resultMsg.getMessage(), e);
+		this.code = resultMsg.getCode();
+		this.msg = resultMsg.getMessage();
 	}
 	
 	public BallCatException(int code, String msg) {

@@ -41,19 +41,19 @@ public class R<T> implements Serializable {
     }
 
     public static <T> R<T> ok(T data) {
-        return new R<T>().setCode(ResultStatus.OK.getCode())
+        return new R<T>().setCode(SystemResultMsg.SUCCESS.getCode())
                 .setData(data)
-                .setMsg(ResultStatus.OK.getMessage());
+                .setMsg(SystemResultMsg.SUCCESS.getMessage());
     }
 
-    public static <T> R<T> failed(ResultStatus failStatus) {
-        return new R<T>().setCode(failStatus.getCode())
-                .setMsg(failStatus.getMessage());
+    public static <T> R<T> failed(ResultMsg failMsg) {
+        return new R<T>().setCode(failMsg.getCode())
+                .setMsg(failMsg.getMessage());
     }
 
 
-    public static <T> R<T> failed(ResultStatus failStatus, String msg) {
-        return new R<T>().setCode(failStatus.getCode())
+    public static <T> R<T> failed(ResultMsg failMsg, String msg) {
+        return new R<T>().setCode(failMsg.getCode())
                 .setMsg(msg);
     }
 

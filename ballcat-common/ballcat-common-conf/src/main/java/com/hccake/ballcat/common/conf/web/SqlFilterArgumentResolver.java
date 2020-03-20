@@ -3,7 +3,7 @@ package com.hccake.ballcat.common.conf.web;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hccake.ballcat.common.core.result.ResultStatus;
+import com.hccake.ballcat.common.core.result.BaseResultMsg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -95,7 +95,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		for (String keyword : KEYWORDS) {
 			if (inStr.contains(keyword)) {
 				log.error("查询包含非法字符 {}", keyword);
-				throw new SqlCheckedException(ResultStatus.MALICIOUS_REQUEST.getCode(),
+				throw new SqlCheckedException(BaseResultMsg.MALICIOUS_REQUEST.getCode(),
 					"恶意请求参数："+ keyword);
 			}
 		}

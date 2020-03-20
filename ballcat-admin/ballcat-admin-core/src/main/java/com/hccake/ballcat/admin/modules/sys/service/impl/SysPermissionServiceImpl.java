@@ -10,7 +10,7 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysRolePermission;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.common.core.exception.BallCatException;
-import com.hccake.ballcat.common.core.result.ResultStatus;
+import com.hccake.ballcat.common.core.result.BaseResultMsg;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +42,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 		List<SysPermission> permissionList = this.list(Wrappers.<SysPermission>query()
 				.lambda().eq(SysPermission::getParentId, id));
 		if (CollUtil.isNotEmpty(permissionList)) {
-			throw new BallCatException(ResultStatus.LOGIC_CHECK_ERROR.getCode(), "菜单含有下级不能删除");
+			throw new BallCatException(BaseResultMsg.LOGIC_CHECK_ERROR.getCode(), "菜单含有下级不能删除");
 		}
 
 		sysRolePermissionMapper

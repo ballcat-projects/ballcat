@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.conf.web;
 
 import com.hccake.ballcat.common.core.exception.BallCatException;
-import com.hccake.ballcat.common.core.result.ResultStatus;
+import com.hccake.ballcat.common.core.result.SystemResultMsg;
 
 /**
  * @author Hccake
@@ -10,12 +10,12 @@ import com.hccake.ballcat.common.core.result.ResultStatus;
  * sql防注入校验异常
  */
 public class SqlCheckedException extends BallCatException {
-    public SqlCheckedException(ResultStatus resultStatus) {
-        super(resultStatus);
+    public SqlCheckedException(SystemResultMsg systemResultMsg) {
+        super(systemResultMsg);
     }
 
-    public SqlCheckedException(ResultStatus resultStatus, Throwable e) {
-        super(resultStatus, e);
+    public SqlCheckedException(SystemResultMsg systemResultMsg, Throwable e) {
+        super(systemResultMsg, e);
     }
 
     public SqlCheckedException(int code, String msg) {
