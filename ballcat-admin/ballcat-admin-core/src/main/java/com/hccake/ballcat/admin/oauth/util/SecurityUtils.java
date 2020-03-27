@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.oauth.util;
 
+import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.oauth.SysUserDetails;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
@@ -36,11 +37,21 @@ public class SecurityUtils {
     }
 
     /**
-     * 获取用户
+     * 获取用户详情
      */
     public SysUserDetails getSysUserDetails() {
         Authentication authentication = getAuthentication();
         return getSysUserDetails(authentication);
     }
+
+
+    /**
+     * 获取系统用户
+     */
+    public SysUser getSysUser() {
+        SysUserDetails sysUserDetails = getSysUserDetails();
+        return sysUserDetails == null ? null : sysUserDetails.getSysUser() ;
+    }
+
 
 }
