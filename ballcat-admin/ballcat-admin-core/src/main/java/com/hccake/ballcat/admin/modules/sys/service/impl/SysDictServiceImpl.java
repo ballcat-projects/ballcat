@@ -33,4 +33,17 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         return baseMapper.selectPage(page, wrapper);
     }
 
+    /**
+     * 根据字典标识查询
+     *
+     * @param dictCode 字典标识
+     * @return 字典数据
+     */
+    @Override
+    public SysDict getByCode(String dictCode) {
+        return baseMapper.selectOne(
+                Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, dictCode)
+        );
+    }
+
 }

@@ -21,4 +21,10 @@ public interface SysDictService extends IService<SysDict> {
     */
     IPage<SysDict> page(IPage<SysDict> page, SysDictQO qo);
 
+    /**
+     * 根据字典标识查询
+     * @param dictCode 字典标识
+     * @return 字典数据
+     */
+    SysDict getByCode(String dictCode);
 }

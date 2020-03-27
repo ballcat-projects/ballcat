@@ -3,11 +3,14 @@ package com.hccake.ballcat.admin.modules.sys.manager;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hccake.ballcat.admin.modules.sys.constant.enums.DictTypeEnum;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
+import com.hccake.ballcat.common.core.exception.BallCatException;
+import com.hccake.ballcat.common.core.result.BaseResultMsg;
 import com.hccake.ballcat.common.core.vo.SelectData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,6 +63,13 @@ public class SysDictManager {
      * @return 执行是否成功
      */
     public boolean updateDictById(SysDict sysDict) {
+        // 查询现有数据
+        SysDict oldData = sysDictService.getById(sysDict.getId());
+        if (DictTypeEnum.SYSTEM.getType().equals(oldData.getType())) {
+            throw new BallCatException(
+                    BaseResultMsg.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能修改"
+            );
+        }
         return sysDictService.updateById(sysDict);
     }
 
@@ -70,11 +80,17 @@ public class SysDictManager {
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean removeDictById(Integer id) {
-        SysDict oldData = sysDictService.getById(id);
+        // 查询现有数据
+        SysDict dict = sysDictService.getById(id);
+        if (DictTypeEnum.SYSTEM.getType().equals(dict.getType())) {
+            throw new BallCatException(
+                    BaseResultMsg.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能删除"
+            );
+        }
+        // 需级联删除对应的字典项
         if(sysDictService.removeById(id)){
-            // 级联删除对应的字典项
             sysDictItemService.remove(Wrappers.<SysDictItem>lambdaUpdate()
-                    .eq(SysDictItem::getDictCode, oldData.getCode())
+                    .eq(SysDictItem::getDictCode, dict.getCode())
             );
             return true;
         }
@@ -107,6 +123,14 @@ public class SysDictManager {
      * @return 执行是否成功
      */
     public boolean updateDictItemById(SysDictItem sysDictItem) {
+        // 根据ID查询字典
+        SysDict dict = sysDictService.getByCode(sysDictItem.getDictCode());
+        // 校验是否系统内置
+        if (DictTypeEnum.SYSTEM.getType().equals(dict.getType())) {
+            throw new BallCatException(
+                    BaseResultMsg.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能修改"
+            );
+        }
         return sysDictItemService.updateById(sysDictItem);
     }
 
@@ -117,6 +141,15 @@ public class SysDictManager {
      * @return 执行是否成功
      */
     public boolean removeDictItemById(Integer id) {
+        // 根据ID查询字典
+        SysDictItem dictItem = sysDictItemService.getById(id);
+        SysDict dict = sysDictService.getByCode(dictItem.getDictCode());
+        // 校验是否系统内置
+        if (DictTypeEnum.SYSTEM.getType().equals(dict.getType())) {
+            throw new BallCatException(
+                    BaseResultMsg.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能删除"
+            );
+        }
         return sysDictItemService.removeById(id);
     }
 
