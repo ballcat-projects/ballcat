@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.modules.sys.controller;
+package com.your.packages.admin.modules;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;

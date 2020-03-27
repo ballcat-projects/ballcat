@@ -6,7 +6,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -113,7 +112,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         roleIds.forEach(roleId -> {
             List<String> permissionList = sysPermissionService.findPermissionVOByRoleId(roleId)
                     .stream()
-                    .filter(sysPermission -> StringUtils.isNotEmpty(sysPermission.getCode()))
+                    .filter(sysPermission -> StrUtil.isNotEmpty(sysPermission.getCode()))
                     .map(PermissionVO::getCode)
                     .collect(Collectors.toList());
             permissions.addAll(permissionList);
