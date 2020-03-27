@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.conf.web;
 
-import com.hccake.ballcat.common.core.exception.BallCatException;
+import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
 
 /**
@@ -9,7 +9,7 @@ import com.hccake.ballcat.common.core.result.SystemResultCode;
  * @date 2019/10/19 16:52
  * sql防注入校验异常
  */
-public class SqlCheckedException extends BallCatException {
+public class SqlCheckedException extends BusinessException {
     public SqlCheckedException(SystemResultCode systemResultMsg) {
         super(systemResultMsg);
     }

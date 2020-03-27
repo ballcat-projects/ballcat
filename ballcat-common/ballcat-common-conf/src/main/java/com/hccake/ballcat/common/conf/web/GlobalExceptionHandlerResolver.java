@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.conf.web;
 
 import com.hccake.ballcat.commom.log.error.service.ErrorLogHandlerService;
-import com.hccake.ballcat.common.core.exception.BallCatException;
+import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +50,9 @@ public class GlobalExceptionHandlerResolver {
 	 * @param e the e
 	 * @return R
 	 */
-	@ExceptionHandler(BallCatException.class)
+	@ExceptionHandler(BusinessException.class)
 	@ResponseStatus(HttpStatus.OK)
-	public R handleBallCatException(BallCatException e) {
+	public R handleBallCatException(BusinessException e) {
 		log.error("自定义异常信息 ex={}", e.getMessage(), e);
 		errorLogHandlerService.handle(e);
 		return R.failed(SystemResultCode.SERVER_ERROR, e.getLocalizedMessage());

@@ -8,30 +8,30 @@ import lombok.Getter;
  * @author Hccake
  */
 @Getter
-public class BallCatException extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
     private String msg;
     private int code;
     
-    public BallCatException(ResultCode resultCode) {
+    public BusinessException(ResultCode resultCode) {
 		super(resultCode.getMessage());
 		this.code = resultCode.getCode();
 		this.msg = resultCode.getMessage();
 	}
 	
-	public BallCatException(ResultCode resultCode, Throwable e) {
+	public BusinessException(ResultCode resultCode, Throwable e) {
 		super(resultCode.getMessage(), e);
 		this.code = resultCode.getCode();
 		this.msg = resultCode.getMessage();
 	}
 	
-	public BallCatException(int code, String msg) {
+	public BusinessException(int code, String msg) {
 		super(msg);
 		this.msg = msg;
 		this.code = code;
 	}
 	
-	public BallCatException( int code, String msg, Throwable e) {
+	public BusinessException(int code, String msg, Throwable e) {
 		super(msg, e);
 		this.msg = msg;
 		this.code = code;

@@ -9,7 +9,7 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
-import com.hccake.ballcat.common.core.exception.BallCatException;
+import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.vo.SelectData;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +66,7 @@ public class SysDictManager {
         // 查询现有数据
         SysDict oldData = sysDictService.getById(sysDict.getId());
         if (DictTypeEnum.SYSTEM.getType().equals(oldData.getType())) {
-            throw new BallCatException(
+            throw new BusinessException(
                     BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能修改"
             );
         }
@@ -83,7 +83,7 @@ public class SysDictManager {
         // 查询现有数据
         SysDict dict = sysDictService.getById(id);
         if (DictTypeEnum.SYSTEM.getType().equals(dict.getType())) {
-            throw new BallCatException(
+            throw new BusinessException(
                     BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能删除"
             );
         }
@@ -127,7 +127,7 @@ public class SysDictManager {
         SysDict dict = sysDictService.getByCode(sysDictItem.getDictCode());
         // 校验是否系统内置
         if (DictTypeEnum.SYSTEM.getType().equals(dict.getType())) {
-            throw new BallCatException(
+            throw new BusinessException(
                     BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能修改"
             );
         }
@@ -146,7 +146,7 @@ public class SysDictManager {
         SysDict dict = sysDictService.getByCode(dictItem.getDictCode());
         // 校验是否系统内置
         if (DictTypeEnum.SYSTEM.getType().equals(dict.getType())) {
-            throw new BallCatException(
+            throw new BusinessException(
                     BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能删除"
             );
         }

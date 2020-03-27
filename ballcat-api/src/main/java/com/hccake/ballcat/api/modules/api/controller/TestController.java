@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.api.modules.api.model.entity.ApiAccessLog;
 import com.hccake.ballcat.api.modules.log.service.ApiAccessLogService;
-import com.hccake.ballcat.common.core.exception.BallCatException;
+import com.hccake.ballcat.common.core.exception.BusinessException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -76,7 +76,7 @@ public class TestController {
 
     @PostMapping("/errortest")
     public String error(){
-        throw new BallCatException(9999, "Error Test！");
+        throw new BusinessException(9999, "Error Test！");
     }
 
 
