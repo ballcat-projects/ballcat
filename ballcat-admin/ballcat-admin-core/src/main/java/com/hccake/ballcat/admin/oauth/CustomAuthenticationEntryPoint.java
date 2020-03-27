@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.oauth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultMsg;
+import com.hccake.ballcat.common.core.result.SystemResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +29,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
         httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         httpServletResponse.getWriter().write(
-                objectMapper.writeValueAsString(R.failed(SystemResultMsg.UNAUTHORIZED, e.getMessage()))
+                objectMapper.writeValueAsString(R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage()))
         );
     }
 }

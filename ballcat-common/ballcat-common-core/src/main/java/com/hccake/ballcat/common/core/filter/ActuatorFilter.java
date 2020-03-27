@@ -5,7 +5,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.json.JSONUtil;
 import com.hccake.ballcat.common.core.constant.HeaderConstants;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultMsg;
+import com.hccake.ballcat.common.core.result.SystemResultCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -54,7 +54,7 @@ public class ActuatorFilter extends OncePerRequestFilter {
         }else {
             response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.getWriter().write(JSONUtil.toJsonStr(R.failed(SystemResultMsg.UNAUTHORIZED)));
+            response.getWriter().write(JSONUtil.toJsonStr(R.failed(SystemResultCode.UNAUTHORIZED)));
         }
     }
 

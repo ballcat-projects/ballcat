@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultMsg;
+import com.hccake.ballcat.common.core.result.SystemResultCode;
 
 import java.io.IOException;
 
@@ -21,6 +21,6 @@ public class CustomOAuth2ExceptionSerializer extends StdSerializer<CustomOAuth2E
 
     @Override
     public void serialize(CustomOAuth2Exception e, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeObject(R.failed(SystemResultMsg.UNAUTHORIZED, e.getMessage()));
+        jsonGenerator.writeObject(R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage()));
     }
 }

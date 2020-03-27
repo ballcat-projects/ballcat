@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum BaseResultMsg implements ResultMsg{
+public enum BaseResultCode implements ResultCode {
     /**
      * 数据库保存/更新异常
      */

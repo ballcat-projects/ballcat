@@ -7,7 +7,7 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
-import com.hccake.ballcat.common.core.result.BaseResultMsg;
+import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -68,7 +68,7 @@ public class SysDictController {
     @PreAuthorize("@per.hasPermission('sys:dict:add')")
     public R save(@RequestBody SysDict sysDict) {
         return sysDictManager.dictSave(sysDict) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "新增字典表失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增字典表失败");
     }
 
     /**
@@ -83,7 +83,7 @@ public class SysDictController {
     @PreAuthorize("@per.hasPermission('sys:dict:edit')")
     public R updateById(@RequestBody SysDict sysDict) {
         return sysDictManager.updateDictById(sysDict) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "修改字典表失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改字典表失败");
     }
 
     /**
@@ -98,7 +98,7 @@ public class SysDictController {
     @PreAuthorize("@per.hasPermission('sys:dict:del')")
     public R removeById(@PathVariable Integer id) {
         return sysDictManager.removeDictById(id) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "通过id删除字典表失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典表失败");
     }
 
     /**
@@ -129,7 +129,7 @@ public class SysDictController {
     @PreAuthorize("@per.hasPermission('sys:dict:add')")
     public R saveItem(@RequestBody SysDictItem sysDictItem) {
         return sysDictManager.saveDictItem(sysDictItem) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "新增字典项失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增字典项失败");
     }
 
     /**
@@ -144,7 +144,7 @@ public class SysDictController {
     @PreAuthorize("@per.hasPermission('sys:dict:edit')")
     public R updateItemById(@RequestBody SysDictItem sysDictItem) {
         return sysDictManager.updateDictItemById(sysDictItem) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "修改字典项失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改字典项失败");
     }
 
     /**
@@ -159,7 +159,7 @@ public class SysDictController {
     @PreAuthorize("@per.hasPermission('sys:dict:del')")
     public R removeItemById(@PathVariable Integer id) {
         return sysDictManager.removeDictItemById(id) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "通过id删除字典项失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典项失败");
     }
 
 }

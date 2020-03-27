@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.admin.constants.UrlMappingConst;
 import com.hccake.ballcat.common.core.filter.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultMsg;
+import com.hccake.ballcat.common.core.result.SystemResultCode;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +84,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
             response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.getWriter().write(
-                    objectMapper.writeValueAsString(R.failed(SystemResultMsg.UNAUTHORIZED, e.getMessage()))
+                    objectMapper.writeValueAsString(R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage()))
             );
             return;
         }

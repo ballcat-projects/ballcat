@@ -10,7 +10,7 @@ import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
 import com.hccake.ballcat.common.core.exception.BallCatException;
-import com.hccake.ballcat.common.core.result.BaseResultMsg;
+import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.vo.SelectData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -67,7 +67,7 @@ public class SysDictManager {
         SysDict oldData = sysDictService.getById(sysDict.getId());
         if (DictTypeEnum.SYSTEM.getType().equals(oldData.getType())) {
             throw new BallCatException(
-                    BaseResultMsg.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能修改"
+                    BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能修改"
             );
         }
         return sysDictService.updateById(sysDict);
@@ -84,7 +84,7 @@ public class SysDictManager {
         SysDict dict = sysDictService.getById(id);
         if (DictTypeEnum.SYSTEM.getType().equals(dict.getType())) {
             throw new BallCatException(
-                    BaseResultMsg.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能删除"
+                    BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能删除"
             );
         }
         // 需级联删除对应的字典项
@@ -128,7 +128,7 @@ public class SysDictManager {
         // 校验是否系统内置
         if (DictTypeEnum.SYSTEM.getType().equals(dict.getType())) {
             throw new BallCatException(
-                    BaseResultMsg.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能修改"
+                    BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能修改"
             );
         }
         return sysDictItemService.updateById(sysDictItem);
@@ -147,7 +147,7 @@ public class SysDictManager {
         // 校验是否系统内置
         if (DictTypeEnum.SYSTEM.getType().equals(dict.getType())) {
             throw new BallCatException(
-                    BaseResultMsg.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能删除"
+                    BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "系统内置字典项目不能删除"
             );
         }
         return sysDictItemService.removeById(id);

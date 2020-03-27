@@ -13,9 +13,9 @@ import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
-import com.hccake.ballcat.common.core.result.BaseResultMsg;
+import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultMsg;
+import com.hccake.ballcat.common.core.result.SystemResultCode;
 import com.hccake.ballcat.common.core.vo.SelectData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -82,7 +82,7 @@ public class SysUserController {
     @PreAuthorize("@per.hasPermission('sys:sysuser:add')")
     public R addSysUser(@Valid @RequestBody SysUserDTO sysUserDto) {
         return sysUserService.addSysUser(sysUserDto) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "新增系统用户失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增系统用户失败");
     }
 
 
@@ -98,7 +98,7 @@ public class SysUserController {
     @PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
     public R updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
         return sysUserService.updateSysUser(sysUserDto) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "修改系统用户失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改系统用户失败");
     }
 
 
@@ -114,7 +114,7 @@ public class SysUserController {
     @PreAuthorize("@per.hasPermission('sys:sysuser:del')")
     public R deleteByUserId(@PathVariable Integer userId) {
         return sysUserService.deleteByUserId(userId) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "删除系统用户失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "删除系统用户失败");
     }
 
 
@@ -157,7 +157,7 @@ public class SysUserController {
     @PreAuthorize("@per.hasPermission('sys:sysuser:grant')")
     public R updateUserScope(@PathVariable Integer userId, @RequestBody SysUserScope sysUserScope) {
         return sysUserService.updateUserScope(userId, sysUserScope) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "系统用户授权失败");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "系统用户授权失败");
     }
 
 
@@ -175,11 +175,11 @@ public class SysUserController {
     @PreAuthorize("@per.hasPermission('sys:sysuser:pass')")
     public R updateUserPass(@PathVariable Integer userId, String pass, String confirm) {
         if (StrUtil.isBlank(pass) || StrUtil.isBlank(confirm) || !pass.equals(confirm)) {
-            return R.failed(SystemResultMsg.BAD_REQUEST, "错误的密码!");
+            return R.failed(SystemResultCode.BAD_REQUEST, "错误的密码!");
         }
 
         return sysUserService.updateUserPass(userId, pass) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "修改用户密码失败！");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改用户密码失败！");
     }
 
 
@@ -200,7 +200,7 @@ public class SysUserController {
             throw new ValidationException("不支持的用户状态！");
         }
         return sysUserService.updateUserStatus(userIds, status) ?
-                R.ok() : R.failed(BaseResultMsg.UPDATE_DATABASE_ERROR, "批量修改用户状态！");
+                R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "批量修改用户状态！");
     }
 
 
@@ -214,7 +214,7 @@ public class SysUserController {
             objectName = sysUserService.updateAvatar(file, userId);
         } catch (IOException e) {
             log.error("修改系统用户头像异常", e);
-            return R.failed(BaseResultMsg.FILE_UPLOAD_ERROR);
+            return R.failed(BaseResultCode.FILE_UPLOAD_ERROR);
         }
         return R.ok(objectName);
     }

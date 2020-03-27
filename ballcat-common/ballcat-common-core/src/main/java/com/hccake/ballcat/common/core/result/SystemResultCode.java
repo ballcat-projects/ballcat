@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum SystemResultMsg implements ResultMsg{
+public enum SystemResultCode implements ResultCode {
 
     //  ================ 基础部分，参考 HttpStatus =============
     /**

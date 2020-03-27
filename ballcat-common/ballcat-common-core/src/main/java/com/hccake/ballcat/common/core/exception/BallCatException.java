@@ -1,10 +1,10 @@
 package com.hccake.ballcat.common.core.exception;
 
-import com.hccake.ballcat.common.core.result.ResultMsg;
+import com.hccake.ballcat.common.core.result.ResultCode;
 import lombok.Getter;
 
 /**
- * 系统自定义异常
+ * 通用业务异常
  * @author Hccake
  */
 @Getter
@@ -13,16 +13,16 @@ public class BallCatException extends RuntimeException {
     private String msg;
     private int code;
     
-    public BallCatException(ResultMsg resultMsg) {
-		super(resultMsg.getMessage());
-		this.code = resultMsg.getCode();
-		this.msg = resultMsg.getMessage();
+    public BallCatException(ResultCode resultCode) {
+		super(resultCode.getMessage());
+		this.code = resultCode.getCode();
+		this.msg = resultCode.getMessage();
 	}
 	
-	public BallCatException(ResultMsg resultMsg, Throwable e) {
-		super(resultMsg.getMessage(), e);
-		this.code = resultMsg.getCode();
-		this.msg = resultMsg.getMessage();
+	public BallCatException(ResultCode resultCode, Throwable e) {
+		super(resultCode.getMessage(), e);
+		this.code = resultCode.getCode();
+		this.msg = resultCode.getMessage();
 	}
 	
 	public BallCatException(int code, String msg) {

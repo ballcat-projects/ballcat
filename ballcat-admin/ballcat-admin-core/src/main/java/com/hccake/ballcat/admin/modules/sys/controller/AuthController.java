@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultMsg;
+import com.hccake.ballcat.common.core.result.SystemResultCode;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -34,13 +34,13 @@ public class AuthController {
 	@DeleteMapping("/logout")
 	public R logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
 		if (StrUtil.isBlank(authHeader)) {
-			return R.failed(SystemResultMsg.FORBIDDEN, "退出失败，token 为空");
+			return R.failed(SystemResultCode.FORBIDDEN, "退出失败，token 为空");
 		}
 
 		String tokenValue = authHeader.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
 		OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
 		if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
-			return R.failed(SystemResultMsg.FORBIDDEN,"退出失败，token 无效");
+			return R.failed(SystemResultCode.FORBIDDEN,"退出失败，token 无效");
 		}
 
 

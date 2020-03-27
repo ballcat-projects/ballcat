@@ -13,6 +13,8 @@ import java.io.Serializable;
  * @param <T>
  * @author
  */
+@Getter
+@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,18 +23,12 @@ import java.io.Serializable;
 public class R<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Getter
-    @Setter
     @ApiModelProperty(value = "返回状态码")
     private int code;
 
-    @Getter
-    @Setter
     @ApiModelProperty(value = "返回信息")
     private String msg;
 
-    @Getter
-    @Setter
     @ApiModelProperty(value = "数据")
     private T data;
 
@@ -41,18 +37,29 @@ public class R<T> implements Serializable {
     }
 
     public static <T> R<T> ok(T data) {
-        return new R<T>().setCode(SystemResultMsg.SUCCESS.getCode())
+        return new R<T>().setCode(SystemResultCode.SUCCESS.getCode())
                 .setData(data)
-                .setMsg(SystemResultMsg.SUCCESS.getMessage());
+                .setMsg(SystemResultCode.SUCCESS.getMessage());
     }
 
-    public static <T> R<T> failed(ResultMsg failMsg) {
+    public static <T> R<T> ok(T data, String msg) {
+        return new R<T>().setCode(SystemResultCode.SUCCESS.getCode())
+                .setData(data)
+                .setMsg(msg);
+    }
+
+
+    public static <T> R<T> failed(int code, String msg) {
+        return new R<T>().setCode(code)
+                .setMsg(msg);
+    }
+
+    public static <T> R<T> failed(ResultCode failMsg) {
         return new R<T>().setCode(failMsg.getCode())
                 .setMsg(failMsg.getMessage());
     }
 
-
-    public static <T> R<T> failed(ResultMsg failMsg, String msg) {
+    public static <T> R<T> failed(ResultCode failMsg, String msg) {
         return new R<T>().setCode(failMsg.getCode())
                 .setMsg(msg);
     }

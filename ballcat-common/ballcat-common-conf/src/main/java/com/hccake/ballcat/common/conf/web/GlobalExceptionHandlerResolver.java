@@ -3,7 +3,7 @@ package com.hccake.ballcat.common.conf.web;
 import com.hccake.ballcat.commom.log.error.service.ErrorLogHandlerService;
 import com.hccake.ballcat.common.core.exception.BallCatException;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultMsg;
+import com.hccake.ballcat.common.core.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,7 @@ public class GlobalExceptionHandlerResolver {
 	public R handleGlobalException(Exception e) {
 		log.error("全局异常信息 ex={}", e.getMessage(), e);
 		errorLogHandlerService.handle(e);
-		return R.failed(SystemResultMsg.SERVER_ERROR, e.getLocalizedMessage());
+		return R.failed(SystemResultCode.SERVER_ERROR, e.getLocalizedMessage());
 	}
 
 
@@ -55,7 +55,7 @@ public class GlobalExceptionHandlerResolver {
 	public R handleBallCatException(BallCatException e) {
 		log.error("自定义异常信息 ex={}", e.getMessage(), e);
 		errorLogHandlerService.handle(e);
-		return R.failed(SystemResultMsg.SERVER_ERROR, e.getLocalizedMessage());
+		return R.failed(SystemResultCode.SERVER_ERROR, e.getLocalizedMessage());
 	}
 
 
@@ -73,7 +73,7 @@ public class GlobalExceptionHandlerResolver {
 						, e.getMessage());
 		log.error("拒绝授权异常信息 ex={}", msg, e);
 		errorLogHandlerService.handle(e);
-		return R.failed(SystemResultMsg.FORBIDDEN, e.getLocalizedMessage());
+		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class GlobalExceptionHandlerResolver {
 
 		log.error("参数绑定异常,ex = {}", errorMsg);
 		errorLogHandlerService.handle(exception);
-		return R.failed(SystemResultMsg.BAD_REQUEST, errorMsg);
+		return R.failed(SystemResultCode.BAD_REQUEST, errorMsg);
 	}
 
 
@@ -113,7 +113,7 @@ public class GlobalExceptionHandlerResolver {
 	public R handleValidationException(Exception e) {
 		log.error("参数绑定异常 ex={}", e.getMessage(), e);
 		errorLogHandlerService.handle(e);
-		return R.failed(SystemResultMsg.BAD_REQUEST, e.getLocalizedMessage());
+		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
 	}
 
 

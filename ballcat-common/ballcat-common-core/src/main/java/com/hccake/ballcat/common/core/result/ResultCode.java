@@ -5,7 +5,7 @@ package com.hccake.ballcat.common.core.result;
  * @version 1.0
  * @date 2020/3/20 14:45
  */
-public interface ResultMsg {
+public interface ResultCode {
 
     /**
      * 获取业务码
