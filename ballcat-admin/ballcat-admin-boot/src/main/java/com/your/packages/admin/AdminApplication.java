@@ -3,6 +3,7 @@ package com.your.packages.admin;
 import com.hccake.ballcat.commom.log.access.annotation.EnableAccessLog;
 import com.hccake.ballcat.common.job.annotation.EnableXxlJob;
 import com.hccake.ballcat.common.swagger.annotation.EnableSwagger2Aggregator;
+import com.hccake.simpleredis.EnableSimpleCache;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 /**
  * @author Hccake
  */
+@EnableSimpleCache
 @EnableXxlJob
 @EnableSwagger2Aggregator
 @EnableAccessLog

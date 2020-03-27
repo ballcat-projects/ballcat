@@ -13,6 +13,9 @@ spring:
         username: admin
         password: 123456
 
+redis:
+  global-key-prefix: 'ballcat:'
+
 security:
   oauth2:
     ignore-urls:

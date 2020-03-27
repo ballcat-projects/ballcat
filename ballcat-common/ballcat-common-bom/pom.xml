@@ -68,8 +68,12 @@
                 <version>${ballcat.version}</version>
             </dependency>
 
-
-
+            <!--缓存注解工具类-->
+            <dependency>
+                <groupId>com.hccake</groupId>
+                <artifactId>simple-cache</artifactId>
+                <version>${simple-cache.version}</version>
+            </dependency>
 
 
             <!--swagger注解-->
