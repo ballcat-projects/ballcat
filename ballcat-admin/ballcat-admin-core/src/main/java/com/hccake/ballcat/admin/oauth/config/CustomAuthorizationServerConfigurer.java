@@ -99,7 +99,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
     @Bean
     public TokenStore tokenStore() {
         RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-        tokenStore.setPrefix(SecurityConst.BALLCAT_OAUTH_PREFIX);
+        tokenStore.setPrefix(SecurityConst.OAUTH_PREFIX);
         return tokenStore;
     }
 

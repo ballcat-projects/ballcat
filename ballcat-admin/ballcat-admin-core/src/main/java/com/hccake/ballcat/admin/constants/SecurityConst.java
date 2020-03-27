@@ -21,6 +21,6 @@ public final class SecurityConst {
 	/**
 	 * 缓存 oauth 相关前缀
 	 */
-	public static final String BALLCAT_OAUTH_PREFIX = "ball-cat:oauth:";
+	public static final String OAUTH_PREFIX = "oauth:";
 
 }
