@@ -27,7 +27,7 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
     * @return  分页数据
     */
     @Override
-    IPage<${className}> page(IPage<${className}> page, ${className}QO qo) {
+    public IPage<${className}> page(IPage<${className}> page, ${className}QO qo) {
         LambdaQueryWrapper<${className}> wrapper = Wrappers.<${className}>lambdaQuery()
                 .eq(ObjectUtil.isNotNull(qo.get${pk.caseAttrName}()), ${className}::get${pk.caseAttrName}, qo.get${pk.caseAttrName}());
         return baseMapper.selectPage(page, wrapper);
