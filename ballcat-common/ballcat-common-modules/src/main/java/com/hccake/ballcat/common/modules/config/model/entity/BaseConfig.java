@@ -1,4 +1,4 @@
-package com.hccake.ballcat.api.modules.config.model.entity;
+package com.hccake.ballcat.common.modules.config.model.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

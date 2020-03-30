@@ -1,7 +1,7 @@
-package com.hccake.ballcat.api.modules.api.mapper;
+package com.hccake.ballcat.common.modules.log.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hccake.ballcat.api.modules.api.model.entity.ApiAccessLog;
+import com.hccake.ballcat.common.modules.log.model.entity.ApiAccessLog;
 
 /**
  * 访问日志

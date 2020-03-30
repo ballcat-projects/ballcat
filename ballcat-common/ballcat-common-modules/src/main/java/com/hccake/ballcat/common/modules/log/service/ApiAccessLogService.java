@@ -1,7 +1,7 @@
-package com.hccake.ballcat.api.modules.log.service;
+package com.hccake.ballcat.common.modules.log.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.hccake.ballcat.api.modules.api.model.entity.ApiAccessLog;
+import com.hccake.ballcat.common.modules.log.model.entity.ApiAccessLog;
 
 /**
  * 访问日志

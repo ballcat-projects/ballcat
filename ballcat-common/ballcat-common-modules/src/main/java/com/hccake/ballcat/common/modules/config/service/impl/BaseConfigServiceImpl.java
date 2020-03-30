@@ -1,9 +1,9 @@
-package com.hccake.ballcat.api.modules.config.service.impl;
+package com.hccake.ballcat.common.modules.config.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.hccake.ballcat.api.modules.config.mapper.BaseConfigMapper;
-import com.hccake.ballcat.api.modules.config.model.entity.BaseConfig;
-import com.hccake.ballcat.api.modules.config.service.BaseConfigService;
+import com.hccake.ballcat.common.modules.config.mapper.BaseConfigMapper;
+import com.hccake.ballcat.common.modules.config.model.entity.BaseConfig;
+import com.hccake.ballcat.common.modules.config.service.BaseConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

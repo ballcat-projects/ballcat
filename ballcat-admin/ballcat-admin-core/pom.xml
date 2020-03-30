@@ -37,11 +37,6 @@
             <groupId>com.hccake</groupId>
             <artifactId>ballcat-common-swagger</artifactId>
         </dependency>
-        <!-- 邮件发送 -->
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-mail</artifactId>
-        </dependency>
         <!-- swagger 增强版 ui -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

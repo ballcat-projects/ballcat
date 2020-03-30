@@ -1,6 +1,6 @@
-package com.hccake.ballcat.api.modules.config.mapper;
+package com.hccake.ballcat.common.modules.config.mapper;
 
-import com.hccake.ballcat.api.modules.config.model.entity.BaseConfig;
+import com.hccake.ballcat.common.modules.config.model.entity.BaseConfig;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

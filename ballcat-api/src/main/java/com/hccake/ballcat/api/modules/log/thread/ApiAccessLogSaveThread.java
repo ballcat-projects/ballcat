@@ -1,7 +1,7 @@
 package com.hccake.ballcat.api.modules.log.thread;
 
-import com.hccake.ballcat.api.modules.api.model.entity.ApiAccessLog;
-import com.hccake.ballcat.api.modules.log.service.ApiAccessLogService;
+import com.hccake.ballcat.common.modules.log.model.entity.ApiAccessLog;
+import com.hccake.ballcat.common.modules.log.service.ApiAccessLogService;
 import com.hccake.ballcat.common.core.thread.AbstractQueueThread;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

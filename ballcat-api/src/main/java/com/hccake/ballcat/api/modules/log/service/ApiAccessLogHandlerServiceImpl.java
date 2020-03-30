@@ -2,7 +2,7 @@ package com.hccake.ballcat.api.modules.log.service;
 
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
-import com.hccake.ballcat.api.modules.api.model.entity.ApiAccessLog;
+import com.hccake.ballcat.common.modules.log.model.entity.ApiAccessLog;
 import com.hccake.ballcat.api.modules.log.thread.ApiAccessLogSaveThread;
 import com.hccake.ballcat.commom.log.access.service.AccessLogHandlerService;
 import com.hccake.ballcat.commom.log.util.LogUtils;

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.api.modules;
+package com.hccake.ballcat.common.modules;
 
 import org.springframework.context.annotation.ComponentScan;
 

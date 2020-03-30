@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.hccake.ballcat.api.modules.AutoScanConfig
+    com.hccake.ballcat.common.modules.AutoScanConfig

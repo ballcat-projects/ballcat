@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.modules.job;
+package com.your.packages.admin.modules.test;
 
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;

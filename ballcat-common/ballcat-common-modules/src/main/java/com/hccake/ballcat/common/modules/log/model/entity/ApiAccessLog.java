@@ -1,4 +1,4 @@
-package com.hccake.ballcat.api.modules.api.model.entity;
+package com.hccake.ballcat.common.modules.log.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

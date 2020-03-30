@@ -1,4 +1,4 @@
-package com.your.packages.admin.modules;
+package com.your.packages.admin.modules.test;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;

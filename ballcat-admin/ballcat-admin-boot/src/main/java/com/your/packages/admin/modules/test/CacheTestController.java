@@ -1,4 +1,4 @@
-package com.your.packages.admin.modules;
+package com.your.packages.admin.modules.test;
 
 import com.hccake.simpleredis.core.annotation.CacheDel;
 import com.hccake.simpleredis.core.annotation.CachePut;
