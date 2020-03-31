@@ -2,10 +2,11 @@ package com.hccake.ballcat.common.job;
 
 import com.hccake.ballcat.common.job.properties.XxlJobProperties;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author lengleng
@@ -13,13 +14,15 @@ import org.springframework.context.annotation.Configuration;
  * <p>
  * xxl 初始化
  */
+@Slf4j
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan("com.hccake.ballcat.common.job.properties")
+@Import(XxlJobProperties.class)
 public class XxlJobAutoConfiguration {
 
-	@Bean(initMethod = "start", destroyMethod = "destroy")
+	@Bean
 	public XxlJobSpringExecutor xxlJobSpringExecutor(XxlJobProperties xxlJobProperties) {
+		log.info(">>>>>>>>>>> xxl-job config init.");
 		XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
 		xxlJobSpringExecutor.setAdminAddresses(xxlJobProperties.getAdmin().getAddresses());
 		xxlJobSpringExecutor.setAppName(xxlJobProperties.getExecutor().getAppName());
