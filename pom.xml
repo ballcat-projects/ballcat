@@ -11,7 +11,6 @@
         <module>ballcat-api</module>
         <module>ballcat-common</module>
         <module>ballcat-codegen</module>
-        <module>ballcat-job</module>
         <module>ballcat-monitor</module>
     </modules>
     <name>ballcat</name>
