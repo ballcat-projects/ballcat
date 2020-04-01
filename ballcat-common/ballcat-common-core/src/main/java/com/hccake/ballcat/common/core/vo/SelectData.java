@@ -35,11 +35,6 @@ public class SelectData <T> {
      * 分组标识
      */
     private String type;
-    
-    /**
-	 * 扩展属性 考虑泛型
-     */
-    private Map extendMap;
 
     /**
      * 扩展对象
