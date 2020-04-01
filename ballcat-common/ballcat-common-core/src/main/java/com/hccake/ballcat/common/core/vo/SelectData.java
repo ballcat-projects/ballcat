@@ -9,7 +9,7 @@ import java.util.Map;
  * @author Hccake
  */
 @Data
-public class SelectData {
+public class SelectData <T> {
 
     /**
      * 显示的数据
@@ -35,9 +35,9 @@ public class SelectData {
      * 分组标识
      */
     private String type;
-    
+
     /**
-	 * 扩展属性 考虑泛型
+     * 扩展对象
      */
-    private Map extendMap;
+    private T extendObj;
 }
