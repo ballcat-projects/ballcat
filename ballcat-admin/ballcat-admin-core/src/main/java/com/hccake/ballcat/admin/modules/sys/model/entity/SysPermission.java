@@ -1,9 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -101,6 +98,7 @@ public class SysPermission extends Model<SysPermission> {
 	/**
 	 * 逻辑删除标记(0--正常 1--删除)
 	 */
+	@TableLogic
 	@ApiModelProperty(value="逻辑删除标记(0--正常 1--删除)")
 	private Integer delFlag;
 	/**
