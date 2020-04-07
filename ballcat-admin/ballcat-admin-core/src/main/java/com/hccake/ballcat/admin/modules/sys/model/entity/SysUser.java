@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -94,4 +95,9 @@ private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value="1:系统用户， 2：客户用户")
     private Integer type;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "账户余额")
+    private BigDecimal balance;
+
     }
