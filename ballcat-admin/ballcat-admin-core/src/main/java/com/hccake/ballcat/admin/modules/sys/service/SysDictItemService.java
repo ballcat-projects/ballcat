@@ -3,7 +3,6 @@ package com.hccake.ballcat.admin.modules.sys.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
-import com.hccake.ballcat.common.core.vo.SelectData;
 
 import java.util.List;
 
@@ -23,10 +22,11 @@ public interface SysDictItemService extends IService<SysDictItem> {
     */
     IPage<SysDictItem> page(IPage<SysDictItem> page, String dictCode);
 
+
     /**
-     * 根据字典标识查询对应字典选择项
-     * @param dictCode 字典标识
-     * @return 对应字典项的SelectData
+     * 根据Code查询对应字典项数据
+     * @param dictCode
+     * @return
      */
-    List<SelectData> querySelectDataByDictCode(String dictCode);
+    List<SysDictItem> getByDictCode(String dictCode);
 }

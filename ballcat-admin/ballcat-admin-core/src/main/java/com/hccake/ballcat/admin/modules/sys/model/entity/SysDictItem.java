@@ -39,10 +39,10 @@ public class SysDictItem extends Model<SysDictItem> {
     @ApiModelProperty(value = "数据值")
     private String value;
     /**
-     * 标签
+     * 文本值
      */
-    @ApiModelProperty(value = "标签")
-    private String label;
+    @ApiModelProperty(value = "文本值")
+    private String name;
     /**
      * 排序（升序）
      */

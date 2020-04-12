@@ -37,17 +37,22 @@ public class SysDict extends Model<SysDict> {
      * 名称
      */
     @ApiModelProperty(value = "名称")
-    private String name;
+    private String title;
+    /**
+     * Hash值
+     */
+    @ApiModelProperty(value = "Hash值")
+    private String hashCode;
     /**
      * 备注
      */
     @ApiModelProperty(value = "备注")
     private String remarks;
     /**
-     * 字典类型
+     * 可编辑的
      */
-    @ApiModelProperty(value = "1：系统 2：业务")
-    private Integer type;
+    @ApiModelProperty(value = "1：是 0：否")
+    private Integer editable;
     /**
      * 逻辑删除标识
      */
