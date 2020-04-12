@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysDictItemMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
-import com.hccake.ballcat.common.core.vo.SelectData;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,15 +33,17 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
         return baseMapper.selectPage(page, wrapper);
     }
 
+
     /**
-     * 根据字典标识查询对应字典选择项
+     * 根据Code查询对应字典项数据
      *
-     * @param dictCode 字典标识
-     * @return 对应字典项的SelectData
+     * @param dictCode
+     * @return
      */
     @Override
-    public List<SelectData> querySelectDataByDictCode(String dictCode) {
-        return baseMapper.querySelectDataByDictCode(dictCode);
+    public List<SysDictItem> getByDictCode(String dictCode) {
+        return baseMapper.selectList(Wrappers.<SysDictItem>lambdaQuery()
+                .eq(SysDictItem::getDictCode, dictCode));
     }
 
 }
