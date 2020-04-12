@@ -37,7 +37,7 @@ private static final long serialVersionUID = 1L;
     #elseif($column.columnName == 'create_time')
     @TableField(fill = FieldFill.INSERT)
     #elseif($column.columnName == 'update_time')
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     #end
     @ApiModelProperty(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;

@@ -68,7 +68,7 @@ public class SysDictItem extends Model<SysDictItem> {
     /**
      * 更新时间
      */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
 }
