@@ -35,6 +35,9 @@ public class JacksonConfig {
         // NULL 值转 ""
         objectMapper.getSerializerProvider().setNullValueSerializer(new NullSerializer());
 
+        // 所有数字转字符串输出
+        // objectMapper.configure(JsonWriteFeature.WRITE_NUMBERS_AS_STRINGS.mappedFeature(), true);
+
         //注册xss解析器
 //        SimpleModule xssModule = new SimpleModule("XssStringJsonSerializer", PackageVersion.VERSION);
 //        xssModule.addSerializer(new XssStringJsonSerializer());

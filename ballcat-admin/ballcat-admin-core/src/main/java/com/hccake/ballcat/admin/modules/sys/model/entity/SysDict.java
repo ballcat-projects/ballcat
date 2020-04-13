@@ -1,9 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -40,20 +37,26 @@ public class SysDict extends Model<SysDict> {
      * 名称
      */
     @ApiModelProperty(value = "名称")
-    private String name;
+    private String title;
+    /**
+     * Hash值
+     */
+    @ApiModelProperty(value = "Hash值")
+    private String hashCode;
     /**
      * 备注
      */
     @ApiModelProperty(value = "备注")
     private String remarks;
     /**
-     * 字典类型
+     * 可编辑的
      */
-    @ApiModelProperty(value = "1：系统 2：业务")
-    private Integer type;
+    @ApiModelProperty(value = "1：是 0：否")
+    private Integer editable;
     /**
      * 逻辑删除标识
      */
+    @TableLogic
     @ApiModelProperty(value = "逻辑删除标识")
     private Integer delFlag;
     /**
@@ -65,7 +68,7 @@ public class SysDict extends Model<SysDict> {
     /**
      * 更新时间
      */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
 }

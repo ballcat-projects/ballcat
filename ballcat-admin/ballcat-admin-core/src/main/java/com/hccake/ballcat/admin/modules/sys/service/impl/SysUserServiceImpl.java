@@ -137,7 +137,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String password = PasswordUtil.decodeAesAndEncodeBCrypt(sysUserDto.getPass(), secretKey);
         sysUser.setPassword(password);
 
-        return retBool(baseMapper.insert(sysUser));
+        return SqlHelper.retBool(baseMapper.insert(sysUser));
     }
 
     /**
@@ -149,7 +149,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public boolean updateSysUser(SysUserDTO sysUserDTO) {
         SysUser entity = SysUserConverter.INSTANCE.dtoToPo(sysUserDTO);
-        return retBool(baseMapper.updateById(entity));
+        return SqlHelper.retBool(baseMapper.updateById(entity));
     }
 
     /**
@@ -198,7 +198,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .set(SysUser::getPassword, password)
         );
 
-        return retBool(res);
+        return SqlHelper.retBool(res);
     }
 
     /**
