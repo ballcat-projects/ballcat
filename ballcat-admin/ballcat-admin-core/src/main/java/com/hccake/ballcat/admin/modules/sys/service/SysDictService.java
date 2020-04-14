@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 
+import java.util.List;
+
 /**
  * 字典表
  *
@@ -27,4 +29,20 @@ public interface SysDictService extends IService<SysDict> {
      * @return 字典数据
      */
     SysDict getByCode(String dictCode);
+
+
+    /**
+     * 根据字典标识查询
+     * @param dictCode 字典标识
+     * @return 字典数据
+     */
+    List<SysDict> getByCode(String[] dictCode);
+
+
+    /**
+     * 更新字典HashCode
+     * @param dictCode
+     * @return
+     */
+    boolean updateHashCode(String dictCode);
 }

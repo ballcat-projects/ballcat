@@ -89,7 +89,7 @@ private static final long serialVersionUID = 1L;
      * 更新时间
      */
     @ApiModelProperty(value="更新时间")
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value="1:系统用户， 2：客户用户")

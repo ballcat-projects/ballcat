@@ -6,6 +6,7 @@ import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
 import ${package}.${moduleName}.model.entity.${className};
 import ${package}.${moduleName}.model.qo.${className}QO;
+import ${package}.${moduleName}.model.vo.${className}VO;
 import ${package}.${moduleName}.service.${className}Service;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,9 +39,9 @@ public class ${className}Controller {
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
     @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:read')" )
-    public R<IPage<${className}>> get${className}Page(
-            Page<${className}> page, ${className}QO ${classname}QO) {
-        return R.ok(${classname}Service.page(page, ${classname}QO));
+    public R<IPage<${className}VO>> get${className}Page(
+            Page<?> page, ${className}QO ${classname}QO) {
+        return R.ok(${classname}Service.selectPageVo(page, ${classname}QO));
     }
 
 

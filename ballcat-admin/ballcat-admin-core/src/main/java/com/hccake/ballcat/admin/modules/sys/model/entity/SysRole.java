@@ -56,7 +56,7 @@ public class SysRole extends Model<SysRole> {
 	 * 修改时间
 	 */
 	@ApiModelProperty(value = "修改时间")
-	@TableField(fill = FieldFill.UPDATE)
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime updateTime;
 
 

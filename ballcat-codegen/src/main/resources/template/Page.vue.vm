@@ -71,11 +71,11 @@
 <script>
 import { getPage, delObj } from '@/api/${moduleName}/${pathName}'
 import FormPage from './${className}Form'
-import { PageMixin } from '@/mixins'
+import { TablePageMixin } from '@/mixins'
 
 export default {
   name: '${className}Page',
-  mixins: [PageMixin],
+  mixins: [TablePageMixin],
   components: { FormPage },
   data () {
     return {
@@ -85,10 +85,17 @@ export default {
       columns: [
 #foreach ($column in $columns)
   #if($column.columnName != 'create_time' && $column.columnName != 'update_time')
-        {
-          title: '$column.comments',
-          dataIndex: '$column.lowerAttrName',
-        },
+    #if($column.columnName == 'id')
+      {
+        title: '#',
+        dataIndex: '$column.lowerAttrName',
+      },
+    #else
+      {
+        title: '$column.comments',
+        dataIndex: '$column.lowerAttrName',
+      },
+    #end
   #end
 #end
         {

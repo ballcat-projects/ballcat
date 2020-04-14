@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.model.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
  * @date 2019/10/15 14:19
  */
 @Data
+@ApiModel(value = "权限VO")
 public class PermissionVO {
 
     /**

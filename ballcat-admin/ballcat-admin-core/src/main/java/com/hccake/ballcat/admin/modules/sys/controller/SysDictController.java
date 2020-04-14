@@ -6,6 +6,7 @@ import com.hccake.ballcat.admin.modules.sys.manager.SysDictManager;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataAndHashVO;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
@@ -14,6 +15,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -29,16 +33,32 @@ import org.springframework.web.bind.annotation.*;
 public class SysDictController {
     private final SysDictManager sysDictManager;
 
+
     /**
      * 通过字典标识查找对应字典项
      *
      * @param dictCode 字典标识
      * @return 同类型字典
      */
-    @GetMapping("/select/{dictCode}")
-    public R getDictByType(@PathVariable String dictCode) {
-        return R.ok(sysDictManager.querySelectDataByDictCode(dictCode));
+    @GetMapping("/data-hash/{dictCode}")
+    public R<DictDataAndHashVO> getDictDataAndHash(@PathVariable String dictCode) {
+        return R.ok(sysDictManager.queryDictDataAndHashVO(dictCode));
     }
+
+
+    /**
+     * 通过字典标识查找对应字典项
+     *
+     * @param dictHashCode 字典标识
+     * @return 同类型字典
+     */
+    @PostMapping("/invalid-hash")
+    public R<List<String>> invalidDictHash(@RequestBody Map<String, String> dictHashCode) {
+        return R.ok(sysDictManager.invalidDictHash(dictHashCode));
+    }
+
+
+
 
     /**
      * 分页查询

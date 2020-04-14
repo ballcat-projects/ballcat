@@ -65,6 +65,6 @@ public class BaseConfig extends Model<BaseConfig> {
      * 修改时间
      */
     @ApiModelProperty(value="修改时间")
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }
