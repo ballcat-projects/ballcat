@@ -1,11 +1,12 @@
 package ${package}.${moduleName}.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ${package}.${moduleName}.model.entity.${className};
+import ${package}.${moduleName}.model.vo.${className}VO;
 import ${package}.${moduleName}.model.qo.${className}QO;
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.service.${className}Service;
@@ -27,10 +28,10 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
     * @return  分页数据
     */
     @Override
-    public IPage<${className}> page(IPage<${className}> page, ${className}QO qo) {
-        LambdaQueryWrapper<${className}> wrapper = Wrappers.<${className}>lambdaQuery()
-                .eq(ObjectUtil.isNotNull(qo.get${pk.caseAttrName}()), ${className}::get${pk.caseAttrName}, qo.get${pk.caseAttrName}());
-        return baseMapper.selectPage(page, wrapper);
+    public IPage<${className}VO> selectPageVo(IPage<?> page, ${className}QO qo) {
+        QueryWrapper<${className}> wrapper = Wrappers.<${className}>query()
+                .eq(ObjectUtil.isNotNull(qo.get${pk.caseAttrName}()), "${tableAlias}.{pk.caseAttrName}", qo.get${pk.caseAttrName}());
+        return baseMapper.selectPageVo(page, wrapper);
     }
 
 }
