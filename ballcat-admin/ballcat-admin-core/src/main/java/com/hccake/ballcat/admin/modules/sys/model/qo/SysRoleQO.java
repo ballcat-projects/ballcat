@@ -20,4 +20,10 @@ public class SysRoleQO {
 
 	@ApiModelProperty(value = "角色标识")
 	private String code;
+
+	@ApiModelProperty(value = "开始时间")
+	private String startTime;
+
+	@ApiModelProperty(value = "结束时间")
+	private String endTime;
 }

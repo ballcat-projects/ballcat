@@ -40,10 +40,12 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Override
     public IPage<SysRole> page(IPage<SysRole> page, SysRoleQO qo) {
-		LambdaQueryWrapper<SysRole> wrapper = Wrappers.<SysRole>lambdaQuery()
-				.like(StrUtil.isNotBlank(qo.getName()), SysRole::getName, qo.getName())
-				.eq(StrUtil.isNotBlank(qo.getCode()), SysRole::getCode, qo.getCode());
-		return baseMapper.selectPage(page, wrapper);
+        LambdaQueryWrapper<SysRole> wrapper = Wrappers.<SysRole>lambdaQuery()
+                .like(StrUtil.isNotBlank(qo.getName()), SysRole::getName, qo.getName())
+                .eq(StrUtil.isNotBlank(qo.getCode()), SysRole::getCode, qo.getCode())
+                .between(StrUtil.isNotBlank(qo.getStartTime()) && StrUtil.isNotBlank(qo.getEndTime()),
+                        SysRole::getCreateTime, qo.getStartTime(), qo.getEndTime());
+        return baseMapper.selectPage(page, wrapper);
     }
 
     /**
