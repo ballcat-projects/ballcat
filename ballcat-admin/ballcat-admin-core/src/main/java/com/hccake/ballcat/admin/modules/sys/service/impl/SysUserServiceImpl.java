@@ -53,6 +53,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysPermissionService sysPermissionService;
     private final SysUserRoleService sysUserRoleService;
 
+    private static final Integer USER_TYPE_SYS = 1;
 
     @Value("${password.secret-key}")
     private String secretKey;
@@ -136,6 +137,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
         sysUser.setDelFlag(0);
         sysUser.setStatus(1);
+        sysUser.setType(USER_TYPE_SYS);
 
         String password = PasswordUtil.decodeAesAndEncodeBCrypt(sysUserDto.getPass(), secretKey);
         sysUser.setPassword(password);
