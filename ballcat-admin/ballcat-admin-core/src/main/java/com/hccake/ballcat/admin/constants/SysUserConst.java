@@ -27,4 +27,23 @@ public final class SysUserConst {
         private Integer value;
     }
 
+    /**
+     * 用户类型，1系统用户，2平台用户
+     */
+    @Getter
+    @AllArgsConstructor
+    public enum Type {
+
+        /**
+         * 系统用户
+         */
+        SYSTEM(1),
+        /**
+         * 平台用户
+         */
+        CUSTOMER(2);
+
+        private Integer value;
+    }
+
 }

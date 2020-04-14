@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.admin.constants.SysUserConst;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysUserMapper;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysUserConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
@@ -132,7 +133,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public boolean addSysUser(SysUserDTO sysUserDto) {
         SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
         sysUser.setDelFlag(0);
-        sysUser.setStatus(1);
+        sysUser.setStatus(SysUserConst.Status.NORMAL.getValue());
+        sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
 
         String password = PasswordUtil.decodeAesAndEncodeBCrypt(sysUserDto.getPass(), secretKey);
         sysUser.setPassword(password);
