@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -66,7 +67,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .like(ObjectUtil.isNotNull(qo.getPhone()), SysUser::getPhone, qo.getPhone())
                 .like(ObjectUtil.isNotNull(qo.getNickname()), SysUser::getNickname, qo.getNickname())
                 .eq(ObjectUtil.isNotNull(qo.getStatus()), SysUser::getStatus, qo.getStatus())
-                .eq(ObjectUtil.isNotNull(qo.getSex()), SysUser::getSex, qo.getSex());
+                .eq(ObjectUtil.isNotNull(qo.getSex()), SysUser::getSex, qo.getSex())
+                .between(StringUtils.isNotBlank(qo.getStartTime()) && StringUtils.isNotBlank(qo.getEndTime()),
+                        SysUser::getCreateTime, qo.getStartTime(), qo.getEndTime());
 
         return baseMapper.selectPage(page, wrapper);
     }

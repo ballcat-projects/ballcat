@@ -44,4 +44,10 @@ public class SysUserQO {
     @ApiModelProperty(value="状态(1-正常,2-冻结)")
     private Integer status;
 
+    @ApiModelProperty(value="开始时间")
+    private String startTime;
+
+    @ApiModelProperty(value="结束时间")
+    private String endTime;
+
 }
