@@ -1,9 +1,5 @@
 package ${package}.${moduleName}.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,23 +18,14 @@ import java.time.LocalDateTime;
  * @date ${datetime}
  */
 @Data
-@TableName("${tableName}")
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "${comments}")
-public class ${className} extends Model<${className}> {
+public class ${className}VO {
 private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
     /**
      * $column.comments
      */
-    #if($column.columnName == $pk.columnName)
-    @TableId
-    #elseif($column.columnName == 'create_time')
-    @TableField(fill = FieldFill.INSERT)
-    #elseif($column.columnName == 'update_time')
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    #end
     @ApiModelProperty(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;
 #end

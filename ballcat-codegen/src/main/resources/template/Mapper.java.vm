@@ -1,7 +1,12 @@
 package ${package}.${moduleName}.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import ${package}.${moduleName}.model.entity.${className};
+import ${package}.${moduleName}.model.vo.${className}VO;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * ${comments}
@@ -11,4 +16,11 @@ import ${package}.${moduleName}.model.entity.${className};
  */
 public interface ${className}Mapper extends BaseMapper<${className}> {
 
+    /**
+    * 分页查询
+    * @param page
+    * @param wrapper
+    * @return VO分页数据
+    */
+    IPage<${className}VO> selectPageVo(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<${className}> wrapper);
 }

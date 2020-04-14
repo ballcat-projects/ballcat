@@ -3,12 +3,9 @@ package ${package}.${moduleName}.model.qo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * ${comments} 查询对象

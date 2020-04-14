@@ -3,6 +3,7 @@ package ${package}.${moduleName}.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ${package}.${moduleName}.model.entity.${className};
+import ${package}.${moduleName}.model.vo.${className}VO;
 import ${package}.${moduleName}.model.qo.${className}QO;
 
 /**
@@ -19,6 +20,6 @@ public interface ${className}Service extends IService<${className}> {
     * @param qo 查询参数对象
     * @return  分页数据
     */
-    IPage<${className}> page(IPage<${className}> page, ${className}QO qo);
+    IPage<${className}VO> selectPageVo(IPage<?> page, ${className}QO qo);
 
 }

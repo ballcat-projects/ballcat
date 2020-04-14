@@ -44,7 +44,6 @@ mybatis-plus:
     banner: false
     db-config:
       id-type: auto
-      field-strategy: NOT_EMPTY
 
 # 密码加解密密钥
 password:

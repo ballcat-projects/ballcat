@@ -45,6 +45,7 @@ public class GenUtils {
 
 
 	private final String QO_JAVA_VM = "QO.java.vm";
+	private final String VO_JAVA_VM = "VO.java.vm";
 	private final String ENTITY_JAVA_VM = "Entity.java.vm";
 	private final String MAPPER_JAVA_VM = "Mapper.java.vm";
 	private final String SERVICE_JAVA_VM = "Service.java.vm";
@@ -61,6 +62,7 @@ public class GenUtils {
 	private List<String> getTemplates() {
 		List<String> templates = new ArrayList<>();
 		templates.add("template/QO.java.vm");
+		templates.add("template/VO.java.vm");
 		templates.add("template/Entity.java.vm");
 		templates.add("template/Mapper.java.vm");
 		templates.add("template/Mapper.xml.vm");
@@ -148,6 +150,7 @@ public class GenUtils {
 		map.put("pk", tableEntity.getPk());
 		map.put("className", tableEntity.getCaseClassName());
 		map.put("classname", tableEntity.getLowerClassName());
+		map.put("tableAlias", prodAlias(tableEntity.getCaseClassName()));
 		map.put("pathName", tableEntity.getLowerClassName().toLowerCase());
 		map.put("columns", tableEntity.getColumns());
 		map.put("hasBigDecimal", hasBigDecimal);
@@ -156,7 +159,6 @@ public class GenUtils {
 		map.put("author", genConfig.getAuthor());
 		map.put("moduleName", genConfig.getModuleName());
 		map.put("package", genConfig.getPackageName());
-
 
 		VelocityContext context = new VelocityContext(map);
 
@@ -176,6 +178,21 @@ public class GenUtils {
 			IoUtil.close(sw);
 			zip.closeEntry();
 		}
+	}
+
+	/**
+	 * 根据类名生成表别名
+	 * @param className 类名
+	 * @return 表别名
+	 */
+	private String prodAlias(String className) {
+		StringBuilder sb = new StringBuilder();
+		for (char c : className.toCharArray()) {
+			if(c >= 'A' && c <= 'Z'){
+				sb.append(Character.toLowerCase(c));
+			}
+		}
+		return sb.toString();
 	}
 
 
@@ -203,6 +220,10 @@ public class GenUtils {
 		String packagePath = BACK_PROJECT_NAME + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator;
 		if (StringUtils.isNotBlank(packageName)) {
 			packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
+		}
+
+		if (template.contains(VO_JAVA_VM)) {
+			return packagePath + "model" + File.separator +  "vo" + File.separator + className + "VO.java";
 		}
 
 		if (template.contains(QO_JAVA_VM)) {
