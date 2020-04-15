@@ -58,7 +58,7 @@ public class SysDictItem extends Model<SysDictItem> {
      */
     @TableLogic
     @ApiModelProperty(value = "逻辑删除标志")
-    private Integer delFlag;
+    private Integer deleted;
     /**
      * 创建时间
      */

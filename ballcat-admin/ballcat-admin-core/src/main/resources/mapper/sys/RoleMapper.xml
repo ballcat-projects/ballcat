@@ -10,7 +10,7 @@
 		<result column="note" property="note"/>
 		<result column="create_time" property="createTime"/>
 		<result column="update_time" property="updateTime"/>
-		<result column="del_flag" property="delFlag"/>
+		<result column="deleted" property="deleted"/>
 	</resultMap>
 
 
@@ -22,7 +22,7 @@
 		from
 			sys_role
 		where
-			del_flag = 0
+			deleted = 0
 	</select>
 
 

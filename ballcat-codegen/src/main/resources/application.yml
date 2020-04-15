@@ -15,7 +15,8 @@ mybatis-plus:
     banner: false
     db-config:
       id-type: auto
-      field-strategy: NOT_EMPTY
+      insert-strategy: not_empty
+      update-strategy: not_empty
 
 logging:
   level:

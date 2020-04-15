@@ -69,16 +69,20 @@ private static final long serialVersionUID = 1L;
     @ApiModelProperty(value="电话")
     private String phone;
     /**
-     * 状态(1-正常,2-冻结)
+     * 状态(1-正常,0-冻结)
      */
-    @ApiModelProperty(value="状态(1-正常,2-冻结)")
+    @ApiModelProperty(value="状态(1-正常, 0-冻结)")
     private Integer status;
+
+    @ApiModelProperty(value="1:系统用户， 2：客户用户")
+    private Integer type;
+
     /**
      * 删除状态(0-正常,1-已删除)
      */
     @TableLogic
     @ApiModelProperty(value="删除状态(0-正常,1-已删除)")
-    private Integer delFlag;
+    private Integer deleted;
     /**
      * 创建时间
      */
@@ -92,6 +96,6 @@ private static final long serialVersionUID = 1L;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value="1:系统用户， 2：客户用户")
-    private Integer type;
-    }
+
+
+}

@@ -17,7 +17,7 @@
         <result column="keep_alive" property="keepAlive"/>
         <result column="hidden" property="hidden"/>
         <result column="type" property="type"/>
-        <result column="del_flag" property="delFlag"/>
+        <result column="deleted" property="deleted"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
@@ -31,7 +31,7 @@
 			sys_permission m
 		LEFT JOIN sys_role_permission rm ON m.id = rm.permission_id
 		WHERE
-			m.del_flag = 0
+			m.deleted = 0
 		AND rm.role_id = #{roleId}
 		ORDER BY
 			m.sort DESC
@@ -45,7 +45,7 @@
         	sys_permission m, sys_role_permission rm
         WHERE
         	m.id = rm.permission_id
-        AND m.del_flag = 0
+        AND m.deleted = 0
         AND rm.role_id IN (#{roleIds})
     </select>
 </mapper>

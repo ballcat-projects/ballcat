@@ -45,7 +45,7 @@ public class SysRole extends Model<SysRole> {
 	 */
 	@TableLogic
 	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
-	private String delFlag;
+	private String deleted;
 	/**
 	 * 创建时间
 	 */
