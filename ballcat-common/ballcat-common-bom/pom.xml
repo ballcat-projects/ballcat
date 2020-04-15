@@ -15,7 +15,7 @@
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <simple-cache.version>1.0.0</simple-cache.version>
         <swagger.core.version>1.5.2</swagger.core.version>
-        <xxl-job.version>2.2.0-SNAPSHOT</xxl-job.version>
+        <xxl-job.version>2.2.0</xxl-job.version>
         <spring-boot-admin.version>2.2.2</spring-boot-admin.version>
         <oss.aliyun.version>3.8.0</oss.aliyun.version>
     </properties>
