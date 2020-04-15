@@ -63,7 +63,7 @@ public class SysUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return sysUser.getDelFlag() == 0;
+        return sysUser.getDeleted() == 0;
     }
 
     @Override

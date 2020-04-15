@@ -100,7 +100,7 @@ public class SysPermission extends Model<SysPermission> {
 	 */
 	@TableLogic
 	@ApiModelProperty(value="逻辑删除标记(0--正常 1--删除)")
-	private Integer delFlag;
+	private Integer deleted;
 	/**
 	 * 创建时间
 	 */

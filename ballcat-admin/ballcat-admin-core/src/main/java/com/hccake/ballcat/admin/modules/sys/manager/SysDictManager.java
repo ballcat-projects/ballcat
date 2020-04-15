@@ -53,7 +53,7 @@ public class SysDictManager {
      */
     public boolean dictSave(SysDict sysDict) {
         sysDict.setHashCode(IdUtil.fastSimpleUUID());
-        sysDict.setDelFlag(BooleanEm.FALSE.getValue());
+        sysDict.setDeleted(BooleanEm.FALSE.getValue());
         return sysDictService.save(sysDict);
     }
 
@@ -122,7 +122,7 @@ public class SysDictManager {
         if (!sysDictService.updateHashCode(sysDictItem.getDictCode())) {
             return false;
         }
-        sysDictItem.setDelFlag(BooleanEm.FALSE.getValue());
+        sysDictItem.setDeleted(BooleanEm.FALSE.getValue());
         return sysDictItemService.save(sysDictItem);
     }
 

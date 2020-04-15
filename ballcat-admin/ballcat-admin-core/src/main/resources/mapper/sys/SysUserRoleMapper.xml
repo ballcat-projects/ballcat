@@ -19,7 +19,7 @@
 			sys_role r
 		on r.id = ur.role_id
         WHERE ur.user_id = #{userId}
-        and r.del_flag = 0
+        and r.deleted = 0
     </select>
 
 
