@@ -23,7 +23,7 @@ import org.springframework.web.filter.CorsFilter;
 @ConditionalOnProperty(name = "swagger.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerProviderAutoConfiguration {
 
-    @Value("${swagger.aggregator.origin:http://localhost:8080}")
+    @Value("${swagger.aggregator.origin:*}")
     private String aggregatorOrigin;
 
     /**
@@ -40,7 +40,7 @@ public class SwaggerProviderAutoConfiguration {
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addAllowedOrigin(aggregatorOrigin);
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/v2/api-docs**", config);
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
         bean.setOrder(0);
         return bean;
