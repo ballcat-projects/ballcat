@@ -2,25 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${package}.${moduleName}.mapper.${className}Mapper">
 
-  <sql id="Base_Column_List" >
-    #foreach($column in $columns)
-        ${column.columnName}#if( $foreach.hasNext ),#end
-    #end
-  </sql>
-
-  <sql id="Base_Alias_Column_List" >
-    #foreach($column in $columns)
-      ${tableAlias}.${column.columnName}#if( $foreach.hasNext ),#end
-    #end
-  </sql>
-
   <resultMap id="${classname}Map" type="${package}.${moduleName}.model.entity.${className}">
     #foreach($column in $columns)
       #if($column.lowerAttrName==$pk.lowerAttrName)
-        <id property="${pk.lowerAttrName}" column="${pk.columnName}"/>
+          <id property="${pk.lowerAttrName}" column="${pk.columnName}"/>
       #else
-        <result property="${column.lowerAttrName}" column="${column.columnName}"/>
+          <result property="${column.lowerAttrName}" column="${column.columnName}"/>
       #end
     #end
   </resultMap>
+
+  <sql id="Base_Column_List" >
+    #foreach($column in $columns)${column.columnName}#if($foreach.hasNext), #end#end
+
+  </sql>
+
+  <sql id="Base_Alias_Column_List">
+    #foreach($column in $columns)\${tableAlias}.${column.columnName}#if( $foreach.hasNext ), #end#end
+
+  </sql>
+
+  <select id="selectPageVo" resultType="${package}.${moduleName}.model.vo.${className}VO">
+    SELECT
+        <include refid="Base_Alias_Column_List"><property name="alias" value="${tableAlias}"/></include>
+    FROM
+        ${tableName} ${tableAlias}
+    ${ew.customSqlSegment}
+  </select>
+
+
 </mapper>
