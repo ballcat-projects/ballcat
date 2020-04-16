@@ -55,7 +55,7 @@ public class GlobalExceptionHandlerResolver {
 	public R handleBallCatException(BusinessException e) {
 		log.error("自定义异常信息 ex={}", e.getMessage(), e);
 		errorLogHandlerService.handle(e);
-		return R.failed(SystemResultCode.SERVER_ERROR, e.getLocalizedMessage());
+		return R.failed(e.getCode(), e.getMsg());
 	}
 
 
