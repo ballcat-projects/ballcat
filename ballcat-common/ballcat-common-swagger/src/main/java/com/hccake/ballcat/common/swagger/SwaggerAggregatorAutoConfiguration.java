@@ -1,10 +1,8 @@
 package com.hccake.ballcat.common.swagger;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.util.CollectionUtils;
@@ -20,8 +18,6 @@ import java.util.List;
  * @version 1.0
  * @date 2019/11/1 20:03
  */
-@Configuration
-@EnableAutoConfiguration
 @Import(SwaggerConfiguration.class)
 @ConditionalOnProperty(name = "swagger.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerAggregatorAutoConfiguration {

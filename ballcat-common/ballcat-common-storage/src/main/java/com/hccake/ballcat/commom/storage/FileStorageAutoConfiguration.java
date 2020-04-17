@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
  * @author Hccake
  */
 @AllArgsConstructor
-@EnableConfigurationProperties({FileStorageProperties.class})
+@EnableConfigurationProperties(FileStorageProperties.class)
 public class FileStorageAutoConfiguration {
 	private final FileStorageProperties properties;
 
