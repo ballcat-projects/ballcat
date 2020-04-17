@@ -11,7 +11,7 @@ public class XxlExecutorProperties {
 	/**
 	 * 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
 	 */
-	private String appName = "xxl-job-executor";
+	private String appname = "xxl-job-executor";
 
 	/**
 	 * 执行器IP [选填]：默认为空表示自动获取IP，多网卡时可手动设置指定IP
