@@ -3,10 +3,8 @@ package com.hccake.ballcat.common.job;
 import com.hccake.ballcat.common.job.properties.XxlJobProperties;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 /**
  * @author lengleng
@@ -15,9 +13,7 @@ import org.springframework.context.annotation.Import;
  * xxl 初始化
  */
 @Slf4j
-@Configuration
-@EnableAutoConfiguration
-@Import(XxlJobProperties.class)
+@EnableConfigurationProperties(XxlJobProperties.class)
 public class XxlJobAutoConfiguration {
 
 	@Bean
