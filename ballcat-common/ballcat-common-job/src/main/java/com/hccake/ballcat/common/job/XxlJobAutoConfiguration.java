@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.job;
 
+import com.hccake.ballcat.common.job.properties.XxlExecutorProperties;
 import com.hccake.ballcat.common.job.properties.XxlJobProperties;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +22,14 @@ public class XxlJobAutoConfiguration {
 		log.info(">>>>>>>>>>> xxl-job config init.");
 		XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
 		xxlJobSpringExecutor.setAdminAddresses(xxlJobProperties.getAdmin().getAddresses());
-		xxlJobSpringExecutor.setAppname(xxlJobProperties.getExecutor().getAppname());
-		xxlJobSpringExecutor.setIp(xxlJobProperties.getExecutor().getIp());
-		xxlJobSpringExecutor.setPort(xxlJobProperties.getExecutor().getPort());
-		xxlJobSpringExecutor.setAccessToken(xxlJobProperties.getExecutor().getAccessToken());
-		xxlJobSpringExecutor.setLogPath(xxlJobProperties.getExecutor().getLogPath());
-		xxlJobSpringExecutor.setLogRetentionDays(xxlJobProperties.getExecutor().getLogRetentionDays());
+		XxlExecutorProperties executorProperties = xxlJobProperties.getExecutor();
+		xxlJobSpringExecutor.setAppname(executorProperties.getAppname());
+		xxlJobSpringExecutor.setIp(executorProperties.getIp());
+		xxlJobSpringExecutor.setPort(executorProperties.getPort());
+		xxlJobSpringExecutor.setAccessToken(executorProperties.getAccessToken());
+		xxlJobSpringExecutor.setLogPath(executorProperties.getLogPath());
+		xxlJobSpringExecutor.setLogRetentionDays(executorProperties.getLogRetentionDays());
+		xxlJobSpringExecutor.setAddress(executorProperties.getAddress());
 		return xxlJobSpringExecutor;
 	}
 }
