@@ -3,7 +3,6 @@ package com.hccake.ballcat.common.conf.mybatis;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
  * @version 1.0
  * @date 2019/7/26 14:41
  */
-@Component
 @Slf4j
 public class FillMetaObjectHandle implements MetaObjectHandler {
 

@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.conf.redis;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -14,6 +15,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * 使用自定义redisKey前缀，防止Key冲突
  */
 @Configuration
+@ConditionalOnProperty("redis.global-key-prefix")
 public class RedisConfig {
 
     /**
