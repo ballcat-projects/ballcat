@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements ${className}Service {
+    private final static String TABLE_ALIAS_PREFIX = "${tableAlias}.";
 
     /**
     *  根据QueryObeject查询分页数据
@@ -30,7 +31,7 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
     @Override
     public IPage<${className}VO> selectPageVo(IPage<?> page, ${className}QO qo) {
         QueryWrapper<${className}> wrapper = Wrappers.<${className}>query()
-                .eq(ObjectUtil.isNotNull(qo.get${pk.caseAttrName}()), "${tableAlias}.{pk.caseAttrName}", qo.get${pk.caseAttrName}());
+                .eq(ObjectUtil.isNotNull(qo.get${pk.caseAttrName}()), TABLE_ALIAS_PREFIX + "${pk.caseAttrName}", qo.get${pk.caseAttrName}());
         return baseMapper.selectPageVo(page, wrapper);
     }
 

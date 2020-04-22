@@ -18,13 +18,13 @@
   </sql>
 
   <sql id="Base_Alias_Column_List">
-    #foreach($column in $columns)\${tableAlias}.${column.columnName}#if( $foreach.hasNext ), #end#end
+    #foreach($column in $columns)${tableAlias}.${column.columnName}#if( $foreach.hasNext ), #end#end
 
   </sql>
 
   <select id="selectPageVo" resultType="${package}.${moduleName}.model.vo.${className}VO">
     SELECT
-        <include refid="Base_Alias_Column_List"><property name="alias" value="${tableAlias}"/></include>
+        <include refid="Base_Alias_Column_List"/>
     FROM
         ${tableName} ${tableAlias}
     ${ew.customSqlSegment}
