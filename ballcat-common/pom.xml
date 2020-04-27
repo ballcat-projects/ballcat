@@ -22,6 +22,7 @@
         <module>ballcat-common-swagger</module>
         <module>ballcat-common-storage</module>
         <module>ballcat-common-mail</module>
+        <module>ballcat-common-excel</module>
     </modules>
 
 
