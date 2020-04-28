@@ -67,7 +67,19 @@ public class SysUserController {
     @GetMapping("/select")
     @PreAuthorize("@per.hasPermission('sys:sysuser:read')")
     public R<List<SelectData>> getSelectData() {
-        return R.ok(sysUserService.getSelectData());
+        return R.ok(sysUserService.getSelectData(null));
+    }
+
+
+    /**
+     * 获取用户Select
+     *
+     * @return 用户SelectData
+     */
+    @GetMapping("/select/{userType}")
+    @PreAuthorize("@per.hasPermission('sys:sysuser:read')")
+    public R<List<SelectData>> getSysSelectData(@PathVariable Integer userType) {
+        return R.ok(sysUserService.getSelectData(userType));
     }
 
     /**

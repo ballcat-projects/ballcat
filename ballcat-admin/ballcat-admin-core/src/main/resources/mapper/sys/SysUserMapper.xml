@@ -32,11 +32,14 @@
 
     <select id="getSelectData" resultType="com.hccake.ballcat.common.core.vo.SelectData">
 		select
-			username as name , user_id as value
+		username as name , user_id as value
 		from
-			sys_user
+		sys_user
 		where
-			deleted = 0
+		deleted = 0
+		<if test="type != null and type != ''">
+			and type = #{type}
+		</if>
 	</select>
 
 
