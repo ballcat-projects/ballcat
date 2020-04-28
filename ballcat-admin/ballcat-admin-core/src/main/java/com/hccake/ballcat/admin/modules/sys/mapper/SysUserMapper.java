@@ -3,6 +3,7 @@ package com.hccake.ballcat.admin.modules.sys.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.common.core.vo.SelectData;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,5 +27,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      *
      * @return List<SelectData>
      */
-    List<SelectData> getSelectData();
+    List<SelectData> getSelectData(@Param("type") Integer type);
+
+
 }
