@@ -46,10 +46,10 @@ public class BaseConfig extends Model<BaseConfig> {
     @ApiModelProperty(value="配置值")
     private String confValue;
     /**
-     * 组
+     * 分类
      */
-    @ApiModelProperty(value="组")
-    private String groups;
+    @ApiModelProperty(value="分类")
+    private String category;
     /**
      * 描述
      */
