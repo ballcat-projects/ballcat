@@ -36,7 +36,7 @@
 		from
 			sys_user
 		where
-			deleted = 0
+			deleted = 0 and type = 1
 	</select>
 
 
