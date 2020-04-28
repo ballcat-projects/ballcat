@@ -2,10 +2,10 @@ server:
   port: 7777
 
 spring:
-  datasource:
-    url: jdbc:mysql://ballcat-mysql:3306/ballcat?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: '123456'
+  application:
+    name: @artifactId@
+  profiles:
+    active: @profiles.active@  # 当前激活配置，默认dev
   resources:
     static-locations: classpath:/static/
 
@@ -17,7 +17,3 @@ mybatis-plus:
       id-type: auto
       insert-strategy: not_empty
       update-strategy: not_empty
-
-logging:
-  level:
-    root: debug
