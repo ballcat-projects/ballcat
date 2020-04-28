@@ -68,7 +68,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .like(ObjectUtil.isNotNull(qo.getPhone()), SysUser::getPhone, qo.getPhone())
                 .like(ObjectUtil.isNotNull(qo.getNickname()), SysUser::getNickname, qo.getNickname())
                 .eq(ObjectUtil.isNotNull(qo.getStatus()), SysUser::getStatus, qo.getStatus())
-                .eq(ObjectUtil.isNotNull(qo.getSex()), SysUser::getSex, qo.getSex());
+                .eq(ObjectUtil.isNotNull(qo.getSex()), SysUser::getSex, qo.getSex())
+                .eq(ObjectUtil.isNotNull(qo.getType()), SysUser::getType, qo.getType());
 
         return baseMapper.selectPage(page, wrapper);
     }
@@ -254,8 +255,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return List<SelectData>
      */
     @Override
-    public List<SelectData> getSelectData() {
-        return baseMapper.getSelectData();
+    public List<SelectData> getSelectData(Integer type) {
+
+        return baseMapper.getSelectData(type);
     }
 
 
