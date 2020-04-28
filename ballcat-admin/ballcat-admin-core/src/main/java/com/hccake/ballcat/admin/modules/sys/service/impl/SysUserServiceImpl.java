@@ -68,7 +68,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .like(ObjectUtil.isNotNull(qo.getPhone()), SysUser::getPhone, qo.getPhone())
                 .like(ObjectUtil.isNotNull(qo.getNickname()), SysUser::getNickname, qo.getNickname())
                 .eq(ObjectUtil.isNotNull(qo.getStatus()), SysUser::getStatus, qo.getStatus())
-                .eq(ObjectUtil.isNotNull(qo.getSex()), SysUser::getSex, qo.getSex());
+                .eq(ObjectUtil.isNotNull(qo.getSex()), SysUser::getSex, qo.getSex())
+                .eq(SysUser::getType, SysUserConst.Type.SYSTEM.getValue());
 
         return baseMapper.selectPage(page, wrapper);
     }
