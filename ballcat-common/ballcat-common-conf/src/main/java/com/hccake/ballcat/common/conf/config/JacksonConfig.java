@@ -5,6 +5,7 @@ import com.hccake.ballcat.common.core.jackson.ArraySerializerModifier;
 import com.hccake.ballcat.common.core.jackson.JavaTimeModule;
 import com.hccake.ballcat.common.core.jackson.NullSerializer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -24,6 +25,7 @@ public class JacksonConfig {
      */
     @Bean
     @Primary
+    @ConditionalOnMissingBean(ObjectMapper.class)
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
 
