@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
  * 默认配置MybatisPlus分页插件，通过conditional注解达到覆盖效用
  */
 @Configuration
-@ConditionalOnMissingBean(PaginationInterceptor.class)
 public class MybatisPlusConfig {
 
 	/**
@@ -19,6 +18,7 @@ public class MybatisPlusConfig {
 	 * @return PaginationInterceptor
 	 */
 	@Bean
+	@ConditionalOnMissingBean(PaginationInterceptor.class)
 	public PaginationInterceptor paginationInterceptor() {
 		return new PaginationInterceptor();
 	}
@@ -28,6 +28,7 @@ public class MybatisPlusConfig {
 	 * @return FillMetaObjectHandle
 	 */
 	@Bean
+	@ConditionalOnMissingBean(FillMetaObjectHandle.class)
 	public FillMetaObjectHandle fillMetaObjectHandle() {
 		return new FillMetaObjectHandle();
 	}
