@@ -1,5 +1,7 @@
 package com.hccake.ballcat.common.swagger;
 
+import com.hccake.ballcat.common.swagger.property.SwaggerAggregatorProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -24,8 +26,8 @@ public class SwaggerAggregatorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SwaggerProviderProperties swaggerProviderProperties() {
-        return new SwaggerProviderProperties();
+    public SwaggerAggregatorProperties swaggerAggregatorProperties() {
+        return new SwaggerAggregatorProperties();
     }
 
     /**
@@ -36,15 +38,16 @@ public class SwaggerAggregatorAutoConfiguration {
      */
     @Primary
     @Bean
+    @ConditionalOnBean(SwaggerAggregatorProperties.class)
     public SwaggerResourcesProvider swaggerResourcesProvider(
             InMemorySwaggerResourcesProvider defaultResourcesProvider,
-            SwaggerProviderProperties swaggerProviderProperties) {
+            SwaggerAggregatorProperties swaggerAggregatorProperties) {
 
         return () -> {
             // 聚合者自己的 Resources
             List<SwaggerResource> resources = new ArrayList<>(defaultResourcesProvider.get());
             // 提供者的 Resources
-            List<SwaggerResource> providerResources = swaggerProviderProperties.getResources();
+            List<SwaggerResource> providerResources = swaggerAggregatorProperties.getProviderResources();
             if (!CollectionUtils.isEmpty(providerResources)){
                 resources.addAll(providerResources);
             }

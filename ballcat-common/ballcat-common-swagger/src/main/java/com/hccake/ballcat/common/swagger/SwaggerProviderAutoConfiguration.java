@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.swagger;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.hccake.ballcat.common.swagger.property.SwaggerProviderProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -19,8 +20,11 @@ import org.springframework.web.filter.CorsFilter;
 @ConditionalOnProperty(name = "swagger.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerProviderAutoConfiguration {
 
-    @Value("${swagger.aggregator.origin:*}")
-    private String aggregatorOrigin;
+    @Bean
+    @ConditionalOnMissingBean
+    public SwaggerProviderProperties swaggerProviderProperties() {
+        return new SwaggerProviderProperties();
+    }
 
     /**
      *  允许swagger文档跨域访问
@@ -28,14 +32,14 @@ public class SwaggerProviderAutoConfiguration {
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean
-    public FilterRegistrationBean corsFilter() {
+    @ConditionalOnBean(SwaggerProviderProperties.class)
+    public FilterRegistrationBean corsFilter(SwaggerProviderProperties swaggerProviderProperties) {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addAllowedOrigin(aggregatorOrigin);
+        config.addAllowedOrigin(swaggerProviderProperties.getAggregatorOrigin());
         source.registerCorsConfiguration("/v2/api-docs**", config);
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
         bean.setOrder(0);
