@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.swagger;
+package com.hccake.ballcat.common.swagger.constant;
 
 import java.util.Arrays;
 import java.util.List;

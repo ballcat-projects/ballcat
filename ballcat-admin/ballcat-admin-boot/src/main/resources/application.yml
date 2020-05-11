@@ -88,6 +88,6 @@ swagger:
         description: server all
     token-url-list:
       - http://ballcat-admin:8080/oauth/token
-  provider:
-    resources:
+  aggregator:
+    provider-resources:
       - {name: ballcat-api,  url: http://ballcat-api:9090/v2/api-docs, swagger-version: 2.0}

@@ -61,5 +61,5 @@ swagger:
     name: Hccake
     email: chengbohua@foxmail.com
     url: https://github.com/Hccake
-  aggregator:
-    origin: http://ballcat-admin:8080
+  provider:
+    aggregator-origin: http://ballcat-admin:8080

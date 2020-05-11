@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.swagger;
 
+import com.hccake.ballcat.common.swagger.property.SwaggerProperties;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -27,7 +27,6 @@ import java.util.List;
 public class SwaggerConfiguration {
 
     @Bean
-    @ConfigurationProperties("swagger")
     public SwaggerProperties swaggerProperties() {
         return new SwaggerProperties();
     }
