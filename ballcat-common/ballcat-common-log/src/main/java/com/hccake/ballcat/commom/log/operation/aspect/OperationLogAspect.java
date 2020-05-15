@@ -4,12 +4,11 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
+import com.hccake.ballcat.commom.log.operation.enums.LogStatus;
 import com.hccake.ballcat.commom.log.operation.event.OperationLogEvent;
 import com.hccake.ballcat.commom.log.operation.model.OperationLogDTO;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.core.util.IPUtil;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -71,26 +70,6 @@ public class OperationLogAspect {
 
         return result;
     }
-
-
-    /**
-     * 操作状态
-     */
-    @Getter
-    @AllArgsConstructor
-    enum LogStatus {
-        /**
-         * 成功
-         */
-        SUCCESS(1),
-        /**
-         * 失败
-         */
-        FAIL(0);
-
-        private int value;
-    }
-
 
 
     /**

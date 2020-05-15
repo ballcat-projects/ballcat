@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.constant.enums;
+package com.hccake.ballcat.commom.log.operation.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,20 +6,20 @@ import lombok.Getter;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2020/4/6 21:52
+ * @date 2020/5/15 16:47
+ * 操作状态枚举
  */
 @Getter
 @AllArgsConstructor
-public enum BooleanEm {
-
+public enum LogStatus {
     /**
-     * 是
+     * 成功
      */
-    TRUE(1),
+    SUCCESS(1),
     /**
-     * 否
+     * 失败
      */
-    FALSE(0);
+    FAIL(0);
 
     private final int value;
 }
