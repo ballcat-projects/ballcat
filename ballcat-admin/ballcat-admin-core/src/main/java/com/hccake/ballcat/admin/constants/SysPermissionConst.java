@@ -28,7 +28,7 @@ public final class SysPermissionConst {
          */
         BUTTON(2);
 
-        private int value;
+        private final int value;
     }
 
 }

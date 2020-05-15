@@ -36,6 +36,6 @@ public enum BaseResultCode implements ResultCode {
      */
     UNKNOWN_ERROR(99999, "Unknown Error");
 
-    private Integer code;
-    private String message;
+    private final Integer code;
+    private final String message;
 }

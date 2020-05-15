@@ -10,11 +10,12 @@ import lombok.Getter;
  */
 public final class SysUserConst {
 
-    private SysUserConst() {}
+    private SysUserConst() {
+    }
 
     @Getter
     @AllArgsConstructor
-    public enum  Status {
+    public enum Status {
         /**
          * 正常
          */
@@ -24,7 +25,7 @@ public final class SysUserConst {
          */
         LOCKED(0);
 
-        private Integer value;
+        private final Integer value;
     }
 
     /**
@@ -43,7 +44,7 @@ public final class SysUserConst {
          */
         CUSTOMER(2);
 
-        private Integer value;
+        private final Integer value;
     }
 
 }
