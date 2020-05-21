@@ -13,7 +13,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class FileStorageProperties {
 
 	/**
-	 * endpoint 服务地址 http://oss-cn-qingdao.aliyuncs.com
+	 * 使用的文件存储服务类型
+	 */
+	private FileStorageTypeEnum type;
+	/**
+	 * endpoint 服务地址 eg. http://oss-cn-qingdao.aliyuncs.com
 	 */
 	private String endpoint;
 	/**

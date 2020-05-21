@@ -50,6 +50,16 @@ public class AliyunOssClient implements FileStorageClient, InitializingBean, Dis
 		}
 	}
 
+	/**
+	 * 复制文件
+	 * @param sourceObjectName 原对象名
+	 * @param targetObjectName 目标对象名
+	 */
+	@Override
+	public void copyObject(String sourceObjectName, String targetObjectName){
+		client.copyObject(bucketName, sourceObjectName, bucketName, targetObjectName);
+	}
+
 
 	@Override
 	public void afterPropertiesSet() {
