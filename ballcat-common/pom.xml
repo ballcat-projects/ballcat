@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>ballcat-common-bom</module>
         <module>ballcat-common-core</module>
         <module>ballcat-common-modules</module>
         <module>ballcat-common-log</module>
