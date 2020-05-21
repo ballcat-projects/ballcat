@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.hccake</groupId>
         <artifactId>ballcat</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>ballcat-api</artifactId>
 

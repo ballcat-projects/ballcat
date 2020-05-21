@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.hccake</groupId>
     <artifactId>ballcat-common-bom</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <properties>
-        <ballcat.version>0.0.1-SNAPSHOT</ballcat.version>
+        <revision>0.0.1-SNAPSHOT</revision>
 
         <hutool.version>5.2.5</hutool.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
@@ -25,52 +25,52 @@
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-admin-core</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-conf</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-core</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-job</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-log</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-modules</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-swagger</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-storage</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-mail</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-excel</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!--缓存注解工具类-->
