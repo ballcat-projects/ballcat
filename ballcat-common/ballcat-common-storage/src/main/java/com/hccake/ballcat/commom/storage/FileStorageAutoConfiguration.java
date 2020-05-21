@@ -19,7 +19,7 @@ public class FileStorageAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(FileStorageClient.class)
-	@ConditionalOnProperty(name = "file.storage.type", havingValue = "aliyun")
+	@ConditionalOnProperty(name = "file.storage.type", havingValue = "ALIYUN")
 	FileStorageClient aliyunOssClient() {
 		return new AliyunOssClient(
 				properties.getEndpoint(),

@@ -24,4 +24,10 @@ public interface FileStorageClient {
      */
     void deleteObject(String objectName);
 
+    /**
+     * 复制文件
+     * @param sourceObjectName 原对象名
+     * @param targetObjectName 目标对象名
+     */
+    void copyObject(String sourceObjectName, String targetObjectName);
 }
