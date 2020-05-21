@@ -5,7 +5,7 @@
     <groupId>com.hccake</groupId>
     <artifactId>ballcat</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <modules>
         <module>ballcat-admin</module>
         <module>ballcat-api</module>
@@ -17,7 +17,7 @@
     <description>项目基本脚手架</description>
 
     <properties>
-        <ballcat.version>0.0.1-SNAPSHOT</ballcat.version>
+        <revision>0.0.1-SNAPSHOT</revision>
 
         <java.version>1.8</java.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -67,7 +67,7 @@
             <dependency>
                 <groupId>com.hccake</groupId>
                 <artifactId>ballcat-common-bom</artifactId>
-                <version>${ballcat.version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -78,14 +78,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>io.spring.platform</groupId>
-                <artifactId>platform-bom</artifactId>
-                <version>${spring-platform.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- spring-security oauth -->
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
