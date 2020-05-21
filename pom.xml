@@ -12,6 +12,7 @@
         <module>ballcat-common</module>
         <module>ballcat-codegen</module>
         <module>ballcat-monitor</module>
+        <module>ballcat-dependencies</module>
     </modules>
     <name>ballcat</name>
     <description>项目基本脚手架</description>
@@ -66,7 +67,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-bom</artifactId>
+                <artifactId>ballcat-dependencies</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
