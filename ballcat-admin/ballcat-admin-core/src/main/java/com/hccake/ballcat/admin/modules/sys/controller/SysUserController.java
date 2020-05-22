@@ -93,6 +93,11 @@ public class SysUserController {
     @OperationLogging("新增系统用户")
     @PreAuthorize("@per.hasPermission('sys:sysuser:add')")
     public R addSysUser(@Valid @RequestBody SysUserDTO sysUserDto) {
+
+        SysUser user = sysUserService.getByUsername(sysUserDto.getUsername());
+        if (user != null) {
+            return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "用户名已存在");
+        }
         return sysUserService.addSysUser(sysUserDto) ?
                 R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增系统用户失败");
     }
