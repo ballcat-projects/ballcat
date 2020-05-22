@@ -34,3 +34,4 @@ build/
 /**/application-preview.yml
 /aty/
 /ballcat-job/logs/ballcat-job/
+.flattened-pom.xml
