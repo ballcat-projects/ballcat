@@ -1,4 +1,4 @@
-package com.hccake.ballcat.commom.log.error.service;
+package com.hccake.ballcat.common.conf.exception.handler;
 
 /**
  * @author Hccake
@@ -6,12 +6,12 @@ package com.hccake.ballcat.commom.log.error.service;
  * @date 2019/10/18 17:05
  * 异常日志处理类
  */
-public interface ErrorLogHandlerService {
+public interface GlobalExceptionHandler {
 
     /**
      * 在此处理错误信息
      * 进行落库，入ES， 发送报警通知等信息
-     * @param throwable
+     * @param throwable 异常
      */
     void handle(Throwable throwable);
 

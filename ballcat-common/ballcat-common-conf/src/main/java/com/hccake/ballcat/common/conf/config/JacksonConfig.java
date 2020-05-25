@@ -21,7 +21,7 @@ public class JacksonConfig {
 
     /**
      * 自定义objectMapper
-     * @return
+     * @return ObjectMapper
      */
     @Bean
     @Primary

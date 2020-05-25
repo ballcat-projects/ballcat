@@ -1,7 +1,7 @@
 package com.hccake.ballcat.commom.log.access;
 
 import com.hccake.ballcat.commom.log.access.filter.AccessLogFilter;
-import com.hccake.ballcat.commom.log.access.service.AccessLogHandlerService;
+import com.hccake.ballcat.commom.log.access.handler.AccessLogHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -20,10 +20,10 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnWebApplication
 @RequiredArgsConstructor
 public class AccessLogAutoConfiguration {
-    private final AccessLogHandlerService accessLogService;
+    private final AccessLogHandler accessLogService;
 
     @Bean
-    @ConditionalOnClass(AccessLogHandlerService.class)
+    @ConditionalOnClass(AccessLogHandler.class)
     public FilterRegistrationBean<AccessLogFilter> accessLogFilterRegistrationBean(){
         log.debug("access log 记录拦截器已开启====");
         FilterRegistrationBean<AccessLogFilter> registrationBean =
