@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Hccake
@@ -16,11 +15,10 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019/10/15 18:20
  */
 @Slf4j
-@Configuration
 @ConditionalOnWebApplication
 @RequiredArgsConstructor
 public class AccessLogAutoConfiguration {
-    private final AccessLogHandler accessLogService;
+    private final AccessLogHandler<?> accessLogService;
 
     @Bean
     @ConditionalOnClass(AccessLogHandler.class)

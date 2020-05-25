@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 @AllArgsConstructor
 public class AccessLogFilter extends OncePerRequestFilter {
-    private final AccessLogHandler accessLogService;
+    private final AccessLogHandler<?> accessLogService;
 
     /**
      * Same contract as for {@code doFilter}, but guaranteed to be
@@ -29,9 +29,9 @@ public class AccessLogFilter extends OncePerRequestFilter {
      * <p>Provides HttpServletRequest and HttpServletResponse arguments instead of the
      * default ServletRequest and ServletResponse ones.
      *
-     * @param request
-     * @param response
-     * @param filterChain
+     * @param request 请求信息
+     * @param response 请求体
+     * @param filterChain 过滤器链
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
