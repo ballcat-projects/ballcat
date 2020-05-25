@@ -19,25 +19,25 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public abstract class AbstractQueueThread<T> extends Thread implements InitializingBean {
     private final BlockingQueue<T> queue = new LinkedBlockingQueue<T>();
-    private final long defaultBatchSize = 100;
-    private final long defaultBatchTimeout = 30000;
+    private final static long DEFAULT_BATCH_SIZE = 100;
+    private final static long DEFAULT_BATCH_TIMEOUT = 30000;
 
     public void putObject(T t) {
         try {
             if (t != null) {
                 queue.put(t);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("{} putObject error, param: {}", this.getClass().toString(), t, e);
         }
     }
 
     public long getBatchSize() {
-        return defaultBatchSize;
+        return DEFAULT_BATCH_SIZE;
     }
 
     public long getBatchTimeout() {
-        return defaultBatchTimeout;
+        return DEFAULT_BATCH_TIMEOUT;
     }
 
     @Override
