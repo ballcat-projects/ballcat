@@ -8,12 +8,11 @@ import com.hccake.ballcat.commom.log.operation.model.OperationLogDTO;
  * @version 1.0
  * @date 2019/10/15 19:57
  */
-public interface OperationLogSaveService {
+public interface OperationLogHandler {
 
     /**
      * 保存操作日志
-     * @param operationLogDTO
-     * @return true/false
+     * @param operationLogDTO 操作日志传输对象
      */
-    boolean saveLog(OperationLogDTO operationLogDTO);
+    void saveLog(OperationLogDTO operationLogDTO);
 }
