@@ -8,7 +8,6 @@ import com.hccake.simpleredis.EnableSimpleCache;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
  * @author Hccake
@@ -18,9 +17,8 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @EnableSwagger2Aggregator
 @EnableAccessLog
 @EnableOperationLog
-@ServletComponentScan("com.hccake.ballcat.admin.oauth.filter")
-@SpringBootApplication(scanBasePackages = {"com.hccake.ballcat.admin", "com.your.packages.admin"})
-@MapperScan(basePackages = {"com.hccake.ballcat.**.mapper", "com.your.packages.**.mapper"})
+@MapperScan("com.your.packages.**.mapper")
+@SpringBootApplication
 public class AdminApplication {
 
     public static void main(String[] args) {
