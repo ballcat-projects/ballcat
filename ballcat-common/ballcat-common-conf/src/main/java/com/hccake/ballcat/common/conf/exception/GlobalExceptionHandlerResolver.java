@@ -1,6 +1,6 @@
-package com.hccake.ballcat.common.conf.web;
+package com.hccake.ballcat.common.conf.exception;
 
-import com.hccake.ballcat.commom.log.error.service.ErrorLogHandlerService;
+import com.hccake.ballcat.common.conf.exception.handler.GlobalExceptionHandler;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
@@ -27,7 +27,7 @@ import java.util.List;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandlerResolver {
-	private final ErrorLogHandlerService errorLogHandlerService;
+	private final GlobalExceptionHandler globalExceptionHandler;
 
 	/**
 	 * 全局异常捕获
@@ -38,7 +38,7 @@ public class GlobalExceptionHandlerResolver {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public R handleGlobalException(Exception e) {
 		log.error("全局异常信息 ex={}", e.getMessage(), e);
-		errorLogHandlerService.handle(e);
+		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.SERVER_ERROR, e.getLocalizedMessage());
 	}
 
@@ -54,7 +54,7 @@ public class GlobalExceptionHandlerResolver {
 	@ResponseStatus(HttpStatus.OK)
 	public R handleBallCatException(BusinessException e) {
 		log.error("自定义异常信息 ex={}", e.getMessage(), e);
-		errorLogHandlerService.handle(e);
+		globalExceptionHandler.handle(e);
 		return R.failed(e.getCode(), e.getMsg());
 	}
 
@@ -72,7 +72,7 @@ public class GlobalExceptionHandlerResolver {
 				.getMessage("AbstractAccessDecisionManager.accessDenied"
 						, e.getMessage());
 		log.error("拒绝授权异常信息 ex={}", msg, e);
-		errorLogHandlerService.handle(e);
+		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
 	}
 
@@ -97,7 +97,7 @@ public class GlobalExceptionHandlerResolver {
 		String errorMsg = fieldErrors.get(0).getDefaultMessage();
 
 		log.error("参数绑定异常,ex = {}", errorMsg);
-		errorLogHandlerService.handle(exception);
+		globalExceptionHandler.handle(exception);
 		return R.failed(SystemResultCode.BAD_REQUEST, errorMsg);
 	}
 
@@ -112,7 +112,7 @@ public class GlobalExceptionHandlerResolver {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R handleValidationException(Exception e) {
 		log.error("参数绑定异常 ex={}", e.getMessage(), e);
-		errorLogHandlerService.handle(e);
+		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
 	}
 

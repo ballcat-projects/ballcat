@@ -1,6 +1,6 @@
-package com.hccake.ballcat.admin.modules.log.service.impl;
+package com.hccake.ballcat.admin.modules.log.handler;
 
-import com.hccake.ballcat.commom.log.error.service.ErrorLogHandlerService;
+import com.hccake.ballcat.common.conf.exception.handler.GlobalExceptionHandler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/10/18 17:41
  */
 @Component
-public class AdminErrorLogHandlerServiceImpl implements ErrorLogHandlerService {
+public class AdminExceptionHandler implements GlobalExceptionHandler {
     /**
      * 在此处理错误信息
      * 进行落库，入ES， 发送报警通知等信息

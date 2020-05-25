@@ -1,10 +1,12 @@
-package com.hccake.ballcat.api.modules.log.service;
+package com.hccake.ballcat.admin.modules.log.handler;
 
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
-import com.hccake.ballcat.common.modules.log.model.entity.ApiAccessLog;
-import com.hccake.ballcat.api.modules.log.thread.ApiAccessLogSaveThread;
-import com.hccake.ballcat.commom.log.access.service.AccessLogHandlerService;
+import com.hccake.ballcat.admin.modules.log.model.entity.AdminAccessLog;
+import com.hccake.ballcat.admin.modules.log.thread.AccessLogAdminSaveThread;
+import com.hccake.ballcat.admin.oauth.SysUserDetails;
+import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
+import com.hccake.ballcat.commom.log.access.handler.AccessLogHandler;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.core.util.IPUtil;
 import lombok.RequiredArgsConstructor;
@@ -26,21 +28,22 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ApiAccessLogHandlerServiceImpl implements AccessLogHandlerService<ApiAccessLog> {
-    private final ApiAccessLogSaveThread apiAccessLogSaveThread;
+public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
+    private final AccessLogAdminSaveThread accessLogAdminSaveThread;
 
     /**
      * 生产一个日志
      *
      * @return accessLog
-     * @param request
-     * @param response
-     * @param time
-     * @param myThrowable
+     * @param request 请求信息
+     * @param response 响应信息
+     * @param time 执行时长
+     * @param myThrowable 异常信息
      */
     @Override
-    public ApiAccessLog prodLog(HttpServletRequest request, HttpServletResponse response, Long time, Throwable myThrowable) {
-        ApiAccessLog apiAccessLog = new ApiAccessLog()
+    public AdminAccessLog prodLog(HttpServletRequest request, HttpServletResponse response, Long time, Throwable myThrowable) {
+
+        AdminAccessLog adminAccessLog = new AdminAccessLog()
                 .setCreateTime(LocalDateTime.now())
                 .setTime(time)
                 .setIp(IPUtil.getIpAddr(request))
@@ -54,22 +57,32 @@ public class ApiAccessLogHandlerServiceImpl implements AccessLogHandlerService<A
 
         // 非文件上传请求，记录body
         if (!LogUtils.isMultipartContent(request)){
-            apiAccessLog.setReqBody(LogUtils.getRequestBody(request));
+            adminAccessLog.setReqBody(LogUtils.getRequestBody(request));
         }
 
-        return apiAccessLog;
+        // 如果登陆用户 则记录用户名和用户id
+        Optional.ofNullable(SecurityUtils.getSysUserDetails())
+                .map(SysUserDetails::getSysUser)
+                .ifPresent(x -> {
+                    adminAccessLog.setUserId(x.getUserId());
+                    adminAccessLog.setUsername(x.getUsername());
+                });
+
+        return adminAccessLog;
     }
 
 
     /**
      * 记录日志
      *
-     * @param accessLog
+     * @param accessLog 访问日志
      */
     @Override
-    public void saveLog(ApiAccessLog accessLog) {
-        apiAccessLogSaveThread.putObject(accessLog);
+    public void saveLog(AdminAccessLog accessLog) {
+        accessLogAdminSaveThread.putObject(accessLog);
     }
+
+
 
 
 }

@@ -1,7 +1,7 @@
 package com.hccake.ballcat.commom.log.access.filter;
 
 import cn.hutool.core.util.StrUtil;
-import com.hccake.ballcat.commom.log.access.service.AccessLogHandlerService;
+import com.hccake.ballcat.commom.log.access.handler.AccessLogHandler;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.core.filter.RepeatBodyRequestWrapper;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 @AllArgsConstructor
 public class AccessLogFilter extends OncePerRequestFilter {
-    private final AccessLogHandlerService accessLogService;
+    private final AccessLogHandler accessLogService;
 
     /**
      * Same contract as for {@code doFilter}, but guaranteed to be
