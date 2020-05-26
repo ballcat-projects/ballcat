@@ -49,7 +49,7 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel, list, configProperties.getTemplatePath());
 
 		WriteSheet sheet = StringUtils.hasText(responseExcel.template()) ?
-				EasyExcel.writerSheet(responseExcel.sheet()[0]).build() : EasyExcel.writerSheet().build();
+				EasyExcel.writerSheet().build() : EasyExcel.writerSheet(responseExcel.sheet()[0]).build();
 
 		excelWriter.write(list, sheet);
 		excelWriter.finish();

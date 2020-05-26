@@ -39,11 +39,11 @@ public @interface ResponseExcel {
 	String password() default "";
 
 	/**
-	 * sheel 名称，支持多个
+	 * sheet 名称，支持多个
 	 *
 	 * @return String[]
 	 */
-	String[] sheet() default {};
+	String[] sheet() default {"Sheet1"};
 
 	/**
 	 * 内存操作
