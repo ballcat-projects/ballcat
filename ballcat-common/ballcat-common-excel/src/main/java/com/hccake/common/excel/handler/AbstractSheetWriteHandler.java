@@ -16,7 +16,6 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.Arrays;
@@ -62,11 +61,9 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
 	 * @param list  Excel数据
 	 * @param templatePath 模板地址
 	 * @return  ExcelWriter
-	 * @throws IOException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
 	 */
-	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel, List list, String templatePath) throws IOException, InstantiationException, IllegalAccessException {
+	@SneakyThrows
+	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel, List list, String templatePath) {
 		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream(), list.get(0)
 				.getClass()).autoCloseStream(true).excelType(responseExcel.suffix()).inMemory(responseExcel.inMemory());
 
