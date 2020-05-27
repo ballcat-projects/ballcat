@@ -17,8 +17,8 @@ public interface OperationLogConverter {
 
     /**
      * 转换OperationLog 为 OperationLogAdmin
-     * @param operationLogDTO
-     * @return
+     * @param operationLogDTO 操作日志DTO
+     * @return AdminOperationLog
      */
     AdminOperationLog dtoToPo(OperationLogDTO operationLogDTO);
 

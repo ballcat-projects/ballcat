@@ -63,7 +63,7 @@ public class ${className}Controller {
      * @return R
      */
     @ApiOperation(value = "新增${comments}", notes = "新增${comments}")
-    @OperationLogging("新增${comments}" )
+    @CreateOperationLogging(msg = "新增${comments}" )
     @PostMapping
     @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:add')" )
     public R save(@RequestBody ${className} ${classname}) {
@@ -77,7 +77,7 @@ public class ${className}Controller {
      * @return R
      */
     @ApiOperation(value = "修改${comments}", notes = "修改${comments}")
-    @OperationLogging("修改${comments}" )
+    @UpdateOperationLogging(msg = "修改${comments}" )
     @PutMapping
     @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:edit')" )
     public R updateById(@RequestBody ${className} ${classname}) {
@@ -91,7 +91,7 @@ public class ${className}Controller {
      * @return R
      */
     @ApiOperation(value = "通过id删除${comments}", notes = "通过id删除${comments}")
-    @OperationLogging("通过id删除${comments}" )
+    @DeleteOperationLogging(msg = "通过id删除${comments}" )
     @DeleteMapping("/{${pk.lowerAttrName}}" )
     @PreAuthorize("@per.hasPermission('${moduleName}:${pathName}:del')" )
     public R removeById(@PathVariable ${pk.attrType} ${pk.lowerAttrName}) {

@@ -19,6 +19,16 @@ public class OperationLogDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 跟踪ID
+     */
+    @ApiModelProperty(value = "跟踪ID")
+    private String traceId ;
+    /**
+     * 操作类型
+     */
+    @ApiModelProperty(value = "操作类型")
+    private Integer type ;
+    /**
      * 日志消息
      */
     @ApiModelProperty(value = "日志消息")
@@ -62,7 +72,7 @@ public class OperationLogDTO implements Serializable {
      * 操作人
      */
     @ApiModelProperty(value = "操作人")
-    private String operator ;
+    private String operator;
     /**
      * 创建时间
      */

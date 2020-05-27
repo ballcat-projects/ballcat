@@ -32,6 +32,11 @@ public class AdminAccessLog extends Model<AdminAccessLog> {
     @ApiModelProperty(value = "编号")
     private Long id;
     /**
+     * 追踪ID
+     */
+    @ApiModelProperty(value="追踪ID")
+    private String traceId;
+    /**
      * 用户ID
      */
     @ApiModelProperty(value = "用户ID")

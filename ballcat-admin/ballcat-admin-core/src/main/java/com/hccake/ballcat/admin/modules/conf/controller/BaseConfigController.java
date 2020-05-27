@@ -3,10 +3,12 @@ package com.hccake.ballcat.admin.modules.conf.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
+import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.modules.config.model.entity.BaseConfig;
 import com.hccake.ballcat.common.modules.config.service.BaseConfigService;
-import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
-import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +64,7 @@ public class BaseConfigController {
      * @return R
      */
     @ApiOperation(value = "新增系统配置表", notes = "新增系统配置表")
-    @OperationLogging("新增系统配置表")
+    @CreateOperationLogging(msg = "新增系统配置表")
     @PostMapping
     @PreAuthorize("@per.hasPermission('config:baseconfig:add')")
     public R save(@RequestBody BaseConfig baseConfig) {
@@ -76,7 +78,7 @@ public class BaseConfigController {
      * @return R
      */
     @ApiOperation(value = "修改系统配置表", notes = "修改系统配置表")
-    @OperationLogging("修改系统配置表")
+    @UpdateOperationLogging(msg = "修改系统配置表")
     @PutMapping
     @PreAuthorize("@per.hasPermission('config:baseconfig:edit')")
     public R updateById(@RequestBody BaseConfig baseConfig) {
@@ -90,7 +92,7 @@ public class BaseConfigController {
      * @return R
      */
     @ApiOperation(value = "通过id删除系统配置表", notes = "通过id删除系统配置表")
-    @OperationLogging("通过id删除系统配置表")
+    @DeleteOperationLogging(msg = "通过id删除系统配置表")
     @DeleteMapping("/{id}")
     @PreAuthorize("@per.hasPermission('config:baseconfig:del')")
     public R removeById(@PathVariable Integer id) {

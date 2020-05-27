@@ -7,10 +7,12 @@ import com.hccake.ballcat.admin.modules.log.thread.AccessLogAdminSaveThread;
 import com.hccake.ballcat.admin.oauth.SysUserDetails;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.commom.log.access.handler.AccessLogHandler;
+import com.hccake.ballcat.commom.log.constant.LogConstant;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.core.util.IPUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -44,6 +46,7 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
     public AdminAccessLog prodLog(HttpServletRequest request, HttpServletResponse response, Long time, Throwable myThrowable) {
 
         AdminAccessLog adminAccessLog = new AdminAccessLog()
+                .setTraceId(MDC.get(LogConstant.TRACE_ID))
                 .setCreateTime(LocalDateTime.now())
                 .setTime(time)
                 .setIp(IPUtil.getIpAddr(request))

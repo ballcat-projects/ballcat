@@ -12,7 +12,9 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
-import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
@@ -90,7 +92,7 @@ public class SysUserController {
      */
     @PostMapping
     @ApiOperation(value = "新增系统用户", notes = "新增系统用户")
-    @OperationLogging("新增系统用户")
+    @CreateOperationLogging(msg = "新增系统用户")
     @PreAuthorize("@per.hasPermission('sys:sysuser:add')")
     public R addSysUser(@Valid @RequestBody SysUserDTO sysUserDto) {
 
@@ -111,7 +113,7 @@ public class SysUserController {
      */
     @PutMapping
     @ApiOperation(value = "修改系统用户", notes = "修改系统用户")
-    @OperationLogging("修改系统用户")
+    @UpdateOperationLogging(msg = "修改系统用户")
     @PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
     public R updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
         return sysUserService.updateSysUser(sysUserDto) ?
@@ -127,7 +129,7 @@ public class SysUserController {
      */
     @DeleteMapping("/{userId}")
     @ApiOperation(value = "通过id删除系统用户", notes = "通过id删除系统用户")
-    @OperationLogging("通过id删除系统用户")
+    @DeleteOperationLogging(msg = "通过id删除系统用户")
     @PreAuthorize("@per.hasPermission('sys:sysuser:del')")
     public R deleteByUserId(@PathVariable Integer userId) {
         return sysUserService.deleteByUserId(userId) ?
@@ -170,7 +172,7 @@ public class SysUserController {
      */
     @PutMapping("/scope/{userId}")
     @ApiOperation(value = "系统用户授权", notes = "系统用户授权")
-    @OperationLogging("系统用户授权")
+    @UpdateOperationLogging(msg = "系统用户授权")
     @PreAuthorize("@per.hasPermission('sys:sysuser:grant')")
     public R updateUserScope(@PathVariable Integer userId, @RequestBody SysUserScope sysUserScope) {
         return sysUserService.updateUserScope(userId, sysUserScope) ?
@@ -188,7 +190,7 @@ public class SysUserController {
      */
     @PutMapping("/pass/{userId}")
     @ApiOperation(value = "修改系统用户密码", notes = "修改系统用户密码")
-    @OperationLogging("修改系统用户密码")
+    @UpdateOperationLogging(msg = "修改系统用户密码")
     @PreAuthorize("@per.hasPermission('sys:sysuser:pass')")
     public R updateUserPass(@PathVariable Integer userId, String pass, String confirm) {
         if (StrUtil.isBlank(pass) || StrUtil.isBlank(confirm) || !pass.equals(confirm)) {
@@ -208,7 +210,7 @@ public class SysUserController {
      */
     @PutMapping("/status")
     @ApiOperation(value = "批量修改用户状态", notes = "批量修改用户状态")
-    @OperationLogging("批量修改用户状态")
+    @UpdateOperationLogging(msg = "批量修改用户状态")
     @PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
     public R updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
                               @NotNull(message = "用户状态不能为空") @RequestParam Integer status) {
@@ -222,7 +224,7 @@ public class SysUserController {
 
 
     @ApiOperation(value = "修改系统用户头像", notes = "修改系统用户头像")
-    @OperationLogging("修改系统用户头像")
+    @UpdateOperationLogging(msg = "修改系统用户头像")
     @PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
     @PostMapping("/avatar")
     public R<String> updateAvatar(@RequestParam("file") MultipartFile file, @RequestParam("userId") Integer userId) {

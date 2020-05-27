@@ -7,7 +7,9 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataAndHashVO;
-import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
@@ -83,7 +85,7 @@ public class SysDictController {
      * @return R
      */
     @ApiOperation(value = "新增字典表", notes = "新增字典表")
-    @OperationLogging("新增字典表")
+    @CreateOperationLogging(msg = "新增字典表")
     @PostMapping
     @PreAuthorize("@per.hasPermission('sys:dict:add')")
     public R save(@RequestBody SysDict sysDict) {
@@ -98,7 +100,7 @@ public class SysDictController {
      * @return R
      */
     @ApiOperation(value = "修改字典表", notes = "修改字典表")
-    @OperationLogging("修改字典表")
+    @UpdateOperationLogging(msg = "修改字典表")
     @PutMapping
     @PreAuthorize("@per.hasPermission('sys:dict:edit')")
     public R updateById(@RequestBody SysDict sysDict) {
@@ -113,7 +115,7 @@ public class SysDictController {
      * @return R
      */
     @ApiOperation(value = "通过id删除字典表", notes = "通过id删除字典表")
-    @OperationLogging("通过id删除字典表")
+    @DeleteOperationLogging(msg = "通过id删除字典表")
     @DeleteMapping("/{id}")
     @PreAuthorize("@per.hasPermission('sys:dict:del')")
     public R removeById(@PathVariable Integer id) {
@@ -144,7 +146,7 @@ public class SysDictController {
      * @return R
      */
     @ApiOperation(value = "新增字典项", notes = "新增字典项")
-    @OperationLogging("新增字典项")
+    @CreateOperationLogging(msg = "新增字典项")
     @PostMapping("item")
     @PreAuthorize("@per.hasPermission('sys:dict:add')")
     public R saveItem(@RequestBody SysDictItem sysDictItem) {
@@ -159,7 +161,7 @@ public class SysDictController {
      * @return R
      */
     @ApiOperation(value = "修改字典项", notes = "修改字典项")
-    @OperationLogging("修改字典项")
+    @UpdateOperationLogging(msg = "修改字典项")
     @PutMapping("item")
     @PreAuthorize("@per.hasPermission('sys:dict:edit')")
     public R updateItemById(@RequestBody SysDictItem sysDictItem) {
@@ -174,7 +176,7 @@ public class SysDictController {
      * @return R
      */
     @ApiOperation(value = "通过id删除字典项", notes = "通过id删除字典项")
-    @OperationLogging("通过id删除字典项")
+    @DeleteOperationLogging(msg = "通过id删除字典项")
     @DeleteMapping("/item/{id}")
     @PreAuthorize("@per.hasPermission('sys:dict:del')")
     public R removeItemById(@PathVariable Integer id) {

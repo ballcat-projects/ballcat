@@ -30,6 +30,11 @@ private static final long serialVersionUID = 1L;
     @ApiModelProperty(value="编号")
     private Long id;
     /**
+     * 追踪ID
+     */
+    @ApiModelProperty(value="追踪ID")
+    private String traceId;
+    /**
      * 日志消息
      */
     @ApiModelProperty(value="日志消息")
@@ -50,9 +55,9 @@ private static final long serialVersionUID = 1L;
     @ApiModelProperty(value="请求URI")
     private String uri;
     /**
-     * 操作方式
+     * 请求方法
      */
-    @ApiModelProperty(value="操作方式")
+    @ApiModelProperty(value="请求方法")
     private String method;
     /**
      * 操作提交的数据
@@ -64,6 +69,11 @@ private static final long serialVersionUID = 1L;
      */
     @ApiModelProperty(value="操作状态")
     private Integer status;
+    /**
+     * 操作类型
+     */
+    @ApiModelProperty(value="操作类型")
+    private Integer type;
     /**
      * 执行时长
      */

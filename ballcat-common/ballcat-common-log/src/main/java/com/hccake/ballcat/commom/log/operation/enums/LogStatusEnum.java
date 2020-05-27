@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum LogStatus {
+public enum LogStatusEnum {
     /**
      * 成功
      */
