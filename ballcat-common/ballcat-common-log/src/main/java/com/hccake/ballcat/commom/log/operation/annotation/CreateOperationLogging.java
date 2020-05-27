@@ -1,6 +1,7 @@
 package com.hccake.ballcat.commom.log.operation.annotation;
 
 import com.hccake.ballcat.commom.log.operation.enums.OperationTypeEnum;
+import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
@@ -9,20 +10,17 @@ import java.lang.annotation.*;
  * @version 1.0
  * @date 2019/10/15 18:09
  */
-@Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD})
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface OperationLogging {
+@OperationLogging(type = OperationTypeEnum.CREATE)
+public @interface CreateOperationLogging {
 
     /**
      * 日志信息
      * @return 日志描述信息
      */
-    String msg() default "";
+    @AliasFor(annotation = OperationLogging.class)
+    String msg();
 
-    /**
-     * 日志操作类型
-     * @return 日志操作类型枚举
-     */
-    OperationTypeEnum type();
 }

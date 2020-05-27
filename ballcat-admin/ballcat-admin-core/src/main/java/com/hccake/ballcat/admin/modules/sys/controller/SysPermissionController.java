@@ -10,7 +10,9 @@ import com.hccake.ballcat.admin.modules.sys.model.vo.Router;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.oauth.SysUserDetails;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
-import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -93,7 +95,7 @@ public class SysPermissionController {
 
 
     @ApiOperation(value = "新增权限", notes = "新增权限" )
-    @OperationLogging("新增权限" )
+    @CreateOperationLogging(msg = "新增权限" )
     @PostMapping
     @PreAuthorize("@per.hasPermission('sys:syspermission:add')")
     public R save(@Valid @RequestBody SysPermission sysMenu) {
@@ -108,7 +110,7 @@ public class SysPermissionController {
      * @return R
      */
     @ApiOperation(value = "修改权限", notes = "修改权限" )
-    @OperationLogging("修改权限" )
+    @UpdateOperationLogging(msg = "修改权限" )
     @PutMapping
     @PreAuthorize("@per.hasPermission('sys:syspermission:edit')" )
     public R update(@Valid @RequestBody SysPermission sysPermission) {
@@ -117,7 +119,7 @@ public class SysPermissionController {
 
 
     @ApiOperation(value = "通过id删除权限", notes = "通过id删除权限" )
-    @OperationLogging("通过id删除权限" )
+    @DeleteOperationLogging(msg = "通过id删除权限" )
     @DeleteMapping("/{id}" )
     @PreAuthorize("@per.hasPermission('sys:syspermission:del')" )
     public R removeById(@PathVariable Integer id) {
