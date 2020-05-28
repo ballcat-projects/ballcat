@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.hccake.common.excel.ResponseExcelAutoConfiguration,\
+  com.hccake.common.excel.handler.ManySheetWriteHandler,\
+  com.hccake.common.excel.handler.SingleSheetWriteHandler
+
