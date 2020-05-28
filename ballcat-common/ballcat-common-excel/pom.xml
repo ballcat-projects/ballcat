@@ -32,18 +32,15 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>2.1.6</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.dreamlu</groupId>
-            <artifactId>mica-auto</artifactId>
-            <version>1.2.1</version>
-            <scope>provided</scope>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
         </dependency>
-
 
     </dependencies>
 
