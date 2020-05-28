@@ -1,8 +1,11 @@
 package com.hccake.common.excel;
 
+import com.hccake.common.excel.aop.DynamicNameAspect;
 import com.hccake.common.excel.aop.ResponseExcelReturnValueHandler;
 import com.hccake.common.excel.config.ExcelConfigProperties;
+import com.hccake.common.excel.handler.ManySheetWriteHandler;
 import com.hccake.common.excel.handler.SheetWriteHandler;
+import com.hccake.common.excel.handler.SingleSheetWriteHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -34,10 +37,47 @@ public class ResponseExcelAutoConfiguration implements ApplicationContextAware, 
 	private final List<SheetWriteHandler> sheetWriteHandlerList;
 
 
+	/**
+	 * SPEL 解析处理器
+	 * @return  NameProcessor excle名称解析器
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public NameProcessor nameProcessor() {
 		return new NameSpelExpressionProcessor();
+	}
+
+	/**
+	 * Excle名称解析处理切面
+	 * @param nameProcessor  SPEL 解析处理器
+	 * @return DynamicNameAspect
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public DynamicNameAspect dynamicNameAspect(NameProcessor nameProcessor) {
+		return new DynamicNameAspect(nameProcessor);
+	}
+
+	/**
+	 * 多sheet处理器
+	 * @param configProperties Excle导出配置
+	 * @return ManySheetWriteHandler
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public ManySheetWriteHandler manySheetWriteHandler(ExcelConfigProperties configProperties) {
+		return new ManySheetWriteHandler(configProperties);
+	}
+
+	/**
+	 * 单sheet处理器
+	 * @param configProperties Excle导出配置
+	 * @return SingleSheetWriteHandler
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public SingleSheetWriteHandler singleSheetWriteHandler(ExcelConfigProperties configProperties) {
+		return new SingleSheetWriteHandler(configProperties);
 	}
 
 
@@ -57,5 +97,4 @@ public class ResponseExcelAutoConfiguration implements ApplicationContextAware, 
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
-
 }
