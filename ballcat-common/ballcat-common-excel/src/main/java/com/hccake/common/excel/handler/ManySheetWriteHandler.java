@@ -8,7 +8,7 @@ import com.hccake.common.excel.config.ExcelConfigProperties;
 import com.hccake.common.excel.kit.ExcelException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +18,8 @@ import java.util.List;
  * @author lengleng
  * @date 2020/3/29
  */
+@Component
 @RequiredArgsConstructor
-@Configuration(proxyBeanMethods = false)
 public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 	private final ExcelConfigProperties configProperties;
 
