@@ -31,7 +31,12 @@ public enum OperationTypeEnum {
     /**
      * 删除操作
      */
-    DELETE(4);
+    DELETE(4),
+
+    /**
+     * 查看操作，主要用于敏感数据查询记录
+     */
+    READ(5);
 
     private final Integer value;
 }
