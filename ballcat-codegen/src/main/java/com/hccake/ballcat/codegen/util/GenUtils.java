@@ -55,8 +55,8 @@ public class GenUtils {
 	private final String MENU_SQL_VM = "permission.sql.vm";
 
 	private final String API_JS_VM = "api.js.vm";
-	private final String PAGE_VUE_VM = "page.vue.vm";
-	private final String FORM_VUE_VM = "form.vue.vm";
+	private final String PAGE_VUE_VM = "Page.vue.vm";
+	private final String FORM_VUE_VM = "Form.vue.vm";
 
 
 	private List<String> getTemplates() {
@@ -72,8 +72,8 @@ public class GenUtils {
 		templates.add("template/permission.sql.vm");
 
 		templates.add("template/api.js.vm");
-		templates.add("template/page.vue.vm");
-		templates.add("template/form.vue.vm");
+		templates.add("template/Page.vue.vm");
+		templates.add("template/Form.vue.vm");
 
 		return templates;
 	}
