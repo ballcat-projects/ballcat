@@ -221,11 +221,11 @@ INSERT INTO `sys_permission` VALUES (100301, '权限查询', 'sys:syspermission:
 INSERT INTO `sys_permission` VALUES (100302, '权限新增', 'sys:syspermission:add', NULL, NULL, NULL, NULL, NULL, 100300, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission` VALUES (100303, '权限修改', 'sys:syspermission:edit', NULL, NULL, NULL, NULL, NULL, 100300, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission` VALUES (100304, '权限删除', 'sys:syspermission:del', NULL, NULL, NULL, NULL, NULL, 100300, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
-INSERT INTO `sys_permission` VALUES (100400, '配置信息', NULL, '/config/baseconfig', 'baseconfig', 'config/baseconfig/BaseConfigPage', NULL, NULL, 100000, NULL, 5, 0, 0, 1, 0, NULL, '2019-10-15 14:13:49');
-INSERT INTO `sys_permission` VALUES (100401, '配置查询', 'config:baseconfig:read', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
-INSERT INTO `sys_permission` VALUES (100402, '配置新增', 'config:baseconfig:add', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
-INSERT INTO `sys_permission` VALUES (100403, '配置修改', 'config:baseconfig:edit', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:10');
-INSERT INTO `sys_permission` VALUES (100404, '配置删除', 'config:baseconfig:del', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:29');
+INSERT INTO `sys_permission` VALUES (100400, '配置信息', NULL, '/sys/config', 'config', 'sys/config/SysConfigPage', NULL, NULL, 100000, NULL, 5, 0, 0, 1, 0, NULL, '2019-10-15 14:13:49');
+INSERT INTO `sys_permission` VALUES (100401, '配置查询', 'sys:config:read', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
+INSERT INTO `sys_permission` VALUES (100402, '配置新增', 'sys:config:add', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
+INSERT INTO `sys_permission` VALUES (100403, '配置修改', 'sys:config:edit', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:10');
+INSERT INTO `sys_permission` VALUES (100404, '配置删除', 'sys:config:del', NULL, NULL, NULL, NULL, NULL, 100400, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:29');
 INSERT INTO `sys_permission` VALUES (100500, '字典管理', NULL, '/sys/dict', 'sysDict', 'sys/dict/SysDictPage', NULL, NULL, 100000, NULL, 4, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
 INSERT INTO `sys_permission` VALUES (100501, '字典查询', 'sys:dict:read', NULL, NULL, NULL, NULL, NULL, 100500, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission` VALUES (100502, '字典新增', 'sys:dict:add', NULL, NULL, NULL, NULL, NULL, 100500, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
