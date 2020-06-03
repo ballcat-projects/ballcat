@@ -15,7 +15,7 @@
 
         <dependency>
             <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-log</artifactId>
+            <artifactId>ballcat-spring-boot-starter-log</artifactId>
         </dependency>
         <!--mybatis plus-->
         <dependency>
