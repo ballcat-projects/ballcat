@@ -3,6 +3,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.hccake.ballcat.common.conf.config.JacksonConfig,\
     com.hccake.ballcat.common.conf.exception.ExceptionHandleAutoConfiguration,\
     com.hccake.ballcat.common.conf.mybatis.MybatisPlusConfig,\
-    com.hccake.ballcat.common.conf.redis.RedisConfig,\
     com.hccake.ballcat.common.conf.web.WebMvcConfig
 

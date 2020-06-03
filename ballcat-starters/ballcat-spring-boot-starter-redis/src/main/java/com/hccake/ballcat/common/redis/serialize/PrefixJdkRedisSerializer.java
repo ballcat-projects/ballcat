@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.conf.redis;
+package com.hccake.ballcat.common.redis.serialize;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
