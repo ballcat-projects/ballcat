@@ -13,12 +13,12 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>spring-boot-starter-log</module>
-		<module>spring-boot-starter-job</module>
-		<module>spring-boot-starter-swagger</module>
-		<module>spring-boot-starter-storage</module>
-		<module>spring-boot-starter-mail</module>
-		<module>spring-boot-starter-easyexcel</module>
+		<module>ballcat-spring-boot-starter-log</module>
+		<module>ballcat-spring-boot-starter-job</module>
+		<module>ballcat-spring-boot-starter-swagger</module>
+		<module>ballcat-spring-boot-starter-storage</module>
+		<module>ballcat-spring-boot-starter-mail</module>
+		<module>ballcat-spring-boot-starter-easyexcel</module>
 	</modules>
 
 </project>

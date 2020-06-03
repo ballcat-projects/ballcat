@@ -9,13 +9,23 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-boot-starter-mail</artifactId>
+    <artifactId>ballcat-spring-boot-starter-log</artifactId>
 
     <dependencies>
         <dependency>
+            <groupId>com.hccake</groupId>
+            <artifactId>ballcat-common-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
+
 
 </project>

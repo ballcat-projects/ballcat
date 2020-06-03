@@ -41,32 +41,32 @@
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>spring-boot-starter-job</artifactId>
+                <artifactId>ballcat-spring-boot-starter-job</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>spring-boot-starter-log</artifactId>
+                <artifactId>ballcat-spring-boot-starter-log</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>spring-boot-starter-swagger</artifactId>
+                <artifactId>ballcat-spring-boot-starter-swagger</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>spring-boot-starter-storage</artifactId>
+                <artifactId>ballcat-spring-boot-starter-storage</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>spring-boot-starter-mail</artifactId>
+                <artifactId>ballcat-spring-boot-starter-mail</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>spring-boot-starter-easyexcel</artifactId>
+                <artifactId>ballcat-spring-boot-starter-easyexcel</artifactId>
                 <version>${revision}</version>
             </dependency>
 

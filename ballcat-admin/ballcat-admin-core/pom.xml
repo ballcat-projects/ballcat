@@ -18,20 +18,16 @@
         </dependency>
         <dependency>
             <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-modules</artifactId>
+            <artifactId>ballcat-spring-boot-starter-log</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-log</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-storage</artifactId>
+            <artifactId>ballcat-spring-boot-starter-storage</artifactId>
         </dependency>
         <!-- swagger 文档聚合 -->
         <dependency>
             <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-swagger</artifactId>
+            <artifactId>ballcat-spring-boot-starter-swagger</artifactId>
         </dependency>
         <!-- swagger 增强版 ui -->
         <dependency>
