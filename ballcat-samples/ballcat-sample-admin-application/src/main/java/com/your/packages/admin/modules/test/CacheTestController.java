@@ -1,8 +1,8 @@
 package com.your.packages.admin.modules.test;
 
-import com.hccake.simpleredis.core.annotation.CacheDel;
-import com.hccake.simpleredis.core.annotation.CachePut;
-import com.hccake.simpleredis.core.annotation.Cached;
+import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
+import com.hccake.ballcat.common.redis.core.annotation.CachePut;
+import com.hccake.ballcat.common.redis.core.annotation.Cached;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;

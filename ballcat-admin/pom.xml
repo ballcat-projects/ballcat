@@ -14,7 +14,6 @@
 
     <modules>
         <module>ballcat-admin-core</module>
-        <module>ballcat-admin-boot</module>
     </modules>
 
 </project>
