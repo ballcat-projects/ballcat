@@ -52,33 +52,6 @@ CREATE TABLE `admin_operation_log`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 3332 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '操作日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for api_access_log
--- ----------------------------
-DROP TABLE IF EXISTS `api_access_log`;
-CREATE TABLE `api_access_log`  (
-  `id` bigint(64) NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `user_id` bigint(16) NULL DEFAULT NULL COMMENT '用户ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
-  `ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '访问IP地址',
-  `user_agent` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户代理',
-  `uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求URI',
-  `matching_pattern` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求映射路径',
-  `method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作方式',
-  `req_params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求参数',
-  `req_body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求body',
-  `http_status` int(5) NULL DEFAULT NULL COMMENT '响应状态码',
-  `error_msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '错误消息',
-  `time` bigint(64) NULL DEFAULT NULL COMMENT '执行时长',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_id`(`user_id`) USING BTREE,
-  INDEX `user_name`(`username`) USING BTREE,
-  INDEX `uri`(`uri`) USING BTREE,
-  INDEX `httpStatus`(`http_status`) USING BTREE,
-  INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 318 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '访问日志' ROW_FORMAT = Dynamic;
-
--- ----------------------------
 -- Table structure for oauth_client_details
 -- ----------------------------
 DROP TABLE IF EXISTS `oauth_client_details`;
@@ -234,8 +207,6 @@ INSERT INTO `sys_permission` VALUES (100504, '字典删除', 'sys:dict:del', NUL
 INSERT INTO `sys_permission` VALUES (110000, '日志管理', NULL, '', 'log', 'layouts/RouteView', '/log/adminoperationlog', NULL, 0, 'file-search', 9, 0, 0, 0, 0, NULL, '2019-10-16 18:30:07');
 INSERT INTO `sys_permission` VALUES (110100, '操作日志', NULL, '/log/adminoperationlog', 'adminOperationLog', 'log/adminoperationlog/AdminOperationLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
 INSERT INTO `sys_permission` VALUES (110101, '操作日志查询', 'log:adminoperationlog:read', NULL, NULL, NULL, NULL, NULL, 110100, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
-INSERT INTO `sys_permission` VALUES (110200, '访问日志(接口)', NULL, '/log/apiaccesslog', 'apiAccessLog', 'log/apiaccesslog/ApiAccessLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
-INSERT INTO `sys_permission` VALUES (110201, '访问日志(接口)查询', 'log:apiaccesslog:read', NULL, NULL, NULL, NULL, NULL, 110200, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
 INSERT INTO `sys_permission` VALUES (110300, '访问日志(后台)', NULL, '/log/adminaccesslog', 'adminAccessLog', 'log/adminaccesslog/AdminAccessLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
 INSERT INTO `sys_permission` VALUES (110301, '访问日志(后台)查询', 'log:adminaccesslog:read', NULL, NULL, NULL, NULL, NULL, 110300, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
 INSERT INTO `sys_permission` VALUES (990000, '开发平台', '', '', 'develop', 'layouts/RouteView', '', NULL, 0, 'desktop', 99, 0, 0, 0, 0, NULL, '2019-11-22 16:49:56');
@@ -472,10 +443,10 @@ INSERT INTO `sys_user_role` VALUES (18, 14);
 INSERT INTO `sys_user_role` VALUES (19, 14);
 
 -- ----------------------------
--- Table structure for tbl_base_config
+-- Table structure for tbl_sys_config
 -- ----------------------------
-DROP TABLE IF EXISTS `tbl_base_config`;
-CREATE TABLE `tbl_base_config`  (
+DROP TABLE IF EXISTS `tbl_sys_config`;
+CREATE TABLE `tbl_sys_config`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '配置名称',
   `conf_key` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '配置在缓存中的key名',
@@ -489,8 +460,8 @@ CREATE TABLE `tbl_base_config`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '基础配置' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of tbl_base_config
+-- Records of tbl_sys_config
 -- ----------------------------
-INSERT INTO `tbl_base_config` VALUES (4, '网站弹窗开关', 'site_popup', '1', 'group', '宣传网站是否弹出框的控制开关。\n1：开启 0：关闭', '2020-02-27 15:06:28', '2019-10-15 16:45:55');
+INSERT INTO `tbl_sys_config` VALUES (4, '网站弹窗开关', 'site_popup', '1', 'group', '宣传网站是否弹出框的控制开关。\n1：开启 0：关闭', '2020-02-27 15:06:28', '2019-10-15 16:45:55');
 
 SET FOREIGN_KEY_CHECKS = 1;
