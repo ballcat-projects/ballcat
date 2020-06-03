@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.modules.config.model.entity;
+package com.hccake.ballcat.admin.modules.sys.model.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @TableName("tbl_base_config")
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "基础配置")
-public class BaseConfig extends Model<BaseConfig> {
+public class SysConfig extends Model<SysConfig> {
 
     /**
      * 主键
