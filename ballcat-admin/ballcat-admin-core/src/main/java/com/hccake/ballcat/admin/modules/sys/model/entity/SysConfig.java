@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  * @date 2019-10-14 17:42:23
  */
 @Data
-@TableName("tbl_base_config")
+@TableName("sys_config")
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "基础配置")
 public class SysConfig extends Model<SysConfig> {
