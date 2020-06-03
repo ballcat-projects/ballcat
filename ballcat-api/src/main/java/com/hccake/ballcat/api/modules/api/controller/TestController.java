@@ -1,12 +1,7 @@
 package com.hccake.ballcat.api.modules.api.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hccake.ballcat.common.modules.log.model.entity.ApiAccessLog;
-import com.hccake.ballcat.common.modules.log.service.ApiAccessLogService;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -19,9 +14,7 @@ import java.time.LocalDateTime;
  */
 @RequestMapping
 @RestController
-@RequiredArgsConstructor
 public class TestController {
-    private final ApiAccessLogService apiAccessLogService;
 
 
     @ApiOperation("测试地址")
@@ -34,17 +27,6 @@ public class TestController {
     @GetMapping("/test/{test}")
     public String test(@PathVariable String test){
         return "Hello " + test;
-    }
-
-
-    @GetMapping("/test/page")
-    public String page(){
-
-        apiAccessLogService.page(new Page<>(), Wrappers.<ApiAccessLog>query().eq("id", 1));
-
-        apiAccessLogService.page(new Page<>(), Wrappers.<ApiAccessLog>lambdaQuery().eq(ApiAccessLog::getId, 1));
-
-        return "Hello word!";
     }
 
 
