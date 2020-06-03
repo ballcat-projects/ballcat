@@ -13,6 +13,7 @@
         <module>ballcat-codegen</module>
         <module>ballcat-monitor</module>
         <module>ballcat-dependencies</module>
+        <module>ballcat-starters</module>
     </modules>
     <name>ballcat</name>
     <description>项目基本脚手架</description>
