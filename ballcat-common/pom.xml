@@ -14,7 +14,6 @@
 
     <modules>
         <module>ballcat-common-core</module>
-        <module>ballcat-common-modules</module>
         <module>ballcat-common-log</module>
         <module>ballcat-common-conf</module>
         <module>ballcat-common-job</module>
