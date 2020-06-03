@@ -41,37 +41,32 @@
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-job</artifactId>
+                <artifactId>spring-boot-starter-job</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-log</artifactId>
+                <artifactId>spring-boot-starter-log</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-modules</artifactId>
+                <artifactId>spring-boot-starter-swagger</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-swagger</artifactId>
+                <artifactId>spring-boot-starter-storage</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-storage</artifactId>
+                <artifactId>spring-boot-starter-mail</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-mail</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-excel</artifactId>
+                <artifactId>spring-boot-starter-easyexcel</artifactId>
                 <version>${revision}</version>
             </dependency>
 
