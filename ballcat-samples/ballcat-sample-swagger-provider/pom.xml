@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.hccake</groupId>
-        <artifactId>ballcat</artifactId>
+        <artifactId>ballcat-samples</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>ballcat-api</artifactId>
+    <artifactId>ballcat-sample-swagger-provider</artifactId>
 
     <properties>
         <java.version>1.8</java.version>
