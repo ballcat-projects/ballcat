@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
+        <revision>0.0.1</revision>
         <maven-flatten-version>1.1.0</maven-flatten-version>
 
         <hutool.version>5.2.5</hutool.version>
