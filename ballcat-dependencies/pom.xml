@@ -8,11 +8,41 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
 
-    <properties>
-        <revision>0.0.1</revision>
-        <maven-flatten-version>1.1.0</maven-flatten-version>
+	<name>Ballcat Dependencies</name>
+	<description>Ballcat Dependencies</description>
+	<url>https://github.com/hccake/ballcat</url>
 
-        <hutool.version>5.2.5</hutool.version>
+	<developers>
+		<developer>
+			<name>hccake</name>
+			<email>chengbohua@foxmail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/hccake/ballcat</url>
+		<connection>https://github.com/hccake/ballcat.git</connection>
+		<developerConnection>https://github.com/hccake</developerConnection>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+
+	<properties>
+        <revision>0.0.2</revision>
+        <flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+
+
+		<hutool.version>5.2.5</hutool.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <simple-cache.version>1.0.0</simple-cache.version>
         <swagger.core.version>1.5.2</swagger.core.version>
@@ -137,12 +167,47 @@
         </dependencies>
     </dependencyManagement>
 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
     <build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>flatten-maven-plugin</artifactId>
+					<version>${flatten-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>${nexus-staging-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${maven-release-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>${maven-gpg-plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
-                <version>${maven-flatten-version}</version>
+                <version>${flatten-maven-plugin.version}</version>
                 <configuration>
                     <updatePomFile>true</updatePomFile>
                     <flattenMode>resolveCiFriendliesOnly</flattenMode>
@@ -166,5 +231,49 @@
             </plugin>
         </plugins>
     </build>
+
+	<!--环境变量-->
+	<profiles>
+		<profile>
+			<id>ossrh</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<configuration>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<useReleaseProfile>false</useReleaseProfile>
+							<releaseProfiles>release</releaseProfiles>
+							<goals>deploy</goals>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
