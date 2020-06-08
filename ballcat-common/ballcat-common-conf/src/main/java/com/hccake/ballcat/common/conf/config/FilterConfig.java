@@ -1,11 +1,9 @@
 package com.hccake.ballcat.common.conf.config;
 
-import com.hccake.ballcat.commom.log.access.handler.AccessLogHandler;
 import com.hccake.ballcat.common.core.filter.ActuatorFilter;
 import com.hccake.ballcat.common.core.filter.XSSFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +25,6 @@ public class FilterConfig {
     private String secretKey;
 
     @Bean
-    @ConditionalOnClass(AccessLogHandler.class)
     public FilterRegistrationBean<XSSFilter> xssFilterRegistrationBean(){
         log.debug("XSS 过滤已开启====");
         FilterRegistrationBean<XSSFilter> registrationBean = new FilterRegistrationBean<>(new XSSFilter());
