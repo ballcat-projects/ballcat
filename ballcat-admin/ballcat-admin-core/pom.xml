@@ -16,6 +16,11 @@
             <groupId>com.hccake</groupId>
             <artifactId>ballcat-common-conf</artifactId>
         </dependency>
+		<!--缓存注解工具类-->
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-spring-boot-starter-redis</artifactId>
+		</dependency>
         <dependency>
             <groupId>com.hccake</groupId>
             <artifactId>ballcat-spring-boot-starter-log</artifactId>
@@ -44,11 +49,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-        <!--redis-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <!-- spring-security oauth -->
         <dependency>
