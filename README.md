@@ -6,6 +6,7 @@
 
 
 ## 简介
+
 基于`SpringBoot` + `Ant Design Vue`的前后端分离应用。  
 目前支持代码生成，前后台用户分离，权限控制，定时任务，访问日志，操作日志，异常日志，统一异常处理，XSS过滤，SQL防注入等功能
 
@@ -17,20 +18,31 @@
 - 后端：
 
 ```
-ballcat
-|-- ballcat-admin   -- 后台管理项目
-|-- ballcat-api     -- 前台接口，业务接口
-|-- ballcat-codegen    -- 代码生成器
-|-- ballcat-common      -- 公用模块
-|   |-- ballcat-common-conf  -- web公用配置
-|   |-- ballcat-common-core  -- 核心的工具类
-|   |-- ballcat-common-job   -- 公用的job配置
-|   |-- ballcat-common-log   -- 公用的日志依赖
-|   |-- ballcat-common-modules   -- 公用的业务模块
-|   `-- ballcat-common-swagger  -- swagger文档
-|-- ballcat-job      -- 任务调度中心（xxl-job-admin）
-`-- doc              -- 初始化数据库脚本
+.
+|-- ballcat-admin
+|   `-- ballcat-admin-core     -- 后台管理核心模块（权限控制，字典，Oauth2等）
+|-- ballcat-codegen            -- 代码生成器
+|-- ballcat-common			   
+|   |-- ballcat-common-conf		-- web公用配置
+|   `-- ballcat-common-core     -- 核心的工具类
+|-- ballcat-dependencies        -- ballcat项目本身各子模块的依赖管理，以及第三方模块的依赖管理
+|-- ballcat-samples				
+|   |-- ballcat-sample-admin-application  -- 集成admin的项目示例（swagger聚合者）
+|   |-- ballcat-sample-monitor			  -- SpringBootAdmin监控server端集成示例
+|   `-- ballcat-sample-swagger-provider	  -- 无注册中心的swagger-provider提供示例	
+|-- ballcat-starters
+|   |-- ballcat-spring-boot-starter-easyexcel  -- 通过注解快速导出excle（easyexcel）
+|   |-- ballcat-spring-boot-starter-job        -- 定时任务集成（目前仅xxl-job）
+|   |-- ballcat-spring-boot-starter-log		   -- 访问日志，操作日志，TraceId注入
+|   |-- ballcat-spring-boot-starter-mail	   -- 邮件发送
+|   |-- ballcat-spring-boot-starter-redis      -- 提供注解使用redis, 分布式锁，防击穿，全局key前缀等功能
+|   |-- ballcat-spring-boot-starter-storage    -- 文件存储（暂时只集成了aliyunOss）
+|   `-- ballcat-spring-boot-starter-swagger    -- swagger文档配置（提供无注册中心的文档聚合方案）
+`-- doc        -- 初始化数据库脚本
+
 ```
+
+
 
 - 前端：
 
@@ -61,45 +73,47 @@ ballcat
 
 - 后端
 
-依赖 |	版本 | 官网
---- | --- | ---
-Spring Boot|	2.2.1.RELEASE| https://spring.io/projects/spring-boot#learn
-Spring Security OAuth2|	2.3.6.RELEASE| https://spring.io/projects/spring-security-oauth
-Mybatis Plus|	3.2.0|  https://mp.baomidou.com/
-XXL-JOB| 2.1.0 | http://www.xuxueli.com/xxl-job
-Hutool|	5.0.1| https://www.hutool.cn/
+| 依赖                   | 版本          | 官网                                             |
+| ---------------------- | ------------- | ------------------------------------------------ |
+| Spring Boot            | 2.2.6.RELEASE | https://spring.io/projects/spring-boot#learn     |
+| Spring Security OAuth2 | 2.3.6.RELEASE | https://spring.io/projects/spring-security-oauth |
+| Mybatis Plus           | 3.3.1         | https://mp.baomidou.com/                         |
+| XXL-JOB                | 2.2.0         | http://www.xuxueli.com/xxl-job                   |
+| Hutool                 | 5.2.5         | https://www.hutool.cn/                           |
 
 
 - 前端
 
-依赖 |	版本 | 官网
---- | --- | ---
-Vue| 2.6.10 | https://cn.vuejs.org/
-Ant Design Vue|	1.4.1| https://www.antdv.com
-Ant Design Vue Pro|	2.0.2| https://pro.loacg.com/
+| 依赖               | 版本   | 官网                   |
+| ------------------ | ------ | ---------------------- |
+| Vue                | 2.6.10 | https://cn.vuejs.org/  |
+| Ant Design Vue     | 1.5.6  | https://www.antdv.com  |
+| Ant Design Vue Pro | 2.0.2  | https://pro.loacg.com/ |
 
 
 # 快速开始
 
 开始之前，请先确保您已经配置好以下环境
 
-名称  |  版本 |  
----| --- 
-JDK	| 1.8	| 
-MySQL	| 5.7.8 +	
-Redis	| 3.2 +| 
-node	| 10.0 +	
-npm	| 6.0 +	| 
+| 名称  | 版本    |      |
+| ----- | ------- | ---- |
+| JDK   | 1.8     |      |
+| MySQL | 5.7.8 + |      |
+| Redis | 3.2 +   |      |
+| node  | 10.0 +  |      |
+| npm   | 6.0 +   |      |
 
 **另：请在您的开发工具中安装好 `Lombok` 插件** 
 
 ## 代码下载
 
 - 后端：
+
 > git clone https://github.com/Hccake/ballcat.git
 
 
 - 前端：
+
 > git clone https://github.com/Hccake/ballcat-ui-vue.git
 
 
@@ -110,13 +124,12 @@ npm	| 6.0 +	|
 默认排序规则：utf8mb4_general_ci  
 
 - 按下面顺序依次执行/docs目录下的数据库脚本
+
 ```sql
 # 建库语句
 scheme.sql   
 # 核心库
-2ballcat.sql  
-# 定时任务依赖库（可选）
-ballcat_job.sql  
+ballcat.sql  
 ```
 
 ## 配置本地hosts
@@ -129,31 +142,33 @@ windows系统下host文件位于
 
 
 **新增如下host:**
+
 ```
 127.0.0.1 ballcat-mysql
 127.0.0.1 ballcat-redis
 127.0.0.1 ballcat-job
 127.0.0.1 ballcat-admin
 ```
+
 其中`127.0.0.1`按需替换成开发环境ip
 
 ## 项目配置修改
 
-- `ballcat-admin`项目下的`src\main\resources\application-dev.yml`
+- `ballcat-sample-admin-application`项目下的`src\main\resources\application-dev.yml`
 
-    修改数据库账号密码，以及redis密码，若未配置redis密码，则直接留空
-    
-    ```yaml
-    spring:
-      datasource:
-        url: jdbc:mysql://ballcat-mysql:3306/ballcat?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-        username: root
-        password: '123456'
-      redis:
-        host: ballcat-redis
-        password: ''
-        port: 6379
-    ```  
+  修改数据库账号密码，以及redis密码，若未配置redis密码，则直接留空
+
+  ```yaml
+  spring:
+    datasource:
+      url: jdbc:mysql://ballcat-mysql:3306/ballcat?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: '123456'
+    redis:
+      host: ballcat-redis
+      password: ''
+      port: 6379
+  ```
 
 **请尽量使用host域名形式来配置链接地址，而非直接使用ip**
 
@@ -161,7 +176,7 @@ windows系统下host文件位于
 
 - 后端
 
-直接执行`ballcat-admin`项目下的`AdminApplication`类的main函数即可。  
+直接执行`ballcat-sample-admin-application`项目下的`AdminApplication`类的main函数即可。  
 更多启动项目的方法，请自行查阅spring-boot的多种启动方式
 
 - 前端
@@ -175,7 +190,9 @@ yarn install
 # 启动服务
 yarn run serve
 ```
+
 or
+
 ```
 # 安装依赖
 npm install
