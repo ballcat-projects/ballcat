@@ -31,7 +31,7 @@ public class MybatisAutoConfiguration {
 
 		configurers.forEach(mybatisConfigurer -> {
 			StaticConfig.UPDATE_IGNORE_FIELDS.addAll(properties.getIgnoreFields());
-			mybatisConfigurer.pushIgnoreFields(StaticConfig.UPDATE_IGNORE_FIELDS);
+			mybatisConfigurer.addIgnoreFields(StaticConfig.UPDATE_IGNORE_FIELDS);
 		});
 	}
 
@@ -47,7 +47,7 @@ public class MybatisAutoConfiguration {
 			}
 		}
 
-		configurers.forEach(mybatisConfigurer -> mybatisConfigurer.pushMethods(list));
+		configurers.forEach(mybatisConfigurer -> mybatisConfigurer.addGlobalMethods(list));
 		return new SqlInjector(list);
 	}
 }

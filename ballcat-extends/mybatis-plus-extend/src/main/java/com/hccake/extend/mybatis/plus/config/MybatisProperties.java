@@ -13,7 +13,7 @@ import java.util.Set;
  * @author lingting  2020-05-28 14:54:30
  */
 @Data
-@ConfigurationProperties(prefix = "gzm.mybatis-plus")
+@ConfigurationProperties(prefix = "ballcat.extend.mybatis-plus")
 public class MybatisProperties {
 	/**
 	 * 全局忽略更新的字段

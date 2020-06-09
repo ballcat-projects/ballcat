@@ -24,11 +24,14 @@ public class InsertOrUpdateByBatch extends BaseInsertBatch {
 		StringBuilder ignore = new StringBuilder();
 
 		tableInfo.getFieldList().forEach(field -> {
-			// 默认忽略字段
-			if (!StaticConfig.UPDATE_IGNORE_FIELDS.contains(field.getProperty())) {
-				sql.append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn()).append("),");
-			} else {
-				ignore.append(",").append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn()).append(")");
+			// 默认忽略逻辑删除字段
+			if (!field.isLogicDelete()) {
+				// 默认忽略字段
+				if (!StaticConfig.UPDATE_IGNORE_FIELDS.contains(field.getProperty())) {
+					sql.append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn()).append("),");
+				} else {
+					ignore.append(",").append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn()).append(")");
+				}
 			}
 		});
 

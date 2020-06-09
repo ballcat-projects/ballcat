@@ -13,12 +13,12 @@ import java.util.Set;
  */
 public interface MybatisConfigurer {
 	/**
-	 * 添加 更新时 需要忽略的字段
+	 * 添加 生成 更新 sql 时 需要忽略的字段
 	 *
 	 * @param set 字段 set
 	 * @author lingting 2020-05-27 20:58:32
 	 */
-	default void pushIgnoreFields(Set<String> set) {
+	default void addIgnoreFields(Set<String> set) {
 	}
 
 	/**
@@ -27,6 +27,6 @@ public interface MybatisConfigurer {
 	 * @param list 方法list
 	 * @author lingting 2020-05-27 23:47:10
 	 */
-	default void pushMethods(List<AbstractMethod> list) {
+	default void addGlobalMethods(List<AbstractMethod> list) {
 	}
 }

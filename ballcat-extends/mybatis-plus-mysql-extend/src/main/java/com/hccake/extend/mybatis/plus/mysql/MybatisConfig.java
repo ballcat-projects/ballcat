@@ -17,12 +17,12 @@ import java.util.Set;
 public class MybatisConfig implements MybatisConfigurer {
 
 	@Override
-	public void pushIgnoreFields(Set<String> set) {
+	public void addIgnoreFields(Set<String> set) {
 		set.add("createTime");
 	}
 
 	@Override
-	public void pushMethods(List<AbstractMethod> list) {
+	public void addGlobalMethods(List<AbstractMethod> list) {
 		list.add(new InsertIgnoreByBatch());
 		list.add(new InsertOrUpdateByBatch());
 		list.add(new InsertOrUpdateFieldByBatch());
