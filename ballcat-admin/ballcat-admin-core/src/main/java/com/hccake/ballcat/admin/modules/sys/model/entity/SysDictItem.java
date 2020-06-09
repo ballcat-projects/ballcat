@@ -53,12 +53,12 @@ public class SysDictItem extends Model<SysDictItem> {
      */
     @ApiModelProperty(value = "备注")
     private String remarks;
-    /**
-     * 逻辑删除标志
-     */
-    @TableLogic
-    @ApiModelProperty(value = "逻辑删除标志")
-    private Integer deleted;
+	/**
+	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
+	 */
+	@TableLogic
+	@ApiModelProperty(value="逻辑删除标识，已删除:0，未删除：删除时间戳")
+	private Long deleted;
     /**
      * 创建时间
      */

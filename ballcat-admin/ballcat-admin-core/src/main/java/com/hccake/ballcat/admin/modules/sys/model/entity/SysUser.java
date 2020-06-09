@@ -78,11 +78,11 @@ private static final long serialVersionUID = 1L;
     private Integer type;
 
     /**
-     * 删除状态(0-正常,1-已删除)
+     * 逻辑删除标识，已删除:0，未删除：删除时间戳
      */
     @TableLogic
-    @ApiModelProperty(value="删除状态(0-正常,1-已删除)")
-    private Integer deleted;
+    @ApiModelProperty(value="逻辑删除标识，已删除:0，未删除：删除时间戳")
+    private Long deleted;
     /**
      * 创建时间
      */

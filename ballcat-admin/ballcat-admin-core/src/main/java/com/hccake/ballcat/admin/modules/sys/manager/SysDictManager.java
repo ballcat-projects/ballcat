@@ -12,6 +12,7 @@ import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataAndHashVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.DictItemVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
+import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEm;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
@@ -19,7 +20,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -53,7 +56,7 @@ public class SysDictManager {
      */
     public boolean dictSave(SysDict sysDict) {
         sysDict.setHashCode(IdUtil.fastSimpleUUID());
-        sysDict.setDeleted(BooleanEm.FALSE.getValue());
+        sysDict.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
         return sysDictService.save(sysDict);
     }
 
@@ -122,7 +125,7 @@ public class SysDictManager {
         if (!sysDictService.updateHashCode(sysDictItem.getDictCode())) {
             return false;
         }
-        sysDictItem.setDeleted(BooleanEm.FALSE.getValue());
+        sysDictItem.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
         return sysDictItemService.save(sysDictItem);
     }
 

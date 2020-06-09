@@ -1,6 +1,8 @@
 package com.hccake.ballcat.admin.oauth;
 
+import com.hccake.ballcat.admin.constants.SysUserConst;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,32 +16,30 @@ import java.util.List;
  */
 public class SysUserDetails implements UserDetails {
 
-    private SysUser sysUser;
+    private final SysUser sysUser;
 
-    private Collection<? extends GrantedAuthority> authorities;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     /**
      * 权限标识集合
      */
-    private List<String> permissions;
+    private final List<String> permissions;
     /**
      * 角色集合
      */
-    private List<String> roles;
+    private final List<String> roles;
     /**
      * 角色ID集合
      */
-    private List<Integer> roleIds;
+    private final List<Integer> roleIds;
 
-
-    public SysUserDetails(SysUser sysUser, List<String> roles, List<Integer> roleIds, List<String> permissions, Collection<? extends GrantedAuthority> authorities) {
-        this.sysUser = sysUser;
-        this.authorities = authorities;
-        this.roles = roles;
-        this.roleIds = roleIds;
-        this.permissions = permissions;
-    }
-
+	public SysUserDetails(SysUser sysUser, List<String> roles, List<Integer> roleIds, List<String> permissions, Collection<? extends GrantedAuthority> authorities) {
+		this.sysUser = sysUser;
+		this.authorities = authorities;
+		this.roles = roles;
+		this.roleIds = roleIds;
+		this.permissions = permissions;
+	}
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -63,7 +63,7 @@ public class SysUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return sysUser.getDeleted() == 0;
+        return GlobalConstants.NOT_DELETED_FLAG.equals(sysUser.getDeleted());
     }
 
     @Override
@@ -73,9 +73,8 @@ public class SysUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return sysUser.getStatus() == 1;
+        return SysUserConst.Status.NORMAL.getValue().equals(sysUser.getStatus());
     }
-
 
     public SysUser getSysUser() {
         return sysUser;
