@@ -41,11 +41,11 @@ public class SysRole extends Model<SysRole> {
 	@ApiModelProperty(value = "角色备注")
 	private String note;
 	/**
-	 * 删除标识（0-正常,1-删除）
+	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
 	 */
 	@TableLogic
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
-	private String deleted;
+	@ApiModelProperty(value="逻辑删除标识，已删除:0，未删除：删除时间戳")
+	private Long deleted;
 	/**
 	 * 创建时间
 	 */

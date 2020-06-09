@@ -24,7 +24,7 @@ import com.hccake.ballcat.admin.modules.sys.service.FileService;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
-import com.hccake.ballcat.common.core.constant.enums.BooleanEm;
+import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
 import com.hccake.ballcat.common.core.vo.SelectData;
 import lombok.RequiredArgsConstructor;
@@ -140,7 +140,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
         sysUser.setStatus(SysUserConst.Status.NORMAL.getValue());
         sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
-        sysUser.setDeleted(BooleanEm.FALSE.getValue());
+        sysUser.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
 
         String password = PasswordUtil.decodeAesAndEncodeBCrypt(sysUserDto.getPass(), secretKey);
         sysUser.setPassword(password);

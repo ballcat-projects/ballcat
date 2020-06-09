@@ -1,9 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -55,6 +52,12 @@ public class SysConfig extends Model<SysConfig> {
      */
     @ApiModelProperty(value="描述")
     private String description;
+	/**
+	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
+	 */
+	@TableLogic
+	@ApiModelProperty(value="逻辑删除标识，已删除:0，未删除：删除时间戳")
+	private Long deleted;
     /**
      * 创建时间
      */

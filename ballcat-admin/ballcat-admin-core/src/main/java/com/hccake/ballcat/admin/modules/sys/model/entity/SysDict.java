@@ -53,12 +53,12 @@ public class SysDict extends Model<SysDict> {
      */
     @ApiModelProperty(value = "1：是 0：否")
     private Integer editable;
-    /**
-     * 逻辑删除标识
-     */
-    @TableLogic
-    @ApiModelProperty(value = "逻辑删除标识")
-    private Integer deleted;
+	/**
+	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
+	 */
+	@TableLogic
+	@ApiModelProperty(value="逻辑删除标识，已删除:0，未删除：删除时间戳")
+	private Long deleted;
     /**
      * 创建时间
      */

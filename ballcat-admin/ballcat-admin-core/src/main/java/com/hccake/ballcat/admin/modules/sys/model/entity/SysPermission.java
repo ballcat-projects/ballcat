@@ -96,11 +96,11 @@ public class SysPermission extends Model<SysPermission> {
 	@ApiModelProperty(value="菜单类型 （0菜单 1按钮）")
 	private Integer type;
 	/**
-	 * 逻辑删除标记(0--正常 1--删除)
+	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
 	 */
 	@TableLogic
-	@ApiModelProperty(value="逻辑删除标记(0--正常 1--删除)")
-	private Integer deleted;
+	@ApiModelProperty(value="逻辑删除标识，已删除:0，未删除：删除时间戳")
+	private Long deleted;
 	/**
 	 * 创建时间
 	 */
