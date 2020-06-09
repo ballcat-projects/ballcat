@@ -5,8 +5,8 @@ import com.hccake.ballcat.admin.oauth.CustomTokenEnhancer;
 import com.hccake.ballcat.admin.oauth.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.admin.oauth.exception.CustomWebResponseExceptionTranslator;
 import com.hccake.ballcat.admin.oauth.mobile.MobileTokenGranter;
+import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -44,13 +44,6 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
     private final RedisConnectionFactory redisConnectionFactory;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
-
-    /**
-     * 如果没有配置，则不处理
-     */
-    @Value("${redis.global-key-prefix:}")
-    private String redisKeyPrefix;
-
 
     /**
      * 定义资源权限控制的配置
@@ -108,14 +101,14 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
     @Bean
     public TokenStore tokenStore() {
         RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-        tokenStore.setPrefix(redisKeyPrefix + SecurityConst.OAUTH_PREFIX);
+        tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + SecurityConst.OAUTH_PREFIX);
         return tokenStore;
     }
 
 
     /**
      * token 增强，追加一些自定义信息
-     * @return
+     * @return TokenEnhancer Token增强处理器
      */
     @Bean
     public TokenEnhancer tokenEnhancer() {
