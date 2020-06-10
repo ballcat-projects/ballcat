@@ -15,7 +15,6 @@
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>mybatis-plus-extend</artifactId>
-			<version>0.0.2</version>
 		</dependency>
 		<!--hutool-->
 		<dependency>
