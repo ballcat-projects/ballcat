@@ -1,6 +1,9 @@
 package com.hccake.extend.mybatis.plus.mysql;
 
 import com.hccake.extend.mybatis.plus.config.StaticConfig;
+import com.hccake.extend.mybatis.plus.mysql.methods.InsertIgnoreByBatch;
+import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateByBatch;
+import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateFieldByBatch;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,10 +14,11 @@ import java.util.List;
  *
  * @author lingting  2020/5/27 11:39
  */
-public interface BaseMapper<T> extends com.baomidou.mybatisplus.core.mapper.BaseMapper<T> {
+public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mapper.BaseMapper<T> {
 
 	/**
 	 * 批处理 如果重复则忽略
+	 * 实现类 {@link InsertIgnoreByBatch}
 	 *
 	 * @param list 值列表
 	 * @return int
@@ -24,6 +28,7 @@ public interface BaseMapper<T> extends com.baomidou.mybatisplus.core.mapper.Base
 
 	/**
 	 * 批处理 如果重复则更新
+	 * 实现类 {@link InsertOrUpdateByBatch}
 	 *
 	 * @param list   值列表
 	 * @param ignore 是否忽略全局配置的忽略字段 {@link StaticConfig#UPDATE_IGNORE_FIELDS}
@@ -47,6 +52,7 @@ public interface BaseMapper<T> extends com.baomidou.mybatisplus.core.mapper.Base
 	 * 自定义 如果重复 需要更新的 field
 	 * 当传入的 columns.ignore 属性为 true时
 	 * 会使用您传入的 字段值 去覆盖 不在 columns.list 中 字段 的值
+	 * 实现类 {@link InsertOrUpdateFieldByBatch}
 	 *
 	 * @param list    值列表
 	 * @param columns 字段
