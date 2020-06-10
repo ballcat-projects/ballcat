@@ -18,25 +18,31 @@ public enum OperationTypeEnum {
      */
     LOGIN(1),
 
+	/**
+	 * 登出操作
+	 */
+	LOGOUT(2),
+
+	/**
+	 * 查看操作，主要用于敏感数据查询记录
+	 */
+	READ(3),
+
     /**
      * 新建操作
      */
-    CREATE(2),
+    CREATE(4),
 
     /**
      * 修改操作
      */
-    UPDATE(3),
+    UPDATE(5),
 
     /**
      * 删除操作
      */
-    DELETE(4),
+    DELETE(6);
 
-    /**
-     * 查看操作，主要用于敏感数据查询记录
-     */
-    READ(5);
 
     private final Integer value;
 }
