@@ -13,8 +13,8 @@
         <module>ballcat-starters</module>
 		<module>ballcat-samples</module>
 		<module>ballcat-dependencies</module>
-		<module>ballcat-extends</module>
-	</modules>
+        <module>ballcat-extends</module>
+    </modules>
     <name>ballcat</name>
     <description>项目基本脚手架</description>
 	<url>https://github.com/hccake/ballcat</url>
