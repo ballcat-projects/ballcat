@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class ModifyParamMapRequestWrapper extends HttpServletRequestWrapper {
 
-    private Map<String, String[]> parameterMap;
+    private final Map<String, String[]> parameterMap;
 
     public ModifyParamMapRequestWrapper(HttpServletRequest request, Map<String, String[]> parameterMap) {
         super(request);
