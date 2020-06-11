@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.oauth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.admin.constants.UrlMappingConst;
-import com.hccake.ballcat.common.core.filter.ModifyParamMapRequestWrapper;
+import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
 import com.hccake.ballcat.common.core.util.PasswordUtil;

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.conf.exception;
 
-import com.hccake.ballcat.common.conf.exception.handler.GlobalExceptionHandler;
+import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;

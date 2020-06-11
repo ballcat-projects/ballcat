@@ -1,6 +1,5 @@
-package com.hccake.ballcat.common.conf.web;
+package com.hccake.ballcat.common.core.exception;
 
-import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
 
 /**

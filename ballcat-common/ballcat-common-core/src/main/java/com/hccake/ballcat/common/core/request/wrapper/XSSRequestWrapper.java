@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.filter;
+package com.hccake.ballcat.common.core.request.wrapper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.util.HtmlUtils;

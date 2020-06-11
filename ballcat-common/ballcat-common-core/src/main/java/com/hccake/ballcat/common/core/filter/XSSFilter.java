@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.core.filter;
 
+import com.hccake.ballcat.common.core.request.wrapper.XSSRequestWrapper;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

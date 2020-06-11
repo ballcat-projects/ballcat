@@ -3,7 +3,7 @@ package com.hccake.ballcat.commom.log.access.filter;
 import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.commom.log.access.handler.AccessLogHandler;
 import com.hccake.ballcat.commom.log.util.LogUtils;
-import com.hccake.ballcat.common.core.filter.RepeatBodyRequestWrapper;
+import com.hccake.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
 import lombok.AllArgsConstructor;
 import org.springframework.web.filter.OncePerRequestFilter;
 

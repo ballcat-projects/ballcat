@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum BooleanEm {
+public enum BooleanEnum {
 
     /**
      * 是

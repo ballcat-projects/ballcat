@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.filter;
+package com.hccake.ballcat.common.core.request.wrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;

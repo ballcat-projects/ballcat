@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.conf.exception.handler;
+package com.hccake.ballcat.common.core.exception.handler;
 
 /**
  * @author Hccake

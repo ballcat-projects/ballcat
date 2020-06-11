@@ -35,6 +35,6 @@ public enum SystemResultCode implements ResultCode {
     SERVER_ERROR(500, "Internal Server Error");
 
 
-    private Integer code;
-    private String message;
+    private final Integer code;
+    private final String message;
 }

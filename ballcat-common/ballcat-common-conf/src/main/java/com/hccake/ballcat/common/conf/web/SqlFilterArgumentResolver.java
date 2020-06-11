@@ -3,6 +3,7 @@ package com.hccake.ballcat.common.conf.web;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hccake.ballcat.common.core.exception.SqlCheckedException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -57,7 +58,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		String sortField = request.getParameter("sortField");
 		String sortAsc = request.getParameter("sortAsc");
 
-		Page page = new Page();
+		Page<?> page = new Page<>();
 		if (StrUtil.isNotBlank(current)) {
 			page.setCurrent(Long.parseLong(current));
 		}

@@ -17,16 +17,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * The type Actuator filter.
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/10/17 20:28
+ * @date 2019 /10/17 20:28
  */
 public class ActuatorFilter extends OncePerRequestFilter {
 
-    private String secretId;
-    private String secretKey;
+    private final String secretId;
+    private final String secretKey;
 
-    public ActuatorFilter(String secretId, String secretKey){
+	/**
+	 * Instantiates a new Actuator filter.
+	 *
+	 * @param secretId  the secret id
+	 * @param secretKey the secret key
+	 */
+	public ActuatorFilter(String secretId, String secretKey){
         this.secretId = secretId;
         this.secretKey = secretKey;
     }
@@ -38,9 +46,9 @@ public class ActuatorFilter extends OncePerRequestFilter {
      * <p>Provides HttpServletRequest and HttpServletResponse arguments instead of the
      * default ServletRequest and ServletResponse ones.
      *
-     * @param request
-     * @param response
-     * @param filterChain
+     * @param request  请求信息
+     * @param response 响应信息
+     * @param filterChain 过滤器链
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -58,13 +66,13 @@ public class ActuatorFilter extends OncePerRequestFilter {
         }
     }
 
-    /**
-     * 校验sign
-     * @param reqSecretId
-     * @param sign
-     * @param reqTime
-     * @return
-     */
+	/**
+	 * 校验sign
+	 * @param reqSecretId secretId
+	 * @param sign 签名
+	 * @param reqTime  请求时间戳 ms
+	 * @return boolean 通过返回true
+	 */
     private boolean verifySign(String reqSecretId, String sign, String reqTime) {
         if (StrUtil.isNotBlank(sign) && StrUtil.isNotBlank(reqTime) && StrUtil.isNotBlank(reqSecretId)) {
             if(!reqSecretId.equals(secretId)){

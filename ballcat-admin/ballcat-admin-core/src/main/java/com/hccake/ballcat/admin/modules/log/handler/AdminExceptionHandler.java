@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.modules.log.handler;
 
-import com.hccake.ballcat.common.conf.exception.handler.GlobalExceptionHandler;
+import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import org.springframework.stereotype.Component;
 
 /**

@@ -13,7 +13,7 @@ import com.hccake.ballcat.admin.modules.sys.model.vo.DictItemVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
-import com.hccake.ballcat.common.core.constant.enums.BooleanEm;
+import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +69,7 @@ public class SysDictManager {
     public boolean updateDictById(SysDict sysDict) {
         // 查询现有数据
         SysDict dict = sysDictService.getById(sysDict.getId());
-        if (BooleanEm.TRUE.getValue() != dict.getEditable()) {
+        if (BooleanEnum.TRUE.getValue() != dict.getEditable()) {
             throw new BusinessException(
                     BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该字典项目不能修改"
             );
@@ -88,7 +88,7 @@ public class SysDictManager {
     public boolean removeDictById(Integer id) {
         // 查询现有数据
         SysDict dict = sysDictService.getById(id);
-        if (BooleanEm.TRUE.getValue() != dict.getEditable()) {
+        if (BooleanEnum.TRUE.getValue() != dict.getEditable()) {
             throw new BusinessException(
                     BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该字典项目不能删除"
             );
@@ -140,7 +140,7 @@ public class SysDictManager {
         // 根据ID查询字典
         SysDict dict = sysDictService.getByCode(sysDictItem.getDictCode());
         // 校验是否可编辑
-        if (BooleanEm.TRUE.getValue() != dict.getEditable()) {
+        if (BooleanEnum.TRUE.getValue() != dict.getEditable()) {
             throw new BusinessException(
                     BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该字典项目不能修改"
             );
@@ -165,7 +165,7 @@ public class SysDictManager {
         SysDictItem dictItem = sysDictItemService.getById(id);
         SysDict dict = sysDictService.getByCode(dictItem.getDictCode());
         // 校验是否系统内置
-        if (BooleanEm.TRUE.getValue() != dict.getEditable()) {
+        if (BooleanEnum.TRUE.getValue() != dict.getEditable()) {
             throw new BusinessException(
                     BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该字典项目不能删除"
             );
