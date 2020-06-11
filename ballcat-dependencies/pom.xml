@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.hccake</groupId>
-    <artifactId>ballcat-dependencies</artifactId>
-    <version>${revision}</version>
-    <packaging>pom</packaging>
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.hccake</groupId>
+	<artifactId>ballcat-dependencies</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
 
 	<name>Ballcat Dependencies</name>
 	<description>Ballcat Dependencies</description>
@@ -35,75 +35,80 @@
 
 
 	<properties>
-        <revision>0.0.2</revision>
-        <flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
+		<revision>0.0.2</revision>
+		<flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 
-
 		<hutool.version>5.2.5</hutool.version>
-        <mybatis-plus.version>3.3.2</mybatis-plus.version>
-        <simple-cache.version>1.0.0</simple-cache.version>
-        <swagger.core.version>1.5.2</swagger.core.version>
-        <xxl-job.version>2.2.0</xxl-job.version>
-        <spring-boot-admin.version>2.2.2</spring-boot-admin.version>
-        <oss.aliyun.version>3.8.0</oss.aliyun.version>
-        <easyexcel.version>2.1.6</easyexcel.version>
-    </properties>
+		<mybatis-plus.version>3.3.2</mybatis-plus.version>
+		<simple-cache.version>1.0.0</simple-cache.version>
+		<swagger.core.version>1.5.2</swagger.core.version>
+		<xxl-job.version>2.2.0</xxl-job.version>
+		<spring-boot-admin.version>2.2.2</spring-boot-admin.version>
+		<oss.aliyun.version>3.8.0</oss.aliyun.version>
+		<easyexcel.version>2.1.6</easyexcel.version>
+	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-admin-core</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-conf</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-common-core</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-spring-boot-starter-job</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-spring-boot-starter-log</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-spring-boot-starter-swagger</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-spring-boot-starter-storage</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-spring-boot-starter-mail</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hccake</groupId>
-                <artifactId>ballcat-spring-boot-starter-easyexcel</artifactId>
-                <version>${revision}</version>
-            </dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-admin-core</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-conf</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-core</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-job</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-log</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-swagger</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-storage</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-mail</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-easyexcel</artifactId>
+				<version>${revision}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-boot-starter-redis</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-ding-talk</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-extend-ding-talk</artifactId>
@@ -120,67 +125,67 @@
 				<version>${revision}</version>
 			</dependency>
 
-            <!--swagger注解-->
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.core.version}</version>
-            </dependency>
-            <!--xxl-job-->
-            <dependency>
-                <groupId>com.xuxueli</groupId>
-                <artifactId>xxl-job-core</artifactId>
-                <version>${xxl-job.version}</version>
-            </dependency>
-            <!--mybatis plus extension,包含了mybatis plus core-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-core</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <!--mybatis-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <!--aliyun oss sdk-->
-            <dependency>
-                <groupId>com.aliyun.oss</groupId>
-                <artifactId>aliyun-sdk-oss</artifactId>
-                <version>${oss.aliyun.version}</version>
-            </dependency>
-            <!--easyExcel 处理-->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>easyexcel</artifactId>
-                <version>${easyexcel.version}</version>
-            </dependency>
-            <!--监控server端-->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-server</artifactId>
-                <version>${spring-boot-admin.version}</version>
-            </dependency>
-            <!--监控Client-->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-client</artifactId>
-                <version>${spring-boot-admin.version}</version>
-            </dependency>
-            <!--hutool工具类-->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+			<!--swagger注解-->
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${swagger.core.version}</version>
+			</dependency>
+			<!--xxl-job-->
+			<dependency>
+				<groupId>com.xuxueli</groupId>
+				<artifactId>xxl-job-core</artifactId>
+				<version>${xxl-job.version}</version>
+			</dependency>
+			<!--mybatis plus extension,包含了mybatis plus core-->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-extension</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-core</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<!--mybatis-->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<!--aliyun oss sdk-->
+			<dependency>
+				<groupId>com.aliyun.oss</groupId>
+				<artifactId>aliyun-sdk-oss</artifactId>
+				<version>${oss.aliyun.version}</version>
+			</dependency>
+			<!--easyExcel 处理-->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>easyexcel</artifactId>
+				<version>${easyexcel.version}</version>
+			</dependency>
+			<!--监控server端-->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<!--监控Client-->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<!--hutool工具类-->
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<distributionManagement>
 		<snapshotRepository>
@@ -193,7 +198,7 @@
 		</repository>
 	</distributionManagement>
 
-    <build>
+	<build>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -218,34 +223,34 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <version>${flatten-maven-plugin.version}</version>
-                <configuration>
-                    <updatePomFile>true</updatePomFile>
-                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${flatten-maven-plugin.version}</version>
+				<configuration>
+					<updatePomFile>true</updatePomFile>
+					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 	<!--环境变量-->
 	<profiles>
