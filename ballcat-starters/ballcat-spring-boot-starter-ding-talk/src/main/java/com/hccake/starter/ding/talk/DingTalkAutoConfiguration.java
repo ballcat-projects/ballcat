@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(prefix = "ballcat.ding-talk.url")
+@ConditionalOnProperty(name = "ballcat.ding-talk.url")
 @EnableConfigurationProperties({DingTalkProperties.class})
 public class DingTalkAutoConfiguration {
 	private final DingTalkProperties dingTalkProperties;
