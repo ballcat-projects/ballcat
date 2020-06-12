@@ -5,6 +5,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,4 +32,8 @@ public class ExceptionHandleConfig {
 	 * 堆栈转string 的长度
 	 */
 	private int length = 3000;
+	/**
+	 * 接收异常通知邮件的邮箱
+	 */
+	private Set<String> receiveEmails = new HashSet<>();
 }

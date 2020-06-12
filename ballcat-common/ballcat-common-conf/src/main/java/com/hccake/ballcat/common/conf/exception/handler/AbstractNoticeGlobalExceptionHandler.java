@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implements GlobalExceptionHandler {
-	private final ExceptionHandleConfig config;
+	protected final ExceptionHandleConfig config;
 	/**
 	 * 通知消息存放    e.message   堆栈信息
 	 */
@@ -61,10 +61,12 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 	public void handle(Throwable e) {
 		synchronized (lock) {
 			number++;
-			ExceptionMessage message = messages.getOrDefault(
-					e.getMessage(),
-					new ExceptionMessage().setNumber(0).setMac(mac).setApplicationName(applicationName)
-			);
+			ExceptionMessage message = messages.get(e.getMessage());
+
+			if (message == null) {
+				message = new ExceptionMessage().setNumber(0).setMac(mac).setApplicationName(applicationName);
+			}
+
 			message.setNumber(message.getNumber() + 1)
 					.setStack(ExceptionUtil.stacktraceToString(e, config.getLength()).replaceAll("\\r", ""))
 					.setTime(DateUtil.now())
