@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.conf.exception;
 
-import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import com.hccake.ballcat.common.core.exception.BusinessException;
+import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * 全局异常处理
+ *
  * @author Hccake
  */
 @Slf4j
@@ -31,12 +32,13 @@ public class GlobalExceptionHandlerResolver {
 
 	/**
 	 * 全局异常捕获
+	 *
 	 * @param e the e
 	 * @return R
 	 */
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public R handleGlobalException(Exception e) {
+	public R<String> handleGlobalException(Exception e) {
 		log.error("全局异常信息 ex={}", e.getMessage(), e);
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.SERVER_ERROR, e.getLocalizedMessage());
@@ -47,12 +49,13 @@ public class GlobalExceptionHandlerResolver {
 	 * 自定义业务异常捕获
 	 * 业务异常响应码推荐使用200
 	 * 用 result 结构中的code做为业务错误码标识
+	 *
 	 * @param e the e
 	 * @return R
 	 */
 	@ExceptionHandler(BusinessException.class)
 	@ResponseStatus(HttpStatus.OK)
-	public R handleBallCatException(BusinessException e) {
+	public R<String> handleBallCatException(BusinessException e) {
 		log.error("自定义异常信息 ex={}", e.getMessage(), e);
 		globalExceptionHandler.handle(e);
 		return R.failed(e.getCode(), e.getMsg());
@@ -67,7 +70,7 @@ public class GlobalExceptionHandlerResolver {
 	 */
 	@ExceptionHandler(AccessDeniedException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public R handleAccessDeniedException(AccessDeniedException e) {
+	public R<String> handleAccessDeniedException(AccessDeniedException e) {
 		String msg = SpringSecurityMessageSource.getAccessor()
 				.getMessage("AbstractAccessDecisionManager.accessDenied"
 						, e.getMessage());
@@ -84,13 +87,13 @@ public class GlobalExceptionHandlerResolver {
 	 */
 	@ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R handleBodyValidException(Exception exception) {
+	public R<String> handleBodyValidException(Exception exception) {
 		List<FieldError> fieldErrors;
-		if(exception instanceof BindException){
-			BindException bindException = (BindException)exception;
+		if (exception instanceof BindException) {
+			BindException bindException = (BindException) exception;
 			fieldErrors = bindException.getBindingResult().getFieldErrors();
-		}else{
-			MethodArgumentNotValidException e = (MethodArgumentNotValidException)exception;
+		} else {
+			MethodArgumentNotValidException e = (MethodArgumentNotValidException) exception;
 			fieldErrors = e.getBindingResult().getFieldErrors();
 		}
 
@@ -105,17 +108,17 @@ public class GlobalExceptionHandlerResolver {
 	/**
 	 * 单体参数校验异常
 	 * validation Exception
+	 *
 	 * @param e the e
 	 * @return R
 	 */
 	@ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R handleValidationException(Exception e) {
+	public R<String> handleValidationException(Exception e) {
 		log.error("参数绑定异常 ex={}", e.getMessage(), e);
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
 	}
-
 
 
 }

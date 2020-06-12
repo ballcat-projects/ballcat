@@ -1,7 +1,6 @@
 package com.hccake.extend.ding.talk.message;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.hccake.extend.ding.talk.DingTalkParams;
 import com.hccake.extend.ding.talk.enums.MessageTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +36,11 @@ public class DingTalkLinkMessage extends AbstractDingTalkMessage {
 	}
 
 	@Override
-	public JSONObject json() {
-		return JSONUtil.parseObj("{\"link\":{\"text\":\"" + text + "\",\"title\":\"" + title + "\",\"picUrl\":\"" + picUrl + "\",\"messageUrl\":\"" + messageUrl + "\"}}");
+	public DingTalkParams put(DingTalkParams params) {
+		return params.setLink(new DingTalkParams.Link()
+				.setText(text)
+				.setTitle(title)
+				.setPicUrl(picUrl)
+				.setMessageUrl(messageUrl));
 	}
 }

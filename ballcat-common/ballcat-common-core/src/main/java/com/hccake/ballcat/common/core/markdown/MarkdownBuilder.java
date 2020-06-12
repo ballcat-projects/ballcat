@@ -29,6 +29,10 @@ public class MarkdownBuilder {
 	 */
 	private StringBuilder lineTextBuilder;
 
+	public MarkdownBuilder() {
+		this.lineTextBuilder = new StringBuilder();
+	}
+
 	/**
 	 * 添加自定义内容
 	 *
@@ -153,12 +157,19 @@ public class MarkdownBuilder {
 	 * @author lingting  2020-06-10 22:58:04
 	 */
 	public MarkdownBuilder quote(String content) {
-		forceLineBreak();
-		lineTextBuilder.append(QUOTE_PREFIX).append(content);
-		// 下面得换行两次
-		forceLineBreak();
-		forceLineBreak();
+		lineBreak();
+		this.content.add(QUOTE_PREFIX + content);
 		return this;
+	}
+
+	/**
+	 * 添加引用后 强制换行
+	 *
+	 * @author lingting  2020-06-12 15:50:29
+	 */
+	public MarkdownBuilder quoteLineBreak(String content) {
+		quote(content);
+		return forceLineBreak();
 	}
 
 	/**
@@ -191,7 +202,8 @@ public class MarkdownBuilder {
 	 * @author lingting  2020-06-10 22:55:39
 	 */
 	private MarkdownBuilder title(int i, String content) {
-		lineTextBuilder = new StringBuilder();
+		// 如果当前操作行已有字符，需要换行
+		lineBreak();
 		for (int j = 0; j < i; j++) {
 			lineTextBuilder.append(TITLE_PREFIX);
 		}
@@ -231,12 +243,9 @@ public class MarkdownBuilder {
 	 * @author lingting  2020-06-11 22:55:40
 	 */
 	public String build() {
-		if (lineTextBuilder.length() != 0) {
-			// 最后一个操作的 如果不为空，也需要添加进入list
-			content.add(lineTextBuilder.toString());
-		}
+		lineBreak();
 		StringBuilder res = new StringBuilder();
-		content.forEach(content -> res.append(content).append("\\n"));
+		content.forEach(content -> res.append(content).append(" \n"));
 		return res.toString();
 	}
 }

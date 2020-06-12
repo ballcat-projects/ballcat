@@ -1,8 +1,7 @@
 package com.hccake.extend.ding.talk.message;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.hccake.ballcat.common.core.markdown.MarkdownBuilder;
+import com.hccake.extend.ding.talk.DingTalkParams;
 import com.hccake.extend.ding.talk.enums.ActionBtnOrientationEnum;
 import com.hccake.extend.ding.talk.enums.MessageTypeEnum;
 import lombok.AllArgsConstructor;
@@ -61,25 +60,19 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 	}
 
 	@Override
-	public JSONObject json() {
-		// 头
-		String jsonStr = "{\"actionCard\":{" +
-				"\"title\":\"" + title + "\"," +
-				"\"text\":\"" + text.build() + "\"," +
-				"\"btnOrientation\":\"" + orientation.getVal() + "\",";
+	public DingTalkParams put(DingTalkParams params) {
+		DingTalkParams.ActionCard card = new DingTalkParams.ActionCard()
+				.setTitle(title)
+				.setText(text.build())
+				.setBtnOrientation(orientation.getVal());
 
 		// 当 单按钮的  文本和链接都不为空时
 		if (buttons.size() == 0) {
-			jsonStr += "\"singleTitle\":\"" + singleTitle + "\"," +
-					"\"singleURL\":\"" + singleUrl + "\",";
+			card.setSingleTitle(singleTitle).setSingleUrl(singleUrl);
 		} else {
-			// 否则使用自定义按钮组
-			jsonStr += "\"btns\":" + JSONUtil.toJsonStr(buttons);
+			card.setButtons(buttons);
 		}
-
-		// 尾
-		jsonStr += "}}";
-		return JSONUtil.parseObj(jsonStr);
+		return params.setActionCard(card);
 	}
 
 	@Getter

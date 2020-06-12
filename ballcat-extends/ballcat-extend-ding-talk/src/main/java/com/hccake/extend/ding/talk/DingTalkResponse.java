@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DingTalkResponse {
+	public static final String SUCCESS_CODE = "0";
 	private String errCode;
 	/**
 	 * 值为ok表示无异常
@@ -22,6 +23,10 @@ public class DingTalkResponse {
 	 * 钉钉返回信息
 	 */
 	private String response;
+	/**
+	 * 是否发送成功
+	 */
+	private boolean success;
 
 	public static DingTalkResponse getInstance(String res) {
 		JSONObject json = JSONUtil.parseObj(res);
@@ -29,6 +34,7 @@ public class DingTalkResponse {
 		response.errCode = json.getStr("errcode");
 		response.errMsg = json.getStr("errmsg");
 		response.response = res;
+		response.success = SUCCESS_CODE.equalsIgnoreCase(response.errCode);
 		return response;
 	}
 

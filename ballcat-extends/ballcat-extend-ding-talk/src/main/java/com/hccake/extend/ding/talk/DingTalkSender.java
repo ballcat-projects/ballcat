@@ -53,7 +53,7 @@ public class DingTalkSender {
 	 * @author lingting  2020-06-11 00:09:23
 	 */
 	public DingTalkResponse sendNormalMessage(DingTalkMessage message) {
-		return DingTalkResponse.getInstance(HttpUtil.post(url, message.toString()));
+		return DingTalkResponse.getInstance(HttpUtil.post(url, message.generate()));
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class DingTalkSender {
 	 */
 	@SneakyThrows
 	public DingTalkResponse sendSecretMessage(DingTalkMessage message) {
-		return DingTalkResponse.getInstance(HttpUtil.post(secret(), message.toString()));
+		return DingTalkResponse.getInstance(HttpUtil.post(secret(), message.generate()));
 	}
 
 	/**

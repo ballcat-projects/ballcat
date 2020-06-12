@@ -1,7 +1,6 @@
 package com.hccake.extend.ding.talk.message;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.hccake.extend.ding.talk.DingTalkParams;
 import com.hccake.extend.ding.talk.enums.MessageTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +24,7 @@ public class DingTalkTextMessage extends AbstractDingTalkMessage {
 	}
 
 	@Override
-	public JSONObject json() {
-		return JSONUtil.parseObj("{\"text\":{\"content\":\"" + content + "\"}}");
+	public DingTalkParams put(DingTalkParams params) {
+		return params.setText(new DingTalkParams.Text().setContent(content));
 	}
 }

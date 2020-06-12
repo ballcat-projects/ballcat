@@ -12,6 +12,8 @@ import java.time.LocalDate;
  */
 @Data
 public class MailDTO {
+	public static final String MAIL_DELIMITER =",";
+
     /**
      * 发件人
      */
@@ -49,9 +51,9 @@ public class MailDTO {
      */
     private LocalDate sentDate;
     /**
-     * 发送状态 1：成功 2：失败
+     * 是否发送成功
      */
-    private Integer status;
+    private Boolean success;
     /**
      * 错误信息 errorMsg
      */
