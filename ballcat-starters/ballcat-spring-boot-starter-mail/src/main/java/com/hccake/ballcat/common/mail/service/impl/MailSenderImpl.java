@@ -34,7 +34,7 @@ public class MailSenderImpl implements MailSender {
     /**
      * 发送邮件
      *
-     * @param mailDTO
+     * @param mailDTO 邮件参数
      */
     @Override
     public void sendMail(MailDTO mailDTO) {
@@ -43,9 +43,9 @@ public class MailSenderImpl implements MailSender {
             checkMail(mailDTO);
             //2.发送邮件
             sendMimeMail(mailDTO);
-            mailDTO.setStatus(1);
+            mailDTO.setSuccess(true);
         } catch (Exception e) {
-            mailDTO.setStatus(2);
+            mailDTO.setSuccess(false);
             mailDTO.setErrorMsg(e.getMessage());
             log.error("发送邮件失败:", e);
         }finally {
@@ -57,7 +57,7 @@ public class MailSenderImpl implements MailSender {
 
     /**
      * 构建复杂邮件信息类
-     * @param mailDTO
+     * @param mailDTO 邮件发送设置
      */
     private void sendMimeMail(MailDTO mailDTO) {
         try {
