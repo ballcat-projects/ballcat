@@ -1,7 +1,7 @@
 package com.hccake.extend.ding.talk.message;
 
-import cn.hutool.json.JSONObject;
 import com.hccake.ballcat.common.core.markdown.MarkdownBuilder;
+import com.hccake.extend.ding.talk.DingTalkParams;
 import com.hccake.extend.ding.talk.enums.MessageTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,12 +29,7 @@ public class DingTalkMarkDownMessage extends AbstractDingTalkMessage {
 	}
 
 	@Override
-	public JSONObject json() {
-		return new JSONObject().put(
-				"markdown",
-				new JSONObject()
-						.put("title", title)
-						.put("text", text.build())
-		);
+	public DingTalkParams put(DingTalkParams params) {
+		return params.setMarkdown(new DingTalkParams.Markdown().setTitle(title).setText(text.build()));
 	}
 }

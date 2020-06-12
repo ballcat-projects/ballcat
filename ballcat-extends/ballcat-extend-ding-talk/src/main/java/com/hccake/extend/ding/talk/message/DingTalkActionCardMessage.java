@@ -1,7 +1,7 @@
 package com.hccake.extend.ding.talk.message;
 
-import cn.hutool.json.JSONObject;
 import com.hccake.ballcat.common.core.markdown.MarkdownBuilder;
+import com.hccake.extend.ding.talk.DingTalkParams;
 import com.hccake.extend.ding.talk.enums.ActionBtnOrientationEnum;
 import com.hccake.extend.ding.talk.enums.MessageTypeEnum;
 import lombok.AllArgsConstructor;
@@ -60,21 +60,19 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 	}
 
 	@Override
-	public JSONObject json() {
-		JSONObject json = new JSONObject();
-		json.put("title", title);
-		json.put("text", text.build());
-		json.put("btnOrientation", orientation.getVal());
+	public DingTalkParams put(DingTalkParams params) {
+		DingTalkParams.ActionCard card = new DingTalkParams.ActionCard()
+				.setTitle(title)
+				.setText(text.build())
+				.setBtnOrientation(orientation.getVal());
 
 		// 当 单按钮的  文本和链接都不为空时
 		if (buttons.size() == 0) {
-			json.put("singleTitle", singleTitle);
-			json.put("singleURL", singleUrl);
+			card.setSingleTitle(singleTitle).setSingleUrl(singleUrl);
 		} else {
-			// 否则使用自定义按钮组
-			json.put("btns", buttons);
+			card.setButtons(buttons);
 		}
-		return new JSONObject().put("actionCard", json);
+		return params.setActionCard(card);
 	}
 
 	@Getter

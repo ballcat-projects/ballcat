@@ -1,9 +1,7 @@
 package com.hccake.extend.ding.talk.message;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.hccake.extend.ding.talk.DingTalkParams;
 import com.hccake.extend.ding.talk.enums.MessageTypeEnum;
-import lombok.SneakyThrows;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -47,25 +45,21 @@ public abstract class AbstractDingTalkMessage implements DingTalkMessage {
 	public abstract MessageTypeEnum getType();
 
 	/**
-	 * 生成内容json
+	 * 设置非公有属性
 	 *
-	 * @return 返回生成的json字符串
+	 * @param params 已设置完公有参数的参数类
+	 * @return 已设置完成的参数类
 	 * @author lingting  2020-06-10 22:11:04
 	 */
-	public abstract JSONObject json();
+	public abstract DingTalkParams put(DingTalkParams params);
+
 
 	@Override
-	@SneakyThrows
-	public String toString() {
-		JSONObject json = new JSONObject();
-		json.put("msgtype", getType().getVal());
-		json.putAll(json());
-		json.put(
-				"at",
-				new JSONObject()
-						.put("isAtAll", atAll)
-						.put("atMobiles", JSONUtil.toJsonStr(atPhones))
+	public String generate() {
+		DingTalkParams params = put(new DingTalkParams()
+				.setType(getType().getVal())
+				.setAt(new DingTalkParams.At().setAtAll(atAll).setAtMobiles(atPhones))
 		);
-		return json.toString();
+		return params.toString();
 	}
 }
