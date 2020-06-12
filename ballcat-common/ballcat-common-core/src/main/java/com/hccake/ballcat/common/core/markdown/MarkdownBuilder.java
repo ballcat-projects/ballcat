@@ -29,6 +29,10 @@ public class MarkdownBuilder {
 	 */
 	private StringBuilder lineTextBuilder;
 
+	public MarkdownBuilder() {
+		this.lineTextBuilder = new StringBuilder();
+	}
+
 	/**
 	 * 添加自定义内容
 	 *
@@ -191,7 +195,8 @@ public class MarkdownBuilder {
 	 * @author lingting  2020-06-10 22:55:39
 	 */
 	private MarkdownBuilder title(int i, String content) {
-		lineTextBuilder = new StringBuilder();
+		// 如果当前操作行已有字符，需要换行
+		lineBreak();
 		for (int j = 0; j < i; j++) {
 			lineTextBuilder.append(TITLE_PREFIX);
 		}
