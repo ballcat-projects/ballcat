@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.hccake.starter.ding.talk.DingTalkAutoConfiguration

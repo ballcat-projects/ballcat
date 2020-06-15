@@ -6,7 +6,7 @@ import com.hccake.ballcat.common.conf.exception.handler.DingTalkGlobalExceptionH
 import com.hccake.ballcat.common.conf.exception.handler.MailGlobalExceptionHandler;
 import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import com.hccake.ballcat.common.mail.service.MailSender;
-import com.hccake.extend.ding.talk.DingTalkSender;
+import com.hccake.extend.dingtalk.DingTalkSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

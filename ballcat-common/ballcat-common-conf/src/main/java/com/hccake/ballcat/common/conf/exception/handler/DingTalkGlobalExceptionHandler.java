@@ -3,9 +3,9 @@ package com.hccake.ballcat.common.conf.exception.handler;
 import com.hccake.ballcat.common.conf.config.ExceptionHandleConfig;
 import com.hccake.ballcat.common.conf.exception.domain.ExceptionMessage;
 import com.hccake.ballcat.common.conf.exception.domain.ExceptionNoticeResponse;
-import com.hccake.extend.ding.talk.DingTalkResponse;
-import com.hccake.extend.ding.talk.DingTalkSender;
-import com.hccake.extend.ding.talk.message.DingTalkTextMessage;
+import com.hccake.extend.dingtalk.DingTalkResponse;
+import com.hccake.extend.dingtalk.DingTalkSender;
+import com.hccake.extend.dingtalk.message.DingTalkTextMessage;
 import lombok.extern.slf4j.Slf4j;
 
 /**
