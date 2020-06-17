@@ -9,7 +9,6 @@ import com.hccake.ballcat.common.mail.service.MailSender;
 import com.hccake.extend.dingtalk.DingTalkSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
@@ -36,7 +35,7 @@ public class ExceptionHandleAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
-	@ConditionalOnProperty(prefix = "ballcat.exception", name = "type", havingValue = "NONE")
+	@ConditionalOnProperty(prefix = "ballcat.exception", matchIfMissing = true, name = "type", havingValue = "NONE")
 	public GlobalExceptionHandler defaultGlobalExceptionHandler() {
 		return new DefaultGlobalExceptionHandler();
 	}
@@ -59,9 +58,8 @@ public class ExceptionHandleAutoConfiguration {
 	 * @author lingting  2020-06-12 00:32:40
 	 */
 	@Bean
-	@ConditionalOnClass(MailSender.class)
 	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
-	@ConditionalOnProperty(prefix = "ballcat.exception", name = "type", havingValue = "MAIL")
+	@ConditionalOnProperty(prefix = "ballcat.exception.type", name = "type", havingValue = "MAIL")
 	public GlobalExceptionHandler mailGlobalExceptionHandler(ExceptionHandleConfig exceptionHandleConfig, ApplicationContext context) {
 		return new MailGlobalExceptionHandler(exceptionHandleConfig, context.getBean(MailSender.class), applicationName);
 	}
