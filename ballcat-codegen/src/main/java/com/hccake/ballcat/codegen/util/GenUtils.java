@@ -7,6 +7,8 @@ import cn.hutool.core.util.CharsetUtil;
 import com.hccake.ballcat.codegen.config.GenConfig;
 import com.hccake.ballcat.codegen.entity.ColumnEntity;
 import com.hccake.ballcat.codegen.entity.TableEntity;
+import com.hccake.ballcat.codegen.model.vo.ColumnInfo;
+import com.hccake.ballcat.codegen.model.vo.TableInfo;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -82,14 +84,14 @@ public class GenUtils {
 	 * 生成代码
 	 */
 	@SneakyThrows
-	public void generatorCode(GenConfig genConfig, Map<String, String> table,
-							  List<Map<String, String>> columns, ZipOutputStream zip) {
+	public void generatorCode(GenConfig genConfig, TableInfo table,
+							  List<ColumnInfo> columns, ZipOutputStream zip) {
 
 		boolean hasBigDecimal = false;
 		//表信息
 		TableEntity tableEntity = new TableEntity();
-		tableEntity.setTableName(table.get("tableName"));
-		tableEntity.setComments(table.get("tableComment"));
+		tableEntity.setTableName(table.getTableName());
+		tableEntity.setComments(table.getTableComment());
 
 
 		String tablePrefix = genConfig.getTablePrefix();;
@@ -101,21 +103,23 @@ public class GenUtils {
 		Set<String> hiddenColumns = genConfig.getHiddenColumns();
 		//列信息
 		List<ColumnEntity> columnList = new ArrayList<>();
-		for (Map<String, String> column : columns) {
+		for (ColumnInfo column : columns) {
+			String columnName = column.getColumnName();
+
 			ColumnEntity columnEntity = new ColumnEntity();
-			columnEntity.setColumnName(column.get("columnName"));
-			columnEntity.setDataType(column.get("dataType"));
-			columnEntity.setComments(column.get("columnComment"));
-			columnEntity.setExtra(column.get("extra"));
-			columnEntity.setNullable("NO".equals(column.get("isNullable")));
-			columnEntity.setColumnType(column.get("columnType"));
+			columnEntity.setColumnName(columnName);
+			columnEntity.setDataType(column.getDataType());
+			columnEntity.setComments(column.getColumnComment());
+			columnEntity.setExtra(column.getExtra());
+			columnEntity.setNullable("NO".equals(column.getIsNullable()));
+			columnEntity.setColumnType(column.getColumnType());
 			//隐藏不需要的在接口文档中展示的字段
 			if(CollUtil.isNotEmpty(hiddenColumns)){
-				columnEntity.setHidden(hiddenColumns.contains(column.get("columnName")));
+				columnEntity.setHidden(hiddenColumns.contains(columnName));
 			}
 
 			//列名转换成Java属性名
-			String attrName = columnToJava(columnEntity.getColumnName());
+			String attrName = columnToJava(columnName);
 			columnEntity.setCaseAttrName(attrName);
 			columnEntity.setLowerAttrName(StringUtils.uncapitalize(attrName));
 
@@ -127,7 +131,7 @@ public class GenUtils {
 				hasBigDecimal = true;
 			}
 			//是否主键
-			if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableEntity.getPk() == null) {
+			if ("PRI".equalsIgnoreCase(column.getColumnKey()) && tableEntity.getPk() == null) {
 				tableEntity.setPk(columnEntity);
 			}
 

@@ -43,11 +43,13 @@
 
 		<hutool.version>5.2.5</hutool.version>
 		<mybatis-plus.version>3.3.2</mybatis-plus.version>
+		<dynamic-datasource.version>3.1.1</dynamic-datasource.version>
 		<swagger.core.version>1.5.2</swagger.core.version>
 		<xxl-job.version>2.2.0</xxl-job.version>
 		<spring-boot-admin.version>2.2.3</spring-boot-admin.version>
 		<oss.aliyun.version>3.8.0</oss.aliyun.version>
 		<easyexcel.version>2.1.6</easyexcel.version>
+		<jasypt.version>3.0.3</jasypt.version>
 	</properties>
 
 	<dependencyManagement>
@@ -107,7 +109,6 @@
 				<artifactId>ballcat-spring-boot-starter-dingtalk</artifactId>
 				<version>${revision}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-extend-dingtalk</artifactId>
@@ -153,6 +154,12 @@
 				<artifactId>mybatis-plus-boot-starter</artifactId>
 				<version>${mybatis-plus.version}</version>
 			</dependency>
+			<!--动态数据源-->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+				<version>${dynamic-datasource.version}</version>
+			</dependency>
 			<!--aliyun oss sdk-->
 			<dependency>
 				<groupId>com.aliyun.oss</groupId>
@@ -182,6 +189,12 @@
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-all</artifactId>
 				<version>${hutool.version}</version>
+			</dependency>
+			<!--配置文件加密-->
+			<dependency>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-spring-boot-starter</artifactId>
+				<version>${jasypt.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

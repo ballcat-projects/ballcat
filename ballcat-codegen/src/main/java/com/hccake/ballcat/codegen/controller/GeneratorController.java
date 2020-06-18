@@ -1,12 +1,11 @@
 package com.hccake.ballcat.codegen.controller;
 
 import cn.hutool.core.io.IoUtil;
-import com.baomidou.mybatisplus.extension.api.R;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.codegen.config.GenConfig;
 import com.hccake.ballcat.codegen.service.GeneratorService;
 import com.hccake.ballcat.codegen.vo.GenConfigVO;
 import com.hccake.ballcat.codegen.vo.GeneratorVO;
+import com.hccake.ballcat.common.core.result.R;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
@@ -41,17 +40,6 @@ public class GeneratorController {
 
 
     /**
-     * 列表
-     *
-     * @param tableName 参数集
-     * @return 数据库表
-     */
-    @GetMapping("/page")
-    public R getPage(Page page, String tableName) {
-        return R.ok(generatorService.getPage(page, tableName).getRecords());
-    }
-
-    /**
      * 生成代码
      */
     @SneakyThrows
@@ -63,6 +51,7 @@ public class GeneratorController {
 
         String[] tableNames = generatorVo.getTableNames();
         byte[] data = generatorService.generatorCode(tableNames, genConfig);
+
         response.reset();
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"ballcat.zip\"");
         response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));

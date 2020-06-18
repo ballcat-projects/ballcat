@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hccake.ballcat.codegen.mapper.TableInfoMapper">
+    <select id="selectPageVo" resultType="com.hccake.ballcat.codegen.model.vo.TableInfo">
+        SELECT
+            `table_name`,
+            engine,
+            table_comment,
+            create_time
+        FROM
+            information_schema.TABLES
+        WHERE
+             table_schema = ( SELECT DATABASE ( ) )
+        <if test="tableName != null and tableName.trim() != ''">
+            AND `table_name` LIKE concat('%', #{tableName}, '%')
+        </if>
+        ORDER BY
+        create_time DESC
+    </select>
+
+
+	<select id="queryTableInfo" resultType="com.hccake.ballcat.codegen.model.vo.TableInfo">
+		SELECT
+		`table_name`,
+		engine,
+		table_comment,
+		create_time
+		FROM
+		information_schema.TABLES
+		WHERE
+		table_schema = ( SELECT DATABASE ( ) )
+		AND `table_name` = #{tableName}
+	</select>
+
+
+	<select id="queryColumnInfo" resultType="com.hccake.ballcat.codegen.model.vo.ColumnInfo">
+        SELECT
+            column_name,
+            data_type,
+            column_comment,
+            column_key,
+            extra,
+            is_nullable,
+            column_type
+        FROM
+            information_schema.COLUMNS
+        WHERE
+            table_name = #{tableName}
+            AND table_schema = ( SELECT DATABASE ( ) )
+        ORDER BY
+            ordinal_position
+	</select>
+
+
+</mapper>

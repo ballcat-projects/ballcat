@@ -17,3 +17,9 @@ mybatis-plus:
       id-type: auto
       insert-strategy: not_empty
       update-strategy: not_empty
+
+
+## 生产环境时不应在配置文件中配置
+jasypt:
+  encryptor:
+    password: "123456"

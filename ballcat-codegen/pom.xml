@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-common-core</artifactId>
+			<artifactId>ballcat-common-conf</artifactId>
 		</dependency>
 		<!--webmvc-->
 		<dependency>
@@ -38,6 +38,18 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+		</dependency>
+
+		<!--动态数据源-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+		</dependency>
+
+		<!--模板引擎-->
 		<dependency>
 			<artifactId>velocity</artifactId>
 			<groupId>org.apache.velocity</groupId>
