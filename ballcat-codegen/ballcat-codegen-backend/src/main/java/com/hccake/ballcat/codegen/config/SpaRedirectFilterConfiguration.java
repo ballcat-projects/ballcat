@@ -45,15 +45,17 @@ public class SpaRedirectFilterConfiguration {
 			@Override
 			protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
 				String requestUri = req.getRequestURI();
-				if(SpaRedirectFilterConfiguration.ANT_PATH_MATCHER.match("/api/**", requestUri)){
-					log.info("URL {} access the backend, redirecting...", requestUri);
-					RequestDispatcher rd = req.getRequestDispatcher(requestUri.substring(4));
-					rd.forward(req, res);
-				}else if (pattern.matcher(requestUri).matches() && !"/".equals(requestUri)) {
-					// Delegate/Forward to `/` if `pattern` matches and it is not `/`
-					// Required because of 'mode: history'usage in frontend routing, see README for further details
-					log.info("URL {} entered directly into the Browser, redirecting...", requestUri);
-					RequestDispatcher rd = req.getRequestDispatcher("/");
+				if (pattern.matcher(requestUri).matches() && !"/".equals(requestUri)) {
+					RequestDispatcher rd;
+					if(SpaRedirectFilterConfiguration.ANT_PATH_MATCHER.match("/api/**", requestUri)){
+						log.info("URL {} access the backend, redirecting...", requestUri);
+						rd = req.getRequestDispatcher(requestUri.substring(4));
+					}else {
+						// Delegate/Forward to `/` if `pattern` matches and it is not `/`
+						// Required because of 'mode: history'usage in frontend routing, see README for further details
+						log.info("URL {} entered directly into the Browser, redirecting...", requestUri);
+						rd = req.getRequestDispatcher("/");
+					}
 					rd.forward(req, res);
 				} else {
 					chain.doFilter(req, res);
