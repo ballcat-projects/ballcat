@@ -197,6 +197,7 @@
 					<exclude>**/*.woff</exclude>
 					<exclude>**/*.woff2</exclude>
 					<exclude>**/*.ttf</exclude>
+					<exclude>**/*.ico</exclude>
 				</excludes>
 			</resource>
 			<resource>
@@ -207,6 +208,7 @@
 					<include>**/*.woff</include>
 					<include>**/*.woff2</include>
 					<include>**/*.ttf</include>
+					<include>**/*.ico</include>
 				</includes>
 			</resource>
 		</resources>
