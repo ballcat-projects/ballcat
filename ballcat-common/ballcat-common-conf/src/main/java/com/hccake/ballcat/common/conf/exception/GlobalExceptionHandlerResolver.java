@@ -6,6 +6,7 @@ import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.SpringSecurityMessageSource;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ValidationException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -44,6 +46,34 @@ public class GlobalExceptionHandlerResolver {
 		return R.failed(SystemResultCode.SERVER_ERROR, e.getLocalizedMessage());
 	}
 
+	/**
+	 * 数据库约束异常处理
+	 * 防止数据库信息泄露
+	 * @param e DataIntegrityViolationException
+	 * @return R
+	 */
+	@ExceptionHandler({DataIntegrityViolationException.class})
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public R<String> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+		log.error("违反数据库约束异常信息 ex={}", e.getMessage(), e);
+		globalExceptionHandler.handle(e);
+		return R.failed(SystemResultCode.SERVER_ERROR, "违反数据库约束");
+	}
+
+	/**
+	 * SQL 异常处理
+	 * 防止数据库信息泄露
+	 * @param e SQLException
+	 * @return R
+	 */
+	@ExceptionHandler({SQLException.class})
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public R<String> handleSqlException(SQLException e) {
+		log.error("SQL异常信息 ex={}", e.getMessage(), e);
+		globalExceptionHandler.handle(e);
+		return R.failed(SystemResultCode.SERVER_ERROR, "数据库处理异常");
+	}
+
 
 	/**
 	 * 自定义业务异常捕获
@@ -60,6 +90,7 @@ public class GlobalExceptionHandlerResolver {
 		globalExceptionHandler.handle(e);
 		return R.failed(e.getCode(), e.getMsg());
 	}
+
 
 
 	/**
