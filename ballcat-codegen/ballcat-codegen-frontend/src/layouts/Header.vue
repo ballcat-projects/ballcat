@@ -1,16 +1,15 @@
 <template>
-    <div class="header">Header</div>
+  <div class="header">Header</div>
 </template>
 
 <script>
-    export default {
-        name: "Header"
-    }
+export default {
+  name: 'Header'
+}
 </script>
 
 <style scoped>
-    .header {
-        float: right;
-    }
-
+.header {
+  float: right;
+}
 </style>

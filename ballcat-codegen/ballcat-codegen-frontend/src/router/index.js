@@ -36,6 +36,18 @@ const routes = [
             name: 'Datasource',
             meta: { title: '数据源配置' },
             component: () => import(/* webpackChunkName: "gen" */ '../views/gen/datasourceconfig/DataSourceConfigPage')
+          },
+          {
+            path: '/gen/template',
+            name: 'Template',
+            meta: { title: '模板配置' },
+            component: () => import(/* webpackChunkName: "gen" */ '../views/gen/template/TemplatePage')
+          },
+          {
+            path: '/gen/template/edit',
+            name: 'TemplateEdit',
+            meta: { title: '模板配置1' },
+            component: () => import(/* webpackChunkName: "gen" */ '../views/gen/template/TemplateEdit')
           }
         ]
       },

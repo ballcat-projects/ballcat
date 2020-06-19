@@ -3,9 +3,4 @@ import FormMixin from './formMixin'
 import FormPageMixin from './formPageMixin'
 import FormModalMixin from './formModalMixin'
 
-export {
-  TablePageMixin,
-  FormMixin,
-  FormPageMixin,
-  FormModalMixin
-}
+export { TablePageMixin, FormMixin, FormPageMixin, FormModalMixin }

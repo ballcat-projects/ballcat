@@ -28,9 +28,9 @@ export default {
   components: { Header, Footer, SiderMenu },
   data() {
     return {
-      collapsed: false,
+      collapsed: false
     }
-  },
+  }
 }
 </script>
 
