@@ -13,4 +13,10 @@ public class GlobalConstants {
 	 * 但在有唯一索引的情况下，会导致索引冲突，所以用 0 标识存活， 已删除数据记录为删除时间戳
 	 */
 	public static final Long NOT_DELETED_FLAG = 0L;
+
+
+	/**
+	 * 生产环境
+	 */
+	public final static String ENV_PROD = "prod";
 }
