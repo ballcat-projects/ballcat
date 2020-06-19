@@ -1,7 +1,11 @@
 <template>
   <a-layout id="components-layout-side" style="min-height: 100vh">
     <a-layout-sider :trigger="null" v-model="collapsed" collapsible width="256px">
-      <div class="logo">BallCat Code Generator</div>
+      <div class="logo">
+        <!--<LogSvg alt="logo" />-->
+        <img src="~@/assets/logo.svg" class="logo" alt="logo" style="width:40px;height:auto" />
+        BallCat Code Generator
+      </div>
       <SiderMenu />
     </a-layout-sider>
     <a-layout>
@@ -22,10 +26,11 @@
 import Header from './Header'
 import Footer from './Footer'
 import SiderMenu from './SiderMenu'
+import LogSvg from '@/assets/logo.svg?inline'
 
 export default {
   name: 'BasicLayout',
-  components: { Header, Footer, SiderMenu },
+  components: { Header, Footer, SiderMenu, LogSvg },
   data() {
     return {
       collapsed: false
@@ -40,6 +45,7 @@ export default {
 #components-layout-side .logo {
   color: #eeeeee;
   line-height: 64px;
+  height: 64px;
   text-align: center;
   overflow: hidden;
 }
