@@ -50,6 +50,23 @@ public class GlobalExceptionHandlerResolver {
 		return R.failed(SystemResultCode.SERVER_ERROR, errorMsg);
 	}
 
+	/**
+	 * IllegalArgumentException 异常捕获，主要用于Assert
+	 *
+	 * @param e the e
+	 * @return R
+	 */
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public R<String> handleIllegalArgumentException(IllegalArgumentException e) {
+		log.error("非法数据输入 ex={}", e.getMessage(), e);
+		globalExceptionHandler.handle(e);
+		return R.failed(SystemResultCode.BAD_REQUEST, e.getMessage());
+	}
+
+
+
+
 
 	/**
 	 * 自定义业务异常捕获
