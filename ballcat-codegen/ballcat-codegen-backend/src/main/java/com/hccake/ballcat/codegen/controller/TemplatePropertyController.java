@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/codegen/templateproperty")
-@Api(value = "templateproperty", tags = "模板属性配置管理")
+@RequestMapping("/gen/template/property")
+@Api(value = "/gen/template/property", tags = "模板属性配置管理")
 public class TemplatePropertyController {
 
 	private final TemplatePropertyService templatePropertyService;

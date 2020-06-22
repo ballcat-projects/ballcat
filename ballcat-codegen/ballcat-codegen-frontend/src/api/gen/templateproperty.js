@@ -2,7 +2,7 @@ import { axios } from '@/utils/request'
 
 export function getPage(query) {
   return axios({
-    url: '/${moduleName}/${pathName}/page',
+    url: '/gen/template/property/page',
     method: 'get',
     params: query
   })
@@ -10,7 +10,7 @@ export function getPage(query) {
 
 export function addObj(obj) {
   return axios({
-    url: '/${moduleName}/${pathName}',
+    url: '/gen/template/property',
     method: 'post',
     data: obj
   })
@@ -18,21 +18,21 @@ export function addObj(obj) {
 
 export function getObj(id) {
   return axios({
-    url: '/${moduleName}/${pathName}/' + id,
+    url: '/gen/template/property/' + id,
     method: 'get'
   })
 }
 
 export function delObj(id) {
   return axios({
-    url: '/${moduleName}/${pathName}/' + id,
+    url: '/gen/template/property/' + id,
     method: 'delete'
   })
 }
 
 export function putObj(obj) {
   return axios({
-    url: '/${moduleName}/${pathName}',
+    url: '/gen/template/property',
     method: 'put',
     data: obj
   })

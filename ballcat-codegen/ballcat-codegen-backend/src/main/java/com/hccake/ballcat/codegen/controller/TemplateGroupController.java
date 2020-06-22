@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/gen/templategroup" )
-@Api(value = "templategroup", tags = "模板组管理")
+@RequestMapping("/gen/template/group" )
+@Api(value = "/template/group", tags = "模板组管理")
 public class TemplateGroupController {
 
     private final  TemplateGroupService templateGroupService;

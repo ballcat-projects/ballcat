@@ -2,7 +2,7 @@ import { axios } from '@/utils/request'
 
 export function getPage(query) {
   return axios({
-    url: '/gen/templategroup/page',
+    url: '/gen/template/group/page',
     method: 'get',
     params: query
   })
@@ -10,7 +10,7 @@ export function getPage(query) {
 
 export function addObj(obj) {
   return axios({
-    url: '/gen/templategroup',
+    url: '/gen/template/group',
     method: 'post',
     data: obj
   })
@@ -18,21 +18,21 @@ export function addObj(obj) {
 
 export function getObj(id) {
   return axios({
-    url: '/gen/templategroup/' + id,
+    url: '/gen/template/group/' + id,
     method: 'get'
   })
 }
 
 export function delObj(id) {
   return axios({
-    url: '/gen/templategroup/' + id,
+    url: '/gen/template/group/' + id,
     method: 'delete'
   })
 }
 
 export function putObj(obj) {
   return axios({
-    url: '/gen/templategroup',
+    url: '/gen/template/group',
     method: 'put',
     data: obj
   })

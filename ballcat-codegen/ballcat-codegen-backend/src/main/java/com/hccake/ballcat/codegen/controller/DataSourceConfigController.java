@@ -26,8 +26,8 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/gen/datasourceconfig" )
-@Api(value = "datasourceconfig", tags = "数据源管理")
+@RequestMapping("/gen/datasource-config" )
+@Api(value = "datasource-config", tags = "数据源管理")
 public class DataSourceConfigController {
 
     private final DataSourceConfigService dataSourceConfigService;
