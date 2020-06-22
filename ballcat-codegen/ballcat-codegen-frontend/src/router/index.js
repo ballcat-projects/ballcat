@@ -16,13 +16,13 @@ const routes = [
   {
     path: '/',
     hiddenInMenu: true,
-    component: () => import(`../layouts/BasicLayout`),
+    component: () => import('../layouts/BasicLayout'),
     redirect: '/gen',
     children: [
       {
         path: '/gen',
         redirect: '/gen/codegen',
-        meta: { icon: 'dashboard', title: '代码生成' },
+        meta: { icon: 'setting', title: '代码生成器' },
         component: { render: h => h('router-view') },
         children: [
           {
@@ -32,32 +32,32 @@ const routes = [
             component: () => import(/* webpackChunkName: "gen" */ '../views/gen/codegen/CodeGenPage')
           },
           {
+            path: '/gen/template/group',
+            name: 'TemplateGroup',
+            meta: { title: '模板组管理' },
+            component: () => import(/* webpackChunkName: "gen" */ '../views/gen/templategroup/TemplateGroupPage')
+          },
+          {
             path: '/gen/datasouce',
-            name: 'Datasource',
+            name: 'DataSource',
             meta: { title: '数据源配置' },
             component: () => import(/* webpackChunkName: "gen" */ '../views/gen/datasourceconfig/DataSourceConfigPage')
-          },
-          {
-            path: '/gen/template',
-            name: 'Template',
-            meta: { title: '模板配置' },
-            component: () => import(/* webpackChunkName: "gen" */ '../views/gen/template/TemplatePage')
-          },
-          {
-            path: '/gen/template/edit',
-            name: 'TemplateEdit',
-            meta: { title: '模板配置1' },
-            component: () => import(/* webpackChunkName: "gen" */ '../views/gen/template/TemplateEdit')
           }
         ]
       },
       {
-        path: '*',
-        name: '404',
+        path: '404',
+        name: 'notFound',
         hiddenInMenu: true,
         component: () => import('../views/404')
       }
     ]
+  },
+  {
+    path: '*',
+    name: '404',
+    hiddenInMenu: true,
+    redirect: '/404'
   }
 ]
 

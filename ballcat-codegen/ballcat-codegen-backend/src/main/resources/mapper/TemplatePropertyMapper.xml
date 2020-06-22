@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hccake.ballcat.codegen.mapper.TemplatePropertyMapper">
+
+	<resultMap id="templatePropertyMap" type="com.hccake.ballcat.codegen.model.entity.TemplateProperty">
+		<id property="id" column="id"/>
+		<result property="groupId" column="group_id"/>
+		<result property="title" column="title"/>
+		<result property="propKey" column="prop_key"/>
+		<result property="defaultValue" column="default_value"/>
+		<result property="required" column="required"/>
+		<result property="remarks" column="remarks"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+    id, group_id, title, prop_key, default_value, required, remarks, create_time, update_time  </sql>
+
+	<sql id="Base_Alias_Column_List">
+    tp.id, tp.group_id, tp.title, tp.prop_key, tp.default_value, tp.required, tp.remarks, tp.create_time, tp.update_time  </sql>
+
+	<select id="selectPageVo" resultType="com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO">
+		SELECT
+		<include refid="Base_Alias_Column_List"/>
+		FROM
+		gen_template_property tp
+		${ew.customSqlSegment}
+	</select>
+</mapper>

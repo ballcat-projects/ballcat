@@ -71,8 +71,7 @@
 
 <script>
 import { TablePageMixin } from '@/mixins'
-import { getPage as getTableInfoPage } from '@/api/gen/tableinfo'
-import { codeGen } from '@/api/gen/codegen'
+import { getTableInfoPage, generate } from '@/api/gen/generate'
 import { getSelectData } from '@/api/gen/datasourceconfig'
 
 export default {
@@ -133,7 +132,7 @@ export default {
   },
   methods: {
     handleGenerate() {
-      codeGen(this.dsName, { tableNames: this.selectedRowKeys, genConfigVO: {} }).then(fileBlob => {
+      generate(this.dsName, { tableNames: this.selectedRowKeys }).then(fileBlob => {
         const blob = new Blob([fileBlob])
         const fileName = 'BallCat-CodeGen.zip'
         const eLink = document.createElement('a')

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.codegen.service;
 
-import com.hccake.ballcat.codegen.config.GenConfig;
+import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
 
 /**
  * @author hccake
@@ -9,9 +9,9 @@ import com.hccake.ballcat.codegen.config.GenConfig;
 public interface GeneratorService {
 	/**
 	 * 生成代码
-	 * @param tableNames 表名列表
-	 * @param genConfig 代码生成的基本配置信息
+	 * @param generatorOptionDTO 代码生成的一些参数
 	 * @return 已生成的代码数据
 	 */
-	byte[] generatorCode(String[] tableNames, GenConfig genConfig);
+	byte[] generatorCode(GeneratorOptionDTO generatorOptionDTO);
+
 }

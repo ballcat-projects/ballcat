@@ -13,7 +13,12 @@ import {
   Divider,
   Popconfirm,
   Select,
-  message
+  Tree,
+  Result,
+  Dropdown,
+  message,
+  Breadcrumb,
+  Modal
 } from 'ant-design-vue'
 import App from './App.vue'
 import router from './router'
@@ -34,11 +39,16 @@ Vue.use(Col)
 Vue.use(Divider)
 Vue.use(Popconfirm)
 Vue.use(Select)
+Vue.use(Tree)
+Vue.use(Result)
+Vue.use(Dropdown)
+Vue.use(Breadcrumb)
+Vue.use(Modal)
 Vue.prototype.$message = message
 
 Vue.prototype.FORM_ACTION = {
   NONE: '',
-  ADD: 'add',
+  CREATE: 'create',
   UPDATE: 'update'
 }
 
