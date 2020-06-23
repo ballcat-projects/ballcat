@@ -15,5 +15,6 @@
 		<module>ballcat-extend-mybatis-plus</module>
 		<module>ballcat-extend-mybatis-plus-mysql</module>
 		<module>ballcat-extend-dingtalk</module>
-	</modules>
+        <module>ballcat-extend-kafka</module>
+    </modules>
 </project>

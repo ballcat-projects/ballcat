@@ -51,6 +51,8 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven-compiler-plugin.verison>3.8.0</maven-compiler-plugin.verison>
 
+		<kafka.version>2.5.0</kafka.version>
+
 		<flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
