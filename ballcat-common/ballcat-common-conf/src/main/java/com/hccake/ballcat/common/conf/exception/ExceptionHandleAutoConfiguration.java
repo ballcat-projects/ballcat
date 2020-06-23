@@ -59,7 +59,7 @@ public class ExceptionHandleAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
-	@ConditionalOnProperty(prefix = "ballcat.exception.type", name = "type", havingValue = "MAIL")
+	@ConditionalOnProperty(prefix = "ballcat.exception", name = "type", havingValue = "MAIL")
 	public GlobalExceptionHandler mailGlobalExceptionHandler(ExceptionHandleConfig exceptionHandleConfig, ApplicationContext context) {
 		return new MailGlobalExceptionHandler(exceptionHandleConfig, context.getBean(MailSender.class), applicationName);
 	}
