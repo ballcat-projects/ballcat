@@ -1,9 +1,6 @@
 package com.hccake.ballcat.codegen.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -47,8 +44,9 @@ public class TemplateProperty extends Model<TemplateProperty> {
 	@ApiModelProperty(value = "属性键")
 	private String propKey;
 	/**
-	 * 默认值
+	 * 默认值(可为空值)
 	 */
+	@TableField(updateStrategy = FieldStrategy.IGNORED)
 	@ApiModelProperty(value = "默认值")
 	private String defaultValue;
 	/**
