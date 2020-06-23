@@ -17,7 +17,7 @@
     </a-form-item>
 
     <a-form-item label="默认值" :labelCol="labelCol" :wrapperCol="wrapperCol">
-      <a-input placeholder="默认值" v-decorator="['defaultValue']" />
+      <a-input placeholder="默认值(可置空)" v-decorator="['defaultValue']" />
     </a-form-item>
 
     <a-form-item label="是否必填" :labelCol="labelCol" :wrapperCol="wrapperCol">
