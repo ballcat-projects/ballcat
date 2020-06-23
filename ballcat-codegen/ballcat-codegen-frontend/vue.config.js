@@ -1,5 +1,5 @@
-const SERVER_URL = 'http://ballcat-admin:7777'
-
+/*const SERVER_URL = 'http://ballcat-admin:7777'*/
+const SERVER_URL = 'http://192.168.1.253:7777'
 const vueConfig = {
   css: {
     loaderOptions: {
