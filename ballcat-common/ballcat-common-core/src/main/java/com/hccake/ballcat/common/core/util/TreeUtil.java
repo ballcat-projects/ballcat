@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.core.util;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.core.tree.TreeNode;
 import lombok.experimental.UtilityClass;
 import org.springframework.util.CollectionUtils;
@@ -118,6 +119,40 @@ public class TreeUtil {
 		// 递归调用子节点，查找叶子节点
 		for (T child : children) {
 			fillLeaf(child, leafs);
+		}
+	}
+
+	/**
+	 * 获取树节点Id
+	 * @param treeList 树列表
+	 * @param <T> TreeNode实现类
+	 * @param <I> TreeNodeId 类型
+	 * @return List<I> 节点Id列表
+	 */
+	public <T extends TreeNode<I>, I> List<I> getTreeNodeIds(List<T> treeList) {
+		List<I> ids = new ArrayList<>();
+		fillTreeNodeIds(ids, treeList);
+		return ids;
+	}
+
+	/**
+	 * 填充树节点Id
+	 * @param ids 节点Id列表
+	 * @param treeList 树列表
+	 * @param <T> TreeNode实现类
+	 * @param <I> TreeNodeId 类型
+	 */
+	public <T extends TreeNode<I>, I> void fillTreeNodeIds(List<I> ids, List<T> treeList) {
+		// 如果节点没有子节点则说明为叶子节点
+		if (CollectionUtils.isEmpty(treeList)) {
+			return;
+		}
+		for (T treeNode : treeList) {
+			ids.add(treeNode.getId());
+			List<? extends TreeNode<I>> children = treeNode.getChildren();
+			if(CollectionUtil.isNotEmpty(children)){
+				fillTreeNodeIds(ids, children);
+			}
 		}
 	}
 

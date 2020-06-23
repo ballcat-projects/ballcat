@@ -1,6 +1,7 @@
 package com.hccake.ballcat.codegen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;
 
@@ -37,4 +38,19 @@ public interface TemplateDirectoryEntryService extends IService<TemplateDirector
 	 * @return boolean 成功：true
 	 */
 	boolean rename(Integer entryId, String name);
+
+	/**
+	 * 删除目录项
+	 * @param id 目录项id
+	 * @param mode 删除模式
+	 * @return boolean 成功：true
+	 */
+	boolean removeEntry(Integer id, Integer mode);
+
+	/**
+	 * 新建一个目录项
+	 * @param templateDirectoryCreateDTO 目录项新建传输对象
+	 * @return boolean 成功：true
+	 */
+	boolean createEntry(TemplateDirectoryCreateDTO templateDirectoryCreateDTO);
 }

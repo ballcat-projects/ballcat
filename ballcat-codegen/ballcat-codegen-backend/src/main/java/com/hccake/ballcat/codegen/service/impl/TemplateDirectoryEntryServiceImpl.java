@@ -1,16 +1,26 @@
 package com.hccake.ballcat.codegen.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.codegen.constant.DirectoryEntryTypeEnum;
 import com.hccake.ballcat.codegen.mapper.TemplateDirectoryEntryMapper;
 import com.hccake.ballcat.codegen.model.converter.TemplateDirectoryEntryConverter;
+import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
+import com.hccake.ballcat.codegen.model.vo.TemplateDirectory;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;
 import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
+import com.hccake.ballcat.codegen.service.TemplateInfoService;
+import com.hccake.ballcat.common.core.exception.BusinessException;
+import com.hccake.ballcat.common.core.result.BaseResultCode;
+import com.hccake.ballcat.common.core.util.TreeUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,8 +32,10 @@ import java.util.stream.Collectors;
  * @date 2020-06-19 19:11:41
  */
 @Service
+@RequiredArgsConstructor
 public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirectoryEntryMapper, TemplateDirectoryEntry> implements TemplateDirectoryEntryService {
 	private final static String TABLE_ALIAS_PREFIX = "tde.";
+	private final TemplateInfoService templateInfoService;
 
 	/**
 	 * 查询指定模板组下所有的目录项
@@ -60,7 +72,7 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 		// 目标必须存
 		Assert.notNull(entry, "Target directory entry does not exist!");
 		// 目标必须是文件夹
-		Assert.isTrue(targetEntry.getType() == 1, "The target is not a folder");
+		Assert.isTrue(DirectoryEntryTypeEnum.FOLDER.getType().equals(targetEntry.getType()), "The target is not a folder");
 
 		// 平级移动则目标父节点就是其父节点
 		Integer parentId = horizontalMove ? targetEntry.getParentId() : targetEntry.getId();
@@ -74,8 +86,7 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 		TemplateDirectoryEntry entity = new TemplateDirectoryEntry();
 		entity.setId(entryId);
 		entity.setParentId(parentId);
-		boolean flag = SqlHelper.retBool(baseMapper.updateById(entity));
-		return flag;
+		return SqlHelper.retBool(baseMapper.updateById(entity));
 	}
 
 	/**
@@ -105,12 +116,78 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 		TemplateDirectoryEntry entry = baseMapper.selectById(entryId);
 		Assert.notNull(entry, "This is a nonexistent directory entry!");
 		// 重名校验
-		this.duplicateNameCheck(entry.getParentId(), entry.getFileName());
+		this.duplicateNameCheck(entry.getParentId(), name);
 		// 更新
 		TemplateDirectoryEntry entity = new TemplateDirectoryEntry();
 		entity.setId(entryId);
 		entity.setFileName(name);
 		return SqlHelper.retBool(baseMapper.updateById(entity));
+	}
+
+	/**
+	 * 删除目录项
+	 *
+	 * @param entryId   目录项id
+	 * @param mode 删除模式
+	 * @return boolean 成功：true
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean removeEntry(Integer entryId, Integer mode) {
+		TemplateDirectoryEntry entry = baseMapper.selectById(entryId);
+		Assert.notNull(entry, "This is a nonexistent directory entry!");
+
+		// 如果是文件夹类型，则根据删除模式进行子节点删除或上移操作
+		if (DirectoryEntryTypeEnum.FOLDER.getType().equals(entry.getType())) {
+			if (mode == 1) {
+				// 子节点上移
+				baseMapper.update(null, Wrappers.<TemplateDirectoryEntry>lambdaUpdate()
+						.set(TemplateDirectoryEntry::getParentId, entry.getParentId())
+						.eq(TemplateDirectoryEntry::getParentId, entryId));
+			} else if (mode == 2) {
+				// ==========删除所有子节点=============
+				// 1. 获取所有目录项（目录项不会太多，一次查询比较方便）
+				List<TemplateDirectoryEntry> entryList = baseMapper.selectList(Wrappers.emptyWrapper());
+				// 2. 获取当前删除目录项的孩子节点列表
+				List<TemplateDirectory> treeList = TreeUtil.buildTree(entryList, entryId, TemplateDirectoryEntryConverter.INSTANCE::poToTree);
+				// 3. 获取当前删除目录项的孩子节点Id
+				List<Integer> treeNodeIds = TreeUtil.getTreeNodeIds(treeList);
+				// 4. 删除所有孩子节点
+				if(CollectionUtil.isNotEmpty(treeNodeIds)){
+					baseMapper.deleteBatchIds(treeNodeIds);
+				}
+				// 5. 删除模板文件信息(Id一样)
+				templateInfoService.removeByIds(treeNodeIds);
+			} else {
+				throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "error delete mode");
+			}
+		}else {
+			// 关联文件信息删除
+			templateInfoService.removeById(entryId);
+		}
+
+		// 删除自身
+		return SqlHelper.retBool(baseMapper.deleteById(entryId));
+	}
+
+	/**
+	 * 新建一个目录项
+	 *
+	 * @param entryDTO 目录项新建传输对象
+	 * @return boolean 成功：true
+	 */
+	@Override
+	public boolean createEntry(TemplateDirectoryCreateDTO entryDTO) {
+		// 校验父级节点是否有效
+		Integer parentId = entryDTO.getParentId();
+		TemplateDirectoryEntry entry = baseMapper.selectById(parentId);
+		Assert.notNull(entry, "This is a nonexistent parent directory entry!");
+		// 重名校验
+		this.duplicateNameCheck(parentId, entryDTO.getFileName());
+		// 转持久层对象
+		TemplateDirectoryEntry entity = TemplateDirectoryEntryConverter.INSTANCE.createDtoToVo(entryDTO);
+		// 落库
+		return SqlHelper.retBool(baseMapper.insert(entity));
 	}
 
 

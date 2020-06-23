@@ -1,9 +1,6 @@
 package com.hccake.ballcat.codegen.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -51,6 +48,12 @@ public class TemplateDirectoryEntry extends Model<TemplateDirectoryEntry> {
 	 */
 	@ApiModelProperty(value = "父级Id")
 	private Integer parentId;
+	/**
+	 * 逻辑删除
+	 */
+	@TableLogic
+	@ApiModelProperty(value = "逻辑删除")
+	private Long deleted;
 	/**
 	 * 创建时间
 	 */

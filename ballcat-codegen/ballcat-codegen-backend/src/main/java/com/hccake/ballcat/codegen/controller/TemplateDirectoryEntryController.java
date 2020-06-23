@@ -1,6 +1,6 @@
 package com.hccake.ballcat.codegen.controller;
 
-import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
+import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;
 import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
@@ -43,45 +43,37 @@ public class TemplateDirectoryEntryController {
 	/**
 	 * 新增模板文件目录项
 	 *
-	 * @param templateDirectoryEntry 模板文件目录项
+	 * @param templateDirectoryCreateDTO 模板文件目录项
 	 * @return R
 	 */
 	@ApiOperation(value = "新增模板文件目录项", notes = "新增模板文件目录项")
 	// @CreateOperationLogging(msg = "新增模板文件目录项" )
 	@PostMapping
 	//@PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:add')" )
-	public R save(@RequestBody TemplateDirectoryEntry templateDirectoryEntry) {
-		return templateDirectoryEntryService.save(templateDirectoryEntry) ?
+	public R save(@RequestBody TemplateDirectoryCreateDTO templateDirectoryCreateDTO) {
+
+		return templateDirectoryEntryService.createEntry(templateDirectoryCreateDTO) ?
 				R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增模板文件目录项失败");
 	}
 
-	/**
-	 * 修改模板文件目录项
-	 *
-	 * @param templateDirectoryEntry 模板文件目录项
-	 * @return R
-	 */
-	@ApiOperation(value = "修改模板文件目录项", notes = "修改模板文件目录项")
-	//@UpdateOperationLogging(msg = "修改模板文件目录项" )
-	@PutMapping
-	//@PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:edit')" )
-	public R updateById(@RequestBody TemplateDirectoryEntry templateDirectoryEntry) {
-		return templateDirectoryEntryService.updateById(templateDirectoryEntry) ?
-				R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改模板文件目录项失败");
-	}
 
 	/**
 	 * 通过id删除模板文件目录项
 	 *
 	 * @param id id
+	 * @param mode 删除模式，
+	 *             1：只删除本身，将子节点上移
+	 *             2. 删除自身及其所有子节点
+	 *
 	 * @return R
 	 */
 	@ApiOperation(value = "通过id删除模板文件目录项", notes = "通过id删除模板文件目录项")
 	//@DeleteOperationLogging(msg = "通过id删除模板文件目录项" )
 	@DeleteMapping("/{id}")
 	//@PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:del')" )
-	public R removeById(@PathVariable Integer id) {
-		return templateDirectoryEntryService.removeById(id) ?
+	public R removeById(@PathVariable Integer id,
+						@RequestParam Integer mode) {
+		return templateDirectoryEntryService.removeEntry(id, mode) ?
 				R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除模板文件目录项失败");
 	}
 

@@ -1,5 +1,6 @@
 package com.hccake.ballcat.codegen.model.converter;
 
+import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectory;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;
@@ -21,6 +22,16 @@ public interface TemplateDirectoryEntryConverter {
 	 * @return VO
 	 */
 	TemplateDirectoryEntryVO poToVo(TemplateDirectoryEntry templateDirectoryEntry);
+
+
+
+	/**
+	 * 转换 CreateDTO to PO
+	 * @param directoryCreateDTO directoryCreateDTO
+	 * @return TemplateDirectoryEntry 持久对象
+	 */
+	TemplateDirectoryEntry createDtoToVo(TemplateDirectoryCreateDTO directoryCreateDTO);
+
 
 
 	/**
