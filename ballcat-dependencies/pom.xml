@@ -129,6 +129,11 @@
 				<artifactId>ballcat-extend-kafka</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-kafka-stream</artifactId>
+				<version>${revision}</version>
+			</dependency>
 
 			<!--swagger注解-->
 			<dependency>
