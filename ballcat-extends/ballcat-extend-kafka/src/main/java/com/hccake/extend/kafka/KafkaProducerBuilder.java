@@ -3,6 +3,7 @@ package com.hccake.extend.kafka;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serializer;
 
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.function.Function;
 
 import static com.hccake.extend.kafka.KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER;
 
@@ -76,13 +78,26 @@ public class KafkaProducerBuilder {
 		return this;
 	}
 
+	public <K, V> KafkaExtendProducer<K, V> build(Function<Properties, KafkaExtendProducer<K, V>> function) {
+		return function.apply(getProperties());
+	}
+
 	public <K, V> KafkaExtendProducer<K, V> build(Properties properties) {
 		return putAll(properties).build();
 	}
 
 	public <K, V> KafkaExtendProducer<K, V> build() {
-		bootstrapServers.addAll(ListUtil.toList(properties.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, StrUtil.EMPTY).split(BOOTSTRAP_SERVERS_DELIMITER)));
-		properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
-		return new KafkaExtendProducer<>(new org.apache.kafka.clients.producer.KafkaProducer<>(properties));
+		return build(p -> new KafkaExtendProducer<>(new org.apache.kafka.clients.producer.KafkaProducer<>(p)));
+	}
+
+	public Set<String> getBootstrapServers() {
+		getProperties();
+		return bootstrapServers;
+	}
+
+	public Properties getProperties() {
+		bootstrapServers.addAll(ListUtil.toList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, StrUtil.EMPTY).split(BOOTSTRAP_SERVERS_DELIMITER)));
+		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
+		return properties;
 	}
 }
