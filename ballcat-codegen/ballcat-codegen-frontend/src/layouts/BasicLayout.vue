@@ -3,8 +3,8 @@
     <a-layout-sider :trigger="null" v-model="collapsed" collapsible width="256px">
       <div class="logo">
         <!--<LogSvg alt="logo" />-->
-        <img src="~@/assets/logo.svg" class="logo" alt="logo" style="width:40px;height:auto" />
-        BallCat Code Generator
+        <img src="~@/assets/logo.svg" class="logo" alt="logo" style="width:32px;height:auto" />
+        <span v-show="!collapsed" class="project-name">Code Generator</span>
       </div>
       <SiderMenu />
     </a-layout-sider>
@@ -16,7 +16,7 @@
       <a-layout-content style="margin: 16px">
         <router-view />
       </a-layout-content>
-      <a-layout-footer style="text-align: center">
+      <a-layout-footer>
         <Footer />
       </a-layout-footer>
     </a-layout>
@@ -48,6 +48,15 @@ export default {
   height: 64px;
   text-align: center;
   overflow: hidden;
+  vertical-align: middle;
+
+  .project-name {
+    margin-left: 8px;
+    vertical-align: middle;
+    font-size: 20px;
+    font-family: 'Josefin Sans', 'Helvetica', 'Arial', 'Microsoft YaHei', '黑体', '宋体', 'sans-serif';
+    font-weight: 600;
+  }
 }
 
 #components-layout-side .trigger {
@@ -60,5 +69,10 @@ export default {
 
 #components-layout-side .trigger:hover {
   color: #1890ff;
+}
+
+.ant-layout-footer {
+  text-align: center;
+  padding: 5px 50px 12px;
 }
 </style>
