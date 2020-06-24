@@ -118,5 +118,5 @@ public interface SysUserService extends IService<SysUser> {
      * value => userId
      * @return List<SelectData>
      */
-    List<SelectData> getSelectData(Integer type);
+    List<SelectData<?>> getSelectData(Integer type);
 }
