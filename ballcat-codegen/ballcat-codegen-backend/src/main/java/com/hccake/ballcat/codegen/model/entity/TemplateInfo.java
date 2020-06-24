@@ -25,7 +25,7 @@ public class TemplateInfo extends Model<TemplateInfo> {
 	/**
 	 * 目录项ID
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	@ApiModelProperty(value = "目录项ID")
 	private Integer directoryEntryId;
 	/**
