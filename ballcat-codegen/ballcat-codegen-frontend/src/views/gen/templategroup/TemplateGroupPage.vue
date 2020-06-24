@@ -49,7 +49,7 @@
         >
           <span slot="action-slot" slot-scope="text, record">
             <template>
-              <a @click="handleEdit(record)">模板编辑</a>
+              <a @click="handleEdit(record, '模板编辑')">模板编辑</a>
               <a-divider type="vertical" />
               <a @click="handleShowItem(record)">属性配置</a>
               <a-divider type="vertical" />
@@ -125,10 +125,6 @@ export default {
     console.log(this.$router.options.routes)
   },
   methods: {
-    handleEdit(record, title) {
-      this.switchPage()
-      this.cardTitle = title || '模板编辑'
-    },
     handleShowItem(record) {
       if (!this.itemModalInited) {
         this.itemModalInited = true
