@@ -12,16 +12,20 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "字典项VO")
-public class DictItemVO  {
-    private static final long serialVersionUID = 1L;
-    /**
-     * 数据值
-     */
-    @ApiModelProperty(value = "数据值")
-    private String value;
-    /**
-     * 标签
-     */
-    @ApiModelProperty(value = "文本值")
-    private String name;
+public class DictItemVO {
+
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 数据值
+	 */
+	@ApiModelProperty(value = "数据值")
+	private String value;
+
+	/**
+	 * 标签
+	 */
+	@ApiModelProperty(value = "文本值")
+	private String name;
+
 }

@@ -24,39 +24,33 @@ import java.util.List;
 @ConditionalOnProperty(name = "swagger.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerAggregatorAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean
-    public SwaggerAggregatorProperties swaggerAggregatorProperties() {
-        return new SwaggerAggregatorProperties();
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public SwaggerAggregatorProperties swaggerAggregatorProperties() {
+		return new SwaggerAggregatorProperties();
+	}
 
-    /**
-     * 聚合文档
-     *
-     * @param defaultResourcesProvider
-     * @return
-     */
-    @Primary
-    @Bean
-    @ConditionalOnBean(SwaggerAggregatorProperties.class)
-    public SwaggerResourcesProvider swaggerResourcesProvider(
-            InMemorySwaggerResourcesProvider defaultResourcesProvider,
-            SwaggerAggregatorProperties swaggerAggregatorProperties) {
+	/**
+	 * 聚合文档
+	 * @param defaultResourcesProvider
+	 * @return
+	 */
+	@Primary
+	@Bean
+	@ConditionalOnBean(SwaggerAggregatorProperties.class)
+	public SwaggerResourcesProvider swaggerResourcesProvider(InMemorySwaggerResourcesProvider defaultResourcesProvider,
+			SwaggerAggregatorProperties swaggerAggregatorProperties) {
 
-        return () -> {
-            // 聚合者自己的 Resources
-            List<SwaggerResource> resources = new ArrayList<>(defaultResourcesProvider.get());
-            // 提供者的 Resources
-            List<SwaggerResource> providerResources = swaggerAggregatorProperties.getProviderResources();
-            if (!CollectionUtils.isEmpty(providerResources)){
-                resources.addAll(providerResources);
-            }
-            return resources;
-        };
-    }
-
-
-
-
+		return () -> {
+			// 聚合者自己的 Resources
+			List<SwaggerResource> resources = new ArrayList<>(defaultResourcesProvider.get());
+			// 提供者的 Resources
+			List<SwaggerResource> providerResources = swaggerAggregatorProperties.getProviderResources();
+			if (!CollectionUtils.isEmpty(providerResources)) {
+				resources.addAll(providerResources);
+			}
+			return resources;
+		};
+	}
 
 }

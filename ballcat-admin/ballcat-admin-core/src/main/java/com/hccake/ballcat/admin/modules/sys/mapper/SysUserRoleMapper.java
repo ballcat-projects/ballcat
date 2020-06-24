@@ -17,10 +17,8 @@ import java.util.List;
  */
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
-
 	/**
 	 * 通过用户ID，查询角色s
-	 *
 	 * @param userId
 	 * @return
 	 */
@@ -39,5 +37,6 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 	 * @param roleIds
 	 * @return
 	 */
-    Boolean insertUserRoles(@Param("userId") Integer userId, @Param("roleIds") List<Integer> roleIds);
+	Boolean insertUserRoles(@Param("userId") Integer userId, @Param("roleIds") List<Integer> roleIds);
+
 }

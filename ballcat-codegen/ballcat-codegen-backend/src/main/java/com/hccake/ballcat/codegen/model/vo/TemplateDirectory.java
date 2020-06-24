@@ -19,15 +19,17 @@ public class TemplateDirectory extends SimpleTreeNode<Integer> {
 	 */
 	@ApiModelProperty(value = "模板组Id")
 	private Integer groupId;
+
 	/**
 	 * 文件夹全路径/模板文件名称（支持占位符）
 	 */
-	@ApiModelProperty(value="文件夹全路径/模板文件名称（支持占位符）")
+	@ApiModelProperty(value = "文件夹全路径/模板文件名称（支持占位符）")
 	private String fileName;
+
 	/**
 	 * 文件类型 1：文件夹 2：模板文件
 	 */
-	@ApiModelProperty(value="文件类型 1：文件夹 2：模板文件")
+	@ApiModelProperty(value = "文件类型 1：文件夹 2：模板文件")
 	private Integer type;
 
 }

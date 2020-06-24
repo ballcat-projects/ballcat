@@ -12,7 +12,8 @@ import org.springframework.context.ApplicationEvent;
 @ToString
 public class MailSendEvent extends ApplicationEvent {
 
-    public MailSendEvent(MailDTO mailDTO) {
-        super(mailDTO);
-    }
+	public MailSendEvent(MailDTO mailDTO) {
+		super(mailDTO);
+	}
+
 }

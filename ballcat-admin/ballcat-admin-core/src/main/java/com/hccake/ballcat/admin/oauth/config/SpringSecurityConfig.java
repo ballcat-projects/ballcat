@@ -22,40 +22,39 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @Configuration
 @RequiredArgsConstructor
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserDetailsService userDetailsService;
 
-    /**
-     * 密码解析器
-     * @return
-     */
-    @Bean
-    protected PasswordEncoder passwordEncoder() {
-        return PasswordUtil.ENCODER;
-    }
+	private final UserDetailsService userDetailsService;
 
+	/**
+	 * 密码解析器
+	 * @return
+	 */
+	@Bean
+	protected PasswordEncoder passwordEncoder() {
+		return PasswordUtil.ENCODER;
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        MobileAuthenticationProvider mobileAuthenticationProvider = new MobileAuthenticationProvider();
-        mobileAuthenticationProvider.setUserDetailsService(userDetailsService);
-        http.authenticationProvider(mobileAuthenticationProvider);
-    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		MobileAuthenticationProvider mobileAuthenticationProvider = new MobileAuthenticationProvider();
+		mobileAuthenticationProvider.setUserDetailsService(userDetailsService);
+		http.authenticationProvider(mobileAuthenticationProvider);
+	}
 
-    /**
-     * 解决无法注入 authenticationManagerBean 的问题
-     *
-     * @return
-     * @throws Exception
-     */
-    @Override
-    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	/**
+	 * 解决无法注入 authenticationManagerBean 的问题
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
+	@Bean
+	public AuthenticationEntryPoint authenticationEntryPoint() {
+		return new CustomAuthenticationEntryPoint();
+	}
 
-    @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint(){
-        return new CustomAuthenticationEntryPoint();
-    }
 }

@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-
 /**
  * 模板信息
  *
@@ -18,9 +17,10 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/gen/template/info" )
+@RequestMapping("/gen/template/info")
 @Api(value = "/gen/template/info", tags = "模板信息管理")
 public class TemplateInfoController {
+
 	private final TemplateInfoService templateInfoService;
 
 	/**
@@ -29,12 +29,11 @@ public class TemplateInfoController {
 	 * @return R
 	 */
 	@ApiOperation(value = "通过id查询", notes = "通过id查询")
-	@GetMapping("/{directoryEntryId}" )
-	//@PreAuthorize("@per.hasPermission('gen:template:read')" )
-	public R<TemplateInfo> getById(@PathVariable("directoryEntryId" ) Integer directoryEntryId) {
+	@GetMapping("/{directoryEntryId}")
+	// @PreAuthorize("@per.hasPermission('gen:template:read')" )
+	public R<TemplateInfo> getById(@PathVariable("directoryEntryId") Integer directoryEntryId) {
 		return R.ok(templateInfoService.getById(directoryEntryId));
 	}
-
 
 	/**
 	 * 修改模板信息
@@ -42,12 +41,12 @@ public class TemplateInfoController {
 	 * @return R
 	 */
 	@ApiOperation(value = "修改模板信息", notes = "修改模板信息")
-	//@UpdateOperationLogging(msg = "修改模板信息" )
+	// @UpdateOperationLogging(msg = "修改模板信息" )
 	@PutMapping
-	//@PreAuthorize("@per.hasPermission('gen:template:edit')" )
+	// @PreAuthorize("@per.hasPermission('gen:template:edit')" )
 	public R updateById(@RequestBody TemplateInfo genTemplateInfo) {
-		return templateInfoService.updateById(genTemplateInfo) ?
-				R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改模板信息失败");
+		return templateInfoService.updateById(genTemplateInfo) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改模板信息失败");
 	}
 
 }

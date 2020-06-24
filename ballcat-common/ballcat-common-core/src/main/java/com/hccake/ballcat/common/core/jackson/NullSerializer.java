@@ -9,12 +9,13 @@ import java.io.IOException;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2019/10/17 22:19
- * jackson NULL值序列化为 ""
+ * @date 2019/10/17 22:19 jackson NULL值序列化为 ""
  */
 public class NullSerializer extends JsonSerializer<Object> {
-    @Override
-    public void serialize(Object value, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException {
-        jsonGenerator.writeString("");
-    }
+
+	@Override
+	public void serialize(Object value, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException {
+		jsonGenerator.writeString("");
+	}
+
 }

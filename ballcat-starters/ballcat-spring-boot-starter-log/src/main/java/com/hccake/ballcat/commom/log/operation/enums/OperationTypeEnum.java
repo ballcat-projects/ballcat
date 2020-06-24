@@ -6,17 +6,16 @@ import lombok.RequiredArgsConstructor;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2020/5/27 17:56
- * 操作类型
+ * @date 2020/5/27 17:56 操作类型
  */
 @Getter
 @RequiredArgsConstructor
 public enum OperationTypeEnum {
 
-    /**
-     * 登陆操作
-     */
-    LOGIN(1),
+	/**
+	 * 登陆操作
+	 */
+	LOGIN(1),
 
 	/**
 	 * 登出操作
@@ -28,21 +27,21 @@ public enum OperationTypeEnum {
 	 */
 	READ(3),
 
-    /**
-     * 新建操作
-     */
-    CREATE(4),
+	/**
+	 * 新建操作
+	 */
+	CREATE(4),
 
-    /**
-     * 修改操作
-     */
-    UPDATE(5),
+	/**
+	 * 修改操作
+	 */
+	UPDATE(5),
 
-    /**
-     * 删除操作
-     */
-    DELETE(6);
+	/**
+	 * 删除操作
+	 */
+	DELETE(6);
 
+	private final Integer value;
 
-    private final Integer value;
 }

@@ -17,27 +17,33 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 消息通知顶层类
  *
- * @author lingting  2020/6/12 0:35
+ * @author lingting 2020/6/12 0:35
  */
 @Slf4j
 public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implements GlobalExceptionHandler {
+
 	protected final ExceptionHandleConfig config;
+
 	/**
-	 * 通知消息存放    e.message   堆栈信息
+	 * 通知消息存放 e.message 堆栈信息
 	 */
 	private Map<String, ExceptionMessage> messages = new ConcurrentHashMap<>(10);
+
 	/**
 	 * 异常发生数
 	 */
 	private long number = 0;
+
 	/**
 	 * 用来当做锁
 	 */
 	private final String lock = "";
+
 	/**
 	 * 本地物理地址
 	 */
 	private String mac;
+
 	private final String applicationName;
 
 	public AbstractNoticeGlobalExceptionHandler(ExceptionHandleConfig config, String applicationName) {
@@ -50,7 +56,8 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 				sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
 			}
 			this.mac = sb.toString();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			mac = "获取失败!";
 		}
 
@@ -69,8 +76,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 
 			message.setNumber(message.getNumber() + 1)
 					.setStack(ExceptionUtil.stacktraceToString(e, config.getLength()).replaceAll("\\r", ""))
-					.setTime(DateUtil.now())
-					.setThreadId(Thread.currentThread().getId());
+					.setTime(DateUtil.now()).setThreadId(Thread.currentThread().getId());
 			messages.put(e.getMessage(), message);
 		}
 	}
@@ -102,7 +108,8 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 						}
 					});
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				log.error("消息通知异常!", e);
 			}
 		}
@@ -110,10 +117,10 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 
 	/**
 	 * 发送通知
-	 *
 	 * @param sendMessage 发送的消息
 	 * @return 返回消息发送状态，如果发送失败需要设置失败信息
-	 * @author lingting  2020-06-12 00:37:23
+	 * @author lingting 2020-06-12 00:37:23
 	 */
 	public abstract ExceptionNoticeResponse send(ExceptionMessage sendMessage);
+
 }

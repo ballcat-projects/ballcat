@@ -28,12 +28,14 @@ import java.util.List;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ExcelConfigProperties.class)
 public class ResponseExcelAutoConfiguration implements InitializingBean {
+
 	private final RequestMappingHandlerAdapter handlerAdapter;
+
 	private final List<SheetWriteHandler> sheetWriteHandlerList;
 
 	/**
 	 * SPEL 解析处理器
-	 * @return  NameProcessor excle名称解析器
+	 * @return NameProcessor excle名称解析器
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -43,7 +45,7 @@ public class ResponseExcelAutoConfiguration implements InitializingBean {
 
 	/**
 	 * Excle名称解析处理切面
-	 * @param nameProcessor  SPEL 解析处理器
+	 * @param nameProcessor SPEL 解析处理器
 	 * @return DynamicNameAspect
 	 */
 	@Bean

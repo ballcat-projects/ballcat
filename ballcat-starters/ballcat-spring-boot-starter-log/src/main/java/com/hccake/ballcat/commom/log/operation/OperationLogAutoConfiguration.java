@@ -13,25 +13,24 @@ import org.springframework.context.annotation.Bean;
  */
 public class OperationLogAutoConfiguration {
 
-    /**
-     * 注册日志保存事件监听器
-     * @return OperationLogListener
-     */
-    @Bean
-    @ConditionalOnBean(OperationLogHandler.class)
-    public OperationLogListener operationLogListener(OperationLogHandler operationLogHandler) {
-        return new OperationLogListener(operationLogHandler);
-    }
+	/**
+	 * 注册日志保存事件监听器
+	 * @return OperationLogListener
+	 */
+	@Bean
+	@ConditionalOnBean(OperationLogHandler.class)
+	public OperationLogListener operationLogListener(OperationLogHandler operationLogHandler) {
+		return new OperationLogListener(operationLogHandler);
+	}
 
-    /**
-     * 注册操作日志Aspect
-     * @return OperationLogAspect
-     */
-    @Bean
-    @ConditionalOnBean(OperationLogHandler.class)
-    public OperationLogAspect operationLogAspect() {
-        return new OperationLogAspect();
-    }
+	/**
+	 * 注册操作日志Aspect
+	 * @return OperationLogAspect
+	 */
+	@Bean
+	@ConditionalOnBean(OperationLogHandler.class)
+	public OperationLogAspect operationLogAspect() {
+		return new OperationLogAspect();
+	}
 
 }
-

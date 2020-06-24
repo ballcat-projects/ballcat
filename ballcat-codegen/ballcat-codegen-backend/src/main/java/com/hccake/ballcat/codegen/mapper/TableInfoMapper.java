@@ -18,8 +18,7 @@ public interface TableInfoMapper {
 
 	/**
 	 * 分页查询表格
-	 *
-	 * @param page      分页参数
+	 * @param page 分页参数
 	 * @param tableName 表名
 	 * @return 填充后的分页数据
 	 */
@@ -27,18 +26,16 @@ public interface TableInfoMapper {
 
 	/**
 	 * 根据表名查询对应表信息
-	 *
 	 * @param tableName 表名
 	 * @return TableInfo
 	 */
 	TableInfo queryTableInfo(@Param("tableName") String tableName);
 
-
 	/**
 	 * 查询列信息
-	 *
 	 * @param tableName 表名
 	 * @return List<ColumnInfo>
 	 */
 	List<ColumnInfo> queryColumnInfo(@Param("tableName") String tableName);
+
 }

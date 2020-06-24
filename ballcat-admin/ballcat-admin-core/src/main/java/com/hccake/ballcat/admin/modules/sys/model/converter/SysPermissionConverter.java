@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.model.converter;
 
-import com.hccake.ballcat.admin.modules.sys.model.vo.Router;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.Router;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -13,12 +13,13 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface SysPermissionConverter {
 
-    SysPermissionConverter INSTANCE = Mappers.getMapper(SysPermissionConverter.class);
+	SysPermissionConverter INSTANCE = Mappers.getMapper(SysPermissionConverter.class);
 
-    /**
-     * 转换permissionVO为Router
-     * @param permissionVO
-     * @return
-     */
-    Router toRouter(PermissionVO permissionVO);
+	/**
+	 * 转换permissionVO为Router
+	 * @param permissionVO
+	 * @return
+	 */
+	Router toRouter(PermissionVO permissionVO);
+
 }

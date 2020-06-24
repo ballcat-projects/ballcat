@@ -17,16 +17,17 @@ import java.util.function.Function;
 import static com.hccake.extend.kafka.KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER;
 
 /**
- * 消费者
- * 具体的配置请参考 {@link ConsumerConfig}
- * 这里只提供一些常用配置
+ * 消费者 具体的配置请参考 {@link ConsumerConfig} 这里只提供一些常用配置
  *
- * @author lingting  2020/5/19 20:56
+ * @author lingting 2020/5/19 20:56
  */
 @Slf4j
 public class KafkaConsumerBuilder {
+
 	private final Properties properties = new Properties();
+
 	private final Set<String> bootstrapServers = new HashSet<>();
+
 	@Getter
 	private final Set<String> topics = new HashSet<>();
 
@@ -47,9 +48,9 @@ public class KafkaConsumerBuilder {
 	}
 
 	/**
-	 * 添加 kafka 路径  host:port
+	 * 添加 kafka 路径 host:port
 	 *
-	 * @author lingting  2020-06-19 16:30:03
+	 * @author lingting 2020-06-19 16:30:03
 	 */
 	public KafkaConsumerBuilder addBootstrapServers(String uri) {
 		bootstrapServers.add(uri);
@@ -64,7 +65,7 @@ public class KafkaConsumerBuilder {
 	/**
 	 * 添加配置
 	 *
-	 * @author lingting  2020-06-19 16:30:50
+	 * @author lingting 2020-06-19 16:30:50
 	 */
 	public KafkaConsumerBuilder put(Object key, Object val) {
 		properties.put(key, val);
@@ -74,7 +75,7 @@ public class KafkaConsumerBuilder {
 	/**
 	 * 添加配置
 	 *
-	 * @author lingting  2020-06-19 16:30:50
+	 * @author lingting 2020-06-19 16:30:50
 	 */
 	public KafkaConsumerBuilder putAll(Properties properties) {
 		this.properties.putAll(properties);
@@ -84,7 +85,7 @@ public class KafkaConsumerBuilder {
 	/**
 	 * 组id
 	 *
-	 * @author lingting  2020-06-19 16:46:32
+	 * @author lingting 2020-06-19 16:46:32
 	 */
 	public KafkaConsumerBuilder groupId(String groupId) {
 		return put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
@@ -120,8 +121,12 @@ public class KafkaConsumerBuilder {
 	}
 
 	public Properties getProperties() {
-		bootstrapServers.addAll(ListUtil.toList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, StrUtil.EMPTY).split(BOOTSTRAP_SERVERS_DELIMITER)));
-		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
+		bootstrapServers
+				.addAll(ListUtil.toList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, StrUtil.EMPTY)
+						.split(BOOTSTRAP_SERVERS_DELIMITER)));
+		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+				String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
 		return properties;
 	}
+
 }

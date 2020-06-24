@@ -12,14 +12,15 @@ import java.util.List;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2020/2/18 10:55
- * 资源服务器忽略鉴权的url地址
+ * @date 2020/2/18 10:55 资源服务器忽略鉴权的url地址
  */
 @Slf4j
 @Configuration
 @ConfigurationProperties(prefix = "security.oauth2")
 public class PermitAllUrlProperties {
-    @Getter
-    @Setter
-    private List<String> ignoreUrls = new ArrayList<>();
+
+	@Getter
+	@Setter
+	private List<String> ignoreUrls = new ArrayList<>();
+
 }

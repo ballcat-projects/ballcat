@@ -15,11 +15,18 @@ import java.util.Map;
 @Data
 public class TestObj {
 
-    private Integer id;
-    private String str;
-    private String blankStr;
-    private ArrayList<String> list;
-    private Map<String, String> map;
-    private LocalDateTime localDateTime;
-    private LocalDate localDate;
+	private Integer id;
+
+	private String str;
+
+	private String blankStr;
+
+	private ArrayList<String> list;
+
+	private Map<String, String> map;
+
+	private LocalDateTime localDateTime;
+
+	private LocalDate localDate;
+
 }

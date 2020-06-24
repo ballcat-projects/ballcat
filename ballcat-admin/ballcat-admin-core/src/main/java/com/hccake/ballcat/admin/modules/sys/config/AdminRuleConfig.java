@@ -7,11 +7,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author lingting  2020/6/24 21:46
+ * @author lingting 2020/6/24 21:46
  */
 @Data
 @ConfigurationProperties(prefix = "ballcat.admin.rule")
 public class AdminRuleConfig {
+
 	/**
 	 * 指定id的用户为超级管理员
 	 */
@@ -46,4 +47,5 @@ public class AdminRuleConfig {
 	 * username 满足某个正则表达式的用户为超级管理员
 	 */
 	private Set<String> phoneReg = new HashSet<>();
+
 }

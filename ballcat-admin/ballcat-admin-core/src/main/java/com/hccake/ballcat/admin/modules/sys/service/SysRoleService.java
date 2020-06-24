@@ -28,7 +28,6 @@ public interface SysRoleService extends IService<SysRole> {
 
 	/**
 	 * 通过角色ID，删除角色
-	 *
 	 * @param id
 	 * @return
 	 */
@@ -38,6 +37,6 @@ public interface SysRoleService extends IService<SysRole> {
 	 * 角色的选择数据
 	 * @return
 	 */
-    List<SelectData> getSelectData();
+	List<SelectData> getSelectData();
 
 }

@@ -3,12 +3,12 @@ package com.hccake.ballcat.codegen.constant;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2020/6/15 17:53
- * 配置数据源使用的常量
+ * @date 2020/6/15 17:53 配置数据源使用的常量
  */
 public final class DataSourceConstants {
-	private DataSourceConstants(){}
 
+	private DataSourceConstants() {
+	}
 
 	/**
 	 * 默认数据源名称（master）

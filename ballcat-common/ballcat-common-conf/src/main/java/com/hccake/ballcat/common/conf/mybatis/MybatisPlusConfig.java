@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author hccake
- * @date 2020/04/19
- * 默认配置MybatisPlus分页插件，通过conditional注解达到覆盖效用
+ * @date 2020/04/19 默认配置MybatisPlus分页插件，通过conditional注解达到覆盖效用
  */
 @Configuration
 public class MybatisPlusConfig {

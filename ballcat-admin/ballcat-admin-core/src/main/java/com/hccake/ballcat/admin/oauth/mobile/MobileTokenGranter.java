@@ -17,64 +17,61 @@ import java.util.Map;
  */
 public class MobileTokenGranter extends AbstractTokenGranter {
 
-    private static final String GRANT_TYPE = "mobile";
+	private static final String GRANT_TYPE = "mobile";
 
-    private final AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
 
-    public MobileTokenGranter(
-            AuthenticationManager authenticationManager,
-            AuthorizationServerTokenServices tokenServices,
-            ClientDetailsService clientDetailsService,
-            OAuth2RequestFactory requestFactory) {
-        this(authenticationManager, tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
+	public MobileTokenGranter(AuthenticationManager authenticationManager,
+			AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
+			OAuth2RequestFactory requestFactory) {
+		this(authenticationManager, tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
 
-    }
+	}
 
-    protected MobileTokenGranter(
-            AuthenticationManager authenticationManager,
-            AuthorizationServerTokenServices tokenServices,
-            ClientDetailsService clientDetailsService,
-            OAuth2RequestFactory requestFactory,
-            String grantType) {
-        super(tokenServices, clientDetailsService, requestFactory, grantType);
-        this.authenticationManager = authenticationManager;
-    }
+	protected MobileTokenGranter(AuthenticationManager authenticationManager,
+			AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
+			OAuth2RequestFactory requestFactory, String grantType) {
+		super(tokenServices, clientDetailsService, requestFactory, grantType);
+		this.authenticationManager = authenticationManager;
+	}
 
-    @Override
-    protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
-        Map<String, String> parameters = new LinkedHashMap<>(tokenRequest.getRequestParameters());
-        String mobile = parameters.get("mobile");
-        if (mobile == null) {
-            mobile = "";
-        }
-        mobile = mobile.trim();
+	@Override
+	protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
+		Map<String, String> parameters = new LinkedHashMap<>(tokenRequest.getRequestParameters());
+		String mobile = parameters.get("mobile");
+		if (mobile == null) {
+			mobile = "";
+		}
+		mobile = mobile.trim();
 
-        MobileAuthenticationToken mobileAuthenticationToken = new MobileAuthenticationToken(mobile);
+		MobileAuthenticationToken mobileAuthenticationToken = new MobileAuthenticationToken(mobile);
 
-        Authentication authentication = null;
-        try {
-            authentication = this.authenticationManager.authenticate(mobileAuthenticationToken);
+		Authentication authentication = null;
+		try {
+			authentication = this.authenticationManager.authenticate(mobileAuthenticationToken);
 
-            logger.debug("Authentication success: " + authentication);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+			logger.debug("Authentication success: " + authentication);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch (Exception failed) {
-            SecurityContextHolder.clearContext();
-            logger.debug("Authentication request failed: " + failed);
+		}
+		catch (Exception failed) {
+			SecurityContextHolder.clearContext();
+			logger.debug("Authentication request failed: " + failed);
 
-            //eventPublisher.publishAuthenticationFailure(new BadCredentialsException(failed.getMessage(), failed),
-            //         new PreAuthenticatedAuthenticationToken("access-token", "N/A"));
+			// eventPublisher.publishAuthenticationFailure(new
+			// BadCredentialsException(failed.getMessage(), failed),
+			// new PreAuthenticatedAuthenticationToken("access-token", "N/A"));
 
-//            try {
-//                authenticationEntryPoint.commence(request, response,
-//                        new UsernameNotFoundException(failed.getMessage(), failed));
-//            } catch (Exception e) {
-//                logger.error("authenticationEntryPoint handle error:{}", failed);
-//            }
-        }
+			// try {
+			// authenticationEntryPoint.commence(request, response,
+			// new UsernameNotFoundException(failed.getMessage(), failed));
+			// } catch (Exception e) {
+			// logger.error("authenticationEntryPoint handle error:{}", failed);
+			// }
+		}
 
-        OAuth2Request storedOAuth2Request = getRequestFactory().createOAuth2Request(client, tokenRequest);
-        return new OAuth2Authentication(storedOAuth2Request, authentication);
-    }
+		OAuth2Request storedOAuth2Request = getRequestFactory().createOAuth2Request(client, tokenRequest);
+		return new OAuth2Authentication(storedOAuth2Request, authentication);
+	}
 
 }

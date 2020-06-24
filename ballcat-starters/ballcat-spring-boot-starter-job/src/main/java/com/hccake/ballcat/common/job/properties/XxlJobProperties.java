@@ -17,4 +17,5 @@ public class XxlJobProperties {
 
 	@NestedConfigurationProperty
 	private XxlExecutorProperties executor = new XxlExecutorProperties();
+
 }

@@ -20,16 +20,18 @@ import java.io.IOException;
  * @date 2019/9/25 22:04
  */
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    @Autowired
-    private ObjectMapper objectMapper;
 
-    @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+	@Autowired
+	private ObjectMapper objectMapper;
 
-        httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
-        httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-        httpServletResponse.getWriter().write(
-                objectMapper.writeValueAsString(R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage()))
-        );
-    }
+	@Override
+	public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+			AuthenticationException e) throws IOException, ServletException {
+
+		httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
+		httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+		httpServletResponse.getWriter()
+				.write(objectMapper.writeValueAsString(R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage())));
+	}
+
 }

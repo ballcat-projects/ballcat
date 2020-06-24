@@ -15,11 +15,11 @@ import java.util.List;
  */
 public interface SysDictItemMapper extends BaseMapper<SysDictItem> {
 
-    /**
-     * 根据字典标识查询对应字典选择项
-     *
-     * @param dictCode 字典标识
-     * @return 对应字典项的SelectData
-     */
-    List<SelectData> querySelectDataByDictCode(@Param("dictCode") String dictCode);
+	/**
+	 * 根据字典标识查询对应字典选择项
+	 * @param dictCode 字典标识
+	 * @return 对应字典项的SelectData
+	 */
+	List<SelectData> querySelectDataByDictCode(@Param("dictCode") String dictCode);
+
 }

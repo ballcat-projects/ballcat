@@ -29,8 +29,9 @@ public class Router {
 	 */
 	@ApiModelProperty(value = "图标")
 	private String icon;
+
 	/**
-	 *  菜单名称
+	 * 菜单名称
 	 */
 	@ApiModelProperty(value = "标题")
 	private String title;
@@ -46,21 +47,25 @@ public class Router {
 	 */
 	@ApiModelProperty(value = "前端路由标识路径")
 	private String path;
+
 	/**
 	 * 菜单权限标识
 	 */
 	@ApiModelProperty(value = "前端路由组件")
 	private String component;
+
 	/**
 	 * 重定向地址
 	 */
-	@ApiModelProperty(value="重定向地址")
+	@ApiModelProperty(value = "重定向地址")
 	private String redirect;
+
 	/**
 	 * 链接跳转目标
 	 */
-	@ApiModelProperty(value="链接跳转目标")
+	@ApiModelProperty(value = "链接跳转目标")
 	private String target;
+
 	/**
 	 * 路由缓冲
 	 */
@@ -70,9 +75,7 @@ public class Router {
 	/**
 	 * 是否隐藏路由: 0否,1是
 	 */
-	@ApiModelProperty(value="是否隐藏路由: 0否,1是")
+	@ApiModelProperty(value = "是否隐藏路由: 0否,1是")
 	private Integer hidden;
-
-
 
 }

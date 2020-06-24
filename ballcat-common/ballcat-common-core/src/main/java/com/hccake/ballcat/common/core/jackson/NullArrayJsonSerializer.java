@@ -9,20 +9,19 @@ import java.io.IOException;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2019/10/17 23:17
- * 空数组序列化处理器
- * 如果 Array 为 null，则序列化为 []
+ * @date 2019/10/17 23:17 空数组序列化处理器 如果 Array 为 null，则序列化为 []
  */
 public class NullArrayJsonSerializer extends JsonSerializer<Object> {
 
-    @Override
-    public void serialize(Object value, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException {
-        if (value == null) {
-            jsonGenerator.writeStartArray();
-            jsonGenerator.writeEndArray();
-        } else {
-            jsonGenerator.writeObject(value);
-        }
-    }
+	@Override
+	public void serialize(Object value, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException {
+		if (value == null) {
+			jsonGenerator.writeStartArray();
+			jsonGenerator.writeEndArray();
+		}
+		else {
+			jsonGenerator.writeObject(value);
+		}
+	}
 
 }

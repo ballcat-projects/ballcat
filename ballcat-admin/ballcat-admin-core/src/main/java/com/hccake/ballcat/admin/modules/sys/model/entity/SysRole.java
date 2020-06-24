@@ -40,24 +40,26 @@ public class SysRole extends Model<SysRole> {
 
 	@ApiModelProperty(value = "角色备注")
 	private String note;
+
 	/**
 	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
 	 */
 	@TableLogic
-	@ApiModelProperty(value="逻辑删除标识，已删除:0，未删除：删除时间戳")
+	@ApiModelProperty(value = "逻辑删除标识，已删除:0，未删除：删除时间戳")
 	private Long deleted;
+
 	/**
 	 * 创建时间
 	 */
 	@ApiModelProperty(value = "创建时间")
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
+
 	/**
 	 * 修改时间
 	 */
 	@ApiModelProperty(value = "修改时间")
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime updateTime;
-
 
 }

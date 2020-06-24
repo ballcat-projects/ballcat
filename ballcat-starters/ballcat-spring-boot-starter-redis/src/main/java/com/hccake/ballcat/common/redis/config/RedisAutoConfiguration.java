@@ -19,25 +19,24 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2019/9/2 14:13
- * 指定扫描包
+ * @date 2019/9/2 14:13 指定扫描包
  */
 @RequiredArgsConstructor
 @EnableConfigurationProperties(CacheProperties.class)
 public class RedisAutoConfiguration {
+
 	private final RedisConnectionFactory redisConnectionFactory;
 
-
-    /**
-     * 初始化配置类
-     * @return GlobalCacheProperties
-     */
-    @Bean
-    public CachePropertiesHolder cachePropertiesHolder(CacheProperties cacheProperties){
+	/**
+	 * 初始化配置类
+	 * @return GlobalCacheProperties
+	 */
+	@Bean
+	public CachePropertiesHolder cachePropertiesHolder(CacheProperties cacheProperties) {
 		CachePropertiesHolder cachePropertiesHolder = new CachePropertiesHolder();
 		cachePropertiesHolder.setCacheProperties(cacheProperties);
 		return cachePropertiesHolder;
-    }
+	}
 
 	/**
 	 * 默认使用 Jackson 序列化
@@ -45,9 +44,9 @@ public class RedisAutoConfiguration {
 	 * @return JacksonSerializer
 	 */
 	@Bean
-    public CacheSerializer cacheSerializer(ObjectMapper objectMapper){
-        return new JacksonSerializer(objectMapper);
-    }
+	public CacheSerializer cacheSerializer(ObjectMapper objectMapper) {
+		return new JacksonSerializer(objectMapper);
+	}
 
 	/**
 	 * 初始化CacheLock
@@ -55,12 +54,11 @@ public class RedisAutoConfiguration {
 	 * @return CacheLock
 	 */
 	@Bean
-	public CacheLock cacheLock(StringRedisTemplate stringRedisTemplate){
+	public CacheLock cacheLock(StringRedisTemplate stringRedisTemplate) {
 		CacheLock cacheLock = new CacheLock();
 		cacheLock.setStringRedisTemplate(stringRedisTemplate);
 		return cacheLock;
 	}
-
 
 	@Bean
 	@DependsOn("cachePropertiesHolder")
@@ -83,7 +81,5 @@ public class RedisAutoConfiguration {
 		template.setKeySerializer(new PrefixJdkRedisSerializer(CachePropertiesHolder.keyPrefix()));
 		return template;
 	}
-
-
 
 }

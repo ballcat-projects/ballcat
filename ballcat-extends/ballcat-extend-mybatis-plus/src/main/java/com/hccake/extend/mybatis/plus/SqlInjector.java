@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 /**
- * @author lingting  2020/5/27 11:46
+ * @author lingting 2020/5/27 11:46
  */
 @RequiredArgsConstructor
 public class SqlInjector extends DefaultSqlInjector {
-	private final List<AbstractMethod> list;
 
+	private final List<AbstractMethod> list;
 
 	@Override
 	public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
@@ -20,4 +20,5 @@ public class SqlInjector extends DefaultSqlInjector {
 		list.addAll(this.list);
 		return list;
 	}
+
 }

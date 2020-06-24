@@ -15,34 +15,33 @@ import java.util.List;
  */
 public interface SysDictService extends IService<SysDict> {
 
-    /**
-    *  根据QueryObeject查询分页数据
-    * @param page 分页参数
-    * @param qo 查询参数对象
-    * @return  分页数据
-    */
-    IPage<SysDict> page(IPage<SysDict> page, SysDictQO qo);
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return 分页数据
+	 */
+	IPage<SysDict> page(IPage<SysDict> page, SysDictQO qo);
 
-    /**
-     * 根据字典标识查询
-     * @param dictCode 字典标识
-     * @return 字典数据
-     */
-    SysDict getByCode(String dictCode);
+	/**
+	 * 根据字典标识查询
+	 * @param dictCode 字典标识
+	 * @return 字典数据
+	 */
+	SysDict getByCode(String dictCode);
 
+	/**
+	 * 根据字典标识查询
+	 * @param dictCode 字典标识
+	 * @return 字典数据
+	 */
+	List<SysDict> getByCode(String[] dictCode);
 
-    /**
-     * 根据字典标识查询
-     * @param dictCode 字典标识
-     * @return 字典数据
-     */
-    List<SysDict> getByCode(String[] dictCode);
+	/**
+	 * 更新字典HashCode
+	 * @param dictCode
+	 * @return
+	 */
+	boolean updateHashCode(String dictCode);
 
-
-    /**
-     * 更新字典HashCode
-     * @param dictCode
-     * @return
-     */
-    boolean updateHashCode(String dictCode);
 }

@@ -22,22 +22,22 @@ import java.util.List;
 @RequiredArgsConstructor
 @DS("#header.dsName")
 public class TableInfoServiceImpl implements TableInfoService {
+
 	private final TableInfoMapper baseMapper;
 
-    /**
-    *  根据QueryObeject查询分页数据
-    * @param page 分页参数
-    * @param qo 查询参数对象
-    * @return  分页数据
-    */
-    @Override
-    public IPage<TableInfo> selectPageVo(IPage<?> page, TableInfoQO qo) {
-        return baseMapper.selectPageVo(page, qo.getTableName());
-    }
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return 分页数据
+	 */
+	@Override
+	public IPage<TableInfo> selectPageVo(IPage<?> page, TableInfoQO qo) {
+		return baseMapper.selectPageVo(page, qo.getTableName());
+	}
 
 	/**
 	 * 根据表名查询对应表信息
-	 *
 	 * @param tableName 表名
 	 * @return TableInfo
 	 */
@@ -48,7 +48,6 @@ public class TableInfoServiceImpl implements TableInfoService {
 
 	/**
 	 * 查询指定表的列信息
-	 *
 	 * @param tableName 表名
 	 * @return List<ColumnInfo>
 	 */

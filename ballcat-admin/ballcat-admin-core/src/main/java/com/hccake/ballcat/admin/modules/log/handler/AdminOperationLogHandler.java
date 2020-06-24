@@ -16,15 +16,17 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AdminOperationLogHandler implements OperationLogHandler {
-    private final OperationLogAdminService operationLogAdminService;
 
-    /**
-     * 保存操作日志
-     * @param operationLogDTO 操作日志DTO
-     */
-    @Override
-    public void saveLog(OperationLogDTO operationLogDTO) {
-        AdminOperationLog adminOperationLog = OperationLogConverter.INSTANCE.dtoToPo(operationLogDTO);
-        operationLogAdminService.save(adminOperationLog);
-    }
+	private final OperationLogAdminService operationLogAdminService;
+
+	/**
+	 * 保存操作日志
+	 * @param operationLogDTO 操作日志DTO
+	 */
+	@Override
+	public void saveLog(OperationLogDTO operationLogDTO) {
+		AdminOperationLog adminOperationLog = OperationLogConverter.INSTANCE.dtoToPo(operationLogDTO);
+		operationLogAdminService.save(adminOperationLog);
+	}
+
 }

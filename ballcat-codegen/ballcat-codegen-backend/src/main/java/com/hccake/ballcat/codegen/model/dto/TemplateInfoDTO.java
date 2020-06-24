@@ -12,7 +12,8 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "模板信息")
-public class TemplateInfoDTO  {
+public class TemplateInfoDTO {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -20,19 +21,23 @@ public class TemplateInfoDTO  {
 	 */
 	@ApiModelProperty(value = "模板标题")
 	private String title;
+
 	/**
 	 * 模板内容
 	 */
 	@ApiModelProperty(value = "模板内容")
 	private String content;
+
 	/**
 	 * 模板引擎类型 1：velocity
 	 */
 	@ApiModelProperty(value = "模板引擎类型 1：velocity")
 	private Integer engineType;
+
 	/**
 	 * 备注
 	 */
 	@ApiModelProperty(value = "备注")
 	private String remarks;
+
 }

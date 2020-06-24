@@ -10,10 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 钉钉消息通知
  *
- * @author lingting  2020/6/12 0:25
+ * @author lingting 2020/6/12 0:25
  */
 @Slf4j
 public class MailGlobalExceptionHandler extends AbstractNoticeGlobalExceptionHandler {
+
 	private final MailSender sender;
 
 	public MailGlobalExceptionHandler(ExceptionHandleConfig config, MailSender sender, String applicationName) {
@@ -31,4 +32,5 @@ public class MailGlobalExceptionHandler extends AbstractNoticeGlobalExceptionHan
 		// 邮箱发送失败会抛出异常，否则视作发送成功
 		return new ExceptionNoticeResponse().setSuccess(mail.getSuccess()).setErrMsg(mail.getErrorMsg());
 	}
+
 }

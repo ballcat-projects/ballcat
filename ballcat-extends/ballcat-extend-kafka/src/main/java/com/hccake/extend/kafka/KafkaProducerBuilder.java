@@ -16,15 +16,15 @@ import java.util.function.Function;
 import static com.hccake.extend.kafka.KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER;
 
 /**
- * 生产者
- * 具体的配置请参考 {@link ProducerConfig}
- * 这里只提供一些常用配置
+ * 生产者 具体的配置请参考 {@link ProducerConfig} 这里只提供一些常用配置
  *
- * @author lingting  2020/5/19 20:56
+ * @author lingting 2020/5/19 20:56
  */
 @Slf4j
 public class KafkaProducerBuilder {
+
 	private final Properties properties = new Properties();
+
 	private final Set<String> bootstrapServers = new HashSet<>();
 
 	public KafkaProducerBuilder keySerializer(Class<? extends Serializer<?>> c) {
@@ -44,9 +44,9 @@ public class KafkaProducerBuilder {
 	}
 
 	/**
-	 * 添加 kafka 路径  host:port
+	 * 添加 kafka 路径 host:port
 	 *
-	 * @author lingting  2020-06-19 16:30:03
+	 * @author lingting 2020-06-19 16:30:03
 	 */
 	public KafkaProducerBuilder addBootstrapServers(String uri) {
 		bootstrapServers.add(uri);
@@ -61,7 +61,7 @@ public class KafkaProducerBuilder {
 	/**
 	 * 添加配置
 	 *
-	 * @author lingting  2020-06-19 16:30:50
+	 * @author lingting 2020-06-19 16:30:50
 	 */
 	public KafkaProducerBuilder put(Object key, Object val) {
 		properties.put(key, val);
@@ -71,7 +71,7 @@ public class KafkaProducerBuilder {
 	/**
 	 * 添加配置
 	 *
-	 * @author lingting  2020-06-19 16:30:50
+	 * @author lingting 2020-06-19 16:30:50
 	 */
 	public KafkaProducerBuilder putAll(Properties properties) {
 		this.properties.putAll(properties);
@@ -96,8 +96,12 @@ public class KafkaProducerBuilder {
 	}
 
 	public Properties getProperties() {
-		bootstrapServers.addAll(ListUtil.toList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, StrUtil.EMPTY).split(BOOTSTRAP_SERVERS_DELIMITER)));
-		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
+		bootstrapServers
+				.addAll(ListUtil.toList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, StrUtil.EMPTY)
+						.split(BOOTSTRAP_SERVERS_DELIMITER)));
+		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+				String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
 		return properties;
 	}
+
 }

@@ -20,30 +20,27 @@ import java.util.List;
 @Service
 public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItem> implements SysDictItemService {
 
-    /**
-    *  根据QueryObeject查询分页数据
-    * @param page 分页参数
-    * @param dictCode 查询参数对象
-    * @return  分页数据
-    */
-    @Override
-    public IPage<SysDictItem> page(IPage<SysDictItem> page, String dictCode) {
-        LambdaQueryWrapper<SysDictItem> wrapper = Wrappers.<SysDictItem>lambdaQuery()
-                .eq(SysDictItem::getDictCode, dictCode);
-        return baseMapper.selectPage(page, wrapper);
-    }
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param page 分页参数
+	 * @param dictCode 查询参数对象
+	 * @return 分页数据
+	 */
+	@Override
+	public IPage<SysDictItem> page(IPage<SysDictItem> page, String dictCode) {
+		LambdaQueryWrapper<SysDictItem> wrapper = Wrappers.<SysDictItem>lambdaQuery().eq(SysDictItem::getDictCode,
+				dictCode);
+		return baseMapper.selectPage(page, wrapper);
+	}
 
-
-    /**
-     * 根据Code查询对应字典项数据
-     *
-     * @param dictCode
-     * @return
-     */
-    @Override
-    public List<SysDictItem> getByDictCode(String dictCode) {
-        return baseMapper.selectList(Wrappers.<SysDictItem>lambdaQuery()
-                .eq(SysDictItem::getDictCode, dictCode));
-    }
+	/**
+	 * 根据Code查询对应字典项数据
+	 * @param dictCode
+	 * @return
+	 */
+	@Override
+	public List<SysDictItem> getByDictCode(String dictCode) {
+		return baseMapper.selectList(Wrappers.<SysDictItem>lambdaQuery().eq(SysDictItem::getDictCode, dictCode));
+	}
 
 }

@@ -9,6 +9,7 @@ import java.util.Map;
  * @date 2020/6/22 17:53
  */
 public class MysqlDataTypeConverter {
+
 	public static final Map<String, String> MAPPING = new HashMap<>();
 	static {
 		MAPPING.put("tinyint", "Integer");

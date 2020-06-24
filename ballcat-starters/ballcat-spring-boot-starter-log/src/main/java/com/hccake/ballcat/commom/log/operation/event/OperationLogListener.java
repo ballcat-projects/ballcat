@@ -8,12 +8,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 
 /**
- * @author
- * 异步监听日志事件
+ * @author 异步监听日志事件
  */
 @Slf4j
 @RequiredArgsConstructor
 public class OperationLogListener {
+
 	private final OperationLogHandler operationLogHandler;
 
 	@Async
@@ -22,4 +22,5 @@ public class OperationLogListener {
 	public void saveSysLog(OperationLogEvent event) {
 		operationLogHandler.saveLog(event.getOperationLogDTO());
 	}
+
 }

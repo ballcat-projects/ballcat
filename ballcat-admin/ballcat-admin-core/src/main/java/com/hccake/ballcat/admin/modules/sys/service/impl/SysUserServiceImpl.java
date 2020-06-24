@@ -49,16 +49,19 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
-	private final FileService fileService;
-	private final SysPermissionService sysPermissionService;
-	private final SysUserRoleService sysUserRoleService;
-	private final SysAdminConfigService sysAdminConfigService;
-	private final SysRoleService sysRoleService;
 
+	private final FileService fileService;
+
+	private final SysPermissionService sysPermissionService;
+
+	private final SysUserRoleService sysUserRoleService;
+
+	private final SysAdminConfigService sysAdminConfigService;
+
+	private final SysRoleService sysRoleService;
 
 	@Value("${password.secret-key}")
 	private String secretKey;
-
 
 	@Override
 	public IPage<SysUser> page(IPage<SysUser> page, SysUserQO qo) {
@@ -78,10 +81,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return baseMapper.selectPage(page, wrapper);
 	}
 
-
 	/**
 	 * 根据用户名查询用户
-	 *
 	 * @param username
 	 * @return
 	 */
@@ -90,10 +91,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return baseMapper.selectOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
 	}
 
-
 	/**
 	 * 通过查用户的全部信息
-	 *
 	 * @param sysUser 用户
 	 * @return
 	 */
@@ -101,13 +100,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public UserInfo findUserInfo(SysUser sysUser) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setSysUser(sysUser);
-		// 设置角色列表  （ID）
+		// 设置角色列表 （ID）
 		List<SysRole> roleList;
 
 		if (sysAdminConfigService.verify(sysUser)) {
 			// 超级管理员拥有所有角色
 			roleList = sysRoleService.list();
-		} else {
+		}
+		else {
 			roleList = sysUserRoleService.getRoles(sysUser.getUserId());
 		}
 
@@ -124,10 +124,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		// 设置权限列表（permission）
 		Set<String> permissions = new HashSet<>();
 		roleIds.forEach(roleId -> {
-			List<String> permissionList = sysPermissionService.findPermissionVOByRoleId(roleId)
-					.stream()
-					.filter(sysPermission -> StrUtil.isNotEmpty(sysPermission.getCode()))
-					.map(PermissionVO::getCode)
+			List<String> permissionList = sysPermissionService.findPermissionVOByRoleId(roleId).stream()
+					.filter(sysPermission -> StrUtil.isNotEmpty(sysPermission.getCode())).map(PermissionVO::getCode)
 					.collect(Collectors.toList());
 			permissions.addAll(permissionList);
 		});
@@ -135,10 +133,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return userInfo;
 	}
 
-
 	/**
 	 * 新增系统用户
-	 *
 	 * @param sysUserDto
 	 * @return
 	 */
@@ -157,7 +153,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	/**
 	 * 更新系统用户信息
-	 *
 	 * @param sysUserDTO
 	 * @return
 	 */
@@ -172,7 +167,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	/**
 	 * 更新用户权限信息
-	 *
 	 * @param userId
 	 * @param sysUserScope
 	 * @return
@@ -188,7 +182,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	/**
 	 * 根据userId删除 用户
-	 *
 	 * @param userId
 	 * @return
 	 */
@@ -204,7 +197,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	/**
 	 * 修改用户密码
-	 *
 	 * @param userId
 	 * @param pass
 	 * @return
@@ -216,20 +208,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		}
 		String password = PasswordUtil.decodeAesAndEncodeBCrypt(pass, secretKey);
 
-		int res = baseMapper.update(null, Wrappers.<SysUser>lambdaUpdate()
-				.eq(SysUser::getUserId, userId)
-				.set(SysUser::getPassword, password)
-		);
+		int res = baseMapper.update(null,
+				Wrappers.<SysUser>lambdaUpdate().eq(SysUser::getUserId, userId).set(SysUser::getPassword, password));
 
 		return SqlHelper.retBool(res);
 	}
 
 	/**
-	 * 判断指定用户是否为超级管理员
-	 * 如果是，则判断指定用户与当前为同一个用户
-	 *
+	 * 判断指定用户是否为超级管理员 如果是，则判断指定用户与当前为同一个用户
 	 * @return 指定用户不是超级管理员 返回 true , 如果指定用户时超级管理员 且 指定用户为当前登录用户 返回true
-	 * @author lingting  2020-06-24 21:24:53
+	 * @author lingting 2020-06-24 21:24:53
 	 */
 	private boolean isSelf(SysUser user) {
 		if (!sysAdminConfigService.verify(user)) {
@@ -241,7 +229,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	/**
 	 * 批量修改用户状态
-	 *
 	 * @param userIds
 	 * @return
 	 */
@@ -249,15 +236,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public boolean updateUserStatus(List<Integer> userIds, Integer status) {
 		new ArrayList<>(userIds).forEach(id -> {
 			SysUser entity = getById(id);
-			if (sysAdminConfigService.verify(entity) && !SecurityUtils.getSysUserDetails().getUsername().equals(entity.getUsername())) {
+			if (sysAdminConfigService.verify(entity)
+					&& !SecurityUtils.getSysUserDetails().getUsername().equals(entity.getUsername())) {
 				// 要修改的用户是超级管理员， 但是修改人不是本人, 从修改列表中移除
 				userIds.remove(id);
 			}
 		});
-		return this.update(Wrappers.<SysUser>lambdaUpdate()
-				.set(SysUser::getStatus, status)
-				.in(SysUser::getUserId, userIds)
-		);
+		return this.update(
+				Wrappers.<SysUser>lambdaUpdate().set(SysUser::getStatus, status).in(SysUser::getUserId, userIds));
 	}
 
 	@Override
@@ -267,9 +253,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			return StrUtil.EMPTY;
 		}
 		// 获取系统用户头像的文件名
-		String objectName = "sysuser/" + userId + "/avatar/"
-				+ LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + StrUtil.SLASH
-				+ IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+		String objectName = "sysuser/" + userId + "/avatar/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
+				+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 		fileService.uploadFile(file, objectName);
 
 		SysUser sysUser = new SysUser();
@@ -282,7 +267,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	/**
 	 * 根据角色查询用户
-	 *
 	 * @param roleCode
 	 * @return
 	 */
@@ -292,14 +276,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * 返回用户的select数据
-	 * name=> username
-	 * value => userId
-	 *
+	 * 返回用户的select数据 name=> username value => userId
 	 * @return List<SelectData>
 	 */
 	@Override
 	public List<SelectData<?>> getSelectData(Integer type) {
 		return baseMapper.getSelectData(type);
 	}
+
 }

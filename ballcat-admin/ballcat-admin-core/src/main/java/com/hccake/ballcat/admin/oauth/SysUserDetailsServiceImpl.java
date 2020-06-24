@@ -27,44 +27,45 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class SysUserDetailsServiceImpl implements UserDetailsService {
-    private final SysUserService sysUserService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser sysUser = sysUserService.getByUsername(username);
-        if(sysUser == null){
-            log.error("登陆：用户名错误，用户名：{}", username);
-            throw new UsernameNotFoundException("username error!");
-        }
-        UserInfo userInfo = sysUserService.findUserInfo(sysUser);
-        return getUserDetailsByUserInfo(userInfo);
-    }
+	private final SysUserService sysUserService;
 
-    /**
-     * 根据UserInfo 获取 UserDetails
-     * @param userInfo
-     * @return
-     */
-    private UserDetails getUserDetailsByUserInfo(UserInfo userInfo) {
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		SysUser sysUser = sysUserService.getByUsername(username);
+		if (sysUser == null) {
+			log.error("登陆：用户名错误，用户名：{}", username);
+			throw new UsernameNotFoundException("username error!");
+		}
+		UserInfo userInfo = sysUserService.findUserInfo(sysUser);
+		return getUserDetailsByUserInfo(userInfo);
+	}
 
-        SysUser user = userInfo.getSysUser();
-        List<String> roles = userInfo.getRoles();
-        List<Integer> roleIds = userInfo.getRoleIds();
-        List<String> permissions = userInfo.getPermissions();
+	/**
+	 * 根据UserInfo 获取 UserDetails
+	 * @param userInfo
+	 * @return
+	 */
+	private UserDetails getUserDetailsByUserInfo(UserInfo userInfo) {
 
-        Set<String> dbAuthsSet = new HashSet<>();
-        if (CollectionUtil.isNotEmpty(roles)) {
-            // 获取角色
-            dbAuthsSet.addAll(roles);
-            // 获取资源
-            dbAuthsSet.addAll(permissions);
+		SysUser user = userInfo.getSysUser();
+		List<String> roles = userInfo.getRoles();
+		List<Integer> roleIds = userInfo.getRoleIds();
+		List<String> permissions = userInfo.getPermissions();
 
-        }
-        Collection<? extends GrantedAuthority> authorities
-                = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+		Set<String> dbAuthsSet = new HashSet<>();
+		if (CollectionUtil.isNotEmpty(roles)) {
+			// 获取角色
+			dbAuthsSet.addAll(roles);
+			// 获取资源
+			dbAuthsSet.addAll(permissions);
 
-        return new SysUserDetails(user, roles, roleIds, permissions, authorities);
+		}
+		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
+				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
-    }
+		return new SysUserDetails(user, roles, roleIds, permissions, authorities);
+
+	}
 
 }

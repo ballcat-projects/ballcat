@@ -16,51 +16,43 @@ import java.time.LocalDateTime;
 @RestController
 public class TestController {
 
+	@ApiOperation("测试地址")
+	@PostMapping("/test")
+	public String test() {
+		return "Hello word!";
+	}
 
-    @ApiOperation("测试地址")
-    @PostMapping("/test")
-    public String test(){
-        return "Hello word!";
-    }
+	@GetMapping("/test/{test}")
+	public String test(@PathVariable String test) {
+		return "Hello " + test;
+	}
 
+	@PostMapping("/formdata")
+	public String test1(@RequestParam("formdata") String formdata) {
+		return formdata;
+	}
 
-    @GetMapping("/test/{test}")
-    public String test(@PathVariable String test){
-        return "Hello " + test;
-    }
+	@PostMapping("/xwww")
+	public String test2(@RequestParam("xwww") String xwww) {
+		return xwww;
+	}
 
+	@PostMapping("/raw")
+	public TestObj test3(@RequestBody TestObj testObj) {
 
-    @PostMapping("/formdata")
-    public String test1(@RequestParam("formdata")String formdata){
-        return formdata;
-    }
+		System.out.println(testObj);
 
+		TestObj test = new TestObj();
+		test.setLocalDateTime(LocalDateTime.now());
+		test.setLocalDate(LocalDate.now());
+		test.setStr("test");
 
-    @PostMapping("/xwww")
-    public String test2(@RequestParam("xwww")String xwww){
-        return xwww;
-    }
+		return test;
+	}
 
-
-    @PostMapping("/raw")
-    public TestObj test3(@RequestBody TestObj testObj){
-
-        System.out.println(testObj);
-
-        TestObj test = new TestObj();
-        test.setLocalDateTime(LocalDateTime.now());
-        test.setLocalDate(LocalDate.now());
-        test.setStr("test") ;
-
-        return test;
-    }
-
-
-    @PostMapping("/errortest")
-    public String error(){
-        throw new BusinessException(9999, "Error Test！");
-    }
-
-
+	@PostMapping("/errortest")
+	public String error() {
+		throw new BusinessException(9999, "Error Test！");
+	}
 
 }

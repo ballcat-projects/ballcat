@@ -12,13 +12,14 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper
 public interface SysDictConverter {
-    SysDictConverter INSTANCE = Mappers.getMapper(SysDictConverter.class);
 
-    /**
-     * 字典项实体转VO
-     * @param sysDictItem
-     * @return
-     */
-    DictItemVO itemPoToVo(SysDictItem sysDictItem);
+	SysDictConverter INSTANCE = Mappers.getMapper(SysDictConverter.class);
+
+	/**
+	 * 字典项实体转VO
+	 * @param sysDictItem
+	 * @return
+	 */
+	DictItemVO itemPoToVo(SysDictItem sysDictItem);
 
 }

@@ -36,40 +36,41 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, TemplateGroup> implements TemplateGroupService {
+public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, TemplateGroup>
+		implements TemplateGroupService {
+
 	private final static String TABLE_ALIAS_PREFIX = "tg.";
+
 	private final TemplateDirectoryEntryService templateDirectoryEntryService;
+
 	private final TemplateInfoService templateInfoService;
 
 	/**
 	 * 根据QueryObject查询分页数据
-	 *
 	 * @param page 分页参数
-	 * @param qo   查询参数对象
+	 * @param qo 查询参数对象
 	 * @return 分页数据
 	 */
 	@Override
 	public IPage<TemplateGroupVO> selectPageVo(IPage<?> page, TemplateGroupQO qo) {
-		QueryWrapper<TemplateGroup> wrapper = Wrappers.<TemplateGroup>query()
-				.eq(ObjectUtil.isNotNull(qo.getId()), TABLE_ALIAS_PREFIX + "Id", qo.getId());
+		QueryWrapper<TemplateGroup> wrapper = Wrappers.<TemplateGroup>query().eq(ObjectUtil.isNotNull(qo.getId()),
+				TABLE_ALIAS_PREFIX + "Id", qo.getId());
 		return baseMapper.selectPageVo(page, wrapper);
 	}
 
-
 	/**
 	 * 查找指定模板组下所有的模板文件
-	 *
 	 * @param groupId 模板组ID
 	 * @return List<TemplateFile>
 	 */
 	@Override
 	public List<TemplateFile> findTemplateFiles(Integer groupId) {
 		// 获取模板目录项
-		List<TemplateDirectoryEntry> list = templateDirectoryEntryService.list(Wrappers.<TemplateDirectoryEntry>lambdaQuery()
-				.eq(TemplateDirectoryEntry::getGroupId, groupId));
+		List<TemplateDirectoryEntry> list = templateDirectoryEntryService
+				.list(Wrappers.<TemplateDirectoryEntry>lambdaQuery().eq(TemplateDirectoryEntry::getGroupId, groupId));
 		// 转树形目录结构
-		List<TemplateDirectory> treeList =
-				TreeUtil.buildTree(list, GlobalConstants.TREE_ROOT_ID, TemplateModelConverter.INSTANCE::entryPoToTree);
+		List<TemplateDirectory> treeList = TreeUtil.buildTree(list, GlobalConstants.TREE_ROOT_ID,
+				TemplateModelConverter.INSTANCE::entryPoToTree);
 
 		// 填充模板文件
 		List<TemplateFile> templateFiles = new ArrayList<>();
@@ -82,10 +83,9 @@ public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, T
 
 	/**
 	 * 填充模板文件信息
-	 *
 	 * @param current 当前目录项
-	 * @param list    模板文件列表
-	 * @param path    当前目录路径
+	 * @param list 模板文件列表
+	 * @param path 当前目录路径
 	 */
 	@SuppressWarnings("unchecked")
 	private void fillTemplateFiles(TemplateDirectory current, List<TemplateFile> list, String path) {
@@ -105,11 +105,8 @@ public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, T
 		if (DirectoryEntryTypeEnum.FILE.getType().equals(current.getType())) {
 			// 查找对应的模板文件详情信息
 			TemplateInfo templateInfo = templateInfoService.getById(current.getId());
-			TemplateFile templateFile = new TemplateFile()
-					.setFileName(current.getFileName())
-					.setFilePath(path)
-					.setContent(templateInfo.getContent())
-					.setEngineType(templateInfo.getEngineType());
+			TemplateFile templateFile = new TemplateFile().setFileName(current.getFileName()).setFilePath(path)
+					.setContent(templateInfo.getContent()).setEngineType(templateInfo.getEngineType());
 			list.add(templateFile);
 		}
 	}

@@ -16,6 +16,7 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper
 public interface TemplateModelConverter {
+
 	TemplateModelConverter INSTANCE = Mappers.getMapper(TemplateModelConverter.class);
 
 	/**
@@ -25,8 +26,6 @@ public interface TemplateModelConverter {
 	 */
 	TemplateDirectoryEntryVO entryPoToVo(TemplateDirectoryEntry templateDirectoryEntry);
 
-
-
 	/**
 	 * 转换 DirectoryEntryCreateDTO to DirectoryEntry
 	 * @param directoryCreateDTO directoryCreateDTO
@@ -34,15 +33,12 @@ public interface TemplateModelConverter {
 	 */
 	TemplateDirectoryEntry entryCreateDtoToPo(TemplateDirectoryCreateDTO directoryCreateDTO);
 
-
-
 	/**
 	 * 转换为目录树
 	 * @param templateDirectoryEntry templateDirectoryEntry
 	 * @return TemplateDirectoryTree
 	 */
 	TemplateDirectory entryPoToTree(TemplateDirectoryEntry templateDirectoryEntry);
-
 
 	/**
 	 * TemplateInfoDto 转换为 TemplateInfo

@@ -10,12 +10,12 @@ import org.apache.kafka.common.header.Header;
 import java.util.concurrent.Future;
 
 /**
- * 生产者扩展
- * 提供了一些更加方便使用 生产者的方法
+ * 生产者扩展 提供了一些更加方便使用 生产者的方法
  *
- * @author lingting  2020/6/23 17:11
+ * @author lingting 2020/6/23 17:11
  */
 public class KafkaExtendProducer<K, V> {
+
 	@Getter
 	private final KafkaProducer<K, V> producer;
 
@@ -23,7 +23,8 @@ public class KafkaExtendProducer<K, V> {
 		this.producer = producer;
 	}
 
-	public ProducerRecord<K, V> record(String topic, Integer partition, Long timestamp, K key, V value, Iterable<Header> headers) {
+	public ProducerRecord<K, V> record(String topic, Integer partition, Long timestamp, K key, V value,
+			Iterable<Header> headers) {
 		return new ProducerRecord<>(topic, partition, timestamp, key, value, headers);
 	}
 
@@ -51,7 +52,8 @@ public class KafkaExtendProducer<K, V> {
 		return producer.send(record, callback);
 	}
 
-	public Future<RecordMetadata> send(String topic, Integer partition, Long timestamp, K key, V value, Iterable<Header> headers) {
+	public Future<RecordMetadata> send(String topic, Integer partition, Long timestamp, K key, V value,
+			Iterable<Header> headers) {
 		return send(record(topic, partition, timestamp, key, value, headers), null);
 	}
 
@@ -78,4 +80,5 @@ public class KafkaExtendProducer<K, V> {
 	public Future<RecordMetadata> send(String topic, V value, Callback callback) {
 		return send(record(topic, value), callback);
 	}
+
 }

@@ -16,15 +16,16 @@ import java.util.UUID;
  */
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final String adminContextPath;
 
-    public SecurityConfig(AdminServerProperties adminServerProperties) {
-        this.adminContextPath = adminServerProperties.getContextPath();
-    }
+	private final String adminContextPath;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
+	public SecurityConfig(AdminServerProperties adminServerProperties) {
+		this.adminContextPath = adminServerProperties.getContextPath();
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// @formatter:off
         SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
         successHandler.setTargetUrlParameter("redirectTo");
         successHandler.setDefaultTargetUrl(this.adminContextPath +"/");
@@ -47,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe().key(UUID.randomUUID().toString()).tokenValiditySeconds(1209600);
         // @formatter:on
-    }
+	}
 
 }
-

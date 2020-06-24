@@ -19,6 +19,7 @@ public class NameSpelExpressionProcessor implements NameProcessor {
 	 * 参数发现器
 	 */
 	private static final ParameterNameDiscoverer NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
+
 	/**
 	 * Express语法解析器
 	 */
@@ -35,4 +36,5 @@ public class NameSpelExpressionProcessor implements NameProcessor {
 		final Object value = PARSER.parseExpression(key).getValue(context);
 		return value == null ? null : value.toString();
 	}
+
 }

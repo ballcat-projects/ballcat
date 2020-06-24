@@ -20,7 +20,6 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
 	 * 获取角色下拉框数据
 	 * @return
 	 */
-    List<SelectData> getSelectData();
-
+	List<SelectData> getSelectData();
 
 }

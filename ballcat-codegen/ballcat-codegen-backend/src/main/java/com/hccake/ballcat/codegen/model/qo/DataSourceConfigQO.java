@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 @ApiModel(value = "数据源查询对象")
 public class DataSourceConfigQO {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -20,4 +21,5 @@ public class DataSourceConfigQO {
 	 */
 	@ApiModelProperty(value = "ID")
 	private Integer id;
+
 }

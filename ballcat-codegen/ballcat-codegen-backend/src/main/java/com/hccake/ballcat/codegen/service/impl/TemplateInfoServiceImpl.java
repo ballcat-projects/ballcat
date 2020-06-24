@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
  * @date 2020-06-18 18:32:51
  */
 @Service
-public class TemplateInfoServiceImpl extends ServiceImpl<TemplateInfoMapper, TemplateInfo> implements TemplateInfoService {
-    private final static String TABLE_ALIAS_PREFIX = "gt.";
+public class TemplateInfoServiceImpl extends ServiceImpl<TemplateInfoMapper, TemplateInfo>
+		implements TemplateInfoService {
+
+	private final static String TABLE_ALIAS_PREFIX = "gt.";
 
 }

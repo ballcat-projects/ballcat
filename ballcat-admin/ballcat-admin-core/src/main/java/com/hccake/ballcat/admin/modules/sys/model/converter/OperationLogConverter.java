@@ -13,13 +13,13 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface OperationLogConverter {
 
-    OperationLogConverter INSTANCE = Mappers.getMapper(OperationLogConverter.class);
+	OperationLogConverter INSTANCE = Mappers.getMapper(OperationLogConverter.class);
 
-    /**
-     * 转换OperationLog 为 OperationLogAdmin
-     * @param operationLogDTO 操作日志DTO
-     * @return AdminOperationLog
-     */
-    AdminOperationLog dtoToPo(OperationLogDTO operationLogDTO);
+	/**
+	 * 转换OperationLog 为 OperationLogAdmin
+	 * @param operationLogDTO 操作日志DTO
+	 * @return AdminOperationLog
+	 */
+	AdminOperationLog dtoToPo(OperationLogDTO operationLogDTO);
 
 }

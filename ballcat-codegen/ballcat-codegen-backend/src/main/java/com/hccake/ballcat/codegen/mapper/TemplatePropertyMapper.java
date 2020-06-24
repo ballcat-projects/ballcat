@@ -16,11 +16,12 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface TemplatePropertyMapper extends BaseMapper<TemplateProperty> {
 
-    /**
-    * 分页查询
-    * @param page
-    * @param wrapper
-    * @return VO分页数据
-    */
-    IPage<TemplatePropertyVO> selectPageVo(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<TemplateProperty> wrapper);
+	/**
+	 * 分页查询
+	 * @param page
+	 * @param wrapper
+	 * @return VO分页数据
+	 */
+	IPage<TemplatePropertyVO> selectPageVo(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<TemplateProperty> wrapper);
+
 }

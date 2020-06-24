@@ -17,11 +17,15 @@ import java.util.Map;
  * @date 2020/6/15 17:46
  */
 public class DynamicJdbcDataSourceProvider extends AbstractJdbcDataSourceProvider {
-	public static final String QUERY_DS_SQL = "select * from gen_data_source_config" ;
+
+	public static final String QUERY_DS_SQL = "select * from gen_data_source_config";
+
 	private final DataSourceProperty masterDataSourceProperty;
+
 	private final StringEncryptor stringEncryptor;
 
-	public DynamicJdbcDataSourceProvider(StringEncryptor stringEncryptor, String driverClassName, String url, String username, String password) {
+	public DynamicJdbcDataSourceProvider(StringEncryptor stringEncryptor, String driverClassName, String url,
+			String username, String password) {
 		super(driverClassName, url, username, password);
 		this.stringEncryptor = stringEncryptor;
 		this.masterDataSourceProperty = new DataSourceProperty();
@@ -51,4 +55,5 @@ public class DynamicJdbcDataSourceProvider extends AbstractJdbcDataSourceProvide
 
 		return map;
 	}
+
 }

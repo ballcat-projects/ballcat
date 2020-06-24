@@ -18,33 +18,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/public/cache-test")
 public class CacheTestController {
-    private final StringRedisTemplate redisTemplate;
 
+	private final StringRedisTemplate redisTemplate;
 
-    @GetMapping("/cachedTestKey1")
-    @Cached(key = "testKey1")
-    public String cachedTestKey1(){
-        return "testKey1 add:" + System.currentTimeMillis();
-    }
+	@GetMapping("/cachedTestKey1")
+	@Cached(key = "testKey1")
+	public String cachedTestKey1() {
+		return "testKey1 add:" + System.currentTimeMillis();
+	}
 
-    @GetMapping("/putTestKey1")
-    @CachePut(key = "testKey1")
-    public String putTestKey1(){
-        return "testKey1 update:" + System.currentTimeMillis();
-    }
+	@GetMapping("/putTestKey1")
+	@CachePut(key = "testKey1")
+	public String putTestKey1() {
+		return "testKey1 update:" + System.currentTimeMillis();
+	}
 
+	@GetMapping("/delTestKey1")
+	@CacheDel(key = "testKey1")
+	public void delTestKey1() {
+		System.out.println("testKey1 del");
+	}
 
-    @GetMapping("/delTestKey1")
-    @CacheDel(key = "testKey1")
-    public void delTestKey1(){
-        System.out.println("testKey1 del");
-    }
-
-
-    @GetMapping("/cachedTestKey2")
-    public String cachedTestKey2(){
-        redisTemplate.opsForValue().set("testKey2", "1");
-        return "testKey2 add success";
-    }
+	@GetMapping("/cachedTestKey2")
+	public String cachedTestKey2() {
+		redisTemplate.opsForValue().set("testKey2", "1");
+		return "testKey2 add success";
+	}
 
 }

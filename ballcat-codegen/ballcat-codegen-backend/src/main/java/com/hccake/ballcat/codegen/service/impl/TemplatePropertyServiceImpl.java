@@ -19,21 +19,23 @@ import org.springframework.stereotype.Service;
  * @date 2020-06-22 15:46:39
  */
 @Service
-public class TemplatePropertyServiceImpl extends ServiceImpl<TemplatePropertyMapper, TemplateProperty> implements TemplatePropertyService {
-    private final static String TABLE_ALIAS_PREFIX = "tp.";
+public class TemplatePropertyServiceImpl extends ServiceImpl<TemplatePropertyMapper, TemplateProperty>
+		implements TemplatePropertyService {
 
-    /**
-    *  根据QueryObeject查询分页数据
-    * @param page 分页参数
-    * @param qo 查询参数对象
-    * @return  分页数据
-    */
-    @Override
-    public IPage<TemplatePropertyVO> selectPageVo(IPage<?> page, TemplatePropertyQO qo) {
-        QueryWrapper<TemplateProperty> wrapper = Wrappers.<TemplateProperty>query()
+	private final static String TABLE_ALIAS_PREFIX = "tp.";
+
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return 分页数据
+	 */
+	@Override
+	public IPage<TemplatePropertyVO> selectPageVo(IPage<?> page, TemplatePropertyQO qo) {
+		QueryWrapper<TemplateProperty> wrapper = Wrappers.<TemplateProperty>query()
 				.eq(TABLE_ALIAS_PREFIX + "group_id", qo.getGroupId())
-                .eq(ObjectUtil.isNotNull(qo.getId()), TABLE_ALIAS_PREFIX + "id", qo.getId());
-        return baseMapper.selectPageVo(page, wrapper);
-    }
+				.eq(ObjectUtil.isNotNull(qo.getId()), TABLE_ALIAS_PREFIX + "id", qo.getId());
+		return baseMapper.selectPageVo(page, wrapper);
+	}
 
 }

@@ -10,20 +10,27 @@ import java.util.regex.Pattern;
 /**
  * 生成 markdown 文本
  *
- * @author lingting  2020/6/10 22:43
+ * @author lingting 2020/6/10 22:43
  */
 public class MarkdownBuilder {
+
 	public static final String TITLE_PREFIX = "#";
+
 	public static final String QUOTE_PREFIX = "> ";
+
 	public static final String BOLD_PREFIX = "**";
+
 	public static final String ITALIC_PREFIX = "*";
+
 	public static final String UNORDERED_LIST_PREFIX = "- ";
+
 	public static final String ORDER_LIST_PREFIX = ". ";
 
 	/**
 	 * 存放内容
 	 */
 	private final List<String> content = new ArrayList<>();
+
 	/**
 	 * 当前操作行文本
 	 */
@@ -35,7 +42,6 @@ public class MarkdownBuilder {
 
 	/**
 	 * 添加自定义内容
-	 *
 	 * @param content 自定义内容
 	 * @author lingting 2020-06-10 23:14:54
 	 */
@@ -46,7 +52,6 @@ public class MarkdownBuilder {
 
 	/**
 	 * 有序列表 自动生成 索引
-	 *
 	 * @param content 文本
 	 * @author lingting 2020-06-10 23:13:41
 	 */
@@ -70,8 +75,7 @@ public class MarkdownBuilder {
 
 	/**
 	 * 有序列表
-	 *
-	 * @param index   索引
+	 * @param index 索引
 	 * @param content 文本
 	 * @author lingting 2020-06-10 23:13:41
 	 */
@@ -82,11 +86,9 @@ public class MarkdownBuilder {
 	}
 
 	/**
-	 * 无序列表
-	 * - item1
-	 * - item2
+	 * 无序列表 - item1 - item2
 	 *
-	 * @author lingting  2020-06-10 23:09:29
+	 * @author lingting 2020-06-10 23:09:29
 	 */
 	public MarkdownBuilder unorderedList(String content) {
 		// 换行
@@ -97,7 +99,6 @@ public class MarkdownBuilder {
 
 	/**
 	 * 图片
-	 *
 	 * @param url 图片链接
 	 * @author lingting 2020-06-10 23:03:04
 	 */
@@ -107,9 +108,8 @@ public class MarkdownBuilder {
 
 	/**
 	 * 图片
-	 *
 	 * @param title 图片标题
-	 * @param url   图片路径
+	 * @param url 图片路径
 	 * @author lingting 2020-06-10 23:03:11
 	 */
 	public MarkdownBuilder pic(String title, String url) {
@@ -119,9 +119,8 @@ public class MarkdownBuilder {
 
 	/**
 	 * 链接
-	 *
 	 * @param title 标题
-	 * @param url   http 路径
+	 * @param url http 路径
 	 * @author lingting 2020-06-10 23:01:15
 	 */
 	public MarkdownBuilder link(String title, String url) {
@@ -132,7 +131,7 @@ public class MarkdownBuilder {
 	/**
 	 * 斜体
 	 *
-	 * @author lingting  2020-06-10 22:59:26
+	 * @author lingting 2020-06-10 22:59:26
 	 */
 	public MarkdownBuilder italic(String content) {
 		lineTextBuilder.append(ITALIC_PREFIX).append(content).append(ITALIC_PREFIX);
@@ -142,7 +141,7 @@ public class MarkdownBuilder {
 	/**
 	 * 加粗
 	 *
-	 * @author lingting  2020-06-10 22:58:39
+	 * @author lingting 2020-06-10 22:58:39
 	 */
 	public MarkdownBuilder bold(String content) {
 		lineTextBuilder.append(BOLD_PREFIX).append(content).append(BOLD_PREFIX);
@@ -150,11 +149,9 @@ public class MarkdownBuilder {
 	}
 
 	/**
-	 * 引用
-	 * > 文本
-	 *
+	 * 引用 > 文本
 	 * @param content 文本
-	 * @author lingting  2020-06-10 22:58:04
+	 * @author lingting 2020-06-10 22:58:04
 	 */
 	public MarkdownBuilder quote(String content) {
 		lineBreak();
@@ -165,7 +162,7 @@ public class MarkdownBuilder {
 	/**
 	 * 添加引用后 强制换行
 	 *
-	 * @author lingting  2020-06-12 15:50:29
+	 * @author lingting 2020-06-12 15:50:29
 	 */
 	public MarkdownBuilder quoteLineBreak(String content) {
 		quote(content);
@@ -175,7 +172,7 @@ public class MarkdownBuilder {
 	/**
 	 * 强制换行
 	 *
-	 * @author lingting  2020-06-10 22:56:25
+	 * @author lingting 2020-06-10 22:56:25
 	 */
 	public MarkdownBuilder forceLineBreak() {
 		content.add(lineTextBuilder.toString());
@@ -184,10 +181,9 @@ public class MarkdownBuilder {
 	}
 
 	/**
-	 * 换行
-	 * 当已编辑文本长度不为0时换行
+	 * 换行 当已编辑文本长度不为0时换行
 	 *
-	 * @author lingting  2020-06-10 22:56:25
+	 * @author lingting 2020-06-10 22:56:25
 	 */
 	public MarkdownBuilder lineBreak() {
 		if (lineTextBuilder.length() != 0) {
@@ -199,7 +195,7 @@ public class MarkdownBuilder {
 	/**
 	 * 生成 i 级标题
 	 *
-	 * @author lingting  2020-06-10 22:55:39
+	 * @author lingting 2020-06-10 22:55:39
 	 */
 	private MarkdownBuilder title(int i, String content) {
 		// 如果当前操作行已有字符，需要换行
@@ -240,7 +236,7 @@ public class MarkdownBuilder {
 	/**
 	 * 构筑 Markdown 文本
 	 *
-	 * @author lingting  2020-06-11 22:55:40
+	 * @author lingting 2020-06-11 22:55:40
 	 */
 	public String build() {
 		lineBreak();
@@ -248,4 +244,5 @@ public class MarkdownBuilder {
 		content.forEach(content -> res.append(content).append(" \n"));
 		return res.toString();
 	}
+
 }

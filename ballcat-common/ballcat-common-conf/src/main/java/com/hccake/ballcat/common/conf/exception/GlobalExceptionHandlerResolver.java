@@ -30,13 +30,14 @@ import java.util.List;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandlerResolver {
+
 	private final GlobalExceptionHandler globalExceptionHandler;
+
 	@Value("${spring.profiles.active}")
 	private String profile;
 
 	/**
 	 * 全局异常捕获
-	 *
 	 * @param e the e
 	 * @return R
 	 */
@@ -52,7 +53,6 @@ public class GlobalExceptionHandlerResolver {
 
 	/**
 	 * IllegalArgumentException 异常捕获，主要用于Assert
-	 *
 	 * @param e the e
 	 * @return R
 	 */
@@ -64,15 +64,8 @@ public class GlobalExceptionHandlerResolver {
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getMessage());
 	}
 
-
-
-
-
 	/**
-	 * 自定义业务异常捕获
-	 * 业务异常响应码推荐使用200
-	 * 用 result 结构中的code做为业务错误码标识
-	 *
+	 * 自定义业务异常捕获 业务异常响应码推荐使用200 用 result 结构中的code做为业务错误码标识
 	 * @param e the e
 	 * @return R
 	 */
@@ -84,19 +77,16 @@ public class GlobalExceptionHandlerResolver {
 		return R.failed(e.getCode(), e.getMsg());
 	}
 
-
 	/**
 	 * AccessDeniedException
-	 *
 	 * @param e the e
 	 * @return R
 	 */
 	@ExceptionHandler(AccessDeniedException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	public R<String> handleAccessDeniedException(AccessDeniedException e) {
-		String msg = SpringSecurityMessageSource.getAccessor()
-				.getMessage("AbstractAccessDecisionManager.accessDenied"
-						, e.getMessage());
+		String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
+				e.getMessage());
 		log.error("拒绝授权异常信息 ex={}", msg, e);
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
@@ -104,18 +94,18 @@ public class GlobalExceptionHandlerResolver {
 
 	/**
 	 * validation Exception
-	 *
 	 * @param exception e
 	 * @return R
 	 */
-	@ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
+	@ExceptionHandler({ MethodArgumentNotValidException.class, BindException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<String> handleBodyValidException(Exception exception) {
 		List<FieldError> fieldErrors;
 		if (exception instanceof BindException) {
 			BindException bindException = (BindException) exception;
 			fieldErrors = bindException.getBindingResult().getFieldErrors();
-		} else {
+		}
+		else {
 			MethodArgumentNotValidException e = (MethodArgumentNotValidException) exception;
 			fieldErrors = e.getBindingResult().getFieldErrors();
 		}
@@ -127,11 +117,8 @@ public class GlobalExceptionHandlerResolver {
 		return R.failed(SystemResultCode.BAD_REQUEST, errorMsg);
 	}
 
-
 	/**
-	 * 单体参数校验异常
-	 * validation Exception
-	 *
+	 * 单体参数校验异常 validation Exception
 	 * @param e the e
 	 * @return R
 	 */
@@ -142,6 +129,5 @@ public class GlobalExceptionHandlerResolver {
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
 	}
-
 
 }

@@ -23,29 +23,34 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "模板组")
 public class TemplateGroup extends Model<TemplateGroup> {
-private static final long serialVersionUID = 1L;
 
-    /**
-     * ID
-     */
-        @TableId
-        @ApiModelProperty(value="ID")
-    private Integer id;
-    /**
-     * 名称
-     */
-        @ApiModelProperty(value="名称")
-    private String name;
-    /**
-     * 创建时间
-     */
-        @TableField(fill = FieldFill.INSERT)
-        @ApiModelProperty(value="创建时间")
-    private LocalDateTime createTime;
-    /**
-     * 修改时间
-     */
-        @TableField(fill = FieldFill.INSERT_UPDATE)
-        @ApiModelProperty(value="修改时间")
-    private LocalDateTime updateTime;
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * ID
+	 */
+	@TableId
+	@ApiModelProperty(value = "ID")
+	private Integer id;
+
+	/**
+	 * 名称
+	 */
+	@ApiModelProperty(value = "名称")
+	private String name;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建时间")
+	private LocalDateTime createTime;
+
+	/**
+	 * 修改时间
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	@ApiModelProperty(value = "修改时间")
+	private LocalDateTime updateTime;
+
 }

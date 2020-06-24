@@ -10,7 +10,6 @@ import com.hccake.ballcat.common.core.vo.SelectData;
 
 import java.util.List;
 
-
 /**
  * 数据源
  *
@@ -18,13 +17,14 @@ import java.util.List;
  * @date 2020-06-17 10:24:47
  */
 public interface DataSourceConfigService extends IService<DataSourceConfig> {
-    /**
-    *  根据QueryObeject查询分页数据
-    * @param page 分页参数
-    * @param qo 查询参数对象
-    * @return  分页数据
-    */
-    IPage<DataSourceConfigVO> selectPageVo(IPage<?> page, DataSourceConfigQO qo);
+
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return 分页数据
+	 */
+	IPage<DataSourceConfigVO> selectPageVo(IPage<?> page, DataSourceConfigQO qo);
 
 	/**
 	 * 获取 SelectData 集合
@@ -45,4 +45,5 @@ public interface DataSourceConfigService extends IService<DataSourceConfig> {
 	 * @return boolean
 	 */
 	boolean update(DataSourceConfigDTO dataSourceConfigDTO);
+
 }

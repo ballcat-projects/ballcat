@@ -15,5 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class AdminAccessLogServiceImpl extends ServiceImpl<AdminAccessLogMapper, AdminAccessLog> implements AdminAccessLogService {
+public class AdminAccessLogServiceImpl extends ServiceImpl<AdminAccessLogMapper, AdminAccessLog>
+		implements AdminAccessLogService {
+
 }

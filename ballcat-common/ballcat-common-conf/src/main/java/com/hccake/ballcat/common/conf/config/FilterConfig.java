@@ -19,28 +19,29 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnWebApplication
 public class FilterConfig {
 
-    @Value("${monitor.secret-id:ballcat-monitor}")
-    private String secretId;
-    @Value("${monitor.secret-key:=BallCat-Monitor}")
-    private String secretKey;
+	@Value("${monitor.secret-id:ballcat-monitor}")
+	private String secretId;
 
-    @Bean
-    public FilterRegistrationBean<XSSFilter> xssFilterRegistrationBean(){
-        log.debug("XSS 过滤已开启====");
-        FilterRegistrationBean<XSSFilter> registrationBean = new FilterRegistrationBean<>(new XSSFilter());
-        registrationBean.setOrder(-1);
-        return registrationBean;
-    }
+	@Value("${monitor.secret-key:=BallCat-Monitor}")
+	private String secretKey;
 
-    @Bean
-    public FilterRegistrationBean<ActuatorFilter> actuatorFilterRegistrationBean(){
-        log.debug("Actuator 安全过滤器已开启====");
-        FilterRegistrationBean<ActuatorFilter> registrationBean = new FilterRegistrationBean<>();
-        ActuatorFilter actuatorFilter = new ActuatorFilter(secretId, secretKey);
-        registrationBean.setFilter(actuatorFilter);
-        registrationBean.addUrlPatterns("/actuator/*");
-        registrationBean.setOrder(0);
-        return registrationBean;
-    }
+	@Bean
+	public FilterRegistrationBean<XSSFilter> xssFilterRegistrationBean() {
+		log.debug("XSS 过滤已开启====");
+		FilterRegistrationBean<XSSFilter> registrationBean = new FilterRegistrationBean<>(new XSSFilter());
+		registrationBean.setOrder(-1);
+		return registrationBean;
+	}
+
+	@Bean
+	public FilterRegistrationBean<ActuatorFilter> actuatorFilterRegistrationBean() {
+		log.debug("Actuator 安全过滤器已开启====");
+		FilterRegistrationBean<ActuatorFilter> registrationBean = new FilterRegistrationBean<>();
+		ActuatorFilter actuatorFilter = new ActuatorFilter(secretId, secretKey);
+		registrationBean.setFilter(actuatorFilter);
+		registrationBean.addUrlPatterns("/actuator/*");
+		registrationBean.setOrder(0);
+		return registrationBean;
+	}
 
 }

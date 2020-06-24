@@ -9,8 +9,7 @@ import java.util.Collection;
 
 /**
  * @author lengleng
- * @date 2018/1/9
- * 手机号登录令牌
+ * @date 2018/1/9 手机号登录令牌
  */
 public class MobileAuthenticationToken extends AbstractAuthenticationToken {
 
@@ -24,8 +23,7 @@ public class MobileAuthenticationToken extends AbstractAuthenticationToken {
 		setAuthenticated(false);
 	}
 
-	public MobileAuthenticationToken(Object principal,
-									 Collection<? extends GrantedAuthority> authorities) {
+	public MobileAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.principal = principal;
 		super.setAuthenticated(true);
@@ -56,5 +54,5 @@ public class MobileAuthenticationToken extends AbstractAuthenticationToken {
 	public void eraseCredentials() {
 		super.eraseCredentials();
 	}
-}
 
+}

@@ -19,17 +19,18 @@ import java.util.List;
  */
 public interface DataSourceConfigMapper extends BaseMapper<DataSourceConfig> {
 
-    /**
-    * 分页查询
-    * @param page
-    * @param wrapper
-    * @return VO分页数据
-    */
-    IPage<DataSourceConfigVO> selectPageVo(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<DataSourceConfig> wrapper);
+	/**
+	 * 分页查询
+	 * @param page
+	 * @param wrapper
+	 * @return VO分页数据
+	 */
+	IPage<DataSourceConfigVO> selectPageVo(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<DataSourceConfig> wrapper);
 
 	/**
 	 * 获取SelectData集合
 	 * @return List<SelectData<?>>
 	 */
 	List<SelectData<?>> listSelectData();
+
 }

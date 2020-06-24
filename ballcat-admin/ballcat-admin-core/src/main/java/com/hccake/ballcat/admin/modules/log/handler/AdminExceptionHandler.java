@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AdminExceptionHandler implements GlobalExceptionHandler {
-    /**
-     * 在此处理错误信息
-     * 进行落库，入ES， 发送报警通知等信息
-     *
-     * @param throwable
-     */
-    @Override
-    public void handle(Throwable throwable) {
-        System.out.println("后台错误日志处理：" + throwable.getMessage());
-    }
+
+	/**
+	 * 在此处理错误信息 进行落库，入ES， 发送报警通知等信息
+	 * @param throwable
+	 */
+	@Override
+	public void handle(Throwable throwable) {
+		System.out.println("后台错误日志处理：" + throwable.getMessage());
+	}
+
 }
