@@ -25,61 +25,52 @@ import java.util.List;
 @Service
 public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService {
 
-    /**
-     * 根据QueryObeject查询分页数据
-     *
-     * @param page 分页参数
-     * @param qo   查询参数对象
-     * @return 分页数据
-     */
-    @Override
-    public IPage<SysDict> page(IPage<SysDict> page, SysDictQO qo) {
-        LambdaQueryWrapper<SysDict> wrapper = Wrappers.<SysDict>lambdaQuery()
-                .eq(ObjectUtil.isNotNull(qo.getId()), SysDict::getId, qo.getId());
-        return baseMapper.selectPage(page, wrapper);
-    }
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return 分页数据
+	 */
+	@Override
+	public IPage<SysDict> page(IPage<SysDict> page, SysDictQO qo) {
+		LambdaQueryWrapper<SysDict> wrapper = Wrappers.<SysDict>lambdaQuery().eq(ObjectUtil.isNotNull(qo.getId()),
+				SysDict::getId, qo.getId());
+		return baseMapper.selectPage(page, wrapper);
+	}
 
-    /**
-     * 根据字典标识查询
-     *
-     * @param dictCode 字典标识
-     * @return 字典数据
-     */
-    @Override
-    public SysDict getByCode(String dictCode) {
-        return baseMapper.selectOne(
-                Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, dictCode)
-        );
-    }
+	/**
+	 * 根据字典标识查询
+	 * @param dictCode 字典标识
+	 * @return 字典数据
+	 */
+	@Override
+	public SysDict getByCode(String dictCode) {
+		return baseMapper.selectOne(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, dictCode));
+	}
 
-    /**
-     * 根据字典标识查询
-     *
-     * @param dictCode 字典标识
-     * @return 字典数据
-     */
-    @Override
-    public List<SysDict> getByCode(String[] dictCode) {
-        if (dictCode == null || dictCode.length == 0) {
-            return new ArrayList<>();
-        }
-        return baseMapper.selectList(
-                Wrappers.<SysDict>lambdaQuery().in(SysDict::getCode, dictCode)
-        );
-    }
+	/**
+	 * 根据字典标识查询
+	 * @param dictCode 字典标识
+	 * @return 字典数据
+	 */
+	@Override
+	public List<SysDict> getByCode(String[] dictCode) {
+		if (dictCode == null || dictCode.length == 0) {
+			return new ArrayList<>();
+		}
+		return baseMapper.selectList(Wrappers.<SysDict>lambdaQuery().in(SysDict::getCode, dictCode));
+	}
 
-    /**
-     * 更新字典HashCode
-     *
-     * @param dictCode
-     * @return
-     */
-    @Override
-    public boolean updateHashCode(String dictCode) {
-        int flag = baseMapper.update(null, Wrappers.<SysDict>lambdaUpdate()
-                .set(SysDict::getHashCode, IdUtil.fastSimpleUUID())
-                .eq(SysDict::getCode, dictCode));
-        return SqlHelper.retBool(flag);
-    }
+	/**
+	 * 更新字典HashCode
+	 * @param dictCode
+	 * @return
+	 */
+	@Override
+	public boolean updateHashCode(String dictCode) {
+		int flag = baseMapper.update(null, Wrappers.<SysDict>lambdaUpdate()
+				.set(SysDict::getHashCode, IdUtil.fastSimpleUUID()).eq(SysDict::getCode, dictCode));
+		return SqlHelper.retBool(flag);
+	}
 
 }

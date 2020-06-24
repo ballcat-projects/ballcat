@@ -18,34 +18,34 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class AccessLogAdminSaveThread extends AbstractQueueThread<AdminAccessLog> {
-    private final AdminAccessLogService adminAccessLogService;
 
-    /**
-     * 线程启动时的日志打印
-     */
-    @Override
-    public void startLog() {
-        log.info("后台访问日志存储线程已启动===");
-    }
+	private final AdminAccessLogService adminAccessLogService;
 
-    /**
-     * 错误日志打印
-     *
-     * @param e
-     * @param list
-     */
-    @Override
-    public void errorLog(Throwable e, List<AdminAccessLog> list) {
-        log.error("后台访问日志记录异常, [msg]:{}, [data]:{}", e.getMessage(), list);
-    }
+	/**
+	 * 线程启动时的日志打印
+	 */
+	@Override
+	public void startLog() {
+		log.info("后台访问日志存储线程已启动===");
+	}
 
-    /**
-     * 数据保存
-     *
-     * @param list
-     */
-    @Override
-    public void save(List<AdminAccessLog> list) throws Exception {
-        adminAccessLogService.saveBatch(list);
-    }
+	/**
+	 * 错误日志打印
+	 * @param e
+	 * @param list
+	 */
+	@Override
+	public void errorLog(Throwable e, List<AdminAccessLog> list) {
+		log.error("后台访问日志记录异常, [msg]:{}, [data]:{}", e.getMessage(), list);
+	}
+
+	/**
+	 * 数据保存
+	 * @param list
+	 */
+	@Override
+	public void save(List<AdminAccessLog> list) throws Exception {
+		adminAccessLogService.saveBatch(list);
+	}
+
 }

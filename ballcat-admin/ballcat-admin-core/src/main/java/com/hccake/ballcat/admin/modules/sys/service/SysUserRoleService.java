@@ -1,6 +1,5 @@
 package com.hccake.ballcat.admin.modules.sys.service;
 
-
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUserRole;
@@ -29,7 +28,6 @@ public interface SysUserRoleService extends IService<SysUserRole> {
 	 */
 	Boolean insertUserRoles(Integer userId, List<Integer> roleIds);
 
-
 	/**
 	 * 更新用户关联关系
 	 * @param userId
@@ -40,9 +38,9 @@ public interface SysUserRoleService extends IService<SysUserRole> {
 
 	/**
 	 * 通过用户ID，查询角色列表
-	 *
 	 * @param userId
 	 * @return List<SysRole>
 	 */
 	List<SysRole> getRoles(Integer userId);
+
 }

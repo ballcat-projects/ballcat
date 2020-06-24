@@ -25,12 +25,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 public class ExceptionHandleAutoConfiguration {
+
 	@Value("${spring.application.name}")
 	private String applicationName;
 
 	/**
 	 * 默认的日志处理器
-	 *
 	 * @return DefaultExceptionHandler
 	 */
 	@Bean
@@ -43,38 +43,40 @@ public class ExceptionHandleAutoConfiguration {
 	/**
 	 * 钉钉消息通知的日志处理器
 	 *
-	 * @author lingting  2020-06-12 00:32:40
+	 * @author lingting 2020-06-12 00:32:40
 	 */
 	@Bean
 	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
 	@ConditionalOnProperty(prefix = "ballcat.exception", name = "type", havingValue = "DING_TALK")
-	public GlobalExceptionHandler dingTalkGlobalExceptionHandler(ExceptionHandleConfig exceptionHandleConfig, ApplicationContext context) {
-		return new DingTalkGlobalExceptionHandler(exceptionHandleConfig, context.getBean(DingTalkSender.class), applicationName);
+	public GlobalExceptionHandler dingTalkGlobalExceptionHandler(ExceptionHandleConfig exceptionHandleConfig,
+			ApplicationContext context) {
+		return new DingTalkGlobalExceptionHandler(exceptionHandleConfig, context.getBean(DingTalkSender.class),
+				applicationName);
 	}
 
 	/**
 	 * 邮件消息通知的日志处理器
 	 *
-	 * @author lingting  2020-06-12 00:32:40
+	 * @author lingting 2020-06-12 00:32:40
 	 */
 	@Bean
 	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
 	@ConditionalOnProperty(prefix = "ballcat.exception", name = "type", havingValue = "MAIL")
-	public GlobalExceptionHandler mailGlobalExceptionHandler(ExceptionHandleConfig exceptionHandleConfig, ApplicationContext context) {
-		return new MailGlobalExceptionHandler(exceptionHandleConfig, context.getBean(MailSender.class), applicationName);
+	public GlobalExceptionHandler mailGlobalExceptionHandler(ExceptionHandleConfig exceptionHandleConfig,
+			ApplicationContext context) {
+		return new MailGlobalExceptionHandler(exceptionHandleConfig, context.getBean(MailSender.class),
+				applicationName);
 	}
-
 
 	/**
 	 * 默认的日志处理器
-	 *
 	 * @return DefaultExceptionHandler
 	 */
 	@Bean
 	@ConditionalOnMissingBean(GlobalExceptionHandlerResolver.class)
-	public GlobalExceptionHandlerResolver globalExceptionHandlerResolver(GlobalExceptionHandler globalExceptionHandler) {
+	public GlobalExceptionHandlerResolver globalExceptionHandlerResolver(
+			GlobalExceptionHandler globalExceptionHandler) {
 		return new GlobalExceptionHandlerResolver(globalExceptionHandler);
 	}
 
 }
-

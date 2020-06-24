@@ -11,10 +11,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysConfigService extends IService<SysConfig> {
 
-    /**
-     * 根据配置key获取对应value
-     * @param confKey
-     * @return confValue
-     */
-    String getConfValueByKey(String confKey);
+	/**
+	 * 根据配置key获取对应value
+	 * @param confKey
+	 * @return confValue
+	 */
+	String getConfValueByKey(String confKey);
+
 }

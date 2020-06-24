@@ -22,11 +22,13 @@ import lombok.EqualsAndHashCode;
 public class SysUserRole extends Model<SysUserRole> {
 
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 用户ID
 	 */
 	@ApiModelProperty(value = "用户id")
 	private Integer userId;
+
 	/**
 	 * 角色ID
 	 */

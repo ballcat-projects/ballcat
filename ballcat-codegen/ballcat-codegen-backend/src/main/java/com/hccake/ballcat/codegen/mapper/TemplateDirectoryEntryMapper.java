@@ -16,11 +16,13 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface TemplateDirectoryEntryMapper extends BaseMapper<TemplateDirectoryEntry> {
 
-    /**
-    * 分页查询
-    * @param page
-    * @param wrapper
-    * @return VO分页数据
-    */
-    IPage<TemplateDirectoryEntryVO> selectPageVo(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<TemplateDirectoryEntry> wrapper);
+	/**
+	 * 分页查询
+	 * @param page
+	 * @param wrapper
+	 * @return VO分页数据
+	 */
+	IPage<TemplateDirectoryEntryVO> selectPageVo(IPage<?> page,
+			@Param(Constants.WRAPPER) Wrapper<TemplateDirectoryEntry> wrapper);
+
 }

@@ -15,4 +15,5 @@ import org.springframework.context.annotation.Configuration;
 @ServletComponentScan("com.hccake.ballcat.admin.oauth.filter")
 @Configuration
 public class UpmsAutoConfiguration {
+
 }

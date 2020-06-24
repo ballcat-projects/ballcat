@@ -16,5 +16,6 @@ import java.util.List;
 @Data
 public class SysUserScope {
 
-    private List<Integer> roleIds;
+	private List<Integer> roleIds;
+
 }

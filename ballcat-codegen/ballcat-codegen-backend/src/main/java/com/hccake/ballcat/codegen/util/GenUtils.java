@@ -27,7 +27,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * 代码生成器   工具类
+ * 代码生成器 工具类
  *
  * @author hccake
  * @date 2018-07-30
@@ -37,7 +37,7 @@ import java.util.zip.ZipOutputStream;
 public class GenUtils {
 
 	static {
-		//设置velocity资源加载器, 保留文件加载loader
+		// 设置velocity资源加载器, 保留文件加载loader
 		Properties prop = new Properties();
 		prop.put("file.resource.loader.class", ClasspathResourceLoader.class.getName());
 		Velocity.init(prop);
@@ -48,7 +48,7 @@ public class GenUtils {
 	 */
 	@SneakyThrows
 	public void generatorCode(String tablePrefix, Map<String, String> customProperties, TableInfo tableInfo,
-							  List<ColumnInfo> columnInfos, ZipOutputStream zip, List<TemplateFile> templateFiles) {
+			List<ColumnInfo> columnInfos, ZipOutputStream zip, List<TemplateFile> templateFiles) {
 
 		// 根据表信息和字段信息获取对应的配置属性
 		GenerateProperties generateProperties = getGenerateProperties(tableInfo, columnInfos, tablePrefix);
@@ -61,10 +61,11 @@ public class GenUtils {
 		VelocityContext context = new VelocityContext(map);
 		for (TemplateFile templateFile : templateFiles) {
 			StringWriter sw = new StringWriter();
-			Velocity.evaluate(context, sw, tableInfo.getTableName() + templateFile.getFilePath(), templateFile.getContent());
+			Velocity.evaluate(context, sw, tableInfo.getTableName() + templateFile.getFilePath(),
+					templateFile.getContent());
 			// 替换路径中的占位符
 			String realFilePath = getRealFilePath(templateFile.getFilePath(), templateFile.getFileName(), map);
-			//添加到zip
+			// 添加到zip
 			zip.putNextEntry(new ZipEntry(realFilePath));
 			IoUtil.write(zip, StandardCharsets.UTF_8, false, sw.toString());
 			IoUtil.close(sw);
@@ -79,8 +80,9 @@ public class GenUtils {
 	 * @param tablePrefix 表前缀
 	 * @return GenerateProperties
 	 */
-	private GenerateProperties getGenerateProperties(TableInfo tableInfo, List<ColumnInfo> columnInfos, String tablePrefix) {
-		//表信息
+	private GenerateProperties getGenerateProperties(TableInfo tableInfo, List<ColumnInfo> columnInfos,
+			String tablePrefix) {
+		// 表信息
 		GenerateProperties generateProperties = new GenerateProperties();
 		// 表名
 		generateProperties.setTableName(tableInfo.getTableName());
@@ -97,7 +99,7 @@ public class GenUtils {
 		// 请求路径
 		generateProperties.setPathName(classname.toLowerCase());
 
-		//列信息
+		// 列信息
 		List<ColumnProperties> columnList = new ArrayList<>();
 		for (ColumnInfo columnInfo : columnInfos) {
 			String columnName = columnInfo.getColumnName();
@@ -108,16 +110,16 @@ public class GenUtils {
 			columnProperties.setExtra(columnInfo.getExtra());
 			columnProperties.setColumnType(columnInfo.getColumnType());
 
-			//列名转换成Java属性名
+			// 列名转换成Java属性名
 			String capitalizedAttrName = columnToJava(columnName);
 			columnProperties.setCapitalizedAttrName(capitalizedAttrName);
 			columnProperties.setAttrName(StringUtils.uncapitalize(capitalizedAttrName));
 
-			//列的数据类型，转换成Java类型
+			// 列的数据类型，转换成Java类型
 			String attrType = MysqlDataTypeConverter.MAPPING.getOrDefault(columnProperties.getDataType(), "unknowType");
 			columnProperties.setAttrType(attrType);
 
-			//是否主键
+			// 是否主键
 			if ("PRI".equalsIgnoreCase(columnInfo.getColumnKey()) && generateProperties.getPk() == null) {
 				generateProperties.setPk(columnProperties);
 			}
@@ -126,7 +128,7 @@ public class GenUtils {
 		}
 		generateProperties.setColumns(columnList);
 
-		//没主键，则第一个字段为主键
+		// 没主键，则第一个字段为主键
 		if (generateProperties.getPk() == null) {
 			generateProperties.setPk(generateProperties.getColumns().get(0));
 		}
@@ -137,9 +139,8 @@ public class GenUtils {
 
 	/**
 	 * 获取真实的文件全路径
-	 *
 	 * @param filePathMaker 文件路径模板
-	 * @param map           模板属性
+	 * @param map 模板属性
 	 * @return filePath 文件路径
 	 */
 	private String getRealFilePath(String filePathMaker, String fileNameMaker, Map<String, Object> map) {
@@ -150,14 +151,12 @@ public class GenUtils {
 		realFilePath = realFilePath.replace(StrUtil.DOT, File.separator);
 		// 防止多写了 /
 		realFilePath = realFilePath.replace(File.separator + File.separator, File.separator);
-		return realFilePath.endsWith(File.separator) ? realFilePath + realFileName :
-				realFilePath + File.separator + realFileName;
+		return realFilePath.endsWith(File.separator) ? realFilePath + realFileName
+				: realFilePath + File.separator + realFileName;
 	}
-
 
 	/**
 	 * 根据类名生成表别名
-	 *
 	 * @param className 类名
 	 * @return 表别名
 	 */
@@ -171,12 +170,11 @@ public class GenUtils {
 		return sb.toString();
 	}
 
-
 	/**
 	 * 列名转换成Java属性名
 	 */
 	public String columnToJava(String columnName) {
-		return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "");
+		return WordUtils.capitalizeFully(columnName, new char[] { '_' }).replace("_", "");
 	}
 
 	/**
@@ -188,4 +186,5 @@ public class GenUtils {
 		}
 		return columnToJava(tableName);
 	}
+
 }

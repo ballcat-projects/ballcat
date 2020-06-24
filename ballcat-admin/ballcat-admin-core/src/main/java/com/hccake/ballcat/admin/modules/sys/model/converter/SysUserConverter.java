@@ -13,24 +13,24 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface SysUserConverter {
 
-    SysUserConverter INSTANCE = Mappers.getMapper(SysUserConverter.class);
+	SysUserConverter INSTANCE = Mappers.getMapper(SysUserConverter.class);
 
-    /**
-     * 转换DTO 为 PO
-     * @param sysUserDTO
-     * @return
-     */
-    // @Mapping(target = "password", expression = "java( encodePassword(sysUserDTO) )")
-    SysUser dtoToPo(SysUserDTO sysUserDTO);
+	/**
+	 * 转换DTO 为 PO
+	 * @param sysUserDTO
+	 * @return
+	 */
+	// @Mapping(target = "password", expression = "java( encodePassword(sysUserDTO) )")
+	SysUser dtoToPo(SysUserDTO sysUserDTO);
 
+	/**
+	 * 将前端传输密码进行加解密
+	 * @param sysUserDTO
+	 * @return
+	 */
+	/*
+	 * default String encodePassword(SysUserDTO sysUserDTO){ String pass =
+	 * sysUserDTO.getPass(); return "encode"+pass; }
+	 */
 
-    /**
-     * 将前端传输密码进行加解密
-     * @param sysUserDTO
-     * @return
-     */
-/*    default String encodePassword(SysUserDTO sysUserDTO){
-        String pass = sysUserDTO.getPass();
-        return "encode"+pass;
-    }*/
 }

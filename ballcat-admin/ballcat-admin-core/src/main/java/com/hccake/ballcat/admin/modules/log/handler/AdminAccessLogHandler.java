@@ -31,61 +31,51 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
-    private final AccessLogAdminSaveThread accessLogAdminSaveThread;
 
-    /**
-     * 生产一个日志
-     *
-     * @return accessLog
-     * @param request 请求信息
-     * @param response 响应信息
-     * @param time 执行时长
-     * @param myThrowable 异常信息
-     */
-    @Override
-    public AdminAccessLog prodLog(HttpServletRequest request, HttpServletResponse response, Long time, Throwable myThrowable) {
+	private final AccessLogAdminSaveThread accessLogAdminSaveThread;
 
-        AdminAccessLog adminAccessLog = new AdminAccessLog()
-                .setTraceId(MDC.get(LogConstant.TRACE_ID))
-                .setCreateTime(LocalDateTime.now())
-                .setTime(time)
-                .setIp(IPUtil.getIpAddr(request))
-                .setMethod(request.getMethod())
-                .setUserAgent(request.getHeader("user-agent"))
-                .setUri(URLUtil.getPath(request.getRequestURI()))
-                .setMatchingPattern(String.valueOf(request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE)))
-                .setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(null))
-                .setHttpStatus(response.getStatus())
-                .setReqParams(JSONUtil.toJsonStr(request.getParameterMap()));
+	/**
+	 * 生产一个日志
+	 * @return accessLog
+	 * @param request 请求信息
+	 * @param response 响应信息
+	 * @param time 执行时长
+	 * @param myThrowable 异常信息
+	 */
+	@Override
+	public AdminAccessLog prodLog(HttpServletRequest request, HttpServletResponse response, Long time,
+			Throwable myThrowable) {
 
-        // 非文件上传请求，记录body
-        if (!LogUtils.isMultipartContent(request)){
-            adminAccessLog.setReqBody(LogUtils.getRequestBody(request));
-        }
+		AdminAccessLog adminAccessLog = new AdminAccessLog().setTraceId(MDC.get(LogConstant.TRACE_ID))
+				.setCreateTime(LocalDateTime.now()).setTime(time).setIp(IPUtil.getIpAddr(request))
+				.setMethod(request.getMethod()).setUserAgent(request.getHeader("user-agent"))
+				.setUri(URLUtil.getPath(request.getRequestURI()))
+				.setMatchingPattern(
+						String.valueOf(request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE)))
+				.setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(null))
+				.setHttpStatus(response.getStatus()).setReqParams(JSONUtil.toJsonStr(request.getParameterMap()));
 
-        // 如果登陆用户 则记录用户名和用户id
-        Optional.ofNullable(SecurityUtils.getSysUserDetails())
-                .map(SysUserDetails::getSysUser)
-                .ifPresent(x -> {
-                    adminAccessLog.setUserId(x.getUserId());
-                    adminAccessLog.setUsername(x.getUsername());
-                });
+		// 非文件上传请求，记录body
+		if (!LogUtils.isMultipartContent(request)) {
+			adminAccessLog.setReqBody(LogUtils.getRequestBody(request));
+		}
 
-        return adminAccessLog;
-    }
+		// 如果登陆用户 则记录用户名和用户id
+		Optional.ofNullable(SecurityUtils.getSysUserDetails()).map(SysUserDetails::getSysUser).ifPresent(x -> {
+			adminAccessLog.setUserId(x.getUserId());
+			adminAccessLog.setUsername(x.getUsername());
+		});
 
+		return adminAccessLog;
+	}
 
-    /**
-     * 记录日志
-     *
-     * @param accessLog 访问日志
-     */
-    @Override
-    public void saveLog(AdminAccessLog accessLog) {
-        accessLogAdminSaveThread.putObject(accessLog);
-    }
-
-
-
+	/**
+	 * 记录日志
+	 * @param accessLog 访问日志
+	 */
+	@Override
+	public void saveLog(AdminAccessLog accessLog) {
+		accessLogAdminSaveThread.putObject(accessLog);
+	}
 
 }

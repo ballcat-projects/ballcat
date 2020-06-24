@@ -17,19 +17,23 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 用于mybatis 自定义的 列
  *
- * @author lingting  2020/5/27 15:53
+ * @author lingting 2020/5/27 15:53
  */
 @Getter
 public class Columns<T> {
+
 	public static final String COLUMN_FLAG = "@";
+
 	/**
-	 * 缓存               全类名         方法名   字段名
+	 * 缓存 全类名 方法名 字段名
 	 */
 	private static final Map<String, ConcurrentHashMap<String, String>> COLUMN_CACHE_MAP = new ConcurrentHashMap<>();
+
 	/**
 	 * 自定义字段
 	 */
 	private final List<Column> list = new ArrayList<>();
+
 	/**
 	 * 类的所有字段
 	 */
@@ -68,8 +72,8 @@ public class Columns<T> {
 	}
 
 	/**
-	 * @param val 自定义的替换sql  {@link Columns#COLUMN_FLAG} 表示字段名
-	 * @author lingting  2020-05-27 17:57:35
+	 * @param val 自定义的替换sql {@link Columns#COLUMN_FLAG} 表示字段名
+	 * @author lingting 2020-05-27 17:57:35
 	 */
 	public Columns<T> add(SFunction<T, ?> sf, String val) {
 		String column = getColumn(sf);
@@ -77,10 +81,7 @@ public class Columns<T> {
 			val = "VALUES(" + column + ")";
 		}
 
-		list.add(new Column()
-				.setName(column)
-				.setVal(val.replaceAll(COLUMN_FLAG, column))
-		);
+		list.add(new Column().setName(column).setVal(val.replaceAll(COLUMN_FLAG, column)));
 		back.remove(column);
 		return this;
 	}
@@ -88,13 +89,14 @@ public class Columns<T> {
 	/**
 	 * 获取方法所代表的表的字段名
 	 *
-	 * @author lingting  2020-05-27 17:56:40
+	 * @author lingting 2020-05-27 17:56:40
 	 */
 	public String getColumn(SFunction<T, ?> sf) {
 		SerializedLambda lambda = SerializedLambda.resolve(sf);
 
 		if (!COLUMN_CACHE_MAP.containsKey(lambda.getImplClass().getName())) {
-			ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>(LambdaUtils.getColumnMap(lambda.getImplClass()).size());
+			ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>(
+					LambdaUtils.getColumnMap(lambda.getImplClass()).size());
 			LambdaUtils.getColumnMap(lambda.getImplClass()).forEach((k, v) -> {
 				map.put(k, v.getColumn());
 			});
@@ -115,7 +117,7 @@ public class Columns<T> {
 	/**
 	 * 忽略设置的字段
 	 *
-	 * @author lingting  2020-05-28 11:06:15
+	 * @author lingting 2020-05-28 11:06:15
 	 */
 	public Columns<T> ignore() {
 		this.ignore = true;
@@ -125,7 +127,7 @@ public class Columns<T> {
 	/**
 	 * 设置不忽略设置的字段
 	 *
-	 * @author lingting  2020-05-28 11:05:59
+	 * @author lingting 2020-05-28 11:05:59
 	 */
 	public Columns<T> set() {
 		this.ignore = false;
@@ -135,8 +137,11 @@ public class Columns<T> {
 	@Data
 	@Accessors(chain = true)
 	public static class Column {
-		private String name;
-		private String val;
-	}
-}
 
+		private String name;
+
+		private String val;
+
+	}
+
+}

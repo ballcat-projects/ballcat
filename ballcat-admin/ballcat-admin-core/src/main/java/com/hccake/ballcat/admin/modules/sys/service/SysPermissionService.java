@@ -15,9 +15,9 @@ import java.util.List;
  * @since 2017-10-29
  */
 public interface SysPermissionService extends IService<SysPermission> {
+
 	/**
 	 * 通过角色编号查询URL 权限
-	 *
 	 * @param roleId 角色ID
 	 * @return 菜单列表
 	 */
@@ -25,7 +25,6 @@ public interface SysPermissionService extends IService<SysPermission> {
 
 	/**
 	 * 级联删除菜单
-	 *
 	 * @param id 菜单ID
 	 * @return 成功、失败
 	 */
@@ -33,9 +32,9 @@ public interface SysPermissionService extends IService<SysPermission> {
 
 	/**
 	 * 更新菜单信息
-	 *
 	 * @param sysPermission 菜单信息
 	 * @return 成功、失败
 	 */
 	Boolean updatePermissionById(SysPermission sysPermission);
+
 }

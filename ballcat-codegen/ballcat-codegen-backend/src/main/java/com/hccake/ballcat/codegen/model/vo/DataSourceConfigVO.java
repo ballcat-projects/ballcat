@@ -15,41 +15,49 @@ import java.time.LocalDateTime;
 @Data
 @ApiModel(value = "数据源")
 public class DataSourceConfigVO {
-private static final long serialVersionUID = 1L;
 
-    /**
-     * ID
-     */
-    @ApiModelProperty(value="ID")
-    private Integer id;
-    /**
-     * 名称
-     */
-    @ApiModelProperty(value="名称")
-    private String name;
-    /**
-     * 用户名
-     */
-    @ApiModelProperty(value="用户名")
-    private String username;
-    /**
-     * 密码
-     */
-    @ApiModelProperty(value="密码")
-    private String password;
-    /**
-     * 数据源连接
-     */
-    @ApiModelProperty(value="数据源连接")
-    private String url;
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value="创建时间")
-    private LocalDateTime createTime;
-    /**
-     * 删除时间
-     */
-    @ApiModelProperty(value="删除时间")
-    private LocalDateTime updateTime;
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * ID
+	 */
+	@ApiModelProperty(value = "ID")
+	private Integer id;
+
+	/**
+	 * 名称
+	 */
+	@ApiModelProperty(value = "名称")
+	private String name;
+
+	/**
+	 * 用户名
+	 */
+	@ApiModelProperty(value = "用户名")
+	private String username;
+
+	/**
+	 * 密码
+	 */
+	@ApiModelProperty(value = "密码")
+	private String password;
+
+	/**
+	 * 数据源连接
+	 */
+	@ApiModelProperty(value = "数据源连接")
+	private String url;
+
+	/**
+	 * 创建时间
+	 */
+	@ApiModelProperty(value = "创建时间")
+	private LocalDateTime createTime;
+
+	/**
+	 * 删除时间
+	 */
+	@ApiModelProperty(value = "删除时间")
+	private LocalDateTime updateTime;
+
 }

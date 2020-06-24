@@ -21,11 +21,11 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
+
 	private final ExcelConfigProperties configProperties;
 
 	/**
 	 * 只有元素是List 才返回true
-	 *
 	 * @param obj 返回对象
 	 * @return
 	 */
@@ -34,7 +34,8 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 		if (obj instanceof List) {
 			List objList = (List) obj;
 			return objList.get(0) instanceof List;
-		} else {
+		}
+		else {
 			throw new ExcelException("@ResponseExcel 返回值必须为List类型");
 		}
 	}
@@ -49,11 +50,12 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 
 		String[] sheets = responseExcel.sheet();
 		for (int i = 0; i < sheets.length; i++) {
-			//创建sheet
+			// 创建sheet
 			WriteSheet sheet;
 			if (StringUtils.hasText(responseExcel.template())) {
 				sheet = EasyExcel.writerSheet(i).build();
-			} else {
+			}
+			else {
 				sheet = EasyExcel.writerSheet(i, sheets[i]).build();
 			}
 
@@ -62,4 +64,5 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 		}
 		excelWriter.finish();
 	}
+
 }

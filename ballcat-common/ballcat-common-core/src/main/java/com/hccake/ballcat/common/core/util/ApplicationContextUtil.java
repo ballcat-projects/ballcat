@@ -7,10 +7,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
- * @author lingting  2020/6/12 16:36
+ * @author lingting 2020/6/12 16:36
  */
 @Component
 public class ApplicationContextUtil implements ApplicationContextAware {
+
 	private static ApplicationContext context;
 
 	@Override
@@ -18,11 +19,10 @@ public class ApplicationContextUtil implements ApplicationContextAware {
 		context = applicationContext;
 	}
 
-
 	/**
 	 * 获取环境
 	 *
-	 * @author lingting  2020-06-12 16:38:56
+	 * @author lingting 2020-06-12 16:38:56
 	 */
 	public Environment getEnvironment() {
 		return context.getEnvironment();
@@ -31,4 +31,5 @@ public class ApplicationContextUtil implements ApplicationContextAware {
 	public ApplicationContext getContext() {
 		return context;
 	}
+
 }

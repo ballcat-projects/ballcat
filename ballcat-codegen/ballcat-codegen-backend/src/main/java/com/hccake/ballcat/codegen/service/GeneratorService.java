@@ -7,6 +7,7 @@ import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
  * @date 2018/7/29
  */
 public interface GeneratorService {
+
 	/**
 	 * 生成代码
 	 * @param generatorOptionDTO 代码生成的一些参数

@@ -14,44 +14,41 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @UtilityClass
 public class SecurityUtils {
 
-    /**
-     * 获取Authentication
-     */
-    public Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
+	/**
+	 * 获取Authentication
+	 */
+	public Authentication getAuthentication() {
+		return SecurityContextHolder.getContext().getAuthentication();
+	}
 
-    /**
-     * 获取系统用户Details
-     *
-     * @param authentication
-     * @return SysUser
-     * <p>
-     */
-    public SysUserDetails getSysUserDetails(Authentication authentication) {
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof SysUserDetails) {
-            return (SysUserDetails) principal;
-        }
-        return null;
-    }
+	/**
+	 * 获取系统用户Details
+	 * @param authentication
+	 * @return SysUser
+	 * <p>
+	 */
+	public SysUserDetails getSysUserDetails(Authentication authentication) {
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof SysUserDetails) {
+			return (SysUserDetails) principal;
+		}
+		return null;
+	}
 
-    /**
-     * 获取用户详情
-     */
-    public SysUserDetails getSysUserDetails() {
-        Authentication authentication = getAuthentication();
-        return getSysUserDetails(authentication);
-    }
+	/**
+	 * 获取用户详情
+	 */
+	public SysUserDetails getSysUserDetails() {
+		Authentication authentication = getAuthentication();
+		return getSysUserDetails(authentication);
+	}
 
-
-    /**
-     * 获取系统用户
-     */
-    public SysUser getSysUser() {
-        SysUserDetails sysUserDetails = getSysUserDetails();
-        return sysUserDetails == null ? null : sysUserDetails.getSysUser() ;
-    }
-
+	/**
+	 * 获取系统用户
+	 */
+	public SysUser getSysUser() {
+		SysUserDetails sysUserDetails = getSysUserDetails();
+		return sysUserDetails == null ? null : sysUserDetails.getSysUser();
+	}
 
 }

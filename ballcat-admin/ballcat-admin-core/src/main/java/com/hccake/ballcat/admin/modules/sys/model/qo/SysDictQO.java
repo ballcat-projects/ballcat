@@ -15,12 +15,14 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "字典表查询对象")
-public class SysDictQO  {
-private static final long serialVersionUID = 1L;
+public class SysDictQO {
 
-    /**
-     * 编号
-     */
-        @ApiModelProperty(value="编号")
-    private Integer id;
-        }
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 编号
+	 */
+	@ApiModelProperty(value = "编号")
+	private Integer id;
+
+}

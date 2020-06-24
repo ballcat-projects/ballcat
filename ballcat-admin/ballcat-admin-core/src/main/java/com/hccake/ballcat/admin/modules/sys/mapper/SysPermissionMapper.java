@@ -8,13 +8,13 @@ import java.util.List;
 
 /**
  * 菜单权限表 Mapper 接口
+ *
  * @author
  */
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
 	/**
 	 * 通过角色ID查询权限
-	 *
 	 * @param roleId 角色ID
 	 * @return
 	 */
@@ -22,9 +22,9 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
 	/**
 	 * 通过角色ID查询权限
-	 *
 	 * @param roleIds Ids
 	 * @return
 	 */
 	List<String> listPermissionsByRoleIds(String roleIds);
+
 }

@@ -12,12 +12,14 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "模板组查询对象")
-public class TemplateGroupQO  {
-private static final long serialVersionUID = 1L;
+public class TemplateGroupQO {
 
-    /**
-     * ID
-     */
-        @ApiModelProperty(value="ID")
-    private Integer id;
-        }
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * ID
+	 */
+	@ApiModelProperty(value = "ID")
+	private Integer id;
+
+}

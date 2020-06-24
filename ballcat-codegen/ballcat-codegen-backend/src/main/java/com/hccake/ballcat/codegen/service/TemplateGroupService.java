@@ -17,19 +17,19 @@ import java.util.List;
  */
 public interface TemplateGroupService extends IService<TemplateGroup> {
 
-    /**
-    *  根据QueryObeject查询分页数据
-    * @param page 分页参数
-    * @param qo 查询参数对象
-    * @return  分页数据
-    */
-    IPage<TemplateGroupVO> selectPageVo(IPage<?> page, TemplateGroupQO qo);
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return 分页数据
+	 */
+	IPage<TemplateGroupVO> selectPageVo(IPage<?> page, TemplateGroupQO qo);
 
 	/**
 	 * 查找指定模板组下所有的模板文件
-	 *
 	 * @param groupId 模板组ID
 	 * @return List<TemplateFile>
 	 */
 	List<TemplateFile> findTemplateFiles(Integer groupId);
+
 }

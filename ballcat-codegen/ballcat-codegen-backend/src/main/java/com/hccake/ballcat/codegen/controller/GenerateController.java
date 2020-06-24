@@ -30,9 +30,10 @@ import java.util.Map;
 @RequestMapping
 @RequiredArgsConstructor
 public class GenerateController {
-    private final GeneratorService generatorService;
-	private final TableInfoService tableInfoService;
 
+	private final GeneratorService generatorService;
+
+	private final TableInfoService tableInfoService;
 
 	/**
 	 * 表信息分页查询
@@ -41,35 +42,32 @@ public class GenerateController {
 	 * @return R
 	 */
 	@ApiOperation(value = "表信息分页查询", notes = "表信息分页查询")
-	@GetMapping("/table-info/page" )
-	public R<IPage<TableInfo>> getDataSourceConfigPage(
-			Page<?> page, TableInfoQO tableInfoQO) {
+	@GetMapping("/table-info/page")
+	public R<IPage<TableInfo>> getDataSourceConfigPage(Page<?> page, TableInfoQO tableInfoQO) {
 		return R.ok(tableInfoService.selectPageVo(page, tableInfoQO));
 	}
 
-
-    /**
-     * 生成代码
-     */
-    @SneakyThrows
-    @PostMapping("/generate")
-    public void generatorCode(
-    		@RequestBody GeneratorOptionDTO generatorOptionDTO,
-			HttpServletResponse response) {
+	/**
+	 * 生成代码
+	 */
+	@SneakyThrows
+	@PostMapping("/generate")
+	public void generatorCode(@RequestBody GeneratorOptionDTO generatorOptionDTO, HttpServletResponse response) {
 		// TODO 待前端写好，暂时先写死
-    	Map<String, String> map = new HashMap<>(4);
+		Map<String, String> map = new HashMap<>(4);
 		map.put("moduleName", "gen");
 		map.put("packageName", "com.hccake.ballcat");
 		map.put("author", "hccake");
 		generatorOptionDTO.setGenProperties(map);
 		generatorOptionDTO.setTemplateGroupId(1);
 
-        byte[] data = generatorService.generatorCode(generatorOptionDTO);
-        response.reset();
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"ballcat.zip\"");
-        response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
-        response.setContentType("application/octet-stream; charset=UTF-8");
+		byte[] data = generatorService.generatorCode(generatorOptionDTO);
+		response.reset();
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"ballcat.zip\"");
+		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+		response.setContentType("application/octet-stream; charset=UTF-8");
 
-        IoUtil.write(response.getOutputStream(), Boolean.TRUE, data);
-    }
+		IoUtil.write(response.getOutputStream(), Boolean.TRUE, data);
+	}
+
 }

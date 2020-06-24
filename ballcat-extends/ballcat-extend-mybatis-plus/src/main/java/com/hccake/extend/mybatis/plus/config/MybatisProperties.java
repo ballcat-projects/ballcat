@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author lingting  2020-05-28 14:54:30
+ * @author lingting 2020-05-28 14:54:30
  */
 @Data
 @ConfigurationProperties(prefix = "ballcat.extend.mybatis-plus")
 public class MybatisProperties {
+
 	/**
 	 * 全局忽略更新的字段
 	 */
@@ -24,4 +25,5 @@ public class MybatisProperties {
 	 * 自定义方法
 	 */
 	private List<Class<? extends AbstractMethod>> methods = new ArrayList<>();
+
 }

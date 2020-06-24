@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "模板信息")
 public class TemplateInfo extends Model<TemplateInfo> {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -28,42 +29,50 @@ public class TemplateInfo extends Model<TemplateInfo> {
 	@TableId(type = IdType.INPUT)
 	@ApiModelProperty(value = "目录项ID")
 	private Integer directoryEntryId;
+
 	/**
 	 * 模板名称
 	 */
 	@ApiModelProperty(value = "模板标题")
 	private String title;
+
 	/**
 	 * 模板内容
 	 */
 	@ApiModelProperty(value = "模板内容")
 	private String content;
+
 	/**
 	 * 模板引擎类型 1：velocity
 	 */
 	@ApiModelProperty(value = "模板引擎类型 1：velocity")
 	private Integer engineType;
+
 	/**
 	 * 备注
 	 */
 	@ApiModelProperty(value = "备注")
 	private String remarks;
+
 	/**
 	 * 逻辑删除
 	 */
 	@TableLogic
 	@ApiModelProperty(value = "逻辑删除")
 	private Long deleted;
+
 	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "创建时间")
 	private LocalDateTime createTime;
+
 	/**
 	 * 修改时间
 	 */
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	@ApiModelProperty(value = "修改时间")
 	private LocalDateTime updateTime;
+
 }

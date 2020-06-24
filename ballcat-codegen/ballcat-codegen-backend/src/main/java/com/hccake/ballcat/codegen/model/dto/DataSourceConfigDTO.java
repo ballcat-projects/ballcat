@@ -13,7 +13,8 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "数据源配置信息")
-public class DataSourceConfigDTO{
+public class DataSourceConfigDTO {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -22,24 +23,29 @@ public class DataSourceConfigDTO{
 	@TableId
 	@ApiModelProperty(value = "ID")
 	private Integer id;
+
 	/**
 	 * 名称
 	 */
 	@ApiModelProperty(value = "名称")
 	private String name;
+
 	/**
 	 * 用户名
 	 */
 	@ApiModelProperty(value = "用户名")
 	private String username;
+
 	/**
 	 * 密码（未加密）
 	 */
 	@ApiModelProperty(value = "密码")
 	private String pass;
+
 	/**
 	 * 数据源连接
 	 */
 	@ApiModelProperty(value = "数据源连接")
 	private String url;
+
 }

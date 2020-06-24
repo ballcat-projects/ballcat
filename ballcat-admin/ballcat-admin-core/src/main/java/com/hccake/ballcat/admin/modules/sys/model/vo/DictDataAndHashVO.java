@@ -14,15 +14,17 @@ import java.util.List;
 @Data
 @ApiModel(value = "字典数据VO")
 public class DictDataAndHashVO {
-    /**
-     * 字典Hash值
-     */
-    @ApiModelProperty(value="字典Hash值")
-    private String hashCode;
 
-    /**
-     * 字典项列表
-     */
-    @ApiModelProperty(value="字典数据")
-    private List<DictItemVO> dictList;
+	/**
+	 * 字典Hash值
+	 */
+	@ApiModelProperty(value = "字典Hash值")
+	private String hashCode;
+
+	/**
+	 * 字典项列表
+	 */
+	@ApiModelProperty(value = "字典数据")
+	private List<DictItemVO> dictList;
+
 }

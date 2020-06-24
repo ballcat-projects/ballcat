@@ -6,12 +6,10 @@ package com.hccake.common.excel.kit;
  */
 public class ExcelNameContextHolder {
 
-
 	private static final ThreadLocal<String> NAME_HOLDER = new InheritableThreadLocal<>();
 
 	private ExcelNameContextHolder() {
 	}
-
 
 	public static String get() {
 		String name = NAME_HOLDER.get();
@@ -32,4 +30,5 @@ public class ExcelNameContextHolder {
 	public static void clear() {
 		NAME_HOLDER.remove();
 	}
+
 }

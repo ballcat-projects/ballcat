@@ -11,10 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 钉钉消息通知
  *
- * @author lingting  2020/6/12 0:25
+ * @author lingting 2020/6/12 0:25
  */
 @Slf4j
 public class DingTalkGlobalExceptionHandler extends AbstractNoticeGlobalExceptionHandler {
+
 	private final DingTalkSender sender;
 
 	public DingTalkGlobalExceptionHandler(ExceptionHandleConfig config, DingTalkSender sender, String applicationName) {
@@ -25,8 +26,7 @@ public class DingTalkGlobalExceptionHandler extends AbstractNoticeGlobalExceptio
 	@Override
 	public ExceptionNoticeResponse send(ExceptionMessage sendMessage) {
 		DingTalkResponse response = sender.sendMessage(new DingTalkTextMessage().setContent(sendMessage.toString()));
-		return new ExceptionNoticeResponse()
-				.setErrMsg(response.getResponse())
-				.setSuccess(response.isSuccess());
+		return new ExceptionNoticeResponse().setErrMsg(response.getResponse()).setSuccess(response.isSuccess());
 	}
+
 }

@@ -20,29 +20,29 @@ import org.springframework.web.filter.CorsFilter;
 @ConditionalOnProperty(name = "swagger.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerProviderAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean
-    public SwaggerProviderProperties swaggerProviderProperties() {
-        return new SwaggerProviderProperties();
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public SwaggerProviderProperties swaggerProviderProperties() {
+		return new SwaggerProviderProperties();
+	}
 
-    /**
-     *  允许swagger文档跨域访问
-     *  解决聚合文档导致的跨域问题
-     * @return
-     */
-    @Bean
-    @ConditionalOnBean(SwaggerProviderProperties.class)
-    public FilterRegistrationBean corsFilter(SwaggerProviderProperties swaggerProviderProperties) {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        config.addAllowedOrigin(swaggerProviderProperties.getAggregatorOrigin());
-        source.registerCorsConfiguration("/v2/api-docs**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(0);
-        return bean;
-    }
+	/**
+	 * 允许swagger文档跨域访问 解决聚合文档导致的跨域问题
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnBean(SwaggerProviderProperties.class)
+	public FilterRegistrationBean corsFilter(SwaggerProviderProperties swaggerProviderProperties) {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		config.addAllowedOrigin(swaggerProviderProperties.getAggregatorOrigin());
+		source.registerCorsConfiguration("/v2/api-docs**", config);
+		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		bean.setOrder(0);
+		return bean;
+	}
+
 }

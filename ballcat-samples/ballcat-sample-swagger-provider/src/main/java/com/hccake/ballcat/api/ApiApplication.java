@@ -9,11 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableXxlJob
 @EnableSwagger2Provider
 @SpringBootApplication
-@MapperScan(basePackages = {"com.hccake.ballcat.**.mapper"})
+@MapperScan(basePackages = { "com.hccake.ballcat.**.mapper" })
 public class ApiApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ApiApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(ApiApplication.class, args);
+	}
 
 }

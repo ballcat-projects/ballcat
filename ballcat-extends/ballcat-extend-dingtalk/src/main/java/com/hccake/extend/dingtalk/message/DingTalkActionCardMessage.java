@@ -15,25 +15,30 @@ import java.util.List;
 /**
  * 跳转 ActionCard类型
  *
- * @author lingting  2020/6/10 23:39
+ * @author lingting 2020/6/10 23:39
  */
 @Getter
 @Setter
 @Accessors(chain = true)
 public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
+
 	private String title;
+
 	/**
 	 * 内容
 	 */
 	private MarkdownBuilder text;
+
 	/**
 	 * 按钮排列样式 默认横
 	 */
 	private ActionBtnOrientationEnum orientation = ActionBtnOrientationEnum.HORIZONTAL;
+
 	/**
 	 * 单个按钮的标题
 	 */
 	private String singleTitle;
+
 	/**
 	 * 点击singleTitle按钮触发的URL
 	 */
@@ -47,7 +52,7 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 	/**
 	 * 添加按钮
 	 *
-	 * @author lingting  2020-06-10 23:59:45
+	 * @author lingting 2020-06-10 23:59:45
 	 */
 	public DingTalkActionCardMessage addButton(String title, String url) {
 		buttons.add(new Button(title, url));
@@ -61,15 +66,14 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 
 	@Override
 	public DingTalkParams put(DingTalkParams params) {
-		DingTalkParams.ActionCard card = new DingTalkParams.ActionCard()
-				.setTitle(title)
-				.setText(text.build())
+		DingTalkParams.ActionCard card = new DingTalkParams.ActionCard().setTitle(title).setText(text.build())
 				.setBtnOrientation(orientation.getVal());
 
-		// 当 单按钮的  文本和链接都不为空时
+		// 当 单按钮的 文本和链接都不为空时
 		if (buttons.size() == 0) {
 			card.setSingleTitle(singleTitle).setSingleUrl(singleUrl);
-		} else {
+		}
+		else {
 			card.setButtons(buttons);
 		}
 		return params.setActionCard(card);
@@ -78,13 +82,17 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 	@Getter
 	@AllArgsConstructor
 	public static class Button {
+
 		/**
 		 * 标题
 		 */
 		private final String title;
+
 		/**
 		 * 跳转路径
 		 */
 		private final String actionURL;
+
 	}
+
 }

@@ -19,37 +19,37 @@ import org.springframework.context.annotation.Primary;
 @ConditionalOnClass(ObjectMapper.class)
 public class JacksonConfig {
 
-    /**
-     * 自定义objectMapper
-     * @return ObjectMapper
-     */
-    @Bean
-    @Primary
-    @ConditionalOnMissingBean(ObjectMapper.class)
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
+	/**
+	 * 自定义objectMapper
+	 * @return ObjectMapper
+	 */
+	@Bean
+	@Primary
+	@ConditionalOnMissingBean(ObjectMapper.class)
+	public ObjectMapper objectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
 
+		// NULL 数组转 []
+		objectMapper.setSerializerFactory(
+				objectMapper.getSerializerFactory().withSerializerModifier(new ArraySerializerModifier()));
 
-        // NULL 数组转 []
-        objectMapper.setSerializerFactory(objectMapper.getSerializerFactory()
-                .withSerializerModifier(new ArraySerializerModifier()));
+		// NULL 值转 ""
+		objectMapper.getSerializerProvider().setNullValueSerializer(new NullSerializer());
 
-        // NULL 值转 ""
-        objectMapper.getSerializerProvider().setNullValueSerializer(new NullSerializer());
+		// 所有数字转字符串输出
+		// objectMapper.configure(JsonWriteFeature.WRITE_NUMBERS_AS_STRINGS.mappedFeature(),
+		// true);
 
-        // 所有数字转字符串输出
-        // objectMapper.configure(JsonWriteFeature.WRITE_NUMBERS_AS_STRINGS.mappedFeature(), true);
+		// 注册xss解析器
+		// SimpleModule xssModule = new SimpleModule("XssStringJsonSerializer",
+		// PackageVersion.VERSION);
+		// xssModule.addSerializer(new XssStringJsonSerializer());
+		// objectMapper.registerModule(xssModule);
 
-        //注册xss解析器
-//        SimpleModule xssModule = new SimpleModule("XssStringJsonSerializer", PackageVersion.VERSION);
-//        xssModule.addSerializer(new XssStringJsonSerializer());
-//        objectMapper.registerModule(xssModule);
+		// 时间解析器
+		objectMapper.registerModule(new JavaTimeModule());
 
-        // 时间解析器
-        objectMapper.registerModule(new JavaTimeModule());
-
-        return objectMapper;
-    }
+		return objectMapper;
+	}
 
 }
-

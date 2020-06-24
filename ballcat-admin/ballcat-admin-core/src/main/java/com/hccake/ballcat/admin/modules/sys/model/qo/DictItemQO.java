@@ -20,12 +20,14 @@ import java.time.LocalDateTime;
  */
 @Data
 @ApiModel(value = "字典项查询对象")
-public class DictItemQO  {
-private static final long serialVersionUID = 1L;
+public class DictItemQO {
 
-    /**
-     * ID
-     */
-        @ApiModelProperty(value="ID")
-    private Integer id;
-        }
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * ID
+	 */
+	@ApiModelProperty(value = "ID")
+	private Integer id;
+
+}

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
  * @date 2019-10-15 20:42:32
  */
 @Service
-public class OperationLogAdminServiceImpl extends ServiceImpl<AdminOperationLogMapper, AdminOperationLog> implements OperationLogAdminService {
+public class OperationLogAdminServiceImpl extends ServiceImpl<AdminOperationLogMapper, AdminOperationLog>
+		implements OperationLogAdminService {
 
 }

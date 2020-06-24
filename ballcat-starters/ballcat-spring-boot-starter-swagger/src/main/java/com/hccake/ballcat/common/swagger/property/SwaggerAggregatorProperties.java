@@ -16,8 +16,9 @@ import java.util.List;
 @ConfigurationProperties("swagger.aggregator")
 public class SwaggerAggregatorProperties {
 
-    /**
-     * 聚合文档源信息
-     */
-    private List<SwaggerResource> providerResources = new ArrayList<>();
+	/**
+	 * 聚合文档源信息
+	 */
+	private List<SwaggerResource> providerResources = new ArrayList<>();
+
 }

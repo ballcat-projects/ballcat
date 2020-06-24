@@ -8,11 +8,13 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * 角色查询对象
+ *
  * @author Hccake
  */
 @Data
 @ApiModel(value = "角色查询对象")
 public class SysRoleQO {
+
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "角色名称")
@@ -26,4 +28,5 @@ public class SysRoleQO {
 
 	@ApiModelProperty(value = "结束时间")
 	private String endTime;
+
 }

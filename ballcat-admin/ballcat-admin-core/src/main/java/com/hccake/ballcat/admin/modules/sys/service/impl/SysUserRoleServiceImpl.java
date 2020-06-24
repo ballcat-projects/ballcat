@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * 用户角色关联关系表
+ *
  * @author Hccake
  */
 @Service
@@ -30,7 +31,6 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
 	/**
 	 * 插入用户角色关联关系
-	 *
 	 * @param userId
 	 * @param roleIds
 	 * @return
@@ -42,7 +42,6 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
 	/**
 	 * 更新用户关联关系
-	 *
 	 * @param userId
 	 * @param roleIds
 	 */
@@ -51,16 +50,14 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 	public boolean updateUserRoles(Integer userId, List<Integer> roleIds) {
 		// 先清空，后插入
 		baseMapper.deleteByUserId(userId);
-		if(CollectionUtil.isNotEmpty(roleIds)){
+		if (CollectionUtil.isNotEmpty(roleIds)) {
 			baseMapper.insertUserRoles(userId, roleIds);
 		}
 		return true;
 	}
 
-
 	/**
 	 * 通过用户ID 获取用户所有角色ID
-	 *
 	 * @param userId
 	 * @return
 	 */

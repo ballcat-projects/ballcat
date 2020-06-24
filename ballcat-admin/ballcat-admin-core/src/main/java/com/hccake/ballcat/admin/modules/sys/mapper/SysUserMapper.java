@@ -9,25 +9,22 @@ import java.util.List;
 
 /**
  * 系统用户表
+ *
  * @author Hccake
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-    /**
-     * 根据RoleCode 查询对应用户
-     * @param roleCode
-     * @return
-     */
-    List<SysUser> selectUsersByRoleCode(String roleCode);
+	/**
+	 * 根据RoleCode 查询对应用户
+	 * @param roleCode
+	 * @return
+	 */
+	List<SysUser> selectUsersByRoleCode(String roleCode);
 
-    /**
-     * 返回用户的select数据
-     * name=> username
-     * value => userId
-     *
-     * @return List<SelectData>
-     */
-    List<SelectData> getSelectData(@Param("type") Integer type);
-
+	/**
+	 * 返回用户的select数据 name=> username value => userId
+	 * @return List<SelectData>
+	 */
+	List<SelectData> getSelectData(@Param("type") Integer type);
 
 }

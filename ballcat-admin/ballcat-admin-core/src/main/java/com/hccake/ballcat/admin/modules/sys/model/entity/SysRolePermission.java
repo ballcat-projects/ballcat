@@ -22,14 +22,17 @@ import lombok.EqualsAndHashCode;
 public class SysRolePermission extends Model<SysRolePermission> {
 
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 角色ID
 	 */
 	@ApiModelProperty(value = "角色id")
 	private Integer roleId;
+
 	/**
 	 * 权限ID
 	 */
 	@ApiModelProperty(value = "菜单id")
 	private Integer permissionId;
+
 }

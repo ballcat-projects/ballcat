@@ -16,15 +16,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements SysConfigService {
 
-    /**
-     * 根据配置key获取对应value
-     *
-     * @param confKey 缓存对应key
-     * @return confValue
-     */
-    @Override
-    public String getConfValueByKey(String confKey) {
-        SysConfig sysConfig = baseMapper.selectOne(Wrappers.<SysConfig>lambdaQuery().eq(SysConfig::getConfKey, confKey));
-        return sysConfig == null ? "": sysConfig.getConfValue();
-    }
+	/**
+	 * 根据配置key获取对应value
+	 * @param confKey 缓存对应key
+	 * @return confValue
+	 */
+	@Override
+	public String getConfValueByKey(String confKey) {
+		SysConfig sysConfig = baseMapper
+				.selectOne(Wrappers.<SysConfig>lambdaQuery().eq(SysConfig::getConfKey, confKey));
+		return sysConfig == null ? "" : sysConfig.getConfValue();
+	}
+
 }

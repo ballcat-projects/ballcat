@@ -1,5 +1,4 @@
 
-
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -22,31 +21,30 @@ import java.util.stream.Collectors;
  * @author
  */
 @Service
-public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper, SysRolePermission> implements SysRolePermissionService {
+public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper, SysRolePermission>
+		implements SysRolePermissionService {
 
 	/**
-	 * @param roleId  角色
+	 * @param roleId 角色
 	 * @param permissionIds 权限ID集合
 	 * @return
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean saveRolePermissions(Integer roleId, Integer[] permissionIds) {
-		this.remove(Wrappers.<SysRolePermission>query().lambda()
-				.eq(SysRolePermission::getRoleId, roleId));
+		this.remove(Wrappers.<SysRolePermission>query().lambda().eq(SysRolePermission::getRoleId, roleId));
 
 		if (permissionIds == null || permissionIds.length == 0) {
 			return Boolean.TRUE;
 		}
-		List<SysRolePermission> rolePermissionList = Arrays
-				.stream(permissionIds)
-				.map(permissionId -> {
-					SysRolePermission rolePermission = new SysRolePermission();
-					rolePermission.setRoleId(roleId);
-					rolePermission.setPermissionId(permissionId);
-					return rolePermission;
-				}).collect(Collectors.toList());
+		List<SysRolePermission> rolePermissionList = Arrays.stream(permissionIds).map(permissionId -> {
+			SysRolePermission rolePermission = new SysRolePermission();
+			rolePermission.setRoleId(roleId);
+			rolePermission.setPermissionId(permissionId);
+			return rolePermission;
+		}).collect(Collectors.toList());
 
 		return this.saveBatch(rolePermissionList);
 	}
+
 }

@@ -29,47 +29,45 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
-    private final SysRolePermissionMapper sysRolePermissionMapper;
 
-    /**
-     * 查询系统角色列表
-     *
-     * @param page 分页对象
-     * @param qo   查询参数
-     * @return 分页对象
-     */
-    @Override
-    public IPage<SysRole> page(IPage<SysRole> page, SysRoleQO qo) {
-        LambdaQueryWrapper<SysRole> wrapper = Wrappers.<SysRole>lambdaQuery()
-                .like(StrUtil.isNotBlank(qo.getName()), SysRole::getName, qo.getName())
-                .like(StrUtil.isNotBlank(qo.getCode()), SysRole::getCode, qo.getCode())
-                .between(StrUtil.isNotBlank(qo.getStartTime()) && StrUtil.isNotBlank(qo.getEndTime()),
-                        SysRole::getCreateTime, qo.getStartTime(), qo.getEndTime());
-        return baseMapper.selectPage(page, wrapper);
-    }
+	private final SysRolePermissionMapper sysRolePermissionMapper;
 
-    /**
-     * 通过角色ID，删除角色,并清空角色菜单缓存
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean removeRoleById(Integer id) {
-        sysRolePermissionMapper.delete(Wrappers
-                .<SysRolePermission>update().lambda()
-                .eq(SysRolePermission::getRoleId, id));
-        return this.removeById(id);
-    }
+	/**
+	 * 查询系统角色列表
+	 * @param page 分页对象
+	 * @param qo 查询参数
+	 * @return 分页对象
+	 */
+	@Override
+	public IPage<SysRole> page(IPage<SysRole> page, SysRoleQO qo) {
+		LambdaQueryWrapper<SysRole> wrapper = Wrappers.<SysRole>lambdaQuery()
+				.like(StrUtil.isNotBlank(qo.getName()), SysRole::getName, qo.getName())
+				.like(StrUtil.isNotBlank(qo.getCode()), SysRole::getCode, qo.getCode())
+				.between(StrUtil.isNotBlank(qo.getStartTime()) && StrUtil.isNotBlank(qo.getEndTime()),
+						SysRole::getCreateTime, qo.getStartTime(), qo.getEndTime());
+		return baseMapper.selectPage(page, wrapper);
+	}
 
-    /**
-     * 角色的选择数据
-     *
-     * @return
-     */
-    @Override
-    public List<SelectData> getSelectData() {
-        return baseMapper.getSelectData();
-    }
+	/**
+	 * 通过角色ID，删除角色,并清空角色菜单缓存
+	 * @param id
+	 * @return
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public Boolean removeRoleById(Integer id) {
+		sysRolePermissionMapper
+				.delete(Wrappers.<SysRolePermission>update().lambda().eq(SysRolePermission::getRoleId, id));
+		return this.removeById(id);
+	}
+
+	/**
+	 * 角色的选择数据
+	 * @return
+	 */
+	@Override
+	public List<SelectData> getSelectData() {
+		return baseMapper.getSelectData();
+	}
+
 }

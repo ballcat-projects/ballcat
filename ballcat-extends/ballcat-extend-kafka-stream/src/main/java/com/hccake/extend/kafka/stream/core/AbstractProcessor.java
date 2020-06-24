@@ -15,10 +15,11 @@ import java.time.Duration;
 /**
  * kafka 顶级 processor 类
  *
- * @author lingting  2020/6/16 22:27
+ * @author lingting 2020/6/16 22:27
  */
 @Slf4j
 public abstract class AbstractProcessor<K, V> extends AbstractKafka implements Processor<K, V> {
+
 	@Getter
 	private ProcessorContext context;
 
@@ -29,10 +30,9 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 	}
 
 	/**
-	 * 用于初始化窗口的方法
-	 * 子类如果需要 自己重写
+	 * 用于初始化窗口的方法 子类如果需要 自己重写
 	 *
-	 * @author lingting  2020-06-17 10:44:39
+	 * @author lingting 2020-06-17 10:44:39
 	 */
 	public void initSchedule(ProcessorContext context) {
 
@@ -41,7 +41,7 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 	/**
 	 * 用于构筑 Punctuator
 	 *
-	 * @author lingting  2020-06-21 13:58:34
+	 * @author lingting 2020-06-21 13:58:34
 	 */
 	public void schedule(Duration interval, PunctuationType type, AbstractPunctuator callback) {
 		context.schedule(interval, type, callback);
@@ -50,7 +50,7 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 	/**
 	 * 用于构筑 {@link PunctuationType#WALL_CLOCK_TIME} 类型的 Punctuator
 	 *
-	 * @author lingting  2020-06-21 13:58:53
+	 * @author lingting 2020-06-21 13:58:53
 	 */
 	public void schedule(Duration interval, AbstractPunctuator callback) {
 		schedule(interval, PunctuationType.WALL_CLOCK_TIME, callback);
@@ -58,11 +58,10 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 
 	/**
 	 * 下发数据
-	 *
-	 * @param key       key
-	 * @param value     value
+	 * @param key key
+	 * @param value value
 	 * @param childName 目标名称
-	 * @author lingting  2020-06-17 19:44:45
+	 * @author lingting 2020-06-17 19:44:45
 	 */
 	public <KEY, VALUE> void forward(KEY key, VALUE value, String childName) {
 		context.forward(key, value, To.child(childName));
@@ -70,10 +69,9 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 
 	/**
 	 * 下发数据
-	 *
-	 * @param key   key
+	 * @param key key
 	 * @param value value
-	 * @param to    目标
+	 * @param to 目标
 	 * @author lingting 2020-06-17 19:47:55
 	 */
 	public <KEY, VALUE> void forward(KEY key, VALUE value, To to) {
@@ -94,12 +92,14 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 		try {
 			startLog(key, value);
 			process(context, key, value);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			errLog(e);
 			String errStr;
 			try {
 				errStr = new ObjectMapper().writeValueAsString(value);
-			} catch (Exception ex) {
+			}
+			catch (Exception ex) {
 				log.error("数据转json出错!msg: {}", ex.getMessage());
 				errStr = Convert.toStr(value);
 			}
@@ -109,10 +109,9 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 
 	/**
 	 * Process the record with the given key and value.
-	 *
 	 * @param context 上下文
-	 * @param key     the key for the record
-	 * @param value   the value for the record
+	 * @param key the key for the record
+	 * @param value the value for the record
 	 */
 	public abstract void process(ProcessorContext context, K key, V value);
 
@@ -122,4 +121,5 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 	@Override
 	public void close() {
 	}
+
 }

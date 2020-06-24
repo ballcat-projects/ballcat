@@ -32,12 +32,11 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @Component
 public class LoginEventListener {
+
 	private final OperationLogHandler operationLogHandler;
 
 	/**
-	 * 登陆成功时间监听
-	 * 记录用户登录日志
-	 *
+	 * 登陆成功时间监听 记录用户登录日志
 	 * @param event 登陆成功 event
 	 */
 	@EventListener(AuthenticationSuccessEvent.class)
@@ -52,68 +51,51 @@ public class LoginEventListener {
 		// https://github.com/spring-projects-experimental/spring-authorization-server
 		if ("password".equals(((HashMap) details).get("grant_type"))) {
 			// 记录登陆日志
-			OperationLogDTO operationLogDTO = prodOperationLogDTO(source)
-					.setType(OperationTypeEnum.LOGIN.getValue())
+			OperationLogDTO operationLogDTO = prodOperationLogDTO(source).setType(OperationTypeEnum.LOGIN.getValue())
 					.setMsg("Login Success");
 			operationLogHandler.saveLog(operationLogDTO);
 		}
 	}
 
-
 	/**
 	 * On logout success event.
-	 *
 	 * @param event the event
 	 */
 	@EventListener(AbstractAuthenticationFailureEvent.class)
 	public void onAuthenticationFailureEvent(AbstractAuthenticationFailureEvent event) {
 		AbstractAuthenticationToken source = (AbstractAuthenticationToken) event.getSource();
 		// 记录登出日志
-		OperationLogDTO operationLogDTO = prodOperationLogDTO(source)
-				.setType(OperationTypeEnum.LOGIN.getValue())
-				.setMsg("Login Error：" + event.getException().getMessage())
-				.setStatus(LogStatusEnum.FAIL.getValue());
+		OperationLogDTO operationLogDTO = prodOperationLogDTO(source).setType(OperationTypeEnum.LOGIN.getValue())
+				.setMsg("Login Error：" + event.getException().getMessage()).setStatus(LogStatusEnum.FAIL.getValue());
 		operationLogHandler.saveLog(operationLogDTO);
 	}
 
-
 	/**
 	 * On logout success event.
-	 *
 	 * @param event the event
 	 */
 	@EventListener(LogoutSuccessEvent.class)
 	public void onLogoutSuccessEvent(LogoutSuccessEvent event) {
 		AbstractAuthenticationToken source = (AbstractAuthenticationToken) event.getSource();
 		// 记录登出日志
-		OperationLogDTO operationLogDTO = prodOperationLogDTO(source)
-				.setType(OperationTypeEnum.LOGOUT.getValue())
+		OperationLogDTO operationLogDTO = prodOperationLogDTO(source).setType(OperationTypeEnum.LOGOUT.getValue())
 				.setMsg("Logout Success");
 		operationLogHandler.saveLog(operationLogDTO);
 	}
 
-
 	/**
 	 * 根据token和请求信息产生一个操作日志
-	 *
 	 * @param source AbstractAuthenticationToken 当前token
 	 * @return OperationLogDTO 操作日志DTO
 	 */
 	private OperationLogDTO prodOperationLogDTO(AbstractAuthenticationToken source) {
 		// 获取 Request
 		HttpServletRequest request = LogUtils.getHttpServletRequest();
-		return new OperationLogDTO()
-				.setCreateTime(LocalDateTime.now())
-				.setIp(IPUtil.getIpAddr(request))
-				.setMethod(request.getMethod())
-				.setStatus(LogStatusEnum.SUCCESS.getValue())
-				.setUserAgent(request.getHeader("user-agent"))
-				.setUri(URLUtil.getPath(request.getRequestURI()))
-				.setTraceId(MDC.get(LogConstant.TRACE_ID))
-				.setParams(JSONUtil.toJsonStr(request.getParameterMap()))
-				.setTime(0L)
-				.setOperator(source.getName());
+		return new OperationLogDTO().setCreateTime(LocalDateTime.now()).setIp(IPUtil.getIpAddr(request))
+				.setMethod(request.getMethod()).setStatus(LogStatusEnum.SUCCESS.getValue())
+				.setUserAgent(request.getHeader("user-agent")).setUri(URLUtil.getPath(request.getRequestURI()))
+				.setTraceId(MDC.get(LogConstant.TRACE_ID)).setParams(JSONUtil.toJsonStr(request.getParameterMap()))
+				.setTime(0L).setOperator(source.getName());
 	}
-
 
 }

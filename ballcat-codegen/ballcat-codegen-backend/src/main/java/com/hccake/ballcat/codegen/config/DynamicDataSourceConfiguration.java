@@ -13,17 +13,18 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2020/6/15 17:37
- * 动态数据源加载
+ * @date 2020/6/15 17:37 动态数据源加载
  */
 @Configuration
 @RequiredArgsConstructor
 public class DynamicDataSourceConfiguration {
+
 	private final StringEncryptor stringEncryptor;
+
 	/**
 	 * 默认JDBC驱动类
 	 */
-	public static final String DEFAULT_JDBC_DRIVER = "com.mysql.cj.jdbc.Driver" ;
+	public static final String DEFAULT_JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 
 	/**
 	 * JDBC 动态数据源提供者
@@ -34,17 +35,12 @@ public class DynamicDataSourceConfiguration {
 	public DynamicJdbcDataSourceProvider dynamicDataSourceProvider(DataSourceProperties dataSourceProperties) {
 		// 这里由于 dynamic-datasource-spring-boot-starter 的问题，必须填写
 		String driverClassName = dataSourceProperties.getDriverClassName();
-		if(driverClassName == null){
+		if (driverClassName == null) {
 			driverClassName = DEFAULT_JDBC_DRIVER;
 		}
-		return new DynamicJdbcDataSourceProvider(
-				stringEncryptor,
-				driverClassName,
-				dataSourceProperties.getUrl(),
-				dataSourceProperties.getUsername(),
-				dataSourceProperties.getPassword());
+		return new DynamicJdbcDataSourceProvider(stringEncryptor, driverClassName, dataSourceProperties.getUrl(),
+				dataSourceProperties.getUsername(), dataSourceProperties.getPassword());
 	}
-
 
 	@Bean
 	public DsProcessor dsProcessor() {

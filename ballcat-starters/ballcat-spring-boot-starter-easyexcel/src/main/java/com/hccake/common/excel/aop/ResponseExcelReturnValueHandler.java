@@ -1,6 +1,5 @@
 package com.hccake.common.excel.aop;
 
-
 import com.hccake.common.excel.annotation.ResponseExcel;
 import com.hccake.common.excel.handler.SheetWriteHandler;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +21,11 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValueHandler {
-	private final List<SheetWriteHandler> sheetWriteHandlerList;
 
+	private final List<SheetWriteHandler> sheetWriteHandlerList;
 
 	/**
 	 * 只处理@ResponseExcel 声明的方法
-	 *
 	 * @param parameter 方法签名
 	 * @return 是否处理
 	 */
@@ -38,15 +36,15 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
 
 	/**
 	 * 处理逻辑
-	 *
-	 * @param o                返回参数
-	 * @param parameter        方法签名
-	 * @param mavContainer     上下文容器
+	 * @param o 返回参数
+	 * @param parameter 方法签名
+	 * @param mavContainer 上下文容器
 	 * @param nativeWebRequest 上下文
 	 * @throws Exception 处理异常
 	 */
 	@Override
-	public void handleReturnValue(Object o, MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest nativeWebRequest) throws Exception {
+	public void handleReturnValue(Object o, MethodParameter parameter, ModelAndViewContainer mavContainer,
+			NativeWebRequest nativeWebRequest) throws Exception {
 		/* check */
 		HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
 		Assert.state(response != null, "No HttpServletResponse");
@@ -58,4 +56,5 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
 			handler.export(o, response, responseExcel);
 		});
 	}
+
 }

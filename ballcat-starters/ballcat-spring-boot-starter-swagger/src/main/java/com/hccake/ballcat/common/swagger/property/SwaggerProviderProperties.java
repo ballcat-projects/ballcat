@@ -12,9 +12,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("swagger.provider")
 public class SwaggerProviderProperties {
 
-    /**
-     * 聚合者的来源，用于控制跨域放行
-     */
-    private String aggregatorOrigin = "*";
+	/**
+	 * 聚合者的来源，用于控制跨域放行
+	 */
+	private String aggregatorOrigin = "*";
 
 }

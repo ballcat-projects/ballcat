@@ -31,97 +31,92 @@ import java.util.List;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2019/9/27 16:14
- * OAuth2 授权服务器配置
+ * @date 2019/9/27 16:14 OAuth2 授权服务器配置
  */
 @Configuration
 @EnableAuthorizationServer
 @RequiredArgsConstructor
 public class CustomAuthorizationServerConfigurer implements AuthorizationServerConfigurer {
-    private final DataSource dataSource;
-    private final SysUserDetailsServiceImpl sysUserDetailsService;
-    private final AuthenticationManager authenticationManager;
-    private final RedisConnectionFactory redisConnectionFactory;
-    private final AuthenticationEntryPoint authenticationEntryPoint;
-    private final CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
 
-    /**
-     * 定义资源权限控制的配置
-     *
-     * @param security
-     * @throws Exception
-     */
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security
-                .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()")
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .allowFormAuthenticationForClients();
-    }
+	private final DataSource dataSource;
 
-    /**
-     * 客户端的信息服务类配置
-     *
-     * @param clients
-     * @throws Exception
-     */
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        // 启用 jdbc 方式获取客户端配置信息
-        clients.jdbc(dataSource);
-    }
+	private final SysUserDetailsServiceImpl sysUserDetailsService;
 
-    /**
-     * 授权服务的访问路径相关配置
-     *
-     * @param endpoints
-     * @throws Exception
-     */
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore())
-                .userDetailsService(sysUserDetailsService)
-                .authenticationManager(authenticationManager)
-                // 自定义token
-                .tokenEnhancer(tokenEnhancer())
-                // 强制刷新token时，重新生成refreshToken
-                .reuseRefreshTokens(false)
-                // 自定义的认证时异常转换
-                .exceptionTranslator(customWebResponseExceptionTranslator)
-                // 自定义tokenGranter
-                .tokenGranter(tokenGranter(endpoints));
-    }
+	private final AuthenticationManager authenticationManager;
 
+	private final RedisConnectionFactory redisConnectionFactory;
 
-    /**
-     * 定义token的存储方式
-     * @return
-     */
-    @Bean
-    public TokenStore tokenStore() {
-        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-        tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + SecurityConst.OAUTH_PREFIX);
-        return tokenStore;
-    }
+	private final AuthenticationEntryPoint authenticationEntryPoint;
 
+	private final CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator;
 
-    /**
-     * token 增强，追加一些自定义信息
-     * @return TokenEnhancer Token增强处理器
-     */
-    @Bean
-    public TokenEnhancer tokenEnhancer() {
-        return new CustomTokenEnhancer();
-    }
+	/**
+	 * 定义资源权限控制的配置
+	 * @param security
+	 * @throws Exception
+	 */
+	@Override
+	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()")
+				.authenticationEntryPoint(authenticationEntryPoint).allowFormAuthenticationForClients();
+	}
 
+	/**
+	 * 客户端的信息服务类配置
+	 * @param clients
+	 * @throws Exception
+	 */
+	@Override
+	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+		// 启用 jdbc 方式获取客户端配置信息
+		clients.jdbc(dataSource);
+	}
 
-    private TokenGranter tokenGranter(final AuthorizationServerEndpointsConfigurer endpoints) {
-        // 获取默认的granter集合
-        List<TokenGranter> granters = new ArrayList<>(Collections.singletonList(endpoints.getTokenGranter()));
-        granters.add(new MobileTokenGranter(authenticationManager,endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory()));
-        return new CompositeTokenGranter(granters);
-    }
+	/**
+	 * 授权服务的访问路径相关配置
+	 * @param endpoints
+	 * @throws Exception
+	 */
+	@Override
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		endpoints.tokenStore(tokenStore()).userDetailsService(sysUserDetailsService)
+				.authenticationManager(authenticationManager)
+				// 自定义token
+				.tokenEnhancer(tokenEnhancer())
+				// 强制刷新token时，重新生成refreshToken
+				.reuseRefreshTokens(false)
+				// 自定义的认证时异常转换
+				.exceptionTranslator(customWebResponseExceptionTranslator)
+				// 自定义tokenGranter
+				.tokenGranter(tokenGranter(endpoints));
+	}
 
+	/**
+	 * 定义token的存储方式
+	 * @return
+	 */
+	@Bean
+	public TokenStore tokenStore() {
+		RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
+		tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + SecurityConst.OAUTH_PREFIX);
+		return tokenStore;
+	}
+
+	/**
+	 * token 增强，追加一些自定义信息
+	 * @return TokenEnhancer Token增强处理器
+	 */
+	@Bean
+	public TokenEnhancer tokenEnhancer() {
+		return new CustomTokenEnhancer();
+	}
+
+	private TokenGranter tokenGranter(final AuthorizationServerEndpointsConfigurer endpoints) {
+		// 获取默认的granter集合
+		List<TokenGranter> granters = new ArrayList<>(Collections.singletonList(endpoints.getTokenGranter()));
+		granters.add(new MobileTokenGranter(authenticationManager, endpoints.getTokenServices(),
+				endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory()));
+		return new CompositeTokenGranter(granters);
+	}
 
 }

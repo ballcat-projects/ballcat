@@ -15,14 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lingting  2020/6/9 19:59
+ * @author lingting 2020/6/9 19:59
  */
 @Slf4j
 @ComponentScan
 @Configuration
-@EnableConfigurationProperties({MybatisProperties.class})
+@EnableConfigurationProperties({ MybatisProperties.class })
 public class MybatisAutoConfiguration {
+
 	private final List<MybatisConfigurer> configurers;
+
 	private final MybatisProperties properties;
 
 	public MybatisAutoConfiguration(List<MybatisConfigurer> configurers, MybatisProperties properties) {
@@ -42,7 +44,8 @@ public class MybatisAutoConfiguration {
 		for (Class<? extends AbstractMethod> c : properties.getMethods()) {
 			try {
 				list.add(c.newInstance());
-			} catch (InstantiationException | IllegalAccessException e) {
+			}
+			catch (InstantiationException | IllegalAccessException e) {
 				throw new MybatisMethodInstanceException("获取自定义全局方法实例出错 class: " + c.getName(), e);
 			}
 		}
@@ -50,4 +53,5 @@ public class MybatisAutoConfiguration {
 		configurers.forEach(mybatisConfigurer -> mybatisConfigurer.addGlobalMethods(list));
 		return new SqlInjector(list);
 	}
+
 }

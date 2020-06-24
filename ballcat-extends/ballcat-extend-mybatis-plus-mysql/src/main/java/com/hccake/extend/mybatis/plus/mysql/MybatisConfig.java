@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author lingting  2020/5/27 11:43
+ * @author lingting 2020/5/27 11:43
  */
 @Configuration
 public class MybatisConfig implements MybatisConfigurer {
@@ -27,4 +27,5 @@ public class MybatisConfig implements MybatisConfigurer {
 		list.add(new InsertOrUpdateByBatch());
 		list.add(new InsertOrUpdateFieldByBatch());
 	}
+
 }

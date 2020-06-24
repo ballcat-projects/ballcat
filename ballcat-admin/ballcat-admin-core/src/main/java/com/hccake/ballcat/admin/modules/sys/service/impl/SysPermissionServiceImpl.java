@@ -27,7 +27,9 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
+public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission>
+		implements SysPermissionService {
+
 	private final SysRolePermissionMapper sysRolePermissionMapper;
 
 	@Override
@@ -39,17 +41,16 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removePermissionById(Integer id) {
 		// 查询父节点为当前节点的节点
-		List<SysPermission> permissionList = this.list(Wrappers.<SysPermission>query()
-				.lambda().eq(SysPermission::getParentId, id));
+		List<SysPermission> permissionList = this
+				.list(Wrappers.<SysPermission>query().lambda().eq(SysPermission::getParentId, id));
 		if (CollUtil.isNotEmpty(permissionList)) {
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "菜单含有下级不能删除");
 		}
 
 		sysRolePermissionMapper
-				.delete(Wrappers.<SysRolePermission>query()
-						.lambda().eq(SysRolePermission::getPermissionId, id));
+				.delete(Wrappers.<SysRolePermission>query().lambda().eq(SysRolePermission::getPermissionId, id));
 
-		//删除当前菜单及其子菜单
+		// 删除当前菜单及其子菜单
 		return this.removeById(id);
 	}
 
@@ -57,4 +58,5 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 	public Boolean updatePermissionById(SysPermission sysPermission) {
 		return this.updateById(sysPermission);
 	}
+
 }

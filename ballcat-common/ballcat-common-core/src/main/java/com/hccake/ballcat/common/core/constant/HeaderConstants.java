@@ -7,18 +7,22 @@ package com.hccake.ballcat.common.core.constant;
  */
 public final class HeaderConstants {
 
-    private HeaderConstants(){}
+	private HeaderConstants() {
+	}
 
-    /**
-     * 请求时间戳
-     */
-    public static final String REQ_TIME = "reqTime";
-    /**
-     * 请求sign
-     */
-    public static final String SIGN = "sign";
-    /**
-     * SECRET_ID
-     */
-    public static final String SECRET_ID = "secretId";
+	/**
+	 * 请求时间戳
+	 */
+	public static final String REQ_TIME = "reqTime";
+
+	/**
+	 * 请求sign
+	 */
+	public static final String SIGN = "sign";
+
+	/**
+	 * SECRET_ID
+	 */
+	public static final String SECRET_ID = "secretId";
+
 }

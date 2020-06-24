@@ -8,13 +8,13 @@ import java.lang.annotation.*;
 /**
  * @author Hccake
  * @version 1.0
- * @date 2019/11/1 19:43
- * 聚合者的swagger开启注解
+ * @date 2019/11/1 19:43 聚合者的swagger开启注解
  */
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({SwaggerAggregatorAutoConfiguration.class})
+@Import({ SwaggerAggregatorAutoConfiguration.class })
 public @interface EnableSwagger2Aggregator {
+
 }

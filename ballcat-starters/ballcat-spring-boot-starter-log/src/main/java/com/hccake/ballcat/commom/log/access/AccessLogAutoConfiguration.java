@@ -20,17 +20,19 @@ import org.springframework.context.annotation.Bean;
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AccessLogProperties.class)
 public class AccessLogAutoConfiguration {
-    private final AccessLogHandler<?> accessLogService;
+
+	private final AccessLogHandler<?> accessLogService;
+
 	private final AccessLogProperties accessLogProperties;
 
-    @Bean
-    @ConditionalOnClass(AccessLogHandler.class)
-    public FilterRegistrationBean<AccessLogFilter> accessLogFilterRegistrationBean(){
-        log.debug("access log 记录拦截器已开启====");
-        FilterRegistrationBean<AccessLogFilter> registrationBean =
-                new FilterRegistrationBean<>(new AccessLogFilter(accessLogService, accessLogProperties.getIgnoreUrlPatterns()));
-        registrationBean.setOrder(0);
-        return registrationBean;
-    }
-}
+	@Bean
+	@ConditionalOnClass(AccessLogHandler.class)
+	public FilterRegistrationBean<AccessLogFilter> accessLogFilterRegistrationBean() {
+		log.debug("access log 记录拦截器已开启====");
+		FilterRegistrationBean<AccessLogFilter> registrationBean = new FilterRegistrationBean<>(
+				new AccessLogFilter(accessLogService, accessLogProperties.getIgnoreUrlPatterns()));
+		registrationBean.setOrder(0);
+		return registrationBean;
+	}
 
+}

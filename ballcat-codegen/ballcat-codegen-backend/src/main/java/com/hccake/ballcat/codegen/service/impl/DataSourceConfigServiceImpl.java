@@ -40,32 +40,33 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMapper, DataSourceConfig> implements DataSourceConfigService {
+public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMapper, DataSourceConfig>
+		implements DataSourceConfigService {
+
 	private final static String TABLE_ALIAS_PREFIX = "dsc.";
+
 	private final StringEncryptor stringEncryptor;
+
 	private final DataSourceCreator dataSourceCreator;
 
 	@Resource(type = DataSource.class)
 	private DynamicRoutingDataSource dynamicRoutingDataSource;
 
-
 	/**
 	 * 根据QueryObeject查询分页数据
-	 *
 	 * @param page 分页参数
-	 * @param qo   查询参数对象
+	 * @param qo 查询参数对象
 	 * @return 分页数据
 	 */
 	@Override
 	public IPage<DataSourceConfigVO> selectPageVo(IPage<?> page, DataSourceConfigQO qo) {
-		QueryWrapper<DataSourceConfig> wrapper = Wrappers.<DataSourceConfig>query()
-				.eq(ObjectUtil.isNotNull(qo.getId()), TABLE_ALIAS_PREFIX + "Id", qo.getId());
+		QueryWrapper<DataSourceConfig> wrapper = Wrappers.<DataSourceConfig>query().eq(ObjectUtil.isNotNull(qo.getId()),
+				TABLE_ALIAS_PREFIX + "Id", qo.getId());
 		return baseMapper.selectPageVo(page, wrapper);
 	}
 
 	/**
 	 * 获取 SelectData 集合
-	 *
 	 * @return List<SelectData < ?>> SelectData 集合
 	 */
 	@Override
@@ -73,13 +74,11 @@ public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMap
 		return baseMapper.listSelectData();
 	}
 
-
 	@Override
 	public boolean save(DataSourceConfigDTO dto) {
 		// 新的数据源配置信息
-		DataSourceProperty dataSourceProperty = getDataSourceProperty(dto.getName(),
-				dto.getUrl(),
-				dto.getUsername(), dto.getPass());
+		DataSourceProperty dataSourceProperty = getDataSourceProperty(dto.getName(), dto.getUrl(), dto.getUsername(),
+				dto.getPass());
 		// 校验数据源配置
 		if (isErrorDataSourceProperty(dataSourceProperty)) {
 			return false;
@@ -103,7 +102,6 @@ public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMap
 
 	/**
 	 * 更新数据源配置
-	 *
 	 * @param dto 数据源配置信息
 	 * @return boolean
 	 */
@@ -120,14 +118,14 @@ public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMap
 		String pass = dto.getPass();
 		if (StrUtil.isBlank(pass)) {
 			pass = stringEncryptor.decrypt(oldConfig.getPassword());
-		} else {
+		}
+		else {
 			dataSourceConfig.setPassword(stringEncryptor.encrypt(pass));
 		}
 
 		// 新的数据源配置信息
-		DataSourceProperty dataSourceProperty = getDataSourceProperty(dto.getName(),
-				dto.getUrl(),
-				dto.getUsername(), pass);
+		DataSourceProperty dataSourceProperty = getDataSourceProperty(dto.getName(), dto.getUrl(), dto.getUsername(),
+				pass);
 		// 校验数据源配置
 		if (isErrorDataSourceProperty(dataSourceProperty)) {
 			return false;
@@ -163,7 +161,6 @@ public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMap
 
 	/**
 	 * 添加动态数据源
-	 *
 	 * @param dataSourceProperty 数据源配置
 	 */
 	private void addDynamicDataSource(DataSourceProperty dataSourceProperty) {
@@ -173,9 +170,8 @@ public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMap
 
 	/**
 	 * 获得数据源配置实体
-	 *
-	 * @param dsName   数据源名称
-	 * @param url      数据库连接
+	 * @param dsName 数据源名称
+	 * @param url 数据库连接
 	 * @param username 数据库用户名
 	 * @param password 数据库密码
 	 * @return 数据源配置
@@ -189,21 +185,19 @@ public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMap
 		return dataSourceProperty;
 	}
 
-
 	/**
 	 * 校验数据源是配置否可用
-	 *
 	 * @param dataSourceProperty 数据源配置信息
 	 * @return boolean
 	 */
 	private boolean isErrorDataSourceProperty(DataSourceProperty dataSourceProperty) {
 		try (Connection ignored = DriverManager.getConnection(dataSourceProperty.getUrl(),
-				dataSourceProperty.getUsername(),
-				dataSourceProperty.getPassword())) {
+				dataSourceProperty.getUsername(), dataSourceProperty.getPassword())) {
 			if (log.isDebugEnabled()) {
 				log.debug("check connection success, dataSourceProperty: {}", dataSourceProperty);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error("get connection error, dataSourceProperty: {}", dataSourceProperty, e);
 			return true;
 		}

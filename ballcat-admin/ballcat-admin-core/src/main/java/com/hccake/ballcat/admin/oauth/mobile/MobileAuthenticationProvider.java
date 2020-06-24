@@ -14,12 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * @author lengleng
- * @date 2018/8/5
- * 手机登录校验逻辑
- * 验证码登录、社交登录
+ * @date 2018/8/5 手机登录校验逻辑 验证码登录、社交登录
  */
 @Slf4j
 public class MobileAuthenticationProvider implements AuthenticationProvider {
+
 	private MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
 	@Getter
@@ -36,15 +35,15 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
 		if (userDetails == null) {
 			log.debug("Authentication failed: no credentials provided");
 
-			throw new BadCredentialsException(messages.getMessage(
-					"AbstractUserDetailsAuthenticationProvider.noopBindAccount",
-					"Noop Bind Account"));
+			throw new BadCredentialsException(messages
+					.getMessage("AbstractUserDetailsAuthenticationProvider.noopBindAccount", "Noop Bind Account"));
 		}
 
 		// 检查账号状态
-		//detailsChecker.check(userDetails);
+		// detailsChecker.check(userDetails);
 
-		MobileAuthenticationToken authenticationToken = new MobileAuthenticationToken(userDetails, userDetails.getAuthorities());
+		MobileAuthenticationToken authenticationToken = new MobileAuthenticationToken(userDetails,
+				userDetails.getAuthorities());
 		authenticationToken.setDetails(mobileAuthenticationToken.getDetails());
 		return authenticationToken;
 	}
@@ -53,4 +52,5 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
 	public boolean supports(Class<?> authentication) {
 		return MobileAuthenticationToken.class.isAssignableFrom(authentication);
 	}
+
 }

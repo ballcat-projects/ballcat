@@ -7,7 +7,6 @@ import com.hccake.ballcat.codegen.model.vo.TableInfo;
 
 import java.util.List;
 
-
 /**
  * 表信息
  *
@@ -16,13 +15,13 @@ import java.util.List;
  */
 public interface TableInfoService {
 
-    /**
-    *  根据QueryObeject查询分页数据
-    * @param page 分页参数
-    * @param qo 查询参数对象
-    * @return  分页数据
-    */
-    IPage<TableInfo> selectPageVo(IPage<?> page, TableInfoQO qo);
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return 分页数据
+	 */
+	IPage<TableInfo> selectPageVo(IPage<?> page, TableInfoQO qo);
 
 	/**
 	 * 根据表名查询对应表信息
@@ -37,4 +36,5 @@ public interface TableInfoService {
 	 * @return List<ColumnInfo>
 	 */
 	List<ColumnInfo> queryColumnInfo(String tableName);
+
 }

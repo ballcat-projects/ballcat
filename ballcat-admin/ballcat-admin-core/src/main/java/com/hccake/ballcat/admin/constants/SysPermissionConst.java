@@ -10,25 +10,28 @@ import lombok.Getter;
  */
 public final class SysPermissionConst {
 
-    private SysPermissionConst(){}
+	private SysPermissionConst() {
+	}
 
-    @Getter
-    @AllArgsConstructor
-    public enum Type{
-        /**
-         * 目录
-         */
-        DIRECTORY(0),
-        /**
-         * 菜单
-         */
-        MENU(1),
-        /**
-         * 按钮/权限
-         */
-        BUTTON(2);
+	@Getter
+	@AllArgsConstructor
+	public enum Type {
 
-        private final int value;
-    }
+		/**
+		 * 目录
+		 */
+		DIRECTORY(0),
+		/**
+		 * 菜单
+		 */
+		MENU(1),
+		/**
+		 * 按钮/权限
+		 */
+		BUTTON(2);
+
+		private final int value;
+
+	}
 
 }

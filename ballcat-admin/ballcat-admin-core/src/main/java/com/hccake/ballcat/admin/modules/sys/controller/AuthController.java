@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
  * @author Hccake
  */
@@ -26,12 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "oauth", tags = "用户认证模块")
 @RequiredArgsConstructor
 public class AuthController {
+
 	private final TokenStore tokenStore;
+
 	private final ApplicationEventPublisher publisher;
 
 	/**
 	 * 退出token
-	 *
 	 * @param authHeader Authorization
 	 */
 	@DeleteMapping("/logout")
@@ -61,6 +61,5 @@ public class AuthController {
 
 		return R.ok();
 	}
-
 
 }

@@ -8,21 +8,26 @@ import lombok.Setter;
 /**
  * 钉钉返回信息
  *
- * @author lingting  2020/6/11 0:23
+ * @author lingting 2020/6/11 0:23
  */
 @Getter
 @Setter
 public class DingTalkResponse {
+
 	public static final String SUCCESS_CODE = "0";
+
 	private String errCode;
+
 	/**
 	 * 值为ok表示无异常
 	 */
 	private String errMsg;
+
 	/**
 	 * 钉钉返回信息
 	 */
 	private String response;
+
 	/**
 	 * 是否发送成功
 	 */
@@ -42,4 +47,5 @@ public class DingTalkResponse {
 	public String toString() {
 		return response;
 	}
+
 }

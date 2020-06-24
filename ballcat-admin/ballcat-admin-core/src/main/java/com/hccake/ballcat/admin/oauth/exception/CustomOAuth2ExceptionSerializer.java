@@ -15,12 +15,14 @@ import java.io.IOException;
  */
 public class CustomOAuth2ExceptionSerializer extends StdSerializer<CustomOAuth2Exception> {
 
-    public CustomOAuth2ExceptionSerializer() {
-        super(CustomOAuth2Exception.class);
-    }
+	public CustomOAuth2ExceptionSerializer() {
+		super(CustomOAuth2Exception.class);
+	}
 
-    @Override
-    public void serialize(CustomOAuth2Exception e, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeObject(R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage()));
-    }
+	@Override
+	public void serialize(CustomOAuth2Exception e, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+			throws IOException {
+		jsonGenerator.writeObject(R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage()));
+	}
+
 }

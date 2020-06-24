@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.hccake.extend.mybatis.plus.config.StaticConfig;
 
 /**
- * @author lingting  2020/5/27 11:47
+ * @author lingting 2020/5/27 11:47
  */
 public class InsertOrUpdateByBatch extends BaseInsertBatch {
+
 	@Override
 	protected String getSql() {
 		return "<script>insert into %s %s values %s</script>";
@@ -29,8 +30,10 @@ public class InsertOrUpdateByBatch extends BaseInsertBatch {
 				// 默认忽略字段
 				if (!StaticConfig.UPDATE_IGNORE_FIELDS.contains(field.getProperty())) {
 					sql.append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn()).append("),");
-				} else {
-					ignore.append(",").append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn()).append(")");
+				}
+				else {
+					ignore.append(",").append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn())
+							.append(")");
 				}
 			}
 		});
@@ -42,4 +45,5 @@ public class InsertOrUpdateByBatch extends BaseInsertBatch {
 		sql.append("<if test=\"!ignore\">").append(ignore).append("</if>");
 		return sql.toString();
 	}
+
 }

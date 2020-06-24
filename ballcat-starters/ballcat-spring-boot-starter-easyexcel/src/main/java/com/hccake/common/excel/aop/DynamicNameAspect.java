@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class DynamicNameAspect {
+
 	private final NameProcessor processor;
 
 	@Before("@annotation(excel)")
@@ -29,7 +30,7 @@ public class DynamicNameAspect {
 	}
 
 	@AfterThrowing("@annotation(com.hccake.common.excel.annotation.ResponseExcel)")
-	public void afterThrowing(){
+	public void afterThrowing() {
 		// 防止异常导致数据未清空
 		ExcelNameContextHolder.clear();
 	}

@@ -16,18 +16,22 @@ public class FileStorageProperties {
 	 * 使用的文件存储服务类型
 	 */
 	private FileStorageTypeEnum type;
+
 	/**
 	 * endpoint 服务地址 eg. http://oss-cn-qingdao.aliyuncs.com
 	 */
 	private String endpoint;
+
 	/**
 	 * 密钥key
 	 */
 	private String accessKey;
+
 	/**
 	 * 密钥Secret
 	 */
 	private String accessSecret;
+
 	/**
 	 * bucketName
 	 */

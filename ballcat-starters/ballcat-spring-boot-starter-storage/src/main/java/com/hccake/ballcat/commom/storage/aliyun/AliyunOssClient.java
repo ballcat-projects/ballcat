@@ -10,7 +10,6 @@ import org.springframework.util.Assert;
 
 import java.io.InputStream;
 
-
 /**
  * @author Hccake
  * @version 1.0
@@ -18,18 +17,20 @@ import java.io.InputStream;
  */
 @RequiredArgsConstructor
 public class AliyunOssClient implements FileStorageClient, InitializingBean, DisposableBean {
+
 	private final String endpoint;
+
 	private final String accessKey;
+
 	private final String accessSecret;
+
 	private final String bucketName;
 
 	private OSS client;
 
-
 	/**
 	 * 文件上传
-	 *
-	 * @param objectName  存储对象名称
+	 * @param objectName 存储对象名称
 	 * @param inputStream 文件输入流
 	 * @return
 	 */
@@ -44,7 +45,7 @@ public class AliyunOssClient implements FileStorageClient, InitializingBean, Dis
 	 * @param objectName 存储对象名称
 	 */
 	@Override
-	public void deleteObject(String objectName){
+	public void deleteObject(String objectName) {
 		if (client.doesObjectExist(bucketName, objectName)) {
 			client.deleteObject(bucketName, objectName);
 		}
@@ -56,10 +57,9 @@ public class AliyunOssClient implements FileStorageClient, InitializingBean, Dis
 	 * @param targetObjectName 目标对象名
 	 */
 	@Override
-	public void copyObject(String sourceObjectName, String targetObjectName){
+	public void copyObject(String sourceObjectName, String targetObjectName) {
 		client.copyObject(bucketName, sourceObjectName, bucketName, targetObjectName);
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {

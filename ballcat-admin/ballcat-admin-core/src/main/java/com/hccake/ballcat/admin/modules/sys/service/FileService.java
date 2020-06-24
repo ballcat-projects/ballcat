@@ -12,20 +12,20 @@ import java.io.InputStream;
  */
 public interface FileService {
 
-    /**
-     * 文件上传
-     * @param file 文件对象
-     * @param objectName 文件对象名
-     * @throws IOException IO异常
-     */
-    void uploadFile(MultipartFile file, String objectName) throws IOException;
+	/**
+	 * 文件上传
+	 * @param file 文件对象
+	 * @param objectName 文件对象名
+	 * @throws IOException IO异常
+	 */
+	void uploadFile(MultipartFile file, String objectName) throws IOException;
 
+	/**
+	 * 文件上传
+	 * @param inputStream 文件流
+	 * @param objectName 文件对象名
+	 *
+	 */
+	void uploadFile(InputStream inputStream, String objectName);
 
-    /**
-     * 文件上传
-     * @param inputStream 文件流
-     * @param objectName 文件对象名
-     *
-     */
-    void uploadFile(InputStream inputStream, String objectName);
 }

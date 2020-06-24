@@ -16,4 +16,5 @@ public class TableInfoQO {
 	 * 表名
 	 */
 	private String tableName;
+
 }

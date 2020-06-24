@@ -22,7 +22,7 @@ public class TreeUtil {
 	/**
 	 * 根据一个TreeNode集合，返回构建好的树列表
 	 * @param nodes TreeNode集合
-	 * @param rootId  根节点Id
+	 * @param rootId 根节点Id
 	 * @param <T> TreeNode的子类
 	 * @param <I> TreeNodeId的类型
 	 * @return 树列表
@@ -44,7 +44,7 @@ public class TreeUtil {
 	public <T extends TreeNode<I>, I, R> List<T> buildTree(List<R> list, I rootId, Function<R, T> convertToTree) {
 
 		List<T> roots = new ArrayList<>();
-		for (Iterator<R> ite = list.iterator(); ite.hasNext(); ) {
+		for (Iterator<R> ite = list.iterator(); ite.hasNext();) {
 			T node = convertToTree.apply(ite.next());
 			if (Objects.equals(rootId, node.getParentId())) {
 				roots.add(node);
@@ -58,17 +58,15 @@ public class TreeUtil {
 		return roots;
 	}
 
-
 	/**
 	 * 从所有节点列表中查找并设置parent的所有子节点
-	 *
 	 * @param parent 父节点
-	 * @param nodes  所有树节点列表
+	 * @param nodes 所有树节点列表
 	 */
 	public <T extends TreeNode<I>, I, R> void setChildren(T parent, List<R> nodes, Function<R, T> convertToTree) {
 		List<T> children = new ArrayList<>();
 		Object parentId = parent.getId();
-		for (Iterator<R> ite = nodes.iterator(); ite.hasNext(); ) {
+		for (Iterator<R> ite = nodes.iterator(); ite.hasNext();) {
 			T node = convertToTree.apply(ite.next());
 			if (Objects.equals(node.getParentId(), parentId)) {
 				children.add(node);
@@ -87,12 +85,10 @@ public class TreeUtil {
 		});
 	}
 
-
 	/**
 	 * 获取指定树节点下的所有叶子节点
-	 *
 	 * @param parent 父节点
-	 * @param <T>    实际节点类型
+	 * @param <T> 实际节点类型
 	 * @return 叶子节点
 	 */
 	public <T extends TreeNode<?>> List<T> getLeafs(T parent) {
@@ -103,10 +99,9 @@ public class TreeUtil {
 
 	/**
 	 * 将parent的所有叶子节点填充至leafs列表中
-	 *
 	 * @param parent 父节点
-	 * @param leafs  叶子节点列表
-	 * @param <T>    实际节点类型
+	 * @param leafs 叶子节点列表
+	 * @param <T> 实际节点类型
 	 */
 	@SuppressWarnings("rawtypes, unchecked")
 	public <T extends TreeNode> void fillLeaf(T parent, List<T> leafs) {
@@ -150,11 +145,10 @@ public class TreeUtil {
 		for (T treeNode : treeList) {
 			ids.add(treeNode.getId());
 			List<? extends TreeNode<I>> children = treeNode.getChildren();
-			if(CollectionUtil.isNotEmpty(children)){
+			if (CollectionUtil.isNotEmpty(children)) {
 				fillTreeNodeIds(ids, children);
 			}
 		}
 	}
-
 
 }

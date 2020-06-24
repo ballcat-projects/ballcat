@@ -17,29 +17,29 @@ import java.io.InputStream;
 @Service
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
-    private final FileStorageClient fileStorageClient;
 
-    /**
-     * 文件上传
-     *
-     * @param file 待上传文件
-     * @param objectName 文件对象名
-     *
-     */
-    @Override
-    public void uploadFile(MultipartFile file, String objectName) throws IOException {
-        fileStorageClient.putObject(objectName, file.getInputStream());
-    }
+	private final FileStorageClient fileStorageClient;
 
-    /**
-     * 文件上传
-     *
-     * @param inputStream 文件流
-     * @param objectName  文件对象名
-     *
-     */
-    @Override
-    public void uploadFile(InputStream inputStream, String objectName) {
-        fileStorageClient.putObject(objectName, inputStream);
-    }
+	/**
+	 * 文件上传
+	 * @param file 待上传文件
+	 * @param objectName 文件对象名
+	 *
+	 */
+	@Override
+	public void uploadFile(MultipartFile file, String objectName) throws IOException {
+		fileStorageClient.putObject(objectName, file.getInputStream());
+	}
+
+	/**
+	 * 文件上传
+	 * @param inputStream 文件流
+	 * @param objectName 文件对象名
+	 *
+	 */
+	@Override
+	public void uploadFile(InputStream inputStream, String objectName) {
+		fileStorageClient.putObject(objectName, inputStream);
+	}
+
 }

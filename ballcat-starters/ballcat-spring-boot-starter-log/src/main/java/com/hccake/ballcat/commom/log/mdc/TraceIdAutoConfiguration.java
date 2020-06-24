@@ -15,12 +15,11 @@ import org.springframework.core.Ordered;
 @ConditionalOnWebApplication
 public class TraceIdAutoConfiguration {
 
-    @Bean
-    public FilterRegistrationBean<TraceIdFilter> traceIdFilterRegistrationBean(){
-        FilterRegistrationBean<TraceIdFilter> registrationBean =
-                new FilterRegistrationBean<>(new TraceIdFilter());
-        registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return registrationBean;
-    }
+	@Bean
+	public FilterRegistrationBean<TraceIdFilter> traceIdFilterRegistrationBean() {
+		FilterRegistrationBean<TraceIdFilter> registrationBean = new FilterRegistrationBean<>(new TraceIdFilter());
+		registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return registrationBean;
+	}
 
 }

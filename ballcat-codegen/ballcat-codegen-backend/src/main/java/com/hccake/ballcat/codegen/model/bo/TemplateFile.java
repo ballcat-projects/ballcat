@@ -15,6 +15,7 @@ import lombok.experimental.Accessors;
 @Data
 @ApiModel(value = "模板文件")
 public class TemplateFile {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -28,14 +29,17 @@ public class TemplateFile {
 	 */
 	@ApiModelProperty(value = "文件路径")
 	private String filePath;
+
 	/**
 	 * 模板内容
 	 */
 	@ApiModelProperty(value = "模板内容")
 	private String content;
+
 	/**
 	 * 模板引擎类型 1：velocity
 	 */
 	@ApiModelProperty(value = "模板引擎类型 1：velocity")
 	private Integer engineType;
+
 }

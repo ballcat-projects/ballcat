@@ -14,12 +14,13 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    /**
-     * Page Sql注入过滤
-     * @param argumentResolvers 方法参数解析器集合
-     */
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new SqlFilterArgumentResolver());
-    }
+	/**
+	 * Page Sql注入过滤
+	 * @param argumentResolvers 方法参数解析器集合
+	 */
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(new SqlFilterArgumentResolver());
+	}
+
 }

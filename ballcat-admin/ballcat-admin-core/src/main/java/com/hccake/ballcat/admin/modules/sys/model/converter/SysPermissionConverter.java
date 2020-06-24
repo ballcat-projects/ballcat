@@ -13,12 +13,13 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface SysPermissionConverter {
 
-    SysPermissionConverter INSTANCE = Mappers.getMapper(SysPermissionConverter.class);
+	SysPermissionConverter INSTANCE = Mappers.getMapper(SysPermissionConverter.class);
 
-    /**
-     * 转换permissionVO为Router
-     * @param permissionVO
-     * @return
-     */
-    Router toRouter(PermissionVO permissionVO);
+	/**
+	 * 转换permissionVO为Router
+	 * @param permissionVO
+	 * @return
+	 */
+	Router toRouter(PermissionVO permissionVO);
+
 }

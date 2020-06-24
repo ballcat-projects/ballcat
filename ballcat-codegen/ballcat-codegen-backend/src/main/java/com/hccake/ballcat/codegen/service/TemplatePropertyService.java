@@ -14,12 +14,12 @@ import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
  */
 public interface TemplatePropertyService extends IService<TemplateProperty> {
 
-    /**
-    *  根据QueryObeject查询分页数据
-    * @param page 分页参数
-    * @param qo 查询参数对象
-    * @return  分页数据
-    */
-    IPage<TemplatePropertyVO> selectPageVo(IPage<?> page, TemplatePropertyQO qo);
+	/**
+	 * 根据QueryObeject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return 分页数据
+	 */
+	IPage<TemplatePropertyVO> selectPageVo(IPage<?> page, TemplatePropertyQO qo);
 
 }

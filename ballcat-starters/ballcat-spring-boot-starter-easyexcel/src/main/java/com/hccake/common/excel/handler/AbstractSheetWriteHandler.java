@@ -1,6 +1,5 @@
 package com.hccake.common.excel.handler;
 
-
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.converters.Converter;
@@ -23,7 +22,6 @@ import java.util.List;
 
 /**
  * @author lengleng
- *
  * @date 2020/3/31
  */
 public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
@@ -45,7 +43,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
 		if (support(o)) {
 			check(responseExcel);
 			String name = ExcelNameContextHolder.get();
-			String fileName = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue());
+			String fileName = String.format("%s%s", URLEncoder.encode(name, "UTF-8"),
+					responseExcel.suffix().getValue());
 			response.setContentType("application/vnd.ms-excel");
 			response.setCharacterEncoding("utf-8");
 			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileName);
@@ -53,20 +52,19 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
 		}
 	}
 
-
 	/**
 	 * 通用的获取ExcelWriter方法
-	 * @param response  HttpServletResponse
+	 * @param response HttpServletResponse
 	 * @param responseExcel ResponseExcel注解
-	 * @param list  Excel数据
+	 * @param list Excel数据
 	 * @param templatePath 模板地址
-	 * @return  ExcelWriter
+	 * @return ExcelWriter
 	 */
 	@SneakyThrows
-	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel, List list, String templatePath) {
-		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream(), list.get(0)
-				.getClass()).autoCloseStream(true).excelType(responseExcel.suffix()).inMemory(responseExcel.inMemory());
-
+	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel, List list,
+			String templatePath) {
+		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream(), list.get(0).getClass())
+				.autoCloseStream(true).excelType(responseExcel.suffix()).inMemory(responseExcel.inMemory());
 
 		if (StringUtils.hasText(responseExcel.password())) {
 			writerBuilder.password(responseExcel.password());
@@ -93,8 +91,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
 		}
 
 		if (StringUtils.hasText(responseExcel.template())) {
-			ClassPathResource classPathResource = new ClassPathResource(templatePath
-					+ File.separator + responseExcel.template());
+			ClassPathResource classPathResource = new ClassPathResource(
+					templatePath + File.separator + responseExcel.template());
 			InputStream inputStream = classPathResource.getInputStream();
 			writerBuilder.withTemplate(inputStream);
 		}

@@ -32,4 +32,5 @@ public class XxlJobAutoConfiguration {
 		xxlJobSpringExecutor.setAddress(executorProperties.getAddress());
 		return xxlJobSpringExecutor;
 	}
+
 }

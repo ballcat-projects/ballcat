@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
  * 访问日志
  *
@@ -24,37 +23,35 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/log/adminaccesslog" )
+@RequestMapping("/log/adminaccesslog")
 @Api(value = "adminaccesslog", tags = "访问日志管理")
 public class AdminAccessLogController {
-    private final AdminAccessLogService adminAccessLogService;
 
-    /**
-     * 分页查询
-     * @param page 分页对象
-     * @param adminAccessLog 访问日志
-     * @return
-     */
-    @ApiOperation(value = "分页查询", notes = "分页查询")
-    @GetMapping("/page" )
-    @PreAuthorize("@per.hasPermission('log:adminaccesslog:read')")
-    public R<IPage<AdminAccessLog>> getAccessLogApiPage(
-            Page<AdminAccessLog> page, AdminAccessLog adminAccessLog) {
-        return R.ok(adminAccessLogService.page(page, Wrappers.query(adminAccessLog)));
-    }
+	private final AdminAccessLogService adminAccessLogService;
 
+	/**
+	 * 分页查询
+	 * @param page 分页对象
+	 * @param adminAccessLog 访问日志
+	 * @return
+	 */
+	@ApiOperation(value = "分页查询", notes = "分页查询")
+	@GetMapping("/page")
+	@PreAuthorize("@per.hasPermission('log:adminaccesslog:read')")
+	public R<IPage<AdminAccessLog>> getAccessLogApiPage(Page<AdminAccessLog> page, AdminAccessLog adminAccessLog) {
+		return R.ok(adminAccessLogService.page(page, Wrappers.query(adminAccessLog)));
+	}
 
-    /**
-     * 通过id查询访问日志
-     * @param id id
-     * @return R
-     */
-    @ApiOperation(value = "通过id查询后台访问日志", notes = "通过id查询后台访问日志")
-    @GetMapping("/{id}")
-    @PreAuthorize("@per.hasPermission('log:adminaccesslog:read')")
-    public R<AdminAccessLog> getById(@PathVariable("id" ) Long id) {
-        return R.ok(adminAccessLogService.getById(id));
-    }
-
+	/**
+	 * 通过id查询访问日志
+	 * @param id id
+	 * @return R
+	 */
+	@ApiOperation(value = "通过id查询后台访问日志", notes = "通过id查询后台访问日志")
+	@GetMapping("/{id}")
+	@PreAuthorize("@per.hasPermission('log:adminaccesslog:read')")
+	public R<AdminAccessLog> getById(@PathVariable("id") Long id) {
+		return R.ok(adminAccessLogService.getById(id));
+	}
 
 }

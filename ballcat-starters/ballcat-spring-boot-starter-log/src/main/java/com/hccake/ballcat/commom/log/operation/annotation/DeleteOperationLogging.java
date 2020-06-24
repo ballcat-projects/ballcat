@@ -16,10 +16,11 @@ import java.lang.annotation.*;
 @OperationLogging(type = OperationTypeEnum.DELETE)
 public @interface DeleteOperationLogging {
 
-    /**
-     * 日志信息
-     * @return 日志描述信息
-     */
-    @AliasFor(annotation = OperationLogging.class)
-    String msg();
+	/**
+	 * 日志信息
+	 * @return 日志描述信息
+	 */
+	@AliasFor(annotation = OperationLogging.class)
+	String msg();
+
 }

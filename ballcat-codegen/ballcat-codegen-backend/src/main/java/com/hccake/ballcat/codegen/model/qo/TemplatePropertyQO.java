@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 @ApiModel(value = "模板属性配置查询对象")
 public class TemplatePropertyQO {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -21,10 +22,10 @@ public class TemplatePropertyQO {
 	@ApiModelProperty(value = "ID")
 	private Integer id;
 
-
 	/**
 	 * 模板组ID
 	 */
 	@ApiModelProperty(value = "模板组ID")
 	private Integer groupId;
+
 }

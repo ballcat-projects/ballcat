@@ -12,14 +12,15 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum BooleanEnum {
 
-    /**
-     * 是
-     */
-    TRUE(1),
-    /**
-     * 否
-     */
-    FALSE(0);
+	/**
+	 * 是
+	 */
+	TRUE(1),
+	/**
+	 * 否
+	 */
+	FALSE(0);
 
-    private final int value;
+	private final int value;
+
 }
