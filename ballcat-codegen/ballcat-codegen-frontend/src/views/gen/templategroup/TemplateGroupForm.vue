@@ -1,12 +1,6 @@
 <template>
   <div>
-    <split-pane
-      v-on:resize="resize"
-      :min-percent="minPercent"
-      :default-percent="defaultPercent"
-      split="vertical"
-      :style="splitPane"
-    >
+    <split-pane :min-percent="minPercent" :default-percent="defaultPercent" split="vertical" :style="splitPane">
       <template slot="paneL">
         <div class="treesetting-row" @contextmenu.prevent="onRightClickBox">
           <a-directory-tree
@@ -25,81 +19,69 @@
           >
           </a-directory-tree>
           <a-menu :style="menuStyle" v-if="menuVisible">
-            <a-menu-item key="1" :style="menuItemStyle" @click="renameModel">
-              <a-icon type="edit" />重命名
-            </a-menu-item>
-            <a-menu-item key="2" :style="menuItemStyle" @click="removeTree">
-              <a-icon type="delete" />
-              删除
-            </a-menu-item>
-            <a-menu-item key="3" :style="menuItemStyle" @click="createdDirectory" v-if="this.dataRef.type != 2">
-              <a-icon type="diff" />
-              新建文件夹
-            </a-menu-item>
-            <a-menu-item key="4" :style="menuItemStyle" @click="createdFile">
-              <a-icon type="file-add" />
-              新建文件
-            </a-menu-item>
-          </a-menu>
-          <!---->
-          <a-menu :style="menuStyle" v-if="menuVisibleFile">
-            <a-menu-item key="3" :style="menuItemStyle" @click="createdDirectory">
-              <a-icon type="diff" />
-              新建文件夹
-            </a-menu-item>
-            <a-menu-item key="4" :style="menuItemStyle" @click="createdFile">
-              <a-icon type="file-add" />
-              新建文件
-            </a-menu-item>
+            <template v-if="this.rightClickEntry">
+              <a-menu-item key="1" :style="menuItemStyle" @click="renameModel">
+                <a-icon type="edit" />重命名
+              </a-menu-item>
+              <a-menu-item key="2" :style="menuItemStyle" @click="removeEntry">
+                <a-icon type="delete" />
+                删除
+              </a-menu-item>
+            </template>
+            <template v-if="!this.rightClickEntry || this.rightClickEntry.type !== 2">
+              <a-menu-item key="3" :style="menuItemStyle" @click="createdEntry(1)">
+                <a-icon type="diff" />
+                新建文件夹
+              </a-menu-item>
+              <a-menu-item key="4" :style="menuItemStyle" @click="createdEntry(2)">
+                <a-icon type="file-add" />
+                新建文件
+              </a-menu-item>
+            </template>
           </a-menu>
         </div>
       </template>
       <template slot="paneR">
         <div style="position:relative">
           <div class="treesetting-row-leftbtn" @click="moveLeft" :style="leftbtnStyle">{{ leftHtml }}</div>
-          <a-form @submit="handleSubmit" :form="form">
-            <template v-if="updateData">
+          <a-form @submit="handleSubmit" :form="form" style="padding: 12px 12px 12px 0px">
+            <template v-if="!updateData">
               <a-form-item style="display: none">
-                <a-input v-decorator="['directoryEntryId']" />
+                <a-input v-decorator="['groupId']" />
               </a-form-item>
-              <a-form-item label="标题" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <a-input placeholder="标题" v-decorator="['title']" />
-              </a-form-item>
-              <a-form-item label="引擎" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <a-input placeholder="引擎 1：velocity" v-decorator="['engineType']" />
-              </a-form-item>
-              <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <a-textarea placeholder="备注" v-decorator="['remarks']" />
-              </a-form-item>
-              <a-form-item label="模板" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <codemirror v-model="code" :options="cmOptions" style="line-height: 1.5"></codemirror>
-              </a-form-item>
-            </template>
-            <template v-else>
               <a-form-item style="display: none">
                 <a-input v-decorator="['parentId']" />
               </a-form-item>
-              <a-form-item label="父文件:" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <span> {{ selectTitle || '根文件' }}</span>
+              <a-form-item style="display: none">
+                <a-input v-decorator="['type']" />
+              </a-form-item>
+              <a-form-item label="父目录:" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <span> {{ (rightClickEntry && rightClickEntry.fileName) || '根目录' }}</span>
               </a-form-item>
               <a-form-item label="文件名" :labelCol="labelCol" :wrapperCol="wrapperCol">
                 <a-input placeholder="请输入文件名" v-decorator="['fileName']" />
               </a-form-item>
+            </template>
 
-              <template v-if="fileType === 2">
-                <a-form-item label="标题" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                  <a-input placeholder="标题" v-decorator="['templateInfoDTO.title']" />
-                </a-form-item>
-                <a-form-item label="引擎" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                  <a-input placeholder="引擎 1：velocity" v-decorator="['templateInfoDTO.engineType']" />
-                </a-form-item>
-                <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                  <a-textarea placeholder="备注" v-decorator="['templateInfoDTO.remarks']" />
-                </a-form-item>
-                <a-form-item label="模板" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                  <codemirror v-model="code" :options="cmOptions" style="line-height: 1.5"></codemirror>
-                </a-form-item>
-              </template>
+            <template v-if="fromFileType === 2">
+              <a-form-item v-if="updateData" style="display: none">
+                <a-input v-decorator="updateData ? ['directoryEntryId'] : ['templateInfoDTO.directoryEntryId']" />
+              </a-form-item>
+              <a-form-item label="标题" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-input placeholder="标题" v-decorator="updateData ? ['title'] : ['templateInfoDTO.title']" />
+              </a-form-item>
+              <a-form-item label="引擎" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-input
+                  placeholder="引擎 1：velocity"
+                  v-decorator="updateData ? ['engineType'] : ['templateInfoDTO.engineType']"
+                />
+              </a-form-item>
+              <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-textarea placeholder="备注" v-decorator="updateData ? ['remarks'] : ['templateInfoDTO.remarks']" />
+              </a-form-item>
+              <a-form-item label="模板" :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <codemirror v-model="code" :options="cmOptions" style="line-height: 1.5"></codemirror>
+              </a-form-item>
             </template>
             <a-form-item :wrapperCol="{ offset: 3 }">
               <a-button htmlType="submit" type="primary" :loading="submitLoading">提交</a-button>
@@ -118,7 +100,7 @@
 import splitPane from 'vue-splitpane'
 import { getList, delObj, move } from '@/api/gen/templatedirectoryentry'
 import { listToTree } from '@/utils/treeUtil'
-import { FormPageMixin } from '@/mixins'
+import { FormMixin } from '@/mixins'
 import { putObj, getObj } from '@/api/gen/templateinfo'
 import { addObj } from '@/api/gen/templatedirectoryentry'
 // codemirror
@@ -131,12 +113,13 @@ import renameModel from './TemplateGroupRenameModel.vue'
 import removeModel from './TemplateGroupRemoveTree.vue'
 export default {
   name: 'TemplateDirectoryEntryPage',
-  //mixins: [TablePageMixin],
-  mixins: [FormPageMixin],
+  mixins: [FormMixin],
   components: { codemirror, renameModel, removeModel, splitPane },
+  props: {
+    templateGroupId: Number
+  },
   data() {
     return {
-      templateGroupId: '',
       defaultPercent: 30,
       minPercent: 15,
       heightClient: 0,
@@ -146,13 +129,11 @@ export default {
       autoExpandParent: true,
       checkedKeys: [],
       selectedKeys: [],
-      selectTitle: '',
-      dataRef: null,
+      rightClickEntry: null,
       treeData: [],
       menuVisible: false,
-      menuVisibleFile: false,
-      fileType: 1,
       updateData: true,
+      fromFileType: 0,
       menuItemStyle: {
         height: '31px',
         lineHeight: '31px',
@@ -194,12 +175,8 @@ export default {
       }
     }
   },
-  watch: {
-    templateGroupId() {
-      this.pageLoad(true)
-    }
-  },
   created() {
+    this.pageLoad(true)
     this.heightClient = document.documentElement.clientHeight || document.body.clientHeight
     this.heightClient = this.heightClient - 210
     this.splitPane.height = this.heightClient + 'px'
@@ -211,22 +188,36 @@ export default {
           treeNode.isLeaf = item.type === 2
           treeNode.title = item.fileName
         })
+        // 只在第一次加载时默认展开第一级的文件，防止用户提交表单后tree被折叠
         firstInit && (this.expandedKeys = this.treeData.map(item => item.id))
       })
     },
     onRightClick(e) {
       const event = e.event
-      this.dataRef = e.node.dataRef
-      this.selectedKeys = [e.node.dataRef.id]
-      this.selectTitle = e.node.dataRef.title
+      const dataRef = e.node.dataRef
+      this.rightClickEntry = dataRef
+      this.selectedKeys = [dataRef.id]
+
+      // 防止冒泡
+      event.cancelBubble = true
+
+      this.menuVisible = true
       this.menuStyle.top = event.clientY + 'px'
       this.menuStyle.left = event.clientX + 'px'
+      document.body.addEventListener('click', this.bodyClick)
+    },
+    onRightClickBox(event) {
+      // 清空选中数据
+      this.rightClickEntry = null
+      this.selectedKeys = []
+
       this.menuVisible = true
+      this.menuStyle.top = event.clientY + 'px'
+      this.menuStyle.left = event.clientX + 'px'
       document.body.addEventListener('click', this.bodyClick)
     },
     bodyClick() {
       this.menuVisible = false
-      this.menuVisibleFile = false
       document.body.removeEventListener('click', this.bodyClick)
     },
     ondblclick(e, node) {
@@ -237,8 +228,13 @@ export default {
       }
       // 加载详情信息
       this.updateData = true
+      this.rightClickEntry = entry
+      this.fromFileType = entry.type
+
       getObj(entry.id).then(res => {
-        this.buildUpdatedForm(res.data)
+        const templateInfo = res.data
+        this.code = templateInfo.content || ''
+        this.buildUpdatedForm(templateInfo)
       })
     },
     onExpand(expandedKeys) {
@@ -277,48 +273,62 @@ export default {
           this.$message.error(error.message)
         })
     },
-    echoDataProcess(data) {
-      this.code = data.content || ''
-      this.templateGroupId = data.id
-    },
+    /**
+     * 表单提交前更新formAction，用于切换请求方法
+     */
     beforeStartSubmit() {
       this.formAction = this.updateData ? this.FORM_ACTION.UPDATE : this.FORM_ACTION.CREATE
     },
+    /**
+     * 表单提交时的数据处理
+     */
     submitDataProcess(data) {
-      if (!this.updateData) {
-        // 文件
-        data['groupId'] = this.templateGroupId
-        data['parentId'] = this.selectedKeys[0] || 0
-        data['type'] = this.fileType
-        this.fileType === 2 && (data.templateInfoDTO['content'] = this.code)
-      } else {
-        data['directoryEntryId'] = this.selectedKeys[0]
+      if (this.updateData) {
         data.content = this.code
+      } else if (data.type === 2) {
+        data.templateInfoDTO.content = this.code
       }
       return data
+    },
+    /**
+     * 表单提交后进行重新load（不更新展开的文件）
+     */
+    submitSuccess() {
+      this.pageLoad()
     },
     backToPage(needRefresh) {
       this.$emit('backToPage', needRefresh)
     },
-    submitSuccess() {
-      this.pageLoad(true)
-    },
+    /**
+     * 重命名
+     */
     renameModel() {
-      this.$refs.renameModel.update({ title: this.selectTitle, id: this.selectedKeys[0] })
+      this.$refs.renameModel.update({ title: this.rightClickEntry.fileName, id: this.selectedKeys[0] })
     },
-    removeTree() {
-      /*删除树节点*/
-      this.$refs.removeModel.update(this.dataRef)
+    /**
+     * 删除
+     */
+    removeEntry() {
+      this.$refs.removeModel.update(this.rightClickEntry)
     },
-    createdDirectory() {
+    /**
+     * 新建
+     * @param fileType 文件类型
+     */
+    createdEntry(fileType) {
+      this.code = ''
       this.updateData = false
-      this.fileType = 1
+      this.fromFileType = fileType
+      setTimeout(() => {
+        this.$nextTick(function() {
+          this.form.setFieldsValue({
+            groupId: this.templateGroupId,
+            parentId: this.rightClickEntry.id,
+            type: fileType
+          })
+        })
+      })
     },
-    createdFile() {
-      this.updateData = false
-      this.fileType = 2
-    },
-    resize() {},
     moveLeft() {
       if (this.defaultPercent !== 0) {
         this.minPercent = 0
@@ -331,18 +341,6 @@ export default {
         this.minPercent = 15
         this.defaultPercent = 30
       }
-    },
-    onRightClickBox(event) {
-      if (!this.menuVisible) {
-        this.menuStyle.top = event.clientY + 'px'
-        this.menuStyle.left = event.clientX + 'px'
-        this.menuVisibleFile = true
-        this.selectedKeys = []
-        this.selectTitle = ''
-        document.body.addEventListener('click', this.bodyClick)
-      } else {
-        this.menuVisibleFile = false
-      }
     }
   }
 }
@@ -352,12 +350,11 @@ export default {
   margin-bottom: 8px;
 }
 .treesetting-row {
+  padding: 10px;
   overflow: auto;
-  overflow-x: scroll;
   height: 100%;
   border: none;
   position: relative;
-  border-right: 2px solid #ededed;
   box-sizing: border-box;
 }
 .treesetting-row-leftbtn {
@@ -379,8 +376,8 @@ export default {
 }
 .treesetting-row::-webkit-scrollbar {
   /*滚动条整体样式*/
-  width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
-  height: 1px;
+  width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 6px;
 }
 .treesetting-row::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
