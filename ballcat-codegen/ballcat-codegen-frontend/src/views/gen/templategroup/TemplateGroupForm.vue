@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-row :gutter="10">
-      <a-col class="gutter-row" :span="9">
+      <a-col class="gutter-row treesetting-row" :span="9">
         <a-directory-tree
           v-model="checkedKeys"
           :expanded-keys="expandedKeys"
@@ -18,18 +18,15 @@
         >
         </a-directory-tree>
         <a-menu :style="menuStyle" v-if="menuVisible">
-          <a-menu-item key="1">
-            <a-icon type="edit" />
-            重命名
-          </a-menu-item>
-          <a-menu-item key="2">
+          <a-menu-item key="1" :style="menuItemStyle" @click="renameModel"> <a-icon type="edit" />重命名 </a-menu-item>
+          <a-menu-item key="2" :style="menuItemStyle" @click="removeTree">
             <a-icon type="delete" />
             删除
           </a-menu-item>
-          <a-menu-item key="3">
+          <!-- <a-menu-item key="3" :style="menuItemStyle">
             <a-icon type="form" />
             编辑
-          </a-menu-item>
+          </a-menu-item>-->
         </a-menu>
       </a-col>
       <a-col class="gutter-row" :span="15">
@@ -61,6 +58,8 @@
         </a-form>
       </a-col>
     </a-row>
+    <rename-model ref="renameModel"></rename-model>
+    <remove-model ref="removeModel"></remove-model>
   </div>
 </template>
 
@@ -76,12 +75,13 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/dracula.css'
 import 'codemirror/mode/velocity/velocity.js'
 //import { TablePageMixin } from '@/mixins'
-
+import renameModel from './TemplateGroupRenameModel.vue'
+import removeModel from './TemplateGroupRemoveTree.vue'
 export default {
   name: 'TemplateDirectoryEntryPage',
   //mixins: [TablePageMixin],
   mixins: [FormMixin],
-  components: { codemirror },
+  components: { codemirror, renameModel, removeModel },
   data() {
     return {
       delObj: delObj,
@@ -89,9 +89,22 @@ export default {
       autoExpandParent: true,
       checkedKeys: [],
       selectedKeys: [],
+      selectTitle: '',
+      dataRef: null,
       treeData: [],
       menuVisible: false,
+      menuItemStyle: {
+        height: '31px',
+        lineHeight: '31px',
+        fontSize: '13px',
+        marginBottom: '0'
+      },
       menuStyle: {
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.12), 0 0 2px rgba(0, 0, 0, 0.04)',
+        borderRadius: '2px',
+        fontFamily: 'arial',
+        zIndex: 999,
+        padding: '2px 0 8px 0',
         position: 'fixed',
         top: '0',
         left: '0',
@@ -131,7 +144,9 @@ export default {
     },
     onRightClick(e) {
       const event = e.event
+      this.dataRef = e.node.dataRef
       this.selectedKeys = [e.node.dataRef.id]
+      this.selectTitle = e.node.dataRef.title
       this.menuStyle.top = event.clientY + 'px'
       this.menuStyle.left = event.clientX + 'px'
       this.menuVisible = true
@@ -198,6 +213,13 @@ export default {
     },
     backToPage(needRefresh) {
       this.$emit('backToPage', needRefresh)
+    },
+    renameModel() {
+      this.$refs.renameModel.update({ title: this.selectTitle, id: this.selectedKeys[0] })
+    },
+    removeTree() {
+      /*删除树节点*/
+      this.$refs.removeModel.update(this.dataRef)
     }
   }
 }
@@ -205,5 +227,27 @@ export default {
 <style scoped>
 .ant-form-item {
   margin-bottom: 8px;
+}
+.treesetting-row {
+  overflow: auto;
+  height: 540px;
+  border: none;
+}
+.treesetting-row::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+.treesetting-row::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 8px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #969696;
+}
+.treesetting-row::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: #ededed;
 }
 </style>

@@ -15,10 +15,11 @@ export function addObj(obj) {
   })
 }
 
-export function delObj(id) {
+export function delObj(id, mode) {
   return axios({
     url: '/gen/template/directory-entry/' + id,
-    method: 'delete'
+    method: 'delete',
+    params: { mode: mode }
   })
 }
 
