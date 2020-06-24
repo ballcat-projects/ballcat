@@ -33,9 +33,6 @@ export default {
     },
     handleOk() {
       // 钩子函数 处理提交之前处理的事件
-      if (!this.form.getFieldValue('title')) {
-        return
-      }
       delObj(this.id, this.form.getFieldValue('mode'))
         .then(res => {
           if (res.code === 200) {
