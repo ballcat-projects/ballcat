@@ -38,6 +38,7 @@ export default {
       let that = this
       that.formAction = that.FORM_ACTION.UPDATE
       that.echoDataProcess(record)
+
       // 延迟加载 避免隐藏展示元素时出现的bug
       setTimeout(() => {
         // 获取仅展示元素
