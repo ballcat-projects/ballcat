@@ -37,7 +37,7 @@ export default {
     buildUpdatedForm(record, argument) {
       let that = this
       that.formAction = that.FORM_ACTION.UPDATE
-      record = that.echoDataProcess(record)
+      that.echoDataProcess(record)
       // 延迟加载 避免隐藏展示元素时出现的bug
       setTimeout(() => {
         // 获取仅展示元素
