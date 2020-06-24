@@ -8,13 +8,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.codegen.constant.DirectoryEntryTypeEnum;
 import com.hccake.ballcat.codegen.mapper.TemplateDirectoryEntryMapper;
-import com.hccake.ballcat.codegen.model.converter.TemplateDirectoryEntryConverter;
+import com.hccake.ballcat.codegen.model.converter.TemplateModelConverter;
 import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
+import com.hccake.ballcat.codegen.model.dto.TemplateInfoDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
+import com.hccake.ballcat.codegen.model.entity.TemplateInfo;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectory;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;
 import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
 import com.hccake.ballcat.codegen.service.TemplateInfoService;
+import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.util.TreeUtil;
@@ -49,7 +52,7 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 				.eq(TemplateDirectoryEntry::getGroupId, templateGroupId);
 		List<TemplateDirectoryEntry> templateDirectoryEntries = baseMapper.selectList(wrapper);
 		return templateDirectoryEntries.stream()
-				.map(TemplateDirectoryEntryConverter.INSTANCE::poToVo)
+				.map(TemplateModelConverter.INSTANCE::entryPoToVo)
 				.collect(Collectors.toList());
 	}
 
@@ -95,13 +98,28 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 	 * @param entryId 目录项ID
 	 * @param name    文件名
 	 */
-	private void duplicateNameCheck(Integer entryId, String name) {
+	@Override
+	public void duplicateNameCheck(Integer entryId, String name) {
 		Integer count = baseMapper.selectCount(Wrappers.<TemplateDirectoryEntry>lambdaQuery()
 				.eq(TemplateDirectoryEntry::getParentId, entryId)
 				.eq(TemplateDirectoryEntry::getFileName, name));
 		boolean notExist = count == null || count == 0;
 		Assert.isTrue(notExist, "The entry with the same name already exists");
 	}
+
+
+	/**
+	 * 判断目录项是否存在
+	 * @param entryId 目录项ID
+	 * @return boolean 存在：true
+	 */
+	@Override
+	public boolean exists(Integer entryId) {
+		Integer count = baseMapper.selectCount(Wrappers.<TemplateDirectoryEntry>lambdaQuery()
+				.eq(TemplateDirectoryEntry::getId, entryId));
+		return count != null && count != 0;
+	}
+
 
 	/**
 	 * 重命名目录项
@@ -123,6 +141,7 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 		entity.setFileName(name);
 		return SqlHelper.retBool(baseMapper.updateById(entity));
 	}
+
 
 	/**
 	 * 删除目录项
@@ -149,7 +168,7 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 				// 1. 获取所有目录项（目录项不会太多，一次查询比较方便）
 				List<TemplateDirectoryEntry> entryList = baseMapper.selectList(Wrappers.emptyWrapper());
 				// 2. 获取当前删除目录项的孩子节点列表
-				List<TemplateDirectory> treeList = TreeUtil.buildTree(entryList, entryId, TemplateDirectoryEntryConverter.INSTANCE::poToTree);
+				List<TemplateDirectory> treeList = TreeUtil.buildTree(entryList, entryId, TemplateModelConverter.INSTANCE::entryPoToTree);
 				// 3. 获取当前删除目录项的孩子节点Id
 				List<Integer> treeNodeIds = TreeUtil.getTreeNodeIds(treeList);
 				// 4. 删除所有孩子节点
@@ -165,7 +184,6 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 			// 关联文件信息删除
 			templateInfoService.removeById(entryId);
 		}
-
 		// 删除自身
 		return SqlHelper.retBool(baseMapper.deleteById(entryId));
 	}
@@ -177,18 +195,27 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 	 * @return boolean 成功：true
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean createEntry(TemplateDirectoryCreateDTO entryDTO) {
 		// 校验父级节点是否有效
 		Integer parentId = entryDTO.getParentId();
-		TemplateDirectoryEntry entry = baseMapper.selectById(parentId);
-		Assert.notNull(entry, "This is a nonexistent parent directory entry!");
+		Assert.isTrue(this.exists(parentId), "This is a nonexistent parent directory entry!");
 		// 重名校验
 		this.duplicateNameCheck(parentId, entryDTO.getFileName());
 		// 转持久层对象
-		TemplateDirectoryEntry entity = TemplateDirectoryEntryConverter.INSTANCE.createDtoToVo(entryDTO);
+		TemplateDirectoryEntry entity = TemplateModelConverter.INSTANCE.entryCreateDtoToPo(entryDTO);
+		entity.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
 		// 落库
-		return SqlHelper.retBool(baseMapper.insert(entity));
+		baseMapper.insert(entity);
+		// 如果是文件，需要同步存储info
+		if(DirectoryEntryTypeEnum.FILE.getType().equals(entity.getType())){
+			TemplateInfoDTO templateInfoDTO = entryDTO.getTemplateInfoDTO();
+			TemplateInfo templateInfo = TemplateModelConverter.INSTANCE.infoDtoToPo(templateInfoDTO);
+			templateInfo.setDirectoryEntryId(entity.getId());
+			templateInfo.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
+			templateInfoService.save(templateInfo);
+		}
+		return true;
 	}
-
 
 }

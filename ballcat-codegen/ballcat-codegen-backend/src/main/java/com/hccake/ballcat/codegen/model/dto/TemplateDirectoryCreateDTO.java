@@ -35,4 +35,10 @@ public class TemplateDirectoryCreateDTO {
 	 */
 	@ApiModelProperty(value = "父级Id")
 	private Integer parentId;
+	/**
+	 * 模板详情信息
+	 */
+	@ApiModelProperty(value = "模板信息")
+	private TemplateInfoDTO templateInfoDTO;
+
 }

@@ -2,14 +2,14 @@ package com.hccake.ballcat.codegen.service.impl;
 
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.hccake.ballcat.codegen.manager.TemplateManager;
 import com.hccake.ballcat.codegen.model.bo.TemplateFile;
+import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
 import com.hccake.ballcat.codegen.model.vo.ColumnInfo;
 import com.hccake.ballcat.codegen.model.vo.TableInfo;
 import com.hccake.ballcat.codegen.service.GeneratorService;
 import com.hccake.ballcat.codegen.service.TableInfoService;
+import com.hccake.ballcat.codegen.service.TemplateGroupService;
 import com.hccake.ballcat.codegen.util.GenUtils;
-import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ import java.util.zip.ZipOutputStream;
 @DS("#header.dsName")
 public class GeneratorServiceImpl implements GeneratorService {
 	private final TableInfoService tableInfoService;
-	private final TemplateManager templateManager;
+	private final TemplateGroupService templateGroupService;
 
 	/**
 	 * 生成代码
@@ -40,7 +40,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
 
-		List<TemplateFile> templateFiles = templateManager.findTemplateFiles(generatorOptionDTO.getTemplateGroupId());
+		List<TemplateFile> templateFiles = templateGroupService.findTemplateFiles(generatorOptionDTO.getTemplateGroupId());
 
 		for (String tableName : generatorOptionDTO.getTableNames()) {
 			//查询表信息
