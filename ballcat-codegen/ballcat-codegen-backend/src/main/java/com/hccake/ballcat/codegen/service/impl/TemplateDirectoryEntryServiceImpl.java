@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.codegen.constant.DirectoryEntryRemoveModeEnum;
 import com.hccake.ballcat.codegen.constant.DirectoryEntryTypeEnum;
 import com.hccake.ballcat.codegen.mapper.TemplateDirectoryEntryMapper;
 import com.hccake.ballcat.codegen.model.converter.TemplateModelConverter;
@@ -158,12 +159,12 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 
 		// 如果是文件夹类型，则根据删除模式进行子节点删除或上移操作
 		if (DirectoryEntryTypeEnum.FOLDER.getType().equals(entry.getType())) {
-			if (mode == 1) {
+			if (DirectoryEntryRemoveModeEnum.RESERVED_CHILD_NODE.getType().equals(mode)) {
 				// 子节点上移
 				baseMapper.update(null, Wrappers.<TemplateDirectoryEntry>lambdaUpdate()
 						.set(TemplateDirectoryEntry::getParentId, entry.getParentId())
 						.eq(TemplateDirectoryEntry::getParentId, entryId));
-			} else if (mode == 2) {
+			} else if (DirectoryEntryRemoveModeEnum.REMOVE_CHILD_NODE.getType().equals(mode)) {
 				// ==========删除所有子节点=============
 				// 1. 获取所有目录项（目录项不会太多，一次查询比较方便）
 				List<TemplateDirectoryEntry> entryList = baseMapper.selectList(Wrappers.emptyWrapper());
@@ -197,9 +198,9 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean createEntry(TemplateDirectoryCreateDTO entryDTO) {
-		// 校验父级节点是否有效
+		// 若父节点不是根，则校验父级节点是否有效
 		Integer parentId = entryDTO.getParentId();
-		Assert.isTrue(this.exists(parentId), "This is a nonexistent parent directory entry!");
+		Assert.isTrue(GlobalConstants.TREE_ROOT_ID.equals(parentId) || this.exists(parentId), "This is a nonexistent parent directory entry!");
 		// 重名校验
 		this.duplicateNameCheck(parentId, entryDTO.getFileName());
 		// 转持久层对象

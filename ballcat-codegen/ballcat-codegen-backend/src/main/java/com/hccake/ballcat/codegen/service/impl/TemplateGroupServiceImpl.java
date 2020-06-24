@@ -19,6 +19,7 @@ import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
 import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
 import com.hccake.ballcat.codegen.service.TemplateGroupService;
 import com.hccake.ballcat.codegen.service.TemplateInfoService;
+import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.util.TreeUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -68,7 +69,7 @@ public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, T
 				.eq(TemplateDirectoryEntry::getGroupId, groupId));
 		// 转树形目录结构
 		List<TemplateDirectory> treeList =
-				TreeUtil.buildTree(list, 0, TemplateModelConverter.INSTANCE::entryPoToTree);
+				TreeUtil.buildTree(list, GlobalConstants.TREE_ROOT_ID, TemplateModelConverter.INSTANCE::entryPoToTree);
 
 		// 填充模板文件
 		List<TemplateFile> templateFiles = new ArrayList<>();
