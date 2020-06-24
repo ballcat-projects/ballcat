@@ -2,9 +2,12 @@ package com.hccake.ballcat.codegen.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
+
+import java.util.List;
 
 /**
  * 模板组
@@ -22,4 +25,11 @@ public interface TemplateGroupService extends IService<TemplateGroup> {
     */
     IPage<TemplateGroupVO> selectPageVo(IPage<?> page, TemplateGroupQO qo);
 
+	/**
+	 * 查找指定模板组下所有的模板文件
+	 *
+	 * @param groupId 模板组ID
+	 * @return List<TemplateFile>
+	 */
+	List<TemplateFile> findTemplateFiles(Integer groupId);
 }

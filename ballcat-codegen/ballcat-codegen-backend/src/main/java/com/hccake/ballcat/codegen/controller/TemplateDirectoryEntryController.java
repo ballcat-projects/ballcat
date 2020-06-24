@@ -41,44 +41,6 @@ public class TemplateDirectoryEntryController {
 
 
 	/**
-	 * 新增模板文件目录项
-	 *
-	 * @param templateDirectoryCreateDTO 模板文件目录项
-	 * @return R
-	 */
-	@ApiOperation(value = "新增模板文件目录项", notes = "新增模板文件目录项")
-	// @CreateOperationLogging(msg = "新增模板文件目录项" )
-	@PostMapping
-	//@PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:add')" )
-	public R save(@RequestBody TemplateDirectoryCreateDTO templateDirectoryCreateDTO) {
-
-		return templateDirectoryEntryService.createEntry(templateDirectoryCreateDTO) ?
-				R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增模板文件目录项失败");
-	}
-
-
-	/**
-	 * 通过id删除模板文件目录项
-	 *
-	 * @param id id
-	 * @param mode 删除模式，
-	 *             1：只删除本身，将子节点上移
-	 *             2. 删除自身及其所有子节点
-	 *
-	 * @return R
-	 */
-	@ApiOperation(value = "通过id删除模板文件目录项", notes = "通过id删除模板文件目录项")
-	//@DeleteOperationLogging(msg = "通过id删除模板文件目录项" )
-	@DeleteMapping("/{id}")
-	//@PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:del')" )
-	public R removeById(@PathVariable Integer id,
-						@RequestParam Integer mode) {
-		return templateDirectoryEntryService.removeEntry(id, mode) ?
-				R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除模板文件目录项失败");
-	}
-
-
-	/**
 	 * 移动目录项
 	 * @param entryId  被移动的目录项ID
 	 * @param horizontalMove 是否移动到目标目录平级，否则移动到其内部
@@ -108,6 +70,44 @@ public class TemplateDirectoryEntryController {
 	public R<?> rename(@PathVariable Integer entryId, @RequestParam String name) {
 		return templateDirectoryEntryService.rename(entryId, name)?
 				R.ok(): R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "重命名目录项");
+	}
+
+
+	/**
+	 * 新增模板文件目录项
+	 *
+	 * @param templateDirectoryCreateDTO 模板文件目录项
+	 * @return R
+	 */
+	@ApiOperation(value = "新增模板文件目录项", notes = "新增模板文件目录项")
+	// @CreateOperationLogging(msg = "新增模板文件目录项" )
+	@PostMapping
+	//@PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:add')" )
+	public R<?> save(@RequestBody TemplateDirectoryCreateDTO templateDirectoryCreateDTO) {
+
+		return templateDirectoryEntryService.createEntry(templateDirectoryCreateDTO) ?
+				R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增模板文件目录项失败");
+	}
+
+
+	/**
+	 * 通过id删除模板文件目录项
+	 *
+	 * @param id id
+	 * @param mode 删除模式，
+	 *             1：只删除本身，将子节点上移
+	 *             2. 删除自身及其所有子节点
+	 *
+	 * @return R
+	 */
+	@ApiOperation(value = "通过id删除模板文件目录项", notes = "通过id删除模板文件目录项")
+	//@DeleteOperationLogging(msg = "通过id删除模板文件目录项" )
+	@DeleteMapping("/{id}")
+	//@PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:del')" )
+	public R<?> removeById(@PathVariable Integer id,
+						@RequestParam Integer mode) {
+		return templateDirectoryEntryService.removeEntry(id, mode) ?
+				R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除模板文件目录项失败");
 	}
 
 }
