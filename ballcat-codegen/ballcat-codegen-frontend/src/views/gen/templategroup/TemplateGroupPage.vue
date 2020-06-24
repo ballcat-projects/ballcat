@@ -49,7 +49,7 @@
         >
           <span slot="action-slot" slot-scope="text, record">
             <template>
-              <a @click="handleEdit(record, '模板编辑')">模板编辑</a>
+              <a @click="handleEdit(record, '编辑模板组 - ' + record.name)">模板编辑</a>
               <a-divider type="vertical" />
               <a @click="handleShowItem(record)">属性配置</a>
               <a-divider type="vertical" />
@@ -63,8 +63,8 @@
     </a-card>
 
     <!--表单页面-->
-    <a-card v-if="formInited" :bordered="false" :title="cardTitle" v-show="!tableShow">
-      <form-page ref="formPage" @backToPage="backToPage"></form-page>
+    <a-card v-if="formInited" size="small" :bodyStyle="{ padding: '0px' }" :title="cardTitle" v-show="!tableShow">
+      <form-page ref="formPage" :templateGroupId="templateGroupId" @backToPage="backToPage"></form-page>
     </a-card>
 
     <!--字典项-->
@@ -118,13 +118,16 @@ export default {
         }
       ],
 
-      itemModalInited: false
+      itemModalInited: false,
+      templateGroupId: null
     }
   },
-  mounted() {
-    console.log(this.$router.options.routes)
-  },
   methods: {
+    handleEdit(record, title) {
+      this.switchPage()
+      this.cardTitle = title || '修改'
+      this.templateGroupId = record.id
+    },
     handleShowItem(record) {
       if (!this.itemModalInited) {
         this.itemModalInited = true
