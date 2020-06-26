@@ -6,15 +6,14 @@ import lombok.experimental.UtilityClass;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
- * @author Hccake
+ * @author Hccake 2020/6/21 17:21
  * @version 1.0
- * @date 2020/6/21 17:21
  */
 @UtilityClass
 public class TreeUtil {
@@ -42,47 +41,32 @@ public class TreeUtil {
 	 * @return 树列表
 	 */
 	public <T extends TreeNode<I>, I, R> List<T> buildTree(List<R> list, I rootId, Function<R, T> convertToTree) {
+		// 根据 parentId 进行分组
+		Map<I, List<T>> childrenMap = list.stream().map(convertToTree).collect(Collectors.groupingBy(T::getParentId));
 
-		List<T> roots = new ArrayList<>();
-		for (Iterator<R> ite = list.iterator(); ite.hasNext();) {
-			T node = convertToTree.apply(ite.next());
-			if (Objects.equals(rootId, node.getParentId())) {
-				roots.add(node);
-				ite.remove();
-			}
-		}
-
-		roots.forEach(r -> {
-			TreeUtil.setChildren(r, list, convertToTree);
-		});
-		return roots;
+		// 根据根节点ID拿到一级节点
+		List<T> treeList = childrenMap.get(rootId);
+		// 遍历所有一级节点，赋值其子节点
+		treeList.forEach(node -> TreeUtil.setChildren(node, childrenMap));
+		return treeList;
 	}
 
 	/**
 	 * 从所有节点列表中查找并设置parent的所有子节点
 	 * @param parent 父节点
-	 * @param nodes 所有树节点列表
+	 * @param childrenMap 子节点集合Map(k: parentId, v: Node)
 	 */
-	public <T extends TreeNode<I>, I, R> void setChildren(T parent, List<R> nodes, Function<R, T> convertToTree) {
-		List<T> children = new ArrayList<>();
-		Object parentId = parent.getId();
-		for (Iterator<R> ite = nodes.iterator(); ite.hasNext();) {
-			T node = convertToTree.apply(ite.next());
-			if (Objects.equals(node.getParentId(), parentId)) {
-				children.add(node);
-				ite.remove();
-			}
+	public <T extends TreeNode<I>, I, R> void setChildren(T parent, Map<I, List<T>> childrenMap) {
+		I parentId = parent.getId();
+		List<T> children = childrenMap.get(parentId);
+		// 如果有孩子节点则赋值，且给孩子节点的孩子节点赋值
+		if (CollectionUtil.isNotEmpty(children)) {
+			parent.setChildren(children);
+			children.forEach(node -> TreeUtil.setChildren(node, childrenMap));
 		}
-
-		// 如果孩子为空，则直接返回,否则继续递归设置孩子的孩子
-		if (children.isEmpty()) {
-			return;
+		else {
+			parent.setChildren(new ArrayList<>());
 		}
-		parent.setChildren(children);
-		children.forEach(m -> {
-			// 递归设置子节点
-			setChildren(m, nodes, convertToTree);
-		});
 	}
 
 	/**
