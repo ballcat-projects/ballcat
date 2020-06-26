@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * 角色表
  * </p>
  *
- * @author
+ * @author ballcat
  * @since 2017-10-29
  */
 @Data
@@ -40,6 +40,9 @@ public class SysRole extends Model<SysRole> {
 
 	@ApiModelProperty(value = "角色备注")
 	private String note;
+
+	@ApiModelProperty("角色是否为系统角色")
+	private boolean system;
 
 	/**
 	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
