@@ -23,8 +23,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
 	/**
 	 * 返回用户的select数据 name=> username value => userId
+	 * @param type
 	 * @return List<SelectData>
 	 */
-	List<SelectData> getSelectData(@Param("type") Integer type);
+	List<SelectData<?>> getSelectData(@Param("type") Integer type);
 
 }
