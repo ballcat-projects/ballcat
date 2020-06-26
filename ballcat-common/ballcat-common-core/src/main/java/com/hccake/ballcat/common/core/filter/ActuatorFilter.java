@@ -77,7 +77,7 @@ public class ActuatorFilter extends OncePerRequestFilter {
 	 */
 	private boolean verifySign(String reqSecretId, String sign, String reqTime) {
 		if (StrUtil.isNotBlank(sign) && StrUtil.isNotBlank(reqTime) && StrUtil.isNotBlank(reqSecretId)) {
-			if (!reqSecretId.equals(secretId)) {
+			if (!reqSecretId.equals(this.secretId)) {
 				return false;
 			}
 			// 过期时间 30秒失效
@@ -85,7 +85,7 @@ public class ActuatorFilter extends OncePerRequestFilter {
 			long nowTime = System.currentTimeMillis();
 			if (nowTime - Long.parseLong(reqTime) <= expireTime) {
 				String reverse = StrUtil.reverse(reqTime);
-				String checkSign = SecureUtil.md5(reverse + secretId + secretKey);
+				String checkSign = SecureUtil.md5(reverse + this.secretId + this.secretKey);
 				return StrUtil.equalsIgnoreCase(checkSign, sign);
 			}
 		}
