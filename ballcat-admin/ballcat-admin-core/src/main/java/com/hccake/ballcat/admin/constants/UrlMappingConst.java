@@ -7,9 +7,9 @@ package com.hccake.ballcat.admin.constants;
  */
 public final class UrlMappingConst {
 
+	public static final String OAUTH_LOGIN = "/oauth/token";
+
 	private UrlMappingConst() {
 	}
-
-	public static final String OAUTH_LOGIN = "/oauth/token";
 
 }

@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.admin.modules.sys.mapper.SysDictMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
-import com.hccake.ballcat.admin.modules.sys.mapper.SysDictMapper;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
 import org.springframework.stereotype.Service;
 

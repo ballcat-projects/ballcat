@@ -24,7 +24,6 @@ public interface FileService {
 	 * 文件上传
 	 * @param inputStream 文件流
 	 * @param objectName 文件对象名
-	 *
 	 */
 	void uploadFile(InputStream inputStream, String objectName);
 

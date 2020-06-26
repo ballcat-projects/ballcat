@@ -38,16 +38,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
-	private final ObjectMapper objectMapper;
-
-	@Value("${password.secret-key}")
-	private String secretKey;
-
 	private static final String PASSWORD = "password";
 
 	private static final String GRANT_TYPE = "grant_type";
 
 	private static final String TEST_CLIENT = "test";
+
+	private final ObjectMapper objectMapper;
+
+	@Value("${password.secret-key}")
+	private String secretKey;
 
 	/**
 	 * Same contract as for {@code doFilter}, but guaranteed to be just invoked once per

@@ -24,7 +24,6 @@ public class FileServiceImpl implements FileService {
 	 * 文件上传
 	 * @param file 待上传文件
 	 * @param objectName 文件对象名
-	 *
 	 */
 	@Override
 	public void uploadFile(MultipartFile file, String objectName) throws IOException {
@@ -35,7 +34,6 @@ public class FileServiceImpl implements FileService {
 	 * 文件上传
 	 * @param inputStream 文件流
 	 * @param objectName 文件对象名
-	 *
 	 */
 	@Override
 	public void uploadFile(InputStream inputStream, String objectName) {

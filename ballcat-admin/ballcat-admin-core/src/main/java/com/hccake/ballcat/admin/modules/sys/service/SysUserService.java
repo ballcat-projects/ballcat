@@ -99,8 +99,13 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 根据角色查询用户
+<<<<<<< HEAD
 	 * @return
 	 * @param roleCode
+=======
+	 * @param roleCode
+	 * @return
+>>>>>>> dev
 	 */
 	List<SysUser> selectUsersByRoleCode(String roleCode);
 
@@ -109,6 +114,10 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param type 为空时返回所有客户为1返回系统客户 name=> username value => userId
 	 * @return List<SelectData>
 	 */
+<<<<<<< HEAD
 	List<SelectData> getSelectData(Integer type);
+=======
+	List<SelectData<?>> getSelectData(Integer type);
+>>>>>>> dev
 
 }

@@ -36,15 +36,15 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 
 	/**
 	 * 生产一个日志
-	 * @return accessLog
 	 * @param request 请求信息
 	 * @param response 响应信息
 	 * @param time 执行时长
 	 * @param myThrowable 异常信息
+	 * @return accessLog
 	 */
 	@Override
 	public AdminAccessLog prodLog(HttpServletRequest request, HttpServletResponse response, Long time,
-			Throwable myThrowable) {
+								  Throwable myThrowable) {
 
 		AdminAccessLog adminAccessLog = new AdminAccessLog().setTraceId(MDC.get(LogConstant.TRACE_ID))
 				.setCreateTime(LocalDateTime.now()).setTime(time).setIp(IPUtil.getIpAddr(request))

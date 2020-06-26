@@ -52,11 +52,21 @@ public class SysUserController {
 
 	/**
 	 * 分页查询用户
+<<<<<<< HEAD
+=======
+	 * <p>
+	 * <p>
+	 * ======= >>>>>>> 9e3178b... :art: 引入spring-java-format插件，代码格式管理
+>>>>>>> dev
 	 * @param page 参数集
 	 * @return 用户集合
 	 */
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:read')")
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 	public R<IPage<SysUser>> getUserPage(Page<SysUser> page, SysUserQO qo) {
 		return R.ok(sysUserService.page(page, qo));
 	}
@@ -67,7 +77,12 @@ public class SysUserController {
 	 */
 	@GetMapping("/select")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:read')")
+<<<<<<< HEAD
 	public R<List<SelectData>> getSelectData() {
+=======
+
+	public R<List<SelectData<?>>> getSelectData() {
+>>>>>>> dev
 		return R.ok(sysUserService.getSelectData(null));
 	}
 
@@ -77,7 +92,12 @@ public class SysUserController {
 	 */
 	@GetMapping("/select/{userType}")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:read')")
+<<<<<<< HEAD
 	public R<List<SelectData>> getSysSelectData(@PathVariable Integer userType) {
+=======
+
+	public R<List<SelectData<?>>> getSysSelectData(@PathVariable Integer userType) {
+>>>>>>> dev
 		return R.ok(sysUserService.getSelectData(userType));
 	}
 
@@ -90,12 +110,21 @@ public class SysUserController {
 	@ApiOperation(value = "新增系统用户", notes = "新增系统用户")
 	@CreateOperationLogging(msg = "新增系统用户")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:add')")
+<<<<<<< HEAD
 	public R addSysUser(@Valid @RequestBody SysUserDTO sysUserDto) {
+=======
+
+	public R<?> addSysUser(@Valid @RequestBody SysUserDTO sysUserDto) {
+>>>>>>> dev
 
 		SysUser user = sysUserService.getByUsername(sysUserDto.getUsername());
 		if (user != null) {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "用户名已存在");
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 		return sysUserService.addSysUser(sysUserDto) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增系统用户失败");
 	}
@@ -109,21 +138,34 @@ public class SysUserController {
 	@ApiOperation(value = "修改系统用户", notes = "修改系统用户")
 	@UpdateOperationLogging(msg = "修改系统用户")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
+<<<<<<< HEAD
 	public R updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
+=======
+
+	public R<?> updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
+>>>>>>> dev
 		return sysUserService.updateSysUser(sysUserDto) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改系统用户失败");
 	}
 
 	/**
 	 * 删除用户信息
+<<<<<<< HEAD
 	 * @param userId
 	 * @return
+=======
+>>>>>>> dev
 	 */
 	@DeleteMapping("/{userId}")
 	@ApiOperation(value = "通过id删除系统用户", notes = "通过id删除系统用户")
 	@DeleteOperationLogging(msg = "通过id删除系统用户")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:del')")
+<<<<<<< HEAD
 	public R deleteByUserId(@PathVariable Integer userId) {
+=======
+
+	public R<?> deleteByUserId(@PathVariable Integer userId) {
+>>>>>>> dev
 		return sysUserService.deleteByUserId(userId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "删除系统用户失败");
 	}
@@ -160,23 +202,36 @@ public class SysUserController {
 	@ApiOperation(value = "系统用户授权", notes = "系统用户授权")
 	@UpdateOperationLogging(msg = "系统用户授权")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:grant')")
+<<<<<<< HEAD
 	public R updateUserScope(@PathVariable Integer userId, @RequestBody SysUserScope sysUserScope) {
+=======
+
+	public R<?> updateUserScope(@PathVariable Integer userId, @RequestBody SysUserScope sysUserScope) {
+>>>>>>> dev
 		return sysUserService.updateUserScope(userId, sysUserScope) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "系统用户授权失败");
 	}
 
 	/**
 	 * 修改用户密码
+<<<<<<< HEAD
 	 * @param userId
 	 * @param pass
 	 * @param confirm
 	 * @return
+=======
+>>>>>>> dev
 	 */
 	@PutMapping("/pass/{userId}")
 	@ApiOperation(value = "修改系统用户密码", notes = "修改系统用户密码")
 	@UpdateOperationLogging(msg = "修改系统用户密码")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:pass')")
+<<<<<<< HEAD
 	public R updateUserPass(@PathVariable Integer userId, String pass, String confirm) {
+=======
+
+	public R<?> updateUserPass(@PathVariable Integer userId, String pass, String confirm) {
+>>>>>>> dev
 		if (StrUtil.isBlank(pass) || StrUtil.isBlank(confirm) || !pass.equals(confirm)) {
 			return R.failed(SystemResultCode.BAD_REQUEST, "错误的密码!");
 		}
@@ -187,14 +242,22 @@ public class SysUserController {
 
 	/**
 	 * 批量修改用户状态
+<<<<<<< HEAD
 	 * @param userIds
 	 * @return
+=======
+>>>>>>> dev
 	 */
 	@PutMapping("/status")
 	@ApiOperation(value = "批量修改用户状态", notes = "批量修改用户状态")
 	@UpdateOperationLogging(msg = "批量修改用户状态")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
+<<<<<<< HEAD
 	public R updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
+=======
+
+	public R<?> updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
+>>>>>>> dev
 			@NotNull(message = "用户状态不能为空") @RequestParam Integer status) {
 
 		if (!SysUserConst.Status.NORMAL.getValue().equals(status)
@@ -218,7 +281,12 @@ public class SysUserController {
 			log.error("修改系统用户头像异常", e);
 			return R.failed(BaseResultCode.FILE_UPLOAD_ERROR);
 		}
+<<<<<<< HEAD
 		return R.ok(objectName);
+=======
+		return StrUtil.isEmpty(objectName) ? R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改系统头像失败!")
+				: R.ok(objectName);
+>>>>>>> dev
 	}
 
 }

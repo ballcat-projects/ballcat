@@ -3,9 +3,6 @@ package com.hccake.ballcat.admin.modules.sys.model.qo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 字典表 查询对象

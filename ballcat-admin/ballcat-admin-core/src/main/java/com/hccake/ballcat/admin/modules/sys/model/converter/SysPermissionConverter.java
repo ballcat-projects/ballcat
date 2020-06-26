@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.model.converter;
 
-import com.hccake.ballcat.admin.modules.sys.model.vo.Router;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.Router;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

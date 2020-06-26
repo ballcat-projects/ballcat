@@ -5,9 +5,6 @@ package com.hccake.ballcat.admin.constants;
  */
 public final class SecurityConst {
 
-	private SecurityConst() {
-	}
-
 	/**
 	 * 刷新
 	 */
@@ -22,5 +19,8 @@ public final class SecurityConst {
 	 * 缓存 oauth 相关前缀
 	 */
 	public static final String OAUTH_PREFIX = "oauth:";
+
+	private SecurityConst() {
+	}
 
 }
