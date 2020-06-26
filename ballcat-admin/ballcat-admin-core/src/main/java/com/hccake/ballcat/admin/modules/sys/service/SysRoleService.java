@@ -37,6 +37,6 @@ public interface SysRoleService extends IService<SysRole> {
 	 * 角色的选择数据
 	 * @return
 	 */
-	List<SelectData> getSelectData();
+	List<SelectData<?>> getSelectData();
 
 }

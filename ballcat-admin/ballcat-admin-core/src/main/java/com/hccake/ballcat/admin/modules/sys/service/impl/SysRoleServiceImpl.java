@@ -23,7 +23,7 @@ import java.util.List;
  * 服务实现类
  * </p>
  *
- * @author
+ * @author ballcat
  * @since 2017-10-29
  */
 @Service
@@ -66,7 +66,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 * @return
 	 */
 	@Override
-	public List<SelectData> getSelectData() {
+	public List<SelectData<?>> getSelectData() {
 		return baseMapper.getSelectData();
 	}
 

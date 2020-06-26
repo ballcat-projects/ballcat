@@ -11,7 +11,7 @@ import java.util.List;
  * Mapper 接口
  * </p>
  *
- * @author
+ * @author ballcat
  * @since 2017-10-29
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
@@ -20,6 +20,6 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
 	 * 获取角色下拉框数据
 	 * @return
 	 */
-	List<SelectData> getSelectData();
+	List<SelectData<?>> getSelectData();
 
 }
