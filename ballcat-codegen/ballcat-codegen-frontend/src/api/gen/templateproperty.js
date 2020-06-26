@@ -8,6 +8,13 @@ export function getPage(query) {
   })
 }
 
+export function getProperties(groupId) {
+  return axios({
+    url: '/gen/template/property/list/' + groupId,
+    method: 'get'
+  })
+}
+
 export function addObj(obj) {
   return axios({
     url: '/gen/template/property',

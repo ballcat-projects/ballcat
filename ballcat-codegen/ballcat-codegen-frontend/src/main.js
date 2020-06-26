@@ -19,7 +19,8 @@ import {
   message,
   Breadcrumb,
   Modal,
-  Radio
+  Radio,
+  Descriptions
 } from 'ant-design-vue'
 import App from './App.vue'
 import router from './router'
@@ -46,6 +47,7 @@ Vue.use(Dropdown)
 Vue.use(Breadcrumb)
 Vue.use(Modal)
 Vue.use(Radio)
+Vue.use(Descriptions)
 Vue.prototype.$message = message
 
 Vue.prototype.FORM_ACTION = {
