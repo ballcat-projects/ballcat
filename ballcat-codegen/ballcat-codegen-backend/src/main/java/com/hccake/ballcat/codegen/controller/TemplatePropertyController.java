@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 模板属性配置
  *
@@ -26,6 +28,17 @@ import org.springframework.web.bind.annotation.*;
 public class TemplatePropertyController {
 
 	private final TemplatePropertyService templatePropertyService;
+
+	/**
+	 * 分页查询
+	 * @param templateGroupId 模板组ID
+	 * @return R
+	 */
+	@ApiOperation(value = "分页查询", notes = "分页查询")
+	@GetMapping("/list/{groupId}")
+	public R<List<TemplatePropertyVO>> getTemplatePropertyList(@PathVariable("groupId") Integer templateGroupId) {
+		return R.ok(templatePropertyService.list(templateGroupId));
+	}
 
 	/**
 	 * 分页查询

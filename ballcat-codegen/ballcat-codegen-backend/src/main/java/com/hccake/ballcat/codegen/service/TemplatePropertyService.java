@@ -3,8 +3,10 @@ package com.hccake.ballcat.codegen.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
-import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
+import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
+
+import java.util.List;
 
 /**
  * 模板属性配置
@@ -21,5 +23,12 @@ public interface TemplatePropertyService extends IService<TemplateProperty> {
 	 * @return 分页数据
 	 */
 	IPage<TemplatePropertyVO> selectPageVo(IPage<?> page, TemplatePropertyQO qo);
+
+	/**
+	 * 获取模板组的所有配置
+	 * @param templateGroupId 模板组ID
+	 * @return List<TemplatePropertyVO> 配置列表
+	 */
+	List<TemplatePropertyVO> list(Integer templateGroupId);
 
 }
