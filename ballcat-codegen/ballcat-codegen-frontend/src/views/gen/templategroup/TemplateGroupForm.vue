@@ -1,8 +1,14 @@
 <template>
   <div>
-    <split-pane :min-percent="minPercent" :default-percent="defaultPercent" split="vertical" :style="splitPane">
+    <split-pane
+      :min-percent="minPercent"
+      :default-percent="defaultPercent"
+      split="vertical"
+      :style="splitPane"
+      @resize="resize"
+    >
       <template slot="paneL">
-        <div class="treesetting-row" @contextmenu.prevent="onRightClickBox">
+        <div class="treesetting-row" @contextmenu.prevent="onRightClickBox" :style="treesettingRow">
           <a-directory-tree
             v-model="checkedKeys"
             :expanded-keys="expandedKeys"
@@ -42,10 +48,10 @@
           </a-menu>
         </div>
       </template>
-      <template slot="paneR">
-        <div style="position:relative">
-          <div class="treesetting-row-leftbtn" @click="moveLeft" :style="leftbtnStyle">{{ leftHtml }}</div>
-          <div v-show="showTips" style="padding: 15px">
+      <template slot="paneR" style="padding:0;">
+        <div class="treesetting-row-leftbtn" @click="moveLeft" :style="leftbtnStyle">{{ leftHtml }}</div>
+        <div class="treesetting-paneR">
+          <div v-show="showTips">
             <a-descriptions title="使用说明">
               <a-descriptions-item label="文件名占位" :span="3">
                 使用 {} 占位，使用时会替换为实际属性
@@ -70,7 +76,7 @@
               </template>
             </a-descriptions>
           </div>
-          <a-form v-show="!showTips" @submit="handleSubmit" :form="form" style="padding: 12px 12px 12px 0px">
+          <a-form v-show="!showTips" @submit="handleSubmit" :form="form">
             <div class="template-form-title">{{ formInfo.formTitle }}</div>
             <template v-if="!formInfo.updateFlag">
               <a-form-item style="display: none">
@@ -192,7 +198,10 @@ export default {
         height: 0
       },
       leftbtnStyle: {
-        left: '-8px'
+        left: '-3px'
+      },
+      treesettingRow: {
+        padding: '10px'
       },
       defaultPercent: 30,
       minPercent: 15,
@@ -413,15 +422,28 @@ export default {
         })
       })
     },
+    resize(val) {
+      /* 监听面板的拖动*/
+      if (val > 1) {
+        this.leftHtml = '<'
+        this.leftbtnStyle.left = '-3px'
+        this.defaultPercent = 30
+      } else {
+        this.leftHtml = '>'
+        this.defaultPercent = 0
+      }
+    },
     moveLeft() {
       if (this.defaultPercent !== 0) {
         this.minPercent = 0
         this.defaultPercent = 0
+        this.treesettingRow.padding = 0
         this.leftHtml = '>'
-        this.leftbtnStyle.left = '-3px'
+        this.leftbtnStyle.left = '0px'
       } else {
         this.leftHtml = '<'
-        this.leftbtnStyle.left = '-8px'
+        this.leftbtnStyle.left = '-3px'
+        this.treesettingRow.padding = '10px'
         this.minPercent = 15
         this.defaultPercent = 30
       }
@@ -433,18 +455,27 @@ export default {
 .ant-form-item {
   margin-bottom: 8px;
 }
+.treesetting-paneR {
+  overflow-y: auto;
+  width: 96%;
+  height: 100%;
+  border: none;
+  position: relative;
+  box-sizing: border-box;
+  padding: 2%;
+}
 .treesetting-row {
-  padding: 10px;
   overflow: auto;
   height: 100%;
   border: none;
   position: relative;
   box-sizing: border-box;
+  border-right: 1px solid #f0f2f5;
 }
 
 .treesetting-row-leftbtn {
   position: absolute;
-  left: -8px;
+  left: 1px;
   cursor: pointer;
   width: 12px;
   line-height: 28px;
@@ -466,7 +497,23 @@ export default {
   width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
   height: 6px;
 }
-
+.treesetting-paneR::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 6px;
+}
+.treesetting-paneR::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 8px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #969696;
+}
+.treesetting-paneR::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: #ededed;
+}
 .treesetting-row::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 8px;
@@ -480,7 +527,9 @@ export default {
   border-radius: 8px;
   background: #ededed;
 }
-
+.splitter-pane.vertical.splitter-paneR {
+  padding: 0 !important;
+}
 .template-form-title {
   color: rgba(0, 0, 0, 0.85);
   font-weight: 600;
