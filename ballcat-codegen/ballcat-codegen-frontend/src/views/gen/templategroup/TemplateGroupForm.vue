@@ -10,6 +10,7 @@
       <template slot="paneL">
         <div class="treesetting-row" @contextmenu.prevent="onRightClickBox" :style="treesettingRow">
           <a-directory-tree
+            :style="directoryTreeStyle"
             v-model="checkedKeys"
             :expanded-keys="expandedKeys"
             :auto-expand-parent="autoExpandParent"
@@ -49,7 +50,7 @@
         </div>
       </template>
       <template slot="paneR" style="padding:0;">
-        <div class="treesetting-row-leftbtn" @click="moveLeft" :style="leftbtnStyle">{{ leftHtml }}</div>
+        <div class="treesetting-row-leftbtn" @click="moveLeft">{{ leftHtml }}</div>
         <div class="treesetting-paneR">
           <div v-show="showTips">
             <a-descriptions title="使用说明">
@@ -198,10 +199,13 @@ export default {
         height: 0
       },
       leftbtnStyle: {
-        left: '-3px'
+        left: '0'
       },
       treesettingRow: {
         padding: '10px'
+      },
+      directoryTreeStyle: {
+        width: '100%'
       },
       defaultPercent: 30,
       minPercent: 15,
@@ -423,10 +427,13 @@ export default {
       })
     },
     resize(val) {
-      /* 监听面板的拖动*/
+      if (val < 24) {
+        this.directoryTreeStyle.width = document.querySelector('.vue-splitter-container').offsetWidth / 3 + 'px'
+      } else {
+        this.directoryTreeStyle.width = '100%'
+      }
       if (val > 1) {
         this.leftHtml = '<'
-        this.leftbtnStyle.left = '-3px'
         this.defaultPercent = 30
       } else {
         this.leftHtml = '>'
@@ -439,10 +446,8 @@ export default {
         this.defaultPercent = 0
         this.treesettingRow.padding = 0
         this.leftHtml = '>'
-        this.leftbtnStyle.left = '0px'
       } else {
         this.leftHtml = '<'
-        this.leftbtnStyle.left = '-3px'
         this.treesettingRow.padding = '10px'
         this.minPercent = 15
         this.defaultPercent = 30
@@ -457,7 +462,6 @@ export default {
 }
 .treesetting-paneR {
   overflow-y: auto;
-  width: 96%;
   height: 100%;
   border: none;
   position: relative;
@@ -470,12 +474,11 @@ export default {
   border: none;
   position: relative;
   box-sizing: border-box;
-  border-right: 1px solid #f0f2f5;
 }
 
 .treesetting-row-leftbtn {
   position: absolute;
-  left: 1px;
+  left: 0;
   cursor: pointer;
   width: 12px;
   line-height: 28px;
@@ -495,7 +498,7 @@ export default {
 .treesetting-row::-webkit-scrollbar {
   /*滚动条整体样式*/
   width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
-  height: 6px;
+  height: 5px;
 }
 .treesetting-paneR::-webkit-scrollbar {
   /*滚动条整体样式*/
@@ -536,5 +539,10 @@ export default {
   font-size: 18px;
   line-height: 32px;
   text-align: center;
+}
+</style>
+<style>
+.splitter-paneL {
+  padding-right: 0 !important;
 }
 </style>
