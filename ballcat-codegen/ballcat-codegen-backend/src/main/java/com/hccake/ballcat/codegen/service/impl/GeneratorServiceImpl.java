@@ -1,6 +1,6 @@
 package com.hccake.ballcat.codegen.service.impl;
 
-import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.lang.Assert;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
@@ -11,15 +11,18 @@ import com.hccake.ballcat.codegen.service.TableInfoService;
 import com.hccake.ballcat.codegen.service.TemplateGroupService;
 import com.hccake.ballcat.codegen.util.GenUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.zip.ZipOutputStream;
 
 /**
  * @author Hccake
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @DS("#header.dsName")
@@ -35,26 +38,26 @@ public class GeneratorServiceImpl implements GeneratorService {
 	 * @return 已生成的代码数据
 	 */
 	@Override
-	public byte[] generatorCode(GeneratorOptionDTO generatorOptionDTO) {
+	public byte[] generatorCode(GeneratorOptionDTO generatorOptionDTO) throws IOException {
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				ZipOutputStream zip = new ZipOutputStream(outputStream)) {
 
-		// 根据tableName 查询最新的表单配置
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		ZipOutputStream zip = new ZipOutputStream(outputStream);
+			// 根据tableName 查询最新的表单配置
+			List<TemplateFile> templateFiles = templateGroupService
+					.findTemplateFiles(generatorOptionDTO.getTemplateGroupId());
+			Assert.notEmpty(templateFiles, "模板组中模板文件为空！");
 
-		List<TemplateFile> templateFiles = templateGroupService
-				.findTemplateFiles(generatorOptionDTO.getTemplateGroupId());
-
-		for (String tableName : generatorOptionDTO.getTableNames()) {
-			// 查询表信息
-			TableInfo tableInfo = tableInfoService.queryTableInfo(tableName);
-			// 查询列信息
-			List<ColumnInfo> columnInfoList = tableInfoService.queryColumnInfo(tableName);
-			// 生成代码
-			GenUtils.generatorCode(generatorOptionDTO.getTablePrefix(), generatorOptionDTO.getGenProperties(),
-					tableInfo, columnInfoList, zip, templateFiles);
+			for (String tableName : generatorOptionDTO.getTableNames()) {
+				// 查询表信息
+				TableInfo tableInfo = tableInfoService.queryTableInfo(tableName);
+				// 查询列信息
+				List<ColumnInfo> columnInfoList = tableInfoService.queryColumnInfo(tableName);
+				// 生成代码
+				GenUtils.generatorCode(generatorOptionDTO.getTablePrefix(), generatorOptionDTO.getGenProperties(),
+						tableInfo, columnInfoList, zip, templateFiles);
+			}
+			return outputStream.toByteArray();
 		}
-		IoUtil.close(zip);
-		return outputStream.toByteArray();
 	}
 
 }

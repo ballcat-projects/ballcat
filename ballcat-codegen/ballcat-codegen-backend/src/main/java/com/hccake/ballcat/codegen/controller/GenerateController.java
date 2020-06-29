@@ -3,11 +3,11 @@ package com.hccake.ballcat.codegen.controller;
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
 import com.hccake.ballcat.codegen.model.qo.TableInfoQO;
 import com.hccake.ballcat.codegen.model.vo.TableInfo;
 import com.hccake.ballcat.codegen.service.GeneratorService;
 import com.hccake.ballcat.codegen.service.TableInfoService;
-import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 代码生成器
@@ -52,15 +50,7 @@ public class GenerateController {
 	 */
 	@SneakyThrows
 	@PostMapping("/generate")
-	public void generatorCode(@RequestBody GeneratorOptionDTO generatorOptionDTO, HttpServletResponse response) {
-		// TODO 待前端写好，暂时先写死
-		Map<String, String> map = new HashMap<>(4);
-		map.put("moduleName", "gen");
-		map.put("packageName", "com.hccake.ballcat");
-		map.put("author", "hccake");
-		generatorOptionDTO.setGenProperties(map);
-		generatorOptionDTO.setTemplateGroupId(1);
-
+	public void generateCode(@RequestBody GeneratorOptionDTO generatorOptionDTO, HttpServletResponse response) {
 		byte[] data = generatorService.generatorCode(generatorOptionDTO);
 		response.reset();
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"ballcat.zip\"");
