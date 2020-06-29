@@ -43,7 +43,10 @@
             <a-input
               v-decorator="[
                 'genProperties.' + item.propKey,
-                { rules: [{ required: item.required === 1, message: item.title + '不能为空' }] }
+                {
+                  rules: [{ required: item.required === 1, message: item.title + '不能为空' }],
+                  initialValue: item.defaultValue
+                }
               ]"
               :placeholder="'请输入' + item.title"
             />

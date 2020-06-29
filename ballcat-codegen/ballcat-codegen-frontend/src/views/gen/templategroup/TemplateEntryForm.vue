@@ -268,8 +268,10 @@ export default {
       leftHtml: '<',
 
       // ==================form===================
-      putObj: putObj,
-      addObj: addObj,
+      reqFunctions: {
+        create: addObj,
+        update: putObj
+      },
       delObj: delObj,
       formInfo: {
         formTitle: '',
@@ -441,16 +443,12 @@ export default {
     submitSuccess() {
       this.treeLoad()
     },
-    backToPage(needRefresh) {
-      this.$emit('backToPage', needRefresh)
-    },
     /**
      * 重命名
      */
     renameModel() {
       if (this.selectedNode && this.selectedNode.dataRef) {
-        const dataRef = this.selectedNode.dataRef
-        this.$refs.renameModel.update({ title: dataRef.fileName, id: dataRef.id })
+        this.$refs.renameModel.show(this.selectedNode.dataRef)
       } else {
         this.$message.warning('请选择一个目录项')
       }
@@ -460,7 +458,7 @@ export default {
      */
     removeEntry() {
       if (this.selectedNode && this.selectedNode.dataRef) {
-        this.$refs.removeModel.update(this.selectedNode.dataRef)
+        this.$refs.removeModel.show(this.selectedNode.dataRef)
       } else {
         this.$message.warning('请选择一个目录项')
       }
@@ -478,7 +476,7 @@ export default {
       if (this.selectedNode && this.selectedNode.dataRef) {
         const dataRef = this.selectedNode.dataRef
         parentFileName = dataRef.fileName
-        parentId = dataRef.parentId
+        parentId = dataRef.id
       }
 
       this.formInfo.formTitle = fileType === 1 ? '新建文件夹' : '新建模板文件'

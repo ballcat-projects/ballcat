@@ -1,6 +1,12 @@
 <template>
-  <a-modal title="节点删除" :visible="visible" :confirm-loading="confirmLoading" @ok="handleOk" @cancel="handleClose">
-    <a-form :form="form" @submit="handleOk">
+  <a-modal
+    title="节点删除"
+    :visible="visible"
+    :confirm-loading="submitLoading"
+    @ok="handleSubmit"
+    @cancel="handleClose"
+  >
+    <a-form :form="form">
       <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="删除">
         <a-radio-group v-decorator="['mode', { initialValue: 1, rules: [{ required: true, message: '必填内容' }] }]">
           <a-radio :value="1">
@@ -24,31 +30,26 @@ export default {
   data() {
     return {
       id: '',
-      confirmLoading: false
+      formAction: 'delete',
+      reqFunctions: {
+        delete: this.deleteFunction
+      }
     }
   },
   methods: {
-    echoDataProcess(data) {
-      this.id = data.id
+    deleteFunction: function(data) {
+      return delObj(this.id, data.mode)
     },
-    handleOk() {
-      // 钩子函数 处理提交之前处理的事件
-      delObj(this.id, this.form.getFieldValue('mode'))
-        .then(res => {
-          if (res.code === 200) {
-            this.$message.success(res.msg)
-            this.submitSuccess(res)
-            this.$parent.pageLoad()
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
-        .catch(error => {
-          this.$message.error(error.response.data.msg)
-        })
-        .finally(() => {
-          this.submitLoading = false
-        })
+    submitSuccess() {
+      // 提交表单成功的回调函数
+      this.$parent.treeLoad()
+      this.handleClose()
+    },
+    show(data) {
+      this.id = data.id
+
+      this.visible = true
+      this.submitLoading = false
     }
   }
 }
