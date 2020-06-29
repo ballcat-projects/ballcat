@@ -1,11 +1,9 @@
 package com.hccake.ballcat.codegen.model.vo;
 
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import java.io.Serializable;
+
 import java.time.LocalDateTime;
 
 /**
@@ -31,6 +29,12 @@ public class TemplateGroupVO {
 	 */
 	@ApiModelProperty(value = "名称")
 	private String name;
+
+	/**
+	 * 备注
+	 */
+	@ApiModelProperty(value = "备注")
+	private String remarks;
 
 	/**
 	 * 创建时间

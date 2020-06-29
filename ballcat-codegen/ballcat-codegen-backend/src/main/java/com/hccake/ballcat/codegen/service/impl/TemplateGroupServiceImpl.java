@@ -21,6 +21,7 @@ import com.hccake.ballcat.codegen.service.TemplateGroupService;
 import com.hccake.ballcat.codegen.service.TemplateInfoService;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.util.TreeUtil;
+import com.hccake.ballcat.common.core.vo.SelectData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -79,6 +80,15 @@ public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, T
 		}
 
 		return templateFiles;
+	}
+
+	/**
+	 * 获取SelectData数据
+	 * @return List<SelectData<?>>
+	 */
+	@Override
+	public List<SelectData<?>> getSelectData() {
+		return baseMapper.getSelectData();
 	}
 
 	/**

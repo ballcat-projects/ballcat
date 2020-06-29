@@ -8,10 +8,13 @@ import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
 import com.hccake.ballcat.codegen.service.TemplateGroupService;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
+import com.hccake.ballcat.common.core.vo.SelectData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 模板组
@@ -93,5 +96,19 @@ public class TemplateGroupController {
 		return templateGroupService.removeById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除模板组失败");
 	}
+
+
+	/**
+	 * 获取模板组选择框数据
+	 * @return R
+	 */
+	@ApiOperation(value = "获取模板组选择框", notes = "获取模板组选择框")
+	// @DeleteOperationLogging(msg = "通过id删除模板组" )
+	@GetMapping("/select")
+	// @PreAuthorize("@per.hasPermission('codegen:templategroup:del')" )
+	public R<List<SelectData<?>>> getSelectData() {
+		return R.ok(templateGroupService.getSelectData());
+	}
+
 
 }

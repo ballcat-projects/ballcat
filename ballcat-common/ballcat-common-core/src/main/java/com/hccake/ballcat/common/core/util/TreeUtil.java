@@ -41,6 +41,9 @@ public class TreeUtil {
 	 * @return 树列表
 	 */
 	public <T extends TreeNode<I>, I, R> List<T> buildTree(List<R> list, I rootId, Function<R, T> convertToTree) {
+		if (list == null || list.size() == 0) {
+			return new ArrayList<>();
+		}
 		// 根据 parentId 进行分组
 		Map<I, List<T>> childrenMap = list.stream().map(convertToTree).collect(Collectors.groupingBy(T::getParentId));
 

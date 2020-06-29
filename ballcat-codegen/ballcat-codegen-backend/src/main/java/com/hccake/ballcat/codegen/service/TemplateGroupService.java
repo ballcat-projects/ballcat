@@ -6,6 +6,7 @@ import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
+import com.hccake.ballcat.common.core.vo.SelectData;
 
 import java.util.List;
 
@@ -32,4 +33,9 @@ public interface TemplateGroupService extends IService<TemplateGroup> {
 	 */
 	List<TemplateFile> findTemplateFiles(Integer groupId);
 
+	/**
+	 * 获取SelectData数据
+	 * @return List<SelectData<?>>
+	 */
+    List<SelectData<?>> getSelectData();
 }
