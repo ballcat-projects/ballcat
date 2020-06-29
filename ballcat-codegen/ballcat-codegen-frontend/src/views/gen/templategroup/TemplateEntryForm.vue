@@ -64,12 +64,67 @@
                 目前只支持 Velocity，具体语法请参看其官网
               </a-descriptions-item>
             </a-descriptions>
-            <a-descriptions title="默认属性">
+            <a-descriptions title="系统提供属性">
+              <a-descriptions-item label="currentTime">
+                当前系统时间
+              </a-descriptions-item>
+              <a-descriptions-item label="tableName">
+                当前表名
+              </a-descriptions-item>
+              <a-descriptions-item label="comments">
+                当前表备注
+              </a-descriptions-item>
+              <a-descriptions-item label="classname">
+                类名，小驼峰形式，首字母小写
+              </a-descriptions-item>
+              <a-descriptions-item label="className">
+                类名，大驼峰形式，首字母大写
+              </a-descriptions-item>
+              <a-descriptions-item label="pathName">
+                类名，全字母小写
+              </a-descriptions-item>
+              <a-descriptions-item label="tableAlias">
+                表别名，类名各单词首字母小写组合
+              </a-descriptions-item>
+              <a-descriptions-item label="pk">
+                主键的列属性
+              </a-descriptions-item>
+              <a-descriptions-item label="columns">
+                列属性的 List 集合
+              </a-descriptions-item>
+            </a-descriptions>
+            <a-descriptions title="列属性详情">
+              <a-descriptions-item label="columnName">
+                列名
+              </a-descriptions-item>
+              <a-descriptions-item label="comments">
+                列备注
+              </a-descriptions-item>
+              <a-descriptions-item label="dataType">
+                列数据类型
+              </a-descriptions-item>
+              <a-descriptions-item label="columnType">
+                列类型(数据类型+长度等信息)
+              </a-descriptions-item>
+              <a-descriptions-item label="attrName">
+                列对应属性名，首字母小写
+              </a-descriptions-item>
+              <a-descriptions-item label="capitalizedAttrName">
+                列对应属性名，首字母大写
+              </a-descriptions-item>
+              <a-descriptions-item label="attrType">
+                列对应Java类型
+              </a-descriptions-item>
+              <a-descriptions-item label="extra">
+                列的额外属性，如自增
+              </a-descriptions-item>
+            </a-descriptions>
+            <a-descriptions title="用户填写属性">
               <a-descriptions-item label="tablePrefix">
                 表前缀，代码生成时截取此前缀后再生成类名
               </a-descriptions-item>
             </a-descriptions>
-            <a-descriptions title="自定义属性">
+            <a-descriptions title="用户自定义属性">
               <template v-for="item in this.properties">
                 <a-descriptions-item :label="item.propKey">
                   {{ item.remarks ? item.title + '，' + item.remarks : item.title }}
@@ -150,8 +205,8 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/dracula.css'
 import 'codemirror/mode/velocity/velocity.js'
 //import { TablePageMixin } from '@/mixins'
-import renameModel from './TemplateGroupRenameModel.vue'
-import removeModel from './TemplateGroupRemoveTree.vue'
+import renameModel from './TemplateEntryRenameModal.vue'
+import removeModel from './TemplateEntryRemoveModal.vue'
 
 export default {
   name: 'TemplateDirectoryEntryPage',
@@ -238,17 +293,33 @@ export default {
       }
     }
   },
+  watch: {
+    templateGroupId() {
+      this.initPage()
+    }
+  },
   created() {
-    this.pageLoad(true)
-    getProperties(this.templateGroupId).then(res => {
-      this.properties = res.data
-    })
+    this.initPage()
     this.heightClient = document.documentElement.clientHeight || document.body.clientHeight
     this.heightClient = this.heightClient - 210
     this.splitPane.height = this.heightClient + 'px'
   },
   methods: {
-    pageLoad(firstInit) {
+    /**
+     * 页面初始化
+     * 1. 更新 Entry Tree
+     * 2. 更新自定义属性展示
+     */
+    initPage() {
+      this.treeLoad(true)
+      getProperties(this.templateGroupId).then(res => {
+        this.properties = res.data
+      })
+    },
+    /**
+     * 加载 Entry Tree
+     */
+    treeLoad(firstInit) {
       getList(this.templateGroupId).then(res => {
         this.treeData = listToTree(res.data, 0, (treeNode, item) => {
           treeNode.isLeaf = item.type === 2
@@ -338,7 +409,7 @@ export default {
         .then(res => {
           if (res.code === 200) {
             this.$message.success('移动成功！')
-            this.pageLoad()
+            this.treeLoad()
           } else {
             this.$message.error(res.msg)
           }
@@ -368,7 +439,7 @@ export default {
      * 表单提交后进行重新load（不更新展开的文件）
      */
     submitSuccess() {
-      this.pageLoad()
+      this.treeLoad()
     },
     backToPage(needRefresh) {
       this.$emit('backToPage', needRefresh)

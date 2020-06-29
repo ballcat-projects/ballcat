@@ -47,11 +47,18 @@
           :loading="loading"
           @change="handleTableChange"
         >
+          <span slot="template-action-slot" slot-scope="text, record">
+            <template>
+              <a @click="editEntry(record, '编辑模板组 - ' + record.name)">模板编辑</a>
+              <a-divider type="vertical" />
+              <a @click="editProperties(record)">属性配置</a>
+            </template>
+          </span>
           <span slot="action-slot" slot-scope="text, record">
             <template>
-              <a @click="handleEdit(record, '编辑模板组 - ' + record.name)">模板编辑</a>
+              <a @click="handleEdit(record)">编辑</a>
               <a-divider type="vertical" />
-              <a @click="handleShowItem(record)">属性配置</a>
+              <a @click="handleCopy(record)">复制</a>
               <a-divider type="vertical" />
               <a-popconfirm title="确认要删除吗？" @confirm="() => handleDel(record)">
                 <a href="javascript:;">删除</a>
@@ -77,19 +84,23 @@
     <div v-if="itemModalInited">
       <template-property-modal ref="propertyModal"></template-property-modal>
     </div>
+
+    <!--模板组表单弹窗-->
+    <template-group-form-modal ref="formModal" @reloadPageTable="reloadTable"></template-group-form-modal>
   </div>
 </template>
 
 <script>
 import { getPage, delObj } from '@/api/gen/templategroup'
-import FormPage from './TemplateGroupForm'
+import FormPage from './TemplateEntryForm'
 import TemplatePropertyModal from './TemplatePropertyModal'
 import { TablePageMixin } from '@/mixins'
+import TemplateGroupFormModal from './TemplateGroupFormModal'
 
 export default {
   name: 'TemplateGroupPage',
   mixins: [TablePageMixin],
-  components: { FormPage, TemplatePropertyModal },
+  components: { TemplateGroupFormModal, FormPage, TemplatePropertyModal },
   data() {
     return {
       getPage: getPage,
@@ -105,22 +116,26 @@ export default {
           dataIndex: 'name'
         },
         {
+          title: '备注信息',
+          dataIndex: 'remarks'
+        },
+        {
           title: '创建时间',
           dataIndex: 'createTime',
           width: '150px',
           sorter: true
         },
         {
-          title: '更新时间',
-          dataIndex: 'updateTime',
+          title: '模板组操作',
+          dataIndex: 'templateAction',
           width: '150px',
-          sorter: true
+          scopedSlots: { customRender: 'action-slot' }
         },
         {
-          title: '操作',
+          title: '模板操作',
           dataIndex: 'action',
-          width: '200px',
-          scopedSlots: { customRender: 'action-slot' }
+          width: '150px',
+          scopedSlots: { customRender: 'template-action-slot' }
         }
       ],
 
@@ -129,12 +144,21 @@ export default {
     }
   },
   methods: {
-    handleEdit(record, title) {
+    handleAdd() {
+      this.$refs.formModal.add('新建模板组')
+    },
+    handleEdit(record) {
+      this.$refs.formModal.update(record, '编辑模板组')
+    },
+    handleCopy(record) {
+      this.$refs.formModal.copy(record, '复制模板组')
+    },
+    editEntry(record, title) {
       this.switchPage()
       this.cardTitle = title || '修改'
       this.templateGroupId = record.id
     },
-    handleShowItem(record) {
+    editProperties(record) {
       if (!this.itemModalInited) {
         this.itemModalInited = true
       }

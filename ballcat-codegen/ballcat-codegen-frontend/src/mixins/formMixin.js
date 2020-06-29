@@ -16,8 +16,10 @@ export default {
       // 提交按钮防止重复提交
       submitLoading: false,
 
-      addObj: function() {},
-      putObj: function() {}
+      reqFunctions: {
+        create: function() {},
+        update: function() {}
+      }
     }
   },
   methods: {
@@ -65,12 +67,12 @@ export default {
     handleSubmit(e) {
       // 钩子函数 处理提交之前处理的事件
       this.beforeStartSubmit()
-      const req = this.formAction === this.FORM_ACTION.CREATE ? this.addObj : this.putObj
+      const reqFunction = this.reqFunctions[this.formAction]
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
           this.submitLoading = true
-          req(this.submitDataProcess(values))
+          reqFunction(this.submitDataProcess(values))
             .then(res => {
               if (res.code === 200) {
                 this.$message.success(res.msg)

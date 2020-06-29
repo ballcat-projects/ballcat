@@ -42,7 +42,7 @@
 
       <!-- 操作按钮区域 -->
       <div class="table-operator">
-        <a-button type="primary" icon="download" @click="handleGenerate()">批量生成</a-button>
+        <a-button type="primary" icon="download" @click="multiGenerate()">批量生成</a-button>
       </div>
 
       <!--数据表格区域-->
@@ -60,22 +60,32 @@
         >
           <span slot="action-slot" slot-scope="text, record">
             <template>
-              <a @click="handleGenerate(record)">生成</a>
+              <a @click="singleGenerate(record)">生成</a>
             </template>
           </span>
         </a-table>
       </div>
     </a-card>
+
+    <generate-modal
+      ref="generateModal"
+      :dsName="dsName"
+      :bodyStyle="{
+        padding: '12px 24px'
+      }"
+    ></generate-modal>
   </div>
 </template>
 
 <script>
 import { TablePageMixin } from '@/mixins'
-import { getTableInfoPage, generate } from '@/api/gen/generate'
+import { getTableInfoPage } from '@/api/gen/generate'
 import { getSelectData } from '@/api/gen/datasourceconfig'
+import GenerateModal from './GenerateModal'
 
 export default {
-  name: 'CodegenPage',
+  name: 'GeneratePage',
+  components: { GenerateModal },
   mixins: [TablePageMixin],
   data() {
     return {
@@ -131,25 +141,18 @@ export default {
     }
   },
   methods: {
-    handleGenerate() {
-      generate(this.dsName, { tableNames: this.selectedRowKeys }).then(fileBlob => {
-        const blob = new Blob([fileBlob])
-        const fileName = 'BallCat-CodeGen.zip'
-        const eLink = document.createElement('a')
-        if ('download' in eLink) {
-          // 非IE下载
-          eLink.download = fileName
-          eLink.style.display = 'none'
-          eLink.href = URL.createObjectURL(blob)
-          document.body.appendChild(eLink)
-          eLink.click()
-          URL.revokeObjectURL(eLink.href) // 释放URL 对象
-          document.body.removeChild(eLink)
-        } else {
-          // IE10+下载
-          navigator.msSaveBlob(blob, fileName)
-        }
-      })
+    singleGenerate(record) {
+      this.$refs.generateModal.show([record.tableName])
+      //this.handleGenerate([record.tableName])
+    },
+    multiGenerate() {
+      const tableNames = this.selectedRowKeys
+      console.log(tableNames)
+      if (tableNames && tableNames.length > 0) {
+        this.handleGenerate(tableNames)
+      } else {
+        this.$message.warning('至少选中一张表')
+      }
     }
   }
 }

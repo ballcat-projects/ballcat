@@ -29,7 +29,7 @@ const routes = [
             path: '/gen/codegen',
             name: 'CodeGen',
             meta: { title: '代码生成器' },
-            component: () => import(/* webpackChunkName: "gen" */ '../views/gen/codegen/CodeGenPage')
+            component: () => import(/* webpackChunkName: "gen" */ '../views/gen/codegen/GeneratePage')
           },
           {
             path: '/gen/template/group',

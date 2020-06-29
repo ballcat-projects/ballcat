@@ -40,7 +40,7 @@ export function putObj(obj) {
 
 export function getSelectData() {
   return axios({
-    url: '/gen/datasource/config/select',
+    url: '/gen/datasource-config/select',
     method: 'get'
   })
 }

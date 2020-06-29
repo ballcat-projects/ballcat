@@ -37,3 +37,10 @@ export function putObj(obj) {
     data: obj
   })
 }
+
+export function getSelectData() {
+  return axios({
+    url: '/gen/template/group/select',
+    method: 'get'
+  })
+}

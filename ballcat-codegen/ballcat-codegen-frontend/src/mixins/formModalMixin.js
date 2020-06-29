@@ -4,6 +4,7 @@ export default {
   mixins: [FormMixin],
   data() {
     return {
+      title: '',
       visible: false,
       labelCol: {
         xs: { span: 8 },
@@ -18,17 +19,19 @@ export default {
     }
   },
   methods: {
-    show() {
+    show(title) {
       this.visible = true
       this.submitLoading = false
+
+      this.title = title
     },
-    add() {
+    add(title) {
       this.buildCreatedForm()
-      this.show()
+      this.show(title)
     },
-    update(record) {
+    update(record, title) {
       this.buildUpdatedForm(record)
-      this.show()
+      this.show(title)
     },
     /*eslint-disable*/
     submitSuccess(res) {
