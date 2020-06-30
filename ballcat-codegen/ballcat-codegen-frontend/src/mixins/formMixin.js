@@ -64,7 +64,9 @@ export default {
     },
 
     // ============ 提交 ======================
-    handleSubmit() {
+    handleSubmit(e) {
+      // 阻止 submit 事件的默认行为
+      e.preventDefault()
       // 钩子函数 处理提交之前处理的事件
       this.beforeStartSubmit()
       const reqFunction = this.reqFunctions[this.formAction]
