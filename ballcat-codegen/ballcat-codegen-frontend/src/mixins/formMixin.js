@@ -70,7 +70,6 @@ export default {
       // 钩子函数 处理提交之前处理的事件
       this.beforeStartSubmit()
       const reqFunction = this.reqFunctions[this.formAction]
-      console.log(reqFunction)
       this.form.validateFields((err, values) => {
         if (!err) {
           this.submitLoading = true

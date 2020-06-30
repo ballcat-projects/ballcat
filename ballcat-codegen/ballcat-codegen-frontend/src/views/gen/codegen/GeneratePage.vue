@@ -147,9 +147,8 @@ export default {
     },
     multiGenerate() {
       const tableNames = this.selectedRowKeys
-      console.log(tableNames)
       if (tableNames && tableNames.length > 0) {
-        this.handleGenerate(tableNames)
+        this.$refs.generateModal.show(tableNames)
       } else {
         this.$message.warning('至少选中一张表')
       }

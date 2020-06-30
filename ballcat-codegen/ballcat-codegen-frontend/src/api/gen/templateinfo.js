@@ -7,6 +7,13 @@ export function getObj(id) {
   })
 }
 
+export function getList(groupId) {
+  return axios({
+    url: '/gen/template/info/list/' + groupId,
+    method: 'get'
+  })
+}
+
 export function putObj(obj) {
   return axios({
     url: '/gen/template/info',

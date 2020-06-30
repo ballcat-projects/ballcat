@@ -28,6 +28,28 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+          <a-form-item label="生成文件选择">
+            <div :style="{ borderBottom: '1px solid #E9E9E9' }">
+              <a-checkbox :indeterminate="indeterminate" :checked="checkAll" @change="onCheckAllChange">
+                Check all
+              </a-checkbox>
+            </div>
+            <a-checkbox-group
+              v-decorator="['templateFileIds', { initialValue: templateFileIds }]"
+              @change="onTemplateFileIdsChange"
+              style="width: 100%;"
+            >
+              <a-row>
+                <template v-for="item in templateFiles">
+                  <a-col :span="12">
+                    <a-checkbox :value="item.directoryEntryId">
+                      {{ item.title }}
+                    </a-checkbox>
+                  </a-col>
+                </template>
+              </a-row>
+            </a-checkbox-group>
+          </a-form-item>
         </a-col>
         <a-col :span="16">
           <a-divider orientation="left">
@@ -61,6 +83,7 @@
 import { FormModalMixin } from '@/mixins'
 import { getSelectData } from '@/api/gen/templategroup'
 import { getProperties } from '@/api/gen/templateproperty'
+import { getList as getTemplateFiles } from '@/api/gen/templateinfo'
 import { generate } from '@/api/gen/generate'
 
 export default {
@@ -84,7 +107,13 @@ export default {
       defaultTemplateGroupId: 1,
       tableNames: [],
       templateGroupSelectData: [],
-      properties: []
+      properties: [],
+
+      templateFiles: [],
+      templateFileIds: [],
+      checkedList: [],
+      indeterminate: false,
+      checkAll: true
     }
   },
   mounted() {
@@ -103,6 +132,10 @@ export default {
     onTemplateGroupChange(templateGroupId) {
       getProperties(templateGroupId).then(res => {
         this.properties = res.data
+      })
+      getTemplateFiles(templateGroupId).then(res => {
+        this.templateFiles = res.data
+        this.templateFileIds = this.templateFiles.map(x => x.directoryEntryId)
       })
     },
     handleOk() {
@@ -141,6 +174,19 @@ export default {
     submitDataProcess(data) {
       data.tableNames = this.tableNames
       return data
+    },
+    onTemplateFileIdsChange(checkedList) {
+      this.indeterminate = !!checkedList.length && checkedList.length < this.templateFileIds.length
+      this.checkAll = checkedList.length === this.templateFileIds.length
+    },
+    onCheckAllChange(e) {
+      this.indeterminate = false
+      this.checkAll = e.target.checked
+      setTimeout(() => {
+        this.$nextTick(function() {
+          this.form.setFieldsValue({ templateFileIds: this.checkAll ? this.templateFileIds : [] })
+        })
+      }, 0)
     }
   }
 }
