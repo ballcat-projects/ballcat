@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.codegen.constant.DirectoryEntryRemoveModeEnum;
 import com.hccake.ballcat.codegen.constant.DirectoryEntryTypeEnum;
 import com.hccake.ballcat.codegen.mapper.TemplateDirectoryEntryMapper;
+import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.converter.TemplateModelConverter;
 import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
 import com.hccake.ballcat.codegen.model.dto.TemplateInfoDTO;
@@ -26,7 +27,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.io.File;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -185,6 +187,117 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 		}
 		// 删除自身
 		return SqlHelper.retBool(baseMapper.deleteById(entryId));
+	}
+
+	/**
+	 * 复制模板目录项文件
+	 *
+	 * @param resourceId 原模板组
+	 * @param groupId    模板模板组
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void copy(Integer resourceId, Integer groupId) {
+		// 1. ===============获取模板目录项==================
+		List<TemplateDirectoryEntry> list = baseMapper
+				.selectList(Wrappers.<TemplateDirectoryEntry>lambdaQuery().eq(TemplateDirectoryEntry::getGroupId, resourceId));
+
+		// 2. ============== 复制模板文件 ===================
+		Set<Integer> oldParentIdSet = new HashSet<>();
+		List<Integer> originEntryIds = new ArrayList<>();
+		for (TemplateDirectoryEntry entry : list) {
+			originEntryIds.add(entry.getId());
+			oldParentIdSet.add(entry.getParentId());
+
+			entry.setGroupId(groupId);
+			entry.setId(null);
+			entry.setCreateTime(null);
+			entry.setUpdateTime(null);
+		}
+		this.saveBatch(list);
+
+		// 3. =============== 获取新老ID的映射表，key: oldId, value: newId ==========
+		Map<Integer, Integer> idMap = new HashMap<>();
+		for (int i = 0; i < originEntryIds.size(); i++) {
+			idMap.put(originEntryIds.get(i), list.get(i).getId());
+		}
+
+		// 4. =============== 更新复制出来的模板文件的父级ID ===============
+		// 父节点为根节点的不需要修改
+		oldParentIdSet.remove(GlobalConstants.TREE_ROOT_ID);
+		for (Integer oldParentId : oldParentIdSet) {
+			baseMapper.update(null, Wrappers.<TemplateDirectoryEntry>lambdaUpdate()
+			.set(TemplateDirectoryEntry::getParentId, idMap.get(oldParentId))
+			.eq(TemplateDirectoryEntry::getParentId, oldParentId)
+			.eq(TemplateDirectoryEntry::getGroupId, groupId));
+		}
+
+
+		// 5. ================保存模板文件详情信息===================
+		List<TemplateInfo> templateInfoList = templateInfoService.list(Wrappers.<TemplateInfo>lambdaQuery()
+							.eq(TemplateInfo::getGroupId, resourceId));
+		for (TemplateInfo templateInfo : templateInfoList) {
+			Integer oldId = templateInfo.getDirectoryEntryId();
+			Integer newId = idMap.get(oldId);
+			templateInfo.setDirectoryEntryId(newId);
+
+			templateInfo.setCreateTime(null);
+			templateInfo.setUpdateTime(null);
+		}
+		templateInfoService.saveBatch(templateInfoList);
+
+	}
+
+	/**
+	 * 获取模板文件
+	 * @param groupId 模板组Id
+	 * @return List 模板文件
+	 */
+	@Override
+	public List<TemplateFile> findTemplateFiles(Integer groupId) {
+		// 获取模板目录项
+		List<TemplateDirectoryEntry> list = baseMapper.selectList(
+				Wrappers.<TemplateDirectoryEntry>lambdaQuery().eq(TemplateDirectoryEntry::getGroupId, groupId));
+		// 转树形目录结构
+		List<TemplateDirectory> treeList = TreeUtil.buildTree(list, GlobalConstants.TREE_ROOT_ID,
+				TemplateModelConverter.INSTANCE::entryPoToTree);
+
+		// 填充模板文件
+		List<TemplateFile> templateFiles = new ArrayList<>();
+		for (TemplateDirectory tree : treeList) {
+			fillTemplateFiles(tree, templateFiles, "");
+		}
+		return templateFiles;
+	}
+
+	/**
+	 * 填充模板文件信息
+	 * @param current 当前目录项
+	 * @param list 模板文件列表
+	 * @param path 当前目录路径
+	 */
+	@SuppressWarnings("unchecked")
+	private void fillTemplateFiles(TemplateDirectory current, List<TemplateFile> list, String path) {
+
+		// 文件夹类型则递归子节点
+		if (DirectoryEntryTypeEnum.FOLDER.getType().equals(current.getType())) {
+			List<TemplateDirectory> children = (List<TemplateDirectory>) current.getChildren();
+			// 递归调用子节点，查找叶子节点
+			if (CollectionUtil.isNotEmpty(children)) {
+				for (TemplateDirectory child : children) {
+					fillTemplateFiles(child, list, path + current.getFileName() + File.separator);
+				}
+			}
+		}
+
+		// 目录项类型为文件则记录（文件必然是叶子节点）
+		if (DirectoryEntryTypeEnum.FILE.getType().equals(current.getType())) {
+			// 查找对应的模板文件详情信息
+			TemplateInfo templateInfo = templateInfoService.getById(current.getId());
+			TemplateFile templateFile = new TemplateFile().setFileName(current.getFileName()).setFilePath(path)
+					.setContent(templateInfo.getContent()).setEngineType(templateInfo.getEngineType());
+			list.add(templateFile);
+		}
 	}
 
 	/**

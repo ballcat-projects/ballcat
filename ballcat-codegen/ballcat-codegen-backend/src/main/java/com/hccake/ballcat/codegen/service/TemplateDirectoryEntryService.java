@@ -1,6 +1,7 @@
 package com.hccake.ballcat.codegen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;
@@ -68,4 +69,17 @@ public interface TemplateDirectoryEntryService extends IService<TemplateDirector
 	 */
 	boolean removeEntry(Integer entryId, Integer mode);
 
+	/**
+	 * 获取模板文件
+	 * @param groupId 模板组Id
+	 * @return List 模板文件
+	 */
+	List<TemplateFile> findTemplateFiles(Integer groupId);
+
+	/**
+	 * 复制模板目录项文件
+	 * @param resourceId 原模板组
+	 * @param groupId 模板模板组
+	 */
+	void copy(Integer resourceId, Integer groupId);
 }

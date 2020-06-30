@@ -64,10 +64,27 @@ public class TemplateGroupController {
 	// @CreateOperationLogging(msg = "新增模板组" )
 	@PostMapping
 	// @PreAuthorize("@per.hasPermission('codegen:templategroup:add')" )
-	public R save(@RequestBody TemplateGroup templateGroup) {
+	public R<?> save(@RequestBody TemplateGroup templateGroup) {
 		return templateGroupService.save(templateGroup) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增模板组失败");
 	}
+
+
+	/**
+	 * 复制模板组
+	 * @param resourceId 原模板组id
+	 * @param templateGroup 新模板组实体
+	 * @return R
+	 */
+	@PostMapping("/{resourceId}")
+	@ApiOperation(value = "复制模板组", notes = "复制模板组")
+	public R<?> copy(@PathVariable Integer resourceId,
+			@RequestBody TemplateGroup templateGroup) {
+		return templateGroupService.copy(resourceId, templateGroup) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "复制模板组失败");
+	}
+
+
 
 	/**
 	 * 修改模板组

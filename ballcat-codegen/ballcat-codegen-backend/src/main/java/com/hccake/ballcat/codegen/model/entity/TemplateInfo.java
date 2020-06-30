@@ -31,6 +31,12 @@ public class TemplateInfo extends Model<TemplateInfo> {
 	private Integer directoryEntryId;
 
 	/**
+	 * 模板组Id
+	 */
+	@ApiModelProperty(value = "模板组Id")
+	private Integer groupId;
+
+	/**
 	 * 模板名称
 	 */
 	@ApiModelProperty(value = "模板标题")

@@ -31,4 +31,10 @@ public interface TemplatePropertyService extends IService<TemplateProperty> {
 	 */
 	List<TemplatePropertyVO> list(Integer templateGroupId);
 
+	/**
+	 * 复制模板属性配置
+	 * @param resourceId 原模板组ID
+	 * @param groupId 模板模板组ID
+	 */
+    void copy(Integer resourceId, Integer groupId);
 }

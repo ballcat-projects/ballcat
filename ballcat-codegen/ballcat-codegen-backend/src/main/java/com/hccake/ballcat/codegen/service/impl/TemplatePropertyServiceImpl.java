@@ -1,15 +1,16 @@
 package com.hccake.ballcat.codegen.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hccake.ballcat.codegen.mapper.TemplatePropertyMapper;
 import com.hccake.ballcat.codegen.model.converter.TemplatePropertyConverter;
 import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
-import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
-import com.hccake.ballcat.codegen.mapper.TemplatePropertyMapper;
+import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
 import com.hccake.ballcat.codegen.service.TemplatePropertyService;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,28 @@ public class TemplatePropertyServiceImpl extends ServiceImpl<TemplatePropertyMap
 		List<TemplateProperty> templateProperties = baseMapper
 				.selectList(Wrappers.<TemplateProperty>lambdaQuery().eq(TemplateProperty::getGroupId, templateGroupId));
 		return templateProperties.stream().map(TemplatePropertyConverter.INSTANCE::poToVo).collect(Collectors.toList());
+	}
+
+	/**
+	 * 复制模板属性配置
+	 * @param resourceId 原模板组ID
+	 * @param groupId 模板模板组ID
+	 */
+	@Override
+	public void copy(Integer resourceId, Integer groupId) {
+
+		List<TemplateProperty> templateProperties = baseMapper
+				.selectList(Wrappers.<TemplateProperty>lambdaQuery().eq(TemplateProperty::getGroupId, resourceId));
+
+		if (CollectionUtil.isNotEmpty(templateProperties)) {
+			List<TemplateProperty> list = templateProperties.stream().peek(x -> {
+				x.setId(null);
+				x.setCreateTime(null);
+				x.setUpdateTime(null);
+				x.setGroupId(groupId);
+			}).collect(Collectors.toList());
+			this.saveBatch(list);
+		}
 	}
 
 }
