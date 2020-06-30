@@ -9,6 +9,7 @@ import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
 import com.hccake.ballcat.common.core.vo.SelectData;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 模板组
@@ -29,9 +30,10 @@ public interface TemplateGroupService extends IService<TemplateGroup> {
 	/**
 	 * 查找指定模板组下所有的模板文件
 	 * @param groupId 模板组ID
+	 * @param templateFileIds
 	 * @return List<TemplateFile>
 	 */
-	List<TemplateFile> findTemplateFiles(Integer groupId);
+	List<TemplateFile> findTemplateFiles(Integer groupId, Set<Integer> templateFileIds);
 
 	/**
 	 * 获取SelectData数据

@@ -7,6 +7,7 @@ import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 模板文件目录项
@@ -72,9 +73,10 @@ public interface TemplateDirectoryEntryService extends IService<TemplateDirector
 	/**
 	 * 获取模板文件
 	 * @param groupId 模板组Id
+	 * @param templateFileIds
 	 * @return List 模板文件
 	 */
-	List<TemplateFile> findTemplateFiles(Integer groupId);
+	List<TemplateFile> findTemplateFiles(Integer groupId, Set<Integer> templateFileIds);
 
 	/**
 	 * 复制模板目录项文件

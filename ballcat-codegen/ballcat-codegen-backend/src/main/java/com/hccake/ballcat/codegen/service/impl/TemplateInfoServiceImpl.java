@@ -1,10 +1,13 @@
 package com.hccake.ballcat.codegen.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hccake.ballcat.codegen.mapper.TemplateInfoMapper;
 import com.hccake.ballcat.codegen.model.entity.TemplateInfo;
 import com.hccake.ballcat.codegen.service.TemplateInfoService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 模板信息
@@ -17,5 +20,16 @@ public class TemplateInfoServiceImpl extends ServiceImpl<TemplateInfoMapper, Tem
 		implements TemplateInfoService {
 
 	private final static String TABLE_ALIAS_PREFIX = "gt.";
+
+	/**
+	 * List template info list.
+	 * @param templateGroupId the template group id
+	 * @return the list
+	 */
+	@Override
+	public List<TemplateInfo> listTemplateInfo(Integer templateGroupId) {
+		return baseMapper
+				.selectList(Wrappers.<TemplateInfo>lambdaQuery().eq(TemplateInfo::getGroupId, templateGroupId));
+	}
 
 }

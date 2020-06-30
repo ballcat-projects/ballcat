@@ -44,7 +44,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 
 			// 根据tableName 查询最新的表单配置
 			List<TemplateFile> templateFiles = templateGroupService
-					.findTemplateFiles(generatorOptionDTO.getTemplateGroupId());
+					.findTemplateFiles(generatorOptionDTO.getTemplateGroupId(), generatorOptionDTO.getTemplateFileIds());
 			Assert.notEmpty(templateFiles, "模板组中模板文件为空！");
 
 			for (String tableName : generatorOptionDTO.getTableNames()) {

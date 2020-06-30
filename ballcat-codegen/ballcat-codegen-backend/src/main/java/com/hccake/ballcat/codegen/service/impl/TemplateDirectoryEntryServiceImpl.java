@@ -191,16 +191,15 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 
 	/**
 	 * 复制模板目录项文件
-	 *
 	 * @param resourceId 原模板组
-	 * @param groupId    模板模板组
+	 * @param groupId 模板模板组
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void copy(Integer resourceId, Integer groupId) {
 		// 1. ===============获取模板目录项==================
-		List<TemplateDirectoryEntry> list = baseMapper
-				.selectList(Wrappers.<TemplateDirectoryEntry>lambdaQuery().eq(TemplateDirectoryEntry::getGroupId, resourceId));
+		List<TemplateDirectoryEntry> list = baseMapper.selectList(
+				Wrappers.<TemplateDirectoryEntry>lambdaQuery().eq(TemplateDirectoryEntry::getGroupId, resourceId));
 
 		// 2. ============== 复制模板文件 ===================
 		Set<Integer> oldParentIdSet = new HashSet<>();
@@ -226,16 +225,16 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 		// 父节点为根节点的不需要修改
 		oldParentIdSet.remove(GlobalConstants.TREE_ROOT_ID);
 		for (Integer oldParentId : oldParentIdSet) {
-			baseMapper.update(null, Wrappers.<TemplateDirectoryEntry>lambdaUpdate()
-			.set(TemplateDirectoryEntry::getParentId, idMap.get(oldParentId))
-			.eq(TemplateDirectoryEntry::getParentId, oldParentId)
-			.eq(TemplateDirectoryEntry::getGroupId, groupId));
+			baseMapper.update(null,
+					Wrappers.<TemplateDirectoryEntry>lambdaUpdate()
+							.set(TemplateDirectoryEntry::getParentId, idMap.get(oldParentId))
+							.eq(TemplateDirectoryEntry::getParentId, oldParentId)
+							.eq(TemplateDirectoryEntry::getGroupId, groupId));
 		}
 
-
 		// 5. ================保存模板文件详情信息===================
-		List<TemplateInfo> templateInfoList = templateInfoService.list(Wrappers.<TemplateInfo>lambdaQuery()
-							.eq(TemplateInfo::getGroupId, resourceId));
+		List<TemplateInfo> templateInfoList = templateInfoService
+				.list(Wrappers.<TemplateInfo>lambdaQuery().eq(TemplateInfo::getGroupId, resourceId));
 		for (TemplateInfo templateInfo : templateInfoList) {
 			Integer oldId = templateInfo.getDirectoryEntryId();
 			Integer newId = idMap.get(oldId);
@@ -251,13 +250,20 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 	/**
 	 * 获取模板文件
 	 * @param groupId 模板组Id
+	 * @param templateFileIds 指定的文件id
 	 * @return List 模板文件
 	 */
 	@Override
-	public List<TemplateFile> findTemplateFiles(Integer groupId) {
+	public List<TemplateFile> findTemplateFiles(Integer groupId, Set<Integer> templateFileIds) {
 		// 获取模板目录项
 		List<TemplateDirectoryEntry> list = baseMapper.selectList(
 				Wrappers.<TemplateDirectoryEntry>lambdaQuery().eq(TemplateDirectoryEntry::getGroupId, groupId));
+		// 当没有指定时，不生成该文件
+		if (CollectionUtil.isNotEmpty(templateFileIds)) {
+			list.removeIf(entry -> DirectoryEntryTypeEnum.FILE.getType().equals(entry.getType())
+					&& !templateFileIds.contains(entry.getId()));
+		}
+
 		// 转树形目录结构
 		List<TemplateDirectory> treeList = TreeUtil.buildTree(list, GlobalConstants.TREE_ROOT_ID,
 				TemplateModelConverter.INSTANCE::entryPoToTree);

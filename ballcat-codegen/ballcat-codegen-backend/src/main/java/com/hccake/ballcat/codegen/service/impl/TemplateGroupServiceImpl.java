@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 模板组
@@ -52,11 +53,12 @@ public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, T
 	/**
 	 * 查找指定模板组下所有的模板文件
 	 * @param groupId 模板组ID
+	 * @param templateFileIds 指定的文件id
 	 * @return List<TemplateFile>
 	 */
 	@Override
-	public List<TemplateFile> findTemplateFiles(Integer groupId) {
-		return templateDirectoryEntryService.findTemplateFiles(groupId);
+	public List<TemplateFile> findTemplateFiles(Integer groupId, Set<Integer> templateFileIds) {
+		return templateDirectoryEntryService.findTemplateFiles(groupId, templateFileIds);
 	}
 
 	/**

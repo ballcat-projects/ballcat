@@ -3,6 +3,7 @@ package com.hccake.ballcat.codegen.model.dto;
 import lombok.Data;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 代码生成选项
@@ -26,6 +27,12 @@ public class GeneratorOptionDTO {
 	 * 表名称
 	 */
 	private String[] tableNames;
+
+
+	/**
+	 * 生成文件Ids
+	 */
+	private Set<Integer> templateFileIds;
 
 	/**
 	 * 配置
