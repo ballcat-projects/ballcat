@@ -16,6 +16,14 @@ export function addObj(obj) {
   })
 }
 
+export function copyObj(resourceId, obj) {
+  return axios({
+    url: '/gen/template/group/' + resourceId,
+    method: 'post',
+    data: obj
+  })
+}
+
 export function getObj(id) {
   return axios({
     url: '/gen/template/group/' + id,

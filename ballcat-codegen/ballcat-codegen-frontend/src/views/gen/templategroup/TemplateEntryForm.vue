@@ -441,6 +441,7 @@ export default {
      * 表单提交后进行重新load（不更新展开的文件）
      */
     submitSuccess() {
+      this.showTips = true
       this.treeLoad()
     },
     /**

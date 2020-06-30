@@ -22,7 +22,7 @@
 
 <script>
 import { FormModalMixin } from '@/mixins'
-import { addObj, putObj } from '@/api/gen/templategroup'
+import { addObj, putObj, copyObj } from '@/api/gen/templategroup'
 
 export default {
   mixins: [FormModalMixin],
@@ -31,9 +31,7 @@ export default {
       reqFunctions: {
         create: addObj,
         update: putObj,
-        copy: function(data) {
-          return addObj(data)
-        }
+        copy: this.copyRestFunction
       },
 
       resourceGroupId: '',
@@ -50,6 +48,9 @@ export default {
       this.resourceGroupId = record.id
       this.resourceGroupName = record.name
       this.show(title)
+    },
+    copyRestFunction(data) {
+      return copyObj(this.resourceGroupId, data)
     }
   }
 }
