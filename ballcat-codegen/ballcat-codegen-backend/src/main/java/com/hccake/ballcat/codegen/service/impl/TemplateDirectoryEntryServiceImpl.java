@@ -240,6 +240,7 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 			Integer newId = idMap.get(oldId);
 			templateInfo.setDirectoryEntryId(newId);
 
+			templateInfo.setGroupId(groupId);
 			templateInfo.setCreateTime(null);
 			templateInfo.setUpdateTime(null);
 		}
