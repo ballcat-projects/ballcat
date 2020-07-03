@@ -322,7 +322,6 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 		this.duplicateNameCheck(parentId, entryDTO.getFileName());
 		// 转持久层对象
 		TemplateDirectoryEntry entity = TemplateModelConverter.INSTANCE.entryCreateDtoToPo(entryDTO);
-		entity.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
 		// 落库
 		baseMapper.insert(entity);
 		// 如果是文件，需要同步存储info
@@ -330,7 +329,6 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 			TemplateInfoDTO templateInfoDTO = entryDTO.getTemplateInfoDTO();
 			TemplateInfo templateInfo = TemplateModelConverter.INSTANCE.infoDtoToPo(templateInfoDTO);
 			templateInfo.setDirectoryEntryId(entity.getId());
-			templateInfo.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
 			templateInfoService.save(templateInfo);
 		}
 		return true;

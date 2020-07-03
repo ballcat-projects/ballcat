@@ -12,7 +12,6 @@ import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataAndHashVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.DictItemVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
-import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
@@ -55,7 +54,6 @@ public class SysDictManager {
 	 */
 	public boolean dictSave(SysDict sysDict) {
 		sysDict.setHashCode(IdUtil.fastSimpleUUID());
-		sysDict.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
 		return sysDictService.save(sysDict);
 	}
 
@@ -115,7 +113,6 @@ public class SysDictManager {
 		if (!sysDictService.updateHashCode(sysDictItem.getDictCode())) {
 			return false;
 		}
-		sysDictItem.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
 		return sysDictItemService.save(sysDictItem);
 	}
 

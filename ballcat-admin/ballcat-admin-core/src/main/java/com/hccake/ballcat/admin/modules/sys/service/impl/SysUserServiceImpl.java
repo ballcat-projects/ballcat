@@ -133,7 +133,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
 		sysUser.setStatus(SysUserConst.Status.NORMAL.getValue());
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
-		sysUser.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
 
 		String password = PasswordUtil.decodeAesAndEncodeBCrypt(sysUserDto.getPass(), secretKey);
 		sysUser.setPassword(password);

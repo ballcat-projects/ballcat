@@ -45,6 +45,7 @@ public class SysRole extends Model<SysRole> {
 	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
 	 */
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "逻辑删除标识，已删除:0，未删除：删除时间戳")
 	private Long deleted;
 
