@@ -33,8 +33,11 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, TemplateGroup>
 		implements TemplateGroupService {
+
 	private final static String TABLE_ALIAS_PREFIX = "tg.";
+
 	private final TemplateDirectoryEntryService templateDirectoryEntryService;
+
 	private final TemplatePropertyService templatePropertyService;
 
 	/**
@@ -72,8 +75,6 @@ public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, T
 
 	/**
 	 * 复制模板组
-	 *
-	 *
 	 * @param resourceId 原资源组id
 	 * @param templateGroup 模板组
 	 * @return boolean 复制成功: true
@@ -94,4 +95,5 @@ public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, T
 
 		return true;
 	}
+
 }

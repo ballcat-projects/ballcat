@@ -25,7 +25,6 @@ public class TemplateInfoController {
 
 	private final TemplateInfoService templateInfoService;
 
-
 	/**
 	 * 指定模板组的文件列表
 	 * @param templateGroupId 模板组ID
@@ -36,7 +35,6 @@ public class TemplateInfoController {
 	public R<List<TemplateInfo>> listTemplateInfo(@PathVariable Integer templateGroupId) {
 		return R.ok(templateInfoService.listTemplateInfo(templateGroupId));
 	}
-
 
 	/**
 	 * 通过id查询模板信息

@@ -13,10 +13,11 @@ import java.util.List;
  */
 public interface TemplateInfoService extends IService<TemplateInfo> {
 
-    /**
+	/**
 	 * List template info list.
 	 * @param templateGroupId the template group id
 	 * @return the list
 	 */
 	List<TemplateInfo> listTemplateInfo(Integer templateGroupId);
+
 }

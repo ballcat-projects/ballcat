@@ -28,7 +28,6 @@ public class GeneratorOptionDTO {
 	 */
 	private String[] tableNames;
 
-
 	/**
 	 * 生成文件Ids
 	 */

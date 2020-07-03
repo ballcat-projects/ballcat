@@ -39,14 +39,14 @@ public interface TemplateGroupService extends IService<TemplateGroup> {
 	 * 获取SelectData数据
 	 * @return List<SelectData<?>>
 	 */
-    List<SelectData<?>> getSelectData();
+	List<SelectData<?>> getSelectData();
 
 	/**
 	 * 复制模板组
-	 *
 	 * @param resourceId
 	 * @param templateGroup 模板组
 	 * @return boolean 复制成功: true
 	 */
 	boolean copy(Integer resourceId, TemplateGroup templateGroup);
+
 }

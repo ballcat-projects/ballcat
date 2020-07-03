@@ -69,7 +69,6 @@ public class TemplateGroupController {
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增模板组失败");
 	}
 
-
 	/**
 	 * 复制模板组
 	 * @param resourceId 原模板组id
@@ -78,13 +77,10 @@ public class TemplateGroupController {
 	 */
 	@PostMapping("/{resourceId}")
 	@ApiOperation(value = "复制模板组", notes = "复制模板组")
-	public R<?> copy(@PathVariable Integer resourceId,
-			@RequestBody TemplateGroup templateGroup) {
+	public R<?> copy(@PathVariable Integer resourceId, @RequestBody TemplateGroup templateGroup) {
 		return templateGroupService.copy(resourceId, templateGroup) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "复制模板组失败");
 	}
-
-
 
 	/**
 	 * 修改模板组
@@ -114,7 +110,6 @@ public class TemplateGroupController {
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除模板组失败");
 	}
 
-
 	/**
 	 * 获取模板组选择框数据
 	 * @return R
@@ -126,6 +121,5 @@ public class TemplateGroupController {
 	public R<List<SelectData<?>>> getSelectData() {
 		return R.ok(templateGroupService.getSelectData());
 	}
-
 
 }

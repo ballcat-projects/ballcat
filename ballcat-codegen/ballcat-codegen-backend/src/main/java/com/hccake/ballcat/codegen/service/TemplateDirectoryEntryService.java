@@ -84,4 +84,5 @@ public interface TemplateDirectoryEntryService extends IService<TemplateDirector
 	 * @param groupId 模板模板组
 	 */
 	void copy(Integer resourceId, Integer groupId);
+
 }
