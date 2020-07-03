@@ -143,7 +143,6 @@ export default {
   methods: {
     singleGenerate(record) {
       this.$refs.generateModal.show([record.tableName])
-      //this.handleGenerate([record.tableName])
     },
     multiGenerate() {
       const tableNames = this.selectedRowKeys
