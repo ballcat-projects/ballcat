@@ -41,9 +41,7 @@ export default {
       this.visible = true
       this.submitLoading = false
 
-      this.$nextTick(function() {
-        this.form.setFieldsValue({ fileName: data.fileName })
-      })
+      this.fillFormData({ fileName: data.fileName })
     }
   }
 }

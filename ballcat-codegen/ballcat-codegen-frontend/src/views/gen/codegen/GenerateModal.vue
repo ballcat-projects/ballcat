@@ -182,11 +182,7 @@ export default {
     onCheckAllChange(e) {
       this.indeterminate = false
       this.checkAll = e.target.checked
-      setTimeout(() => {
-        this.$nextTick(function() {
-          this.form.setFieldsValue({ templateFileIds: this.checkAll ? this.templateFileIds : [] })
-        })
-      }, 0)
+      this.fillFormData({ templateFileIds: this.checkAll ? this.templateFileIds : [] })
     }
   }
 }

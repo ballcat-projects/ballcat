@@ -34,24 +34,30 @@ export default {
     createdFormCallback(argument) {
       // 组件复写此方法 完成添加之前的事件
     },
-
+    /**
+     * ==============表单数据回显===============
+     * @param data 回显数据
+     * @param needReset 回显前是否清空现有数据，变更部分数据时传递 false
+     */
+    fillFormData: function(data, needReset = false) {
+      // 延迟加载 避免隐藏展示元素时出现的bug
+      setTimeout(() => {
+        // 获取仅展示元素
+        this.displayData = pick(data, Object.keys(this.displayData))
+        // 移除所有不用的元素，否则会抛出异常
+        const fromData = pick(data, Object.keys(this.form.getFieldsValue()))
+        this.$nextTick(function() {
+          needReset && this.form.resetFields()
+          this.form.setFieldsValue(fromData)
+        })
+      }, 0)
+    },
     // ============ 修改 ======================
     buildUpdatedForm(record, argument) {
       let that = this
       that.formAction = that.FORM_ACTION.UPDATE
       that.echoDataProcess(record)
-
-      // 延迟加载 避免隐藏展示元素时出现的bug
-      setTimeout(() => {
-        // 获取仅展示元素
-        that.displayData = pick(record, Object.keys(that.displayData))
-        // 移除所有不用的元素，否则会抛出异常
-        const fromData = pick(record, Object.keys(that.form.getFieldsValue()))
-        this.$nextTick(function() {
-          that.form.resetFields()
-          that.form.setFieldsValue(fromData)
-        })
-      }, 0)
+      this.fillFormData(record, true)
       this.updatedFormCallback(argument)
     },
     echoDataProcess(data) {

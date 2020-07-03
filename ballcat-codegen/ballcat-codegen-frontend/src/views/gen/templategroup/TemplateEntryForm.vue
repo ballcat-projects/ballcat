@@ -486,14 +486,10 @@ export default {
       this.formInfo.fileType = fileType
       this.formInfo.parentFileName = parentFileName
 
-      setTimeout(() => {
-        this.$nextTick(function() {
-          this.form.setFieldsValue({
-            groupId: this.templateGroupId,
-            parentId: parentId,
-            type: fileType
-          })
-        })
+      this.fillFormData({
+        groupId: this.templateGroupId,
+        parentId: parentId,
+        type: fileType
       })
     },
     resize(val) {

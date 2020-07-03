@@ -67,9 +67,7 @@ export default {
   methods: {
     createdFormCallback(argument) {
       if (this.formAction === this.FORM_ACTION.CREATE) {
-        this.$nextTick(function() {
-          this.form.setFieldsValue({ groupId: argument })
-        })
+        this.fillFormData({ groupId: argument })
       }
     }
   }
