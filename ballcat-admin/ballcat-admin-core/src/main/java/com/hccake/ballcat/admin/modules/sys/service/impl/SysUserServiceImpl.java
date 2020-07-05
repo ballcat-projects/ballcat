@@ -1,6 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -159,9 +160,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	public boolean updateSysUser(SysUserDTO sysUserDTO) {
 		SysUser entity = SysUserConverter.INSTANCE.dtoToPo(sysUserDTO);
-		if (!isSelf(entity)) {
-			return false;
-		}
+		Assert.isFalse(verifyPermission(entity),"无修改权限!");
 		return SqlHelper.retBool(baseMapper.updateById(entity));
 	}
 
@@ -203,9 +202,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public boolean updateUserPass(Integer userId, String pass) {
-		if (!isSelf(getById(userId))) {
-			return false;
-		}
+		Assert.isFalse(verifyPermission(getById(userId)),"无修改权限!");
 		String password = PasswordUtil.decodeAesAndEncodeBCrypt(pass, secretKey);
 
 		int res = baseMapper.update(null,
@@ -219,7 +216,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return 指定用户不是超级管理员 返回 true , 如果指定用户时超级管理员 且 指定用户为当前登录用户 返回true
 	 * @author lingting 2020-06-24 21:24:53
 	 */
-	private boolean isSelf(SysUser user) {
+	private boolean verifyPermission(SysUser user) {
 		if (!sysAdminConfigService.verify(user)) {
 			return true;
 		}
@@ -234,14 +231,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public boolean updateUserStatus(List<Integer> userIds, Integer status) {
-		new ArrayList<>(userIds).forEach(id -> {
-			SysUser entity = getById(id);
-			if (sysAdminConfigService.verify(entity)
-					&& !SecurityUtils.getSysUserDetails().getUsername().equals(entity.getUsername())) {
-				// 要修改的用户是超级管理员， 但是修改人不是本人, 从修改列表中移除
-				userIds.remove(id);
-			}
-		});
+		// 移除不是本人且是超级管理员用户
+		userIds.removeIf(id-> !verifyPermission(getById(id)));
 		return this.update(
 				Wrappers.<SysUser>lambdaUpdate().set(SysUser::getStatus, status).in(SysUser::getUserId, userIds));
 	}
@@ -249,9 +240,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public String updateAvatar(MultipartFile file, Integer userId) throws IOException {
-		if (isSelf(getById(userId))) {
-			return StrUtil.EMPTY;
-		}
+		Assert.isFalse(verifyPermission(getById(userId)),"无修改权限!");
 		// 获取系统用户头像的文件名
 		String objectName = "sysuser/" + userId + "/avatar/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
 				+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());

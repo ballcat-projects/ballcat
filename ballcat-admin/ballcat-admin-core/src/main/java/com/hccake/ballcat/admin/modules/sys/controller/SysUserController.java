@@ -210,8 +210,7 @@ public class SysUserController {
 			log.error("修改系统用户头像异常", e);
 			return R.failed(BaseResultCode.FILE_UPLOAD_ERROR);
 		}
-		return StrUtil.isEmpty(objectName) ? R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改系统头像失败!")
-				: R.ok(objectName);
+		return R.ok(objectName);
 	}
 
 }
