@@ -3,6 +3,9 @@ package com.hccake.ballcat.admin.modules.sys.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hccake.ballcat.admin.constants.SysRoleConst;
+import com.hccake.ballcat.admin.modules.sys.model.converter.SysRoleConverter;
+import com.hccake.ballcat.admin.modules.sys.model.dto.SysRoleUpdateDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
@@ -77,20 +80,16 @@ public class SysRoleController {
 
 	/**
 	 * 修改角色
-	 * @param role 角色信息
+	 * @param roleUpdateDTO 角色修改DTO
 	 * @return success/false
 	 */
 	@ApiOperation(value = "修改系统角色", notes = "修改系统角色")
 	@UpdateOperationLogging(msg = "修改系统角色")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('sys:sysrole:edit')")
-	public R<Boolean> update(@Valid @RequestBody SysRole role) {
-		SysRole oldRole = sysRoleService.getById(role.getId());
-		if (oldRole.isSystem()) {
-			// 系统角色不能被取消
-			role.setSystem(oldRole.isSystem());
-		}
-		return R.ok(sysRoleService.updateById(role));
+	public R<Boolean> update(@Valid @RequestBody SysRoleUpdateDTO roleUpdateDTO) {
+		SysRole sysRole = SysRoleConverter.INSTANCE.dtoToPo(roleUpdateDTO);
+		return R.ok(sysRoleService.updateById(sysRole));
 	}
 
 	/**
@@ -104,7 +103,7 @@ public class SysRoleController {
 	@PreAuthorize("@per.hasPermission('sys:sysrole:del')")
 	public R<Boolean> removeById(@PathVariable Integer id) {
 		SysRole oldRole = sysRoleService.getById(id);
-		if (oldRole.isSystem()) {
+		if (SysRoleConst.Type.SYSTEM.getValue().equals(oldRole.getType())) {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "系统角色不允许被删除!");
 		}
 		return R.ok(sysRoleService.removeRoleById(id));

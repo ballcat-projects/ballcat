@@ -41,8 +41,8 @@ public class SysRole extends Model<SysRole> {
 	@ApiModelProperty(value = "角色备注")
 	private String note;
 
-	@ApiModelProperty("角色是否为系统角色")
-	private boolean system;
+	@ApiModelProperty("角色类型，1：系统角色 2：业务角色")
+	private Integer type;
 
 	/**
 	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
