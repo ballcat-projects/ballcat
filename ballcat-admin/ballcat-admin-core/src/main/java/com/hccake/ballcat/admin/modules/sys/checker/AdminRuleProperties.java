@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.modules.sys.config;
+package com.hccake.ballcat.admin.modules.sys.checker;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -8,12 +8,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Data
 @ConfigurationProperties(prefix = "ballcat.admin.rule")
-public class AdminRuleConfig {
+public class AdminRuleProperties {
 
 	/**
 	 * 指定id的用户为超级管理员
 	 */
-	private int id = -1;
+	private int userId = -1;
 
 	/**
 	 * 指定 username 为超级管理员

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.modules.sys.service;
+package com.hccake.ballcat.admin.modules.sys.checker;
 
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 
@@ -7,7 +7,7 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
  *
  * @author lingting 2020-06-24 21:00:15
  */
-public interface SysAdminConfigService {
+public interface AdminUserChecker {
 
 	/**
 	 * 校验用户是否为超级管理员
@@ -15,6 +15,6 @@ public interface SysAdminConfigService {
 	 * @return boolean
 	 * @author lingting 2020-06-24 21:07:33
 	 */
-	boolean verify(SysUser user);
+	boolean isAdminUser(SysUser user);
 
 }

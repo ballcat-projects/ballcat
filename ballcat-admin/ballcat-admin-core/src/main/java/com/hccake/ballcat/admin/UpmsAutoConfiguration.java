@@ -1,6 +1,8 @@
 package com.hccake.ballcat.admin;
 
+import com.hccake.ballcat.admin.modules.sys.checker.AdminRuleProperties;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 @ServletComponentScan("com.hccake.ballcat.admin.oauth.filter")
 @Configuration
+@EnableConfigurationProperties(AdminRuleProperties.class)
 public class UpmsAutoConfiguration {
 
 }
