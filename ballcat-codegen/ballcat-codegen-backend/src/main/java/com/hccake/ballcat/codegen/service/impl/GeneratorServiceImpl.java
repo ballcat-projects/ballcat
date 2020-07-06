@@ -1,7 +1,6 @@
 package com.hccake.ballcat.codegen.service.impl;
 
 import cn.hutool.core.lang.Assert;
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
 import com.hccake.ballcat.codegen.model.vo.ColumnInfo;
@@ -25,7 +24,6 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@DS("#header.dsName")
 public class GeneratorServiceImpl implements GeneratorService {
 
 	private final TableInfoService tableInfoService;
