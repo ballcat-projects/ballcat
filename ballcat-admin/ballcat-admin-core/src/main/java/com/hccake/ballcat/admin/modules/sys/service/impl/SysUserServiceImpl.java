@@ -1,6 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -20,10 +21,8 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.UserInfo;
-import com.hccake.ballcat.admin.modules.sys.service.FileService;
-import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
-import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
-import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
+import com.hccake.ballcat.admin.modules.sys.service.*;
+import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
 import com.hccake.ballcat.common.core.vo.SelectData;
@@ -57,6 +56,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	private final SysPermissionService sysPermissionService;
 
 	private final SysUserRoleService sysUserRoleService;
+
+	private final SysAdminConfigService sysAdminConfigService;
+
+	private final SysRoleService sysRoleService;
 
 	@Value("${password.secret-key}")
 	private String secretKey;
@@ -99,7 +102,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		UserInfo userInfo = new UserInfo();
 		userInfo.setSysUser(sysUser);
 		// 设置角色列表 （ID）
-		List<SysRole> roleList = sysUserRoleService.getRoles(sysUser.getUserId());
+		List<SysRole> roleList;
+
+		if (sysAdminConfigService.verify(sysUser)) {
+			// 超级管理员拥有所有角色
+			roleList = sysRoleService.list();
+		}
+		else {
+			roleList = sysUserRoleService.getRoles(sysUser.getUserId());
+		}
 
 		List<Integer> roleIds = new ArrayList<>();
 		List<String> roles = new ArrayList<>();
@@ -148,6 +159,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	public boolean updateSysUser(SysUserDTO sysUserDTO) {
 		SysUser entity = SysUserConverter.INSTANCE.dtoToPo(sysUserDTO);
+		Assert.isFalse(verifyPermission(entity),"无修改权限!");
 		return SqlHelper.retBool(baseMapper.updateById(entity));
 	}
 
@@ -173,6 +185,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public boolean deleteByUserId(Integer userId) {
+		if (sysAdminConfigService.verify(getById(userId))) {
+			// 无法删除超级管理员
+			return false;
+		}
 		// TODO 缓存控制
 		return SqlHelper.retBool(baseMapper.deleteById(userId));
 	}
@@ -185,7 +201,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public boolean updateUserPass(Integer userId, String pass) {
-
+		Assert.isFalse(verifyPermission(getById(userId)),"无修改权限!");
 		String password = PasswordUtil.decodeAesAndEncodeBCrypt(pass, secretKey);
 
 		int res = baseMapper.update(null,
@@ -195,12 +211,27 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
+	 * 判断指定用户是否为超级管理员 如果是，则判断指定用户与当前为同一个用户
+	 * @return 指定用户不是超级管理员 返回 true , 如果指定用户时超级管理员 且 指定用户为当前登录用户 返回true
+	 * @author lingting 2020-06-24 21:24:53
+	 */
+	private boolean verifyPermission(SysUser user) {
+		if (!sysAdminConfigService.verify(user)) {
+			return true;
+		}
+		// 要修改的用户是超级管理员， 但是修改人不是本人
+		return !SecurityUtils.getSysUserDetails().getUsername().equals(user.getUsername());
+	}
+
+	/**
 	 * 批量修改用户状态
 	 * @param userIds
 	 * @return
 	 */
 	@Override
 	public boolean updateUserStatus(List<Integer> userIds, Integer status) {
+		// 移除不是本人且是超级管理员用户
+		userIds.removeIf(id-> !verifyPermission(getById(id)));
 		return this.update(
 				Wrappers.<SysUser>lambdaUpdate().set(SysUser::getStatus, status).in(SysUser::getUserId, userIds));
 	}
@@ -208,6 +239,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public String updateAvatar(MultipartFile file, Integer userId) throws IOException {
+		Assert.isFalse(verifyPermission(getById(userId)),"无修改权限!");
 		// 获取系统用户头像的文件名
 		String objectName = "sysuser/" + userId + "/avatar/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
 				+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
@@ -223,8 +255,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	/**
 	 * 根据角色查询用户
-	 * @return
 	 * @param roleCode
+	 * @return
 	 */
 	@Override
 	public List<SysUser> selectUsersByRoleCode(String roleCode) {
@@ -236,8 +268,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return List<SelectData>
 	 */
 	@Override
-	public List<SelectData> getSelectData(Integer type) {
-
+	public List<SelectData<?>> getSelectData(Integer type) {
 		return baseMapper.getSelectData(type);
 	}
 

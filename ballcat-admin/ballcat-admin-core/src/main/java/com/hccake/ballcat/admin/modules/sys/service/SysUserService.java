@@ -109,6 +109,6 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param type 为空时返回所有客户为1返回系统客户 name=> username value => userId
 	 * @return List<SelectData>
 	 */
-	List<SelectData> getSelectData(Integer type);
+	List<SelectData<?>> getSelectData(Integer type);
 
 }

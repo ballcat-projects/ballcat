@@ -12,6 +12,7 @@ import com.hccake.ballcat.admin.modules.sys.service.SysRoleService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
+import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.vo.SelectData;
 import io.swagger.annotations.Api;
@@ -46,8 +47,8 @@ public class SysRoleController {
 	 */
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:sysrole:read')")
-	public R<IPage<SysRole>> getRolePage(Page<SysRole> page, SysRoleQO sysRoleQO) {
-		return R.ok(sysRoleService.page(page, sysRoleQO));
+	public R<IPage<SysRole>> getRolePage(Page<SysRole> page, SysRoleQO sysRoleQo) {
+		return R.ok(sysRoleService.page(page, sysRoleQo));
 	}
 
 	/**
@@ -57,7 +58,7 @@ public class SysRoleController {
 	 */
 	@GetMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('sys:sysrole:read')")
-	public R getById(@PathVariable Integer id) {
+	public R<SysRole> getById(@PathVariable Integer id) {
 		return R.ok(sysRoleService.getById(id));
 	}
 
@@ -70,7 +71,7 @@ public class SysRoleController {
 	@CreateOperationLogging(msg = "新增系统角色")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('sys:sysrole:add')")
-	public R save(@Valid @RequestBody SysRole sysRole) {
+	public R<Boolean> save(@Valid @RequestBody SysRole sysRole) {
 		return R.ok(sysRoleService.save(sysRole));
 	}
 
@@ -83,20 +84,29 @@ public class SysRoleController {
 	@UpdateOperationLogging(msg = "修改系统角色")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('sys:sysrole:edit')")
-	public R update(@Valid @RequestBody SysRole role) {
+	public R<Boolean> update(@Valid @RequestBody SysRole role) {
+		SysRole oldRole = sysRoleService.getById(role.getId());
+		if (oldRole.isSystem()) {
+			// 系统角色不能被取消
+			role.setSystem(oldRole.isSystem());
+		}
 		return R.ok(sysRoleService.updateById(role));
 	}
 
 	/**
 	 * 删除角色
-	 * @param id
-	 * @return
+	 * @param id id
+	 * @return 结果信息
 	 */
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "通过id删除系统角色", notes = "通过id删除系统角色")
 	@DeleteOperationLogging(msg = "通过id删除系统角色")
 	@PreAuthorize("@per.hasPermission('sys:sysrole:del')")
-	public R removeById(@PathVariable Integer id) {
+	public R<Boolean> removeById(@PathVariable Integer id) {
+		SysRole oldRole = sysRoleService.getById(id);
+		if (oldRole.isSystem()) {
+			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "系统角色不允许被删除!");
+		}
 		return R.ok(sysRoleService.removeRoleById(id));
 	}
 
@@ -105,7 +115,7 @@ public class SysRoleController {
 	 * @return 角色列表
 	 */
 	@GetMapping("/list")
-	public R listRoles() {
+	public R<List<SysRole>> listRoles() {
 		return R.ok(sysRoleService.list(Wrappers.emptyWrapper()));
 	}
 
@@ -119,7 +129,7 @@ public class SysRoleController {
 	@ApiOperation(value = "更新角色权限", notes = "更新角色权限")
 	@UpdateOperationLogging(msg = "更新角色权限")
 	@PreAuthorize("@per.hasPermission('sys:sysrole:grant')")
-	public R savePermissionIds(@PathVariable Integer roleId, @RequestBody Integer[] permissionIds) {
+	public R<Boolean> savePermissionIds(@PathVariable Integer roleId, @RequestBody Integer[] permissionIds) {
 		return R.ok(sysRolePermissionService.saveRolePermissions(roleId, permissionIds));
 	}
 
@@ -129,7 +139,7 @@ public class SysRoleController {
 	 * @return 属性集合
 	 */
 	@GetMapping("/permission/ids/{roleId}")
-	public R getPermissionIds(@PathVariable Integer roleId) {
+	public R<List<Integer>> getPermissionIds(@PathVariable Integer roleId) {
 		return R.ok(sysPermissionService.findPermissionVOByRoleId(roleId).stream().map(PermissionVO::getId)
 				.collect(Collectors.toList()));
 	}
@@ -139,7 +149,7 @@ public class SysRoleController {
 	 * @return 角色列表
 	 */
 	@GetMapping("/select")
-	public R<List<SelectData>> getSelectData() {
+	public R<List<SelectData<?>>> getSelectData() {
 		return R.ok(sysRoleService.getSelectData());
 	}
 

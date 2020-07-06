@@ -67,7 +67,7 @@ public class SysUserController {
 	 */
 	@GetMapping("/select")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:read')")
-	public R<List<SelectData>> getSelectData() {
+	public R<List<SelectData<?>>> getSelectData() {
 		return R.ok(sysUserService.getSelectData(null));
 	}
 
@@ -77,7 +77,7 @@ public class SysUserController {
 	 */
 	@GetMapping("/select/{userType}")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:read')")
-	public R<List<SelectData>> getSysSelectData(@PathVariable Integer userType) {
+	public R<List<SelectData<?>>> getSysSelectData(@PathVariable Integer userType) {
 		return R.ok(sysUserService.getSelectData(userType));
 	}
 
@@ -90,7 +90,7 @@ public class SysUserController {
 	@ApiOperation(value = "新增系统用户", notes = "新增系统用户")
 	@CreateOperationLogging(msg = "新增系统用户")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:add')")
-	public R addSysUser(@Valid @RequestBody SysUserDTO sysUserDto) {
+	public R<?> addSysUser(@Valid @RequestBody SysUserDTO sysUserDto) {
 
 		SysUser user = sysUserService.getByUsername(sysUserDto.getUsername());
 		if (user != null) {
@@ -109,21 +109,19 @@ public class SysUserController {
 	@ApiOperation(value = "修改系统用户", notes = "修改系统用户")
 	@UpdateOperationLogging(msg = "修改系统用户")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
-	public R updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
+	public R<?> updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
 		return sysUserService.updateSysUser(sysUserDto) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改系统用户失败");
 	}
 
 	/**
 	 * 删除用户信息
-	 * @param userId
-	 * @return
 	 */
 	@DeleteMapping("/{userId}")
 	@ApiOperation(value = "通过id删除系统用户", notes = "通过id删除系统用户")
 	@DeleteOperationLogging(msg = "通过id删除系统用户")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:del')")
-	public R deleteByUserId(@PathVariable Integer userId) {
+	public R<?> deleteByUserId(@PathVariable Integer userId) {
 		return sysUserService.deleteByUserId(userId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "删除系统用户失败");
 	}
@@ -160,23 +158,19 @@ public class SysUserController {
 	@ApiOperation(value = "系统用户授权", notes = "系统用户授权")
 	@UpdateOperationLogging(msg = "系统用户授权")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:grant')")
-	public R updateUserScope(@PathVariable Integer userId, @RequestBody SysUserScope sysUserScope) {
+	public R<?> updateUserScope(@PathVariable Integer userId, @RequestBody SysUserScope sysUserScope) {
 		return sysUserService.updateUserScope(userId, sysUserScope) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "系统用户授权失败");
 	}
 
 	/**
 	 * 修改用户密码
-	 * @param userId
-	 * @param pass
-	 * @param confirm
-	 * @return
 	 */
 	@PutMapping("/pass/{userId}")
 	@ApiOperation(value = "修改系统用户密码", notes = "修改系统用户密码")
 	@UpdateOperationLogging(msg = "修改系统用户密码")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:pass')")
-	public R updateUserPass(@PathVariable Integer userId, String pass, String confirm) {
+	public R<?> updateUserPass(@PathVariable Integer userId, String pass, String confirm) {
 		if (StrUtil.isBlank(pass) || StrUtil.isBlank(confirm) || !pass.equals(confirm)) {
 			return R.failed(SystemResultCode.BAD_REQUEST, "错误的密码!");
 		}
@@ -187,14 +181,12 @@ public class SysUserController {
 
 	/**
 	 * 批量修改用户状态
-	 * @param userIds
-	 * @return
 	 */
 	@PutMapping("/status")
 	@ApiOperation(value = "批量修改用户状态", notes = "批量修改用户状态")
 	@UpdateOperationLogging(msg = "批量修改用户状态")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:edit')")
-	public R updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
+	public R<?> updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
 			@NotNull(message = "用户状态不能为空") @RequestParam Integer status) {
 
 		if (!SysUserConst.Status.NORMAL.getValue().equals(status)
