@@ -18,6 +18,10 @@
 		<module>ballcat-sample-swagger-provider</module>
 	</modules>
 
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
+
 	<profiles>
 		<profile>
 			<id>ossrh</id>

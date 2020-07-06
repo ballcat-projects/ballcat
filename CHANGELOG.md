@@ -2,10 +2,21 @@
 
 更新日志
 
+## [Unreleased]
+
+- Lov 支持
+
 
 ## [0.0.3] - 2020-07-06
 
  ### Added
+
+- 重构代码生成器
+  - 前端使用 ant-design-vue 重构，支持单体应用以及前后端分离两种部署方式
+  - 多数据源支持，动态添加删除，生成时选择对应数据源进行代码生成
+  - 代码生成结构调整，支持自定义代码生成结构
+  - 支持在线模板编辑
+  - 支持自定义模板属性，定制模板
 
 - 提供 dingTalk-starter，简化 dingTalk 接入
 
@@ -29,6 +40,7 @@
 ### Changed
 
 - 访问日志忽略路径修改为可配置
+
 - 角色新增类型属性，对于系统类型角色，不允许删除
 
 - 更新逻辑删除不能使用 unique key 的问题，逻辑删除使用时间戳，未删除为0，删除则为删除的时间戳，实体类字段同一使用Long，数据库使用bigint。  
@@ -80,12 +92,19 @@ ADD COLUMN `type` tinyint(1) NULL DEFAULT 2 COMMENT '角色类型，1：系统�
 ### Added
 
 - 更新系统配置表，重命名为 sys_config, 并调整包位置，并入sys模块下。
+
 - 模块重构，调整部分common下的模块，修改放入starter
+
 - 合并 simple-cache，后续直接引入`ballcat-spring-boot-starter-redis`模块，即可开启全局key前缀，以及缓存注解功能
+
 - traceId跟踪，引入`ballcat-spring-boot-starter-log`，会自动为每个请求的日志上下文中注入TraceId
+
 - operation_log、admin_access_log表新增字段 trace_id，类型char(24).
+
 - logback-spring.xml 彩色日志模板中，加入`%clr([%X{traceId}]){faint}`，文件日志模板加入`[%X{traceId}]`，用于打印traceId
+
 - 移除api_access_log表，以及相关代码
+
 - 更新日志，追加追踪ID，操作类型
 
 - core项目更新为自动装配，可以删除项目Application中的
