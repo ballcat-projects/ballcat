@@ -29,20 +29,6 @@
             <groupId>com.hccake</groupId>
             <artifactId>ballcat-spring-boot-starter-storage</artifactId>
         </dependency>
-        <!-- swagger 文档聚合 -->
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-spring-boot-starter-swagger</artifactId>
-        </dependency>
-        <!-- swagger 增强版 ui -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-ui</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-        </dependency>
         <!--mybatis plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
