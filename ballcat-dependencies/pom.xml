@@ -42,10 +42,13 @@
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<spring-javaformat-checkstyle.version>0.0.22</spring-javaformat-checkstyle.version>
 
+		<springfox.version>2.9.2</springfox.version>
+		<swagger.version>1.5.21</swagger.version>
+		<knife4j.version>1.9.6</knife4j.version>
+
 		<hutool.version>5.2.5</hutool.version>
 		<mybatis-plus.version>3.3.2</mybatis-plus.version>
 		<dynamic-datasource.version>3.1.1</dynamic-datasource.version>
-		<swagger.core.version>1.5.2</swagger.core.version>
 		<xxl-job.version>2.2.0</xxl-job.version>
 		<spring-boot-admin.version>2.2.3</spring-boot-admin.version>
 		<oss.aliyun.version>3.8.0</oss.aliyun.version>
@@ -140,8 +143,37 @@
 			<dependency>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-annotations</artifactId>
-				<version>${swagger.core.version}</version>
+				<version>${swagger.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-models</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<!-- springfox swagger ui -->
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<!-- swagger 增强版 ui -->
+			<dependency>
+				<groupId>com.github.xiaoymin</groupId>
+				<artifactId>knife4j-spring-ui</artifactId>
+				<version>${knife4j.version}</version>
+			</dependency>
+
+
 			<!--xxl-job-->
 			<dependency>
 				<groupId>com.xuxueli</groupId>
