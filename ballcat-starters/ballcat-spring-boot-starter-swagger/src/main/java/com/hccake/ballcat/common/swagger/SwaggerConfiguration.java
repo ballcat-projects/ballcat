@@ -1,6 +1,11 @@
 package com.hccake.ballcat.common.swagger;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ClassUtil;
+import com.fasterxml.classmate.ResolvedType;
+import com.fasterxml.classmate.TypeResolver;
 import com.hccake.ballcat.common.swagger.property.SwaggerProperties;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Hccake
@@ -32,12 +38,38 @@ public class SwaggerConfiguration {
 	}
 
 	@Bean
-	public Docket api(SwaggerProperties swaggerProperties) {
-		return new Docket(DocumentationType.SWAGGER_2).host(swaggerProperties.getHost())
-				.apiInfo(apiInfo(swaggerProperties)).groupName(swaggerProperties.getGroupName()).select()
-				.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).build()
+	public Docket api(SwaggerProperties swaggerProperties, TypeResolver typeResolver) {
+
+		// @formatter:off
+		Docket docket = new Docket(DocumentationType.SWAGGER_2)
+				.host(swaggerProperties.getHost())
+				.apiInfo(apiInfo(swaggerProperties))
+				.groupName(swaggerProperties.getGroupName())
+				.select()
+				.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+				.build()
 				.securitySchemes(Collections.singletonList(securitySchema()))
-				.securityContexts(Collections.singletonList(securityContext())).pathMapping("/");
+				.securityContexts(Collections.singletonList(securityContext()))
+				.pathMapping("/");
+		// @formatter:on
+
+		// 加载额外的model
+		String[] additionalModelPackage = swaggerProperties.getAdditionalModelPackage();
+		if (additionalModelPackage != null && additionalModelPackage.length > 0) {
+			for (String scanPackage : additionalModelPackage) {
+				// 扫描指定包下，拥有注解 @ApiModel 的 class
+				Set<Class<?>> classes = ClassUtil.scanPackageByAnnotation(scanPackage, ApiModel.class);
+				if (CollectionUtil.isEmpty(classes)) {
+					continue;
+				}
+				for (Class<?> aClass : classes) {
+					ResolvedType resolve = typeResolver.resolve(aClass);
+					docket.additionalModels(resolve);
+				}
+			}
+		}
+
+		return docket;
 	}
 
 	/**
@@ -45,8 +77,14 @@ public class SwaggerConfiguration {
 	 * @return
 	 */
 	private SecurityContext securityContext() {
-		return SecurityContext.builder().securityReferences(defaultAuth())
-				.forPaths(PathSelectors.regex(swaggerProperties().getAuthorization().getAuthRegex())).build();
+		// @formatter:off
+		return SecurityContext.builder()
+				.securityReferences(defaultAuth())
+				.forPaths(PathSelectors.regex(swaggerProperties()
+				.getAuthorization()
+				.getAuthRegex()))
+				.build();
+		// @formatter:on
 	}
 
 	/**
@@ -76,12 +114,18 @@ public class SwaggerConfiguration {
 	}
 
 	private ApiInfo apiInfo(SwaggerProperties swaggerProperties) {
-		return new ApiInfoBuilder().title(swaggerProperties.getTitle()).description(swaggerProperties.getDescription())
-				.license(swaggerProperties.getLicense()).licenseUrl(swaggerProperties.getLicenseUrl())
+		// @formatter:off
+		return new ApiInfoBuilder()
+				.title(swaggerProperties.getTitle())
+				.description(swaggerProperties.getDescription())
+				.license(swaggerProperties.getLicense())
+				.licenseUrl(swaggerProperties.getLicenseUrl())
 				.termsOfServiceUrl(swaggerProperties.getTermsOfServiceUrl())
-				.contact(new Contact(swaggerProperties.getContact().getName(), swaggerProperties.getContact().getUrl(),
+				.contact(new Contact(swaggerProperties.getContact().getName(),
+						swaggerProperties.getContact().getUrl(),
 						swaggerProperties.getContact().getEmail()))
 				.version(swaggerProperties.getVersion()).build();
+		// @formatter:on
 	}
 
 }

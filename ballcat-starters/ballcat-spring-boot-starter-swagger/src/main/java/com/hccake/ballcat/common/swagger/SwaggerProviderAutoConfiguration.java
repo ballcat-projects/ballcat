@@ -28,11 +28,11 @@ public class SwaggerProviderAutoConfiguration {
 
 	/**
 	 * 允许swagger文档跨域访问 解决聚合文档导致的跨域问题
-	 * @return
+	 * @return FilterRegistrationBean
 	 */
 	@Bean
 	@ConditionalOnBean(SwaggerProviderProperties.class)
-	public FilterRegistrationBean corsFilter(SwaggerProviderProperties swaggerProviderProperties) {
+	public FilterRegistrationBean<CorsFilter> corsFilter(SwaggerProviderProperties swaggerProviderProperties) {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
@@ -40,7 +40,7 @@ public class SwaggerProviderAutoConfiguration {
 		config.addAllowedMethod("*");
 		config.addAllowedOrigin(swaggerProviderProperties.getAggregatorOrigin());
 		source.registerCorsConfiguration("/v2/api-docs**", config);
-		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
 		bean.setOrder(0);
 		return bean;
 	}

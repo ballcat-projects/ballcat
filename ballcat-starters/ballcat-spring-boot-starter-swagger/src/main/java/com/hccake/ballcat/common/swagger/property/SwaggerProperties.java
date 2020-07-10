@@ -27,19 +27,9 @@ public class SwaggerProperties {
 	private String groupName;
 
 	/**
-	 * swagger会解析的包路径
+	 * 额外的Model的包路径 用于扫描并加载未被 swagger 引入的 model， 例如未明确在接口定义会返回的类，或者一些公共的类
 	 **/
-	private String basePackage = "";
-
-	/**
-	 * swagger会解析的url规则
-	 **/
-	private List<String> basePath = new ArrayList<>();
-
-	/**
-	 * 在basePath基础上需要排除的url规则
-	 **/
-	private List<String> excludePath = new ArrayList<>();
+	private String[] additionalModelPackage = {};
 
 	/**
 	 * 标题
