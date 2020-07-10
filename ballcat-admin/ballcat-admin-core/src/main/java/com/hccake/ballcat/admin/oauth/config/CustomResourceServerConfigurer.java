@@ -40,22 +40,25 @@ public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdap
 
 	/**
 	 * 通过重载，配置如何通过拦截器保护请求
-	 * @param http
-	 * @throws Exception
+	 * @param httpSecurity HttpSecurity
+	 * @throws Exception 异常信息
 	 */
 	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		http
-				// 拦截 url 配置
-				.authorizeRequests()
-				.antMatchers(ArrayUtil.toArray(permitAllUrlProperties.getIgnoreUrls(), String.class)).permitAll()
-				.anyRequest().authenticated()
+	public void configure(HttpSecurity httpSecurity) throws Exception {
+		// @formatter:off
+		httpSecurity
+			// 拦截 url 配置
+			.authorizeRequests()
+			.antMatchers(ArrayUtil.toArray(permitAllUrlProperties.getIgnoreUrls(), String.class))
+			.permitAll()
+			.anyRequest().authenticated()
 
-				// 使用token鉴权时 关闭 session 缓存
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			// 使用token鉴权时 关闭 session 缓存
+			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-				// 关闭 csrf 跨站攻击防护
-				.and().csrf().disable();
+			// 关闭 csrf 跨站攻击防护
+			.and().csrf().disable();
+		// @formatter:on
 	}
 
 }

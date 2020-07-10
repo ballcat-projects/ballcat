@@ -80,12 +80,20 @@ public class OperationLogAspect {
 		// 获取 Request
 		HttpServletRequest request = LogUtils.getHttpServletRequest();
 
-		return new OperationLogDTO().setCreateTime(LocalDateTime.now()).setIp(IPUtil.getIpAddr(request))
-				.setMethod(request.getMethod()).setOperator(Objects.requireNonNull(LogUtils.getUsername()))
-				.setStatus(LogStatusEnum.SUCCESS.getValue()).setUserAgent(request.getHeader("user-agent"))
-				.setUri(URLUtil.getPath(request.getRequestURI())).setType(operationLogging.type().getValue())
-				.setMsg(operationLogging.msg()).setParams(LogUtils.getParams(joinPoint))
+		// @formatter:off
+		return new OperationLogDTO()
+				.setCreateTime(LocalDateTime.now())
+				.setIp(IPUtil.getIpAddr(request))
+				.setMethod(request.getMethod())
+				.setOperator(Objects.requireNonNull(LogUtils.getUsername()))
+				.setStatus(LogStatusEnum.SUCCESS.getValue())
+				.setUserAgent(request.getHeader("user-agent"))
+				.setUri(URLUtil.getPath(request.getRequestURI()))
+				.setType(operationLogging.type().getValue())
+				.setMsg(operationLogging.msg())
+				.setParams(LogUtils.getParams(joinPoint))
 				.setTraceId(MDC.get(LogConstant.TRACE_ID));
+		// @formatter:on
 	}
 
 }

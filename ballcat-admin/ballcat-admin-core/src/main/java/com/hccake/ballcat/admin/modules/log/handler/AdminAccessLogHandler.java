@@ -45,15 +45,20 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 	@Override
 	public AdminAccessLog prodLog(HttpServletRequest request, HttpServletResponse response, Long time,
 			Throwable myThrowable) {
-
-		AdminAccessLog adminAccessLog = new AdminAccessLog().setTraceId(MDC.get(LogConstant.TRACE_ID))
-				.setCreateTime(LocalDateTime.now()).setTime(time).setIp(IPUtil.getIpAddr(request))
-				.setMethod(request.getMethod()).setUserAgent(request.getHeader("user-agent"))
+		// @formatter:off
+		AdminAccessLog adminAccessLog = new AdminAccessLog()
+				.setTraceId(MDC.get(LogConstant.TRACE_ID))
+				.setCreateTime(LocalDateTime.now())
+				.setTime(time)
+				.setIp(IPUtil.getIpAddr(request))
+				.setMethod(request.getMethod())
+				.setUserAgent(request.getHeader("user-agent"))
 				.setUri(URLUtil.getPath(request.getRequestURI()))
-				.setMatchingPattern(
-						String.valueOf(request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE)))
-				.setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(null))
-				.setHttpStatus(response.getStatus()).setReqParams(JSONUtil.toJsonStr(request.getParameterMap()));
+				.setMatchingPattern(String.valueOf(request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE)))
+				.setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(""))
+				.setHttpStatus(response.getStatus())
+				.setReqParams(JSONUtil.toJsonStr(request.getParameterMap()));
+		// @formatter:on
 
 		// 非文件上传请求，记录body
 		if (!LogUtils.isMultipartContent(request)) {

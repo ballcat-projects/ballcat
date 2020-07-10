@@ -57,8 +57,12 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	 */
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()")
-				.authenticationEntryPoint(authenticationEntryPoint).allowFormAuthenticationForClients();
+		// @formatter:off
+		security.tokenKeyAccess("permitAll()")
+			.checkTokenAccess("isAuthenticated()")
+			.authenticationEntryPoint(authenticationEntryPoint)
+			.allowFormAuthenticationForClients();
+		// @formatter:on
 	}
 
 	/**
@@ -79,6 +83,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	 */
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		// @formatter:off
 		endpoints.tokenStore(tokenStore()).userDetailsService(sysUserDetailsService)
 				.authenticationManager(authenticationManager)
 				// 自定义token
@@ -89,11 +94,12 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 				.exceptionTranslator(customWebResponseExceptionTranslator)
 				// 自定义tokenGranter
 				.tokenGranter(tokenGranter(endpoints));
+		// @formatter:on
 	}
 
 	/**
 	 * 定义token的存储方式
-	 * @return
+	 * @return TokenStore token存储
 	 */
 	@Bean
 	public TokenStore tokenStore() {
