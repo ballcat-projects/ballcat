@@ -7,11 +7,12 @@ import cn.hutool.crypto.symmetric.AES;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 
 /**
+ * 前后端交互中密码使用 AES 加密，模式: CBC，padding: PKCS5，偏移量暂不定制和密钥相同。 <br/>
+ * 服务端OAuth2中，密码使用BCrypt方式加密
+ *
  * @author Hccake
  * @version 1.0
  * @date 2019/9/25 15:14
@@ -20,43 +21,49 @@ public class PasswordUtil {
 
 	public static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
+	/**
+	 * 将前端传递过来的密文解密后再进行加密
+	 * @param pass AES加密后的密文
+	 * @param secretKey 密钥
+	 * @return BCrypt加密后的密文密码
+	 */
 	public static String decodeAesAndEncodeBCrypt(String pass, String secretKey) {
 		return encodeBCrypt(decodeAES(pass, secretKey));
 	}
 
+	/**
+	 * 将前端传递过来的密文解密为明文
+	 * @param aesPass AES加密后的密文
+	 * @param secretKey 密钥
+	 * @return 明文密码
+	 */
 	public static String decodeAES(String aesPass, String secretKey) {
-
-		AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(secretKey.getBytes(), "AES"),
-				new IvParameterSpec(secretKey.getBytes()));
+		byte[] secretKeyBytes = secretKey.getBytes();
+		AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, secretKeyBytes, secretKeyBytes);
 		byte[] result = aes.decrypt(Base64.decode(aesPass.getBytes(StandardCharsets.UTF_8)));
 		// 删除byte数组中补位产生的\u0000, 否则密码校验时会有问题
 		return new String(result, StandardCharsets.UTF_8).replaceAll("[\u0000]", "");
 	}
 
-	public static String encodeAESBase64(String pass, String secretKey) {
-		AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(secretKey.getBytes(), "AES"),
-				new IvParameterSpec(secretKey.getBytes()));
-		return aes.encryptBase64(pass, StandardCharsets.UTF_8);
+	/**
+	 * 将明文密码加密为密文
+	 * @param password 明文密码
+	 * @param secretKey 密钥
+	 * @return AES加密后的密文
+	 */
+	public static String encodeAESBase64(String password, String secretKey) {
+		byte[] secretKeyBytes = secretKey.getBytes();
+		AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, secretKeyBytes, secretKeyBytes);
+		return aes.encryptBase64(password, StandardCharsets.UTF_8);
 	}
 
-	public static String encodeBCrypt(String pass) {
-		return ENCODER.encode(pass);
-	}
-
-	public static void main(String[] args) {
-
-		System.out.println(decodeAES("4Yj0Jfy+MjEW/RGafIoEJA==", "==BallCat-Auth=="));
-		;
-
-		String pass = "a123456";
-		String password = ENCODER.encode(pass);
-
-		System.out.println(password);
-
-		System.out.println(ENCODER.matches(pass, password));
-
-		System.out.println(ENCODER.matches(pass, "$2a$10$YJDXeAsk7FjQQVTdutIat.rPR3p3uUPWmZyhtnRDOrIjPujOAUrla"));
-
+	/**
+	 * 使用BCrypt加密密码
+	 * @param password 明文密码
+	 * @return BCrypt加密后的密码
+	 */
+	public static String encodeBCrypt(String password) {
+		return ENCODER.encode(password);
 	}
 
 }
