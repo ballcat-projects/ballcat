@@ -9,6 +9,7 @@ import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -102,6 +103,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	 * @return TokenStore token存储
 	 */
 	@Bean
+	@DependsOn("cachePropertiesHolder")
 	public TokenStore tokenStore() {
 		RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
 		tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + SecurityConst.OAUTH_PREFIX);
