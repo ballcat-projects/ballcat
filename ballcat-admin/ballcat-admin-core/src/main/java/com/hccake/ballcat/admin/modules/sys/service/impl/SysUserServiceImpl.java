@@ -157,7 +157,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	public boolean updateSysUser(SysUserDTO sysUserDTO) {
 		SysUser entity = SysUserConverter.INSTANCE.dtoToPo(sysUserDTO);
-		Assert.isTrue(hasModifyPermission(entity), "无修改权限!");
+		Assert.isTrue(hasModifyPermission(entity), "当前用户不允许修改!");
 		return SqlHelper.retBool(baseMapper.updateById(entity));
 	}
 
@@ -198,7 +198,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public boolean updateUserPass(Integer userId, String pass) {
-		Assert.isTrue(hasModifyPermission(getById(userId)), "无修改权限!");
+		Assert.isTrue(hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		String password = PasswordUtil.decodeAesAndEncodeBCrypt(pass, secretKey);
 
 		int res = baseMapper.update(null,
@@ -244,7 +244,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public String updateAvatar(MultipartFile file, Integer userId) throws IOException {
-		Assert.isTrue(hasModifyPermission(getById(userId)), "无修改权限!");
+		Assert.isTrue(hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		// 获取系统用户头像的文件名
 		String objectName = "sysuser/" + userId + "/avatar/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
 				+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
