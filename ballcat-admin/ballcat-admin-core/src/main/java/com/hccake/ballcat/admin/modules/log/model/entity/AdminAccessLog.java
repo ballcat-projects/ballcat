@@ -100,6 +100,12 @@ public class AdminAccessLog extends Model<AdminAccessLog> {
 	private Integer httpStatus;
 
 	/**
+	 * 响应信息
+	 */
+	@ApiModelProperty(value = "响应信息")
+	private String result;
+
+	/**
 	 * 错误消息
 	 */
 	@ApiModelProperty(value = "错误消息")

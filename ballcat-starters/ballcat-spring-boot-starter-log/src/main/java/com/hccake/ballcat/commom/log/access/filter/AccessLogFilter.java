@@ -6,6 +6,7 @@ import com.hccake.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -63,12 +64,14 @@ public class AccessLogFilter extends OncePerRequestFilter {
 		else {
 			requestWrapper = new RepeatBodyRequestWrapper(request);
 		}
+		// 包装 response，便于重复获取 body
+		ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
 
 		// 开始时间
 		Long startTime = System.currentTimeMillis();
 		Throwable myThrowable = null;
 		try {
-			filterChain.doFilter(requestWrapper, response);
+			filterChain.doFilter(requestWrapper, responseWrapper);
 		}
 		catch (Throwable throwable) {
 			// 记录外抛异常
@@ -87,9 +90,10 @@ public class AccessLogFilter extends OncePerRequestFilter {
 				myThrowable = throwable;
 			}
 			// 生产一个日志并记录
-			accessLogService.logRecord(requestWrapper, response, executionTime, myThrowable);
+			accessLogService.logRecord(requestWrapper, responseWrapper, executionTime, myThrowable);
+			// 重新写入数据到响应信息中
+			responseWrapper.copyBodyToResponse();
 		}
-
 	}
 
 }

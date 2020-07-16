@@ -32,6 +32,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 
+	private final static String APPLICATION_JSON = "application/json";
+
 	private final AccessLogAdminSaveThread accessLogAdminSaveThread;
 
 	/**
@@ -63,6 +65,12 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 		// 非文件上传请求，记录body
 		if (!LogUtils.isMultipartContent(request)) {
 			adminAccessLog.setReqBody(LogUtils.getRequestBody(request));
+		}
+
+		// 只记录响应头为 application/json 的返回数据
+		// 后台日志对于分页数据请求，不记录返回值
+		if (!request.getRequestURI().endsWith("/page") && response.getContentType().contains(APPLICATION_JSON)) {
+			adminAccessLog.setResult(LogUtils.getResponseBody(response));
 		}
 
 		// 如果登陆用户 则记录用户名和用户id

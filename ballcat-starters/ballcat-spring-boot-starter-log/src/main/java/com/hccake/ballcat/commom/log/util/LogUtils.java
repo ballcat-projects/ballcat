@@ -12,9 +12,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -31,7 +34,7 @@ public class LogUtils {
 
 	/**
 	 * 获取当前登陆用户名
-	 * @return
+	 * @return current login user name
 	 */
 	public String getUsername() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -43,8 +46,8 @@ public class LogUtils {
 
 	/**
 	 * 获取请求体
-	 * @param request
-	 * @return
+	 * @param request 请求体
+	 * @return requestBody
 	 */
 	public String getRequestBody(HttpServletRequest request) {
 		String body = null;
@@ -60,6 +63,28 @@ public class LogUtils {
 			}
 		}
 		return body;
+	}
+
+	/**
+	 * 获取响应体
+	 * @param response 响应信息
+	 * @return responseBody 响应体
+	 */
+	public String getResponseBody(HttpServletResponse response) {
+		HttpServletRequest request = getHttpServletRequest();
+		try {
+			if (response instanceof ContentCachingResponseWrapper) {
+				ContentCachingResponseWrapper responseWrapper = (ContentCachingResponseWrapper) response;
+				// 获取响应体
+				byte[] contentAsByteArray = responseWrapper.getContentAsByteArray();
+				return new String(contentAsByteArray, StandardCharsets.UTF_8);
+			}
+			log.warn("对于未包装的响应体，默认不进行读取请求体，请求 uri: [{}]", request.getRequestURI());
+		}
+		catch (Exception exception) {
+			log.error("获取响应体信息失败，请求 uri: [{}]", request.getRequestURI());
+		}
+		return "";
 	}
 
 	/**
