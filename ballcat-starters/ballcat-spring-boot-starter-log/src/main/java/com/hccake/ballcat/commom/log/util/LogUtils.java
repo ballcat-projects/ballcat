@@ -72,6 +72,17 @@ public class LogUtils {
 	 */
 	public String getResponseBody(HttpServletResponse response) {
 		HttpServletRequest request = getHttpServletRequest();
+		return getResponseBody(request, response);
+	}
+
+	/**
+	 * 获取响应体 防止在 {@link org.springframework.web.context.request.RequestContextHolder}
+	 * 设置内容之前或清空内容之后使用，从而导致获取不到响应体的问题
+	 * @param request 请求信息
+	 * @param response 响应信息
+	 * @return responseBody 响应体
+	 */
+	public String getResponseBody(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			if (response instanceof ContentCachingResponseWrapper) {
 				ContentCachingResponseWrapper responseWrapper = (ContentCachingResponseWrapper) response;

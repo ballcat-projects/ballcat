@@ -23,11 +23,14 @@ public class SecurityUtils {
 
 	/**
 	 * 获取系统用户Details
-	 * @param authentication
+	 * @param authentication 令牌
 	 * @return SysUser
 	 * <p>
 	 */
 	public SysUserDetails getSysUserDetails(Authentication authentication) {
+		if (authentication == null) {
+			return null;
+		}
 		Object principal = authentication.getPrincipal();
 		if (principal instanceof SysUserDetails) {
 			return (SysUserDetails) principal;

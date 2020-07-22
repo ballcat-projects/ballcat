@@ -47,6 +47,8 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 	@Override
 	public AdminAccessLog prodLog(HttpServletRequest request, HttpServletResponse response, Long time,
 			Throwable myThrowable) {
+		Object matchingPatternAttr = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+		String matchingPattern = matchingPatternAttr == null ? "" : String.valueOf(matchingPatternAttr);
 		// @formatter:off
 		AdminAccessLog adminAccessLog = new AdminAccessLog()
 				.setTraceId(MDC.get(LogConstant.TRACE_ID))
@@ -56,7 +58,7 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 				.setMethod(request.getMethod())
 				.setUserAgent(request.getHeader("user-agent"))
 				.setUri(URLUtil.getPath(request.getRequestURI()))
-				.setMatchingPattern(String.valueOf(request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE)))
+				.setMatchingPattern(matchingPattern)
 				.setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(""))
 				.setHttpStatus(response.getStatus())
 				.setReqParams(JSONUtil.toJsonStr(request.getParameterMap()));
@@ -69,8 +71,9 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 
 		// 只记录响应头为 application/json 的返回数据
 		// 后台日志对于分页数据请求，不记录返回值
-		if (!request.getRequestURI().endsWith("/page") && response.getContentType().contains(APPLICATION_JSON)) {
-			adminAccessLog.setResult(LogUtils.getResponseBody(response));
+		if (!request.getRequestURI().endsWith("/page") && response.getContentType() != null
+				&& response.getContentType().contains(APPLICATION_JSON)) {
+			adminAccessLog.setResult(LogUtils.getResponseBody(request, response));
 		}
 
 		// 如果登陆用户 则记录用户名和用户id
