@@ -6,7 +6,7 @@ import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateFieldByBatch;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 所有的 Mapper接口 都需要继承当前接口 如果想自己定义其他的全局方法， 您的全局 BaseMapper 需要继承当前接口
@@ -21,7 +21,7 @@ public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mappe
 	 * @return int
 	 * @author lingting 2020-05-27 11:41:28
 	 */
-	int insertIgnoreByBatch(@Param("list") List<T> list);
+	int insertIgnoreByBatch(@Param("collection") Collection<T> list);
 
 	/**
 	 * 批处理 如果重复则更新 实现类 {@link InsertOrUpdateByBatch}
@@ -30,7 +30,7 @@ public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mappe
 	 * @return int
 	 * @author lingting 2020-05-27 11:41:28
 	 */
-	int insertOrUpdateByBatch(@Param("list") List<T> list, @Param("ignore") boolean ignore);
+	int insertOrUpdateByBatch(@Param("collection") Collection<T> list, @Param("ignore") boolean ignore);
 
 	/**
 	 * 批处理 如果重复则更新 直接调用本方法会 忽略全局配置的忽略字段 {@link StaticConfig#UPDATE_IGNORE_FIELDS}
@@ -38,7 +38,7 @@ public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mappe
 	 * @return int
 	 * @author lingting 2020-05-27 11:41:28
 	 */
-	default int insertOrUpdateByBatch(@Param("list") List<T> list) {
+	default int insertOrUpdateByBatch(@Param("collection") Collection<T> list) {
 		return insertOrUpdateByBatch(list, true);
 	}
 
@@ -50,6 +50,6 @@ public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mappe
 	 * @return int
 	 * @author lingting 2020-05-27 15:48:20
 	 */
-	int insertOrUpdateFieldByBatch(@Param("list") List<T> list, @Param("columns") Columns<T> columns);
+	int insertOrUpdateFieldByBatch(@Param("collection") Collection<T> list, @Param("columns") Columns<T> columns);
 
 }
