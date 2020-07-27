@@ -53,7 +53,7 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 	protected StringBuilder prepareValuesBuildSqlForMysqlBatch(TableInfo tableInfo) {
 		final StringBuilder valueSql = new StringBuilder();
 		valueSql.append(
-				"<foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" separator=\"),(\" close=\")\">");
+				"<foreach collection=\"collection\" item=\"item\" index=\"index\" open=\"(\" separator=\"),(\" close=\")\">");
 		valueSql.append("#{item.").append(tableInfo.getKeyProperty()).append("},");
 		tableInfo.getFieldList().forEach(x -> valueSql.append("#{item.").append(x.getProperty()).append("},"));
 		valueSql.delete(valueSql.length() - 1, valueSql.length());

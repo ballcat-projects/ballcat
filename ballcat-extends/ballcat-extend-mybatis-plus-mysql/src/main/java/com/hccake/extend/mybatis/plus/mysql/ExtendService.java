@@ -1,19 +1,19 @@
 package com.hccake.extend.mybatis.plus.mysql;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.extend.mybatis.plus.config.StaticConfig;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertIgnoreByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateFieldByBatch;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 
 /**
- * 所有的 Mapper接口 都需要继承当前接口 如果想自己定义其他的全局方法， 您的全局 BaseMapper 需要继承当前接口
+ * 以前继承 com.baomidou.mybatisplus.extension.service.IService 的实现类，现在继承当前类
  *
- * @author lingting 2020/5/27 11:39
+ * @author lingting 2020/7/21 9:58
  */
-public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mapper.BaseMapper<T> {
+public interface ExtendService<T> extends IService<T> {
 
 	/**
 	 * 批处理 如果重复则忽略 实现类 {@link InsertIgnoreByBatch}
@@ -21,7 +21,7 @@ public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mappe
 	 * @return int
 	 * @author lingting 2020-05-27 11:41:28
 	 */
-	int insertIgnoreByBatch(@Param("collection") Collection<T> list);
+	int insertIgnoreByBatch(Collection<T> list);
 
 	/**
 	 * 批处理 如果重复则更新 实现类 {@link InsertOrUpdateByBatch}
@@ -30,7 +30,7 @@ public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mappe
 	 * @return int
 	 * @author lingting 2020-05-27 11:41:28
 	 */
-	int insertOrUpdateByBatch(@Param("collection") Collection<T> list, @Param("ignore") boolean ignore);
+	int insertOrUpdateByBatch(Collection<T> list, boolean ignore);
 
 	/**
 	 * 批处理 如果重复则更新 直接调用本方法会 忽略全局配置的忽略字段 {@link StaticConfig#UPDATE_IGNORE_FIELDS}
@@ -38,7 +38,7 @@ public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mappe
 	 * @return int
 	 * @author lingting 2020-05-27 11:41:28
 	 */
-	default int insertOrUpdateByBatch(@Param("collection") Collection<T> list) {
+	default int insertOrUpdateByBatch(Collection<T> list) {
 		return insertOrUpdateByBatch(list, true);
 	}
 
@@ -50,6 +50,6 @@ public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mappe
 	 * @return int
 	 * @author lingting 2020-05-27 15:48:20
 	 */
-	int insertOrUpdateFieldByBatch(@Param("collection") Collection<T> list, @Param("columns") Columns<T> columns);
+	int insertOrUpdateFieldByBatch(Collection<T> list, Columns<T> columns);
 
 }
