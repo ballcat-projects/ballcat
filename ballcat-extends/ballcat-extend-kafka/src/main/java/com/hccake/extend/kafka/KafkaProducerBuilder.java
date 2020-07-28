@@ -7,10 +7,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serializer;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 import static com.hccake.extend.kafka.KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER;
@@ -75,6 +72,11 @@ public class KafkaProducerBuilder {
 	 */
 	public KafkaProducerBuilder putAll(Properties properties) {
 		this.properties.putAll(properties);
+		return this;
+	}
+
+	public KafkaProducerBuilder putAll(Map<?, ?> map) {
+		this.properties.putAll(map);
 		return this;
 	}
 

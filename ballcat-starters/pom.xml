@@ -21,6 +21,7 @@
 		<module>ballcat-spring-boot-starter-easyexcel</module>
 		<module>ballcat-spring-boot-starter-redis</module>
 		<module>ballcat-spring-boot-starter-dingtalk</module>
-	</modules>
+        <module>ballcat-spring-boot-starter-kafka</module>
+    </modules>
 
 </project>
