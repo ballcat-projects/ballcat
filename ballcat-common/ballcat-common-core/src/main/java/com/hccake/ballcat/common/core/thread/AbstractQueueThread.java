@@ -21,7 +21,10 @@ public abstract class AbstractQueueThread<T> extends Thread implements Initializ
 
 	private final static long DEFAULT_BATCH_SIZE = 100;
 
-	private final static long DEFAULT_BATCH_TIMEOUT = 30000;
+	/**
+	 * 默认时长；单位 秒
+	 */
+	private final static long DEFAULT_BATCH_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
 
 	public void putObject(T t) {
 		try {
