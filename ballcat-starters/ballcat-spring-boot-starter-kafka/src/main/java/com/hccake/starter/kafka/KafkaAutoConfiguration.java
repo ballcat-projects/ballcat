@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 public class KafkaAutoConfiguration {
 
 	@Bean
-	public KafkaExtendProducer<String, String> producer(KafkaProperties properties) {
+	public KafkaExtendProducer<String, String> stringKafkaExtendProducer(KafkaProperties properties) {
 		KafkaProducerBuilder builder = new KafkaProducerBuilder()
 				.addAllBootstrapServers(properties.getBootstrapServers()).putAll(properties.getExtend());
 
@@ -26,7 +26,7 @@ public class KafkaAutoConfiguration {
 		}
 
 		if (properties.getValueSerializer() != null || properties.getValueSerializerClassName() != null) {
-			builder.keySerializer(properties.getValueSerializer() == null ? properties.getValueSerializerClassName()
+			builder.valueSerializer(properties.getValueSerializer() == null ? properties.getValueSerializerClassName()
 					: properties.getValueSerializer().getName());
 		}
 		return builder.build();

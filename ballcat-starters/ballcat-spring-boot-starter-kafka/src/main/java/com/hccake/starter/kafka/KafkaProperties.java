@@ -2,8 +2,10 @@ package com.hccake.starter.kafka;
 
 import lombok.Data;
 import org.apache.kafka.common.serialization.Serializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +24,7 @@ public class KafkaProperties {
 	/**
 	 * key 序列化
 	 */
-	private Class<? extends Serializer<?>> keySerializer;
+	private Class<? extends Serializer<?>> keySerializer = StringSerializer.class;
 
 	/**
 	 * key 序列化 类名
@@ -32,7 +34,7 @@ public class KafkaProperties {
 	/**
 	 * value 序列化
 	 */
-	private Class<? extends Serializer<?>> valueSerializer;
+	private Class<? extends Serializer<?>> valueSerializer = StringSerializer.class;
 
 	/**
 	 * value 序列化 类名
@@ -42,6 +44,6 @@ public class KafkaProperties {
 	/**
 	 * 额外参数
 	 */
-	private Map<String, Object> extend;
+	private Map<String, Object> extend = new HashMap<>();
 
 }

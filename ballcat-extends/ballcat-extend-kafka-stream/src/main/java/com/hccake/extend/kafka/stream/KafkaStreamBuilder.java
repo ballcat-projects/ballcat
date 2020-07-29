@@ -16,10 +16,7 @@ import org.apache.kafka.streams.processor.TimestampExtractor;
 import org.apache.kafka.streams.processor.TopicNameExtractor;
 import org.apache.kafka.streams.state.StoreBuilder;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
@@ -87,6 +84,11 @@ public class KafkaStreamBuilder {
 	 */
 	public KafkaStreamBuilder putAll(Properties properties) {
 		this.properties.putAll(properties);
+		return this;
+	}
+
+	public KafkaStreamBuilder putAll(Map<?, ?> map) {
+		this.properties.putAll(map);
 		return this;
 	}
 
