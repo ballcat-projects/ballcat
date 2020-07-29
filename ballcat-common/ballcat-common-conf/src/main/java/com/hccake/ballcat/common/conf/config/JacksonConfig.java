@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 /**
  * @author Hccake
@@ -24,7 +23,6 @@ public class JacksonConfig {
 	 * @return ObjectMapper
 	 */
 	@Bean
-	@Primary
 	@ConditionalOnMissingBean(ObjectMapper.class)
 	public ObjectMapper objectMapper() {
 		ObjectMapper objectMapper = new ObjectMapper();
