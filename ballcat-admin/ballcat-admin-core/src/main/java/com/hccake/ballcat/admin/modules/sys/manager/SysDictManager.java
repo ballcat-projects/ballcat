@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.manager;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -108,12 +110,13 @@ public class SysDictManager {
 	 * @param sysDictItem 字典项
 	 * @return 执行是否成功
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public boolean saveDictItem(SysDictItem sysDictItem) {
 		// 更新字典项Hash值
-		if (!sysDictService.updateHashCode(sysDictItem.getDictCode())) {
-			return false;
+		if (sysDictService.updateHashCode(sysDictItem.getDictCode())) {
+			return sysDictItemService.save(sysDictItem);
 		}
-		return sysDictItemService.save(sysDictItem);
+		return false;
 	}
 
 	/**
@@ -154,31 +157,35 @@ public class SysDictManager {
 
 	/**
 	 * 查询字典数据
-	 * @param dictCode
-	 * @return
+	 * @param dictCodes 字典标识
+	 * @return DictDataAndHashVO
 	 */
-	public DictDataAndHashVO queryDictDataAndHashVO(String dictCode) {
+	public List<DictDataAndHashVO> queryDictDataAndHashVO(String[] dictCodes) {
+		List<DictDataAndHashVO> list = new ArrayList<>();
 		// 查询对应hash值，以及字典项数据
-		SysDict sysDict = sysDictService.getByCode(dictCode);
-		if (sysDict == null) {
-			return null;
-		}
-		List<SysDictItem> dictItems = sysDictItemService.getByDictCode(dictCode);
-		// 排序并转换为VO
-		List<DictItemVO> dictList = dictItems.stream().sorted(Comparator.comparingInt(SysDictItem::getSort))
-				.map(SysDictConverter.INSTANCE::itemPoToVo).collect(Collectors.toList());
+		List<SysDict> sysDictList = sysDictService.getByCode(dictCodes);
+		if (CollectionUtil.isNotEmpty(sysDictList)) {
+			for (SysDict sysDict : sysDictList) {
+				List<SysDictItem> dictItems = sysDictItemService.getByDictCode(sysDict.getCode());
+				// 排序并转换为VO
+				List<DictItemVO> dictList = dictItems.stream().sorted(Comparator.comparingInt(SysDictItem::getSort))
+						.map(SysDictConverter.INSTANCE::itemPoToVo).collect(Collectors.toList());
+				// 组装DataVO
+				DictDataAndHashVO dictDataAndHashVO = new DictDataAndHashVO();
+				dictDataAndHashVO.setDictCode(sysDict.getCode());
+				dictDataAndHashVO.setHashCode(sysDict.getHashCode());
+				dictDataAndHashVO.setDictList(dictList);
 
-		// 组装DataVO
-		DictDataAndHashVO dictDataAndHashVO = new DictDataAndHashVO();
-		dictDataAndHashVO.setHashCode(sysDict.getHashCode());
-		dictDataAndHashVO.setDictList(dictList);
-		return dictDataAndHashVO;
+				list.add(dictDataAndHashVO);
+			}
+		}
+		return list;
 	}
 
 	/**
 	 * 返回失效的Hash
 	 * @param dictHashCode 校验的hashCodeMap
-	 * @return
+	 * @return List<String> 失效的字典标识集合
 	 */
 	public List<String> invalidDictHash(Map<String, String> dictHashCode) {
 		List<SysDict> byCode = sysDictService.getByCode(dictHashCode.keySet().toArray(new String[] {}));

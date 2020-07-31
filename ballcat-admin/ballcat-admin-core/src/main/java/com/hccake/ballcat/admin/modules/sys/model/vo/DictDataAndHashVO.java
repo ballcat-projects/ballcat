@@ -16,6 +16,12 @@ import java.util.List;
 public class DictDataAndHashVO {
 
 	/**
+	 * 字典标识
+	 */
+	@ApiModelProperty(value = "字典标识")
+	private String dictCode;
+
+	/**
 	 * 字典Hash值
 	 */
 	@ApiModelProperty(value = "字典Hash值")

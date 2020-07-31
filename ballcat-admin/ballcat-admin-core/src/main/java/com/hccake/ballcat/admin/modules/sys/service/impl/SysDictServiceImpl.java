@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.admin.modules.sys.mapper.SysDictMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
-import com.hccake.ballcat.admin.modules.sys.mapper.SysDictMapper;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
 import org.springframework.stereotype.Service;
 
@@ -63,8 +63,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 
 	/**
 	 * 更新字典HashCode
-	 * @param dictCode
-	 * @return
+	 * @param dictCode 字典标识
+	 * @return 更新状态: 成功(true) 失败(false)
 	 */
 	@Override
 	public boolean updateHashCode(String dictCode) {

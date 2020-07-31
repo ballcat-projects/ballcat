@@ -39,8 +39,8 @@ public interface SysDictService extends IService<SysDict> {
 
 	/**
 	 * 更新字典HashCode
-	 * @param dictCode
-	 * @return
+	 * @param dictCode 字典标识
+	 * @return 更新状态 成功（true） or 失败 (false)
 	 */
 	boolean updateHashCode(String dictCode);
 
