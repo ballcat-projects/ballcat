@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @ApiModel(value = "字典数据VO")
-public class DictDataAndHashVO {
+public class DictDataVO {
 
 	/**
 	 * 字典标识
@@ -30,7 +30,7 @@ public class DictDataAndHashVO {
 	/**
 	 * 字典项列表
 	 */
-	@ApiModelProperty(value = "字典数据")
-	private List<DictItemVO> dictList;
+	@ApiModelProperty(value = "字典项列表")
+	private List<DictItemVO> dictItems;
 
 }

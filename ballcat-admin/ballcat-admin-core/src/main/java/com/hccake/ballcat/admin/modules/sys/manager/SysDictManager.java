@@ -9,7 +9,7 @@ import com.hccake.ballcat.admin.modules.sys.model.converter.SysDictConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataAndHashVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.DictItemVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
@@ -160,23 +160,23 @@ public class SysDictManager {
 	 * @param dictCodes 字典标识
 	 * @return DictDataAndHashVO
 	 */
-	public List<DictDataAndHashVO> queryDictDataAndHashVO(String[] dictCodes) {
-		List<DictDataAndHashVO> list = new ArrayList<>();
+	public List<DictDataVO> queryDictDataAndHashVO(String[] dictCodes) {
+		List<DictDataVO> list = new ArrayList<>();
 		// 查询对应hash值，以及字典项数据
 		List<SysDict> sysDictList = sysDictService.getByCode(dictCodes);
 		if (CollectionUtil.isNotEmpty(sysDictList)) {
 			for (SysDict sysDict : sysDictList) {
 				List<SysDictItem> dictItems = sysDictItemService.getByDictCode(sysDict.getCode());
 				// 排序并转换为VO
-				List<DictItemVO> dictList = dictItems.stream().sorted(Comparator.comparingInt(SysDictItem::getSort))
+				List<DictItemVO> setDictItems = dictItems.stream().sorted(Comparator.comparingInt(SysDictItem::getSort))
 						.map(SysDictConverter.INSTANCE::itemPoToVo).collect(Collectors.toList());
 				// 组装DataVO
-				DictDataAndHashVO dictDataAndHashVO = new DictDataAndHashVO();
-				dictDataAndHashVO.setDictCode(sysDict.getCode());
-				dictDataAndHashVO.setHashCode(sysDict.getHashCode());
-				dictDataAndHashVO.setDictList(dictList);
+				DictDataVO dictDataVO = new DictDataVO();
+				dictDataVO.setDictCode(sysDict.getCode());
+				dictDataVO.setHashCode(sysDict.getHashCode());
+				dictDataVO.setDictItems(setDictItems);
 
-				list.add(dictDataAndHashVO);
+				list.add(dictDataVO);
 			}
 		}
 		return list;

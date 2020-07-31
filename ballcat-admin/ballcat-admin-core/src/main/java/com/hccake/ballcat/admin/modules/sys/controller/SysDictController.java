@@ -6,7 +6,7 @@ import com.hccake.ballcat.admin.modules.sys.manager.SysDictManager;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataAndHashVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataVO;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
@@ -40,8 +40,8 @@ public class SysDictController {
 	 * @param dictCodes 字典标识列表
 	 * @return 同类型字典
 	 */
-	@GetMapping("/data-hash")
-	public R<List<DictDataAndHashVO>> getDictDataAndHash(@RequestParam("dictCodes") String[] dictCodes) {
+	@GetMapping("/data")
+	public R<List<DictDataVO>> getDictData(@RequestParam("dictCodes") String[] dictCodes) {
 		return R.ok(sysDictManager.queryDictDataAndHashVO(dictCodes));
 	}
 
