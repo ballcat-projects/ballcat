@@ -35,7 +35,7 @@
 
 
 	<properties>
-		<revision>0.0.3</revision>
+		<revision>0.0.4-SNAPSHOT</revision>
 		<flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
@@ -48,9 +48,9 @@
 
 		<hutool.version>5.2.5</hutool.version>
 		<mybatis-plus.version>3.3.2</mybatis-plus.version>
-		<dynamic-datasource.version>3.1.1</dynamic-datasource.version>
+		<dynamic-datasource.version>3.2.0</dynamic-datasource.version>
 		<xxl-job.version>2.2.0</xxl-job.version>
-		<spring-boot-admin.version>2.2.3</spring-boot-admin.version>
+		<spring-boot-admin.version>2.2.4</spring-boot-admin.version>
 		<oss.aliyun.version>3.8.0</oss.aliyun.version>
 		<easyexcel.version>2.1.6</easyexcel.version>
 		<jasypt.version>3.0.3</jasypt.version>
@@ -149,11 +149,6 @@
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-models</artifactId>
 				<version>${swagger.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${springfox.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.springfox</groupId>
