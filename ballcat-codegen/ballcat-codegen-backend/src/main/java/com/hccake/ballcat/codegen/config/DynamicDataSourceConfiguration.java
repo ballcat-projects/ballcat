@@ -22,23 +22,13 @@ public class DynamicDataSourceConfiguration {
 	private final StringEncryptor stringEncryptor;
 
 	/**
-	 * 默认JDBC驱动类
-	 */
-	public static final String DEFAULT_JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-
-	/**
 	 * JDBC 动态数据源提供者
 	 * @param dataSourceProperties spring数据源配置
 	 * @return DynamicJdbcDataSourceProvider 动态数据源提供者
 	 */
 	@Bean
 	public DynamicJdbcDataSourceProvider dynamicDataSourceProvider(DataSourceProperties dataSourceProperties) {
-		// 这里由于 dynamic-datasource-spring-boot-starter 的问题，必须填写
-		String driverClassName = dataSourceProperties.getDriverClassName();
-		if (driverClassName == null) {
-			driverClassName = DEFAULT_JDBC_DRIVER;
-		}
-		return new DynamicJdbcDataSourceProvider(stringEncryptor, driverClassName, dataSourceProperties.getUrl(),
+		return new DynamicJdbcDataSourceProvider(stringEncryptor, dataSourceProperties.getUrl(),
 				dataSourceProperties.getUsername(), dataSourceProperties.getPassword());
 	}
 
