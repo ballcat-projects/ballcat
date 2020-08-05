@@ -19,7 +19,7 @@ public abstract class AbstractQueueThread<T> extends Thread implements Initializ
 
 	private final BlockingQueue<T> queue = new LinkedBlockingQueue<>();
 
-	private final static long DEFAULT_BATCH_SIZE = 100;
+	private final static long DEFAULT_BATCH_SIZE = 500;
 
 	/**
 	 * 默认时长 30秒；单位 毫秒
