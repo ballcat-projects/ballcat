@@ -17,14 +17,14 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public abstract class AbstractQueueThread<T> extends Thread implements InitializingBean {
 
-	private final BlockingQueue<T> queue = new LinkedBlockingQueue<T>();
+	private final BlockingQueue<T> queue = new LinkedBlockingQueue<>();
 
 	private final static long DEFAULT_BATCH_SIZE = 100;
 
 	/**
-	 * 默认时长；单位 秒
+	 * 默认时长 30秒；单位 毫秒
 	 */
-	private final static long DEFAULT_BATCH_TIMEOUT = TimeUnit.SECONDS.toMillis(30);
+	private final static long DEFAULT_BATCH_TIMEOUT_MS = 30 * 1000L;
 
 	public void putObject(T t) {
 		try {
@@ -41,8 +41,13 @@ public abstract class AbstractQueueThread<T> extends Thread implements Initializ
 		return DEFAULT_BATCH_SIZE;
 	}
 
+	/**
+	 * 用于子类自定义时长
+	 * @return 返回时长，单位毫秒
+	 * @author lingting 2020-08-05 11:23:33
+	 */
 	public long getBatchTimeout() {
-		return DEFAULT_BATCH_TIMEOUT;
+		return DEFAULT_BATCH_TIMEOUT_MS;
 	}
 
 	@Override
@@ -51,7 +56,7 @@ public abstract class AbstractQueueThread<T> extends Thread implements Initializ
 		startLog();
 
 		while (!isInterrupted()) {
-			List<T> list = new ArrayList<T>();
+			List<T> list = new ArrayList<>();
 
 			try {
 				preProcessor();
@@ -100,15 +105,15 @@ public abstract class AbstractQueueThread<T> extends Thread implements Initializ
 
 	/**
 	 * 错误日志打印
-	 * @param e
-	 * @param list
+	 * @param e exception
+	 * @param list error data
 	 */
 	public abstract void errorLog(Throwable e, List<T> list);
 
 	/**
 	 * 数据处理
-	 * @param list
-	 * @param elem
+	 * @param list data list
+	 * @param elem data
 	 */
 	public void processor(List<T> list, T elem) {
 		list.add(elem);
@@ -116,13 +121,13 @@ public abstract class AbstractQueueThread<T> extends Thread implements Initializ
 
 	/**
 	 * 数据保存
-	 * @param list
+	 * @param list list
+	 * @throws Exception 抛出可能的异常
 	 */
 	public abstract void save(List<T> list) throws Exception;
 
 	/**
 	 * 初始化后启动
-	 * @throws Exception
 	 */
 	@Override
 	public void afterPropertiesSet() {
