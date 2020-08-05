@@ -27,7 +27,7 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 	private final ExcelConfigProperties configProperties;
 
 	/**
-	 * obj 是List 且元素不是是List 才返回true
+	 * obj 是List 且list不为空同时list中的元素不是是List 才返回true
 	 * @param obj 返回对象
 	 * @return
 	 */
@@ -35,7 +35,7 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 	public boolean support(Object obj) {
 		if (obj instanceof List) {
 			List objList = (List) obj;
-			return !(objList.get(0) instanceof List);
+			return !objList.isEmpty() && !(objList.get(0) instanceof List);
 		}
 		else {
 			throw new ExcelException("@ResponseExcel 返回值必须为List类型");
