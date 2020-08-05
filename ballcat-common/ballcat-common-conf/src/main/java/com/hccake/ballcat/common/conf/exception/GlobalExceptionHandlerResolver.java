@@ -17,6 +17,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ValidationException;
 import java.util.List;
@@ -36,6 +37,8 @@ public class GlobalExceptionHandlerResolver {
 	@Value("${spring.profiles.active}")
 	private String profile;
 
+	public final static String PROD_ERR_MSG = "系统异常，请联系管理员";
+
 	/**
 	 * 全局异常捕获
 	 * @param e the e
@@ -47,7 +50,7 @@ public class GlobalExceptionHandlerResolver {
 		log.error("全局异常信息 ex={}", e.getMessage(), e);
 		globalExceptionHandler.handle(e);
 		// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
-		String errorMsg = GlobalConstants.ENV_PROD.equals(profile) ? "系统异常，请联系管理员" : e.getLocalizedMessage();
+		String errorMsg = GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getLocalizedMessage();
 		return R.failed(SystemResultCode.SERVER_ERROR, errorMsg);
 	}
 
@@ -62,6 +65,20 @@ public class GlobalExceptionHandlerResolver {
 		log.error("非法数据输入 ex={}", e.getMessage(), e);
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getMessage());
+	}
+
+	/**
+	 * MethodArgumentTypeMismatchException 异常捕获，主要用于Assert
+	 * @param e the e
+	 * @return R
+	 */
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public R<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+		log.error("参数类型转换异常 ex={}", e.getMessage(), e);
+		globalExceptionHandler.handle(e);
+		return R.failed(SystemResultCode.BAD_REQUEST,
+				GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getMessage());
 	}
 
 	/**
