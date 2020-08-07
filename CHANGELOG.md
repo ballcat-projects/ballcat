@@ -6,6 +6,31 @@
 
 - Lov 支持
 
+## [0.0.4]
+
+### Added
+- 新增 kafka stater 模块
+- 新增 mybatis-extends 扩展，添加批量插入方法
+- accesslog 提供 responseWrapper，方便记录响应数据
+- swagger stater 新增 additionalModelPackage 属性，用于扫描一些额外的 swaggerModel
+- 异常捕获新增对 MethodArgumentTypeMismatchException 的处理
+
+### Changed
+- AbstractQueueThread 提高默认的批处理大小
+- 代码生成器移除加载动态数据源时指定的 driverClassName
+- 移除 admin-core 默认引入的 swagger 依赖，现在用户可以在自己的项目中选择引入
+- 移除 JacksonConfig#ObjectMapper 的 @Primary 注解，便于用户自定义
+- 数据字典优化，支持批量请求，接口地址调整
+- 调整前后端传输密码使用的 AES Padding mode 为 PKCS5Padding
+- 修复因 TokenStore 与 cachePropertiesHolder 加载顺序导致的启动异常
+- 修复 codegen 无法选择 master 之外的数据源进行代码生成的bug
+
+### Dependency
+- swagger up to 1.5.21
+- dynamic-datasource up to 3.2.0
+- spring-boot-admin up to 2.2.4
+- easyexcel up to 2.2.6
+
 
 ## [0.0.3] - 2020-07-06
 
