@@ -25,7 +25,8 @@ public class DingTalkGlobalExceptionHandler extends AbstractNoticeGlobalExceptio
 
 	@Override
 	public ExceptionNoticeResponse send(ExceptionMessage sendMessage) {
-		DingTalkResponse response = sender.sendMessage(new DingTalkTextMessage().setContent(sendMessage.toString()).atAll());
+		DingTalkResponse response = sender
+				.sendMessage(new DingTalkTextMessage().setContent(sendMessage.toString()).atAll());
 		return new ExceptionNoticeResponse().setErrMsg(response.getResponse()).setSuccess(response.isSuccess());
 	}
 

@@ -15,12 +15,17 @@ import java.util.List;
  * @date 2020/2/18 10:55 资源服务器忽略鉴权的url地址
  */
 @Slf4j
+@Getter
+@Setter
 @Configuration
 @ConfigurationProperties(prefix = "security.oauth2")
 public class PermitAllUrlProperties {
 
-	@Getter
-	@Setter
 	private List<String> ignoreUrls = new ArrayList<>();
+
+	/**
+	 * 是否禁止嵌入iframe
+	 */
+	private boolean iframeDeny = true;
 
 }

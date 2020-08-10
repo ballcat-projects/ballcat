@@ -47,18 +47,23 @@ public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdap
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 		// @formatter:off
 		httpSecurity
-			// 拦截 url 配置
-			.authorizeRequests()
-			.antMatchers(ArrayUtil.toArray(permitAllUrlProperties.getIgnoreUrls(), String.class))
-			.permitAll()
-			.anyRequest().authenticated()
+				// 拦截 url 配置
+				.authorizeRequests()
+				.antMatchers(ArrayUtil.toArray(permitAllUrlProperties.getIgnoreUrls(), String.class))
+				.permitAll()
+				.anyRequest().authenticated()
 
-			// 使用token鉴权时 关闭 session 缓存
-			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				// 使用token鉴权时 关闭 session 缓存
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-			// 关闭 csrf 跨站攻击防护
-			.and().csrf().disable();
+				// 关闭 csrf 跨站攻击防护
+				.and().csrf().disable();
 		// @formatter:on
+
+		// 允许嵌入iframe
+		if (!permitAllUrlProperties.isIframeDeny()) {
+			httpSecurity.headers().frameOptions().disable();
+		}
 	}
 
 }
