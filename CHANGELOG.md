@@ -14,6 +14,7 @@
 - accesslog 提供 responseWrapper，方便记录响应数据
 - swagger stater 新增 additionalModelPackage 属性，用于扫描一些额外的 swaggerModel
 - 异常捕获新增对 MethodArgumentTypeMismatchException 的处理
+- 新增 Security 是否开启禁止 iframe 嵌入的配置控制
 
 ### Changed
 - AbstractQueueThread 提高默认的批处理大小
@@ -24,6 +25,7 @@
 - 调整前后端传输密码使用的 AES Padding mode 为 PKCS5Padding
 - 修复因 TokenStore 与 cachePropertiesHolder 加载顺序导致的启动异常
 - 修复 codegen 无法选择 master 之外的数据源进行代码生成的bug
+- 当使用 DingTalk 异常通知时，会 @所有人
 
 ### Dependency
 - swagger up to 1.5.21
