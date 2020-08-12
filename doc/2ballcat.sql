@@ -113,6 +113,7 @@ CREATE TABLE `sys_dict`  (
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `editable` tinyint(1) NULL DEFAULT 0 COMMENT '可编辑 1：是 0：否',
+  `type` tinyint(1) NULL DEFAULT 0 COMMENT '数据类型,1:Number 2:String 3:Boolean',
   `hash_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'hash值，当字典项被修改时变更',
   `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
@@ -124,10 +125,11 @@ CREATE TABLE `sys_dict`  (
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, 'dict_property', '字典属性', '只读、可写', 1, 'd243f9f46a9f4a5498b013242c8828b3', 0, '2020-03-27 01:05:29', '2020-07-03 14:30:03');
-INSERT INTO `sys_dict` VALUES (2, 'log_type', '日志类型', '异常、正常', 1, 'f8af5ef4568735abf7e6cc00afe938b', 0, '2020-03-27 01:05:29', '2020-03-27 11:06:44');
-INSERT INTO `sys_dict` VALUES (3, 'gender', '性别', '用户性别', 1, 'aca1caf123123e4872be29c8cc448', 0, '2020-03-27 01:05:29', '2020-03-27 00:55:28');
-INSERT INTO `sys_dict` VALUES (4, 'grant_types', '授权类型', 'OAuth授权类型', 1, 'e5316daadb490e9ca7e1ac5c5607a4', 0, '2020-03-27 01:05:29', '2020-03-27 00:30:16');
+INSERT INTO `sys_dict` VALUES (1, 'dict_property', '字典属性', '只读、可写', 1, 1, 'd243f9f46a9f4a5498b013242c8828b3', 0, '2020-03-27 01:05:29', '2020-07-03 14:30:03');
+INSERT INTO `sys_dict` VALUES (2, 'log_type', '日志类型', '异常、正常', 1, 1, 'f8af5ef4568735abf7e6cc00afe938b', 0, '2020-03-27 01:05:29', '2020-03-27 11:06:44');
+INSERT INTO `sys_dict` VALUES (3, 'gender', '性别', '用户性别', 1, 1, 'aca1caf123123e4872be29c8cc448', 0, '2020-03-27 01:05:29', '2020-03-27 00:55:28');
+INSERT INTO `sys_dict` VALUES (4, 'grant_types', '授权类型', 'OAuth授权类型', 1, 1, 'e5316daadb490e9ca7e1ac5c5607a4', 0, '2020-03-27 01:05:29', '2020-03-27 00:30:16');
+INSERT INTO `sys_dict` VALUES (5, 'dict_type', '字典数据类型', '字典数据类型', 1, 1, '582ed0dc179d4c99929b6dc5b63847fb', 0, '2020-03-27 01:05:29', '2020-03-27 00:30:16');
 
 -- ----------------------------
 -- Table structure for sys_dict_item

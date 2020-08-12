@@ -61,6 +61,12 @@ public class SysDict extends Model<SysDict> {
 	private Integer editable;
 
 	/**
+	 * 数据类型
+	 */
+	@ApiModelProperty("数据类型,1:Number 2:String 3:Boolean")
+	private Integer type;
+
+	/**
 	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
 	 */
 	@TableLogic

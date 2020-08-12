@@ -21,6 +21,9 @@ public class DictDataVO {
 	@ApiModelProperty(value = "字典标识")
 	private String dictCode;
 
+	@ApiModelProperty("字典数据类型")
+	private Integer type;
+
 	/**
 	 * 字典Hash值
 	 */
