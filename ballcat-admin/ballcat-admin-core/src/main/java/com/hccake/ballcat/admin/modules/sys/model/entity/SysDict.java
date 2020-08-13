@@ -64,7 +64,7 @@ public class SysDict extends Model<SysDict> {
 	 * 数据类型
 	 */
 	@ApiModelProperty("数据类型,1:Number 2:String 3:Boolean")
-	private Integer type;
+	private Integer valueType;
 
 	/**
 	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
