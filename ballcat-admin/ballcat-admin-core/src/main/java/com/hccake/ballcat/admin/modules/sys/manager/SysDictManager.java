@@ -172,6 +172,7 @@ public class SysDictManager {
 						.map(SysDictConverter.INSTANCE::itemPoToVo).collect(Collectors.toList());
 				// 组装DataVO
 				DictDataVO dictDataVO = new DictDataVO();
+				dictDataVO.setValueType(sysDict.getValueType());
 				dictDataVO.setDictCode(sysDict.getCode());
 				dictDataVO.setHashCode(sysDict.getHashCode());
 				dictDataVO.setDictItems(setDictItems);
