@@ -113,7 +113,7 @@ CREATE TABLE `sys_dict`  (
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `editable` tinyint(1) NULL DEFAULT 0 COMMENT '可编辑 1：是 0：否',
-  `value_type` tinyint(1) NULL DEFAULT 0 COMMENT '值类型,1:Number 2:String 3:Boolean',
+  `value_type` tinyint(1) NULL DEFAULT 1 COMMENT '值类型,1:Number 2:String 3:Boolean',
   `hash_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'hash值，当字典项被修改时变更',
   `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
