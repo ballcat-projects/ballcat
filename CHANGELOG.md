@@ -5,6 +5,8 @@
 ## [Unreleased]
 
 - Lov 支持
+- 全局数据校验支持
+- OSS starter 修改使用 AWS S3
 
 ## [0.0.4]
 
@@ -26,6 +28,7 @@
 - 修复因 TokenStore 与 cachePropertiesHolder 加载顺序导致的启动异常
 - 修复 codegen 无法选择 master 之外的数据源进行代码生成的bug
 - 当使用 DingTalk 异常通知时，会 @所有人
+- 字典添加值类型字段，便于前端回显，以及后续校验控制
 
 ### Dependency
 - swagger up to 1.5.21
