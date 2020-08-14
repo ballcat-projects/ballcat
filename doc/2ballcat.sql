@@ -129,7 +129,7 @@ INSERT INTO `sys_dict` VALUES (1, 'dict_property', '字典属性', '只读、可
 INSERT INTO `sys_dict` VALUES (2, 'log_type', '日志类型', '异常、正常', 1, 1, 'f8af5ef4568735abf7e6cc00afe938b', 0, '2020-03-27 01:05:29', '2020-03-27 11:06:44');
 INSERT INTO `sys_dict` VALUES (3, 'gender', '性别', '用户性别', 1, 1, 'aca1caf123123e4872be29c8cc448', 0, '2020-03-27 01:05:29', '2020-03-27 00:55:28');
 INSERT INTO `sys_dict` VALUES (4, 'grant_types', '授权类型', 'OAuth授权类型', 1, 1, 'e5316daadb490e9ca7e1ac5c5607a4', 0, '2020-03-27 01:05:29', '2020-03-27 00:30:16');
-INSERT INTO `sys_dict` VALUES (5, 'dict_type', '字典数据类型', '字典数据类型', 1, 1, '582ed0dc179d4c99929b6dc5b63847fb', 0, '2020-03-27 01:05:29', '2020-03-27 00:30:16');
+INSERT INTO `sys_dict`(`code`, `title`, `remarks`, `editable`, `hash_code`, `deleted`, `create_time`, `update_time`, `value_type`) VALUES ('dict_value_type', '字典数据类型', NULL, 1, '582ed0dc179d4c99929b6dc5b63847fb', 0, now(), NULL, 1);
 
 -- ----------------------------
 -- Table structure for sys_dict_item
@@ -164,7 +164,9 @@ INSERT INTO `sys_dict_item` VALUES (9, 'grant_types', 'authorization_code', '授
 INSERT INTO `sys_dict_item` VALUES (10, 'grant_types', 'client_credentials', '客户端模式', 2, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:30');
 INSERT INTO `sys_dict_item` VALUES (11, 'grant_types', 'refresh_token', '刷新模式', 3, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:54');
 INSERT INTO `sys_dict_item` VALUES (12, 'grant_types', 'implicit', '简化模式', 4, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:39:32');
-
+INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('dict_value_type', '1', 'Number', 1, NULL, 0, now(), NULL);
+INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('dict_value_type', '2', 'String', 1, NULL, 0, now(), NULL);
+INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('dict_value_type', '3', 'Boolean', 1, NULL, 0, now(), NULL);
 -- ----------------------------
 -- Table structure for sys_permission
 -- ----------------------------
