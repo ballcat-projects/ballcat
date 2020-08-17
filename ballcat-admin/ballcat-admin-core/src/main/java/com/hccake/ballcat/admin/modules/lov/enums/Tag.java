@@ -14,20 +14,11 @@ public enum Tag implements IEnum<String> {
 	/**
 	 * 标签类型
 	 */
-	INPUT_TEXT, INPUT_NUMBER, SELECT,;
+	INPUT_TEXT, INPUT_NUMBER, SELECT, DICT_SELECT;
 
 	@Override
 	public String getValue() {
-		return toString();
-	}
-
-	@Override
-	public String toString() {
-		return name().toLowerCase().replace("_", "-");
-	}
-
-	public static void main(String[] args) {
-		System.out.println(Tag.INPUT_NUMBER);
+		return name();
 	}
 
 }
