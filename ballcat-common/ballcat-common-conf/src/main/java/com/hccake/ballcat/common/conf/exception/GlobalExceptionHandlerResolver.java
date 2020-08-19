@@ -129,7 +129,7 @@ public class GlobalExceptionHandlerResolver {
 
 		String errorMsg = fieldErrors.get(0).getDefaultMessage();
 
-		log.error("参数绑定异常,ex = {}", errorMsg);
+		log.error("参数绑定异常,ex = {}", errorMsg, exception);
 		globalExceptionHandler.handle(exception);
 		return R.failed(SystemResultCode.BAD_REQUEST, errorMsg);
 	}
