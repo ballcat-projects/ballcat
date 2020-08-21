@@ -16,6 +16,9 @@ public class DictItemVO {
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty("id")
+	private Integer id;
+
 	/**
 	 * 数据值
 	 */

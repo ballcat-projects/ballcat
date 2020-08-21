@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ValidationException;
-import java.util.List;
 
 /**
  * 全局异常处理
@@ -117,19 +116,19 @@ public class GlobalExceptionHandlerResolver {
 	@ExceptionHandler({ MethodArgumentNotValidException.class, BindException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<String> handleBodyValidException(Exception exception) {
-		List<FieldError> fieldErrors;
+		BindingResult bindingResult;
+
 		if (exception instanceof BindException) {
-			BindException bindException = (BindException) exception;
-			fieldErrors = bindException.getBindingResult().getFieldErrors();
+			bindingResult = ((BindException) exception).getBindingResult();
 		}
 		else {
-			MethodArgumentNotValidException e = (MethodArgumentNotValidException) exception;
-			fieldErrors = e.getBindingResult().getFieldErrors();
+			bindingResult = ((MethodArgumentNotValidException) exception).getBindingResult();
 		}
 
-		String errorMsg = fieldErrors.get(0).getDefaultMessage();
+		String errorMsg = bindingResult.getErrorCount() > 0 ? bindingResult.getAllErrors().get(0).getDefaultMessage()
+				: "未获取到错误信息!";
 
-		log.error("参数绑定异常,ex = {}", errorMsg);
+		log.error("参数绑定异常,ex = {}", errorMsg, exception);
 		globalExceptionHandler.handle(exception);
 		return R.failed(SystemResultCode.BAD_REQUEST, errorMsg);
 	}

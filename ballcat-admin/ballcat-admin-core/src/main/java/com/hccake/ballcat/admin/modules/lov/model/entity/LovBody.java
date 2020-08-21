@@ -37,6 +37,10 @@ public class LovBody extends Model<LovBody> {
 	@ApiModelProperty("字段, 同一lov下，field不可重复`")
 	private String field;
 
+	@TableField("`index`")
+	@ApiModelProperty("索引，字段排序")
+	private Integer index;
+
 	@Pattern(regexp = "^\\{.*}")
 	@ApiModelProperty("自定义属性，请设置 jsonString, 默认值 {}")
 	private String property;

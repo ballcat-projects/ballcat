@@ -1,34 +1,30 @@
-package com.hccake.ballcat.admin.modules.lov.model.entity;
+package com.hccake.ballcat.admin.modules.lov.model.dto;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.hccake.ballcat.admin.modules.lov.enums.HttpMethod;
 import com.hccake.ballcat.admin.modules.lov.enums.HttpParamsPosition;
+import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
+import com.hccake.ballcat.admin.modules.lov.model.entity.LovBody;
+import com.hccake.ballcat.admin.modules.lov.model.entity.LovSearch;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * @author lingting 2020/7/5 16:04
+ * @author lingting 2020-08-17 09:48
  */
 @Data
-@TableName("sys_lov")
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value = "lov模块")
-public class Lov extends Model<Lov> {
+@ApiModel(value = "lov dto")
+public class LovDTO {
 
-	@TableId
-	@ApiModelProperty("编号")
 	private Long id;
 
 	@ApiModelProperty("关键字，唯一，加载lov数据时通过关键字加载")
@@ -69,15 +65,19 @@ public class Lov extends Model<Lov> {
 	@ApiModelProperty("返回字段数据类型 1 String 2 Number")
 	private Integer retFieldDataType;
 
-	/**
-	 * 更新时间
-	 */
-	@ApiModelProperty(value = "更新时间")
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	private LocalDateTime updateTime;
-
 	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty("创建时间")
 	private LocalDateTime createTime;
+
+	private List<LovBody> bodyList;
+
+	private List<LovSearch> searchList;
+
+	public Lov toLov() {
+		return new Lov().setCreateTime(getCreateTime()).setFixedParams(getFixedParams()).setId(getId()).setKey(getKey())
+				.setKeyword(getKeyword()).setMethod(getMethod()).setMultiple(getMultiple()).setPosition(getPosition())
+				.setRet(getRet()).setRetField(getRetField()).setRetFieldDataType(getRetFieldDataType())
+				.setSearch(getSearch()).setUrl(getUrl());
+	}
 
 }

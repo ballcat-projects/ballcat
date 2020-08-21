@@ -22,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implements GlobalExceptionHandler {
 
+	private static final String NULL_MESSAGE = "";
+
 	protected final ExceptionHandleConfig config;
 
 	/**
@@ -68,7 +70,9 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 	public void handle(Throwable e) {
 		synchronized (lock) {
 			number++;
-			ExceptionMessage message = messages.get(e.getMessage());
+			// 特殊处理 message 为 null 的情况
+			ExceptionMessage message = e.getMessage() != null ? messages.get(e.getMessage())
+					: messages.get(NULL_MESSAGE);
 
 			if (message == null) {
 				message = new ExceptionMessage().setNumber(0).setMac(mac).setApplicationName(applicationName);
