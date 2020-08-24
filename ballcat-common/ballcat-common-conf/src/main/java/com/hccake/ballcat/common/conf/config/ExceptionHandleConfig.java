@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.conf.config;
 
-import com.hccake.ballcat.common.conf.exception.ExceptionHandleTypeEnum;
+import com.hccake.ballcat.common.conf.exception.enums.ExceptionHandleTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
