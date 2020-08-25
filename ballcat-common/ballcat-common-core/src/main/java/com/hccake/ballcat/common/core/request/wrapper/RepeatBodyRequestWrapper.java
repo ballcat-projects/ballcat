@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 /**
  * @author Hccake
@@ -23,8 +24,11 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 
 	private final byte[] body;
 
+	private final Map<String, String[]> parameterMap;
+
 	public RepeatBodyRequestWrapper(HttpServletRequest request) {
 		super(request);
+		this.parameterMap = super.getParameterMap();
 		this.body = getByteBody(request);
 	}
 
@@ -67,6 +71,16 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 			log.error("解析流中数据异常", e);
 		}
 		return body;
+	}
+
+	/**
+	 * 重写 getParameterMap() 方法 解决 undertow 中流被读取后，会进行标记，从而导致无法正确获取 body 中的表单数据的问题
+	 * @see io.undertow.servlet.spec.HttpServletRequestImpl#readStarted
+	 * @return Map<String, String[]> parameterMap
+	 */
+	@Override
+	public Map<String, String[]> getParameterMap() {
+		return parameterMap;
 	}
 
 }
