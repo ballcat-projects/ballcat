@@ -104,9 +104,6 @@ public class LogUtils {
 	 * @return 是否是multipart/form-data请求
 	 */
 	public boolean isMultipartContent(HttpServletRequest request) {
-		if (!HttpMethod.POST.name().equals(request.getMethod().toUpperCase())) {
-			return false;
-		}
 		// 获取Content-Type
 		String contentType = request.getContentType();
 		return (contentType != null) && (contentType.toLowerCase().startsWith("multipart/"));
