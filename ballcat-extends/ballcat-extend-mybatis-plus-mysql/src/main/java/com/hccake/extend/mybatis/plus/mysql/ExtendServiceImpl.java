@@ -12,6 +12,11 @@ import java.util.Collection;
 public class ExtendServiceImpl<M extends ExtendBaseMapper<T>, T> extends ServiceImpl<M, T> implements ExtendService<T> {
 
 	@Override
+	public int insertByBatch(Collection<T> list) {
+		return baseMapper.insertByBatch(list);
+	}
+
+	@Override
 	public int insertIgnoreByBatch(Collection<T> list) {
 		return baseMapper.insertIgnoreByBatch(list);
 	}

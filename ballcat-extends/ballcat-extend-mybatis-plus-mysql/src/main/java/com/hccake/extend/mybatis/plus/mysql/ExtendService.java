@@ -5,6 +5,7 @@ import com.hccake.extend.mybatis.plus.config.StaticConfig;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertIgnoreByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateFieldByBatch;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 
@@ -14,6 +15,14 @@ import java.util.Collection;
  * @author lingting 2020/7/21 9:58
  */
 public interface ExtendService<T> extends IService<T> {
+
+	/**
+	 * 批量插入数据
+	 * @param list 数据列表
+	 * @return int 改动行
+	 * @author lingting 2020-08-26 22:11
+	 */
+	int insertByBatch(@Param("collection") Collection<T> list);
 
 	/**
 	 * 批处理 如果重复则忽略 实现类 {@link InsertIgnoreByBatch}

@@ -1,6 +1,7 @@
 package com.hccake.extend.mybatis.plus.mysql;
 
 import com.hccake.extend.mybatis.plus.config.StaticConfig;
+import com.hccake.extend.mybatis.plus.mysql.methods.InsertByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertIgnoreByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateFieldByBatch;
@@ -16,7 +17,15 @@ import java.util.Collection;
 public interface ExtendBaseMapper<T> extends com.baomidou.mybatisplus.core.mapper.BaseMapper<T> {
 
 	/**
-	 * 批处理 如果重复则忽略 实现类 {@link InsertIgnoreByBatch}
+	 * 批量插入数据 实现类 {@link InsertByBatch}
+	 * @param list 数据列表
+	 * @return int 改动行
+	 * @author lingting 2020-08-26 22:11
+	 */
+	int insertByBatch(@Param("collection") Collection<T> list);
+
+	/**
+	 * 批处理 如果重复则忽略 实现类 {@link InsertIgnoreByBatch}.
 	 * @param list 值列表
 	 * @return int
 	 * @author lingting 2020-05-27 11:41:28
