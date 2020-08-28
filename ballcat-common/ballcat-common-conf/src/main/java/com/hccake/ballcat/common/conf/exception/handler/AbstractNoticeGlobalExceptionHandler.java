@@ -84,9 +84,9 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 	public void handle(Throwable e) {
 		synchronized (lock) {
 			number++;
+			String key = e.getMessage() != null ? e.getMessage() : NULL_MESSAGE;
 			// 特殊处理 message 为 null 的情况
-			ExceptionMessage message = e.getMessage() != null ? messages.get(e.getMessage())
-					: messages.get(NULL_MESSAGE);
+			ExceptionMessage message = messages.get(key);
 
 			if (message == null) {
 				message = new ExceptionMessage().setNumber(0).setMac(mac).setApplicationName(applicationName)
@@ -96,7 +96,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 			message.setNumber(message.getNumber() + 1)
 					.setStack(ExceptionUtil.stacktraceToString(e, config.getLength()).replaceAll("\\r", ""))
 					.setTime(DateUtil.now()).setThreadId(Thread.currentThread().getId());
-			messages.put(e.getMessage(), message);
+			messages.put(key, message);
 		}
 	}
 
