@@ -15,6 +15,11 @@ import lombok.experimental.Accessors;
 public class ExceptionMessage {
 
 	/**
+	 * 用于筛选重复异常
+	 */
+	private String key;
+
+	/**
 	 * 消息
 	 */
 	private String message;
