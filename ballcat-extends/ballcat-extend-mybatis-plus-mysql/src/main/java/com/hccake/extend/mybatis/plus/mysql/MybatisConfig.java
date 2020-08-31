@@ -2,6 +2,7 @@ package com.hccake.extend.mybatis.plus.mysql;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.hccake.extend.mybatis.plus.config.MybatisConfigurer;
+import com.hccake.extend.mybatis.plus.mysql.methods.InsertByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertIgnoreByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateByBatch;
 import com.hccake.extend.mybatis.plus.mysql.methods.InsertOrUpdateFieldByBatch;
@@ -23,6 +24,7 @@ public class MybatisConfig implements MybatisConfigurer {
 
 	@Override
 	public void addGlobalMethods(List<AbstractMethod> list) {
+		list.add(new InsertByBatch());
 		list.add(new InsertIgnoreByBatch());
 		list.add(new InsertOrUpdateByBatch());
 		list.add(new InsertOrUpdateFieldByBatch());

@@ -95,8 +95,7 @@ public abstract class AbstractQueueThread<T> extends Thread implements Initializ
 	}
 
 	/**
-	 * 预处理方法
-	 * 主要用于在每段数据处理前的一些成员变量初始化
+	 * 预处理方法 主要用于在每段数据处理前的一些成员变量初始化
 	 */
 	public void preProcessor() {
 

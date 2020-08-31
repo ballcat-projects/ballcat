@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.conf.exception;
+package com.hccake.ballcat.common.conf.exception.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

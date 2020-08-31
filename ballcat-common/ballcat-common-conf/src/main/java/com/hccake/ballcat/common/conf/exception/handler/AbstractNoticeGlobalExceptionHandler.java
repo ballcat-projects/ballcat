@@ -46,13 +46,27 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 	 */
 	private String mac;
 
+	/**
+	 * 本地hostname
+	 */
+	private String hostname;
+
+	/**
+	 * 本地ip
+	 */
+	private String ip;
+
 	private final String applicationName;
 
 	public AbstractNoticeGlobalExceptionHandler(ExceptionHandleConfig config, String applicationName) {
 		this.config = config;
 		this.applicationName = applicationName;
 		try {
-			byte[] mac = NetworkInterface.getByInetAddress(InetAddress.getLocalHost()).getHardwareAddress();
+			InetAddress ia = InetAddress.getLocalHost();
+			hostname = ia.getHostName();
+			ip = ia.getHostAddress();
+
+			byte[] mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < mac.length; i++) {
 				sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
@@ -70,18 +84,19 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 	public void handle(Throwable e) {
 		synchronized (lock) {
 			number++;
+			String key = e.getMessage() != null ? e.getMessage() : NULL_MESSAGE;
 			// 特殊处理 message 为 null 的情况
-			ExceptionMessage message = e.getMessage() != null ? messages.get(e.getMessage())
-					: messages.get(NULL_MESSAGE);
+			ExceptionMessage message = messages.get(key);
 
 			if (message == null) {
-				message = new ExceptionMessage().setNumber(0).setMac(mac).setApplicationName(applicationName);
+				message = new ExceptionMessage().setNumber(0).setMac(mac).setApplicationName(applicationName)
+						.setHostname(hostname).setIp(ip);
 			}
 
 			message.setNumber(message.getNumber() + 1)
 					.setStack(ExceptionUtil.stacktraceToString(e, config.getLength()).replaceAll("\\r", ""))
 					.setTime(DateUtil.now()).setThreadId(Thread.currentThread().getId());
-			messages.put(e.getMessage(), message);
+			messages.put(key, message);
 		}
 	}
 
