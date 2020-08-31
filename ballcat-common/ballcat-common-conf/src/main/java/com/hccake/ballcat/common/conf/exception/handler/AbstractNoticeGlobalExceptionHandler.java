@@ -1,16 +1,17 @@
 package com.hccake.ballcat.common.conf.exception.handler;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.hccake.ballcat.common.conf.config.ExceptionHandleConfig;
 import com.hccake.ballcat.common.conf.exception.domain.ExceptionMessage;
 import com.hccake.ballcat.common.conf.exception.domain.ExceptionNoticeResponse;
 import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
+import com.hccake.ballcat.common.core.thread.AbstractQueueThread;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,26 +21,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lingting 2020/6/12 0:35
  */
 @Slf4j
-public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implements GlobalExceptionHandler {
+public abstract class AbstractNoticeGlobalExceptionHandler extends AbstractQueueThread<ExceptionMessage>
+		implements GlobalExceptionHandler {
 
-	private static final String NULL_MESSAGE = "";
+	private static final String NULL_MESSAGE_KEY = "";
 
 	protected final ExceptionHandleConfig config;
 
 	/**
 	 * 通知消息存放 e.message 堆栈信息
 	 */
-	private Map<String, ExceptionMessage> messages = new ConcurrentHashMap<>(10);
-
-	/**
-	 * 异常发生数
-	 */
-	private long number = 0;
-
-	/**
-	 * 用来当做锁
-	 */
-	private final String lock = "";
+	private final Map<String, ExceptionMessage> messages = new ConcurrentHashMap<>(50);
 
 	/**
 	 * 本地物理地址
@@ -76,62 +68,61 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread implem
 		catch (Exception e) {
 			mac = "获取失败!";
 		}
+	}
 
-		this.start();
+	@Override
+	public long getBatchSize() {
+		return config.getMax();
+	}
+
+	@Override
+	public long getBatchTimeout() {
+		// 秒转毫秒
+		return config.getTime() * 1000;
+	}
+
+	@Override
+	public void startLog() {
+		log.debug("异常通知线程启动");
+		setName("exception-notice-thread-" + config.getType().name());
+	}
+
+	@Override
+	public void errorLog(Throwable e, List<ExceptionMessage> list) {
+		log.error("异常通知发生异常", e);
+	}
+
+	@Override
+	public void save(List<ExceptionMessage> list) throws Exception {
+		messages.clear();
+		for (ExceptionMessage msg : list) {
+			// 已存在相同key
+			if (messages.containsKey(msg.getKey())) {
+				messages.put(msg.getKey(), msg.setNumber(messages.get(msg.getKey()).getNumber() + 1));
+			}
+			else {
+				messages.put(msg.getKey(), msg);
+			}
+		}
+		messages.forEach((k, v) -> {
+			try {
+				ExceptionNoticeResponse response = send(v);
+				if (!response.isSuccess()) {
+					log.error("消息通知发送失败! msg: {}", response.getErrMsg());
+				}
+			}
+			catch (Exception e) {
+				log.error("消息通知时发生异常", e);
+			}
+		});
 	}
 
 	@Override
 	public void handle(Throwable e) {
-		synchronized (lock) {
-			number++;
-			String key = e.getMessage() != null ? e.getMessage() : NULL_MESSAGE;
-			// 特殊处理 message 为 null 的情况
-			ExceptionMessage message = messages.get(key);
-
-			if (message == null) {
-				message = new ExceptionMessage().setNumber(0).setMac(mac).setApplicationName(applicationName)
-						.setHostname(hostname).setIp(ip);
-			}
-
-			message.setNumber(message.getNumber() + 1)
-					.setStack(ExceptionUtil.stacktraceToString(e, config.getLength()).replaceAll("\\r", ""))
-					.setTime(DateUtil.now()).setThreadId(Thread.currentThread().getId());
-			messages.put(key, message);
-		}
-	}
-
-	@Override
-	public void run() {
-		this.setName("exception-notice-thread-" + config.getType().name());
-		log.debug("异常消息通知线程启动!");
-		TimeInterval interval = new TimeInterval();
-		while (true) {
-			try {
-				if (interval.intervalSecond() >= config.getTime() || number >= config.getMax()) {
-					if (messages.size() == 0) {
-						interval.restart();
-						continue;
-					}
-
-					Map<String, ExceptionMessage> sendMessages;
-					synchronized (lock) {
-						sendMessages = messages;
-						messages = new ConcurrentHashMap<>(10);
-						number = 0;
-						interval.restart();
-					}
-					sendMessages.forEach((k, v) -> {
-						ExceptionNoticeResponse response = send(v);
-						if (!response.isSuccess()) {
-							log.error("消息通知发送失败! msg: {}", response.getErrMsg());
-						}
-					});
-				}
-			}
-			catch (Exception e) {
-				log.error("消息通知异常!", e);
-			}
-		}
+		putObject(new ExceptionMessage().setNumber(1).setKey(e.getMessage() == null ? NULL_MESSAGE_KEY : e.getMessage())
+				.setMac(mac).setApplicationName(applicationName).setHostname(hostname).setIp(ip)
+				.setStack(ExceptionUtil.stacktraceToString(e, config.getLength()).replaceAll("\\r", ""))
+				.setTime(DateUtil.now()).setThreadId(Thread.currentThread().getId()));
 	}
 
 	/**
