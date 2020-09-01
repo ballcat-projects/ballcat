@@ -50,7 +50,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven-compiler-plugin.verison>3.8.0</maven-compiler-plugin.verison>
-		<spring-javaformat-checkstyle.version>0.0.22</spring-javaformat-checkstyle.version>
+		<spring-javaformat-checkstyle.version>0.0.25</spring-javaformat-checkstyle.version>
 
 		<kafka.version>2.5.0</kafka.version>
 

@@ -40,14 +40,14 @@
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.22</spring-javaformat-checkstyle.version>
+		<spring-javaformat-checkstyle.version>0.0.25</spring-javaformat-checkstyle.version>
 
 		<springfox.version>2.9.2</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
 		<knife4j.version>1.9.6</knife4j.version>
 
-		<hutool.version>5.3.10</hutool.version>
-		<mybatis-plus.version>3.3.2</mybatis-plus.version>
+		<hutool.version>5.4.1</hutool.version>
+		<mybatis-plus.version>3.4.0</mybatis-plus.version>
 		<dynamic-datasource.version>3.2.0</dynamic-datasource.version>
 		<xxl-job.version>2.2.0</xxl-job.version>
 		<spring-boot-admin.version>2.2.4</spring-boot-admin.version>
