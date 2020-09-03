@@ -23,6 +23,11 @@ public class ExceptionHandleConfig {
 	private ExceptionHandleTypeEnum type = ExceptionHandleTypeEnum.NONE;
 
 	/**
+	 * 忽略指定异常，请注意：只会忽略填写的异常类，而不会忽略该异常类的子类
+	 */
+	private Set<Class<? extends Throwable>> ignoreExceptions = new HashSet<>();
+
+	/**
 	 * 通知间隔时间 单位秒 默认 5分钟
 	 */
 	private long time = TimeUnit.MINUTES.toSeconds(5);

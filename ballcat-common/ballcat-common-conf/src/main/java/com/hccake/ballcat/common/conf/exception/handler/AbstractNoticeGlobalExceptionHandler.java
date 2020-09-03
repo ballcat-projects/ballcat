@@ -75,6 +75,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 	}
 
 	@Override
+	@SuppressWarnings("all")
 	public void run() {
 		String key;
 		TimeInterval interval = new TimeInterval();
@@ -90,7 +91,8 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 				catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				if (t != null) {
+				// 接收到的异常不为空 且 不是忽略的异常类
+				if (t != null && !config.getIgnoreExceptions().contains(t.getClass())) {
 					key = t.getMessage() == null ? NULL_MESSAGE_KEY : t.getMessage();
 					// i++
 					if (i++ == 0) {
@@ -152,7 +154,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		this.setName("exception-notice");
 		this.start();
 	}
