@@ -30,7 +30,7 @@ public class ExceptionHandleConfig {
 	/**
 	 * 消息阈值 即便间隔时间没有到达设定的时间， 但是异常发生的数量达到阈值 则立即发送消息
 	 */
-	private long max = 5;
+	private int max = 5;
 
 	/**
 	 * 堆栈转string 的长度

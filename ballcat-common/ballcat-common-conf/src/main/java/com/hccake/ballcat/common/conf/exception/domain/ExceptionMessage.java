@@ -64,6 +64,15 @@ public class ExceptionMessage {
 	 */
 	private String ip;
 
+	/**
+	 * 数量自增
+	 * @author lingting 2020-09-03 20:31
+	 */
+	public ExceptionMessage increment() {
+		number++;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return "服务名称：" + applicationName + "\nip：" + ip + "\nhostname：" + hostname + "\n机器地址：" + mac + "\n触发时间：" + time
