@@ -91,8 +91,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 				catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				// 接收到的异常不为空 且 不是忽略的异常类
-				if (t != null && !config.getIgnoreExceptions().contains(t.getClass())) {
+				if (t != null) {
 					key = t.getMessage() == null ? NULL_MESSAGE_KEY : t.getMessage();
 					// i++
 					if (i++ == 0) {
@@ -146,7 +145,10 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 	@Override
 	public void handle(Throwable throwable) {
 		try {
-			queue.put(throwable);
+			// 只有不是忽略的异常类才会插入异常消息队列
+			if (!config.getIgnoreExceptions().contains(throwable.getClass())) {
+				queue.put(throwable);
+			}
 		}
 		catch (Exception e) {
 			log.error("往异常消息队列插入新异常时出错", e);
