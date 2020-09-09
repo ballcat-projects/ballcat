@@ -24,9 +24,7 @@ public class DingTalkAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public DingTalkSender dingTalkSender() {
-		DingTalkSender sender = new DingTalkSender(dingTalkProperties.getUrl());
-		sender.setSecret(dingTalkProperties.getSecret());
-		return sender;
+		return new DingTalkSender(dingTalkProperties.getUrl()).setSecret(dingTalkProperties.getSecret());
 	}
 
 }
