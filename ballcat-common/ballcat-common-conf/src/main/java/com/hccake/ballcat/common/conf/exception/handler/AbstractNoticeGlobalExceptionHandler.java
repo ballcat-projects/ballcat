@@ -123,6 +123,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 						log.error("消息通知时发生异常", e);
 					}
 				});
+				messages.clear();
 			}
 			interval.restart();
 		}
