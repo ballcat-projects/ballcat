@@ -61,7 +61,7 @@ public class GlobalExceptionHandlerResolver {
 	@ExceptionHandler(IllegalArgumentException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<String> handleIllegalArgumentException(IllegalArgumentException e) {
-		log.error("非法数据输入 ex={}", e.getMessage(), e);
+		log.error("非法数据输入 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getMessage());
 	}
@@ -74,7 +74,7 @@ public class GlobalExceptionHandlerResolver {
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-		log.error("参数类型转换异常 ex={}", e.getMessage(), e);
+		log.error("参数类型转换异常 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST,
 				GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getMessage());
@@ -88,7 +88,7 @@ public class GlobalExceptionHandlerResolver {
 	@ExceptionHandler(BusinessException.class)
 	@ResponseStatus(HttpStatus.OK)
 	public R<String> handleBallCatException(BusinessException e) {
-		log.error("自定义异常信息 ex={}", e.getMessage(), e);
+		log.error("自定义异常信息 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
 		return R.failed(e.getCode(), e.getMsg());
 	}
@@ -103,7 +103,7 @@ public class GlobalExceptionHandlerResolver {
 	public R<String> handleAccessDeniedException(AccessDeniedException e) {
 		String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
 				e.getMessage());
-		log.error("拒绝授权异常信息 ex={}", msg, e);
+		log.error("拒绝授权异常信息 ex={}", msg);
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
 	}
@@ -128,7 +128,7 @@ public class GlobalExceptionHandlerResolver {
 		String errorMsg = bindingResult.getErrorCount() > 0 ? bindingResult.getAllErrors().get(0).getDefaultMessage()
 				: "未获取到错误信息!";
 
-		log.error("参数绑定异常,ex = {}", errorMsg, exception);
+		log.error("参数绑定异常,ex = {}", errorMsg);
 		globalExceptionHandler.handle(exception);
 		return R.failed(SystemResultCode.BAD_REQUEST, errorMsg);
 	}
@@ -141,7 +141,7 @@ public class GlobalExceptionHandlerResolver {
 	@ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<String> handleValidationException(Exception e) {
-		log.error("参数绑定异常 ex={}", e.getMessage(), e);
+		log.error("参数绑定异常 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
 	}
