@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 256px">
+  <div style="width: 208px">
     <a-menu :selected-keys="selectedKeys" :open-keys.sync="openKeys" mode="inline" theme="dark">
       <template v-for="item in menuData">
         <a-menu-item v-if="!item.children" :key="item.path" @click="$router.push({ path: item.path })">

@@ -1,6 +1,6 @@
 <template>
   <a-layout id="components-layout-side" style="min-height: 100vh">
-    <a-layout-sider :trigger="null" v-model="collapsed" collapsible width="256px">
+    <a-layout-sider :trigger="null" v-model="collapsed" collapsible width="208px" collapsedWidth="48px">
       <div class="logo">
         <!--<LogSvg alt="logo" />-->
         <img src="~@/assets/logo.svg" class="logo" alt="logo" style="width:32px;height:auto" />
@@ -48,23 +48,30 @@ export default {
   height: 64px;
   text-align: center;
   overflow: hidden;
-  vertical-align: middle;
 
   .project-name {
+    display: inline-block;
     margin-left: 8px;
-    vertical-align: middle;
-    font-size: 20px;
-    font-family: 'Josefin Sans', 'Helvetica', 'Arial', 'Microsoft YaHei', '黑体', '宋体', 'sans-serif';
     font-weight: 600;
+    font-size: 18px;
+    line-height: 32px;
+    vertical-align: middle;
+    animation: fade-in;
+    animation-duration: 0.2s;
   }
 }
 
 #components-layout-side .trigger {
   font-size: 18px;
-  line-height: 64px;
+  line-height: 48px;
   padding: 0 24px;
   cursor: pointer;
   transition: color 0.3s;
+}
+
+#components-layout-side .ant-layout-header {
+  height: 48px;
+  line-height: 48px;
 }
 
 #components-layout-side .trigger:hover {
@@ -74,5 +81,12 @@ export default {
 .ant-layout-footer {
   text-align: center;
   padding: 5px 50px 12px;
+}
+
+.ant-menu-inline-collapsed {
+  width: 48px;
+}
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+  padding: 0 16px !important;
 }
 </style>
