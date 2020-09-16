@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Map;
+
 /**
  * 字典项
  *
@@ -30,5 +32,11 @@ public class DictItemVO {
 	 */
 	@ApiModelProperty(value = "文本值")
 	private String name;
+
+	/**
+	 * 附加属性值
+	 */
+	@ApiModelProperty(value = "附加属性值")
+	private Map<String, String> attributes;
 
 }

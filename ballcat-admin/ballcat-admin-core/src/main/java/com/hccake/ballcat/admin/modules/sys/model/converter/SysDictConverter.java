@@ -17,8 +17,8 @@ public interface SysDictConverter {
 
 	/**
 	 * 字典项实体转VO
-	 * @param sysDictItem
-	 * @return
+	 * @param sysDictItem 字典项
+	 * @return 字典项VO
 	 */
 	DictItemVO itemPoToVo(SysDictItem sysDictItem);
 

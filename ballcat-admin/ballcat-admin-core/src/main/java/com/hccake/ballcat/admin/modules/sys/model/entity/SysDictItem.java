@@ -2,12 +2,14 @@ package com.hccake.ballcat.admin.modules.sys.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * 字典项
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
  * @date 2020-03-26 18:40:20
  */
 @Data
-@TableName("sys_dict_item")
+@TableName(value = "sys_dict_item", autoResultMap = true)
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "字典项")
 public class SysDictItem extends Model<SysDictItem> {
@@ -47,6 +49,13 @@ public class SysDictItem extends Model<SysDictItem> {
 	 */
 	@ApiModelProperty(value = "文本值")
 	private String name;
+
+	/**
+	 * 附加属性值
+	 */
+	@TableField(typeHandler = JacksonTypeHandler.class)
+	@ApiModelProperty(value = "附加属性值")
+	private Map<String, String> attributes;
 
 	/**
 	 * 排序（升序）
