@@ -17,11 +17,11 @@ import com.hccake.ballcat.admin.modules.sys.mapper.SysUserMapper;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysUserConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
+import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.UserInfo;
 import com.hccake.ballcat.admin.modules.sys.service.*;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
@@ -96,9 +96,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return 用户信息
 	 */
 	@Override
-	public UserInfo findUserInfo(SysUser sysUser) {
-		UserInfo userInfo = new UserInfo();
-		userInfo.setSysUser(sysUser);
+	public UserInfoDTO findUserInfo(SysUser sysUser) {
+		UserInfoDTO userInfoDTO = new UserInfoDTO();
+		userInfoDTO.setSysUser(sysUser);
 		// 设置角色列表 （ID）
 		List<SysRole> roleList;
 
@@ -117,8 +117,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			roles.add(role.getCode());
 		}
 
-		userInfo.setRoles(roles);
-		userInfo.setRoleIds(roleIds);
+		userInfoDTO.setRoles(roles);
+		userInfoDTO.setRoleIds(roleIds);
 
 		// 设置权限列表（permission）
 		Set<String> permissions = new HashSet<>();
@@ -128,8 +128,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 					.collect(Collectors.toList());
 			permissions.addAll(permissionList);
 		});
-		userInfo.setPermissions(new ArrayList<>(permissions));
-		return userInfo;
+		userInfoDTO.setPermissions(new ArrayList<>(permissions));
+		return userInfoDTO;
 	}
 
 	/**

@@ -1,8 +1,8 @@
 package com.hccake.ballcat.admin.oauth;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
-import com.hccake.ballcat.admin.modules.sys.model.vo.UserInfo;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,21 +37,21 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 			log.error("登陆：用户名错误，用户名：{}", username);
 			throw new UsernameNotFoundException("username error!");
 		}
-		UserInfo userInfo = sysUserService.findUserInfo(sysUser);
-		return getUserDetailsByUserInfo(userInfo);
+		UserInfoDTO userInfoDTO = sysUserService.findUserInfo(sysUser);
+		return getUserDetailsByUserInfo(userInfoDTO);
 	}
 
 	/**
 	 * 根据UserInfo 获取 UserDetails
-	 * @param userInfo
-	 * @return
+	 * @param userInfoDTO 用户信息DTO
+	 * @return UserDetails
 	 */
-	private UserDetails getUserDetailsByUserInfo(UserInfo userInfo) {
+	private UserDetails getUserDetailsByUserInfo(UserInfoDTO userInfoDTO) {
 
-		SysUser user = userInfo.getSysUser();
-		List<String> roles = userInfo.getRoles();
-		List<Integer> roleIds = userInfo.getRoleIds();
-		List<String> permissions = userInfo.getPermissions();
+		SysUser sysUser = userInfoDTO.getSysUser();
+		List<String> roles = userInfoDTO.getRoles();
+		List<Integer> roleIds = userInfoDTO.getRoleIds();
+		List<String> permissions = userInfoDTO.getPermissions();
 
 		Set<String> dbAuthsSet = new HashSet<>();
 		if (CollectionUtil.isNotEmpty(roles)) {
@@ -64,7 +64,7 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
 				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
-		return new SysUserDetails(user, roles, roleIds, permissions, authorities);
+		return new SysUserDetails(sysUser, roles, roleIds, permissions, authorities);
 
 	}
 

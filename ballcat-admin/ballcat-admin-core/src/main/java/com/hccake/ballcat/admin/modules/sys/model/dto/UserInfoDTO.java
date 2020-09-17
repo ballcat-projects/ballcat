@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.modules.sys.model.vo;
+package com.hccake.ballcat.admin.modules.sys.model.dto;
 
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import io.swagger.annotations.ApiModel;
@@ -9,11 +9,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author
+ * 用户信息
+ *
+ * @author Hccake
  */
 @Data
 @ApiModel(value = "用户信息")
-public class UserInfo implements Serializable {
+public class UserInfoDTO implements Serializable {
 
 	/**
 	 * 用户基本信息

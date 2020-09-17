@@ -1,6 +1,5 @@
-package com.hccake.ballcat.admin.modules.sys.model.entity;
+package com.hccake.ballcat.admin.modules.sys.model.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,16 +14,14 @@ import java.time.LocalDateTime;
  * @date 2019-09-12 20:39:31
  */
 @Data
-@TableName("sys_user")
-@ApiModel(value = "系统用户表")
-public class SysUser implements Serializable {
+@ApiModel(value = "系统用户VO")
+public class SysUserVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 用户ID
 	 */
-	@TableId
 	@ApiModelProperty(value = "用户ID")
 	private Integer userId;
 
@@ -39,18 +36,6 @@ public class SysUser implements Serializable {
 	 */
 	@ApiModelProperty(value = "昵称")
 	private String nickname;
-
-	/**
-	 * 密码
-	 */
-	@ApiModelProperty(value = "密码")
-	private String password;
-
-	/**
-	 * md5密码盐
-	 */
-	@ApiModelProperty(value = "md5密码盐")
-	private String salt;
 
 	/**
 	 * 头像
@@ -86,25 +71,15 @@ public class SysUser implements Serializable {
 	private Integer type;
 
 	/**
-	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
-	 */
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "逻辑删除标识，已删除:0，未删除：删除时间戳")
-	private Long deleted;
-
-	/**
 	 * 创建时间
 	 */
 	@ApiModelProperty(value = "创建时间")
-	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty(value = "更新时间")
-	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime updateTime;
 
 }

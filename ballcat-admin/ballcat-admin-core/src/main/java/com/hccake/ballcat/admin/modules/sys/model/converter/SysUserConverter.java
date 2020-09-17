@@ -2,6 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.model.converter;
 
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -17,20 +18,16 @@ public interface SysUserConverter {
 
 	/**
 	 * 转换DTO 为 PO
-	 * @param sysUserDTO
-	 * @return
+	 * @param sysUserDTO 系统用户DTO
+	 * @return SysUser 系统用户
 	 */
-	// @Mapping(target = "password", expression = "java( encodePassword(sysUserDTO) )")
 	SysUser dtoToPo(SysUserDTO sysUserDTO);
 
 	/**
-	 * 将前端传输密码进行加解密
-	 * @param sysUserDTO
-	 * @return
+	 * PO 转 DTO
+	 * @param sysUser 系统用户
+	 * @return SysUserVO 系统用户VO
 	 */
-	/*
-	 * default String encodePassword(SysUserDTO sysUserDTO){ String pass =
-	 * sysUserDTO.getPass(); return "encode"+pass; }
-	 */
+	SysUserVO poToVo(SysUser sysUser);
 
 }
