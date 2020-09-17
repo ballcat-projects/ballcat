@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +32,7 @@ public class AdminOperationLogController {
 	 * 分页查询
 	 * @param page 分页对象
 	 * @param adminOperationLog 操作日志
-	 * @return
+	 * @return R
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
@@ -41,18 +40,6 @@ public class AdminOperationLogController {
 	public R<IPage<AdminOperationLog>> getOperationLogAdminPage(Page<AdminOperationLog> page,
 			AdminOperationLog adminOperationLog) {
 		return R.ok(operationLogAdminService.page(page, Wrappers.query(adminOperationLog)));
-	}
-
-	/**
-	 * 通过id查询操作日志
-	 * @param id id
-	 * @return R
-	 */
-	@ApiOperation(value = "通过id查询", notes = "通过id查询")
-	@GetMapping("/{id}")
-	@PreAuthorize("@per.hasPermission('log:adminoperationlog:read')")
-	public R<AdminOperationLog> getById(@PathVariable("id") Long id) {
-		return R.ok(operationLogAdminService.getById(id));
 	}
 
 }

@@ -1,10 +1,10 @@
 package com.hccake.ballcat.admin.modules.log.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hccake.ballcat.admin.modules.log.model.entity.AdminAccessLog;
-import com.hccake.ballcat.admin.modules.log.service.AdminAccessLogService;
+import com.hccake.ballcat.admin.modules.log.model.qo.AdminLoginLogQO;
+import com.hccake.ballcat.admin.modules.log.model.vo.AdminLoginLogVO;
+import com.hccake.ballcat.admin.modules.log.service.AdminLoginLogService;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,30 +15,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 访问日志
+ * 登陆日志
  *
- * @author hccake
- * @date 2019-10-16 16:09:25
+ * @author hccake 2020-09-16 20:21:10
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/log/adminaccesslog")
-@Api(value = "adminaccesslog", tags = "访问日志管理")
-public class AdminAccessLogController {
+@RequestMapping("/log/adminloginlog")
+@Api(value = "adminloginlog", tags = "登陆日志管理")
+public class AdminLoginLogController {
 
-	private final AdminAccessLogService adminAccessLogService;
+	private final AdminLoginLogService AdminLoginLogService;
 
 	/**
 	 * 分页查询
 	 * @param page 分页对象
-	 * @param adminAccessLog 访问日志
-	 * @return R
+	 * @param adminLoginLogQO 登陆日志查询对象
+	 * @return R 通用返回体
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
-	@PreAuthorize("@per.hasPermission('log:adminaccesslog:read')")
-	public R<IPage<AdminAccessLog>> getAccessLogApiPage(Page<AdminAccessLog> page, AdminAccessLog adminAccessLog) {
-		return R.ok(adminAccessLogService.page(page, Wrappers.query(adminAccessLog)));
+	@PreAuthorize("@per.hasPermission('log:adminloginlog:read')")
+	public R<IPage<AdminLoginLogVO>> getLoginLogPage(Page<?> page, AdminLoginLogQO adminLoginLogQO) {
+		return R.ok(AdminLoginLogService.selectPageVo(page, adminLoginLogQO));
 	}
 
 }

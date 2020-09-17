@@ -13,16 +13,6 @@ import lombok.RequiredArgsConstructor;
 public enum OperationTypeEnum {
 
 	/**
-	 * 登陆操作
-	 */
-	LOGIN(1),
-
-	/**
-	 * 登出操作
-	 */
-	LOGOUT(2),
-
-	/**
 	 * 查看操作，主要用于敏感数据查询记录
 	 */
 	READ(3),
