@@ -18,6 +18,7 @@ CREATE TABLE `admin_access_log`  (
   `req_params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求参数',
   `req_body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求body',
   `http_status` int(5) NULL DEFAULT NULL COMMENT '响应状态码',
+  `result` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '响应信息',
   `error_msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '错误消息',
   `time` bigint(64) NULL DEFAULT NULL COMMENT '执行时长',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
@@ -28,6 +29,29 @@ CREATE TABLE `admin_access_log`  (
   INDEX `httpStatus`(`http_status`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '访问日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for admin_login_log
+-- ----------------------------
+DROP TABLE IF EXISTS `admin_login_log`;
+CREATE TABLE `admin_login_log`  (
+  `id` bigint(64) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `trace_id` char(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '追踪ID',
+  `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登陆IP',
+  `os` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作系统',
+  `status` tinyint(1) NOT NULL COMMENT '状态',
+  `event_type` tinyint(1) NULL DEFAULT NULL COMMENT '事件类型，1：登录 2：登出',
+  `msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作信息',
+  `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登陆地点',
+  `browser` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '浏览器',
+  `login_time` datetime(0) NULL DEFAULT NULL COMMENT '登录/登出时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `status`(`status`) USING BTREE,
+  INDEX `create_time`(`create_time`) USING BTREE,
+  INDEX `username`(`username`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登陆日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for admin_operation_log
@@ -71,7 +95,7 @@ CREATE TABLE `oauth_client_details`  (
   `additional_information` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `autoapprove` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`client_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'OAuth客户端配置' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of oauth_client_details
@@ -103,60 +127,6 @@ CREATE TABLE `sys_config`  (
 -- ----------------------------
 INSERT INTO `sys_config` VALUES (1, '网站弹窗开关', 'site_popup', '0', 'group', '宣传网站是否弹出框的控制开关。\n1：开启 0：关闭', 0, '2020-07-03 15:24:44', '2019-10-15 16:45:55');
 
-DROP TABLE IF EXISTS `sys_lov`;
-CREATE TABLE `sys_lov` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `keyword` varchar(50) DEFAULT NULL COMMENT '关键字，唯一，加载lov数据时通过关键字加载',
-  `url` varchar(255) DEFAULT NULL COMMENT '获取数据时请求路径',
-  `method` varchar(10) DEFAULT NULL COMMENT 'http请求方式',
-  `position` varchar(10) DEFAULT NULL COMMENT 'http请求参数设置位置',
-  `key` varchar(20) DEFAULT NULL COMMENT '数据的key',
-  `fixed_params` varchar(255) DEFAULT '{}' COMMENT '固定请求参数，请设置 jsonString, 默认值 {}',
-  `multiple` bit(1) DEFAULT NULL COMMENT '是否需要多选',
-  `search` bit(1) DEFAULT NULL COMMENT '是否需要搜索框',
-  `ret` bit(1) DEFAULT NULL COMMENT '是否需要返回数据, false则不会有确定按钮',
-  `ret_field` varchar(50) DEFAULT NULL COMMENT '返回数据的字段',
-  `ret_field_data_type` tinyint(1) DEFAULT NULL COMMENT '返回字段数据类型 1 String 2 Number',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `keyword` (`keyword`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='lov';
-
-DROP TABLE IF EXISTS `sys_lov_body`;
-CREATE TABLE `sys_lov_body` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lov_id` int(11) DEFAULT NULL,
-  `title` varchar(100) DEFAULT NULL COMMENT '标题',
-  `field` varchar(50) DEFAULT NULL COMMENT '字段, 同一lov下，field不可重复`',
-  `index` int(255) DEFAULT NULL COMMENT '索引，字段排序',
-  `property` varchar(255) DEFAULT '{}' COMMENT '自定义属性，请设置 jsonString, 默认值 {}',
-  `custom` bit(1) DEFAULT NULL COMMENT '是否自定义html',
-  `html` text COMMENT '如果 custom=true 则当前值不能为空',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `lov_id` (`lov_id`,`field`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='lov body';
-
-DROP TABLE IF EXISTS `sys_lov_search`;
-CREATE TABLE `sys_lov_search` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lov_id` int(11) DEFAULT NULL,
-  `label` varchar(100) DEFAULT NULL COMMENT '标签文字',
-  `field` varchar(50) DEFAULT NULL COMMENT '字段',
-  `placeholder` varchar(255) DEFAULT NULL COMMENT 'placeholder',
-  `tag` varchar(50) DEFAULT NULL COMMENT 'html 标签',
-  `options` text COMMENT 'tag=SELECT时的选项',
-  `min` int(1) DEFAULT NULL COMMENT 'tag=INPUT_NUMBER时的选项，设置数字最小值',
-  `max` int(1) DEFAULT NULL COMMENT 'tag=INPUT_NUMBER时的选项，设置数字最大值',
-  `dict_code` varchar(50) DEFAULT NULL COMMENT 'tag=DICT_SELECT时的选项，设置dict-code',
-  `custom` bit(1) DEFAULT NULL COMMENT '是否自定义html',
-  `html` text COMMENT '如果 custom=true 则当前值不能为空',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `lov_id` (`lov_id`,`field`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='lov search';
-
 -- ----------------------------
 -- Table structure for sys_dict
 -- ----------------------------
@@ -167,23 +137,26 @@ CREATE TABLE `sys_dict`  (
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `editable` tinyint(1) NULL DEFAULT 0 COMMENT '可编辑 1：是 0：否',
-  `value_type` tinyint(1) NULL DEFAULT 1 COMMENT '值类型,1:Number 2:String 3:Boolean',
+  `value_type` tinyint(1) NULL DEFAULT 0 COMMENT '值类型,1:Number 2:String 3:Boolean',
   `hash_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'hash值，当字典项被修改时变更',
   `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_code_deleted`(`code`, `deleted`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, 'dict_property', '字典属性', '只读、可写', 1, 1, 'd243f9f46a9f4a5498b013242c8828b3', 0, '2020-03-27 01:05:29', '2020-07-03 14:30:03');
-INSERT INTO `sys_dict` VALUES (2, 'log_type', '日志类型', '异常、正常', 1, 1, 'f8af5ef4568735abf7e6cc00afe938b', 0, '2020-03-27 01:05:29', '2020-03-27 11:06:44');
+INSERT INTO `sys_dict` VALUES (1, 'dict_property', '字典属性', '只读、可写', 1, 1, '0226999fa7a64f8c9c36309ab68889bd', 0, '2020-03-27 01:05:29', '2020-07-03 14:30:03');
+INSERT INTO `sys_dict` VALUES (2, 'log_status', '日志状态', '正常、异常', 1, 1, 'd63783be5ae845a9905fc5c69e796837', 0, '2020-03-27 01:05:29', '2020-03-27 11:06:44');
 INSERT INTO `sys_dict` VALUES (3, 'gender', '性别', '用户性别', 1, 1, 'aca1caf123123e4872be29c8cc448', 0, '2020-03-27 01:05:29', '2020-03-27 00:55:28');
 INSERT INTO `sys_dict` VALUES (4, 'grant_types', '授权类型', 'OAuth授权类型', 1, 1, 'e5316daadb490e9ca7e1ac5c5607a4', 0, '2020-03-27 01:05:29', '2020-03-27 00:30:16');
-INSERT INTO `sys_dict`(`code`, `title`, `remarks`, `editable`, `hash_code`, `deleted`, `create_time`, `update_time`, `value_type`) VALUES ('dict_value_type', '字典数据类型', NULL, 1, '582ed0dc179d4c99929b6dc5b63847fb', 0, now(), NULL, 1);
+INSERT INTO `sys_dict` VALUES (5, 'operation_type', '操作类型', '操作日志的操作类型', 0, 1, '360bb77640dd4b109d58c094163c60b8', 0, '2020-07-14 20:28:54', NULL);
+INSERT INTO `sys_dict` VALUES (6, 'role_type', '角色类型', '系统角色、业务角色', 0, 1, '53f3fb8c715149fe8793be4c25127ce9', 0, '2020-07-14 21:16:45', NULL);
+INSERT INTO `sys_dict` VALUES (7, 'dict_value_type', '字典数据类型', 'Number、String、Boolean', 1, 1, '9f7e7a3904aa4270a8d8d94005827d82', 0, '2020-08-14 17:16:47', NULL);
+INSERT INTO `sys_dict` VALUES (8, 'login_event_type', '登陆事件类型', '1：登陆  2：登出', 0, 1, '6fe465274208421eb0619a516875e270', 0, '2020-09-17 14:44:00', NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_item
@@ -194,6 +167,7 @@ CREATE TABLE `sys_dict_item`  (
   `dict_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典Code',
   `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '数据值',
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签',
+  `attributes` json NULL COMMENT '附加属性',
   `sort` int(10) NOT NULL DEFAULT 0 COMMENT '排序（升序）',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间',
@@ -201,26 +175,101 @@ CREATE TABLE `sys_dict_item`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_dict_code`(`dict_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典项' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典项' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_item
 -- ----------------------------
-INSERT INTO `sys_dict_item` VALUES (1, 'dict_property', '0', '只读', 0, '只读字典，不可编辑', 0, '2020-03-27 01:05:52', '2020-04-11 22:34:21');
-INSERT INTO `sys_dict_item` VALUES (2, 'dict_property', '1', '可写', 1, '该字典可以编辑', 0, '2020-03-27 01:05:52', '2020-04-11 22:34:14');
-INSERT INTO `sys_dict_item` VALUES (3, 'log_type', '1', '正常', 0, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:18');
-INSERT INTO `sys_dict_item` VALUES (4, 'log_type', '0', '异常', 1, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
-INSERT INTO `sys_dict_item` VALUES (5, 'gender', '1', '男', 0, '', 0, '2020-03-27 01:05:52', '2019-03-27 13:45:13');
-INSERT INTO `sys_dict_item` VALUES (6, 'gender', '2', '女', 1, '', 0, '2020-03-27 01:05:52', '2019-03-27 13:45:34');
-INSERT INTO `sys_dict_item` VALUES (7, 'gender', '3', '未知', 2, '', 0, '2020-03-27 01:05:52', '2019-03-27 13:45:57');
-INSERT INTO `sys_dict_item` VALUES (8, 'grant_types', 'password', '密码模式', 0, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:35:28');
-INSERT INTO `sys_dict_item` VALUES (9, 'grant_types', 'authorization_code', '授权码模式', 1, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:07');
-INSERT INTO `sys_dict_item` VALUES (10, 'grant_types', 'client_credentials', '客户端模式', 2, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:30');
-INSERT INTO `sys_dict_item` VALUES (11, 'grant_types', 'refresh_token', '刷新模式', 3, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:54');
-INSERT INTO `sys_dict_item` VALUES (12, 'grant_types', 'implicit', '简化模式', 4, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:39:32');
-INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('dict_value_type', '1', 'Number', 1, NULL, 0, now(), NULL);
-INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('dict_value_type', '2', 'String', 1, NULL, 0, now(), NULL);
-INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('dict_value_type', '3', 'Boolean', 1, NULL, 0, now(), NULL);
+INSERT INTO `sys_dict_item` VALUES (1, 'dict_property', '0', '只读', '{\"tagColor\": \"orange\"}', 0, '只读字典，不可编辑', 0, '2020-03-27 01:05:52', '2020-09-16 15:31:24');
+INSERT INTO `sys_dict_item` VALUES (2, 'dict_property', '1', '可写', '{\"tagColor\": \"green\"}', 1, '该字典可以编辑', 0, '2020-03-27 01:05:52', '2020-09-16 15:31:51');
+INSERT INTO `sys_dict_item` VALUES (3, 'log_status', '1', '正常', '{\"textColor\": \"#34890A\"}', 0, '', 0, '2020-03-27 01:05:52', '2020-09-17 14:41:13');
+INSERT INTO `sys_dict_item` VALUES (4, 'log_status', '0', '异常', '{\"textColor\": \"red\"}', 1, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
+INSERT INTO `sys_dict_item` VALUES (5, 'gender', '1', '男', '{}', 0, '', 0, '2020-03-27 01:05:52', '2019-03-27 13:45:13');
+INSERT INTO `sys_dict_item` VALUES (6, 'gender', '2', '女', '{}', 1, '', 0, '2020-03-27 01:05:52', '2019-03-27 13:45:34');
+INSERT INTO `sys_dict_item` VALUES (7, 'gender', '3', '未知', NULL, 2, '', 0, '2020-03-27 01:05:52', '2019-03-27 13:45:57');
+INSERT INTO `sys_dict_item` VALUES (8, 'grant_types', 'password', '密码模式', NULL, 0, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:35:28');
+INSERT INTO `sys_dict_item` VALUES (9, 'grant_types', 'authorization_code', '授权码模式', NULL, 1, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:07');
+INSERT INTO `sys_dict_item` VALUES (10, 'grant_types', 'client_credentials', '客户端模式', NULL, 2, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:30');
+INSERT INTO `sys_dict_item` VALUES (11, 'grant_types', 'refresh_token', '刷新模式', NULL, 3, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:54');
+INSERT INTO `sys_dict_item` VALUES (12, 'grant_types', 'implicit', '简化模式', NULL, 4, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:39:32');
+INSERT INTO `sys_dict_item` VALUES (13, 'login_event_type', '1', '登陆', '{\"tagColor\": \"cyan\"}', 0, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:18');
+INSERT INTO `sys_dict_item` VALUES (14, 'login_event_type', '2', '登出', '{\"tagColor\": \"pink\"}', 1, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
+INSERT INTO `sys_dict_item` VALUES (15, 'operation_type', '3', '查看', '{\"tagColor\": \"purple\"}', 2, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
+INSERT INTO `sys_dict_item` VALUES (16, 'operation_type', '4', '新建', '{\"tagColor\": \"cyan\"}', 3, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
+INSERT INTO `sys_dict_item` VALUES (17, 'operation_type', '5', '修改', '{\"tagColor\": \"orange\"}', 4, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
+INSERT INTO `sys_dict_item` VALUES (18, 'operation_type', '6', '删除', '{\"tagColor\": \"pink\"}', 5, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
+INSERT INTO `sys_dict_item` VALUES (19, 'role_type', '1', '系统', '{\"tagColor\": \"orange\"}', 1, '系统角色不能删除', 0, '2020-07-14 21:17:07', NULL);
+INSERT INTO `sys_dict_item` VALUES (20, 'role_type', '2', '业务', '{\"tagColor\": \"green\"}', 2, '业务角色可读可写', 0, '2020-07-14 21:17:24', NULL);
+INSERT INTO `sys_dict_item` VALUES (21, 'dict_type', '1', 'Number', NULL, 1, NULL, 0, '2020-08-12 16:10:22', '2020-08-12 16:12:33');
+INSERT INTO `sys_dict_item` VALUES (22, 'dict_type', '2', 'String', NULL, 1, NULL, 0, '2020-08-12 16:10:31', '2020-08-12 16:12:27');
+INSERT INTO `sys_dict_item` VALUES (23, 'dict_type', '3', 'Boolean', NULL, 1, NULL, 0, '2020-08-12 16:10:38', '2020-08-12 16:12:23');
+INSERT INTO `sys_dict_item` VALUES (24, 'dict_value_type', '1', 'Number', NULL, 1, NULL, 0, '2020-08-12 16:10:22', '2020-08-12 16:12:33');
+INSERT INTO `sys_dict_item` VALUES (25, 'dict_value_type', '2', 'String', NULL, 1, NULL, 0, '2020-08-12 16:10:31', '2020-08-12 16:12:27');
+INSERT INTO `sys_dict_item` VALUES (26, 'dict_value_type', '3', 'Boolean', '{}', 1, NULL, 0, '2020-08-12 16:10:38', '2020-09-16 15:07:07');
+
+-- ----------------------------
+-- Table structure for sys_lov
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_lov`;
+CREATE TABLE `sys_lov`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关键字，唯一，加载lov数据时通过关键字加载',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '获取数据时请求路径',
+  `method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'http请求方式',
+  `position` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'http请求参数设置位置',
+  `key` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '数据的key',
+  `fixed_params` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '{}' COMMENT '固定请求参数，请设置 jsonString, 默认值 {}',
+  `multiple` bit(1) NULL DEFAULT NULL COMMENT '是否需要多选',
+  `search` bit(1) NULL DEFAULT NULL COMMENT '是否需要搜索框',
+  `ret` bit(1) NULL DEFAULT NULL COMMENT '是否需要返回数据, false则不会有确定按钮',
+  `ret_field` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '返回数据的字段',
+  `ret_field_data_type` tinyint(1) NULL DEFAULT NULL COMMENT '返回字段数据类型 1 String 2 Number',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `keyword`(`keyword`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'lov' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sys_lov_body
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_lov_body`;
+CREATE TABLE `sys_lov_body`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lov_id` int(11) NULL DEFAULT NULL,
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标题',
+  `field` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字段, 同一lov下，field不可重复`',
+  `index` int(255) NULL DEFAULT NULL COMMENT '索引，字段排序',
+  `property` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '{}' COMMENT '自定义属性，请设置 jsonString, 默认值 {}',
+  `custom` bit(1) NULL DEFAULT NULL COMMENT '是否自定义html',
+  `html` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '如果 custom=true 则当前值不能为空',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `lov_id`(`lov_id`, `field`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'lov body' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sys_lov_search
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_lov_search`;
+CREATE TABLE `sys_lov_search`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lov_id` int(11) NULL DEFAULT NULL,
+  `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标签文字',
+  `field` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字段',
+  `placeholder` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'placeholder',
+  `tag` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'html 标签',
+  `options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'tag=SELECT时的选项',
+  `min` int(1) NULL DEFAULT NULL COMMENT 'tag=INPUT_NUMBER时的选项，设置数字最小值',
+  `max` int(1) NULL DEFAULT NULL COMMENT 'tag=INPUT_NUMBER时的选项，设置数字最大值',
+  `dict_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'tag=DICT_SELECT时的选项，设置dict-code',
+  `custom` bit(1) NULL DEFAULT NULL COMMENT '是否自定义html',
+  `html` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '如果 custom=true 则当前值不能为空',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `lov_id`(`lov_id`, `field`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'lov search' ROW_FORMAT = Dynamic;
+
 -- ----------------------------
 -- Table structure for sys_permission
 -- ----------------------------
@@ -244,7 +293,7 @@ CREATE TABLE `sys_permission`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 990510 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '菜单权限' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -286,18 +335,24 @@ INSERT INTO `sys_permission` VALUES (100501, '字典查询', 'sys:dict:read', NU
 INSERT INTO `sys_permission` VALUES (100502, '字典新增', 'sys:dict:add', NULL, NULL, NULL, NULL, NULL, 100500, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission` VALUES (100503, '字典修改', 'sys:dict:edit', NULL, NULL, NULL, NULL, NULL, 100500, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission` VALUES (100504, '字典删除', 'sys:dict:del', NULL, NULL, NULL, NULL, NULL, 100500, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100600, 'lov', NULL, '/sys/lov', 'Lov', 'sys/lov/Lov', NULL, NULL, 100000, NULL, 6, 0, 0, 1, 0, NULL, '2020-08-27 21:36:18');
+INSERT INTO `sys_permission` VALUES (100601, 'lov查询', 'sys:lov:read', NULL, NULL, NULL, NULL, NULL, 100600, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100602, 'lov新增', 'sys:lov:add', NULL, NULL, NULL, NULL, NULL, 100600, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100603, 'lov修改', 'sys:lov:edit', NULL, NULL, NULL, NULL, NULL, 100600, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (100604, 'lov删除', 'sys:lov:del', NULL, NULL, NULL, NULL, NULL, 100600, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission` VALUES (110000, '日志管理', NULL, '', 'log', 'layouts/RouteView', '/log/adminoperationlog', NULL, 0, 'file-search', 9, 0, 0, 0, 0, NULL, '2019-10-16 18:30:07');
-INSERT INTO `sys_permission` VALUES (110100, '操作日志', NULL, '/log/adminoperationlog', 'adminOperationLog', 'log/adminoperationlog/AdminOperationLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
+INSERT INTO `sys_permission` VALUES (110100, '操作日志', NULL, '/log/adminoperationlog', 'adminOperationLog', 'log/adminoperationlog/AdminOperationLogPage', NULL, NULL, 110000, NULL, 2, 0, 0, 1, 0, NULL, '2020-09-17 01:50:47');
 INSERT INTO `sys_permission` VALUES (110101, '操作日志查询', 'log:adminoperationlog:read', NULL, NULL, NULL, NULL, NULL, 110100, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
-INSERT INTO `sys_permission` VALUES (110300, '访问日志(后台)', NULL, '/log/adminaccesslog', 'adminAccessLog', 'log/adminaccesslog/AdminAccessLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
-INSERT INTO `sys_permission` VALUES (110301, '访问日志(后台)查询', 'log:adminaccesslog:read', NULL, NULL, NULL, NULL, NULL, 110300, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
+INSERT INTO `sys_permission` VALUES (110200, '登陆日志', NULL, '/log/adminloginlog', 'adminLoginLog', 'log/adminloginlog/AdminLoginLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
+INSERT INTO `sys_permission` VALUES (110201, '登陆日志查询', 'log:adminloginlog:read', NULL, NULL, NULL, NULL, NULL, 110200, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission` VALUES (110300, '访问日志(后台)', NULL, '/log/adminaccesslog', 'adminAccessLog', 'log/adminaccesslog/AdminAccessLogPage', NULL, NULL, 110000, NULL, 3, 0, 0, 1, 0, NULL, '2020-09-17 01:50:38');
+INSERT INTO `sys_permission` VALUES (110301, '访问日志(后台)查询', 'log:adminaccesslog:read', NULL, '', NULL, NULL, NULL, 110300, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
 INSERT INTO `sys_permission` VALUES (990000, '开发平台', '', '', 'develop', 'layouts/RouteView', '', NULL, 0, 'desktop', 99, 0, 0, 0, 0, NULL, '2019-11-22 16:49:56');
-INSERT INTO `sys_permission` VALUES (990100, '接口文档', '', 'http://ballcat-admin:8080/swagger-ui.html', 'swagger', '', '', '_blank', 990000, 'file', 1, 0, 0, 1, 0, NULL, '2019-11-22 16:48:42');
-INSERT INTO `sys_permission` VALUES (990200, '文档增强', '', 'http://ballcat-admin:8080/doc.html', 'doc', '', '', '_blank', 990000, 'file-text', 2, 0, 0, 1, 0, NULL, '2019-11-22 16:48:50');
+INSERT INTO `sys_permission` VALUES (990100, '接口文档', '', '/develop/swagger', 'swagger', 'layouts/IframeView', '', '', 990000, 'file', 1, 0, 0, 1, 0, NULL, '2019-11-22 16:48:42');
+INSERT INTO `sys_permission` VALUES (990200, '文档增强', '', '/develop/doc', 'doc', 'layouts/IframeView', '', '', 990000, 'file-text', 2, 0, 0, 1, 0, NULL, '2019-11-22 16:48:50');
 INSERT INTO `sys_permission` VALUES (990300, '调度中心', '', 'http://ballcat-job:8888/xxl-job-admin', 'job', '', '', '_blank', 990000, 'rocket', 3, 0, 0, 1, 0, NULL, '2019-11-22 16:49:14');
 INSERT INTO `sys_permission` VALUES (990400, '服务监控', '', 'http://ballcat-monitor:9999', 'monitor', '', '', '_blank', 990000, 'alert', 4, 0, 0, 1, 0, NULL, '2019-11-22 16:49:22');
-INSERT INTO `sys_permission` VALUES (990500, '代码生成', '', 'http://ballcat-codegen:7777', 'codegen', '', '', '_blank', 990000, 'printer', 5, 0, 0, 1, 0, NULL, '2019-11-22 16:49:35');
-
+INSERT INTO `sys_permission` VALUES (990500, '代码生成', '', 'http://localhost:7777', 'codegen', '', '', '_blank', 990000, 'printer', 5, 0, 0, 1, 0, NULL, '2019-11-22 16:49:35');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -314,12 +369,12 @@ CREATE TABLE `sys_role`  (
   `update_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uk_code_deleted`(`code`, `deleted`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统角色' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统角色' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '管理员', 'ROLE_ADMIN', 1, '管理员', 0, '2017-10-29 15:45:51', '2020-07-06 15:50:07');
+INSERT INTO `sys_role` VALUES (1, '管理员', 'ROLE_ADMIN', 1, '管理员', 0, '2017-10-29 15:45:51', '2020-07-14 21:23:06');
 INSERT INTO `sys_role` VALUES (2, '测试工程师', 'ROLE_TEST', 2, '测试工程师', 0, '2019-09-02 11:34:36', '2020-07-06 12:47:15');
 INSERT INTO `sys_role` VALUES (14, '销售主管', 'ROLE_SALES_EXECUTIVE', 2, '销售主管', 0, '2020-02-27 15:10:36', '2020-07-06 12:47:14');
 INSERT INTO `sys_role` VALUES (15, '销售专员', 'ROLE_SALESMAN', 2, '销售专员', 0, '2020-02-27 15:12:18', '2020-07-06 12:47:13');
@@ -436,10 +491,10 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '超管牛逼', '$2a$10$YJDXeAsk7FjQQVTdutIat.rPR3p3uUPWmZyhtnRDOrIjPujOAUrla', NULL, 'sysuser/1/avatar/20200226/ab6bd5221afe4238ae4987f278758113.jpg', 1, 'chengbohua@foxmail.com', '15800000000', 1, 1, 0, '2999-09-20 17:13:24', '2020-06-08 22:49:43');
-INSERT INTO `sys_user` VALUES (10, 'test4', '测试用户213', '$2a$10$YJDXeAsk7FjQQVTdutIat.rPR3p3uUPWmZyhtnRDOrIjPujOAUrla', NULL, '', 0, '1234567@qq.com', '12345678520', 1, 1, 0, NULL, '2020-07-06 11:00:56');
+INSERT INTO `sys_user` VALUES (1, 'admin', '超管牛逼', '$2a$10$YJDXeAsk7FjQQVTdutIat.rPR3p3uUPWmZyhtnRDOrIjPujOAUrla', NULL, 'sysuser/1/avatar/20200226/ab6bd5221afe4238ae4987f278758113.jpg', 1, 'chengbohua@foxmail.com', '15800000000', 1, 1, 0, '2999-09-20 17:13:24', '2020-07-16 18:23:39');
+INSERT INTO `sys_user` VALUES (10, 'test4', '测试用户213', '$2a$10$RpZQ8i7ke9ikT1AE8cQwfe3t0NoRmkL5pr1U9YNXn2O9YiToZjMTG', NULL, '', 2, '1234567@qq.com', '12345678520', 1, 1, 0, NULL, '2020-07-14 20:15:44');
 INSERT INTO `sys_user` VALUES (12, 'test1', 'test1', '$2a$10$EotCw/oHyg1MgJMDFgEeeOO0/jVHZgIFn0jX9kq9SP9sIAXF2m0Yi', NULL, 'sysuser/12/avatar/20200109/05e189b252b44598b6d150ce3597d293.jpg', 1, 'test1@qq.com', '12356322365', 1, 1, 20200609182117, '2019-10-18 20:40:57', NULL);
-INSERT INTO `sys_user` VALUES (17, 'test2', 'test2', 'encode123456', NULL, NULL, 1, 'test2@qq.com', '123456789', 1, 1, 0, NULL, '2020-07-06 12:09:08');
+INSERT INTO `sys_user` VALUES (17, 'test2', 'test2', '$2a$10$YJDXeAsk7FjQQVTdutIat.rPR3p3uUPWmZyhtnRDOrIjPujOAUrla', NULL, NULL, 1, 'test2@qq.com', '123456789', 1, 1, 0, NULL, '2020-07-06 12:09:08');
 
 -- ----------------------------
 -- Table structure for sys_user_role

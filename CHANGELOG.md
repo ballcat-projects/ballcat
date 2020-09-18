@@ -4,13 +4,66 @@
 
 ## [Unreleased]
 
-- Lov 支持
 - 全局数据校验支持
+
 - OSS starter 修改使用 AWS S3
+
+  
+## [0.0.5]
+
+### Added
+
+- Lov 模块
+- 字典相关
+  - feat: DictItemVO 新增 id 属性
+  - feat: 字典项新增 attributes 属性，用于定制额外的非必须属性，如颜色等供前端使用
+
+### Changed
+
+- refactor: ApplicationContextUtil 更名为 SpringUtil
+
+- refactor: LogUtil#isMultipart 去除只判断 POST 请求的限制
+
+- 全局异常&异常通知
+
+  - fix: 修复异常通知 message 为 null 时导致的异常
+
+  - fix: 修复类校验失败时，无法正常返回错误信息的
+  - feat: 异常通知添加 hostname 和 ip 信息
+  - fix: 捕获空指针异常时，会导致异常通知空指针的问题
+  - fix: 异常通知 cpu 占用过高问题
+  - feat: 添加忽略指定异常类的配置
+  - refactor: 优化钉钉通知的http请求方式
+  - style: 通知信息中的英文冒号转为中文冒号
+  - refactor: 除未知异常外，取消全局异常捕获时的异常打印，如需详细堆栈可以在异常处理类中进行处理
+
+- feat: AbstractQueueThread#preProcessor 修改为 public，便于子类重写
+
+- fix: 修复包装 RequestBody 导致，表单数据无法正常读取的bug
+
+- fix: 修复在前台页面新建权限时无法指定主键 Id 的异常
+
+- feat: extend-mybatis-plus 中批量插入方法，将生产的主键回填到实体中
+
+- refactor: 登陆日志和操作日志分离
+
+- fix: 修复用户登陆后将密文密码返回前台的安全隐患问题
+
+- style: 代码生成器样式微调
+
+### Dependency
+
+- Bump spring-boot from 2.3.1 to 2.3.4
+- Bump mybatis-plus from 3.3.2 to 3.4.0
+- Bump hutool from 5.3.10 to 5.4.1
+- Bump  spring-java-format from 0.0.22 to 0.0.25
+
+
 
 ## [0.0.4]
 
 ### Added
+
 - 新增 kafka stater 模块
 - 新增 mybatis-extends 扩展，添加批量插入方法
 - accesslog 提供 responseWrapper，方便记录响应数据
@@ -19,6 +72,7 @@
 - 新增 Security 是否开启禁止 iframe 嵌入的配置控制
 
 ### Changed
+
 - AbstractQueueThread 提高默认的批处理大小
 - 代码生成器移除加载动态数据源时指定的 driverClassName
 - 移除 admin-core 默认引入的 swagger 依赖，现在用户可以在自己的项目中选择引入
@@ -31,10 +85,12 @@
 - 字典添加值类型字段，便于前端回显，以及后续校验控制
 
 ### Dependency
+
 - swagger up to 1.5.21
 - dynamic-datasource up to 3.2.0
 - spring-boot-admin up to 2.2.4
 - easyexcel up to 2.2.6
+
 
 
 ## [0.0.3] - 2020-07-06
@@ -42,6 +98,7 @@
  ### Added
 
 - 重构代码生成器
+
   - 前端使用 ant-design-vue 重构，支持单体应用以及前后端分离两种部署方式
   - 多数据源支持，动态添加删除，生成时选择对应数据源进行代码生成
   - 代码生成结构调整，支持自定义代码生成结构
@@ -91,31 +148,9 @@
 - spring-boot 版本升级至 2.3.1.RELEASE
 - spring-security-oauth2 升级至 2.3.8.RELEASE  
 
-### SQL
-
-```sql
-# 逻辑删除字段修改为bigint
-ALTER TABLE `ballcat`.`sys_user` 
-MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `type`;
-ALTER TABLE `ballcat`.`sys_role` 
-MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `note`;
-ALTER TABLE `ballcat`.`sys_permission` 
-MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `type`;
-ALTER TABLE `ballcat`.`sys_dict` 
-MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `hash_code`;
-ALTER TABLE `ballcat`.`sys_dict_item` 
-MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `remarks`;
-ALTER TABLE `ballcat`.`sys_config` 
-ADD COLUMN `deleted` bigint(20) NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `description`;
-
-# 系统角色新增类型字段
-ALTER TABLE `ballcat`.`sys_role` 
-ADD COLUMN `type` tinyint(1) NULL DEFAULT 2 COMMENT '角色类型，1：系统角色 2：业务角色' AFTER `code`;
-```
 
 
 
- 
 
 ## [0.0.2] 
 
@@ -143,15 +178,3 @@ ADD COLUMN `type` tinyint(1) NULL DEFAULT 2 COMMENT '角色类型，1：系统�
   `@MapperScan("com.hccake.ballcat.**.mapper")`
   `@ComponentScan("com.hccake.ballcat.admin")`
   注解上的这两个包扫描也可去掉。
-
-### SQL
-
-```sql
-ALTER TABLE `admin_operation_log` 
-ADD COLUMN `trace_id` char(24) NULL COMMENT '追踪ID' AFTER `id`,
-MODIFY COLUMN `method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求方式' AFTER `uri`,
-ADD COLUMN `type` tinyint(1) NULL COMMENT '操作类型' AFTER `status`;
-
-ALTER TABLE `admin_access_log` 
-ADD COLUMN `trace_id` char(24) NULL COMMENT '追踪ID' AFTER `id`
-```
