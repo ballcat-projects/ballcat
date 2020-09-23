@@ -28,7 +28,7 @@ public class R<T> implements Serializable {
 	private int code;
 
 	@ApiModelProperty(value = "返回信息")
-	private String msg;
+	private String message;
 
 	@ApiModelProperty(value = "数据")
 	private T data;
@@ -39,23 +39,23 @@ public class R<T> implements Serializable {
 
 	public static <T> R<T> ok(T data) {
 		return new R<T>().setCode(SystemResultCode.SUCCESS.getCode()).setData(data)
-				.setMsg(SystemResultCode.SUCCESS.getMessage());
+				.setMessage(SystemResultCode.SUCCESS.getMessage());
 	}
 
-	public static <T> R<T> ok(T data, String msg) {
-		return new R<T>().setCode(SystemResultCode.SUCCESS.getCode()).setData(data).setMsg(msg);
+	public static <T> R<T> ok(T data, String message) {
+		return new R<T>().setCode(SystemResultCode.SUCCESS.getCode()).setData(data).setMessage(message);
 	}
 
-	public static <T> R<T> failed(int code, String msg) {
-		return new R<T>().setCode(code).setMsg(msg);
+	public static <T> R<T> failed(int code, String message) {
+		return new R<T>().setCode(code).setMessage(message);
 	}
 
 	public static <T> R<T> failed(ResultCode failMsg) {
-		return new R<T>().setCode(failMsg.getCode()).setMsg(failMsg.getMessage());
+		return new R<T>().setCode(failMsg.getCode()).setMessage(failMsg.getMessage());
 	}
 
-	public static <T> R<T> failed(ResultCode failMsg, String msg) {
-		return new R<T>().setCode(failMsg.getCode()).setMsg(msg);
+	public static <T> R<T> failed(ResultCode failMsg, String message) {
+		return new R<T>().setCode(failMsg.getCode()).setMessage(message);
 	}
 
 }

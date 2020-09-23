@@ -90,7 +90,7 @@ public class GlobalExceptionHandlerResolver {
 	public R<String> handleBallCatException(BusinessException e) {
 		log.error("自定义异常信息 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
-		return R.failed(e.getCode(), e.getMsg());
+		return R.failed(e.getCode(), e.getMessage());
 	}
 
 	/**

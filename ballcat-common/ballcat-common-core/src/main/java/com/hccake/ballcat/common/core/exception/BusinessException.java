@@ -11,31 +11,31 @@ import lombok.Getter;
 @Getter
 public class BusinessException extends RuntimeException {
 
-	private final String msg;
+	private final String message;
 
 	private final int code;
 
 	public BusinessException(ResultCode resultCode) {
 		super(resultCode.getMessage());
 		this.code = resultCode.getCode();
-		this.msg = resultCode.getMessage();
+		this.message = resultCode.getMessage();
 	}
 
 	public BusinessException(ResultCode resultCode, Throwable e) {
 		super(resultCode.getMessage(), e);
 		this.code = resultCode.getCode();
-		this.msg = resultCode.getMessage();
+		this.message = resultCode.getMessage();
 	}
 
-	public BusinessException(int code, String msg) {
-		super(msg);
-		this.msg = msg;
+	public BusinessException(int code, String message) {
+		super(message);
+		this.message = message;
 		this.code = code;
 	}
 
-	public BusinessException(int code, String msg, Throwable e) {
-		super(msg, e);
-		this.msg = msg;
+	public BusinessException(int code, String message, Throwable e) {
+		super(message, e);
+		this.message = message;
 		this.code = code;
 	}
 
