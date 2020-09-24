@@ -71,6 +71,18 @@ public class SysUserVO implements Serializable {
 	private Integer type;
 
 	/**
+	 * 组织机构ID
+	 */
+	@ApiModelProperty(value = "组织机构ID")
+	private Integer organizationId;
+
+	/**
+	 * 组织机构名称
+	 */
+	@ApiModelProperty(value = "组织机构名称")
+	private String organizationName;
+
+	/**
 	 * 创建时间
 	 */
 	@ApiModelProperty(value = "创建时间")

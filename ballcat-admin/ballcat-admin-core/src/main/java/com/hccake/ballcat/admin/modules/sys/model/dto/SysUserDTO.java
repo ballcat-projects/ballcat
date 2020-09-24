@@ -66,4 +66,10 @@ public class SysUserDTO {
 	@ApiModelProperty(value = "状态(1-正常,2-冻结)")
 	private Integer status;
 
+	/**
+	 * 组织机构ID
+	 */
+	@ApiModelProperty(value = "organizationId")
+	private Integer organizationId;
+
 }

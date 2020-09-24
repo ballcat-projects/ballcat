@@ -7,6 +7,7 @@ import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
 import com.hccake.ballcat.common.core.vo.SelectData;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,12 +23,12 @@ import java.util.List;
 public interface SysUserService extends IService<SysUser> {
 
 	/**
-	 * 查询系统用户列表
-	 * @param page 分页对象
-	 * @param qo 查询参数
-	 * @return IPage<SysUser>
+	 * 根据QueryObject查询系统用户列表
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return IPage<SysUserVO> 分页数据
 	 */
-	IPage<SysUser> page(IPage<SysUser> page, SysUserQO qo);
+	IPage<SysUserVO> selectPageVo(IPage<?> page, SysUserQO qo);
 
 	/**
 	 * 根据用户名查询用户

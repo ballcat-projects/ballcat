@@ -5,7 +5,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -22,6 +22,7 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
 import com.hccake.ballcat.admin.modules.sys.service.*;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
@@ -62,22 +63,32 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Value("${password.secret-key}")
 	private String secretKey;
 
+	private final static String TABLE_ALIAS_PREFIX = "su.";
+
+	/**
+	 * 根据QueryObject查询分页数据
+	 * @param page 分页参数
+	 * @param qo 查询参数对象
+	 * @return IPage<SysUserVO> 分页数据
+	 */
 	@Override
-	public IPage<SysUser> page(IPage<SysUser> page, SysUserQO qo) {
+	public IPage<SysUserVO> selectPageVo(IPage<?> page, SysUserQO qo) {
 
-		LambdaQueryWrapper<SysUser> wrapper = Wrappers.<SysUser>lambdaQuery()
-				.like(ObjectUtil.isNotNull(qo.getUsername()), SysUser::getUsername, qo.getUsername())
-				.like(ObjectUtil.isNotNull(qo.getEmail()), SysUser::getEmail, qo.getEmail())
-				.like(ObjectUtil.isNotNull(qo.getPhone()), SysUser::getPhone, qo.getPhone())
-				.like(ObjectUtil.isNotNull(qo.getNickname()), SysUser::getNickname, qo.getNickname())
-				.eq(ObjectUtil.isNotNull(qo.getStatus()), SysUser::getStatus, qo.getStatus())
-				.eq(ObjectUtil.isNotNull(qo.getSex()), SysUser::getSex, qo.getSex())
-				.eq(ObjectUtil.isNotNull(qo.getType()), SysUser::getType, qo.getType());
+		QueryWrapper<SysUser> wrapper = Wrappers.<SysUser>query()
+				.eq(TABLE_ALIAS_PREFIX + "deleted", 0)
+				.like(ObjectUtil.isNotNull(qo.getUsername()), TABLE_ALIAS_PREFIX + "username", qo.getUsername())
+				.like(ObjectUtil.isNotNull(qo.getEmail()), TABLE_ALIAS_PREFIX + "email", qo.getEmail())
+				.like(ObjectUtil.isNotNull(qo.getPhone()), TABLE_ALIAS_PREFIX + "phone", qo.getPhone())
+				.like(ObjectUtil.isNotNull(qo.getNickname()), TABLE_ALIAS_PREFIX + "nickname", qo.getNickname())
+				.eq(ObjectUtil.isNotNull(qo.getStatus()), TABLE_ALIAS_PREFIX + "status", qo.getStatus())
+				.eq(ObjectUtil.isNotNull(qo.getSex()), TABLE_ALIAS_PREFIX + "sex", qo.getSex())
+				.eq(ObjectUtil.isNotNull(qo.getType()), TABLE_ALIAS_PREFIX + "type", qo.getType())
+				.eq(ObjectUtil.isNotNull(qo.getOrganizationId()), TABLE_ALIAS_PREFIX + "organization_id",
+						qo.getOrganizationId());
 		if (StringUtils.isNotBlank(qo.getStartTime()) && StringUtils.isNotBlank(qo.getEndTime())) {
-			wrapper.between(SysUser::getCreateTime, qo.getStartTime(), qo.getEndTime());
+			wrapper.between(TABLE_ALIAS_PREFIX + "create_time", qo.getStartTime(), qo.getEndTime());
 		}
-
-		return baseMapper.selectPage(page, wrapper);
+		return baseMapper.selectPageVo(page, wrapper);
 	}
 
 	/**

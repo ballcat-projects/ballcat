@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @date 2019-09-12 20:39:31
  */
 @Data
-@TableName("sys_user")
+@TableName("sys_user su")
 @ApiModel(value = "系统用户表")
 public class SysUser implements Serializable {
 
@@ -82,6 +82,15 @@ public class SysUser implements Serializable {
 	@ApiModelProperty(value = "状态(1-正常, 0-冻结)")
 	private Integer status;
 
+	/**
+	 * 组织机构ID
+	 */
+	@ApiModelProperty(value = "组织机构ID")
+	private Integer organizationId;
+
+	/**
+	 * 用户类型
+	 */
 	@ApiModelProperty(value = "1:系统用户， 2：客户用户")
 	private Integer type;
 

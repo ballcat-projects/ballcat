@@ -49,13 +49,19 @@ public class SysUserQO {
 	@ApiModelProperty(value = "状态(1-正常,2-冻结)")
 	private Integer status;
 
+	/**
+	 * 组织机构ID
+	 */
+	@ApiModelProperty(value = "organizationId")
+	private Integer organizationId;
+
+	@ApiModelProperty(value = "用户类型:1:系统用户， 2：客户用户")
+	private Integer type;
+
 	@ApiModelProperty(value = "开始时间")
 	private String startTime;
 
 	@ApiModelProperty(value = "结束时间")
 	private String endTime;
-
-	@ApiModelProperty(value = "用户类型:1:系统用户， 2：客户用户")
-	private Integer type;
 
 }

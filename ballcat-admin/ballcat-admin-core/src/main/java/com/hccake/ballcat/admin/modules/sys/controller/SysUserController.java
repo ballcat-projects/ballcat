@@ -10,6 +10,7 @@ import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
@@ -36,8 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author
- * @date 2018/12/16
+ * 组织架构
+ *
+ * @author hccake 2020-09-24 20:16:15
  */
 @Slf4j
 @RestController
@@ -57,8 +59,8 @@ public class SysUserController {
 	 */
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:read')")
-	public R<IPage<SysUser>> getUserPage(Page<SysUser> page, SysUserQO qo) {
-		return R.ok(sysUserService.page(page, qo));
+	public R<IPage<SysUserVO>> getUserPage(Page<?> page, SysUserQO qo) {
+		return R.ok(sysUserService.selectPageVo(page, qo));
 	}
 
 	/**
