@@ -5,21 +5,20 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 字典表 查询对象
+ * 组织架构 查询对象
  *
- * @author hccake
- * @date 2020-03-26 18:32:06
+ * @author hccake 2020-09-23 12:09:43
  */
 @Data
-@ApiModel(value = "字典表查询对象")
-public class DictQO {
+@ApiModel(value = "组织架构查询对象")
+public class SysOrganizationQO {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 编号
+	 * ID
 	 */
-	@ApiModelProperty(value = "编号")
+	@ApiModelProperty(value = "ID")
 	private Integer id;
 
 }

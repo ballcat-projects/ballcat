@@ -59,7 +59,7 @@ public class TreeUtil {
 	 * @param parent 父节点
 	 * @param childrenMap 子节点集合Map(k: parentId, v: Node)
 	 */
-	public <T extends TreeNode<I>, I, R> void setChildren(T parent, Map<I, List<T>> childrenMap) {
+	public <T extends TreeNode<I>, I> void setChildren(T parent, Map<I, List<T>> childrenMap) {
 		I parentId = parent.getId();
 		List<T> children = childrenMap.get(parentId);
 		// 如果有孩子节点则赋值，且给孩子节点的孩子节点赋值
