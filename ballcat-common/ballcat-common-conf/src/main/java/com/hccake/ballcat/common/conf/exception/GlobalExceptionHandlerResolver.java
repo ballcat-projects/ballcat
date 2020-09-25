@@ -33,7 +33,7 @@ public class GlobalExceptionHandlerResolver {
 
 	private final GlobalExceptionHandler globalExceptionHandler;
 
-	@Value("${spring.profiles.active}")
+	@Value("${spring.profiles.active:prod}")
 	private String profile;
 
 	public final static String PROD_ERR_MSG = "系统异常，请联系管理员";
