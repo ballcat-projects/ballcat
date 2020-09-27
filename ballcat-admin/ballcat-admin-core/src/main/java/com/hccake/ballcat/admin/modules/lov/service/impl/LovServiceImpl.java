@@ -49,7 +49,7 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 			List<Long> removeIds = new ArrayList<>();
 			// 获取现有lov body
 			List<LovBody> lovBodyList = bodyService
-					.list(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getLovId, lov.getId()));
+					.list(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getKeyword, lov.getKeyword()));
 
 			// 获取现有的id
 			Set<Long> ids = bodyList.stream().map(LovBody::getId).collect(Collectors.toSet());
@@ -61,13 +61,13 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 			}
 			bodyService.removeByIds(removeIds);
 			bodyService.saveOrUpdateBatch(
-					bodyList.stream().map(body -> body.setLovId(lov.getId())).collect(Collectors.toList()));
+					bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()));
 
 			// 清空已有需要删除的id
 			removeIds.clear();
 			// 获取现有lov body
 			List<LovSearch> lovSearchList = searchService
-					.list(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getLovId, lov.getId()));
+					.list(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getKeyword, lov.getKeyword()));
 
 			// 获取现有的id
 			ids = searchList.stream().map(LovSearch::getId).collect(Collectors.toSet());
@@ -79,7 +79,7 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 			}
 			searchService.removeByIds(removeIds);
 			searchService.saveOrUpdateBatch(
-					searchList.stream().map(body -> body.setLovId(lov.getId())).collect(Collectors.toList()));
+					searchList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()));
 			return true;
 		}
 		return false;
@@ -95,9 +95,9 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 	public boolean save(Lov lov, List<LovBody> bodyList, List<LovSearch> searchList) {
 		return save(lov)
 				&& bodyService.saveBatch(
-						bodyList.stream().map(body -> body.setLovId(lov.getId())).collect(Collectors.toList()))
-				&& searchService.saveBatch(
-						searchList.stream().map(search -> search.setLovId(lov.getId())).collect(Collectors.toList()));
+						bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()))
+				&& searchService.saveBatch(searchList.stream().map(search -> search.setKeyword(lov.getKeyword()))
+						.collect(Collectors.toList()));
 	}
 
 	@Override
@@ -108,9 +108,9 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 					.setKeyword(lov.getKeyword()).setMultiple(lov.getMultiple()).setPosition(lov.getPosition())
 					.setRet(lov.getRet()).setSearch(lov.getSearch()).setUrl(lov.getUrl()).setRetField(lov.getRetField())
 					.setRetFieldDataType(lov.getRetFieldDataType());
-			vo.setBodyList(bodyService.list(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getLovId, lov.getId())));
+			vo.setBodyList(bodyService.list(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getKeyword, lov.getKeyword())));
 			vo.setSearchList(
-					searchService.list(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getLovId, lov.getId())));
+					searchService.list(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getKeyword, lov.getKeyword())));
 			return vo;
 		}
 		return null;
