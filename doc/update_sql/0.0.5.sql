@@ -111,3 +111,37 @@ INSERT INTO `sys_permission` VALUES (100601, 'lov查询', 'sys:lov:read', NULL, 
 INSERT INTO `sys_permission` VALUES (100602, 'lov新增', 'sys:lov:add', NULL, NULL, NULL, NULL, NULL, 100600, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission` VALUES (100603, 'lov修改', 'sys:lov:edit', NULL, NULL, NULL, NULL, NULL, 100600, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission` VALUES (100604, 'lov删除', 'sys:lov:del', NULL, NULL, NULL, NULL, NULL, 100600, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+
+INSERT INTO sys_dict (code, title, remarks, editable, hash_code, deleted, create_time, update_time, value_type)
+VALUES ('lov_http_method', 'lov模块请求方式', NULL, 1, '8859cbad5e9d484a8dc2b0bb828d52ee', 0, now(), NULL, 2)
+     , ('lov_http_params_position', 'lov模块请求参数位置', NULL, 1, '27b0dd62b9c940afaa482210bd34fa84', 0, now(), NULL, 2)
+     , ('lov_ret_data_type', '返回字段数据类型', NULL, 1, '15c32b1814d9445bb41883b60600a200', 0, now(), NULL, 1)
+     , ('lov_search_tag', 'lov模块搜索组件标签', NULL, 1, 'ce839c05eafb4790a63883f98181ec1c', 0, now(), NULL, 2)
+     , ('tf', '是否', NULL, 1, 'b409e633384f495c81ed5f926cbaacfc', 0, now(), NULL, 1)
+;
+INSERT INTO sys_dict_item (dict_code, value, name, `attributes`, sort, remarks, deleted, create_time, update_time)
+VALUES ('lov_http_method', 'GET', 'GET', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_http_method', 'HEAD', 'HEAD', NULL, 1, NULL, 1, now(), NULL)
+     , ('lov_http_method', 'POST', 'POST', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_http_method', 'PUT', 'PUT', NULL, 1, NULL, 1, now(), NULL)
+     , ('lov_http_method', 'PATCH', 'PATCH', NULL, 1, NULL, 1, now(), NULL)
+     , ('lov_http_method', 'DELETE', 'DELETE', NULL, 1, NULL, 1, now(), NULL)
+     , ('lov_http_method', 'OPTIONS', 'OPTIONS', NULL, 1, NULL, 1, now(), NULL)
+     , ('lov_http_method', 'TRACE', 'TRACE', NULL, 1, NULL, 1, now(), NULL)
+     , ('lov_http_method', 'HEAD', 'HEAD', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_http_method', 'PUT', 'PUT', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_http_method', 'PATCH', 'PATCH', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_http_method', 'DELETE', 'DELETE', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_http_method', 'OPTIONS', 'OPTIONS', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_http_method', 'TRACE', 'TRACE', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_http_params_position', 'DATA', 'DATA', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_http_params_position', 'PARAMS', 'PARAMS', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_ret_data_type', '1', 'String', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_ret_data_type', '2', 'Number', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_search_tag', 'INPUT_TEXT', 'INPUT_TEXT', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_search_tag', 'INPUT_NUMBER', 'INPUT_NUMBER', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_search_tag', 'SELECT', 'SELECT', NULL, 1, NULL, 0, now(), NULL)
+     , ('lov_search_tag', 'DICT_SELECT', 'DICT_SELECT', NULL, 1, NULL, 0, now(), NULL)
+     , ('tf', '1', '是', NULL, 1, NULL, 0, '2020-07-22 20:03:57.0', '2020-07-22 20:10:09.0')
+     , ('tf', '0', '否', NULL, 1, NULL, 0, '2020-07-22 20:04:16.0', '2020-07-22 20:10:06.0')
+;
