@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.modules.lov.enums;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,16 +9,11 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum Tag implements IEnum<String> {
+public enum Tag {
 
 	/**
 	 * 标签类型
 	 */
 	INPUT_TEXT, INPUT_NUMBER, SELECT, DICT_SELECT;
-
-	@Override
-	public String getValue() {
-		return name();
-	}
 
 }

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.modules.lov.enums;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,21 +11,11 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum HttpMethod implements IEnum<String> {
+public enum HttpMethod {
 
 	/**
 	 * http 请求方式
 	 */
 	GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS, TRACE,;
-
-	@Override
-	public String getValue() {
-		return toString();
-	}
-
-	@Override
-	public String toString() {
-		return name();
-	}
 
 }
