@@ -1,6 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.lang.Assert;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysOrganizationMapper;
@@ -81,16 +82,30 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
 		// 计算出更换父节点后的层级和深度
 		int depthDiff = originDepth - sysOrganization.getDepth();
 		// 更新其子节点的数据
-		// TODO 使用 xml
 		baseMapper.followMoveChildNode(originHierarchy, sysOrganization.getHierarchy(), depthDiff);
-		// baseMapper.update(null,
-		// new UpdateWrapper<SysOrganization>()
-		// .setSql("hierarchy = REPLACE(hierarchy,'" + originHierarchy + "','"
-		// + sysOrganization.getHierarchy() + "')")
-		// .setSql("depth = depth - " + depthDiff).likeRight("hierarchy", originHierarchy
-		// + "-"));
 
 		return SqlHelper.retBool(baseMapper.updateById(sysOrganization));
+	}
+
+	/**
+	 * 根据组织ID 查询除该组织下的所有儿子组织
+	 * @param organizationId 组织机构ID
+	 * @return List<SysOrganization> 该组织的儿子组织
+	 */
+	@Override
+	public List<SysOrganization> selectSubOrganization(Integer organizationId) {
+		return baseMapper
+				.selectList(Wrappers.<SysOrganization>lambdaQuery().eq(SysOrganization::getParentId, organizationId));
+	}
+
+	/**
+	 * 根据组织ID 查询除该组织下的所有孩子（子孙）组织
+	 * @param organizationId 组织机构ID
+	 * @return List<SysOrganization> 该组织的孩子组织
+	 */
+	@Override
+	public List<SysOrganization> selectChildOrganization(Integer organizationId) {
+		return baseMapper.selectChildOrganization(organizationId);
 	}
 
 	/**

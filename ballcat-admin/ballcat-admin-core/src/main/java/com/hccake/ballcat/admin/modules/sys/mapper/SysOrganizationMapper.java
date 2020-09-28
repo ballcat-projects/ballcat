@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysOrganization;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 组织架构
  *
@@ -19,5 +21,12 @@ public interface SysOrganizationMapper extends BaseMapper<SysOrganization> {
 	 */
 	void followMoveChildNode(@Param("originHierarchy") String originHierarchy,
 			@Param("targetHierarchy") String targetHierarchy, @Param("depthDiff") int depthDiff);
+
+	/**
+	 * 根据组织机构Id，查询该组织下的所有子部门
+	 * @param organizationId 组织机构ID
+	 * @return 子部门集合
+	 */
+	List<SysOrganization> selectChildOrganization(@Param("organizationId") Integer organizationId);
 
 }

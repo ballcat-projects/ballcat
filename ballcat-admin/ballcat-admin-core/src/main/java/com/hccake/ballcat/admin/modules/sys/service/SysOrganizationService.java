@@ -34,4 +34,18 @@ public interface SysOrganizationService extends IService<SysOrganization> {
 	 */
 	boolean update(SysOrganizationDTO sysOrganizationDTO);
 
+	/**
+	 * 根据组织ID 查询除该组织下的所有儿子组织
+	 * @param organizationId 组织机构ID
+	 * @return List<SysOrganization> 该组织的儿子组织
+	 */
+	List<SysOrganization> selectSubOrganization(Integer organizationId);
+
+	/**
+	 * 根据组织ID 查询除该组织下的所有孩子（子孙）组织
+	 * @param organizationId 组织机构ID
+	 * @return List<SysOrganization> 该组织的孩子组织
+	 */
+	List<SysOrganization> selectChildOrganization(Integer organizationId);
+
 }

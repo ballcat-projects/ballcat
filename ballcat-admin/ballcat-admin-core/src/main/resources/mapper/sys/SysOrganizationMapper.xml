@@ -12,4 +12,14 @@
 		hierarchy like CONCAT(#{originHierarchy}, "-%")
 	</update>
 
+	<select id="selectChildOrganization">
+		SELECT
+			id, name, parent_id, hierarchy, depth, description, sort, create_by, update_by, create_time, update_time
+		FROM
+			sys_organization
+		WHERE
+			hierarchy LIKE
+			(SELECT CONCAT( hierarchy, '-', #{organizationId} , '%') FROM sys_organization WHERE id = #{organizationId})
+	</select>
+
 </mapper>
