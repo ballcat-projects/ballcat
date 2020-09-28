@@ -74,8 +74,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	public IPage<SysUserVO> selectPageVo(IPage<?> page, SysUserQO qo) {
 
-		QueryWrapper<SysUser> wrapper = Wrappers.<SysUser>query()
-				.eq(TABLE_ALIAS_PREFIX + "deleted", 0)
+		QueryWrapper<SysUser> wrapper = Wrappers.<SysUser>query().eq(TABLE_ALIAS_PREFIX + "deleted", 0)
 				.like(ObjectUtil.isNotNull(qo.getUsername()), TABLE_ALIAS_PREFIX + "username", qo.getUsername())
 				.like(ObjectUtil.isNotNull(qo.getEmail()), TABLE_ALIAS_PREFIX + "email", qo.getEmail())
 				.like(ObjectUtil.isNotNull(qo.getPhone()), TABLE_ALIAS_PREFIX + "phone", qo.getPhone())
