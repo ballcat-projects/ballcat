@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author Hccake
@@ -21,27 +21,17 @@ public class SysUserDetails implements UserDetails {
 	private final Collection<? extends GrantedAuthority> authorities;
 
 	/**
-	 * 权限标识集合
+	 * 用户所有的资源Map <br/>
+	 * key: resource标识 value: resourceItem <br/>
+	 * 以角色为例 => role: roleCodeList
 	 */
-	private final List<String> permissions;
+	private final Map<String, Collection<?>> userResources;
 
-	/**
-	 * 角色集合
-	 */
-	private final List<String> roles;
-
-	/**
-	 * 角色ID集合
-	 */
-	private final List<Integer> roleIds;
-
-	public SysUserDetails(SysUser sysUser, List<String> roles, List<Integer> roleIds, List<String> permissions,
-			Collection<? extends GrantedAuthority> authorities) {
+	public SysUserDetails(SysUser sysUser, Collection<? extends GrantedAuthority> authorities,
+			Map<String, Collection<?>> userResources) {
 		this.sysUser = sysUser;
 		this.authorities = authorities;
-		this.roles = roles;
-		this.roleIds = roleIds;
-		this.permissions = permissions;
+		this.userResources = userResources;
 	}
 
 	@Override
@@ -83,16 +73,8 @@ public class SysUserDetails implements UserDetails {
 		return sysUser;
 	}
 
-	public List<String> getPermissions() {
-		return permissions;
-	}
-
-	public List<String> getRoles() {
-		return roles;
-	}
-
-	public List<Integer> getRoleIds() {
-		return roleIds;
+	public Map<String, Collection<?>> getUserResources() {
+		return userResources;
 	}
 
 }

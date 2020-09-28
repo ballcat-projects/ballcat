@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.oauth;
 
+import com.hccake.ballcat.admin.constants.UserResourceConstant;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysUserConverter;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -7,6 +8,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,9 +33,11 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 		SysUserDetails sysUserDetails = (SysUserDetails) principal;
 		SysUserVO sysUserVO = SysUserConverter.INSTANCE.poToVo(sysUserDetails.getSysUser());
 
+		Map<String, Collection<?>> userResources = sysUserDetails.getUserResources();
+
 		additionalInfo.put("info", sysUserVO);
-		additionalInfo.put("roles", sysUserDetails.getRoles());
-		additionalInfo.put("permissions", sysUserDetails.getPermissions());
+		additionalInfo.put("roles", userResources.get(UserResourceConstant.RESOURCE_ROLE));
+		additionalInfo.put("permissions", userResources.get(UserResourceConstant.RESOURCE_PERMISSION));
 
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 

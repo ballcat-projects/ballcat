@@ -1,11 +1,13 @@
 package com.hccake.ballcat.admin.oauth;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.hccake.ballcat.admin.constants.UserResourceConstant;
 import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,10 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Hccake
@@ -29,6 +28,9 @@ import java.util.Set;
 public class SysUserDetailsServiceImpl implements UserDetailsService {
 
 	private final SysUserService sysUserService;
+
+	@Autowired(required = false)
+	private UserResourceCoordinator userResourceCoordinator;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -64,8 +66,18 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
 				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
-		return new SysUserDetails(sysUser, roles, roleIds, permissions, authorities);
+		// 用户资源，角色和权限
+		// TODO 移除RoleIds，用户角色关联关系改为使用code
+		Map<String, Collection<?>> userResources = new HashMap<>();
+		userResources.put(UserResourceConstant.RESOURCE_ROLE, roles);
+		userResources.put(UserResourceConstant.RESOURCE_PERMISSION, permissions);
+		userResources.put(UserResourceConstant.RESOURCE_ROLE_ID, roleIds);
+		// 如果有自定义的协调者，进行资源处理
+		if (userResourceCoordinator != null) {
+			userResources = userResourceCoordinator.coordinate(userResources);
+		}
 
+		return new SysUserDetails(sysUser, authorities, userResources);
 	}
 
 }

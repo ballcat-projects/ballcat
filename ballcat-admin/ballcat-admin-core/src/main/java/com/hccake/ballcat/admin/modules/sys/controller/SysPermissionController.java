@@ -3,6 +3,7 @@ package com.hccake.ballcat.admin.modules.sys.controller;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.constants.SysPermissionConst;
+import com.hccake.ballcat.admin.constants.UserResourceConstant;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysPermissionConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysPermission;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
@@ -46,7 +47,8 @@ public class SysPermissionController {
 
 		// 获取角色ID
 		SysUserDetails sysUserDetails = SecurityUtils.getSysUserDetails();
-		List<Integer> roleIds = sysUserDetails.getRoleIds();
+		Map<String, Collection<?>> userResources = sysUserDetails.getUserResources();
+		Collection<Integer> roleIds = (Collection<Integer>) userResources.get(UserResourceConstant.RESOURCE_ROLE_ID);
 		if (CollectionUtil.isEmpty(roleIds)) {
 			return R.ok(new ArrayList<>());
 		}
