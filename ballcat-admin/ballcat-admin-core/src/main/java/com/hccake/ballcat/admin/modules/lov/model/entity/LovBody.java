@@ -28,8 +28,8 @@ public class LovBody extends Model<LovBody> {
 	@ApiModelProperty("编号")
 	private Long id;
 
-	@ApiModelProperty("所属lov")
-	private Long lovId;
+	@ApiModelProperty("关键字，唯一，通过关键字关联lov")
+	private String keyword;
 
 	@ApiModelProperty("标题")
 	private String title;

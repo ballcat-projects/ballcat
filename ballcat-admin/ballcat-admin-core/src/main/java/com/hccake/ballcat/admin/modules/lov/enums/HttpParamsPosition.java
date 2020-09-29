@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.modules.lov.enums;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,17 +11,12 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum HttpParamsPosition implements IEnum<String> {
+public enum HttpParamsPosition {
 
 	/**
 	 * 定义http请求时 参数设置的位置
 	 */
 	DATA, PARAMS,;
-
-	@Override
-	public String getValue() {
-		return toString();
-	}
 
 	@Override
 	public String toString() {
