@@ -12,13 +12,27 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "monitor")
 public class MonitorProperties {
 
-	/**
-	 * 是否开启.
-	 */
-	private Boolean enabled = true;
+	private Actuator actuator;
 
-	private String secretId;
+	@Data
+	public static class Actuator {
 
-	private String secretKey;
+		private Auth auth;
+
+		@Data
+		public static class Auth {
+
+			/**
+			 * 是否开启.
+			 */
+			private Boolean enabled = true;
+
+			private String secretId;
+
+			private String secretKey;
+
+		}
+
+	}
 
 }

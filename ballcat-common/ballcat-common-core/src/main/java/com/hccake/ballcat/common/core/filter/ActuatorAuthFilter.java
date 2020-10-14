@@ -23,7 +23,7 @@ import java.io.IOException;
  * @version 1.0
  * @date 2019 /10/17 20:28
  */
-public class ActuatorFilter extends OncePerRequestFilter {
+public class ActuatorAuthFilter extends OncePerRequestFilter {
 
 	private final String secretId;
 
@@ -34,7 +34,7 @@ public class ActuatorFilter extends OncePerRequestFilter {
 	 * @param secretId the secret id
 	 * @param secretKey the secret key
 	 */
-	public ActuatorFilter(String secretId, String secretKey) {
+	public ActuatorAuthFilter(String secretId, String secretKey) {
 		this.secretId = secretId;
 		this.secretKey = secretKey;
 	}

@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.conf.web;
 
 import com.hccake.ballcat.common.conf.config.MonitorProperties;
-import com.hccake.ballcat.common.core.filter.ActuatorFilter;
+import com.hccake.ballcat.common.core.filter.ActuatorAuthFilter;
 import com.hccake.ballcat.common.core.filter.XSSFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -31,15 +31,16 @@ public class FilterConfig {
 	}
 
 	@Bean
-	@ConditionalOnProperty(prefix = "monitor", name = "enabled", havingValue = "true", matchIfMissing = true)
-	public FilterRegistrationBean<ActuatorFilter> actuatorFilterRegistrationBean(MonitorProperties properties) {
+	@ConditionalOnProperty(prefix = "monitor.actuator.auth", name = "enabled", havingValue = "true",
+			matchIfMissing = true)
+	public FilterRegistrationBean<ActuatorAuthFilter> actuatorFilterRegistrationBean(MonitorProperties properties) {
 		log.debug("Actuator 过滤器已开启====");
-		FilterRegistrationBean<ActuatorFilter> registrationBean = new FilterRegistrationBean<>();
-
-		if (properties.getEnabled()) {
+		FilterRegistrationBean<ActuatorAuthFilter> registrationBean = new FilterRegistrationBean<>();
+		MonitorProperties.Actuator.Auth auth = properties.getActuator().getAuth();
+		if (auth.getEnabled()) {
 			// 监控开启
-			ActuatorFilter actuatorFilter = new ActuatorFilter(properties.getSecretId(), properties.getSecretKey());
-			registrationBean.setFilter(actuatorFilter);
+			ActuatorAuthFilter filter = new ActuatorAuthFilter(auth.getSecretId(), auth.getSecretKey());
+			registrationBean.setFilter(filter);
 			registrationBean.addUrlPatterns("/actuator/*");
 			registrationBean.setOrder(0);
 		}
