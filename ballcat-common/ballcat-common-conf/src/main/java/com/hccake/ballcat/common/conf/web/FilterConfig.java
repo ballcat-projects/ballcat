@@ -31,15 +31,14 @@ public class FilterConfig {
 	}
 
 	@Bean
-	@ConditionalOnProperty(prefix = "monitor.actuator.auth", name = "enabled", havingValue = "true",
-			matchIfMissing = true)
+	@ConditionalOnProperty(prefix = "ballcat.actuator", name = "auth", havingValue = "true")
 	public FilterRegistrationBean<ActuatorAuthFilter> actuatorFilterRegistrationBean(MonitorProperties properties) {
 		log.debug("Actuator 过滤器已开启====");
 		FilterRegistrationBean<ActuatorAuthFilter> registrationBean = new FilterRegistrationBean<>();
-		MonitorProperties.Actuator.Auth auth = properties.getActuator().getAuth();
-		if (auth.getEnabled()) {
+		MonitorProperties.Actuator actuator = properties.getActuator();
+		if (actuator.getAuth()) {
 			// 监控开启
-			ActuatorAuthFilter filter = new ActuatorAuthFilter(auth.getSecretId(), auth.getSecretKey());
+			ActuatorAuthFilter filter = new ActuatorAuthFilter(actuator.getSecretId(), actuator.getSecretKey());
 			registrationBean.setFilter(filter);
 			registrationBean.addUrlPatterns("/actuator/*");
 			registrationBean.setOrder(0);

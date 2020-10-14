@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "monitor")
+@ConfigurationProperties(prefix = "ballcat")
 public class MonitorProperties {
 
 	private Actuator actuator;
@@ -17,21 +17,14 @@ public class MonitorProperties {
 	@Data
 	public static class Actuator {
 
-		private Auth auth;
+		/**
+		 * 是否开启.
+		 */
+		private Boolean auth = false;
 
-		@Data
-		public static class Auth {
+		private String secretId;
 
-			/**
-			 * 是否开启.
-			 */
-			private Boolean enabled = true;
-
-			private String secretId;
-
-			private String secretKey;
-
-		}
+		private String secretKey;
 
 	}
 
