@@ -67,6 +67,6 @@ public class SysRole extends Model<SysRole> {
 	private LocalDateTime updateTime;
 
 	@ApiModelProperty("数据权限：1全部，2本人，3本人及子部门，4本部门")
-	private Integer power;
+	private Integer scopeType;
 
 }

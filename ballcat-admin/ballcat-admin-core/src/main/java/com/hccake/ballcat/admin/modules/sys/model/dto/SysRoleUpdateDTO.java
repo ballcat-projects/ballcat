@@ -30,6 +30,6 @@ public class SysRoleUpdateDTO {
 	private String note;
 
 	@ApiModelProperty(value = "数据权限")
-	private Integer power;
+	private Integer scopeType;
 
 }
