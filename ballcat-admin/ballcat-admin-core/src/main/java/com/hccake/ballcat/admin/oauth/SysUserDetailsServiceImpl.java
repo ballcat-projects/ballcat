@@ -74,7 +74,7 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		userResources.put(UserResourceConstant.RESOURCE_ROLE_ID, roleIds);
 		// 如果有自定义的协调者，进行资源处理
 		if (userResourceCoordinator != null) {
-			userResources = userResourceCoordinator.coordinate(userResources);
+			userResources = userResourceCoordinator.coordinate(userResources, sysUser);
 		}
 
 		return new SysUserDetails(sysUser, authorities, userResources);

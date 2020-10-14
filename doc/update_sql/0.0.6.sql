@@ -61,3 +61,8 @@ CREATE TABLE `sys_lov_search`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC COMMENT ='lov search';
+
+
+-- 角色数据权限字段
+ALTER TABLE `ballcat`.`sys_role`
+ADD COLUMN `scope_type` tinyint(1) NULL COMMENT '数据权限：1全部，2本人，3本人及子部门，4本部门' AFTER `update_time`;

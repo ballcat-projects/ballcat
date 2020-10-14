@@ -29,4 +29,7 @@ public class SysRoleUpdateDTO {
 	@ApiModelProperty(value = "角色备注")
 	private String note;
 
+	@ApiModelProperty(value = "数据权限")
+	private Integer scopeType;
+
 }
