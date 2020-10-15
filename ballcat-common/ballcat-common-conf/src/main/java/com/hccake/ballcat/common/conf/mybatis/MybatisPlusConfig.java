@@ -1,6 +1,8 @@
 package com.hccake.ballcat.common.conf.mybatis;
 
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,13 +15,16 @@ import org.springframework.context.annotation.Configuration;
 public class MybatisPlusConfig {
 
 	/**
-	 * 分页插件
-	 * @return PaginationInterceptor
+	 * MybatisPlusInterceptor 插件，默认提供分页插件</br>
+	 * 如需其他MP内置插件，则需自定义该Bean
+	 * @return MybatisPlusInterceptor
 	 */
 	@Bean
-	@ConditionalOnMissingBean(PaginationInterceptor.class)
-	public PaginationInterceptor paginationInterceptor() {
-		return new PaginationInterceptor();
+	@ConditionalOnMissingBean(MybatisPlusInterceptor.class)
+	public MybatisPlusInterceptor mybatisPlusInterceptor() {
+		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+		interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+		return interceptor;
 	}
 
 	/**
