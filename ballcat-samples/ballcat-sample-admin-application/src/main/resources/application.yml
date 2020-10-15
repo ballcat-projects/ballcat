@@ -16,6 +16,11 @@ spring:
 ballcat:
   redis:
     key-prefix: 'ballcat:'
+  # actuator 加解密密钥
+  actuator:
+    auth: true
+    secret-id: 'ballcat-monitor'
+    secret-key: '=BallCat-Monitor'
 
 security:
   oauth2:
@@ -54,12 +59,6 @@ mybatis-plus:
 # 密码加解密密钥
 password:
   secret-key: '==BallCat-Auth=='
-
-# 监控加解密密钥
-monitor:
-  secret-id: 'ballcat-monitor'
-  secret-key: '=BallCat-Monitor'
-
 
 # 定时任务相关配置
 xxl:
