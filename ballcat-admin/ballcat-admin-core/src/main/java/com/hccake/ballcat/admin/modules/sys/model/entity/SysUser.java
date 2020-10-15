@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @date 2019-09-12 20:39:31
  */
 @Data
-@TableName("sys_user su")
+@TableName("sys_user")
 @ApiModel(value = "系统用户表")
 public class SysUser implements Serializable {
 

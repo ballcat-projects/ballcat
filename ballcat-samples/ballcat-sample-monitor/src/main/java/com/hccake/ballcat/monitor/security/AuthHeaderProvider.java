@@ -27,7 +27,6 @@ public class AuthHeaderProvider implements HttpHeadersProvider {
 
 	/**
 	 * 当授权中心剥离时，目前BallCat的设计是简单启动 所以不做独立的授权中心，在此记录下拓展使用方式 可以考虑 client_credentials 客户端授权模式
-	 *
 	 * @param instance
 	 * @return
 	 */
@@ -42,8 +41,8 @@ public class AuthHeaderProvider implements HttpHeadersProvider {
 			// 客户端ID
 			headers.set(HeaderConstants.SECRET_ID, secretId);
 			// sign
-			String tempSign =
-					new StringBuilder().append(reqTime).reverse().append(secretId).append(secretKey).toString();
+			String tempSign = new StringBuilder().append(reqTime).reverse().append(secretId).append(secretKey)
+					.toString();
 			String sign = SecureUtil.md5(tempSign);
 			headers.set(HeaderConstants.SIGN, sign);
 		}
