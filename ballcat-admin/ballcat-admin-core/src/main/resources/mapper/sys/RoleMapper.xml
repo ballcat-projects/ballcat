@@ -13,12 +13,9 @@
 		<result column="deleted" property="deleted"/>
 	</resultMap>
 
-
-
-
 	<select id="getSelectData" resultType="com.hccake.ballcat.common.core.vo.SelectData">
 		select
-			name, id as value
+			name, code as value
 		from
 			sys_role
 		where

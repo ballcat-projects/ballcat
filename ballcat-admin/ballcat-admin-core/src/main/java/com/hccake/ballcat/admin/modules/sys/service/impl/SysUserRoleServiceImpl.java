@@ -32,26 +32,26 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 	/**
 	 * 插入用户角色关联关系
 	 * @param userId
-	 * @param roleIds
+	 * @param roleCodes
 	 * @return
 	 */
 	@Override
-	public Boolean insertUserRoles(Integer userId, List<Integer> roleIds) {
-		return baseMapper.insertUserRoles(userId, roleIds);
+	public Boolean insertUserRoles(Integer userId, List<String> roleCodes) {
+		return baseMapper.insertUserRoles(userId, roleCodes);
 	}
 
 	/**
 	 * 更新用户关联关系
 	 * @param userId
-	 * @param roleIds
+	 * @param roleCodes
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean updateUserRoles(Integer userId, List<Integer> roleIds) {
+	public boolean updateUserRoles(Integer userId, List<String> roleCodes) {
 		// 先清空，后插入
 		baseMapper.deleteByUserId(userId);
-		if (CollectionUtil.isNotEmpty(roleIds)) {
-			baseMapper.insertUserRoles(userId, roleIds);
+		if (CollectionUtil.isNotEmpty(roleCodes)) {
+			baseMapper.insertUserRoles(userId, roleCodes);
 		}
 		return true;
 	}

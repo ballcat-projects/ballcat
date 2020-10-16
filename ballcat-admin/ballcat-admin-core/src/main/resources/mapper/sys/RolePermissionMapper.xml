@@ -4,7 +4,7 @@
 
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.hccake.ballcat.admin.modules.sys.model.entity.SysRolePermission">
-		<id column="role_id" property="roleId"/>
+		<id column="role_code" property="roleCode"/>
 		<result column="permission_id" property="permissionId"/>
 	</resultMap>
 

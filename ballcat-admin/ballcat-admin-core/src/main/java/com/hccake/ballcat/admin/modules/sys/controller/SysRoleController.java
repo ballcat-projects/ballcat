@@ -133,13 +133,27 @@ public class SysRoleController {
 	}
 
 	/**
+	 * 更新角色权限
+	 * @param roleCode 角色Code
+	 * @param permissionIds 权限ID数组
+	 * @return success、false
+	 */
+	@PutMapping("/permission/code/{roleCode}")
+	@ApiOperation(value = "更新角色权限", notes = "更新角色权限")
+	@UpdateOperationLogging(msg = "更新角色权限")
+	@PreAuthorize("@per.hasPermission('sys:sysrole:grant')")
+	public R<Boolean> savePermissionIds(@PathVariable String roleCode, @RequestBody Integer[] permissionIds) {
+		return R.ok(sysRolePermissionService.saveRolePermissions(roleCode, permissionIds));
+	}
+
+	/**
 	 * 返回角色的菜单集合
-	 * @param roleId 角色ID
+	 * @param roleCode 角色ID
 	 * @return 属性集合
 	 */
-	@GetMapping("/permission/ids/{roleId}")
-	public R<List<Integer>> getPermissionIds(@PathVariable Integer roleId) {
-		return R.ok(sysPermissionService.findPermissionVOByRoleId(roleId).stream().map(PermissionVO::getId)
+	@GetMapping("/permission/code/{roleCode}")
+	public R<List<Integer>> getPermissionIds(@PathVariable String roleCode) {
+		return R.ok(sysPermissionService.findPermissionVOsByRoleCode(roleCode).stream().map(PermissionVO::getId)
 				.collect(Collectors.toList()));
 	}
 

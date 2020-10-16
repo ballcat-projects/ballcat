@@ -132,8 +132,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 		// 设置权限列表（permission）
 		Set<String> permissions = new HashSet<>();
-		roleIds.forEach(roleId -> {
-			List<String> permissionList = sysPermissionService.findPermissionVOByRoleId(roleId).stream()
+		roles.forEach(code -> {
+			List<String> permissionList = sysPermissionService.findPermissionVOsByRoleCode(code).stream()
 					.filter(sysPermission -> StrUtil.isNotEmpty(sysPermission.getCode())).map(PermissionVO::getCode)
 					.collect(Collectors.toList());
 			permissions.addAll(permissionList);
@@ -182,7 +182,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public boolean updateUserScope(Integer userId, SysUserScope sysUserScope) {
 		// 更新用户角色关联关系
 		// TODO 在这里实现 自己业务 模块的权限控制
-		return sysUserRoleService.updateUserRoles(userId, sysUserScope.getRoleIds());
+		return sysUserRoleService.updateUserRoles(userId, sysUserScope.getRoleCodes());
 
 	}
 
