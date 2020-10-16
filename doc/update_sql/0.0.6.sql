@@ -75,8 +75,8 @@ alter table sys_user_role modify column `role_code` varchar(64) not null comment
 alter table sys_user_role drop `role_id`;
 
 -- 手动删除 permission_id 和 role_id 的索引
-alter table sys_role_permission add unique (`role_code`,`permission_id`);
 alter table sys_role_permission add column `role_code` varchar(64) comment 'role code';
+alter table sys_role_permission add unique (`role_code`,`permission_id`);
 update sys_role_permission set `role_code`= (select `code` from sys_role where `id`=`role_id`) where role_code is null;
 alter table sys_role_permission modify column `role_code` varchar(64) not null comment 'role code';
 alter table sys_role_permission drop `role_id`;
