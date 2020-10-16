@@ -1,5 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -22,6 +24,9 @@ import lombok.EqualsAndHashCode;
 public class SysUserRole extends Model<SysUserRole> {
 
 	private static final long serialVersionUID = 1L;
+
+	@TableId(type = IdType.AUTO)
+	private Long id;
 
 	/**
 	 * 用户ID

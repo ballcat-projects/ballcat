@@ -1,5 +1,8 @@
 package com.hccake.ballcat.admin.modules.sys.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -23,11 +26,8 @@ public class SysRolePermission extends Model<SysRolePermission> {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 角色ID
-	 */
-	@ApiModelProperty(value = "角色id")
-	private Integer roleId;
+	@TableId(type = IdType.AUTO)
+	private Long id;
 
 	/**
 	 * 角色 Code
