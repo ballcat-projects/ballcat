@@ -63,10 +63,12 @@ CREATE TABLE `sys_lov_search`
   ROW_FORMAT = DYNAMIC COMMENT ='lov search';
 
 -- 角色数据权限字段
-ALTER TABLE `ballcat`.`sys_role`
+ALTER TABLE `sys_role`
     ADD COLUMN `scope_type` tinyint(1) NULL COMMENT '数据权限：1全部，2本人，3本人及子部门，4本部门' AFTER `update_time`;
 
-alter table sys_role add unique  (`code`);
+ALTER TABLE `sys_role`
+    DROP INDEX `uk_code_deleted`,
+    ADD UNIQUE INDEX `uk_code_deleted` (`code`, `deleted`) USING BTREE;
 -- 手动删除 user_id 和 role_id 的索引
 alter table sys_user_role add column `role_code` varchar(64) comment 'role code';
 alter table sys_user_role add unique (`role_code`,`user_id`);
