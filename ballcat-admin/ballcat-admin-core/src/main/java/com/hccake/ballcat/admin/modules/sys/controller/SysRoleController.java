@@ -120,20 +120,6 @@ public class SysRoleController {
 
 	/**
 	 * 更新角色权限
-	 * @param roleId 角色ID
-	 * @param permissionIds 权限ID数组
-	 * @return success、false
-	 */
-	@PutMapping("/permission/ids/{roleId}")
-	@ApiOperation(value = "更新角色权限", notes = "更新角色权限")
-	@UpdateOperationLogging(msg = "更新角色权限")
-	@PreAuthorize("@per.hasPermission('sys:sysrole:grant')")
-	public R<Boolean> savePermissionIds(@PathVariable Integer roleId, @RequestBody Integer[] permissionIds) {
-		return R.ok(sysRolePermissionService.saveRolePermissions(roleId, permissionIds));
-	}
-
-	/**
-	 * 更新角色权限
 	 * @param roleCode 角色Code
 	 * @param permissionIds 权限ID数组
 	 * @return success、false

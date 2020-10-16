@@ -69,14 +69,19 @@ ALTER TABLE `sys_role`
 ALTER TABLE `sys_role`
     DROP INDEX `uk_code_deleted`,
     ADD UNIQUE INDEX `uk_code_deleted` (`code`, `deleted`) USING BTREE;
--- 手动删除 user_id 和 role_id 的索引
+
+alter table sys_user_role drop primary key ;
+alter table sys_user_role add column `id` bigint(20) NOT NULL  primary key  AUTO_INCREMENT FIRST;
+
 alter table sys_user_role add column `role_code` varchar(64) comment 'role code';
 alter table sys_user_role add unique (`role_code`,`user_id`);
 update sys_user_role set `role_code`= (select `code` from sys_role where `id`=`role_id`) where role_code is null;
 alter table sys_user_role modify column `role_code` varchar(64) not null comment 'role code';
 alter table sys_user_role drop `role_id`;
 
--- 手动删除 permission_id 和 role_id 的索引
+alter table sys_role_permission drop primary key ;
+alter table sys_role_permission add column `id` bigint(20) NOT NULL  primary key  AUTO_INCREMENT FIRST;
+
 alter table sys_role_permission add column `role_code` varchar(64) comment 'role code';
 alter table sys_role_permission add unique (`role_code`,`permission_id`);
 update sys_role_permission set `role_code`= (select `code` from sys_role where `id`=`role_id`) where role_code is null;
