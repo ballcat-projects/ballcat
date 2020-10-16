@@ -21,4 +21,12 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
 	 */
 	Boolean saveRolePermissions(Integer roleId, Integer[] permissionIds);
 
+	/**
+	 * 更新角色菜单
+	 * @param roleCode 角色
+	 * @param permissionIds 权限ID数组
+	 * @return
+	 */
+	Boolean saveRolePermissions(String roleCode, Integer[] permissionIds);
+
 }

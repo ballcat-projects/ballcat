@@ -23,18 +23,18 @@ public interface SysUserRoleService extends IService<SysUserRole> {
 	/**
 	 * 插入用户角色关联关系
 	 * @param userId
-	 * @param roleIds
+	 * @param roleCodes
 	 * @return
 	 */
-	Boolean insertUserRoles(Integer userId, List<Integer> roleIds);
+	Boolean insertUserRoles(Integer userId, List<String> roleCodes);
 
 	/**
 	 * 更新用户关联关系
 	 * @param userId
-	 * @param roleIds
+	 * @param roleCodes
 	 * @return boolean
 	 */
-	boolean updateUserRoles(Integer userId, List<Integer> roleIds);
+	boolean updateUserRoles(Integer userId, List<String> roleCodes);
 
 	/**
 	 * 通过用户ID，查询角色列表

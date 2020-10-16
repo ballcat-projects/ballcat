@@ -45,17 +45,17 @@ public class SysPermissionController {
 	@GetMapping("/router")
 	public R<List<Router>> getUserPermission() {
 
-		// 获取角色ID
+		// 获取角色Code
 		SysUserDetails sysUserDetails = SecurityUtils.getSysUserDetails();
 		Map<String, Collection<?>> userResources = sysUserDetails.getUserResources();
-		Collection<Integer> roleIds = (Collection<Integer>) userResources.get(UserResourceConstant.RESOURCE_ROLE_ID);
-		if (CollectionUtil.isEmpty(roleIds)) {
+		Collection<String> roleCodes = (Collection<String>) userResources.get(UserResourceConstant.RESOURCE_ROLE);
+		if (CollectionUtil.isEmpty(roleCodes)) {
 			return R.ok(new ArrayList<>());
 		}
 
 		// 获取符合条件的权限
 		Set<PermissionVO> all = new HashSet<>();
-		roleIds.forEach(roleId -> all.addAll(sysPermissionService.findPermissionVOByRoleId(roleId)));
+		roleCodes.forEach(roleCode -> all.addAll(sysPermissionService.findPermissionVOsByRoleCode(roleCode)));
 
 		// 筛选出菜单
 		List<Router> routerList = all.stream()
@@ -69,7 +69,6 @@ public class SysPermissionController {
 
 	/**
 	 * 所有的权限集合
-	 * @return
 	 */
 	@GetMapping(value = "/list")
 	@PreAuthorize("@per.hasPermission('sys:syspermission:read')")
@@ -86,7 +85,7 @@ public class SysPermissionController {
 	 */
 	@GetMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('sys:syspermission:read')")
-	public R getById(@PathVariable Integer id) {
+	public R<SysPermission> getById(@PathVariable Integer id) {
 		return R.ok(sysPermissionService.getById(id));
 	}
 
@@ -94,20 +93,20 @@ public class SysPermissionController {
 	@CreateOperationLogging(msg = "新增权限")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('sys:syspermission:add')")
-	public R save(@Valid @RequestBody SysPermission sysMenu) {
+	public R<Boolean> save(@Valid @RequestBody SysPermission sysMenu) {
 		return R.ok(sysPermissionService.save(sysMenu));
 	}
 
 	/**
 	 * 更新权限
-	 * @param sysPermission
+	 * @param sysPermission 权限
 	 * @return R
 	 */
 	@ApiOperation(value = "修改权限", notes = "修改权限")
 	@UpdateOperationLogging(msg = "修改权限")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('sys:syspermission:edit')")
-	public R update(@Valid @RequestBody SysPermission sysPermission) {
+	public R<Boolean> update(@Valid @RequestBody SysPermission sysPermission) {
 		return R.ok(sysPermissionService.updatePermissionById(sysPermission));
 	}
 
@@ -115,7 +114,7 @@ public class SysPermissionController {
 	@DeleteOperationLogging(msg = "通过id删除权限")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('sys:syspermission:del')")
-	public R removeById(@PathVariable Integer id) {
+	public R<Boolean> removeById(@PathVariable Integer id) {
 		return R.ok(sysPermissionService.removePermissionById(id));
 	}
 

@@ -17,7 +17,7 @@
        		sys_user_role ur
 		left join
 			sys_role r
-		on r.id = ur.role_id
+		on r.code = ur.role_code
         WHERE ur.user_id = #{userId}
         and r.deleted = 0
     </select>
@@ -26,10 +26,10 @@
 	<!--新建用户角色关联关系-->
 	<insert id="insertUserRoles">
 		insert into
-			sys_user_role (user_id, role_id)
+			sys_user_role (user_id, role_code)
 		values
-		<foreach collection="roleIds" item="roleId" separator=",">
-			( #{userId}, #{roleId} )
+		<foreach collection="roleCodes" item="roleCode" separator=",">
+			( #{userId}, #{roleCode} )
 		</foreach>
 	</insert>
 

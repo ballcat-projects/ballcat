@@ -30,9 +30,9 @@ public class SysUserRole extends Model<SysUserRole> {
 	private Integer userId;
 
 	/**
-	 * 角色ID
+	 * 角色Code
 	 */
-	@ApiModelProperty(value = "角色id")
-	private Integer roleId;
+	@ApiModelProperty(value = "角色Code")
+	private String roleCode;
 
 }

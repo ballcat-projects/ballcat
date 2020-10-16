@@ -18,10 +18,10 @@ public interface SysPermissionService extends IService<SysPermission> {
 
 	/**
 	 * 通过角色编号查询URL 权限
-	 * @param roleId 角色ID
+	 * @param roleCode 角色Code
 	 * @return 菜单列表
 	 */
-	List<PermissionVO> findPermissionVOByRoleId(Integer roleId);
+	List<PermissionVO> findPermissionVOsByRoleCode(String roleCode);
 
 	/**
 	 * 级联删除菜单

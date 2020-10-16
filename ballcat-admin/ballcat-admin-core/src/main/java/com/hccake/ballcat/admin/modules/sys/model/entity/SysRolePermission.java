@@ -30,6 +30,12 @@ public class SysRolePermission extends Model<SysRolePermission> {
 	private Integer roleId;
 
 	/**
+	 * 角色 Code
+	 */
+	@ApiModelProperty(value = "角色 Code")
+	private String roleCode;
+
+	/**
 	 * 权限ID
 	 */
 	@ApiModelProperty(value = "菜单id")

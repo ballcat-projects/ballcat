@@ -34,9 +34,9 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 	/**
 	 * 插入用户关联关系
 	 * @param userId
-	 * @param roleIds
+	 * @param roleCodes
 	 * @return
 	 */
-	Boolean insertUserRoles(@Param("userId") Integer userId, @Param("roleIds") List<Integer> roleIds);
+	Boolean insertUserRoles(@Param("userId") Integer userId, @Param("roleCodes") List<String> roleCodes);
 
 }

@@ -56,8 +56,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean removeRoleById(Integer id) {
-		sysRolePermissionMapper
-				.delete(Wrappers.<SysRolePermission>update().lambda().eq(SysRolePermission::getRoleId, id));
+		SysRole role = getById(id);
+		sysRolePermissionMapper.delete(
+				Wrappers.<SysRolePermission>update().lambda().eq(SysRolePermission::getRoleCode, role.getCode()));
 		return this.removeById(id);
 	}
 

@@ -15,10 +15,10 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 
 	/**
 	 * 通过角色ID查询权限
-	 * @param roleId 角色ID
+	 * @param roleCode 角色ID
 	 * @return
 	 */
-	List<PermissionVO> listPermissionVOsByRoleId(Integer roleId);
+	List<PermissionVO> listPermissionVOsByRoleCode(String roleCode);
 
 	/**
 	 * 通过角色ID查询权限

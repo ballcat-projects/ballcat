@@ -138,15 +138,13 @@ public class SysUserController {
 
 		List<SysRole> roleList = sysUserRoleService.getRoles(userId);
 
-		List<Integer> roleIds = new ArrayList<>();
+		List<String> roleCodes = new ArrayList<>();
 		if (CollectionUtil.isNotEmpty(roleList)) {
-			for (SysRole role : roleList) {
-				roleIds.add(role.getId());
-			}
+			roleList.forEach(role -> roleCodes.add(role.getCode()));
 		}
 
 		SysUserScope sysUserScope = new SysUserScope();
-		sysUserScope.setRoleIds(roleIds);
+		sysUserScope.setRoleCodes(roleCodes);
 
 		return R.ok(sysUserScope);
 	}
