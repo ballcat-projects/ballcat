@@ -1,5 +1,5 @@
 update sys_dict set `code` = 'log_status' where `code` = 'log_type';
-update sys_dict_item set `dict_codecode` = 'log_status' where `dict_code` = 'log_type';
+update sys_dict_item set `dict_code` = 'log_status' where `dict_code` = 'log_type';
 
 ALTER TABLE `ballcat`.`admin_access_log`
 ADD COLUMN `result` text NULL COMMENT '响应信息' AFTER `http_status`;

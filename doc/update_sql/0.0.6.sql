@@ -65,26 +65,46 @@ CREATE TABLE `sys_lov_search`
 -- 角色数据权限字段
 ALTER TABLE `sys_role`
     ADD COLUMN `scope_type` tinyint(1) NULL COMMENT '数据权限：1全部，2本人，3本人及子部门，4本部门' AFTER `update_time`;
-
+-- 更新索引为唯一索引
 ALTER TABLE `sys_role`
     DROP INDEX `uk_code_deleted`,
     ADD UNIQUE INDEX `uk_code_deleted` (`code`, `deleted`) USING BTREE;
 
+-- 用户角色关联表更新
 alter table sys_user_role drop primary key ;
 alter table sys_user_role add column `id` bigint(20) NOT NULL  primary key  AUTO_INCREMENT FIRST;
-
 alter table sys_user_role add column `role_code` varchar(64) comment 'role code';
 alter table sys_user_role add unique (`role_code`,`user_id`);
 update sys_user_role set `role_code`= (select `code` from sys_role where `id`=`role_id`) where role_code is null;
 alter table sys_user_role modify column `role_code` varchar(64) not null comment 'role code';
 alter table sys_user_role drop `role_id`;
 
+-- 角色权限关联表更新
 alter table sys_role_permission drop primary key ;
 alter table sys_role_permission add column `id` bigint(20) NOT NULL  primary key  AUTO_INCREMENT FIRST;
-
 alter table sys_role_permission add column `role_code` varchar(64) comment 'role code';
 alter table sys_role_permission add unique (`role_code`,`permission_id`);
 update sys_role_permission set `role_code`= (select `code` from sys_role where `id`=`role_id`) where role_code is null;
 alter table sys_role_permission modify column `role_code` varchar(64) not null comment 'role code';
 alter table sys_role_permission drop `role_id`;
 
+
+-- 组织架构表
+CREATE TABLE `sys_organization` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(50) DEFAULT NULL COMMENT '组织名称',
+  `parent_id` int(11) DEFAULT '0' COMMENT '父级ID',
+  `hierarchy` varchar(512) DEFAULT NULL COMMENT '层级信息，从根节点到当前节点的最短路径，使用-分割节点ID',
+  `depth` int(1) DEFAULT NULL COMMENT '当前节点深度',
+  `description` varchar(512) DEFAULT NULL COMMENT '描述信息',
+  `sort` int(1) DEFAULT '1' COMMENT '排序字段，由小到大',
+  `create_by` varchar(100) DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(100) DEFAULT NULL COMMENT '修改者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='组织架构';
+
+-- 系统用户表添加组织架构关联id
+ALTER TABLE `sys_user`
+ADD COLUMN `organization_id` int(11) NULL DEFAULT 0 COMMENT '所属组织ID' AFTER `type`;

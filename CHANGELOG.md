@@ -9,6 +9,38 @@
 - OSS starter 修改使用 AWS S3
 
   
+
+## [0.0.6]
+
+### Warning
+
+- 更新了 UserDetail，缓存反序列化将会出现问题，更新版本前需要清除对应缓存
+- 返回体结构修改，属性 msg 修改为 message，可能影响前端信息展示，接入系统的第三方的响应数据接收，升级前需提前沟通
+
+### Added
+
+- feat: 新增组织机构(部门)，用户与组织机构为一对一的关系
+- feat: 数据权限，利用 mybatis 拦截器对 sql 进行拦截约束，约束规则支持自定义，适用于大部分数据权限控制。
+- feat: 角色新增 scopeType，暂时支持全部，本人，本部门，本人及子部门等几种范围类型
+
+### Changed
+
+- fix: 修复没有提供默认 profile，导致用户不指定 profile 时，全局异常处理无法正常初始化的问题
+
+- refactor: lovBody 和 lovSearch 关联属性由 lovId 更改为  keyword
+
+- refactor: UserDetails 属性重构，抽象出用户资源(userResources)属性，默认将用户的角色和权限作为资源存入userResources，并提供 UserResourceCoordinator 用户资源协调者，方便根据业务扩展用户资源（便于数据权限管理）
+
+- refactor: kafka 消费者配置提供
+
+- refactor: 返回体结构修改，属性 msg 修改为 message
+
+- refactor: xss 和 monitor auth 过滤器提供开关，并调整了配置前缀
+
+- refactor: 用户角色，角色权限的关联，由 role_id 修改为使用 role_code
+
+  
+
 ## [0.0.5]
 
 ### Added

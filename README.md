@@ -31,6 +31,8 @@
 |   |-- ballcat-sample-monitor			  -- SpringBootAdmin监控server端集成示例
 |   `-- ballcat-sample-swagger-provider	  -- 无注册中心的swagger-provider提供示例	
 |-- ballcat-starters
+|   |-- ballcat-spring-boot-starter-datascope  -- 数据权限控制
+|   |-- ballcat-spring-boot-starter-dingtalk   -- 钉钉集成工具
 |   |-- ballcat-spring-boot-starter-easyexcel  -- 通过注解快速导出excle（easyexcel）
 |   |-- ballcat-spring-boot-starter-job        -- 定时任务集成（目前仅xxl-job）
 |   |-- ballcat-spring-boot-starter-log		   -- 访问日志，操作日志，TraceId注入
@@ -75,11 +77,11 @@
 
 | 依赖                   | 版本          | 官网                                             |
 | ---------------------- | ------------- | ------------------------------------------------ |
-| Spring Boot            | 2.2.6.RELEASE | https://spring.io/projects/spring-boot#learn     |
-| Spring Security OAuth2 | 2.3.6.RELEASE | https://spring.io/projects/spring-security-oauth |
-| Mybatis Plus           | 3.3.1         | https://mp.baomidou.com/                         |
+| Spring Boot            | 2.3.4.RELEASE | https://spring.io/projects/spring-boot#learn     |
+| Spring Security OAuth2 | 2.3.8.RELEASE | https://spring.io/projects/spring-security-oauth |
+| Mybatis Plus           | 3.4.0         | https://mp.baomidou.com/                         |
 | XXL-JOB                | 2.2.0         | http://www.xuxueli.com/xxl-job                   |
-| Hutool                 | 5.2.5         | https://www.hutool.cn/                           |
+| Hutool                 | 5.4.1         | https://www.hutool.cn/                           |
 
 
 - 前端
@@ -87,7 +89,7 @@
 | 依赖               | 版本   | 官网                   |
 | ------------------ | ------ | ---------------------- |
 | Vue                | 2.6.10 | https://cn.vuejs.org/  |
-| Ant Design Vue     | 1.5.6  | https://www.antdv.com  |
+| Ant Design Vue     | 1.6.5  | https://www.antdv.com  |
 | Ant Design Vue Pro | 2.0.2  | https://pro.loacg.com/ |
 
 
