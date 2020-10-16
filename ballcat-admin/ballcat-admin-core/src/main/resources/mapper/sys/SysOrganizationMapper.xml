@@ -12,7 +12,7 @@
 		hierarchy like CONCAT(#{originHierarchy}, "-%")
 	</update>
 
-	<select id="selectChildOrganization">
+	<select id="selectChildOrganization" resultType="com.hccake.ballcat.admin.modules.sys.model.entity.SysOrganization">
 		SELECT
 			id, name, parent_id, hierarchy, depth, description, sort, create_by, update_by, create_time, update_time
 		FROM

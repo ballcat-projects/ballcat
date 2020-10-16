@@ -82,7 +82,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 				.eq(ObjectUtil.isNotNull(qo.getStatus()), TABLE_ALIAS_PREFIX + "status", qo.getStatus())
 				.eq(ObjectUtil.isNotNull(qo.getSex()), TABLE_ALIAS_PREFIX + "sex", qo.getSex())
 				.eq(ObjectUtil.isNotNull(qo.getType()), TABLE_ALIAS_PREFIX + "type", qo.getType())
-				.eq(ObjectUtil.isNotNull(qo.getOrganizationId()), TABLE_ALIAS_PREFIX + "organization_id",
+				.in(ObjectUtil.isNotNull(qo.getOrganizationId()), TABLE_ALIAS_PREFIX + "organization_id",
 						qo.getOrganizationId());
 		if (StringUtils.isNotBlank(qo.getStartTime()) && StringUtils.isNotBlank(qo.getEndTime())) {
 			wrapper.between(TABLE_ALIAS_PREFIX + "create_time", qo.getStartTime(), qo.getEndTime());

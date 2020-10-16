@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author Hccake
  * @version 1.0
@@ -53,7 +55,7 @@ public class SysUserQO {
 	 * 组织机构ID
 	 */
 	@ApiModelProperty(value = "organizationId")
-	private Integer organizationId;
+	private List<Integer> organizationId;
 
 	@ApiModelProperty(value = "用户类型:1:系统用户， 2：客户用户")
 	private Integer type;
