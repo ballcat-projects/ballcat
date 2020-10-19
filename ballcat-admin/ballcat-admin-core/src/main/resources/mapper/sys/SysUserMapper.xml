@@ -39,7 +39,7 @@
 			on su.user_id = ur.user_id
         left join
             sys_role r
-		     on r.id = ur.role_id
+		     on r.code = ur.role_code
         WHERE r.`code` = #{0}
         and su.deleted = 0
     </select>

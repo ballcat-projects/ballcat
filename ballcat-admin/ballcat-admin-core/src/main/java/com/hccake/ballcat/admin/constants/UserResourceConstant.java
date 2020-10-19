@@ -16,12 +16,6 @@ public final class UserResourceConstant {
 	public static final String RESOURCE_ROLE = "role";
 
 	/**
-	 * 用户资源key：角色ID </br>
-	 * 角色ID资源项为角色ID(roleId)
-	 */
-	public static final String RESOURCE_ROLE_ID = "roleId";
-
-	/**
 	 * 用户资源key：权限 </br>
 	 * 权限资源项为权限ID(permissionId)
 	 */

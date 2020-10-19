@@ -20,11 +20,4 @@ public interface SysPermissionMapper extends BaseMapper<SysPermission> {
 	 */
 	List<PermissionVO> listPermissionVOsByRoleCode(String roleCode);
 
-	/**
-	 * 通过角色ID查询权限
-	 * @param roleIds Ids
-	 * @return
-	 */
-	List<String> listPermissionsByRoleIds(String roleIds);
-
 }
