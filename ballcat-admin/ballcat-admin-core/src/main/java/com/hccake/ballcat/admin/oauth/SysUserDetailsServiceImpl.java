@@ -71,7 +71,6 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		Map<String, Collection<?>> userResources = new HashMap<>();
 		userResources.put(UserResourceConstant.RESOURCE_ROLE, roles);
 		userResources.put(UserResourceConstant.RESOURCE_PERMISSION, permissions);
-		// userResources.put(UserResourceConstant.RESOURCE_ROLE_ID, roleIds);
 		// 如果有自定义的协调者，进行资源处理
 		if (userResourceCoordinator != null) {
 			userResources = userResourceCoordinator.coordinate(userResources, sysUser);

@@ -5,7 +5,7 @@
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.hccake.ballcat.admin.modules.sys.model.entity.SysUserRole">
 		<id column="user_id" property="userId"/>
-		<result column="role_id" property="roleId"/>
+		<result column="role_code" property="roleCode"/>
 	</resultMap>
 
 

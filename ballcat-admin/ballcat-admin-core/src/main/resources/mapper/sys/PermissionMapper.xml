@@ -35,16 +35,4 @@
 		ORDER BY
 			m.sort DESC
     </select>
-
-	<!--通过角色ID 查询权限-->
-	<select id="listPermissionsByRoleIds" resultType="java.lang.String">
-        SELECT
-            m.sysPermission
-        FROM
-        	sys_permission m, sys_role_permission rm
-        WHERE
-        	m.id = rm.permission_id
-        AND m.deleted = 0
-        AND rm.role_id IN (#{roleIds})
-    </select>
 </mapper>
