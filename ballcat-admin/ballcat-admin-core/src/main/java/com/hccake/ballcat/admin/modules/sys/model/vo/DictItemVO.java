@@ -37,6 +37,6 @@ public class DictItemVO {
 	 * 附加属性值
 	 */
 	@ApiModelProperty(value = "附加属性值")
-	private Map<String, String> attributes;
+	private Map<String, Object> attributes;
 
 }
