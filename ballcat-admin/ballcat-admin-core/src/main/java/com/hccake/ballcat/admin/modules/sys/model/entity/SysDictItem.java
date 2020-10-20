@@ -55,7 +55,7 @@ public class SysDictItem extends Model<SysDictItem> {
 	 */
 	@TableField(typeHandler = JacksonTypeHandler.class)
 	@ApiModelProperty(value = "附加属性值")
-	private Map<String, String> attributes;
+	private Map<String, Object> attributes;
 
 	/**
 	 * 排序（升序）
