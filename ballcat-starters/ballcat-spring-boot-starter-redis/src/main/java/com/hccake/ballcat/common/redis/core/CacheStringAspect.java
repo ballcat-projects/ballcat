@@ -119,9 +119,9 @@ public class CacheStringAspect {
 
 	/**
 	 * cached 类型的模板方法 1. 先查缓存 若有数据则直接返回 2. 尝试获取锁 若成功执行目标方法（一般是去查数据库） 3. 将数据库获取到数据同步至缓存
-	 * @param ops
-	 * @return
-	 * @throws IOException
+	 * @param ops 缓存操作类
+	 * @return result
+	 * @throws IOException IO 异常
 	 */
 	public Object cached(CachedOps ops) throws Throwable {
 

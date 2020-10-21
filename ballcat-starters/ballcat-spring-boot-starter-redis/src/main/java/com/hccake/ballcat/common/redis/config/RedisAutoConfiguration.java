@@ -2,6 +2,7 @@ package com.hccake.ballcat.common.redis.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.redis.core.CacheLock;
+import com.hccake.ballcat.common.redis.core.CacheStringAspect;
 import com.hccake.ballcat.common.redis.serialize.CacheSerializer;
 import com.hccake.ballcat.common.redis.serialize.JacksonSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixJdkRedisSerializer;
@@ -58,6 +59,20 @@ public class RedisAutoConfiguration {
 		CacheLock cacheLock = new CacheLock();
 		cacheLock.setStringRedisTemplate(stringRedisTemplate);
 		return cacheLock;
+	}
+
+	/**
+	 * 缓存注解操作切面</br>
+	 * 必须在CacheLock初始化之后使用
+	 * @param stringRedisTemplate 字符串存储的Redis操作类
+	 * @param cacheSerializer 缓存序列化器
+	 * @return CacheStringAspect 缓存注解操作切面
+	 */
+	@Bean
+	@DependsOn("cacheLock")
+	public CacheStringAspect cacheStringAspect(StringRedisTemplate stringRedisTemplate,
+			CacheSerializer cacheSerializer) {
+		return new CacheStringAspect(stringRedisTemplate, cacheSerializer);
 	}
 
 	@Bean
