@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author lingting 2020/4/26 13:45
  */
 @Slf4j
-public class BaseServiceImpl {
+public abstract class BaseServiceImpl {
 
 	/**
 	 * b 异常返回处理

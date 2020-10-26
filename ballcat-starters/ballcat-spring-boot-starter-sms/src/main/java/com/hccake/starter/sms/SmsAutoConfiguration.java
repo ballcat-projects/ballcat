@@ -2,8 +2,6 @@ package com.hccake.starter.sms;
 
 import com.hccake.starter.sms.impl.TencentSenderImpl;
 import com.hccake.starter.sms.impl.TianYiHongSenderImpl;
-import com.hccake.starter.sms.impl.XinKuKaSenderImpl;
-import com.hccake.starter.sms.impl.xinkuka.service.XinKuKaSmsSendService;
 import com.hccake.starter.sms.properties.SmsProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -21,25 +19,17 @@ public class SmsAutoConfiguration {
 	private SmsProperties properties;
 
 	@Bean
-	@ConditionalOnMissingBean(com.hccake.starter.sms.SmsSender.class)
-	@ConditionalOnProperty(name = "sms.type", havingValue = "TENCENT")
-	public com.hccake.starter.sms.SmsSender<com.hccake.starter.sms.SmsSenderParams, com.hccake.starter.sms.SmsSenderResult> tencentSmsSender() {
+	@ConditionalOnMissingBean(SmsSender.class)
+	@ConditionalOnProperty(name = "ballcat.starter.sms.type", havingValue = "TENCENT")
+	public SmsSender<SmsSenderParams, SmsSenderResult> tencentSmsSender() {
 		return new TencentSenderImpl(properties);
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(com.hccake.starter.sms.SmsSender.class)
-	@ConditionalOnProperty(name = "sms.type", havingValue = "TIAN_YI_HONG")
-	public com.hccake.starter.sms.SmsSender<com.hccake.starter.sms.SmsSenderParams, com.hccake.starter.sms.SmsSenderResult> tianYiHongSmsSender() {
+	@ConditionalOnMissingBean(SmsSender.class)
+	@ConditionalOnProperty(name = "ballcat.starter.sms.type", havingValue = "TIAN_YI_HONG")
+	public SmsSender<SmsSenderParams, SmsSenderResult> tianYiHongSmsSender() {
 		return new TianYiHongSenderImpl(properties);
-	}
-
-	@Bean
-	@ConditionalOnMissingBean(com.hccake.starter.sms.SmsSender.class)
-	@ConditionalOnProperty(name = "sms.type", havingValue = "XIN_KU_KA")
-	public com.hccake.starter.sms.SmsSender<com.hccake.starter.sms.SmsSenderParams, com.hccake.starter.sms.SmsSenderResult> xinKuKaSmsSender(
-			XinKuKaSmsSendService sendService) {
-		return new XinKuKaSenderImpl(properties, sendService);
 	}
 
 }

@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 /**
  * @author lingting 2020/4/26 10:03
  */
-@ConditionalOnProperty(name = "sms.type", havingValue = "TENCENT")
+@ConditionalOnProperty(name = "ballcat.starter.sms.type", havingValue = "TENCENT")
 public class TencentSenderImpl extends BaseServiceImpl implements SmsSender<SmsSenderParams, SmsSenderResult> {
 
 	private final SmsProperties properties;

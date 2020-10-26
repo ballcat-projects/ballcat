@@ -127,19 +127,6 @@ public class SmsSenderResult {
 	}
 
 	@SneakyThrows
-	public static SmsSenderResult generateXinKuKa(String resp, String req, Set<String> phoneNumbers) {
-		SmsSenderResult result = new SmsSenderResult();
-		result.res = resp;
-		// 没有异常就是成功!
-		result.success = true;
-		result.platform = TypeEnum.XIN_KU_KA.name();
-		result.target = getObjectMapper().writeValueAsString(phoneNumbers);
-		result.res = resp;
-		result.req = req;
-		return result;
-	}
-
-	@SneakyThrows
 	@Override
 	public String toString() {
 		return getObjectMapper().writeValueAsString(this);

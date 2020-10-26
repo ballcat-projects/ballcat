@@ -4,7 +4,6 @@ import com.hccake.starter.sms.enums.TypeEnum;
 import com.hccake.starter.sms.properties.extra.Account;
 import com.hccake.starter.sms.properties.extra.Tencent;
 import com.hccake.starter.sms.properties.extra.TianYiHong;
-import com.hccake.starter.sms.properties.extra.XinKuKa;
 import java.util.Map;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,7 +19,7 @@ public class SmsProperties {
 	/**
 	 * 类型
 	 */
-	private TypeEnum type = TypeEnum.XIN_KU_KA;
+	private TypeEnum type = TypeEnum.CUSTOM;
 
 	/**
 	 * 请求路径
@@ -53,11 +52,5 @@ public class SmsProperties {
 	 */
 	@NestedConfigurationProperty
 	private TianYiHong tianYiHong;
-
-	/**
-	 * 新酷卡猫池配置
-	 */
-	@NestedConfigurationProperty
-	private XinKuKa xinKuKa;
 
 }
