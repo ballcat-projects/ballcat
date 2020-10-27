@@ -11,6 +11,7 @@ import com.hccake.common.excel.converters.LocalDateStringConverter;
 import com.hccake.common.excel.converters.LocalDateTimeStringConverter;
 import com.hccake.common.excel.kit.ExcelException;
 import lombok.SneakyThrows;
+import org.springframework.beans.BeanUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
@@ -27,6 +28,7 @@ import java.util.Objects;
 
 /**
  * @author lengleng
+ * @author L.cm
  * @date 2020/3/31
  */
 public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
@@ -93,9 +95,12 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
 			}
 		}
 
+		// 自定义注入的转换器
+		registerCustomConverter(writerBuilder);
+
 		if (responseExcel.converter().length != 0) {
 			for (Class<? extends Converter> clazz : responseExcel.converter()) {
-				writerBuilder.registerConverter(clazz.newInstance());
+				writerBuilder.registerConverter(BeanUtils.instantiateClass(clazz));
 			}
 		}
 
@@ -108,5 +113,11 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
 
 		return writerBuilder.build();
 	}
+
+	/**
+	 * 自定义注入转换器
+	 * @param builder ExcelWriterBuilder
+	 */
+	public abstract void registerCustomConverter(ExcelWriterBuilder builder);
 
 }
