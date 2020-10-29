@@ -7,6 +7,7 @@ import com.hccake.ballcat.admin.oauth.exception.CustomWebResponseExceptionTransl
 import com.hccake.ballcat.admin.oauth.mobile.MobileTokenGranter;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -104,6 +105,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	 */
 	@Bean
 	@DependsOn("cachePropertiesHolder")
+	@ConditionalOnMissingBean
 	public TokenStore tokenStore() {
 		RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
 		tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + SecurityConst.OAUTH_PREFIX);
@@ -115,6 +117,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	 * @return TokenEnhancer Token增强处理器
 	 */
 	@Bean
+	@ConditionalOnMissingBean
 	public TokenEnhancer tokenEnhancer() {
 		return new CustomTokenEnhancer();
 	}
