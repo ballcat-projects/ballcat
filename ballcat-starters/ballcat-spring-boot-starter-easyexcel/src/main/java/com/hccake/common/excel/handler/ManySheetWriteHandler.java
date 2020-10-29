@@ -11,7 +11,6 @@ import com.hccake.common.excel.kit.ExcelException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +20,6 @@ import java.util.List;
  * @author lengleng
  * @date 2020/3/29
  */
-@Component
 @RequiredArgsConstructor
 public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 

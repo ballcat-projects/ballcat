@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
@@ -24,6 +25,7 @@ import java.util.List;
  * <p>
  * 配置初始化
  */
+@Import(SheetWriteHandlerAutoConfiguration.class)
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ExcelConfigProperties.class)
@@ -35,7 +37,7 @@ public class ResponseExcelAutoConfiguration implements InitializingBean {
 
 	/**
 	 * SPEL 解析处理器
-	 * @return NameProcessor excle名称解析器
+	 * @return NameProcessor excel名称解析器
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -44,7 +46,7 @@ public class ResponseExcelAutoConfiguration implements InitializingBean {
 	}
 
 	/**
-	 * Excle名称解析处理切面
+	 * Excel名称解析处理切面
 	 * @param nameProcessor SPEL 解析处理器
 	 * @return DynamicNameAspect
 	 */

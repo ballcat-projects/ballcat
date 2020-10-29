@@ -3,6 +3,7 @@ package com.hccake.common.excel.annotation;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.handler.WriteHandler;
+import com.hccake.common.excel.head.HeadGenerator;
 
 import java.lang.annotation.*;
 
@@ -75,5 +76,11 @@ public @interface ResponseExcel {
 	 * @return Converter[]
 	 */
 	Class<? extends Converter>[] converter() default {};
+
+	/**
+	 * 自定义Excel头生成器
+	 * @return HeadGenerator
+	 */
+	Class<? extends HeadGenerator> headGenerator() default HeadGenerator.class;
 
 }

@@ -7,7 +7,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -18,7 +17,6 @@ import java.util.Objects;
  * @date 2020/3/29
  */
 @Aspect
-@Component
 @RequiredArgsConstructor
 public class DynamicNameAspect {
 

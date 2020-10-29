@@ -11,7 +11,6 @@ import com.hccake.common.excel.kit.ExcelException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +22,6 @@ import java.util.List;
  * <p>
  * 处理单sheet 页面
  */
-@Component
 @RequiredArgsConstructor
 public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 
