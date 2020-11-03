@@ -23,6 +23,7 @@
 		<module>ballcat-spring-boot-starter-redis</module>
 		<module>ballcat-spring-boot-starter-storage</module>
 		<module>ballcat-spring-boot-starter-swagger</module>
+        <module>ballcat-spring-boot-starter-sms</module>
     </modules>
 
 </project>

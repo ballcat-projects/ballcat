@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.hccake.starter.sms.SmsAutoConfiguration,\
+  com.hccake.starter.sms.impl.xinkuka.service.impl.XinKuKaSmsSendServiceImpl
