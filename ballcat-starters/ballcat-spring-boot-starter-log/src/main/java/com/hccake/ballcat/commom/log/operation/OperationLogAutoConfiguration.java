@@ -1,9 +1,11 @@
 package com.hccake.ballcat.commom.log.operation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.commom.log.operation.aspect.OperationLogAspect;
 import com.hccake.ballcat.commom.log.operation.event.OperationLogListener;
 import com.hccake.ballcat.commom.log.operation.service.OperationLogHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -29,8 +31,8 @@ public class OperationLogAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(OperationLogHandler.class)
-	public OperationLogAspect operationLogAspect() {
-		return new OperationLogAspect();
+	public OperationLogAspect operationLogAspect(ObjectMapper objectMapper, ApplicationEventPublisher publisher) {
+		return new OperationLogAspect(objectMapper, publisher);
 	}
 
 }

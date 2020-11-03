@@ -2,7 +2,7 @@ package com.hccake.ballcat.common.core.filter;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.core.constant.HeaderConstants;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
@@ -29,14 +29,17 @@ public class ActuatorAuthFilter extends OncePerRequestFilter {
 
 	private final String secretKey;
 
+	private final ObjectMapper objectMapper;
+
 	/**
 	 * Instantiates a new Actuator filter.
 	 * @param secretId the secret id
 	 * @param secretKey the secret key
 	 */
-	public ActuatorAuthFilter(String secretId, String secretKey) {
+	public ActuatorAuthFilter(String secretId, String secretKey, ObjectMapper objectMapper) {
 		this.secretId = secretId;
 		this.secretKey = secretKey;
+		this.objectMapper = objectMapper;
 	}
 
 	/**
@@ -64,7 +67,8 @@ public class ActuatorAuthFilter extends OncePerRequestFilter {
 		else {
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getWriter().write(JSONUtil.toJsonStr(R.failed(SystemResultCode.UNAUTHORIZED)));
+			String result = objectMapper.writeValueAsString(R.failed(SystemResultCode.UNAUTHORIZED));
+			response.getWriter().write(result);
 		}
 	}
 

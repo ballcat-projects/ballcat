@@ -1,12 +1,7 @@
 package com.hccake.ballcat.commom.log.util;
 
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.json.JSONUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -116,31 +109,6 @@ public class LogUtils {
 	public HttpServletRequest getHttpServletRequest() {
 		return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
 				.getRequest();
-	}
-
-	/**
-	 * 获取方法参数
-	 * @param joinPoint 切点
-	 * @return 当前方法入参的Json Str
-	 */
-	public String getParams(ProceedingJoinPoint joinPoint) {
-		// 获取方法签名
-		Signature signature = joinPoint.getSignature();
-		String strClassName = joinPoint.getTarget().getClass().getName();
-		String strMethodName = signature.getName();
-		MethodSignature methodSignature = (MethodSignature) signature;
-		log.debug("[initOperationLog]，获取方法签名[类名]:{},[方法]:{}", strClassName, strMethodName);
-
-		String[] parameterNames = methodSignature.getParameterNames();
-		Object[] args = joinPoint.getArgs();
-		if (ArrayUtil.isEmpty(parameterNames)) {
-			return null;
-		}
-		Map<String, Object> paramsMap = new HashMap<>();
-		for (int i = 0; i < parameterNames.length; i++) {
-			paramsMap.put(parameterNames[i], args[i]);
-		}
-		return JSONUtil.toJsonStr(paramsMap);
 	}
 
 }

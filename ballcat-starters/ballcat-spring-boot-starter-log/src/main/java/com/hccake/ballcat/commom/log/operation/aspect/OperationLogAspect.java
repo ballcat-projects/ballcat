@@ -1,6 +1,9 @@
 package com.hccake.ballcat.commom.log.operation.aspect;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.commom.log.constant.LogConstant;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.commom.log.operation.enums.LogStatusEnum;
@@ -8,13 +11,14 @@ import com.hccake.ballcat.commom.log.operation.event.OperationLogEvent;
 import com.hccake.ballcat.commom.log.operation.model.OperationLogDTO;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.core.util.IPUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
@@ -23,6 +27,8 @@ import org.springframework.util.Assert;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -33,10 +39,12 @@ import java.util.Objects;
 @Slf4j
 @Aspect
 @Order(0)
+@RequiredArgsConstructor
 public class OperationLogAspect {
 
-	@Autowired
-	private ApplicationEventPublisher publisher;
+	private final ObjectMapper objectMapper;
+
+	private final ApplicationEventPublisher publisher;
 
 	@Around("execution(@(@com.hccake.ballcat.commom.log.operation.annotation.OperationLogging *) * *(..)) "
 			+ "|| @annotation(com.hccake.ballcat.commom.log.operation.annotation.OperationLogging)")
@@ -91,9 +99,43 @@ public class OperationLogAspect {
 				.setUri(URLUtil.getPath(request.getRequestURI()))
 				.setType(operationLogging.type().getValue())
 				.setMsg(operationLogging.msg())
-				.setParams(LogUtils.getParams(joinPoint))
+				.setParams(getParams(joinPoint))
 				.setTraceId(MDC.get(LogConstant.TRACE_ID));
 		// @formatter:on
+	}
+
+	/**
+	 * 获取方法参数
+	 * @param joinPoint 切点
+	 * @return 当前方法入参的Json Str
+	 */
+	private String getParams(ProceedingJoinPoint joinPoint) {
+		// 获取方法签名
+		Signature signature = joinPoint.getSignature();
+		String strClassName = joinPoint.getTarget().getClass().getName();
+		String strMethodName = signature.getName();
+		MethodSignature methodSignature = (MethodSignature) signature;
+		log.debug("[getParams]，获取方法参数[类名]:{},[方法]:{}", strClassName, strMethodName);
+
+		String[] parameterNames = methodSignature.getParameterNames();
+		Object[] args = joinPoint.getArgs();
+		if (ArrayUtil.isEmpty(parameterNames)) {
+			return null;
+		}
+		Map<String, Object> paramsMap = new HashMap<>();
+		for (int i = 0; i < parameterNames.length; i++) {
+			paramsMap.put(parameterNames[i], args[i]);
+		}
+
+		String params = "";
+		try {
+			params = objectMapper.writeValueAsString(paramsMap);
+		}
+		catch (JsonProcessingException e) {
+			log.error("[getParams]，获取方法参数异常，[类名]:{},[方法]:{}", strClassName, strMethodName, e);
+		}
+
+		return params;
 	}
 
 }

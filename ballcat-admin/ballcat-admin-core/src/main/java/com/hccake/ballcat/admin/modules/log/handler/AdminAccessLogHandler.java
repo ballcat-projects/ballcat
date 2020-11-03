@@ -1,7 +1,8 @@
 package com.hccake.ballcat.admin.modules.log.handler;
 
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminAccessLog;
 import com.hccake.ballcat.admin.modules.log.thread.AccessLogAdminSaveThread;
 import com.hccake.ballcat.admin.oauth.SysUserDetails;
@@ -36,6 +37,8 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 
 	private final AccessLogAdminSaveThread accessLogAdminSaveThread;
 
+	private final ObjectMapper objectMapper;
+
 	/**
 	 * 生产一个日志
 	 * @return accessLog
@@ -60,9 +63,18 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 				.setUri(URLUtil.getPath(request.getRequestURI()))
 				.setMatchingPattern(matchingPattern)
 				.setErrorMsg(Optional.ofNullable(myThrowable).map(Throwable::getMessage).orElse(""))
-				.setHttpStatus(response.getStatus())
-				.setReqParams(JSONUtil.toJsonStr(request.getParameterMap()));
+				.setHttpStatus(response.getStatus());
 		// @formatter:on
+
+		// 参数获取
+		String params = "";
+		try {
+			params = objectMapper.writeValueAsString(request.getParameterMap());
+		}
+		catch (JsonProcessingException e) {
+			log.error("[prodLog]，参数获取序列化异常", e);
+		}
+		adminAccessLog.setReqParams(params);
 
 		// 非文件上传请求，记录body
 		if (!LogUtils.isMultipartContent(request)) {
