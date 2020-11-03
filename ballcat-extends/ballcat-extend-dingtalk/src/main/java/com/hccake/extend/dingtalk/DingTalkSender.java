@@ -69,7 +69,7 @@ public class DingTalkSender {
 	 * @author lingting 2020-06-11 00:09:23
 	 */
 	public DingTalkResponse sendNormalMessage(DingTalkMessage message) {
-		return DingTalkResponse.getInstance(request.body(message.generate()).execute().body());
+		return new DingTalkResponse(request.body(message.generate()).execute().body());
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class DingTalkSender {
 	 */
 	@SneakyThrows
 	public DingTalkResponse sendSecretMessage(DingTalkMessage message) {
-		return DingTalkResponse.getInstance(
+		return new DingTalkResponse(
 				request.setUrl(secret(System.currentTimeMillis())).body(message.generate()).execute().body());
 	}
 

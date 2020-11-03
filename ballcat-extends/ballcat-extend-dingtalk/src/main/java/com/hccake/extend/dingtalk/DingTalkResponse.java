@@ -1,9 +1,12 @@
 package com.hccake.extend.dingtalk;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import cn.hutool.core.convert.Convert;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
+import lombok.experimental.Accessors;
 
 /**
  * 钉钉返回信息
@@ -12,16 +15,26 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Accessors(chain = true)
 public class DingTalkResponse {
 
-	public static final String SUCCESS_CODE = "0";
+	public static final Long SUCCESS_CODE = 0L;
 
-	private String errCode;
+	@SneakyThrows
+	public DingTalkResponse(String res) {
+		Map resMap = new ObjectMapper().readValue(res.getBytes(), Map.class);
+		this.response = res;
+		this.code = Convert.toLong(resMap.get("errcode"));
+		this.message = Convert.toStr(resMap.get("errmsg"));
+		this.success = SUCCESS_CODE.equals(this.code);
+	}
+
+	private Long code;
 
 	/**
 	 * 值为ok表示无异常
 	 */
-	private String errMsg;
+	private String message;
 
 	/**
 	 * 钉钉返回信息
@@ -32,16 +45,6 @@ public class DingTalkResponse {
 	 * 是否发送成功
 	 */
 	private boolean success;
-
-	public static DingTalkResponse getInstance(String res) {
-		JSONObject json = JSONUtil.parseObj(res);
-		DingTalkResponse response = new DingTalkResponse();
-		response.errCode = json.getStr("errcode");
-		response.errMsg = json.getStr("errmsg");
-		response.response = res;
-		response.success = SUCCESS_CODE.equalsIgnoreCase(response.errCode);
-		return response;
-	}
 
 	@Override
 	public String toString() {
