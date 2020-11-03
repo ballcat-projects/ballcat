@@ -194,10 +194,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public boolean deleteByUserId(Integer userId) {
-		if (adminUserChecker.isAdminUser(getById(userId))) {
-			return false;
-		}
 		// TODO 缓存控制
+		Assert.isFalse(adminUserChecker.isAdminUser(getById(userId)), "管理员不允许删除!");
 		return SqlHelper.retBool(baseMapper.deleteById(userId));
 	}
 
