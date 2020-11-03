@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.datascope.processor;
 
-import com.hccake.ballcat.common.datascope.handler.DataPermissionHandler;
+import com.hccake.ballcat.common.datascope.DataScope;
 import com.hccake.ballcat.common.datascope.parser.JsqlParserSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,36 +33,36 @@ import java.util.Objects;
 @Slf4j
 public class DataScopeSqlProcessor extends JsqlParserSupport {
 
-	private final DataPermissionHandler dataPermissionHandler;
-
 	/**
 	 * select 类型SQL处理
 	 * @param select jsqlparser Statement Select
 	 */
 	@Override
 	protected void processSelect(Select select, int index, String sql, Object obj) {
-		processSelectBody(select.getSelectBody());
+		List<DataScope> dataScopes = (List<DataScope>) obj;
+
+		processSelectBody(select.getSelectBody(), dataScopes);
 		List<WithItem> withItemsList = select.getWithItemsList();
 		if (withItemsList != null && withItemsList.size() != 0) {
-			withItemsList.forEach(this::processSelectBody);
+			withItemsList.forEach(selectBody -> processSelectBody(selectBody, dataScopes));
 		}
 	}
 
-	protected void processSelectBody(SelectBody selectBody) {
+	protected void processSelectBody(SelectBody selectBody, List<DataScope> dataScopes) {
 		if (selectBody == null) {
 			return;
 		}
 		if (selectBody instanceof PlainSelect) {
-			processPlainSelect((PlainSelect) selectBody);
+			processPlainSelect((PlainSelect) selectBody, dataScopes);
 		}
 		else if (selectBody instanceof WithItem) {
 			WithItem withItem = (WithItem) selectBody;
-			processSelectBody(withItem.getSelectBody());
+			processSelectBody(withItem.getSelectBody(), dataScopes);
 		}
 		else {
 			SetOperationList operationList = (SetOperationList) selectBody;
 			if (operationList.getSelects() != null && operationList.getSelects().size() > 0) {
-				operationList.getSelects().forEach(this::processSelectBody);
+				operationList.getSelects().forEach(item -> processSelectBody(item, dataScopes));
 			}
 		}
 	}
@@ -82,7 +82,8 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	 */
 	@Override
 	protected void processUpdate(Update update, int index, String sql, Object obj) {
-		update.setWhere(this.injectExpression(update.getWhere(), update.getTable()));
+		List<DataScope> dataScopes = (List<DataScope>) obj;
+		update.setWhere(this.injectExpression(update.getWhere(), update.getTable(), dataScopes));
 	}
 
 	/**
@@ -91,29 +92,30 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	 */
 	@Override
 	protected void processDelete(Delete delete, int index, String sql, Object obj) {
-		delete.setWhere(this.injectExpression(delete.getWhere(), delete.getTable()));
+		List<DataScope> dataScopes = (List<DataScope>) obj;
+		delete.setWhere(this.injectExpression(delete.getWhere(), delete.getTable(), dataScopes));
 	}
 
 	/**
 	 * 处理 PlainSelect
 	 */
-	protected void processPlainSelect(PlainSelect plainSelect) {
+	protected void processPlainSelect(PlainSelect plainSelect, List<DataScope> dataScopes) {
 		FromItem fromItem = plainSelect.getFromItem();
 		Expression where = plainSelect.getWhere();
-		processWhereSubSelect(where);
+		processWhereSubSelect(where, dataScopes);
 		if (fromItem instanceof Table) {
 			Table fromTable = (Table) fromItem;
 			// #1186 github
-			plainSelect.setWhere(injectExpression(plainSelect.getWhere(), fromTable));
+			plainSelect.setWhere(injectExpression(plainSelect.getWhere(), fromTable, dataScopes));
 		}
 		else {
-			processFromItem(fromItem);
+			processFromItem(fromItem, dataScopes);
 		}
 		List<Join> joins = plainSelect.getJoins();
 		if (joins != null && joins.size() > 0) {
 			joins.forEach(j -> {
-				processJoin(j);
-				processFromItem(j.getRightItem());
+				processJoin(j, dataScopes);
+				processFromItem(j.getRightItem(), dataScopes);
 			});
 		}
 	}
@@ -125,13 +127,14 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	 * <p>
 	 * 前提条件: 1. 子查询必须放在小括号中 2. 子查询一般放在比较操作符的右边
 	 * @param where where 条件
+	 * @param dataScopes
 	 */
-	protected void processWhereSubSelect(Expression where) {
+	protected void processWhereSubSelect(Expression where, List<DataScope> dataScopes) {
 		if (where == null) {
 			return;
 		}
 		if (where instanceof FromItem) {
-			processFromItem((FromItem) where);
+			processFromItem((FromItem) where, dataScopes);
 			return;
 		}
 		if (where.toString().indexOf("SELECT") > 0) {
@@ -139,30 +142,30 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			if (where instanceof BinaryExpression) {
 				// 比较符号 , and , or , 等等
 				BinaryExpression expression = (BinaryExpression) where;
-				processWhereSubSelect(expression.getLeftExpression());
-				processWhereSubSelect(expression.getRightExpression());
+				processWhereSubSelect(expression.getLeftExpression(), dataScopes);
+				processWhereSubSelect(expression.getRightExpression(), dataScopes);
 			}
 			else if (where instanceof InExpression) {
 				// in
 				InExpression expression = (InExpression) where;
 				ItemsList itemsList = expression.getRightItemsList();
 				if (itemsList instanceof SubSelect) {
-					processSelectBody(((SubSelect) itemsList).getSelectBody());
+					processSelectBody(((SubSelect) itemsList).getSelectBody(), dataScopes);
 				}
 			}
 			else if (where instanceof ExistsExpression) {
 				// exists
 				ExistsExpression expression = (ExistsExpression) where;
-				processWhereSubSelect(expression.getRightExpression());
+				processWhereSubSelect(expression.getRightExpression(), dataScopes);
 			}
 			else if (where instanceof NotExpression) {
 				// not exists
 				NotExpression expression = (NotExpression) where;
-				processWhereSubSelect(expression.getExpression());
+				processWhereSubSelect(expression.getExpression(), dataScopes);
 			}
 			else if (where instanceof Parenthesis) {
 				Parenthesis expression = (Parenthesis) where;
-				processWhereSubSelect(expression.getExpression());
+				processWhereSubSelect(expression.getExpression(), dataScopes);
 			}
 		}
 	}
@@ -170,20 +173,20 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	/**
 	 * 处理子查询等
 	 */
-	protected void processFromItem(FromItem fromItem) {
+	protected void processFromItem(FromItem fromItem, List<DataScope> dataScopes) {
 		if (fromItem instanceof SubJoin) {
 			SubJoin subJoin = (SubJoin) fromItem;
 			if (subJoin.getJoinList() != null) {
-				subJoin.getJoinList().forEach(this::processJoin);
+				subJoin.getJoinList().forEach(join -> processJoin(join, dataScopes));
 			}
 			if (subJoin.getLeft() != null) {
-				processFromItem(subJoin.getLeft());
+				processFromItem(subJoin.getLeft(), dataScopes);
 			}
 		}
 		else if (fromItem instanceof SubSelect) {
 			SubSelect subSelect = (SubSelect) fromItem;
 			if (subSelect.getSelectBody() != null) {
-				processSelectBody(subSelect.getSelectBody());
+				processSelectBody(subSelect.getSelectBody(), dataScopes);
 			}
 		}
 		else if (fromItem instanceof ValuesList) {
@@ -194,7 +197,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			if (lateralSubSelect.getSubSelect() != null) {
 				SubSelect subSelect = lateralSubSelect.getSubSelect();
 				if (subSelect.getSelectBody() != null) {
-					processSelectBody(subSelect.getSelectBody());
+					processSelectBody(subSelect.getSelectBody(), dataScopes);
 				}
 			}
 		}
@@ -203,10 +206,10 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	/**
 	 * 处理联接语句
 	 */
-	protected void processJoin(Join join) {
+	protected void processJoin(Join join, List<DataScope> dataScopes) {
 		if (join.getRightItem() instanceof Table) {
 			Table fromTable = (Table) join.getRightItem();
-			join.setOnExpression(injectExpression(join.getOnExpression(), fromTable));
+			join.setOnExpression(injectExpression(join.getOnExpression(), fromTable, dataScopes));
 		}
 	}
 
@@ -214,14 +217,14 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	 * 根据 DataScope ，将数据过滤的表达式注入原本的 where/or 条件
 	 * @param currentExpression Expression where/or
 	 * @param table 表信息
+	 * @param dataScopes
 	 * @return 修改后的 where/or 条件
 	 */
-	private Expression injectExpression(Expression currentExpression, Table table) {
+	private Expression injectExpression(Expression currentExpression, Table table, List<DataScope> dataScopes) {
 		// TODO 重写 dataPermissionHandler
 		// TODO 当用户检索到 dataScope 所属字段时，需要判断该值是否在 scope 中，然后将其合并
 		String tableName = table.getName();
-		Expression dataFilterExpression = dataPermissionHandler.getDataScopes().stream()
-				.filter(x -> x.getTableNames().contains(tableName))
+		Expression dataFilterExpression = dataScopes.stream().filter(x -> x.getTableNames().contains(tableName))
 				.map(x -> x.getExpression(tableName, table.getAlias())).filter(Objects::nonNull)
 				.reduce(AndExpression::new).orElse(null);
 

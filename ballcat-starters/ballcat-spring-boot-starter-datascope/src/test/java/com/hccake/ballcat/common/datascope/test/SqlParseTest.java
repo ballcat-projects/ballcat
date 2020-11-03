@@ -1,7 +1,6 @@
 package com.hccake.ballcat.common.datascope.test;
 
 import com.hccake.ballcat.common.datascope.DataScope;
-import com.hccake.ballcat.common.datascope.DataScopeHolder;
 import com.hccake.ballcat.common.datascope.handler.DataPermissionHandler;
 import com.hccake.ballcat.common.datascope.processor.DataScopeSqlProcessor;
 import net.sf.jsqlparser.expression.Alias;
@@ -46,19 +45,29 @@ public class SqlParseTest {
 			}
 		};
 
-		DataPermissionHandler dataPermissionHandler = new DataPermissionHandler();
-		List<DataScope> list = new ArrayList<>();
-		list.add(dataScope);
-		dataPermissionHandler.setDataScopes(list);
+		DataPermissionHandler dataPermissionHandler = new DataPermissionHandler() {
+			@Override
+			public List<DataScope> dataScopes() {
+				List<DataScope> list = new ArrayList<>();
+				list.add(dataScope);
+				return list;
+			}
 
-		DataScopeSqlProcessor dataScopeSqlProcessor = new DataScopeSqlProcessor(dataPermissionHandler);
+			@Override
+			public boolean ignorePermissionControl() {
+				return false;
+			}
+		};
 
-		DataScopeHolder.putDataScope("order", dataScope);
+		DataScopeSqlProcessor dataScopeSqlProcessor = new DataScopeSqlProcessor();
+
+		// DataScopeHolder.putDataScope("order", dataScope);
+
 		String sql = "select o.order_id,o.order_name,oi.order_price "
 				+ "from t_ORDER o left join t_order_info oi on o.order_id = oi.order_id "
 				+ "where oi.order_price > 100";
 
-		dataScopeSqlProcessor.parserSingle(sql, null);
+		dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
 	}
 
 }
