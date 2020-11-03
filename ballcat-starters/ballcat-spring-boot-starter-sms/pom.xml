@@ -36,19 +36,5 @@
             <artifactId>tencentcloud-sdk-java</artifactId>
             <version>3.1.42</version>
         </dependency>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-extend-mybatis-plus</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-jdbc</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
 </project>

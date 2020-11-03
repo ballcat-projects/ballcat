@@ -1,5 +1,14 @@
 package com.hccake.starter.sms.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hccake.starter.sms.SmsSender;
+import com.hccake.starter.sms.SmsSenderParams;
+import com.hccake.starter.sms.SmsSenderResult;
+import com.hccake.starter.sms.enums.TypeEnum;
+import com.hccake.starter.sms.properties.SmsProperties;
+import com.hccake.starter.sms.properties.extra.Tencent;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
@@ -7,11 +16,8 @@ import com.tencentcloudapi.common.profile.HttpProfile;
 import com.tencentcloudapi.sms.v20190711.SmsClient;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsRequest;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
-import com.hccake.starter.sms.SmsSender;
-import com.hccake.starter.sms.SmsSenderParams;
-import com.hccake.starter.sms.SmsSenderResult;
-import com.hccake.starter.sms.enums.TypeEnum;
-import com.hccake.starter.sms.properties.SmsProperties;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 /**
@@ -24,30 +30,49 @@ public class TencentSenderImpl extends BaseServiceImpl implements SmsSender<SmsS
 
 	private final Credential cred;
 
-	public TencentSenderImpl(SmsProperties properties) {
+	private final Tencent tencent;
+
+	private final ObjectMapper om;
+
+	public TencentSenderImpl(SmsProperties properties, ObjectMapper om) {
 		this.properties = properties;
+		tencent = properties.getTencent();
 		cred = new Credential(properties.getId(), properties.getKey());
+		this.om = om;
 	}
 
 	@Override
-	public SmsSenderResult send(SmsSenderParams smsSenderParams) {
+	public SmsSenderResult send(SmsSenderParams sp) {
 		try {
 			HttpProfile httpProfile = new HttpProfile();
-			httpProfile.setEndpoint(properties.getTencent().getEndpoint());
+			httpProfile.setEndpoint(tencent.getEndpoint());
 
 			ClientProfile clientProfile = new ClientProfile();
 			clientProfile.setHttpProfile(httpProfile);
 
-			SmsClient client = new SmsClient(cred, properties.getTencent().getRegion(), clientProfile);
+			SmsClient client = new SmsClient(cred, tencent.getRegion(), clientProfile);
 
-			SendSmsRequest req = SendSmsRequest.fromJsonString(
-					smsSenderParams.generateTencentParams(properties.getTencent()), SendSmsRequest.class);
+			Map<String, Object> json = new HashMap<>(5);
+			json.put("PhoneNumberSet", sp.getPhoneNumbers());
+
+			json.put("SmsSdkAppid", tencent.getSdkId());
+
+			if (tencent.getTemplateId() != null) {
+				json.put("TemplateID", tencent.getTemplateId());
+			}
+
+			if (StrUtil.isNotEmpty(tencent.getSign())) {
+				json.put("Sign", tencent.getSign());
+			}
+			if (sp.getTemplateParam().size() != 0) {
+				json.put("TemplateParamSet", sp.getTemplateParam());
+			}
+			SendSmsRequest req = SendSmsRequest.fromJsonString(om.writeValueAsString(json), SendSmsRequest.class);
 			SendSmsResponse resp = client.SendSms(req);
-			return SmsSenderResult.generate(SendSmsRequest.toJsonString(resp), smsSenderParams.toString(),
-					smsSenderParams.getPhoneNumbers());
+			return SmsSenderResult.generate(SendSmsRequest.toJsonString(resp), sp.toString(), sp.getPhoneNumbers());
 		}
-		catch (TencentCloudSDKException e) {
-			return errRet(TypeEnum.TENCENT, smsSenderParams.getPhoneNumbers(), "腾讯云平台发送短信出现异常!", e);
+		catch (TencentCloudSDKException | JsonProcessingException e) {
+			return errRet(TypeEnum.TENCENT, sp.getPhoneNumbers(), "腾讯云平台发送短信出现异常!", e);
 		}
 	}
 

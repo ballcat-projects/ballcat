@@ -1,5 +1,6 @@
 package com.hccake.starter.sms.properties.extra;
 
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -19,5 +20,12 @@ public class TianYiHong {
 	 * 安全密钥
 	 */
 	private String secretKey;
+
+	private String senderId;
+
+	/**
+	 * 要添加 senderId 的国家
+	 */
+	private List<String> senderIdCountry;
 
 }

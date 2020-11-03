@@ -1,5 +1,6 @@
 package com.hccake.starter.sms;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.starter.sms.impl.TencentSenderImpl;
 import com.hccake.starter.sms.impl.TianYiHongSenderImpl;
 import com.hccake.starter.sms.properties.SmsProperties;
@@ -21,8 +22,8 @@ public class SmsAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(SmsSender.class)
 	@ConditionalOnProperty(name = "ballcat.starter.sms.type", havingValue = "TENCENT")
-	public SmsSender<SmsSenderParams, SmsSenderResult> tencentSmsSender() {
-		return new TencentSenderImpl(properties);
+	public SmsSender<SmsSenderParams, SmsSenderResult> tencentSmsSender(ObjectMapper om) {
+		return new TencentSenderImpl(properties, om);
 	}
 
 	@Bean
