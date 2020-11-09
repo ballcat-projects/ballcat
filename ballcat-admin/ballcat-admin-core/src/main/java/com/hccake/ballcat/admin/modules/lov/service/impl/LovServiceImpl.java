@@ -12,6 +12,8 @@ import com.hccake.ballcat.admin.modules.lov.model.entity.LovSearch;
 import com.hccake.ballcat.admin.modules.lov.service.LovBodyService;
 import com.hccake.ballcat.admin.modules.lov.service.LovSearchService;
 import com.hccake.ballcat.admin.modules.lov.service.LovService;
+import com.hccake.ballcat.common.core.exception.BusinessException;
+import com.hccake.ballcat.common.core.result.BaseResultCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,24 +88,38 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean remove(Integer id) {
-		return removeById(id);
+		Lov lov = getById(id);
+		if (!removeById(id)) {
+			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "移除lov失败!");
+		}
+		if (!bodyService.remove(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getKeyword, lov.getKeyword()))) {
+			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "移除lovBody失败!");
+		}
+		if (!searchService.remove(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getKeyword, lov.getKeyword()))) {
+			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "移除lovSearch失败!");
+		}
+		return true;
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean save(Lov lov, List<LovBody> bodyList, List<LovSearch> searchList) {
-		boolean res = save(lov);
-		if (res && bodyList.size() > 0) {
-			res = bodyService.saveBatch(
-					bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()));
+		if (save(lov)) {
+			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lov失败!");
 		}
 
-		if (res && searchList.size() > 0) {
-			res = searchService.saveBatch(searchList.stream().map(search -> search.setKeyword(lov.getKeyword()))
-					.collect(Collectors.toList()));
+		if (bodyList.size() > 0 && bodyService.saveBatch(
+				bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()))) {
+			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovBody失败!");
 		}
-		return res;
+
+		if (searchList.size() > 0 && searchService.saveBatch(
+				searchList.stream().map(search -> search.setKeyword(lov.getKeyword())).collect(Collectors.toList()))) {
+			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovSearch失败!");
+		}
+		return true;
 	}
 
 	@Override
