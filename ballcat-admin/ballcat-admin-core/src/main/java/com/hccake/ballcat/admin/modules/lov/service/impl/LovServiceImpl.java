@@ -93,11 +93,17 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean save(Lov lov, List<LovBody> bodyList, List<LovSearch> searchList) {
-		return save(lov)
-				&& bodyService.saveBatch(
-						bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()))
-				&& searchService.saveBatch(searchList.stream().map(search -> search.setKeyword(lov.getKeyword()))
-						.collect(Collectors.toList()));
+		boolean res = save(lov);
+		if (res && bodyList.size() > 0) {
+			res = bodyService.saveBatch(
+					bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()));
+		}
+
+		if (res && searchList.size() > 0) {
+			res = searchService.saveBatch(searchList.stream().map(search -> search.setKeyword(lov.getKeyword()))
+					.collect(Collectors.toList()));
+		}
+		return res;
 	}
 
 	@Override
