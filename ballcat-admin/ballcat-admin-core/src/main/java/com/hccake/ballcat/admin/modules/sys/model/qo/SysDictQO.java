@@ -3,9 +3,6 @@ package com.hccake.ballcat.admin.modules.sys.model.qo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 字典表 查询对象
@@ -20,9 +17,15 @@ public class SysDictQO {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 编号
+	 * 字典标识
 	 */
-	@ApiModelProperty(value = "编号")
-	private Integer id;
+	@ApiModelProperty(value = "字典标识")
+	private String code;
+
+	/**
+	 * 字典名称
+	 */
+	@ApiModelProperty(value = "字典名称")
+	private String title;
 
 }

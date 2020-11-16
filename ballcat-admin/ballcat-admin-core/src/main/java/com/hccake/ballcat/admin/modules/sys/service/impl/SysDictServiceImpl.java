@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -33,8 +33,9 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	 */
 	@Override
 	public IPage<SysDict> page(IPage<SysDict> page, SysDictQO qo) {
-		LambdaQueryWrapper<SysDict> wrapper = Wrappers.<SysDict>lambdaQuery().eq(ObjectUtil.isNotNull(qo.getId()),
-				SysDict::getId, qo.getId());
+		LambdaQueryWrapper<SysDict> wrapper = Wrappers.<SysDict>lambdaQuery()
+				.like(StrUtil.isNotBlank(qo.getCode()), SysDict::getCode, qo.getCode())
+				.like(StrUtil.isNotBlank(qo.getTitle()), SysDict::getTitle, qo.getTitle());
 		return baseMapper.selectPage(page, wrapper);
 	}
 
