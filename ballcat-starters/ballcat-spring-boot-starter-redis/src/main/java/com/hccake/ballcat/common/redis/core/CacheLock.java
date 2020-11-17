@@ -31,7 +31,7 @@ public class CacheLock {
 	 * @return Boolean 是否成功获得锁
 	 */
 	public static Boolean lock(String lockKey, String requestId) {
-		log.info("lock: {key:{}, clientId:{}}", lockKey, requestId);
+		log.debug("lock: {key:{}, clientId:{}}", lockKey, requestId);
 		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, CachePropertiesHolder.lockedTimeOut(),
 				TimeUnit.SECONDS);
 	}
@@ -55,7 +55,7 @@ public class CacheLock {
 	 * @return 是否成功
 	 */
 	public static boolean releaseLock(String key, String requestId) {
-		log.info("release lock: {key:{}, clientId:{}}", key, requestId);
+		log.debug("release lock: {key:{}, clientId:{}}", key, requestId);
 		// 指定ReturnType为Long.class
 		DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
 		Long result = redisTemplate.execute(redisScript, Collections.singletonList(key), requestId);
