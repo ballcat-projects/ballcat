@@ -29,7 +29,7 @@
 
 - fix: 修复没有提供默认 profile，导致用户不指定 profile 时，全局异常处理无法正常初始化的问题
 - refactor: lovBody 和 lovSearch 关联属性由 lovId 更改为  keyword
-- refactor: UserDetails 属性重构，抽象出用户资源(userResources)属性，默认将用户的角色和权限作为资源存入userResources，并提供 UserResourceCoordinator 用户资源协调者，方便根据业务扩展用户资源（便于数据权限管理）
+- refactor: UserDetails 属性重构，抽象出用户资源(userResources)和用户属性(userAttributes)，默认将用户的角色和权限作为资源存入userResources. 可以重写UserInfoCoordinator类，来根据业务调整用户资源和用户属性
 - refactor: kafka 消费者配置提供
 - refactor: 返回体结构修改，属性 msg 修改为 message
 - refactor: xss 和 monitor auth 过滤器提供开关，并调整了配置前缀
