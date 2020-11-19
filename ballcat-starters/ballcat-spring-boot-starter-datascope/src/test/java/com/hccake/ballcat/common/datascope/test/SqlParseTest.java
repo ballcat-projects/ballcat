@@ -9,7 +9,7 @@ import net.sf.jsqlparser.expression.StringValue;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
 import net.sf.jsqlparser.schema.Column;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
