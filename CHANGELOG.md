@@ -22,24 +22,29 @@
 - feat: 新增组织机构(部门)，用户与组织机构为一对一的关系
 - feat: 数据权限，利用 mybatis 拦截器对 sql 进行拦截约束，约束规则支持自定义，适用于大部分数据权限控制。
 - feat: 角色新增 scopeType，暂时支持全部，本人，本部门，本人及子部门等几种范围类型
+- feat: 新增短信发送 stater
+- feat: excel导出支持自定义头信息
 
 ### Changed
 
 - fix: 修复没有提供默认 profile，导致用户不指定 profile 时，全局异常处理无法正常初始化的问题
-
 - refactor: lovBody 和 lovSearch 关联属性由 lovId 更改为  keyword
-
 - refactor: UserDetails 属性重构，抽象出用户资源(userResources)属性，默认将用户的角色和权限作为资源存入userResources，并提供 UserResourceCoordinator 用户资源协调者，方便根据业务扩展用户资源（便于数据权限管理）
-
 - refactor: kafka 消费者配置提供
-
 - refactor: 返回体结构修改，属性 msg 修改为 message
-
 - refactor: xss 和 monitor auth 过滤器提供开关，并调整了配置前缀
-
 - refactor: 用户角色，角色权限的关联，由 role_id 修改为使用 role_code
+- fix: 系统用户查询时组织机构ID为空不为null时导致的异常
+- refactor: 字典附加属性，value值修改为object类型
+- fix: 修复用户在容器初始化前使用缓存注解时，CacheLock未初始化导致的异常问题
+- fix: 移除 hutool json 的使用（该工具类部分情况下可能导致栈溢出）
+- refactor:  Lov 模块调整
 
-  
+### Dependency
+
+- Bump spring-boot from 2.3.4 to 2.4.0
+
+
 
 ## [0.0.5]
 

@@ -108,3 +108,10 @@ CREATE TABLE `sys_organization` (
 -- 系统用户表添加组织架构关联id
 ALTER TABLE `sys_user`
 ADD COLUMN `organization_id` int(11) NULL DEFAULT 0 COMMENT '所属组织ID' AFTER `type`;
+
+-- 菜单
+INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (100700, '组织架构', NULL, '/sys/organization', 'organization', 'sys/organization/OrganizationPage', NULL, NULL, 100000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
+INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (100701, '组织架构查询', 'sys:organization:read', NULL, NULL, NULL, NULL, NULL, 100700, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (100702, '组织架构新增', 'sys:organization:add', NULL, NULL, NULL, NULL, NULL, 100700, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (100703, '组织架构修改', 'sys:organization:edit', NULL, NULL, NULL, NULL, NULL, 100700, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (100704, '组织架构删除', 'sys:organization:del', NULL, NULL, NULL, NULL, NULL, 100700, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
