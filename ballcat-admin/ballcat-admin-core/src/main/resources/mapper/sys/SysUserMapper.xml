@@ -51,8 +51,11 @@
 		sys_user
 		where
 		deleted = 0
-		<if test="type != null and type != ''">
-			and type = #{type}
+		<if test="userTypes != null and userTypes.size() > 0">
+			and type in
+			<foreach collection="userTypes" open="(" separator="," close=")" item="type">
+				#{type}
+			</foreach>
 		</if>
 	</select>
 
