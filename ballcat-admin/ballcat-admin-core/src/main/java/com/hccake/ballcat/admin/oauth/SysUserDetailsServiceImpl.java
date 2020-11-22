@@ -7,7 +7,6 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,8 +28,7 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 
 	private final SysUserService sysUserService;
 
-	@Autowired(required = false)
-	private UserResourceCoordinator userResourceCoordinator;
+	private final UserInfoCoordinator userInfoCoordinator;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -52,7 +50,6 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 
 		SysUser sysUser = userInfoDTO.getSysUser();
 		List<String> roles = userInfoDTO.getRoles();
-		// List<Integer> roleIds = userInfoDTO.getRoleIds();
 		List<String> permissions = userInfoDTO.getPermissions();
 
 		Set<String> dbAuthsSet = new HashSet<>();
@@ -67,16 +64,16 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
 		// 用户资源，角色和权限
-		// TODO 移除RoleIds，用户角色关联关系改为使用code
 		Map<String, Collection<?>> userResources = new HashMap<>();
 		userResources.put(UserResourceConstant.RESOURCE_ROLE, roles);
 		userResources.put(UserResourceConstant.RESOURCE_PERMISSION, permissions);
-		// 如果有自定义的协调者，进行资源处理
-		if (userResourceCoordinator != null) {
-			userResources = userResourceCoordinator.coordinate(userResources, sysUser);
-		}
+		userResources = userInfoCoordinator.coordinateResource(userResources, sysUser);
 
-		return new SysUserDetails(sysUser, authorities, userResources);
+		// 用户额外属性
+		Map<String, Object> userAttributes = new HashMap<>();
+		userAttributes = userInfoCoordinator.coordinateAttribute(userAttributes, sysUser);
+
+		return new SysUserDetails(sysUser, authorities, userResources, userAttributes);
 	}
 
 }

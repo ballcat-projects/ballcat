@@ -27,11 +27,18 @@ public class SysUserDetails implements UserDetails {
 	 */
 	private final Map<String, Collection<?>> userResources;
 
+	/**
+	 * 用户属性 <br/>
+	 * 对于不同类型的用户，可能在业务上需要获取到不同的用户属性
+	 */
+	private final Map<String, Object> userAttributes;
+
 	public SysUserDetails(SysUser sysUser, Collection<? extends GrantedAuthority> authorities,
-			Map<String, Collection<?>> userResources) {
+			Map<String, Collection<?>> userResources, Map<String, Object> userAttributes) {
 		this.sysUser = sysUser;
 		this.authorities = authorities;
 		this.userResources = userResources;
+		this.userAttributes = userAttributes;
 	}
 
 	@Override
@@ -75,6 +82,10 @@ public class SysUserDetails implements UserDetails {
 
 	public Map<String, Collection<?>> getUserResources() {
 		return userResources;
+	}
+
+	public Map<String, Object> getUserAttributes() {
+		return userAttributes;
 	}
 
 }

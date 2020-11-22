@@ -4,6 +4,9 @@
 
 `BallCat` 致力于简化开发流程，开箱即用，只需专注于业务开发，避免重复劳作
 
+喜欢的朋友动动小手点个 star 哈，感谢~~
+另外有任何问题欢迎提 issues，或者邮件沟通，也接受通用的功能请求
+
 
 ## 简介
 
@@ -35,9 +38,11 @@
 |   |-- ballcat-spring-boot-starter-dingtalk   -- 钉钉集成工具
 |   |-- ballcat-spring-boot-starter-easyexcel  -- 通过注解快速导出excle（easyexcel）
 |   |-- ballcat-spring-boot-starter-job        -- 定时任务集成（目前仅xxl-job）
+|   |-- ballcat-spring-boot-starter-kafka      -- 消息队列 kafka 集成
 |   |-- ballcat-spring-boot-starter-log		   -- 访问日志，操作日志，TraceId注入
 |   |-- ballcat-spring-boot-starter-mail	   -- 邮件发送
 |   |-- ballcat-spring-boot-starter-redis      -- 提供注解使用redis, 分布式锁，防击穿，全局key前缀等功能
+|   |-- ballcat-spring-boot-starter-sms        -- 短信接入 starter
 |   |-- ballcat-spring-boot-starter-storage    -- 文件存储（暂时只集成了aliyunOss）
 |   `-- ballcat-spring-boot-starter-swagger    -- swagger文档配置（提供无注册中心的文档聚合方案）
 `-- doc        -- 初始化数据库脚本
@@ -77,7 +82,7 @@
 
 | 依赖                   | 版本          | 官网                                             |
 | ---------------------- | ------------- | ------------------------------------------------ |
-| Spring Boot            | 2.3.4.RELEASE | https://spring.io/projects/spring-boot#learn     |
+| Spring Boot            | 2.4.0         | https://spring.io/projects/spring-boot#learn     |
 | Spring Security OAuth2 | 2.3.8.RELEASE | https://spring.io/projects/spring-security-oauth |
 | Mybatis Plus           | 3.4.0         | https://mp.baomidou.com/                         |
 | XXL-JOB                | 2.2.0         | http://www.xuxueli.com/xxl-job                   |
@@ -89,7 +94,7 @@
 | 依赖               | 版本   | 官网                   |
 | ------------------ | ------ | ---------------------- |
 | Vue                | 2.6.10 | https://cn.vuejs.org/  |
-| Ant Design Vue     | 1.6.5  | https://www.antdv.com  |
+| Ant Design Vue     | 1.7.2  | https://www.antdv.com  |
 | Ant Design Vue Pro | 2.0.2  | https://pro.loacg.com/ |
 
 
