@@ -31,6 +31,9 @@ public class Lov extends Model<Lov> {
 	@ApiModelProperty("编号")
 	private Long id;
 
+	@ApiModelProperty("标题")
+	private String title;
+
 	@ApiModelProperty("关键字，唯一，加载lov数据时通过关键字加载")
 	private String keyword;
 
@@ -57,17 +60,11 @@ public class Lov extends Model<Lov> {
 	@ApiModelProperty("是否需要多选")
 	private Boolean multiple;
 
-	@ApiModelProperty("是否需要搜索框")
-	private Boolean search;
-
 	@ApiModelProperty("是否需要返回数据, false则不会有确定按钮")
 	private Boolean ret;
 
 	@ApiModelProperty("返回数据的字段")
 	private String retField;
-
-	@ApiModelProperty("返回字段数据类型 1 String 2 Number")
-	private Integer retFieldDataType;
 
 	/**
 	 * 更新时间

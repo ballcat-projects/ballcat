@@ -115,3 +115,17 @@ INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `comp
 INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (100702, '组织架构新增', 'sys:organization:add', NULL, NULL, NULL, NULL, NULL, 100700, NULL, 1, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (100703, '组织架构修改', 'sys:organization:edit', NULL, NULL, NULL, NULL, NULL, 100700, NULL, 2, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (100704, '组织架构删除', 'sys:organization:del', NULL, NULL, NULL, NULL, NULL, 100700, NULL, 3, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+
+
+-- lov 模块重构
+alter table `sys_lov`
+    add column `title` varchar(255) default '' comment '标题',
+    drop column `search`,
+    drop column `ret_field_data_type`
+;
+delete
+from `sys_dict`
+where `code` = 'lov_ret_data_type';
+delete
+from `sys_dict_item`
+where `dict_code` = 'lov_ret_data_type';
