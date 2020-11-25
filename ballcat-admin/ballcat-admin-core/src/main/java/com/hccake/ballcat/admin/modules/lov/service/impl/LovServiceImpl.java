@@ -111,16 +111,16 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean save(Lov lov, List<LovBody> bodyList, List<LovSearch> searchList) {
-		if (save(lov)) {
+		if (!save(lov)) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lov失败!");
 		}
 
-		if (bodyList.size() > 0 && bodyService.saveBatch(
+		if (bodyList.size() > 0 && !bodyService.saveBatch(
 				bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()))) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovBody失败!");
 		}
 
-		if (searchList.size() > 0 && searchService.saveBatch(
+		if (searchList.size() > 0 && !searchService.saveBatch(
 				searchList.stream().map(search -> search.setKeyword(lov.getKeyword())).collect(Collectors.toList()))) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovSearch失败!");
 		}
