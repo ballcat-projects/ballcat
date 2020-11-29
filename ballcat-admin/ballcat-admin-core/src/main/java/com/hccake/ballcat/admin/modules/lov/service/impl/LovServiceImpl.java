@@ -36,12 +36,17 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 
 	@Override
 	public IPage<Lov> selectPage(IPage<Lov> page, Lov entity) {
-		return baseMapper.selectPage(page,
-				Wrappers.<Lov>lambdaQuery()
-						.like(StrUtil.isNotEmpty(entity.getKeyword()), Lov::getKeyword, entity.getKeyword())
-						.eq(entity.getMethod() != null, Lov::getMethod, entity.getMethod())
-						.eq(entity.getPosition() != null, Lov::getPosition, entity.getPosition())
-						.like(StrUtil.isNotEmpty(entity.getUrl()), Lov::getUrl, entity.getUrl()));
+		return baseMapper.selectPage(page, Wrappers.<Lov>lambdaQuery()
+
+				.like(StrUtil.isNotEmpty(entity.getKeyword()), Lov::getKeyword, entity.getKeyword())
+
+				.eq(entity.getMethod() != null, Lov::getMethod, entity.getMethod())
+
+				.eq(entity.getPosition() != null, Lov::getPosition, entity.getPosition())
+
+				.like(StrUtil.isNotEmpty(entity.getUrl()), Lov::getUrl, entity.getUrl())
+
+				.like(StrUtil.isNotEmpty(entity.getTitle()), Lov::getTitle, entity.getTitle()));
 	}
 
 	@Override
@@ -106,16 +111,16 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean save(Lov lov, List<LovBody> bodyList, List<LovSearch> searchList) {
-		if (save(lov)) {
+		if (!save(lov)) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lov失败!");
 		}
 
-		if (bodyList.size() > 0 && bodyService.saveBatch(
+		if (bodyList.size() > 0 && !bodyService.saveBatch(
 				bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()))) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovBody失败!");
 		}
 
-		if (searchList.size() > 0 && searchService.saveBatch(
+		if (searchList.size() > 0 && !searchService.saveBatch(
 				searchList.stream().map(search -> search.setKeyword(lov.getKeyword())).collect(Collectors.toList()))) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovSearch失败!");
 		}
@@ -128,8 +133,7 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 		if (lov != null) {
 			LovVo vo = new LovVo().setKey(lov.getKey()).setFixedParams(lov.getFixedParams()).setMethod(lov.getMethod())
 					.setKeyword(lov.getKeyword()).setMultiple(lov.getMultiple()).setPosition(lov.getPosition())
-					.setRet(lov.getRet()).setSearch(lov.getSearch()).setUrl(lov.getUrl()).setRetField(lov.getRetField())
-					.setRetFieldDataType(lov.getRetFieldDataType());
+					.setRet(lov.getRet()).setTitle(lov.getTitle()).setUrl(lov.getUrl()).setRetField(lov.getRetField());
 			vo.setBodyList(bodyService.list(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getKeyword, lov.getKeyword())));
 			vo.setSearchList(
 					searchService.list(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getKeyword, lov.getKeyword())));

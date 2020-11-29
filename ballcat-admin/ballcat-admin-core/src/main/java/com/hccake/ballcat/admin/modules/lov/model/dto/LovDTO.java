@@ -27,6 +27,9 @@ public class LovDTO {
 
 	private Long id;
 
+	@ApiModelProperty("标题")
+	private String title;
+
 	@ApiModelProperty("关键字，唯一，加载lov数据时通过关键字加载")
 	private String keyword;
 
@@ -53,9 +56,6 @@ public class LovDTO {
 	@ApiModelProperty("是否需要多选")
 	private Boolean multiple;
 
-	@ApiModelProperty("是否需要搜索框")
-	private Boolean search;
-
 	@ApiModelProperty("是否需要返回数据, false则不会有确定按钮")
 	private Boolean ret;
 
@@ -76,8 +76,7 @@ public class LovDTO {
 	public Lov toLov() {
 		return new Lov().setCreateTime(getCreateTime()).setFixedParams(getFixedParams()).setId(getId()).setKey(getKey())
 				.setKeyword(getKeyword()).setMethod(getMethod()).setMultiple(getMultiple()).setPosition(getPosition())
-				.setRet(getRet()).setRetField(getRetField()).setRetFieldDataType(getRetFieldDataType())
-				.setSearch(getSearch()).setUrl(getUrl());
+				.setRet(getRet()).setRetField(getRetField()).setTitle(getTitle()).setUrl(getUrl());
 	}
 
 }
