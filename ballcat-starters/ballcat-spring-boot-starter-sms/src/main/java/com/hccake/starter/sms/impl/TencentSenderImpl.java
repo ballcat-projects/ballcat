@@ -16,14 +16,15 @@ import com.tencentcloudapi.common.profile.HttpProfile;
 import com.tencentcloudapi.sms.v20190711.SmsClient;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsRequest;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 /**
  * @author lingting 2020/4/26 10:03
  */
-@ConditionalOnProperty(name = "ballcat.starter.sms.type", havingValue = "TENCENT")
+@ConditionalOnProperty(name = "ballcat.sms.type", havingValue = "TENCENT")
 public class TencentSenderImpl extends BaseServiceImpl implements SmsSender<SmsSenderParams, SmsSenderResult> {
 
 	private final SmsProperties properties;

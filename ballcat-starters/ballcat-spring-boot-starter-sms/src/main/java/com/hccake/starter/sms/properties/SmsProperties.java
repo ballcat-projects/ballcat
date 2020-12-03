@@ -4,16 +4,17 @@ import com.hccake.starter.sms.enums.TypeEnum;
 import com.hccake.starter.sms.properties.extra.Account;
 import com.hccake.starter.sms.properties.extra.Tencent;
 import com.hccake.starter.sms.properties.extra.TianYiHong;
-import java.util.Map;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import java.util.Map;
 
 /**
  * @author lingting 2020/4/26 9:43
  */
 @Data
-@ConfigurationProperties(prefix = "ballcat.starter.sms")
+@ConfigurationProperties(prefix = "ballcat.sms")
 public class SmsProperties {
 
 	/**

@@ -12,13 +12,14 @@ import com.hccake.starter.sms.enums.TypeEnum;
 import com.hccake.starter.sms.properties.SmsProperties;
 import com.hccake.starter.sms.properties.extra.Account;
 import com.hccake.starter.sms.properties.extra.TianYiHong;
-import java.time.LocalDateTime;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+
+import java.time.LocalDateTime;
 
 /**
  * @author lingting 2020/4/26 10:03
  */
-@ConditionalOnProperty(name = "ballcat.starter.sms.type", havingValue = "TIAN_YI_HONG")
+@ConditionalOnProperty(name = "ballcat.sms.type", havingValue = "TIAN_YI_HONG")
 public class TianYiHongSenderImpl extends BaseServiceImpl implements SmsSender<SmsSenderParams, SmsSenderResult> {
 
 	private final SmsProperties sp;
