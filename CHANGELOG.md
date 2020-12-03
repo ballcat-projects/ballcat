@@ -24,10 +24,12 @@
 - feat: 角色新增 scopeType，暂时支持全部，本人，本部门，本人及子部门等几种范围类型
 - feat: 新增短信发送 stater
 - feat: excel导出支持自定义头信息
+- feat: 新增 JacksonUtils，方便全局统一 objectMapper 配置
 
 ### Changed
 
 - fix: 修复没有提供默认 profile，导致用户不指定 profile 时，全局异常处理无法正常初始化的问题
+- refactor:  Lov 模块调整
 - refactor: lovBody 和 lovSearch 关联属性由 lovId 更改为  keyword
 - refactor: UserDetails 属性重构，抽象出用户资源(userResources)和用户属性(userAttributes)，默认将用户的角色和权限作为资源存入userResources. 可以重写UserInfoCoordinator类，来根据业务调整用户资源和用户属性
 - refactor: kafka 消费者配置提供
@@ -38,7 +40,7 @@
 - refactor: 字典附加属性，value值修改为object类型
 - fix: 修复用户在容器初始化前使用缓存注解时，CacheLock未初始化导致的异常问题
 - fix: 移除 hutool json 的使用（该工具类部分情况下可能导致栈溢出）
-- refactor:  Lov 模块调整
+- refactor:  支持用户select数据查询接口使用 userTypes 进行多类型筛选，删除原先的地址栏占位符查询方式
 
 ### Dependency
 
