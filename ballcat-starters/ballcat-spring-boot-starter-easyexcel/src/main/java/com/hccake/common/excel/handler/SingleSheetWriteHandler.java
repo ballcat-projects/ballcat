@@ -1,6 +1,5 @@
 package com.hccake.common.excel.handler;
 
-import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
@@ -11,7 +10,6 @@ import com.hccake.common.excel.kit.ExcelException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -49,12 +47,12 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 	@SneakyThrows
 	public void write(Object obj, HttpServletResponse response, ResponseExcel responseExcel) {
 		List list = (List) obj;
+		ExcelWriter excelWriter = getExcelWriter(response, responseExcel, configProperties.getTemplatePath());
 
-		ExcelWriter excelWriter = getExcelWriter(response, responseExcel, list, configProperties.getTemplatePath());
 		// 有模板则不指定sheet名
-		WriteSheet sheet = StringUtils.hasText(responseExcel.template()) ? EasyExcel.writerSheet().build()
-				: EasyExcel.writerSheet(responseExcel.sheet()[0]).build();
-
+		Class<?> dataClass = list.get(0).getClass();
+		WriteSheet sheet = this.sheet(null, responseExcel.sheet()[0], dataClass, responseExcel.template(),
+				responseExcel.headGenerator());
 		excelWriter.write(list, sheet);
 		excelWriter.finish();
 	}

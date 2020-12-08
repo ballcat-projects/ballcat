@@ -4,7 +4,9 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
+import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.alibaba.excel.write.handler.WriteHandler;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import com.hccake.common.excel.annotation.ResponseExcel;
 import com.hccake.common.excel.aop.DynamicNameAspect;
 import com.hccake.common.excel.converters.LocalDateStringConverter;
@@ -24,7 +26,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -63,26 +64,15 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
 	 * 通用的获取ExcelWriter方法
 	 * @param response HttpServletResponse
 	 * @param responseExcel ResponseExcel注解
-	 * @param list Excel数据
 	 * @param templatePath 模板地址
 	 * @return ExcelWriter
 	 */
 	@SneakyThrows
-	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel, List list,
-			String templatePath) {
-		// 数据类型
-		Class<?> dataClass = list.get(0).getClass();
-		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream(), dataClass)
+	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel, String templatePath) {
+		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream())
 				.registerConverter(LocalDateStringConverter.INSTANCE)
 				.registerConverter(LocalDateTimeStringConverter.INSTANCE).autoCloseStream(true)
 				.excelType(responseExcel.suffix()).inMemory(responseExcel.inMemory());
-
-		// Excel头信息增强
-		Class<? extends HeadGenerator> headEnhancerClass = responseExcel.headGenerator();
-		if (!headEnhancerClass.isInterface()) {
-			HeadGenerator headGenerator = BeanUtils.instantiateClass(headEnhancerClass);
-			writerBuilder.head(headGenerator.head(writerBuilder, dataClass));
-		}
 
 		if (StringUtils.hasText(responseExcel.password())) {
 			writerBuilder.password(responseExcel.password());
@@ -127,6 +117,28 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
 	 */
 	public void registerCustomConverter(ExcelWriterBuilder builder) {
 		// do nothing
+	}
+
+	public WriteSheet sheet(Integer sheetNo, String sheetName, Class<?> dataClass, String template,
+			Class<? extends HeadGenerator> headEnhancerClass) {
+		// 头信息增强
+		HeadGenerator headGenerator = null;
+		if (!headEnhancerClass.isInterface()) {
+			headGenerator = BeanUtils.instantiateClass(headEnhancerClass);
+		}
+
+		// 是否模板写入
+		ExcelWriterSheetBuilder excelWriterSheetBuilder = StringUtils.hasText(template) ? EasyExcel.writerSheet(sheetNo)
+				: EasyExcel.writerSheet(sheetNo, sheetName);
+		// 自定义头信息
+		if (headGenerator != null) {
+			excelWriterSheetBuilder.head(headGenerator.head(dataClass));
+		}
+		else if (dataClass != null) {
+			excelWriterSheetBuilder.head(dataClass);
+		}
+
+		return excelWriterSheetBuilder.build();
 	}
 
 }
