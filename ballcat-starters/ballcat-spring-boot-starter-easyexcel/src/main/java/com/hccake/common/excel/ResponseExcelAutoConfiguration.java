@@ -3,11 +3,9 @@ package com.hccake.common.excel;
 import com.hccake.common.excel.aop.DynamicNameAspect;
 import com.hccake.common.excel.aop.ResponseExcelReturnValueHandler;
 import com.hccake.common.excel.config.ExcelConfigProperties;
-import com.hccake.common.excel.handler.SheetWriteHandler;
 import com.hccake.common.excel.processor.NameProcessor;
 import com.hccake.common.excel.processor.NameSpelExpressionProcessor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +14,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +24,15 @@ import java.util.List;
  * <p>
  * 配置初始化
  */
-@Import(SheetWriteHandlerAutoConfiguration.class)
+@Import(ExcelHandlerConfiguration.class)
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ExcelConfigProperties.class)
-public class ResponseExcelAutoConfiguration implements InitializingBean {
+public class ResponseExcelAutoConfiguration {
 
 	private final RequestMappingHandlerAdapter handlerAdapter;
 
-	private final List<SheetWriteHandler> sheetWriteHandlerList;
+	private final ResponseExcelReturnValueHandler responseExcelReturnValueHandler;
 
 	/**
 	 * SPEL 解析处理器
@@ -56,12 +55,15 @@ public class ResponseExcelAutoConfiguration implements InitializingBean {
 		return new DynamicNameAspect(nameProcessor);
 	}
 
-	@Override
-	public void afterPropertiesSet() {
+	/**
+	 * 追加 Excel返回值处理器 到 springmvc 中
+	 */
+	@PostConstruct
+	public void setReturnValueHandlers() {
 		List<HandlerMethodReturnValueHandler> returnValueHandlers = handlerAdapter.getReturnValueHandlers();
 
 		List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>();
-		newHandlers.add(new ResponseExcelReturnValueHandler(sheetWriteHandlerList));
+		newHandlers.add(responseExcelReturnValueHandler);
 		assert returnValueHandlers != null;
 		newHandlers.addAll(returnValueHandlers);
 		handlerAdapter.setReturnValueHandlers(newHandlers);

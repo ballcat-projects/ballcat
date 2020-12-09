@@ -119,6 +119,15 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler {
 		// do nothing
 	}
 
+	/**
+	 * 获取 WriteSheet 对象
+	 * @param sheetNo 页签号
+	 * @param sheetName 页签名称
+	 * @param dataClass 数据类型
+	 * @param template 模板
+	 * @param headEnhancerClass 自定义头处理器
+	 * @return WriteSheet
+	 */
 	public WriteSheet sheet(Integer sheetNo, String sheetName, Class<?> dataClass, String template,
 			Class<? extends HeadGenerator> headEnhancerClass) {
 		// 头信息增强
