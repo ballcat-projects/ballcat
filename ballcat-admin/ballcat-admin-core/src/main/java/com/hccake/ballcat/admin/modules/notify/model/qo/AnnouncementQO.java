@@ -27,4 +27,7 @@ public class AnnouncementQO {
 	@ApiModelProperty(value = "接收人筛选方式，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户")
 	private Integer recipientFilterType;
 
+	@ApiModelProperty(value = "状态")
+	private Integer[] status;
+
 }

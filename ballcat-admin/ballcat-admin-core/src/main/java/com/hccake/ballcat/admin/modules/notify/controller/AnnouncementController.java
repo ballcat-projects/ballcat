@@ -2,20 +2,22 @@ package com.hccake.ballcat.admin.modules.notify.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
-import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
-import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
-import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
+import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
+import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
+import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 公告信息
@@ -45,29 +47,29 @@ public class AnnouncementController {
 
 	/**
 	 * 新增公告信息
-	 * @param announcement 公告信息
+	 * @param announcementDTO 公告信息
 	 * @return R 通用返回体
 	 */
 	@ApiOperation(value = "新增公告信息", notes = "新增公告信息")
 	@CreateOperationLogging(msg = "新增公告信息")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('notify:announcement:add')")
-	public R<?> save(@RequestBody Announcement announcement) {
-		return announcementService.save(announcement) ? R.ok()
+	public R<?> save(@Valid @RequestBody AnnouncementDTO announcementDTO) {
+		return announcementService.addAnnouncement(announcementDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增公告信息失败");
 	}
 
 	/**
 	 * 修改公告信息
-	 * @param announcement 公告信息
+	 * @param announcementDTO 公告信息
 	 * @return R 通用返回体
 	 */
 	@ApiOperation(value = "修改公告信息", notes = "修改公告信息")
 	@UpdateOperationLogging(msg = "修改公告信息")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
-	public R<?> updateById(@RequestBody Announcement announcement) {
-		return announcementService.updateById(announcement) ? R.ok()
+	public R<?> updateById(@Valid @RequestBody AnnouncementDTO announcementDTO) {
+		return announcementService.updateAnnouncement(announcementDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改公告信息失败");
 	}
 
@@ -83,6 +85,32 @@ public class AnnouncementController {
 	public R<?> removeById(@PathVariable Long id) {
 		return announcementService.removeById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除公告信息失败");
+	}
+
+	/**
+	 * 发布公告信息
+	 * @return R 通用返回体
+	 */
+	@ApiOperation(value = "发布公告信息", notes = "发布公告信息")
+	@UpdateOperationLogging(msg = "发布公告信息")
+	@PatchMapping("/publish/{announcementId}")
+	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
+	public R<?> enableAnnouncement(@PathVariable Long announcementId) {
+		return announcementService.publish(announcementId) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "发布公告信息失败");
+	}
+
+	/**
+	 * 关闭公告信息
+	 * @return R 通用返回体
+	 */
+	@ApiOperation(value = "关闭公告信息", notes = "关闭公告信息")
+	@UpdateOperationLogging(msg = "关闭公告信息")
+	@PatchMapping("/close/{announcementId}")
+	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
+	public R<?> disableAnnouncement(@PathVariable Long announcementId) {
+		return announcementService.close(announcementId) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "关闭公告信息失败");
 	}
 
 }

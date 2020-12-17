@@ -7,27 +7,35 @@
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
 		<result property="recipientFilterType" column="recipient_filter_type"/>
-		<result property="recipientFilterCondition" column="recipient_filter_condition" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-		<result property="receiveMode" column="receive_mode" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+		<result property="recipientFilterCondition" column="recipient_filter_condition"
+				typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+		<result property="receiveMode" column="receive_mode"
+				typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+		<result property="status" column="status"></result>
+		<result property="deadline" column="deadline"></result>
 		<result property="createBy" column="create_by"/>
 		<result property="createTime" column="create_time"/>
 		<result property="updateTime" column="update_time"/>
 	</resultMap>
 
-  <sql id="Base_Column_List" >
-    id, title, content, recipient_filter_type, recipient_filter_condition, receive_mode, create_by, create_time, update_time  </sql>
+	<sql id="Base_Column_List">
+		id, title, content, recipient_filter_type, recipient_filter_condition, receive_mode,
+		status, deadline, create_by, create_time, update_time
+	</sql>
 
-  <sql id="Base_Alias_Column_List">
-    a.id, a.title, a.content, a.recipient_filter_type, a.recipient_filter_condition, a.receive_mode, a.create_by, a.create_time, a.update_time  </sql>
+	<sql id="Base_Alias_Column_List">
+		a.id, a.title, a.content, a.recipient_filter_type, a.recipient_filter_condition, a.receive_mode,
+		a.status, a.deadline, a.create_by, a.create_time, a.update_time
+	</sql>
 
-  <select id="selectPageVo" resultMap="announcementVoMap">
-    SELECT
-    <include refid="Base_Alias_Column_List"/>
-    , su.username as create_username
-    FROM
-    notify_announcement a
-	LEFT JOIN sys_user su
-	ON a.create_by = su.user_id
-    ${ew.customSqlSegment}
-  </select>
+	<select id="selectPageVo" resultMap="announcementVoMap">
+		SELECT
+		<include refid="Base_Alias_Column_List"/>
+		, su.username as create_username
+		FROM
+		notify_announcement a
+		LEFT JOIN sys_user su
+		ON a.create_by = su.user_id
+		${ew.customSqlSegment}
+	</select>
 </mapper>

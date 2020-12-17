@@ -1,9 +1,11 @@
-package com.hccake.ballcat.admin.modules.notify.model.vo;
+package com.hccake.ballcat.admin.modules.notify.model.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
  */
 @Data
 @ApiModel(value = "公告信息")
-public class AnnouncementVO {
+public class AnnouncementDTO {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,19 +29,22 @@ public class AnnouncementVO {
 	/**
 	 * 标题
 	 */
+	@NotBlank(message = "标题不能为空")
 	@ApiModelProperty(value = "标题")
 	private String title;
 
 	/**
 	 * 内容
 	 */
+	@NotBlank(message = "内容不能为空")
 	@ApiModelProperty(value = "内容")
 	private String content;
 
 	/**
 	 * 接收人筛选方式，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户
 	 */
-	@ApiModelProperty(value = "接收人筛选方式，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户")
+	@NotNull(message = "接收人范围不能为空")
+	@ApiModelProperty(value = "接收人范围，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户")
 	private Integer recipientFilterType;
 
 	/**
@@ -55,40 +60,15 @@ public class AnnouncementVO {
 	private List<Integer> receiveMode;
 
 	/**
-	 * 状态
-	 * @see com.hccake.ballcat.admin.constants.AnnouncementStatusEnum
-	 */
-	@ApiModelProperty(value = "状态")
-	private Integer status;
-
-	/**
 	 * 截止日期
 	 */
 	@ApiModelProperty(value = "截止日期")
 	private LocalDateTime deadline;
 
 	/**
-	 * 创建人ID
+	 * 状态
 	 */
-	@ApiModelProperty(value = "创建人ID")
-	private Integer createBy;
-
-	/**
-	 * 创建人名称
-	 */
-	@ApiModelProperty(value = "创建人名称")
-	private String createUsername;
-
-	/**
-	 * 创建时间
-	 */
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@ApiModelProperty(value = "更新时间")
-	private LocalDateTime updateTime;
+	@ApiModelProperty(value = "状态")
+	private Integer status;
 
 }

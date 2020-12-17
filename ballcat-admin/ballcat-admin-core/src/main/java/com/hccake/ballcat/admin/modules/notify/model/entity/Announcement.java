@@ -55,9 +55,9 @@ public class Announcement extends Model<Announcement> {
 	/**
 	 * 对应接收人筛选方式的条件信息，多个用逗号分割。如角色标识，组织ID，用户类型，用户ID等
 	 */
-	@ApiModelProperty(value = "对应接收人筛选方式的条件信息，多个用逗号分割。如角色标识，组织ID，用户类型，用户ID等")
+	@ApiModelProperty(value = "对应接收人筛选方式的条件信息。如角色标识，组织ID，用户类型，用户ID等")
 	@TableField(typeHandler = JacksonTypeHandler.class)
-	private List<String> recipientFilterCondition;
+	private List<Object> recipientFilterCondition;
 
 	/**
 	 * 接收方式
@@ -65,6 +65,19 @@ public class Announcement extends Model<Announcement> {
 	@ApiModelProperty(value = "接收方式")
 	@TableField(typeHandler = JacksonTypeHandler.class)
 	private List<Integer> receiveMode;
+
+	/**
+	 * 状态
+	 * @see com.hccake.ballcat.admin.constants.AnnouncementStatusEnum
+	 */
+	@ApiModelProperty(value = "状态")
+	private Integer status;
+
+	/**
+	 * 截止日期
+	 */
+	@ApiModelProperty(value = "截止日期")
+	private LocalDateTime deadline;
 
 	/**
 	 * 创建人
