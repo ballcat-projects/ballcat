@@ -35,7 +35,7 @@
 
 
 	<properties>
-		<revision>0.0.6</revision>
+		<revision>0.0.7-SNAPSHOT</revision>
 		<flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
@@ -54,6 +54,7 @@
 		<oss.aliyun.version>3.8.0</oss.aliyun.version>
 		<easyexcel.version>2.2.6</easyexcel.version>
 		<jasypt.version>3.0.3</jasypt.version>
+		<hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
 	</properties>
 
 	<dependencyManagement>
@@ -246,6 +247,13 @@
 				<artifactId>jasypt-spring-boot-starter</artifactId>
 				<version>${jasypt.version}</version>
 			</dependency>
+			<!--hibernate validator-->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
