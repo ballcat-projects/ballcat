@@ -40,7 +40,7 @@
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.25</spring-javaformat-checkstyle.version>
+		<spring-javaformat-checkstyle.version>0.0.26</spring-javaformat-checkstyle.version>
 
 		<springfox.version>2.9.2</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
@@ -249,7 +249,7 @@
 			</dependency>
 			<!--hibernate validator-->
 			<dependency>
-				<groupId>org.hibernate</groupId>
+				<groupId>org.hibernate.validator</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>${hibernate-validator.version}</version>
 			</dependency>
@@ -298,8 +298,13 @@
 				<groupId>io.spring.javaformat</groupId>
 				<artifactId>spring-javaformat-maven-plugin</artifactId>
 				<version>${spring-javaformat-checkstyle.version}</version>
+				<configuration>
+					<lineSeparator>LF</lineSeparator>
+				</configuration>
 				<executions>
 					<execution>
+						<phase>validate</phase>
+						<inherited>true</inherited>
 						<goals>
 							<goal>validate</goal>
 						</goals>
