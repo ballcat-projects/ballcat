@@ -3,6 +3,8 @@ package com.hccake.common.excel;
 import com.alibaba.excel.converters.Converter;
 import com.hccake.common.excel.aop.ResponseExcelReturnValueHandler;
 import com.hccake.common.excel.config.ExcelConfigProperties;
+import com.hccake.common.excel.enhance.DefaultWriterBuilderEnhancer;
+import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.handler.ManySheetWriteHandler;
 import com.hccake.common.excel.handler.SheetWriteHandler;
 import com.hccake.common.excel.handler.SingleSheetWriteHandler;
@@ -19,7 +21,7 @@ import java.util.List;
  * @version 1.0
  */
 @RequiredArgsConstructor
-@Configuration(proxyBeanMethods = false)
+@Configuration
 public class ExcelHandlerConfiguration {
 
 	private final ExcelConfigProperties configProperties;
@@ -27,12 +29,22 @@ public class ExcelHandlerConfiguration {
 	private final ObjectProvider<List<Converter<?>>> converterProvider;
 
 	/**
+	 * ExcelBuild增强
+	 * @return DefaultWriterBuilderEnhancer 默认什么也不做的增强器
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public WriterBuilderEnhancer writerBuilderEnhancer() {
+		return new DefaultWriterBuilderEnhancer();
+	}
+
+	/**
 	 * 单sheet 写入处理器
 	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public SingleSheetWriteHandler singleSheetWriteHandler() {
-		return new SingleSheetWriteHandler(configProperties, converterProvider);
+		return new SingleSheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer());
 	}
 
 	/**
@@ -41,7 +53,7 @@ public class ExcelHandlerConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public ManySheetWriteHandler manySheetWriteHandler() {
-		return new ManySheetWriteHandler(configProperties, converterProvider);
+		return new ManySheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer());
 	}
 
 	/**

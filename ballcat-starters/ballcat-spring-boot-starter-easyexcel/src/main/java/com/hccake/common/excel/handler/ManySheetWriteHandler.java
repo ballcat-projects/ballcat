@@ -2,12 +2,11 @@ package com.hccake.common.excel.handler;
 
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.converters.Converter;
-import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.hccake.common.excel.annotation.ResponseExcel;
 import com.hccake.common.excel.config.ExcelConfigProperties;
+import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.kit.ExcelException;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.ObjectProvider;
 
@@ -18,12 +17,12 @@ import java.util.List;
  * @author lengleng
  * @date 2020/3/29
  */
-@RequiredArgsConstructor
 public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 
-	private final ExcelConfigProperties configProperties;
-
-	private final ObjectProvider<List<Converter<?>>> converterProvider;
+	public ManySheetWriteHandler(ExcelConfigProperties configProperties,
+			ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance) {
+		super(configProperties, converterProvider, excelWriterBuilderEnhance);
+	}
 
 	/**
 	 * 当且仅当List不为空且List中的元素也是List 才返回true
@@ -45,7 +44,7 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 	@SneakyThrows
 	public void write(Object obj, HttpServletResponse response, ResponseExcel responseExcel) {
 		List objList = (List) obj;
-		ExcelWriter excelWriter = getExcelWriter(response, responseExcel, configProperties.getTemplatePath());
+		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
 
 		String[] sheets = responseExcel.sheet();
 		WriteSheet sheet;
@@ -60,11 +59,6 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 			excelWriter.write((List) objList.get(i), sheet);
 		}
 		excelWriter.finish();
-	}
-
-	@Override
-	public void registerCustomConverter(ExcelWriterBuilder builder) {
-		converterProvider.ifAvailable(converters -> converters.forEach(builder::registerConverter));
 	}
 
 }
