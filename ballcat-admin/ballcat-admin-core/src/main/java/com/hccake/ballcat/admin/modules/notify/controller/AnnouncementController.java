@@ -16,8 +16,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 公告信息
@@ -111,6 +113,17 @@ public class AnnouncementController {
 	public R<?> disableAnnouncement(@PathVariable Long announcementId) {
 		return announcementService.close(announcementId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "关闭公告信息失败");
+	}
+
+	@ApiOperation(value = "公告内容图片上传", notes = "公告内容图片上传")
+	@UpdateOperationLogging(msg = "公告内容图片上传")
+	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
+	@PostMapping("/image")
+	public R<List<String>> uploadImages(@RequestParam("files") List<MultipartFile> files) {
+
+		List<String> objectNames = announcementService.uploadImages(files);
+
+		return R.ok(objectNames);
 	}
 
 }

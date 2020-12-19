@@ -1,5 +1,7 @@
 package com.hccake.ballcat.admin.modules.notify.service.impl;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,11 +18,20 @@ import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
+import com.hccake.ballcat.admin.modules.sys.service.FileService;
 import com.hccake.ballcat.common.core.exception.BusinessException;
+import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 公告信息
@@ -32,9 +43,11 @@ import org.springframework.stereotype.Service;
 public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Announcement>
 		implements AnnouncementService {
 
+	private final static String TABLE_ALIAS_PREFIX = "a.";
+
 	private final ApplicationEventPublisher publisher;
 
-	private final static String TABLE_ALIAS_PREFIX = "a.";
+	private final FileService fileService;
 
 	/**
 	 * 根据QueryObeject查询分页数据
@@ -140,6 +153,30 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 		announcement.setStatus(AnnouncementStatusEnum.DISABLED.getValue());
 		int flag = baseMapper.updateById(announcement);
 		return SqlHelper.retBool(flag);
+	}
+
+	/**
+	 * 批量上传公告图片
+	 * @param files 图片文件
+	 * @return 上传后的图片相对路径集合
+	 */
+	@Override
+	public List<String> uploadImages(List<MultipartFile> files) {
+		List<String> objectNames = new ArrayList<>();
+		for (MultipartFile file : files) {
+			String objectName = "announcement/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
+					+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT
+					+ FileUtil.extName(file.getOriginalFilename());
+			try {
+				fileService.uploadFile(file, objectName);
+				objectNames.add(objectName);
+			}
+			catch (IOException e) {
+				// TODO 删除无效文件
+				throw new BusinessException(BaseResultCode.FILE_UPLOAD_ERROR.getCode(), "图片上传失败！", e);
+			}
+		}
+		return objectNames;
 	}
 
 }

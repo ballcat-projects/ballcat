@@ -6,6 +6,9 @@ import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 公告信息
@@ -49,5 +52,12 @@ public interface AnnouncementService extends IService<Announcement> {
 	 * @return boolean
 	 */
 	boolean close(Long announcementId);
+
+	/**
+	 * 批量上传公告图片
+	 * @param files 图片文件
+	 * @return 上传后的图片相对路径集合
+	 */
+	List<String> uploadImages(List<MultipartFile> files);
 
 }
