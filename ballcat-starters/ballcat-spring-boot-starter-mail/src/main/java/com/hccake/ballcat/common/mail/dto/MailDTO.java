@@ -3,7 +3,7 @@ package com.hccake.ballcat.common.mail.dto;
 import lombok.Data;
 
 import java.io.File;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Hccake
@@ -13,17 +13,15 @@ import java.time.LocalDate;
 @Data
 public class MailDTO {
 
-	public static final String MAIL_DELIMITER = ",";
-
 	/**
 	 * 发件人
 	 */
 	private String from;
 
 	/**
-	 * 收件人（多个邮箱则用逗号","隔开）
+	 * 收件人
 	 */
-	private String to;
+	private String[] to;
 
 	/**
 	 * 邮件主题
@@ -41,14 +39,14 @@ public class MailDTO {
 	private String content;
 
 	/**
-	 * 抄送（多个邮箱则用逗号","隔开）
+	 * 抄送
 	 */
-	private String cc;
+	private String[] cc;
 
 	/**
-	 * 密送（多个邮箱则用逗号","隔开）
+	 * 密送
 	 */
-	private String bcc;
+	private String[] bcc;
 
 	/**
 	 * 附件
@@ -58,7 +56,7 @@ public class MailDTO {
 	/**
 	 * 发送时间
 	 */
-	private LocalDate sentDate;
+	private LocalDateTime sentDate;
 
 	/**
 	 * 是否发送成功
