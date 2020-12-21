@@ -1,15 +1,19 @@
 package com.hccake.ballcat.common.datascope.interceptor;
 
 import com.hccake.ballcat.common.datascope.DataScope;
+import com.hccake.ballcat.common.datascope.annotation.DataPermission;
 import com.hccake.ballcat.common.datascope.handler.DataPermissionHandler;
 import com.hccake.ballcat.common.datascope.processor.DataScopeSqlProcessor;
 import com.hccake.ballcat.common.datascope.util.PluginUtils;
+import com.sun.tools.javac.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
+import org.mapstruct.ap.shaded.freemarker.template.utility.StringUtil;
 
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Properties;
@@ -40,6 +44,12 @@ public class DataPermissionInterceptor implements Interceptor {
 		PluginUtils.MPBoundSql mpBs = mpSh.mPBoundSql();
 
 		// TODO 根据注解进行一些此次 sql 执行中需要忽略的点
+		DataPermission annotation = hasNoNeedOfficeAnnotation(ms.getId());
+
+		if (annotation != null && !annotation.enabled()) {
+			return invocation.proceed();
+		}
+
 		// 根据用户权限判断是否需要拦截，例如管理员可以查看所有，则直接放行
 		if (dataPermissionHandler.ignorePermissionControl()) {
 			return invocation.proceed();
@@ -71,6 +81,50 @@ public class DataPermissionInterceptor implements Interceptor {
 	@Override
 	public void setProperties(Properties properties) {
 
+	}
+
+	private DataPermission hasNoNeedOfficeAnnotation(String sqlId) {
+		if (sqlId == null || "".equals(sqlId)) {
+			return null;
+		}
+		// 1.得到类路径和方法路径
+		int lastIndexOfDot = sqlId.lastIndexOf(".");
+		if (lastIndexOfDot < 0) {
+			return null;
+		}
+		String className = sqlId.substring(0, lastIndexOfDot);
+		String methodName = sqlId.substring(lastIndexOfDot + 1);
+		if ("".equals(className) || "".equals(methodName)) {
+			return null;
+		}
+
+		// 2.字节码
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName(className);
+		}
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		if (clazz == null) {
+			return null;
+		}
+		DataPermission annotation = null;
+
+		// 3.得到方法上的注解
+		Method[] methods = clazz.getMethods();
+		for (Method method : methods) {
+			String name = method.getName();
+			if (methodName.equals(name)) {
+				annotation = method.getAnnotation(DataPermission.class);
+				break;
+			}
+		}
+		if (annotation == null) {
+			annotation = clazz.getAnnotation(DataPermission.class);
+		}
+		return annotation;
 	}
 
 }
