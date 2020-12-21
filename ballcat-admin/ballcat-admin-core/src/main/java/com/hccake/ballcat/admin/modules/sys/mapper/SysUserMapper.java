@@ -28,10 +28,10 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
 	/**
 	 * 根据RoleCode 查询对应用户
-	 * @param roleCode 角色标识
+	 * @param roleCodes 角色标识
 	 * @return List<SysUser> 该角色标识对应的用户列表
 	 */
-	List<SysUser> selectUsersByRoleCode(String roleCode);
+	List<SysUser> selectUsersByRoleCodes(@Param("roleCodes") List<String> roleCodes);
 
 	/**
 	 * 返回用户的select数据 name=> username value => userId
