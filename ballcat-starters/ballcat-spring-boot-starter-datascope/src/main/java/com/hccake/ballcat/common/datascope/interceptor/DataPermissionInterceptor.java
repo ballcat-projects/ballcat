@@ -5,13 +5,11 @@ import com.hccake.ballcat.common.datascope.annotation.DataPermission;
 import com.hccake.ballcat.common.datascope.handler.DataPermissionHandler;
 import com.hccake.ballcat.common.datascope.processor.DataScopeSqlProcessor;
 import com.hccake.ballcat.common.datascope.util.PluginUtils;
-import com.sun.tools.javac.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
-import org.mapstruct.ap.shaded.freemarker.template.utility.StringUtil;
 
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -43,9 +41,7 @@ public class DataPermissionInterceptor implements Interceptor {
 		SqlCommandType sct = ms.getSqlCommandType();
 		PluginUtils.MPBoundSql mpBs = mpSh.mPBoundSql();
 
-		// TODO 根据注解进行一些此次 sql 执行中需要忽略的点
-		DataPermission annotation = hasNoNeedOfficeAnnotation(ms.getId());
-
+		DataPermission annotation = findDataPermissionAnnotation(ms.getId());
 		if (annotation != null && !annotation.enabled()) {
 			return invocation.proceed();
 		}
@@ -83,17 +79,23 @@ public class DataPermissionInterceptor implements Interceptor {
 
 	}
 
-	private DataPermission hasNoNeedOfficeAnnotation(String sqlId) {
-		if (sqlId == null || "".equals(sqlId)) {
+	/**
+	 * 获取数据权限注解
+	 * 优先获取方法上的注解，再获取类上的注解
+	 * @param mappedStatementId 类名.方法名
+	 * @return 数据权限注解
+	 */
+	private DataPermission findDataPermissionAnnotation(String mappedStatementId) {
+		if (mappedStatementId == null || "".equals(mappedStatementId)) {
 			return null;
 		}
 		// 1.得到类路径和方法路径
-		int lastIndexOfDot = sqlId.lastIndexOf(".");
+		int lastIndexOfDot = mappedStatementId.lastIndexOf(".");
 		if (lastIndexOfDot < 0) {
 			return null;
 		}
-		String className = sqlId.substring(0, lastIndexOfDot);
-		String methodName = sqlId.substring(lastIndexOfDot + 1);
+		String className = mappedStatementId.substring(0, lastIndexOfDot);
+		String methodName = mappedStatementId.substring(lastIndexOfDot + 1);
 		if ("".equals(className) || "".equals(methodName)) {
 			return null;
 		}
@@ -106,12 +108,11 @@ public class DataPermissionInterceptor implements Interceptor {
 		catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 		if (clazz == null) {
 			return null;
 		}
-		DataPermission annotation = null;
 
+		DataPermission annotation = null;
 		// 3.得到方法上的注解
 		Method[] methods = clazz.getMethods();
 		for (Method method : methods) {
