@@ -20,7 +20,7 @@ import java.util.List;
  * @author hccake 2020-12-15 17:01:15
  */
 @Data
-@TableName("notify_announcement")
+@TableName(value = "notify_announcement", autoResultMap = true)
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "公告信息")
 public class Announcement extends Model<Announcement> {

@@ -1,5 +1,7 @@
 package com.hccake.ballcat.admin.modules.notify.model.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -46,12 +48,14 @@ public class AnnouncementVO {
 	 * 对应接收人筛选方式的条件信息，多个用逗号分割。如角色标识，组织ID，用户类型，用户ID等
 	 */
 	@ApiModelProperty(value = "对应接收人筛选方式的条件信息。如角色标识，组织ID，用户类型，用户ID等")
+	@TableField(typeHandler = JacksonTypeHandler.class)
 	private List<Object> recipientFilterCondition;
 
 	/**
 	 * 接收方式
 	 */
 	@ApiModelProperty(value = "接收方式")
+	@TableField(typeHandler = JacksonTypeHandler.class)
 	private List<Integer> receiveMode;
 
 	/**
