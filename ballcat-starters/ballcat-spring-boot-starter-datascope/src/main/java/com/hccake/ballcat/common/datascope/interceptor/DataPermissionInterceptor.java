@@ -80,8 +80,7 @@ public class DataPermissionInterceptor implements Interceptor {
 	}
 
 	/**
-	 * 获取数据权限注解
-	 * 优先获取方法上的注解，再获取类上的注解
+	 * 获取数据权限注解 优先获取方法上的注解，再获取类上的注解
 	 * @param mappedStatementId 类名.方法名
 	 * @return 数据权限注解
 	 */
