@@ -55,6 +55,7 @@
 		<easyexcel.version>2.2.6</easyexcel.version>
 		<jasypt.version>3.0.3</jasypt.version>
 		<hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
+		<jsoup.version>1.13.1</jsoup.version>
 	</properties>
 
 	<dependencyManagement>
@@ -252,6 +253,12 @@
 				<groupId>org.hibernate.validator</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>${hibernate-validator.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
 			</dependency>
 
 		</dependencies>
