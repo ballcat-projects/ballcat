@@ -1,7 +1,8 @@
 package com.hccake.ballcat.common.mail.sender;
 
-import com.hccake.ballcat.common.mail.dto.MailDTO;
 import com.hccake.ballcat.common.mail.event.MailSendEvent;
+import com.hccake.ballcat.common.mail.model.MailDetails;
+import com.hccake.ballcat.common.mail.model.MailSendInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,58 +36,63 @@ public class MailSenderImpl implements MailSender {
 
 	/**
 	 * 发送邮件
-	 * @param mailDTO 邮件参数
+	 * @param mailDetails 邮件参数
 	 * @return boolean 发送是否成功
 	 */
 	@Override
-	public MailDTO sendMail(MailDTO mailDTO) {
+	public MailSendInfo sendMail(MailDetails mailDetails) {
+		MailSendInfo mailSendInfo = new MailSendInfo(mailDetails);
+		mailSendInfo.setSentDate(LocalDateTime.now());
+
 		try {
 			// 1.检测邮件
-			checkMail(mailDTO);
+			checkMail(mailDetails);
 			// 2.发送邮件
-			sendMimeMail(mailDTO);
-			mailDTO.setSuccess(true);
+			sendMimeMail(mailDetails);
+			mailSendInfo.setSuccess(true);
 		}
 		catch (Exception e) {
-			mailDTO.setSuccess(false);
-			mailDTO.setErrorMsg(e.getMessage());
-			log.error("发送邮件失败:", e);
+			mailSendInfo.setSuccess(false);
+			mailSendInfo.setErrorMsg(e.getMessage());
+			log.error("发送邮件失败: [{}]", mailDetails, e);
 		}
 		finally {
 			// 发布邮件发送事件
-			eventPublisher.publishEvent(new MailSendEvent(mailDTO));
+			eventPublisher.publishEvent(new MailSendEvent(mailSendInfo));
 		}
-		return mailDTO;
+		return mailSendInfo;
 	}
 
 	/**
 	 * 构建复杂邮件信息类
-	 * @param mailDTO 邮件发送设置
+	 * @param mailDetails 邮件发送设置
 	 */
-	private void sendMimeMail(MailDTO mailDTO) throws MessagingException {
+	private void sendMimeMail(MailDetails mailDetails) throws MessagingException {
 		// true表示支持复杂类型
 		MimeMessageHelper messageHelper = new MimeMessageHelper(mailSender.createMimeMessage(), true);
-		String from = StringUtils.hasText(mailDTO.getFrom()) ? mailDTO.getFrom() : defaultFrom;
+		String from = StringUtils.hasText(mailDetails.getFrom()) ? mailDetails.getFrom() : defaultFrom;
 		messageHelper.setFrom(from);
-		messageHelper.setTo(mailDTO.getTo());
-		messageHelper.setSubject(mailDTO.getSubject());
+		messageHelper.setSubject(mailDetails.getSubject());
+		if (mailDetails.getTo() != null && mailDetails.getTo().length > 0) {
+			messageHelper.setTo(mailDetails.getTo());
+		}
+		if (mailDetails.getCc() != null && mailDetails.getCc().length > 0) {
+			messageHelper.setCc(mailDetails.getCc());
+		}
+		if (mailDetails.getBcc() != null && mailDetails.getBcc().length > 0) {
+			messageHelper.setBcc(mailDetails.getBcc());
+		}
 		// 是否展示html
-		boolean showHtml = mailDTO.getShowHtml() != null && mailDTO.getShowHtml();
-		messageHelper.setText(mailDTO.getContent(), showHtml);
-		if (mailDTO.getCc() != null && mailDTO.getCc().length > 0) {
-			messageHelper.setCc(mailDTO.getCc());
-		}
-		if (mailDTO.getBcc() != null && mailDTO.getBcc().length > 0) {
-			messageHelper.setCc(mailDTO.getBcc());
-		}
-		if (mailDTO.getFiles() != null) {
-			for (File file : mailDTO.getFiles()) {
+		boolean showHtml = mailDetails.getShowHtml() != null && mailDetails.getShowHtml();
+		messageHelper.setText(mailDetails.getContent(), showHtml);
+		if (mailDetails.getFiles() != null) {
+			for (File file : mailDetails.getFiles()) {
 				messageHelper.addAttachment(file.getName(), file);
 			}
 		}
-		mailDTO.setSentDate(LocalDateTime.now());
+
 		mailSender.send(messageHelper.getMimeMessage());
-		log.info("发送邮件成功：{}->{}", from, mailDTO.getTo());
+		log.info("发送邮件成功：[{}]", mailDetails);
 	}
 
 }

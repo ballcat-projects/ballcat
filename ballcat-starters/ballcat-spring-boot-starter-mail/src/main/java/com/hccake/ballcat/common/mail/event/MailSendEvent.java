@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.mail.event;
 
-import com.hccake.ballcat.common.mail.dto.MailDTO;
+import com.hccake.ballcat.common.mail.model.MailSendInfo;
 import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
 
@@ -12,8 +12,8 @@ import org.springframework.context.ApplicationEvent;
 @ToString
 public class MailSendEvent extends ApplicationEvent {
 
-	public MailSendEvent(MailDTO mailDTO) {
-		super(mailDTO);
+	public MailSendEvent(MailSendInfo mailSendInfo) {
+		super(mailSendInfo);
 	}
 
 }

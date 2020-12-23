@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.hccake.ballcat.common.mail.sender.MailSenderImpl,\
-    com.hccake.ballcat.common.mail.listener.MailSentListener
+    com.hccake.ballcat.common.mail.sender.MailSenderImpl

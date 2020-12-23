@@ -1,9 +1,8 @@
-package com.hccake.ballcat.common.mail.dto;
+package com.hccake.ballcat.common.mail.model;
 
 import lombok.Data;
 
 import java.io.File;
-import java.time.LocalDateTime;
 
 /**
  * @author Hccake
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
  * @date 2020/2/27 17:06
  */
 @Data
-public class MailDTO {
+public class MailDetails {
 
 	/**
 	 * 发件人
@@ -52,20 +51,5 @@ public class MailDTO {
 	 * 附件
 	 */
 	private File[] files;
-
-	/**
-	 * 发送时间
-	 */
-	private LocalDateTime sentDate;
-
-	/**
-	 * 是否发送成功
-	 */
-	private Boolean success;
-
-	/**
-	 * 错误信息 errorMsg
-	 */
-	private String errorMsg;
 
 }
