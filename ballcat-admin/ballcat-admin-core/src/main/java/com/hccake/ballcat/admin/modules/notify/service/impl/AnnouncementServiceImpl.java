@@ -10,25 +10,32 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
-import com.hccake.ballcat.admin.modules.notify.event.AnnouncementPublishEvent;
+import com.hccake.ballcat.admin.modules.notify.event.NotifyPublishEvent;
 import com.hccake.ballcat.admin.modules.notify.mapper.AnnouncementMapper;
 import com.hccake.ballcat.admin.modules.notify.model.converter.AnnouncementConverter;
+import com.hccake.ballcat.admin.modules.notify.model.converter.NotifyInfoConverter;
+import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
+import com.hccake.ballcat.admin.modules.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
+import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
 import com.hccake.ballcat.admin.modules.sys.service.FileService;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +45,7 @@ import java.util.List;
  *
  * @author hccake 2020-12-15 17:01:15
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Announcement>
@@ -49,8 +57,10 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 
 	private final FileService fileService;
 
+	private final UserAnnouncementService userAnnouncementService;
+
 	/**
-	 * 根据QueryObeject查询分页数据
+	 * 根据QueryObject查询分页数据
 	 * @param page 分页参数
 	 * @param qo 查询参数对象
 	 * @return IPage<AnnouncementVO> 分页数据
@@ -71,6 +81,7 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 	 * @return boolean
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean addAnnouncement(AnnouncementDTO announcementDTO) {
 		Announcement announcement = AnnouncementConverter.INSTANCE.dtoToPo(announcementDTO);
 		announcement.setId(null);
@@ -79,7 +90,7 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 		// 公告发布事件
 		boolean isPublishStatus = announcement.getStatus() == AnnouncementStatusEnum.ENABLED.getValue();
 		if (inserted && isPublishStatus) {
-			publisher.publishEvent(new AnnouncementPublishEvent(announcement));
+			this.onAnnouncementPublish(announcement);
 		}
 		return inserted;
 	}
@@ -90,6 +101,7 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 	 * @return boolean
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean updateAnnouncement(AnnouncementDTO announcementDTO) {
 		Announcement oldAnnouncement = baseMapper.selectById(announcementDTO.getId());
 		if (oldAnnouncement.getStatus() != AnnouncementStatusEnum.UNPUBLISHED.getValue()) {
@@ -110,7 +122,7 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 
 		// 公告发布事件
 		if (isUpdated && isPublishStatus) {
-			publisher.publishEvent(new AnnouncementPublishEvent(announcement));
+			this.onAnnouncementPublish(announcement);
 		}
 		return isUpdated;
 	}
@@ -121,6 +133,7 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 	 * @return boolean
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean publish(Long announcementId) {
 		Announcement oldAnnouncement = baseMapper.selectById(announcementId);
 		if (oldAnnouncement.getStatus() != AnnouncementStatusEnum.UNPUBLISHED.getValue()) {
@@ -136,7 +149,7 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 		boolean isUpdated = SqlHelper.retBool(flag);
 		if (isUpdated) {
 			oldAnnouncement.setStatus(AnnouncementStatusEnum.ENABLED.getValue());
-			publisher.publishEvent(new AnnouncementPublishEvent(oldAnnouncement));
+			this.onAnnouncementPublish(oldAnnouncement);
 		}
 		return isUpdated;
 	}
@@ -177,6 +190,46 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 			}
 		}
 		return objectNames;
+	}
+
+	/**
+	 * 当前用户未拉取过的发布中，且满足失效时间的公告信息
+	 * @return List<Announcement>
+	 */
+	@Override
+	public List<Announcement> listUnPulled(Integer userId) {
+		return baseMapper.listUserAnnouncements(userId, false);
+	}
+
+	/**
+	 * 获取用户拉取过的发布中，且满足失效时间的公告信息
+	 * @param userId 用户id
+	 * @return List<Announcement>
+	 */
+	@Override
+	public List<Announcement> listActiveAnnouncements(Integer userId) {
+		return baseMapper.listUserAnnouncements(userId, true);
+	}
+
+	/**
+	 * 对用户公告进行已读标记
+	 * @param userId 用户id
+	 * @param announcementId 公告id
+	 */
+	@Override
+	public void readAnnouncement(Integer userId, Long announcementId) {
+		userAnnouncementService.update(Wrappers.<UserAnnouncement>lambdaUpdate().set(UserAnnouncement::getState, 1)
+				.set(UserAnnouncement::getReadTime, LocalDateTime.now())
+				.eq(UserAnnouncement::getAnnouncementId, announcementId).eq(UserAnnouncement::getUserId, userId));
+	}
+
+	/**
+	 * 公告发布事件
+	 * @param announcement 公告信息
+	 */
+	private void onAnnouncementPublish(Announcement announcement) {
+		NotifyInfo notifyInfo = NotifyInfoConverter.INSTANCE.fromAnnouncement(announcement);
+		publisher.publishEvent(new NotifyPublishEvent(notifyInfo));
 	}
 
 }

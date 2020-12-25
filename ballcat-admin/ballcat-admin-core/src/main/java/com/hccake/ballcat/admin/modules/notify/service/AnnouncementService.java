@@ -60,4 +60,25 @@ public interface AnnouncementService extends IService<Announcement> {
 	 */
 	List<String> uploadImages(List<MultipartFile> files);
 
+	/**
+	 * 当前用户未拉取过的发布中，且满足失效时间的公告信息
+	 * @param userId 用户id
+	 * @return List<Announcement>
+	 */
+	List<Announcement> listUnPulled(Integer userId);
+
+	/**
+	 * 获取用户拉取过的发布中，且满足失效时间的公告信息
+	 * @param userId 用户id
+	 * @return List<Announcement>
+	 */
+	List<Announcement> listActiveAnnouncements(Integer userId);
+
+	/**
+	 * 对用户公告进行已读标记
+	 * @param userId 用户id
+	 * @param announcementId 公告id
+	 */
+	void readAnnouncement(Integer userId, Long announcementId);
+
 }

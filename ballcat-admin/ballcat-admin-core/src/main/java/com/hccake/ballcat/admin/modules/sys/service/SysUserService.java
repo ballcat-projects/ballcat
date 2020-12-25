@@ -140,4 +140,11 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	List<SelectData<?>> getSelectData(List<Integer> type);
 
+	/**
+	 * 获取用户的角色Code集合
+	 * @param userId 用户id
+	 * @return List<String>
+	 */
+	List<String> getUserRoleCodes(Integer userId);
+
 }

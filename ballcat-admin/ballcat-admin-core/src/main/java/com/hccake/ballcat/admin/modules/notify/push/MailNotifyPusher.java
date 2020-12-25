@@ -1,14 +1,14 @@
 package com.hccake.ballcat.admin.modules.notify.push;
 
 import com.hccake.ballcat.admin.constants.NotifyChannel;
-import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
+import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.common.mail.model.MailDetails;
 import com.hccake.ballcat.common.mail.sender.MailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 通知邮件发布
@@ -24,6 +24,7 @@ public class MailNotifyPusher implements NotifyPusher {
 
 	/**
 	 * 当前发布者的推送方式
+	 * @see com.hccake.ballcat.admin.constants.NotifyChannel
 	 * @return 推送方式
 	 */
 	@Override
@@ -32,9 +33,16 @@ public class MailNotifyPusher implements NotifyPusher {
 	}
 
 	@Override
-	public void push(Announcement announcement, List<SysUser> userList) {
-		List<String> emails = userList.stream().map(SysUser::getEmail).collect(Collectors.toList());
-		mailSender.sendHtmlMail(announcement.getTitle(), announcement.getContent(), emails);
+	public void push(NotifyInfo notifyInfo, List<SysUser> userList) {
+		String[] emails = userList.stream().map(SysUser::getEmail).toArray(String[]::new);
+
+		// 密送群发，不展示其他收件人
+		MailDetails mailDetails = new MailDetails();
+		mailDetails.setShowHtml(true);
+		mailDetails.setSubject(notifyInfo.getTitle());
+		mailDetails.setContent(notifyInfo.getContent());
+		mailDetails.setBcc(emails);
+		mailSender.sendMail(mailDetails);
 	}
 
 }

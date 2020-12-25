@@ -40,8 +40,9 @@ public class AnnouncementVO {
 
 	/**
 	 * 接收人筛选方式，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户
+	 * @see com.hccake.ballcat.admin.constants.NotifyRecipientFilterType
 	 */
-	@ApiModelProperty(value = "接收人筛选方式，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户")
+	@ApiModelProperty(value = "接收人筛选方式")
 	private Integer recipientFilterType;
 
 	/**
@@ -52,7 +53,8 @@ public class AnnouncementVO {
 	private List<Object> recipientFilterCondition;
 
 	/**
-	 * 接收方式
+	 * 接收方式，值与通知渠道一一对应
+	 * @see com.hccake.ballcat.admin.constants.NotifyChannel
 	 */
 	@ApiModelProperty(value = "接收方式")
 	@TableField(typeHandler = JacksonTypeHandler.class)
@@ -64,6 +66,13 @@ public class AnnouncementVO {
 	 */
 	@ApiModelProperty(value = "状态")
 	private Integer status;
+
+	/**
+	 * 永久有效的
+	 * @see com.hccake.ballcat.common.core.constant.enums.BooleanEnum
+	 */
+	@ApiModelProperty(value = "永久有效的")
+	private Integer immortal;
 
 	/**
 	 * 截止日期

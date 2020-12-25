@@ -11,8 +11,9 @@
 				typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
 		<result property="receiveMode" column="receive_mode"
 				typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-		<result property="status" column="status"></result>
-		<result property="deadline" column="deadline"></result>
+		<result property="status" column="status"/>
+		<result property="immortal" column="immortal"/>
+		<result property="deadline" column="deadline"/>
 		<result property="createBy" column="create_by"/>
 		<result property="createTime" column="create_time"/>
 		<result property="updateTime" column="update_time"/>
@@ -20,12 +21,12 @@
 
 	<sql id="Base_Column_List">
 		id, title, content, recipient_filter_type, recipient_filter_condition, receive_mode,
-		status, deadline, create_by, create_time, update_time
+		status, immortal, deadline, create_by, create_time, update_time
 	</sql>
 
 	<sql id="Base_Alias_Column_List">
 		a.id, a.title, a.content, a.recipient_filter_type, a.recipient_filter_condition, a.receive_mode,
-		a.status, a.deadline, a.create_by, a.create_time, a.update_time
+		a.status, a.immortal, a.deadline, a.create_by, a.create_time, a.update_time
 	</sql>
 
 	<select id="selectPageVo" resultMap="announcementVoMap">
@@ -37,5 +38,26 @@
 		LEFT JOIN sys_user su
 		ON a.create_by = su.user_id
 		${ew.customSqlSegment}
+	</select>
+
+	<!-- com.baomidou.mybatisplus.core.metadata.TableInfo.initResultMapIfNeed -->
+	<select id="listUserAnnouncements" resultMap="mybatis-plus_Announcement">
+		SELECT
+		<include refid="Base_Alias_Column_List"/>
+		FROM
+		notify_announcement a
+		LEFT JOIN notify_user_announcement ua
+		ON ua.user_id = #{userId} AND ua.announcement_id = a.id
+		WHERE
+		a.STATUS = 1
+		AND ( a.immortal = 1 OR a.deadline > now() )
+		<choose>
+			<when test="pulled">
+				AND ua.id IS NOT NULL
+			</when>
+			<otherwise>
+				AND ua.id IS NULL
+			</otherwise>
+		</choose>
 	</select>
 </mapper>

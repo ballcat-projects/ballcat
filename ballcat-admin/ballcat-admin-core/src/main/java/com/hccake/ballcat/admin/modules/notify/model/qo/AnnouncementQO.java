@@ -22,9 +22,10 @@ public class AnnouncementQO {
 	private String title;
 
 	/**
-	 * 接收人筛选方式，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户
+	 * 接收人筛选方式
+	 * @see com.hccake.ballcat.admin.constants.NotifyRecipientFilterType
 	 */
-	@ApiModelProperty(value = "接收人筛选方式，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户")
+	@ApiModelProperty(value = "接收人筛选方式")
 	private Integer recipientFilterType;
 
 	@ApiModelProperty(value = "状态")

@@ -44,7 +44,7 @@ public class AnnouncementDTO {
 	 * 接收人筛选方式，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户
 	 */
 	@NotNull(message = "接收人范围不能为空")
-	@ApiModelProperty(value = "接收人范围，1：全部 2：用户角色 3：组织机构 4：用户类型 5：自定义用户")
+	@ApiModelProperty(value = "接收人范围")
 	private Integer recipientFilterType;
 
 	/**
@@ -54,10 +54,18 @@ public class AnnouncementDTO {
 	private List<Object> recipientFilterCondition;
 
 	/**
-	 * 接收方式
+	 * 接收方式，值与通知渠道一一对应
+	 * @see com.hccake.ballcat.admin.constants.NotifyChannel
 	 */
 	@ApiModelProperty(value = "接收方式")
 	private List<Integer> receiveMode;
+
+	/**
+	 * 永久有效的
+	 * @see com.hccake.ballcat.common.core.constant.enums.BooleanEnum
+	 */
+	@ApiModelProperty(value = "永久有效的")
+	private Integer immortal;
 
 	/**
 	 * 截止日期

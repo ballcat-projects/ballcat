@@ -3,9 +3,11 @@ package com.hccake.ballcat.admin.modules.notify.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
+import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
+import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
@@ -124,6 +126,23 @@ public class AnnouncementController {
 		List<String> objectNames = announcementService.uploadImages(files);
 
 		return R.ok(objectNames);
+	}
+
+	@ApiOperation(value = "用户公告信息", notes = "用户公告信息")
+	@GetMapping("/user")
+	@PreAuthorize("@per.hasPermission('notify:userannouncement:read')")
+	public R<List<Announcement>> getUserAnnouncements() {
+		Integer userId = SecurityUtils.getSysUser().getUserId();
+		return R.ok(announcementService.listActiveAnnouncements(userId));
+	}
+
+	@ApiOperation(value = "用户公告已读上报", notes = "用户公告已读上报")
+	@PatchMapping("/user/read/{announcementId}")
+	@PreAuthorize("@per.hasPermission('notify:userannouncement:read')")
+	public R<?> readAnnouncement(@PathVariable Long announcementId) {
+		Integer userId = SecurityUtils.getSysUser().getUserId();
+		announcementService.readAnnouncement(userId, announcementId);
+		return R.ok();
 	}
 
 }

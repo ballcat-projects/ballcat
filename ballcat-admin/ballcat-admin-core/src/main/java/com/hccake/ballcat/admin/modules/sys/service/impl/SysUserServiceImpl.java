@@ -327,4 +327,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return baseMapper.getSelectData(userTypes);
 	}
 
+	/**
+	 * 获取用户的角色Code集合
+	 * @param userId 用户id
+	 * @return List<String>
+	 */
+	@Override
+	public List<String> getUserRoleCodes(Integer userId) {
+		return sysUserRoleService.getRoles(userId).stream().map(SysRole::getCode).collect(Collectors.toList());
+	}
+
 }

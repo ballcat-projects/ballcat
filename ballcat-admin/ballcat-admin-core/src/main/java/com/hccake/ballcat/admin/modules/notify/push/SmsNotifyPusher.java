@@ -1,8 +1,9 @@
 package com.hccake.ballcat.admin.modules.notify.push;
 
 import com.hccake.ballcat.admin.constants.NotifyChannel;
-import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
+import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.common.core.util.HtmlUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class SmsNotifyPusher implements NotifyPusher {
 
 	/**
 	 * 当前发布者对应的接收方式
+	 * @see com.hccake.ballcat.admin.constants.NotifyChannel
 	 * @return 推送方式
 	 */
 	@Override
@@ -27,8 +29,11 @@ public class SmsNotifyPusher implements NotifyPusher {
 	}
 
 	@Override
-	public void push(Announcement announcement, List<SysUser> userList) {
+	public void push(NotifyInfo notifyInfo, List<SysUser> userList) {
 		List<String> phoneList = userList.stream().map(SysUser::getPhone).collect(Collectors.toList());
+		// 短信文本去除 html 标签
+		String content = HtmlUtil.toText(notifyInfo.getContent());
+		// TODO 对接短信发送平台
 		System.out.println("短信推送");
 	}
 

@@ -8,6 +8,8 @@ import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 公告信息
  *
@@ -22,5 +24,13 @@ public interface AnnouncementMapper extends BaseMapper<Announcement> {
 	 * @return IPage<AnnouncementVO> VO分页数据
 	 */
 	IPage<AnnouncementVO> selectPageVo(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Announcement> wrapper);
+
+	/**
+	 * 根据参数获取当前用户拉取过，或者未拉取过的有效的公告信息
+	 * @param userId 用户ID
+	 * @param pulled 当前用户是否拉取过
+	 * @return 公告信息列表
+	 */
+	List<Announcement> listUserAnnouncements(@Param("userId") Integer userId, @Param("pulled") boolean pulled);
 
 }
