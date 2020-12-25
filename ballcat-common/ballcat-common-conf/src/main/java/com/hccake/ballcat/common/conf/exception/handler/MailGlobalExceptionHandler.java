@@ -27,7 +27,8 @@ public class MailGlobalExceptionHandler extends AbstractNoticeGlobalExceptionHan
 		String[] to = config.getReceiveEmails().toArray(new String[0]);
 		MailSendInfo mailSendInfo = sender.sendTextMail("异常警告", sendMessage.toString(), to);
 		// 邮箱发送失败会抛出异常，否则视作发送成功
-		return new ExceptionNoticeResponse().setSuccess(mailSendInfo.getSuccess()).setErrMsg(mailSendInfo.getErrorMsg());
+		return new ExceptionNoticeResponse().setSuccess(mailSendInfo.getSuccess())
+				.setErrMsg(mailSendInfo.getErrorMsg());
 	}
 
 }
