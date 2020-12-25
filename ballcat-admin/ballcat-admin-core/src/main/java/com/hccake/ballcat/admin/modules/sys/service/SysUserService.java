@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
+import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
-import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
 import com.hccake.ballcat.common.core.vo.SelectData;
 import org.springframework.web.multipart.MultipartFile;
@@ -106,10 +106,45 @@ public interface SysUserService extends IService<SysUser> {
 	List<SysUser> selectUsersByRoleCode(String roleCode);
 
 	/**
+	 * 根据角色查询用户
+	 * @param roleCodes 角色标识集合
+	 * @return List<SysUser> 用户集合
+	 */
+	List<SysUser> selectUsersByRoleCodes(List<String> roleCodes);
+
+	/**
+	 * 根据组织机构ID查询用户
+	 * @param organizationIds 组织机构id集合
+	 * @return 用户集合
+	 */
+	List<SysUser> selectUsersByOrganizationIds(List<Integer> organizationIds);
+
+	/**
+	 * 根据用户类型查询用户
+	 * @param userTypes 用户类型集合
+	 * @return 用户集合
+	 */
+	List<SysUser> selectUsersByUserTypes(List<Integer> userTypes);
+
+	/**
+	 * 根据用户Id集合查询用户
+	 * @param userIds 用户Id集合
+	 * @return 用户集合
+	 */
+	List<SysUser> selectUsersByUserIds(List<Integer> userIds);
+
+	/**
 	 * 返回用户的select数据
 	 * @param type 为空时返回所有客户为1返回系统客户 name=> username value => userId
 	 * @return List<SelectData>
 	 */
 	List<SelectData<?>> getSelectData(List<Integer> type);
+
+	/**
+	 * 获取用户的角色Code集合
+	 * @param userId 用户id
+	 * @return List<String>
+	 */
+	List<String> getUserRoleCodes(Integer userId);
 
 }

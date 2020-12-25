@@ -40,7 +40,7 @@
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.25</spring-javaformat-checkstyle.version>
+		<spring-javaformat-checkstyle.version>0.0.26</spring-javaformat-checkstyle.version>
 
 		<springfox.version>2.9.2</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
@@ -54,6 +54,8 @@
 		<oss.aliyun.version>3.8.0</oss.aliyun.version>
 		<easyexcel.version>2.2.6</easyexcel.version>
 		<jasypt.version>3.0.3</jasypt.version>
+		<hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
+		<jsoup.version>1.13.1</jsoup.version>
 	</properties>
 
 	<dependencyManagement>
@@ -254,6 +256,19 @@
 				<artifactId>jasypt-spring-boot-starter</artifactId>
 				<version>${jasypt.version}</version>
 			</dependency>
+			<!--hibernate validator-->
+			<dependency>
+				<groupId>org.hibernate.validator</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -298,8 +313,13 @@
 				<groupId>io.spring.javaformat</groupId>
 				<artifactId>spring-javaformat-maven-plugin</artifactId>
 				<version>${spring-javaformat-checkstyle.version}</version>
+				<configuration>
+					<lineSeparator>LF</lineSeparator>
+				</configuration>
 				<executions>
 					<execution>
+						<phase>validate</phase>
+						<inherited>true</inherited>
 						<goals>
 							<goal>validate</goal>
 						</goals>

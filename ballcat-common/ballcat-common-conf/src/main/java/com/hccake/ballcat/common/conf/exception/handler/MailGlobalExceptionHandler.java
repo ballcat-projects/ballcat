@@ -3,12 +3,12 @@ package com.hccake.ballcat.common.conf.exception.handler;
 import com.hccake.ballcat.common.conf.config.ExceptionHandleConfig;
 import com.hccake.ballcat.common.conf.exception.domain.ExceptionMessage;
 import com.hccake.ballcat.common.conf.exception.domain.ExceptionNoticeResponse;
-import com.hccake.ballcat.common.mail.dto.MailDTO;
-import com.hccake.ballcat.common.mail.service.MailSender;
+import com.hccake.ballcat.common.mail.model.MailSendInfo;
+import com.hccake.ballcat.common.mail.sender.MailSender;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 钉钉消息通知
+ * 异常邮件通知
  *
  * @author lingting 2020/6/12 0:25
  */
@@ -24,13 +24,10 @@ public class MailGlobalExceptionHandler extends AbstractNoticeGlobalExceptionHan
 
 	@Override
 	public ExceptionNoticeResponse send(ExceptionMessage sendMessage) {
-		MailDTO mail = new MailDTO();
-		mail.setTo(String.join(MailDTO.MAIL_DELIMITER, config.getReceiveEmails()));
-		mail.setSubject("异常警告");
-		mail.setContent(sendMessage.toString());
-		sender.sendMail(mail);
+		String[] to = config.getReceiveEmails().toArray(new String[0]);
+		MailSendInfo mailSendInfo = sender.sendTextMail("异常警告", sendMessage.toString(), to);
 		// 邮箱发送失败会抛出异常，否则视作发送成功
-		return new ExceptionNoticeResponse().setSuccess(mail.getSuccess()).setErrMsg(mail.getErrorMsg());
+		return new ExceptionNoticeResponse().setSuccess(mailSendInfo.getSuccess()).setErrMsg(mailSendInfo.getErrorMsg());
 	}
 
 }

@@ -274,7 +274,47 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public List<SysUser> selectUsersByRoleCode(String roleCode) {
-		return baseMapper.selectUsersByRoleCode(roleCode);
+		return selectUsersByRoleCodes(Collections.singletonList(roleCode));
+	}
+
+	/**
+	 * 根据角色查询用户
+	 * @param roleCodes 角色标识集合
+	 * @return List<SysUser>
+	 */
+	@Override
+	public List<SysUser> selectUsersByRoleCodes(List<String> roleCodes) {
+		return baseMapper.selectUsersByRoleCodes(roleCodes);
+	}
+
+	/**
+	 * 根据组织机构ID查询用户
+	 * @param organizationIds 组织机构id集合
+	 * @return 用户集合
+	 */
+	@Override
+	public List<SysUser> selectUsersByOrganizationIds(List<Integer> organizationIds) {
+		return baseMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getOrganizationId, organizationIds));
+	}
+
+	/**
+	 * 根据用户类型查询用户
+	 * @param userTypes 用户类型集合
+	 * @return 用户集合
+	 */
+	@Override
+	public List<SysUser> selectUsersByUserTypes(List<Integer> userTypes) {
+		return baseMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getType, userTypes));
+	}
+
+	/**
+	 * 根据用户Id集合查询用户
+	 * @param userIds 用户Id集合
+	 * @return 用户集合
+	 */
+	@Override
+	public List<SysUser> selectUsersByUserIds(List<Integer> userIds) {
+		return baseMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userIds));
 	}
 
 	/**
@@ -285,6 +325,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	public List<SelectData<?>> getSelectData(List<Integer> userTypes) {
 		return baseMapper.getSelectData(userTypes);
+	}
+
+	/**
+	 * 获取用户的角色Code集合
+	 * @param userId 用户id
+	 * @return List<String>
+	 */
+	@Override
+	public List<String> getUserRoleCodes(Integer userId) {
+		return sysUserRoleService.getRoles(userId).stream().map(SysRole::getCode).collect(Collectors.toList());
 	}
 
 }
