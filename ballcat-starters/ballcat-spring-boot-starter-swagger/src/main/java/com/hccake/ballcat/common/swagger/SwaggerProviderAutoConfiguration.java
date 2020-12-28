@@ -20,6 +20,8 @@ import org.springframework.web.filter.CorsFilter;
 @ConditionalOnProperty(name = "swagger.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerProviderAutoConfiguration {
 
+	private final static String ALL = "*";
+
 	@Bean
 	@ConditionalOnMissingBean
 	public SwaggerProviderProperties swaggerProviderProperties() {
@@ -35,10 +37,17 @@ public class SwaggerProviderAutoConfiguration {
 	public FilterRegistrationBean<CorsFilter> corsFilter(SwaggerProviderProperties swaggerProviderProperties) {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
+		String aggregatorOrigin = swaggerProviderProperties.getAggregatorOrigin();
 		config.setAllowCredentials(true);
-		config.addAllowedHeader("*");
-		config.addAllowedMethod("*");
-		config.addAllowedOrigin(swaggerProviderProperties.getAggregatorOrigin());
+		// 在 springmvc 5.3 版本之后，跨域来源使用 * 号进行匹配的方式进行调整
+		if (ALL.equals(aggregatorOrigin)) {
+			config.addAllowedOriginPattern(ALL);
+		}
+		else {
+			config.addAllowedOrigin(aggregatorOrigin);
+		}
+		config.addAllowedHeader(ALL);
+		config.addAllowedMethod(ALL);
 		source.registerCorsConfiguration("/v2/api-docs**", config);
 		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
 		bean.setOrder(0);
