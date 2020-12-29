@@ -124,6 +124,7 @@ public class SysDictManager {
 	 * @param sysDictItem 字典项
 	 * @return 执行是否成功
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public boolean updateDictItemById(SysDictItem sysDictItem) {
 		// 根据ID查询字典
 		SysDict dict = sysDictService.getByCode(sysDictItem.getDictCode());
@@ -132,11 +133,12 @@ public class SysDictManager {
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该字典项目不能修改");
 		}
 		// 更新字典项Hash值
-		if (!sysDictService.updateHashCode(sysDictItem.getDictCode())) {
+		if (sysDictService.updateHashCode(sysDictItem.getDictCode())) {
+			return sysDictItemService.updateById(sysDictItem);
+		}
+		else {
 			return false;
 		}
-		return sysDictItemService.updateById(sysDictItem);
-
 	}
 
 	/**
@@ -144,15 +146,23 @@ public class SysDictManager {
 	 * @param id 字典项
 	 * @return 执行是否成功
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public boolean removeDictItemById(Integer id) {
 		// 根据ID查询字典
 		SysDictItem dictItem = sysDictItemService.getById(id);
-		SysDict dict = sysDictService.getByCode(dictItem.getDictCode());
+		String dictCode = dictItem.getDictCode();
+		SysDict dict = sysDictService.getByCode(dictCode);
 		// 校验是否系统内置
 		if (BooleanEnum.TRUE.getValue() != dict.getEditable()) {
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该字典项目不能删除");
 		}
-		return sysDictItemService.removeById(id);
+		// 更新字典项Hash值
+		if (sysDictService.updateHashCode(dictCode)) {
+			return sysDictItemService.removeById(id);
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**
