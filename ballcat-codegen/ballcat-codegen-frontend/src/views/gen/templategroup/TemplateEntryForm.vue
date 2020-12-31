@@ -9,6 +9,7 @@
     >
       <template slot="paneL">
         <div class="treesetting-row" @contextmenu.prevent="onRightClickBox" :style="treesettingRow">
+          <h1 align="center">右键即可创建文件或文件夹</h1>
           <a-directory-tree
             :style="directoryTreeStyle"
             v-model="checkedKeys"
@@ -173,7 +174,13 @@
                   v-decorator="formInfo.updateFlag ? ['remarks'] : ['templateInfoDTO.remarks']"
                 />
               </a-form-item>
-              <a-form-item label="模板" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <span slot="label">
+                  模板
+                  <a-tooltip title="选中编辑框后按F11和Esc控制全屏">
+                    <a-icon type="question-circle-o" />
+                  </a-tooltip>
+                </span>
                 <codemirror v-model="formInfo.content" :options="cmOptions" style="line-height: 1.5"></codemirror>
               </a-form-item>
             </template>
@@ -204,6 +211,10 @@ import { codemirror } from 'vue-codemirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/dracula.css'
 import 'codemirror/mode/velocity/velocity.js'
+// 全屏插件
+import 'codemirror/addon/display/fullscreen.js'
+import 'codemirror/addon/display/fullscreen.css'
+
 //import { TablePageMixin } from '@/mixins'
 import renameModel from './TemplateEntryRenameModal.vue'
 import removeModel from './TemplateEntryRemoveModal.vue'
@@ -290,7 +301,15 @@ export default {
         mode: 'velocity',
         theme: 'dracula',
         lineNumbers: true,
-        line: true
+        line: true,
+        extraKeys: {
+          F11: function(cm) {
+            cm.setOption('fullScreen', !cm.getOption('fullScreen'))
+          },
+          Esc: function(cm) {
+            if (cm.getOption('fullScreen')) cm.setOption('fullScreen', false)
+          }
+        }
         // more codemirror options, 更多 codemirror 的高级配置...
       }
     }

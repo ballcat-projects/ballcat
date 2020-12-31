@@ -21,7 +21,8 @@ import {
   Modal,
   Radio,
   Descriptions,
-  Checkbox
+  Checkbox,
+  Tooltip
 } from 'ant-design-vue'
 import App from './App.vue'
 import router from './router'
@@ -50,6 +51,7 @@ Vue.use(Modal)
 Vue.use(Radio)
 Vue.use(Checkbox)
 Vue.use(Descriptions)
+Vue.use(Tooltip)
 Vue.prototype.$message = message
 
 Vue.prototype.FORM_ACTION = {
