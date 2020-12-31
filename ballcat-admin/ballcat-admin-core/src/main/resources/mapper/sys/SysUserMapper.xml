@@ -3,10 +3,7 @@
 <mapper namespace="com.hccake.ballcat.admin.modules.sys.mapper.SysUserMapper">
 
 	<sql id="Base_Alias_Column_List">
-		su
-		.
-		user_id
-		,
+		su.user_id,
 		su.username,
 		su.nickname,
 		su.avatar,
