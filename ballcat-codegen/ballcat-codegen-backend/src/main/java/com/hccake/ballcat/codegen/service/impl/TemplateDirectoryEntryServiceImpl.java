@@ -76,8 +76,8 @@ public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirec
 		TemplateDirectoryEntry targetEntry = baseMapper.selectById(targetEntryId);
 		// 目标必须存
 		Assert.notNull(entry, "Target directory entry does not exist!");
-		// 目标必须是文件夹
-		Assert.isTrue(DirectoryEntryTypeEnum.FOLDER.getType().equals(targetEntry.getType()),
+		// 非平级移动时，目标必须是文件夹
+		Assert.isTrue(horizontalMove || DirectoryEntryTypeEnum.FOLDER.getType().equals(targetEntry.getType()),
 				"The target is not a folder");
 
 		// 平级移动则目标父节点就是其父节点

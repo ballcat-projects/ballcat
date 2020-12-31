@@ -58,6 +58,7 @@ public class TemplateDirectoryEntry extends Model<TemplateDirectoryEntry> {
 	 * 逻辑删除
 	 */
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "逻辑删除")
 	private Long deleted;
 
