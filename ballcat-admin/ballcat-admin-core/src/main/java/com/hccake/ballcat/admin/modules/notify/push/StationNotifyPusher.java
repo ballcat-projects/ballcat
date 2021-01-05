@@ -1,8 +1,11 @@
 package com.hccake.ballcat.admin.modules.notify.push;
 
 import com.hccake.ballcat.admin.constants.NotifyChannel;
+import com.hccake.ballcat.admin.modules.notify.event.StationNotifyPushEvent;
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,7 +17,10 @@ import java.util.List;
  * @version 1.0
  */
 @Component
+@RequiredArgsConstructor
 public class StationNotifyPusher implements NotifyPusher {
+
+	private final ApplicationEventPublisher publisher;
 
 	/**
 	 * 当前发布者对应的接收方式
@@ -28,8 +34,8 @@ public class StationNotifyPusher implements NotifyPusher {
 
 	@Override
 	public void push(NotifyInfo notifyInfo, List<SysUser> userList) {
-		// TODO websocket 推送
-		System.out.println("站内推送");
+		// 发布事件，监听者进行实际的 websocket 推送
+		publisher.publishEvent(new StationNotifyPushEvent(notifyInfo, userList));
 	}
 
 }

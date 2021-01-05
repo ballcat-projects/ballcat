@@ -14,6 +14,7 @@
 
     <modules>
         <module>ballcat-admin-core</module>
-    </modules>
+		<module>ballcat-admin-websocket</module>
+	</modules>
 
 </project>
