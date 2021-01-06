@@ -16,7 +16,8 @@
 		<module>ballcat-sample-monitor</module>
 		<module>ballcat-sample-admin-application</module>
 		<module>ballcat-sample-swagger-provider</module>
-	</modules>
+        <module>ballcat-sample-pay</module>
+    </modules>
 
 	<properties>
 		<maven.deploy.skip>true</maven.deploy.skip>
