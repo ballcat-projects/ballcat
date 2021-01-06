@@ -58,6 +58,8 @@
 		<jasypt.version>3.0.3</jasypt.version>
 		<hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
 		<jsoup.version>1.13.1</jsoup.version>
+
+		<virtual-currency.version>0.2.2</virtual-currency.version>
 	</properties>
 
 	<dependencyManagement>
@@ -332,6 +334,12 @@
 				<groupId>org.jsoup</groupId>
 				<artifactId>jsoup</artifactId>
 				<version>${jsoup.version}</version>
+			</dependency>
+			<!-- 虚拟货币处理 -->
+			<dependency>
+				<groupId>live.lingting</groupId>
+				<artifactId>virtual-currency</artifactId>
+				<version>${virtual-currency.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

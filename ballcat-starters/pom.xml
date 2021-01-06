@@ -25,6 +25,7 @@
 		<module>ballcat-spring-boot-starter-swagger</module>
         <module>ballcat-spring-boot-starter-sms</module>
         <module>ballcat-spring-boot-starter-websocket</module>
+        <module>ballcat-spring-boot-starter-pay</module>
     </modules>
 
 </project>
