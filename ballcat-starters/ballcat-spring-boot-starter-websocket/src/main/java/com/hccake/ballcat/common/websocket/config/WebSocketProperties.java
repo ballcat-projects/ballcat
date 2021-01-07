@@ -39,6 +39,6 @@ public class WebSocketProperties {
 	/**
 	 * 是否开启对session的映射记录
 	 */
-	private boolean mapSession = false;
+	private boolean mapSession = true;
 
 }

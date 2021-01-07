@@ -69,7 +69,7 @@ public class NotifyPushExecutor {
 			}
 			catch (Exception e) {
 				log.error("push notify error in channel：[{}]，notifyInfo title：[{}]", notifyChannel,
-						notifyInfo.getTitle());
+						notifyInfo.getTitle(), e);
 			}
 		}
 	}

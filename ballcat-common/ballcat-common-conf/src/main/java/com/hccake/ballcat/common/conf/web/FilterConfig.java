@@ -2,11 +2,13 @@ package com.hccake.ballcat.common.conf.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.conf.config.MonitorProperties;
+import com.hccake.ballcat.common.conf.config.SecurityProperties;
 import com.hccake.ballcat.common.core.filter.ActuatorAuthFilter;
 import com.hccake.ballcat.common.core.filter.XSSFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +19,8 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019/10/17 20:26
  */
 @Slf4j
-@Configuration
+@EnableConfigurationProperties({ SecurityProperties.class, MonitorProperties.class })
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication
 public class FilterConfig {
 

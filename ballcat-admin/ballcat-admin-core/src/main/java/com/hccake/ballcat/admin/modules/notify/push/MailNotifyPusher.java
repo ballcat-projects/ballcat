@@ -6,7 +6,6 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.common.mail.model.MailDetails;
 import com.hccake.ballcat.common.mail.sender.MailSender;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
  * @author Hccake 2020/12/21
  * @version 1.0
  */
-@Component
 @RequiredArgsConstructor
 public class MailNotifyPusher implements NotifyPusher {
 

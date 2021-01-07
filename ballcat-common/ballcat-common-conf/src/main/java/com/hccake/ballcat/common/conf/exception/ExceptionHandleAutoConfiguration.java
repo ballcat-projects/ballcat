@@ -14,14 +14,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author Hccake
  * @version 1.0
  * @date 2019/10/15 18:20
  */
-@EnableAsync
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 public class ExceptionHandleAutoConfiguration {

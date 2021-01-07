@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * @author lingting 2020-10-13 22:39
  */
 @Data
-@Configuration
 @ConfigurationProperties(prefix = "ballcat")
 public class MonitorProperties {
 

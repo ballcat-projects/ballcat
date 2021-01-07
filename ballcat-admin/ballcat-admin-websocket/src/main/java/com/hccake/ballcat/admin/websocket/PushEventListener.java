@@ -14,7 +14,9 @@ import com.hccake.ballcat.admin.websocket.message.DictChangeMessage;
 import com.hccake.ballcat.common.core.util.JacksonUtils;
 import com.hccake.ballcat.common.websocket.WebSocketMessageSender;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.List;
  * @author Hccake 2021/1/5
  * @version 1.0
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class PushEventListener {
@@ -34,6 +37,7 @@ public class PushEventListener {
 	 * 字典修改事件监听
 	 * @param event the DictChangeEvent
 	 */
+	@Async
 	@EventListener(DictChangeEvent.class)
 	public void onDictChangeEvent(DictChangeEvent event) {
 		// 构建字典修改的消息体
@@ -49,6 +53,7 @@ public class PushEventListener {
 	 * 公告关闭事件监听
 	 * @param event the AnnouncementCloseEvent
 	 */
+	@Async
 	@EventListener(AnnouncementCloseEvent.class)
 	public void onAnnouncementCloseEvent(AnnouncementCloseEvent event) {
 		// 构建字典修改的消息体
@@ -64,6 +69,7 @@ public class PushEventListener {
 	 * 站内通知推送事件
 	 * @param event the StationNotifyPushEvent
 	 */
+	@Async
 	@EventListener(StationNotifyPushEvent.class)
 	public void onAnnouncementPublishEvent(StationNotifyPushEvent event) {
 		NotifyInfo notifyInfo = event.getNotifyInfo();

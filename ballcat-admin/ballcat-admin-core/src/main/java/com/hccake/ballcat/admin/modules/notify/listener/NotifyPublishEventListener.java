@@ -6,6 +6,7 @@ import com.hccake.ballcat.admin.modules.notify.push.NotifyPushExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,6 +26,7 @@ public class NotifyPublishEventListener {
 	 * 通知发布事件
 	 * @param event the NotifyPublishEvent
 	 */
+	@Async
 	@EventListener(NotifyPublishEvent.class)
 	public void onNotifyPublishEvent(NotifyPublishEvent event) {
 		NotifyInfo notifyInfo = event.getNotifyInfo();
