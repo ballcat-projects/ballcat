@@ -1,10 +1,11 @@
 package com.hccake.sample.pay.virtual.config;
 
 import com.hccake.starter.pay.PayProperties;
-import java.util.function.Supplier;
+import live.lingting.virtual.currency.properties.OmniProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import live.lingting.virtual.currency.properties.OmniProperties;
+
+import java.util.function.Supplier;
 
 /**
  * @author lingting 2021/1/5 16:24
