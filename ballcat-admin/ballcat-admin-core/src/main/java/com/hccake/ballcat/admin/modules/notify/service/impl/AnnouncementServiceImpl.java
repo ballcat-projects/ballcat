@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
+import com.hccake.ballcat.admin.modules.notify.event.AnnouncementCloseEvent;
 import com.hccake.ballcat.admin.modules.notify.event.NotifyPublishEvent;
 import com.hccake.ballcat.admin.modules.notify.mapper.AnnouncementMapper;
 import com.hccake.ballcat.admin.modules.notify.model.converter.AnnouncementConverter;
@@ -23,6 +24,7 @@ import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
 import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
 import com.hccake.ballcat.admin.modules.sys.service.FileService;
+import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
@@ -135,21 +137,25 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean publish(Long announcementId) {
-		Announcement oldAnnouncement = baseMapper.selectById(announcementId);
-		if (oldAnnouncement.getStatus() != AnnouncementStatusEnum.UNPUBLISHED.getValue()) {
+		Announcement announcement = baseMapper.selectById(announcementId);
+		if (announcement.getStatus() != AnnouncementStatusEnum.UNPUBLISHED.getValue()) {
 			throw new BusinessException(SystemResultCode.BAD_REQUEST.getCode(), "不允许修改已经发布过的公告！");
 		}
+		if (BooleanEnum.TRUE.getValue() != announcement.getImmortal()
+				&& LocalDateTime.now().isAfter(announcement.getDeadline())) {
+			throw new BusinessException(SystemResultCode.BAD_REQUEST.getCode(), "公告失效时间必须迟于当前时间！");
+		}
 
-		Announcement announcement = new Announcement();
-		announcement.setId(announcementId);
-		announcement.setStatus(AnnouncementStatusEnum.ENABLED.getValue());
-		int flag = baseMapper.update(announcement,
-				Wrappers.<Announcement>lambdaUpdate().eq(Announcement::getId, announcement.getId())
+		Announcement entity = new Announcement();
+		entity.setId(announcementId);
+		entity.setStatus(AnnouncementStatusEnum.ENABLED.getValue());
+		int flag = baseMapper.update(entity,
+				Wrappers.<Announcement>lambdaUpdate().eq(Announcement::getId, entity.getId())
 						.eq(Announcement::getStatus, AnnouncementStatusEnum.UNPUBLISHED.getValue()));
 		boolean isUpdated = SqlHelper.retBool(flag);
 		if (isUpdated) {
-			oldAnnouncement.setStatus(AnnouncementStatusEnum.ENABLED.getValue());
-			this.onAnnouncementPublish(oldAnnouncement);
+			announcement.setStatus(AnnouncementStatusEnum.ENABLED.getValue());
+			this.onAnnouncementPublish(announcement);
 		}
 		return isUpdated;
 	}
@@ -165,7 +171,11 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 		announcement.setId(announcementId);
 		announcement.setStatus(AnnouncementStatusEnum.DISABLED.getValue());
 		int flag = baseMapper.updateById(announcement);
-		return SqlHelper.retBool(flag);
+		boolean isUpdated = SqlHelper.retBool(flag);
+		if (isUpdated) {
+			publisher.publishEvent(new AnnouncementCloseEvent(announcementId));
+		}
+		return isUpdated;
 	}
 
 	/**

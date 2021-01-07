@@ -15,7 +15,6 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,14 +52,15 @@ public class AnnouncementLoginEventListener {
 			SysUserDetails sysUserDetails = (SysUserDetails) source.getPrincipal();
 			SysUser sysUser = sysUserDetails.getSysUser();
 			// 获取当前用户未拉取过的公告信息
-			List<Announcement> announcements = announcementService.listUnPulled(sysUser.getUserId());
+			Integer userId = sysUser.getUserId();
+			List<Announcement> announcements = announcementService.listUnPulled(userId);
 			// 获取当前用户的各个过滤属性
 			Map<Integer, Object> filterAttrs = recipientHandler.getFilterAttrs(sysUser);
 			// 获取符合当前用户条件的，且接收类型包含站内的公告，保存其关联关系
 			List<UserAnnouncement> userAnnouncements = announcements.stream()
 					.filter(x -> x.getReceiveMode().contains(NotifyChannel.STATION.getValue()))
-					.filter(x -> filterMatched(x, filterAttrs)).map(x -> prodUserAnnouncement(sysUser, x))
-					.collect(Collectors.toList());
+					.filter(x -> filterMatched(x, filterAttrs)).map(Announcement::getId)
+					.map(id -> userAnnouncementService.prodUserAnnouncement(userId, id)).collect(Collectors.toList());
 			try {
 				userAnnouncementService.saveBatch(userAnnouncements);
 			}
@@ -68,15 +68,6 @@ public class AnnouncementLoginEventListener {
 				log.error("用户公告保存失败：[{}]", userAnnouncements, exception);
 			}
 		}
-	}
-
-	private UserAnnouncement prodUserAnnouncement(SysUser sysUser, Announcement announcement) {
-		UserAnnouncement userAnnouncement = new UserAnnouncement();
-		userAnnouncement.setUserId(sysUser.getUserId());
-		userAnnouncement.setAnnouncementId(announcement.getId());
-		userAnnouncement.setCreateTime(LocalDateTime.now());
-		userAnnouncement.setState(0);
-		return userAnnouncement;
 	}
 
 	private boolean filterMatched(Announcement announ, Map<Integer, Object> filterAttrs) {

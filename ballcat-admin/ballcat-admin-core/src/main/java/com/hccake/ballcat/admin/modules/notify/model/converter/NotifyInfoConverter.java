@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.modules.notify.model.converter;
 
-import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
+import com.hccake.ballcat.admin.modules.notify.model.domain.AnnouncementNotifyInfo;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -19,6 +19,6 @@ public interface NotifyInfoConverter {
 	 * @param announcement 公告信息
 	 * @return 通知信息
 	 */
-	NotifyInfo fromAnnouncement(Announcement announcement);
+	AnnouncementNotifyInfo fromAnnouncement(Announcement announcement);
 
 }

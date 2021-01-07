@@ -9,7 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
- * 公告事件监听器
+ * 通知发布事件监听器
  *
  * @author Hccake 2020/12/17
  * @version 1.0
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AnnouncementEventListener {
+public class NotifyPublishEventListener {
 
 	private final NotifyPushExecutor notifyPushExecutor;
 
@@ -26,7 +26,7 @@ public class AnnouncementEventListener {
 	 * @param event the NotifyPublishEvent
 	 */
 	@EventListener(NotifyPublishEvent.class)
-	public void onAnnouncementPublishEvent(NotifyPublishEvent event) {
+	public void onNotifyPublishEvent(NotifyPublishEvent event) {
 		NotifyInfo notifyInfo = event.getNotifyInfo();
 		// 推送通知
 		notifyPushExecutor.push(notifyInfo);

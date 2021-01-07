@@ -21,4 +21,12 @@ public interface UserAnnouncementService extends IService<UserAnnouncement> {
 	 */
 	IPage<UserAnnouncementVO> selectPageVo(IPage<?> page, UserAnnouncementQO qo);
 
+	/**
+	 * 根据用户ID和公告id初始化一个新的用户公告关联对象
+	 * @param userId 用户ID
+	 * @param announcementId 公告ID
+	 * @return UserAnnouncement
+	 */
+	UserAnnouncement prodUserAnnouncement(Integer userId, Long announcementId);
+
 }

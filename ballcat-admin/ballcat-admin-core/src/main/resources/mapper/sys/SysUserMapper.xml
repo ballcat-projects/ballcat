@@ -34,16 +34,18 @@
 		<include refid="Base_Alias_Column_List"/>
 		FROM
 		sys_user su
-		left join
-		sys_user_role ur
-		on su.user_id = ur.user_id
 		WHERE
-		ur.`role_code`
-		in
-		<foreach collection="roleCodes" item="roleCode" separator="," open="(" close=")">
-			#{roleCode}
-		</foreach>
-		and su.deleted = 0
+		EXISTS (
+		    SELECT 1 from sys_user_role ur
+		    where
+			ur.`role_code`
+			in
+			<foreach collection="roleCodes" item="roleCode" separator="," open="(" close=")">
+				#{roleCode}
+			</foreach>
+			 and ur.user_id = su.user_id
+		)
+		AND su.deleted = 0
 	</select>
 
 	<select id="getSelectData" resultType="com.hccake.ballcat.common.core.vo.SelectData">
