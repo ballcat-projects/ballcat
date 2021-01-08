@@ -1,8 +1,9 @@
 package com.hccake.ballcat.commom.log.operation.aspect;
 
+import static cn.hutool.core.text.CharSequenceUtil.format;
+
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.commom.log.constant.LogConstant;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
@@ -11,6 +12,13 @@ import com.hccake.ballcat.commom.log.operation.event.OperationLogEvent;
 import com.hccake.ballcat.commom.log.operation.model.OperationLogDTO;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.core.util.IPUtil;
+import java.lang.reflect.Method;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -23,13 +31,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.util.Assert;
-
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Hccake
@@ -124,6 +125,9 @@ public class OperationLogAspect {
 		}
 		Map<String, Object> paramsMap = new HashMap<>();
 		for (int i = 0; i < parameterNames.length; i++) {
+			if (args[i] instanceof HttpServletRequest || args[i] instanceof HttpServletResponse) {
+				continue;
+			}
 			paramsMap.put(parameterNames[i], args[i]);
 		}
 
@@ -131,8 +135,8 @@ public class OperationLogAspect {
 		try {
 			params = objectMapper.writeValueAsString(paramsMap);
 		}
-		catch (JsonProcessingException e) {
-			log.error("[getParams]，获取方法参数异常，[类名]:{},[方法]:{}", strClassName, strMethodName, e);
+		catch (Throwable e) {
+			log.error(format("[getParams]，获取方法参数异常，[类名]:{},[方法]:{}", strClassName, strMethodName), e);
 		}
 
 		return params;
