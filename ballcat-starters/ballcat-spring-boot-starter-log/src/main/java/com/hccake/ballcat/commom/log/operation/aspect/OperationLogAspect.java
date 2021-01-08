@@ -2,7 +2,6 @@ package com.hccake.ballcat.commom.log.operation.aspect;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.commom.log.constant.LogConstant;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
@@ -24,6 +23,8 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.util.Assert;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
@@ -124,6 +125,9 @@ public class OperationLogAspect {
 		}
 		Map<String, Object> paramsMap = new HashMap<>();
 		for (int i = 0; i < parameterNames.length; i++) {
+			if (args[i] instanceof ServletRequest || args[i] instanceof ServletResponse) {
+				continue;
+			}
 			paramsMap.put(parameterNames[i], args[i]);
 		}
 
@@ -131,7 +135,7 @@ public class OperationLogAspect {
 		try {
 			params = objectMapper.writeValueAsString(paramsMap);
 		}
-		catch (JsonProcessingException e) {
+		catch (Exception e) {
 			log.error("[getParams]，获取方法参数异常，[类名]:{},[方法]:{}", strClassName, strMethodName, e);
 		}
 
