@@ -8,7 +8,48 @@
 
 - OSS starter 修改使用 AWS S3
 
-  
+
+
+## [0.0.7]
+
+### Added
+
+- feat: 多页签导出支持每个页签不同头类型
+- feat: 新增创建人和更新人的自动填充支持
+- feat: 提供ExcelWirterBuilder，使用者可以复写此接口方法，来对excel导出做自定义处理
+- feat: 数据权限注解 @DataPermission 提供方法级别的忽略支持
+- add: 新增 HtmlUtil，方便快捷提取 html 中的纯文本，且保留换行结构
+- feat: 代码编辑器的模板编辑框提供全屏功能
+- feat:  新增用户成的发布事件
+- feat:  新增登陆时的图形验证码校验，提升安全性
+- feat:  新增虚拟货币的支付stater支持
+- feat:  新增基于 websocket-starter，方便系统集成 websocket 使用
+- feat: 新增系统公告，支持多种方式指定接收人，以及多种公告推送方式
+- feat:  新增 admin-websocket 插件包，引入此依赖，可获得实时的站内公告推送以及字典项更新推送能力，默认使用redis发布订阅进行集群支持，用户可通过自定义 MessageDistributor 来更换消息分发模式，比如使用专业的消息队列，也提供了 LocalMessageDistributor，在单节点时使用此分发器，更高效稳定
+
+### Changed
+
+- refactor:  代码格式化强制换行符使用 LF，保证跨系统协同开发的统一性
+- refactor:  mail-stater 的结构微调，修改了部分类名
+- refactor：调整了系统的依赖结构，将 spring 相关依赖版本管理由父工程移动到 ballcat-dependencies 中
+
+### Bug
+
+- fix: 修复由于SpringMvc5.3版本后的跨域通配符使用方式导致 swagger 跨域配置 * 号无法生效的问题
+- fix: 修复字典项删除时未更新hashcode 导致的前台缓存问题
+- fix: 添加依赖，修复高版本 lombok 和 mapstruct 的冲突问题
+- fix: 修复代码生成器模板生成失败以及无法平移文件的问题
+- fix: 修复操作日志在记录入参时，若参数中含有 request 或 response 导致的堆栈溢出问题
+
+### Dependency
+
+- Bump spring-boot from 2.4.0 to 2.4.1
+
+- Bump mapstruct from 1.3.1.final to 1.4.1.final
+
+- Bump  spring-javaformat-maven-plugin 0.0.25 to 0.0.26
+
+
 
 ## [0.0.6]
 
@@ -134,7 +175,7 @@
 
 ## [0.0.3] - 2020-07-06
 
- ### Added
+### Added
 
 - 重构代码生成器
 
@@ -169,7 +210,7 @@
 
 - 角色新增类型属性，对于系统类型角色，不允许删除
 
-- 更新逻辑删除不能使用 unique key 的问题，逻辑删除使用时间戳，未删除为0，删除则为删除的时间戳，实体类字段同一使用Long，数据库使用bigint。  
+- 更新逻辑删除不能使用 unique key 的问题，逻辑删除使用时间戳，未删除为0，删除则为删除的时间戳，实体类字段同一使用Long，数据库使用bigint。
 
   - 配置文件添加如下配置：
 
@@ -185,13 +226,13 @@
 
 - mybatis-plus 版本升级至 3.3.2
 - spring-boot 版本升级至 2.3.1.RELEASE
-- spring-security-oauth2 升级至 2.3.8.RELEASE  
+- spring-security-oauth2 升级至 2.3.8.RELEASE
 
 
 
 
 
-## [0.0.2] 
+## [0.0.2]
 
 ### Added
 
