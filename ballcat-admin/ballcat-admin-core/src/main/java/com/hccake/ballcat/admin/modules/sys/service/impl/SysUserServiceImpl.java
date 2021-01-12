@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.constants.SysUserConst;
 import com.hccake.ballcat.admin.modules.sys.checker.AdminUserChecker;
+import com.hccake.ballcat.admin.modules.sys.event.UserChangeEvent;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysUserMapper;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysUserConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
@@ -30,6 +31,7 @@ import com.hccake.ballcat.common.core.util.PasswordUtil;
 import com.hccake.ballcat.common.core.vo.SelectData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,6 +62,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	private final AdminUserChecker adminUserChecker;
 
 	private final SysRoleService sysRoleService;
+
+	private final ApplicationEventPublisher publisher;
 
 	@Value("${password.secret-key}")
 	private String secretKey;
@@ -156,8 +160,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 		String password = PasswordUtil.decodeAesAndEncodeBCrypt(sysUserDto.getPass(), secretKey);
 		sysUser.setPassword(password);
-
-		return SqlHelper.retBool(baseMapper.insert(sysUser));
+		boolean result = SqlHelper.retBool(baseMapper.insert(sysUser));
+		if (result) {
+			publisher.publishEvent(new UserChangeEvent(sysUser));
+		}
+		return result;
 	}
 
 	/**
