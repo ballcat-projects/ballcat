@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.modules.notify.push;
 
+import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.admin.constants.NotifyChannel;
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
@@ -32,7 +33,7 @@ public class MailNotifyPusher implements NotifyPusher {
 
 	@Override
 	public void push(NotifyInfo notifyInfo, List<SysUser> userList) {
-		String[] emails = userList.stream().map(SysUser::getEmail).toArray(String[]::new);
+		String[] emails = userList.stream().map(SysUser::getEmail).filter(StrUtil::isNotBlank).toArray(String[]::new);
 
 		// 密送群发，不展示其他收件人
 		MailDetails mailDetails = new MailDetails();

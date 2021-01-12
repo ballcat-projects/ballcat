@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.websocket;
+package com.hccake.ballcat.admin.websocket.distribute;
 
 import com.hccake.ballcat.admin.modules.notify.event.AnnouncementCloseEvent;
 import com.hccake.ballcat.admin.modules.notify.event.StationNotifyPushEvent;
@@ -12,7 +12,6 @@ import com.hccake.ballcat.admin.websocket.message.AnnouncementCloseMessage;
 import com.hccake.ballcat.admin.websocket.message.AnnouncementPushMessage;
 import com.hccake.ballcat.admin.websocket.message.DictChangeMessage;
 import com.hccake.ballcat.common.core.util.JacksonUtils;
-import com.hccake.ballcat.common.websocket.WebSocketMessageSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -33,9 +32,11 @@ public class PushEventListener {
 
 	private final UserAnnouncementService userAnnouncementService;
 
+	private final MessageDistributor messageDistributor;
+
 	/**
 	 * 字典修改事件监听
-	 * @param event the DictChangeEvent
+	 * @param event the `DictChangeEvent`
 	 */
 	@Async
 	@EventListener(DictChangeEvent.class)
@@ -46,7 +47,8 @@ public class PushEventListener {
 		String msg = JacksonUtils.toJson(dictChangeMessage);
 
 		// 广播修改信息
-		WebSocketMessageSender.broadcast(msg);
+		MessageDO messageDO = new MessageDO().setMessageText(msg).setNeedBroadcast(true);
+		messageDistributor.distribute(messageDO);
 	}
 
 	/**
@@ -62,7 +64,8 @@ public class PushEventListener {
 		String msg = JacksonUtils.toJson(message);
 
 		// 广播修改信息
-		WebSocketMessageSender.broadcast(msg);
+		MessageDO messageDO = new MessageDO().setMessageText(msg).setNeedBroadcast(true);
+		messageDistributor.distribute(messageDO);
 	}
 
 	/**
@@ -88,16 +91,20 @@ public class PushEventListener {
 			String msg = JacksonUtils.toJson(message);
 
 			List<UserAnnouncement> userAnnouncements = new ArrayList<>();
+			List<Object> sessionKeys = new ArrayList<>();
 			// 向指定用户推送
 			for (SysUser sysUser : userList) {
 				Integer userId = sysUser.getUserId();
-				boolean send = WebSocketMessageSender.send(userId, msg);
-				if (send) {
-					UserAnnouncement userAnnouncement = userAnnouncementService.prodUserAnnouncement(userId,
-							announcementNotifyInfo.getId());
-					userAnnouncements.add(userAnnouncement);
-				}
+				sessionKeys.add(userId);
+				UserAnnouncement userAnnouncement = userAnnouncementService.prodUserAnnouncement(userId,
+						announcementNotifyInfo.getId());
+				userAnnouncements.add(userAnnouncement);
 			}
+
+			MessageDO messageDO = new MessageDO().setMessageText(msg).setSessionKeys(sessionKeys)
+					.setNeedBroadcast(false);
+			messageDistributor.distribute(messageDO);
+
 			userAnnouncementService.saveBatch(userAnnouncements);
 		}
 	}

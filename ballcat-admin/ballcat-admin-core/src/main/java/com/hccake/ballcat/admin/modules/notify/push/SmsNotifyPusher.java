@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.modules.notify.push;
 
+import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.admin.constants.NotifyChannel;
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
@@ -30,7 +31,8 @@ public class SmsNotifyPusher implements NotifyPusher {
 
 	@Override
 	public void push(NotifyInfo notifyInfo, List<SysUser> userList) {
-		List<String> phoneList = userList.stream().map(SysUser::getPhone).collect(Collectors.toList());
+		List<String> phoneList = userList.stream().map(SysUser::getPhone).filter(StrUtil::isNotBlank)
+				.collect(Collectors.toList());
 		// 短信文本去除 html 标签
 		String content = HtmlUtil.toText(notifyInfo.getContent());
 		// TODO 对接短信发送平台
