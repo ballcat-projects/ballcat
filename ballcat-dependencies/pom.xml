@@ -60,6 +60,7 @@
 		<jasypt.version>3.0.3</jasypt.version>
 		<hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
 		<jsoup.version>1.13.1</jsoup.version>
+		<anji-captcha.version>1.2.5</anji-captcha.version>
 
 		<virtual-currency.version>0.2.2</virtual-currency.version>
 	</properties>
@@ -353,6 +354,13 @@
 				<artifactId>virtual-currency</artifactId>
 				<version>${virtual-currency.version}</version>
 			</dependency>
+			<!-- 图形验证码 -->
+			<dependency>
+				<groupId>com.github.anji-plus</groupId>
+				<artifactId>captcha-spring-boot-starter</artifactId>
+				<version>${anji-captcha.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

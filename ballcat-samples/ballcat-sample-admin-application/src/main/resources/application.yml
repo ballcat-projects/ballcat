@@ -35,6 +35,11 @@ security:
       - /bycdao-ui/**
       - favicon.ico
 
+# 图形验证码
+aj:
+  captcha:
+    waterMark: 'BallCat'
+    cacheType: redis
 
 # 暴露监控端口
 management:

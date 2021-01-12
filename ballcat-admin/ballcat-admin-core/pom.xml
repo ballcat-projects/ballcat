@@ -43,6 +43,12 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-boot-starter-mail</artifactId>
 		</dependency>
+
+		<!-- 图形验证码 -->
+		<dependency>
+			<groupId>com.github.anji-plus</groupId>
+			<artifactId>captcha-spring-boot-starter</artifactId>
+		</dependency>
     </dependencies>
 
 </project>
