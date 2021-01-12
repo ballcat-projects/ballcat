@@ -23,8 +23,9 @@
 ```
 .
 |-- ballcat-admin
-|   `-- ballcat-admin-core     -- 后台管理核心模块（权限控制，字典，Oauth2等）
-|-- ballcat-codegen            -- 代码生成器
+|   |-- ballcat-admin-core          -- 后台管理核心模块（权限控制，字典，Oauth2等）
+|   `-- ballcat-admin-websocket     -- 后台管理 websocket 支持插件（公告和字典等同步）
+|-- ballcat-codegen             -- 代码生成器
 |-- ballcat-common			   
 |   |-- ballcat-common-conf		-- web公用配置
 |   `-- ballcat-common-core     -- 核心的工具类
@@ -32,6 +33,7 @@
 |-- ballcat-samples				
 |   |-- ballcat-sample-admin-application  -- 集成admin的项目示例（swagger聚合者）
 |   |-- ballcat-sample-monitor			  -- SpringBootAdmin监控server端集成示例
+|   |-- ballcat-sample-pay			      -- 虚拟货币支付示例
 |   `-- ballcat-sample-swagger-provider	  -- 无注册中心的swagger-provider提供示例	
 |-- ballcat-starters
 |   |-- ballcat-spring-boot-starter-datascope  -- 数据权限控制
@@ -41,10 +43,12 @@
 |   |-- ballcat-spring-boot-starter-kafka      -- 消息队列 kafka 集成
 |   |-- ballcat-spring-boot-starter-log		   -- 访问日志，操作日志，TraceId注入
 |   |-- ballcat-spring-boot-starter-mail	   -- 邮件发送
+|   |-- ballcat-spring-boot-starter-pay	       -- 虚拟货币支付
 |   |-- ballcat-spring-boot-starter-redis      -- 提供注解使用redis, 分布式锁，防击穿，全局key前缀等功能
 |   |-- ballcat-spring-boot-starter-sms        -- 短信接入 starter
 |   |-- ballcat-spring-boot-starter-storage    -- 文件存储（暂时只集成了aliyunOss）
-|   `-- ballcat-spring-boot-starter-swagger    -- swagger文档配置（提供无注册中心的文档聚合方案）
+|   |-- ballcat-spring-boot-starter-swagger    -- swagger文档配置（提供无注册中心的文档聚合方案）
+|   `-- ballcat-spring-boot-starter-websocket  -- websocket 集成
 `-- doc        -- 初始化数据库脚本
 
 ```
@@ -82,11 +86,11 @@
 
 | 依赖                   | 版本          | 官网                                             |
 | ---------------------- | ------------- | ------------------------------------------------ |
-| Spring Boot            | 2.4.0         | https://spring.io/projects/spring-boot#learn     |
+| Spring Boot            | 2.4.1         | https://spring.io/projects/spring-boot#learn     |
 | Spring Security OAuth2 | 2.3.8.RELEASE | https://spring.io/projects/spring-security-oauth |
-| Mybatis Plus           | 3.4.0         | https://mp.baomidou.com/                         |
+| Mybatis Plus           | 3.4.1         | https://mp.baomidou.com/                         |
 | XXL-JOB                | 2.2.0         | http://www.xuxueli.com/xxl-job                   |
-| Hutool                 | 5.4.1         | https://www.hutool.cn/                           |
+| Hutool                 | 5.5.4         | https://www.hutool.cn/                           |
 
 
 - 前端

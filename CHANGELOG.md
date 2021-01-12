@@ -16,7 +16,7 @@
 
 - feat: 多页签导出支持每个页签不同头类型
 - feat: 新增创建人和更新人的自动填充支持
-- feat: 提供ExcelWirterBuilder，使用者可以复写此接口方法，来对excel导出做自定义处理
+- feat: 提供ExcelWriterBuilder，使用者可以复写此接口方法，来对excel导出做自定义处理
 - feat: 数据权限注解 @DataPermission 提供方法级别的忽略支持
 - add: 新增 HtmlUtil，方便快捷提取 html 中的纯文本，且保留换行结构
 - feat: 代码编辑器的模板编辑框提供全屏功能
@@ -44,10 +44,8 @@
 ### Dependency
 
 - Bump spring-boot from 2.4.0 to 2.4.1
-
 - Bump mapstruct from 1.3.1.final to 1.4.1.final
-
-- Bump  spring-javaformat-maven-plugin 0.0.25 to 0.0.26
+- Bump spring-javaformat-maven-plugin 0.0.25 to 0.0.26
 
 
 
