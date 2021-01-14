@@ -1,4 +1,4 @@
-package com.hccake.extend.mybatis.plus.mysql.methods;
+package com.hccake.extend.mybatis.plus.methods;
 
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 

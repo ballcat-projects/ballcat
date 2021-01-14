@@ -1,6 +1,5 @@
-package com.hccake.extend.mybatis.plus.mysql.methods;
+package com.hccake.extend.mybatis.plus.methods;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
@@ -29,7 +28,7 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 		String keyColumn = null;
 		String keyProperty = null;
 		// 如果需要回填主键
-		if (backFillKey() && StrUtil.isNotEmpty(tableInfo.getKeyProperty())) {
+		if (backFillKey() && tableInfo.getKeyProperty() != null && !"".equals(tableInfo.getKeyProperty())) {
 			// 表包含主键处理逻辑,如果不包含主键当普通字段处理
 			if (tableInfo.getIdType() == IdType.AUTO) {
 				/* 自增主键 */

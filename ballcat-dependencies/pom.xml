@@ -50,7 +50,7 @@
 		<swagger.version>1.5.21</swagger.version>
 		<knife4j.version>1.9.6</knife4j.version>
 		<kafka.version>2.5.0</kafka.version>
-		<hutool.version>5.5.4</hutool.version>
+		<hutool.version>5.5.7</hutool.version>
 		<mybatis-plus.version>3.4.1</mybatis-plus.version>
 		<dynamic-datasource.version>3.2.0</dynamic-datasource.version>
 		<xxl-job.version>2.2.0</xxl-job.version>
@@ -312,6 +312,11 @@
 			<dependency>
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-core</artifactId>
 				<version>${hutool.version}</version>
 			</dependency>
 			<!--配置文件加密-->

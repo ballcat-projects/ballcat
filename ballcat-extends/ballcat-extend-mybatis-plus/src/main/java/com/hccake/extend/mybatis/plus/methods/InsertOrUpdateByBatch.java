@@ -1,12 +1,23 @@
-package com.hccake.extend.mybatis.plus.mysql.methods;
+package com.hccake.extend.mybatis.plus.methods;
 
+import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
-import com.hccake.extend.mybatis.plus.config.StaticConfig;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+import java.util.function.Predicate;
 
 /**
  * @author lingting 2020/5/27 11:47
  */
 public class InsertOrUpdateByBatch extends BaseInsertBatch {
+
+	/**
+	 * 字段筛选条件
+	 */
+	@Setter
+	@Accessors(chain = true)
+	private Predicate<TableFieldInfo> predicate;
 
 	@Override
 	protected String getSql() {
@@ -28,7 +39,7 @@ public class InsertOrUpdateByBatch extends BaseInsertBatch {
 			// 默认忽略逻辑删除字段
 			if (!field.isLogicDelete()) {
 				// 默认忽略字段
-				if (!StaticConfig.UPDATE_IGNORE_FIELDS.contains(field.getProperty())) {
+				if (!predicate.test(field)) {
 					sql.append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn()).append("),");
 				}
 				else {
