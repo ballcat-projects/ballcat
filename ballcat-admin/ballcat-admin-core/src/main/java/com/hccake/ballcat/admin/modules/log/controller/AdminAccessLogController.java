@@ -1,10 +1,10 @@
 package com.hccake.ballcat.admin.modules.log.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hccake.ballcat.admin.modules.log.model.entity.AdminAccessLog;
+import com.hccake.ballcat.admin.modules.log.model.qo.AdminAccessLogQO;
+import com.hccake.ballcat.admin.modules.log.model.vo.AdminAccessLogVO;
 import com.hccake.ballcat.admin.modules.log.service.AdminAccessLogService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,15 +30,15 @@ public class AdminAccessLogController {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
-	 * @param adminAccessLog 访问日志
+	 * @param pageParam 分页参数
+	 * @param adminAccessLogQO 访问日志查询对象
 	 * @return R
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('log:adminaccesslog:read')")
-	public R<IPage<AdminAccessLog>> getAccessLogApiPage(Page<AdminAccessLog> page, AdminAccessLog adminAccessLog) {
-		return R.ok(adminAccessLogService.page(page, Wrappers.query(adminAccessLog)));
+	public R<PageResult<AdminAccessLogVO>> getAccessLogApiPage(PageParam pageParam, AdminAccessLogQO adminAccessLogQO) {
+		return R.ok(adminAccessLogService.queryPage(pageParam, adminAccessLogQO));
 	}
 
 }

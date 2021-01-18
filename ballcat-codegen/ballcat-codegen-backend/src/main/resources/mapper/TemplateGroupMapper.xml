@@ -2,30 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hccake.ballcat.codegen.mapper.TemplateGroupMapper">
 
-
-	<sql id="Base_Column_List">
-    	id, name, remarks, create_time, update_time
-	</sql>
-
-	<sql id="Base_Alias_Column_List">
-    	tg.id, tg.name, tg.remarks, tg.create_time, tg.update_time
-	</sql>
-
-	<select id="selectPageVo" resultType="com.hccake.ballcat.codegen.model.vo.TemplateGroupVO">
-		SELECT
-		<include refid="Base_Alias_Column_List"/>
-		FROM
-		gen_template_group tg
-		${ew.customSqlSegment}
-	</select>
-
-
-	<select id="getSelectData" resultType="com.hccake.ballcat.common.core.vo.SelectData">
+	<select id="getSelectData" resultType="com.hccake.ballcat.common.core.domain.SelectData">
 		select
 			name, id as value
 		from
 			gen_template_group tg
 	</select>
-
 
 </mapper>

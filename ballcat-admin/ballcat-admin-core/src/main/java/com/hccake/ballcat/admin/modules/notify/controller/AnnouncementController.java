@@ -1,7 +1,5 @@
 package com.hccake.ballcat.admin.modules.notify.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
@@ -11,6 +9,8 @@ import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
@@ -38,15 +38,15 @@ public class AnnouncementController {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
+	 * @param pageParam 分页对象
 	 * @param announcementQO 公告信息查询对象
 	 * @return R 通用返回体
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('notify:announcement:read')")
-	public R<IPage<AnnouncementVO>> getAnnouncementPage(Page<?> page, AnnouncementQO announcementQO) {
-		return R.ok(announcementService.selectPageVo(page, announcementQO));
+	public R<PageResult<AnnouncementVO>> getAnnouncementPage(PageParam pageParam, AnnouncementQO announcementQO) {
+		return R.ok(announcementService.queryPage(pageParam, announcementQO));
 	}
 
 	/**

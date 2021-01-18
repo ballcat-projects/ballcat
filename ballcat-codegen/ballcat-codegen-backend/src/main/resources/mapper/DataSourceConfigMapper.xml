@@ -1,35 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hccake.ballcat.codegen.mapper.DataSourceConfigMapper">
-
-	<resultMap id="dataSourceConfigMap" type="com.hccake.ballcat.codegen.model.entity.DataSourceConfig">
-		<id property="id" column="id"/>
-		<result property="name" column="name"/>
-		<result property="username" column="username"/>
-		<result property="password" column="password"/>
-		<result property="url" column="url"/>
-		<result property="createTime" column="create_time"/>
-		<result property="updateTime" column="update_time"/>
-	</resultMap>
-
-	<sql id="Base_Column_List">
-	id, name, username, password, url, create_time, update_time
-  </sql>
-
-
-	<sql id="Base_Alias_Column_List">
-		dsc.id, dsc.name, dsc.username, dsc.password, dsc.url, dsc.create_time, dsc.update_time
-	</sql>
-
-	<select id="selectPageVo" resultType="com.hccake.ballcat.codegen.model.vo.DataSourceConfigVO">
-		SELECT
-		<include refid="Base_Alias_Column_List"/>
-		FROM
-		gen_data_source_config dsc
-		${ew.customSqlSegment}
-	</select>
-
-	<select id="listSelectData" resultType="com.hccake.ballcat.common.core.vo.SelectData">
+	<select id="listSelectData" resultType="com.hccake.ballcat.common.core.domain.SelectData">
 		select
 		name , name as value
 		from

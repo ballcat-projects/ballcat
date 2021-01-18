@@ -1,8 +1,10 @@
 package com.hccake.ballcat.admin.modules.sys.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemVO;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;
 
@@ -12,20 +14,20 @@ import java.util.List;
  * @author hccake
  * @date 2020-03-26 18:40:20
  */
-public interface SysDictItemService extends IService<SysDictItem> {
+public interface SysDictItemService extends ExtendService<SysDictItem> {
 
 	/**
-	 * 根据QueryObeject查询分页数据
-	 * @param page 分页参数
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
 	 * @param dictCode 查询参数对象
 	 * @return 分页数据
 	 */
-	IPage<SysDictItem> page(IPage<SysDictItem> page, String dictCode);
+	PageResult<SysDictItemVO> queryPage(PageParam pageParam, String dictCode);
 
 	/**
 	 * 根据Code查询对应字典项数据
-	 * @param dictCode
-	 * @return
+	 * @param dictCode 字典标识
+	 * @return 该字典对应的字典项集合
 	 */
 	List<SysDictItem> getByDictCode(String dictCode);
 

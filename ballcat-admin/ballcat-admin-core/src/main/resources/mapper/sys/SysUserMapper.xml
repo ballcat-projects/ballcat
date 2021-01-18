@@ -17,10 +17,9 @@
 		su.update_time
 	</sql>
 
-	<select id="selectPageVo" resultType="com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO">
+	<select id="selectByPage" resultType="com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO">
 		SELECT
-		<include refid="Base_Alias_Column_List"/>
-		, so.name as organization_name
+		${ew.allAliasSqlSelect}, so.name as organization_name
 		FROM sys_user su
 		LEFT JOIN
 		sys_organization so
@@ -48,7 +47,7 @@
 		AND su.deleted = 0
 	</select>
 
-	<select id="getSelectData" resultType="com.hccake.ballcat.common.core.vo.SelectData">
+	<select id="getSelectData" resultType="com.hccake.ballcat.common.core.domain.SelectData">
 		select
 		username as name , user_id as value
 		from

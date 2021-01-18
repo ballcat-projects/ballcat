@@ -2,7 +2,6 @@ package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysPermissionMapper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysRolePermissionMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysPermission;
@@ -11,6 +10,7 @@ import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +22,12 @@ import java.util.List;
  * 菜单权限表 服务实现类
  * </p>
  *
- * @author
+ * @author hccake
  * @since 2017-10-29
  */
 @Service
 @RequiredArgsConstructor
-public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission>
+public class SysPermissionServiceImpl extends ExtendServiceImpl<SysPermissionMapper, SysPermission>
 		implements SysPermissionService {
 
 	private final SysRolePermissionMapper sysRolePermissionMapper;

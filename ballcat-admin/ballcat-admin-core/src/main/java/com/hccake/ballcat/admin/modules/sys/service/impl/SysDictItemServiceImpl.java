@@ -1,12 +1,13 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysDictItemMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,25 +19,24 @@ import java.util.List;
  * @date 2020-03-26 18:40:20
  */
 @Service
-public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItem> implements SysDictItemService {
+public class SysDictItemServiceImpl extends ExtendServiceImpl<SysDictItemMapper, SysDictItem>
+		implements SysDictItemService {
 
 	/**
-	 * 根据QueryObeject查询分页数据
-	 * @param page 分页参数
-	 * @param dictCode 查询参数对象
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
+	 * @param dictCode 字典标识
 	 * @return 分页数据
 	 */
 	@Override
-	public IPage<SysDictItem> page(IPage<SysDictItem> page, String dictCode) {
-		LambdaQueryWrapper<SysDictItem> wrapper = Wrappers.<SysDictItem>lambdaQuery().eq(SysDictItem::getDictCode,
-				dictCode);
-		return baseMapper.selectPage(page, wrapper);
+	public PageResult<SysDictItemVO> queryPage(PageParam pageParam, String dictCode) {
+		return baseMapper.queryPage(pageParam, dictCode);
 	}
 
 	/**
 	 * 根据Code查询对应字典项数据
-	 * @param dictCode
-	 * @return
+	 * @param dictCode 字典标识
+	 * @return 字典项集合
 	 */
 	@Override
 	public List<SysDictItem> getByDictCode(String dictCode) {

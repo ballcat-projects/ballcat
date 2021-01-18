@@ -1,8 +1,7 @@
 package com.hccake.ballcat.common.conf.web;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hccake.ballcat.common.core.domain.PageParam;
 import com.hccake.ballcat.common.core.exception.SqlCheckedException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * 解决Mybatis Plus Order By SQL注入问题
  */
 @Slf4j
-public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver {
+public class PageParamArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private final static String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
 			"alter", "drop", "sleep" };
@@ -34,7 +33,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(Page.class);
+		return parameter.getParameterType().equals(PageParam.class);
 	}
 
 	/**
@@ -57,12 +56,12 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		String sortField = request.getParameter("sortField");
 		String sortAsc = request.getParameter("sortAsc");
 
-		Page<?> page = new Page<>();
+		PageParam pageParam = new PageParam();
 		if (StrUtil.isNotBlank(current)) {
-			page.setCurrent(Long.parseLong(current));
+			pageParam.setCurrent(Long.parseLong(current));
 		}
 		if (StrUtil.isNotBlank(size)) {
-			page.setSize(Long.parseLong(size));
+			pageParam.setSize(Long.parseLong(size));
 		}
 
 		if (StrUtil.isNotEmpty(sortField)) {
@@ -72,11 +71,11 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 			sortField = StrUtil.toUnderlineCase(sortField);
 			// 正序/倒序
 			boolean isAsc = (StrUtil.isNotBlank(sortAsc) && Boolean.parseBoolean(sortAsc));
-			OrderItem orderItem = isAsc ? OrderItem.asc(sortField) : OrderItem.desc(sortField);
-
-			page.addOrder(orderItem);
+			pageParam.setSortAsc(isAsc);
+			pageParam.setSortField(sortField);
 		}
-		return page;
+
+		return pageParam;
 	}
 
 	/**

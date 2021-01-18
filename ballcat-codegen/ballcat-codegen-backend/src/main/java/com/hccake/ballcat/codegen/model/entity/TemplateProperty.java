@@ -1,11 +1,9 @@
 package com.hccake.ballcat.codegen.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
@@ -17,9 +15,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("gen_template_property")
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "模板属性配置")
-public class TemplateProperty extends Model<TemplateProperty> {
+public class TemplateProperty {
 
 	private static final long serialVersionUID = 1L;
 

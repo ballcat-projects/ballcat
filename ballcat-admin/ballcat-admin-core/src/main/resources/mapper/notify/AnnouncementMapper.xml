@@ -29,14 +29,12 @@
 		a.status, a.immortal, a.deadline, a.create_by, a.create_time, a.update_time
 	</sql>
 
-	<select id="selectPageVo" resultMap="announcementVoMap">
+	<select id="selectByPage" resultMap="announcementVoMap">
 		SELECT
-		<include refid="Base_Alias_Column_List"/>
-		, su.username as create_username
+			${ew.allAliasSqlSelect}, su.username as create_username
 		FROM
-		notify_announcement a
-		LEFT JOIN sys_user su
-		ON a.create_by = su.user_id
+			notify_announcement a
+		LEFT JOIN sys_user su ON a.create_by = su.user_id
 		${ew.customSqlSegment}
 	</select>
 

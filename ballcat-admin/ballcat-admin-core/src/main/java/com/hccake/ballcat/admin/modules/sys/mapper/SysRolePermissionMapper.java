@@ -1,16 +1,16 @@
 package com.hccake.ballcat.admin.modules.sys.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRolePermission;
+import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 
 /**
  * <p>
  * 角色菜单表 Mapper 接口
  * </p>
  *
- * @author
+ * @author hccake
  * @since 2017-10-29
  */
-public interface SysRolePermissionMapper extends BaseMapper<SysRolePermission> {
+public interface SysRolePermissionMapper extends ExtendMapper<SysRolePermission> {
 
 }

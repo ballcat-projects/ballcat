@@ -1,7 +1,11 @@
 package com.hccake.ballcat.admin.modules.notify.model.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.hccake.extend.mybatis.plus.alias.TableAlias;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,11 +19,14 @@ import java.util.List;
  * @author hccake 2020-12-15 17:01:15
  */
 @Data
+@TableAlias(Announcement.TABLE_ALIAS)
 @TableName(value = "notify_announcement", autoResultMap = true)
 @ApiModel(value = "公告信息")
 public class Announcement {
 
 	private static final long serialVersionUID = 1L;
+
+	public final static String TABLE_ALIAS = "a";
 
 	/**
 	 * ID

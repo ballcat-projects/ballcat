@@ -1,11 +1,12 @@
 package com.hccake.ballcat.admin.modules.notify.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
-import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
+import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.extend.mybatis.plus.service.ExtendService;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -15,15 +16,15 @@ import java.util.List;
  *
  * @author hccake 2020-12-15 17:01:15
  */
-public interface AnnouncementService extends IService<Announcement> {
+public interface AnnouncementService extends ExtendService<Announcement> {
 
 	/**
-	 * 根据QueryObeject查询分页数据
+	 * 根据QueryObject查询分页数据
 	 * @param page 分页参数
 	 * @param qo 查询参数对象
-	 * @return IPage<AnnouncementVO> 分页数据
+	 * @return PageResult<AnnouncementVO> 分页数据
 	 */
-	IPage<AnnouncementVO> selectPageVo(IPage<?> page, AnnouncementQO qo);
+	PageResult<AnnouncementVO> queryPage(PageParam page, AnnouncementQO qo);
 
 	/**
 	 * 创建公告

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.modules.lov.model.Vo;
+package com.hccake.ballcat.admin.modules.lov.model.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.hccake.ballcat.admin.modules.lov.enums.HttpMethod;
@@ -19,8 +19,8 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-@ApiModel(value = "lov vo")
-public class LovVo {
+@ApiModel(value = "lov info vo")
+public class LovInfoVO {
 
 	@ApiModelProperty("标题")
 	private String title;

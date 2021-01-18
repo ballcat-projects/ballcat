@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysOrganization;
+import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author hccake 2020-09-23 12:09:43
  */
-public interface SysOrganizationMapper extends BaseMapper<SysOrganization> {
+public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 
 	/**
 	 * 跟随父节点移动子节点

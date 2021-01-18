@@ -1,15 +1,17 @@
 package com.hccake.ballcat.admin.modules.sys.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.admin.modules.sys.manager.SysDictManager;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
@@ -57,15 +59,15 @@ public class SysDictController {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
-	 * @param sysDictQO 字典表
-	 * @return R
+	 * @param pageParam 分页参数
+	 * @param sysDictQO 字典查询参数
+	 * @return R<PageResult<SysDictVO>>
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:dict:read')")
-	public R<IPage<SysDict>> getSysDictPage(Page<SysDict> page, SysDictQO sysDictQO) {
-		return R.ok(sysDictManager.dictPage(page, sysDictQO));
+	public R<PageResult<SysDictVO>> getSysDictPage(PageParam pageParam, SysDictQO sysDictQO) {
+		return R.ok(sysDictManager.dictPage(pageParam, sysDictQO));
 	}
 
 	/**
@@ -111,15 +113,16 @@ public class SysDictController {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
+	 * @param pageParam 分页参数
 	 * @param dictCode 字典标识
 	 * @return R
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/item/page")
 	@PreAuthorize("@per.hasPermission('sys:dict:read')")
-	public R<IPage<SysDictItem>> getSysDictItemPage(Page<SysDictItem> page, @RequestParam("dictCode") String dictCode) {
-		return R.ok(sysDictManager.dictItemPage(page, dictCode));
+	public R<PageResult<SysDictItemVO>> getSysDictItemPage(PageParam pageParam,
+			@RequestParam("dictCode") String dictCode) {
+		return R.ok(sysDictManager.dictItemPage(pageParam, dictCode));
 	}
 
 	/**

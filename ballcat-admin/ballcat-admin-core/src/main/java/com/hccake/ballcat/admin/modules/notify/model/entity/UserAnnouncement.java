@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.hccake.extend.mybatis.plus.alias.TableAlias;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,11 +17,14 @@ import java.time.LocalDateTime;
  * @author hccake 2020-12-25 08:04:53
  */
 @Data
+@TableAlias(UserAnnouncement.TABLE_ALIAS)
 @TableName("notify_user_announcement")
 @ApiModel(value = "用户公告表")
 public class UserAnnouncement {
 
 	private static final long serialVersionUID = 1L;
+
+	public final static String TABLE_ALIAS = "ua";
 
 	/**
 	 * ID

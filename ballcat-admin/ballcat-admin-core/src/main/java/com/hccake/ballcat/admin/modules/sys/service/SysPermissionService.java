@@ -1,8 +1,8 @@
 package com.hccake.ballcat.admin.modules.sys.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysPermission;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
+import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ import java.util.List;
  * 菜单权限表 服务类
  * </p>
  *
- * @author
+ * @author hccake
  * @since 2017-10-29
  */
-public interface SysPermissionService extends IService<SysPermission> {
+public interface SysPermissionService extends ExtendService<SysPermission> {
 
 	/**
 	 * 通过角色编号查询URL 权限

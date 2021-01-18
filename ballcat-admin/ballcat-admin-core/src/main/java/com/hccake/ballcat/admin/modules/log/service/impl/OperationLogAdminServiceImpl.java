@@ -1,9 +1,13 @@
 package com.hccake.ballcat.admin.modules.log.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hccake.ballcat.admin.modules.log.mapper.AdminOperationLogMapper;
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminOperationLog;
+import com.hccake.ballcat.admin.modules.log.model.qo.AdminOperationLogQO;
+import com.hccake.ballcat.admin.modules.log.model.vo.AdminOperationLogVO;
 import com.hccake.ballcat.admin.modules.log.service.OperationLogAdminService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +17,18 @@ import org.springframework.stereotype.Service;
  * @date 2019-10-15 20:42:32
  */
 @Service
-public class OperationLogAdminServiceImpl extends ServiceImpl<AdminOperationLogMapper, AdminOperationLog>
+public class OperationLogAdminServiceImpl extends ExtendServiceImpl<AdminOperationLogMapper, AdminOperationLog>
 		implements OperationLogAdminService {
+
+	/**
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
+	 * @param qo 查询参数对象
+	 * @return PageResult<LoginLogVO> 分页数据
+	 */
+	@Override
+	public PageResult<AdminOperationLogVO> queryPage(PageParam pageParam, AdminOperationLogQO qo) {
+		return baseMapper.queryPage(pageParam, qo);
+	}
 
 }

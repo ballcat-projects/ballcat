@@ -1,6 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.hccake.extend.mybatis.plus.alias.TableAlias;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
  * @date 2019-09-12 20:39:31
  */
 @Data
+@TableAlias("su")
 @TableName("sys_user")
 @ApiModel(value = "系统用户表")
 public class SysUser implements Serializable {

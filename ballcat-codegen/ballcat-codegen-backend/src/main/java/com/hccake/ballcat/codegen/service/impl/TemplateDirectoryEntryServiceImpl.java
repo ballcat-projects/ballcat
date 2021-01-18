@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.codegen.constant.DirectoryEntryRemoveModeEnum;
 import com.hccake.ballcat.codegen.constant.DirectoryEntryTypeEnum;
@@ -23,6 +22,7 @@ import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.util.TreeUtil;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,10 +39,9 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class TemplateDirectoryEntryServiceImpl extends ServiceImpl<TemplateDirectoryEntryMapper, TemplateDirectoryEntry>
+public class TemplateDirectoryEntryServiceImpl
+		extends ExtendServiceImpl<TemplateDirectoryEntryMapper, TemplateDirectoryEntry>
 		implements TemplateDirectoryEntryService {
-
-	private final static String TABLE_ALIAS_PREFIX = "tde.";
 
 	private final TemplateInfoService templateInfoService;
 

@@ -16,10 +16,12 @@ import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
-import com.hccake.ballcat.common.core.vo.SelectData;
+import com.hccake.ballcat.common.core.domain.SelectData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -54,13 +56,13 @@ public class SysUserController {
 
 	/**
 	 * 分页查询用户
-	 * @param page 参数集
+	 * @param pageParam 参数集
 	 * @return 用户集合
 	 */
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:read')")
-	public R<IPage<SysUserVO>> getUserPage(Page<?> page, SysUserQO qo) {
-		return R.ok(sysUserService.selectPageVo(page, qo));
+	public R<PageResult<SysUserVO>> getUserPage(PageParam pageParam, SysUserQO qo) {
+		return R.ok(sysUserService.queryPage(pageParam, qo));
 	}
 
 	/**

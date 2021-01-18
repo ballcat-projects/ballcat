@@ -1,14 +1,15 @@
 package com.hccake.ballcat.admin.modules.sys.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hccake.ballcat.admin.modules.sys.model.entity.SysConfig;
+import com.hccake.ballcat.admin.modules.sys.model.qo.SysConfigQO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysConfigVO;
+import com.hccake.ballcat.admin.modules.sys.service.SysConfigService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysConfig;
-import com.hccake.ballcat.admin.modules.sys.service.SysConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -31,15 +32,15 @@ public class SysConfigController {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
-	 * @param sysConfig 系统配置表
-	 * @return
+	 * @param pageParam 分页参数
+	 * @param sysConfigQO 系统配置表
+	 * @return R<PageResult<SysConfigVO>>
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:config:read')")
-	public R<IPage<SysConfig>> getSysConfigPage(Page<SysConfig> page, SysConfig sysConfig) {
-		return R.ok(sysConfigService.page(page, Wrappers.query(sysConfig)));
+	public R<PageResult<SysConfigVO>> getSysConfigPage(PageParam pageParam, SysConfigQO sysConfigQO) {
+		return R.ok(sysConfigService.queryPage(pageParam, sysConfigQO));
 	}
 
 	/**

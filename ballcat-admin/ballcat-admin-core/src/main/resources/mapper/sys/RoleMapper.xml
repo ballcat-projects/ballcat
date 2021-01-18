@@ -2,18 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hccake.ballcat.admin.modules.sys.mapper.SysRoleMapper">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.hccake.ballcat.admin.modules.sys.model.entity.SysRole">
-		<id column="id" property="id"/>
-		<result column="name" property="name"/>
-		<result column="code" property="code"/>
-		<result column="note" property="note"/>
-		<result column="create_time" property="createTime"/>
-		<result column="update_time" property="updateTime"/>
-		<result column="deleted" property="deleted"/>
-	</resultMap>
-
-	<select id="getSelectData" resultType="com.hccake.ballcat.common.core.vo.SelectData">
+	<select id="getSelectData" resultType="com.hccake.ballcat.common.core.domain.SelectData">
 		select
 			name, code as value
 		from
@@ -21,6 +10,5 @@
 		where
 			deleted = 0
 	</select>
-
 
 </mapper>

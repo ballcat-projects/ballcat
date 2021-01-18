@@ -1,15 +1,15 @@
 package com.hccake.ballcat.codegen.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.codegen.model.dto.DataSourceConfigDTO;
 import com.hccake.ballcat.codegen.model.entity.DataSourceConfig;
 import com.hccake.ballcat.codegen.model.qo.DataSourceConfigQO;
 import com.hccake.ballcat.codegen.model.vo.DataSourceConfigVO;
 import com.hccake.ballcat.codegen.service.DataSourceConfigService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.vo.SelectData;
+import com.hccake.ballcat.common.core.domain.SelectData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +33,16 @@ public class DataSourceConfigController {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
+	 * @param pageParam 分页对象
 	 * @param dataSourceConfigQO 数据源
 	 * @return R
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	// @PreAuthorize("@per.hasPermission('gen:datasourceconfig:read')" )
-	public R<IPage<DataSourceConfigVO>> getDataSourceConfigPage(Page<?> page, DataSourceConfigQO dataSourceConfigQO) {
-		return R.ok(dataSourceConfigService.selectPageVo(page, dataSourceConfigQO));
+	public R<PageResult<DataSourceConfigVO>> getDataSourceConfigPage(PageParam pageParam,
+			DataSourceConfigQO dataSourceConfigQO) {
+		return R.ok(dataSourceConfigService.queryPage(pageParam, dataSourceConfigQO));
 	}
 
 	/**

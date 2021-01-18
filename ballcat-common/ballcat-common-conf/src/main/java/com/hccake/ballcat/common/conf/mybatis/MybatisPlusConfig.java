@@ -1,11 +1,20 @@
 package com.hccake.ballcat.common.conf.mybatis;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.core.injector.AbstractMethod;
+import com.baomidou.mybatisplus.core.injector.ISqlInjector;
+import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.hccake.extend.mybatis.plus.injector.CustomSqlInjector;
+import com.hccake.extend.mybatis.plus.methods.SelectByPage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author hccake
@@ -35,6 +44,21 @@ public class MybatisPlusConfig {
 	@ConditionalOnMissingBean(FillMetaObjectHandle.class)
 	public FillMetaObjectHandle fillMetaObjectHandle() {
 		return new FillMetaObjectHandle();
+	}
+
+	/**
+	 * 自定义批量插入方法注入
+	 * @return ISqlInjector
+	 */
+	@Bean
+	@ConditionalOnMissingBean(ISqlInjector.class)
+	public ISqlInjector customSqlInjector() {
+		List<AbstractMethod> list = new ArrayList<>();
+		// 对于只在更新时进行填充的字段不做插入处理
+		list.add(new InsertBatchSomeColumn(t -> t.getFieldFill() != FieldFill.UPDATE));
+		// 分页查询 返回 VO 对象
+		list.add(new SelectByPage());
+		return new CustomSqlInjector(list);
 	}
 
 }

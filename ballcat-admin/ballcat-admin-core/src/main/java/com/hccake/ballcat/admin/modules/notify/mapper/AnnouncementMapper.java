@@ -1,11 +1,14 @@
 package com.hccake.ballcat.admin.modules.notify.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
+import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
+import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
+import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,15 +18,23 @@ import java.util.List;
  *
  * @author hccake 2020-12-15 17:01:15
  */
-public interface AnnouncementMapper extends BaseMapper<Announcement> {
+public interface AnnouncementMapper extends ExtendMapper<Announcement> {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
-	 * @param wrapper 查询wrapper
-	 * @return IPage<AnnouncementVO> VO分页数据
+	 * @param pageParam 分页参数
+	 * @param qo 查询对象
+	 * @return 分页结果数据 PageResult
 	 */
-	IPage<AnnouncementVO> selectPageVo(IPage<?> page, @Param(Constants.WRAPPER) Wrapper<Announcement> wrapper);
+	default PageResult<AnnouncementVO> queryPage(PageParam pageParam, AnnouncementQO qo) {
+		IPage<AnnouncementVO> page = this.prodPage(pageParam);
+		LambdaQueryWrapperX<Announcement> wrapperX = WrappersX.lambdaAliasQueryX(Announcement.class)
+				.likeIfPresent(Announcement::getTitle, qo.getTitle())
+				.inIfPresent(Announcement::getStatus, (Object[]) qo.getStatus())
+				.eqIfPresent(Announcement::getRecipientFilterType, qo.getRecipientFilterType());
+		this.selectByPage(page, wrapperX);
+		return new PageResult<>(page.getRecords(), page.getTotal());
+	}
 
 	/**
 	 * 根据参数获取当前用户拉取过，或者未拉取过的有效的公告信息

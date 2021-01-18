@@ -1,23 +1,23 @@
 package com.hccake.ballcat.admin.modules.sys.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRolePermission;
+import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 /**
  * <p>
  * 角色菜单表 服务类
  * </p>
  *
- * @author
+ * @author hccake
  * @since 2017-10-29
  */
-public interface SysRolePermissionService extends IService<SysRolePermission> {
+public interface SysRolePermissionService extends ExtendService<SysRolePermission> {
 
 	/**
 	 * 更新角色菜单
 	 * @param roleCode 角色
 	 * @param permissionIds 权限ID数组
-	 * @return
+	 * @return 更新角色权限关联关系是否成功
 	 */
 	Boolean saveRolePermissions(String roleCode, Integer[] permissionIds);
 

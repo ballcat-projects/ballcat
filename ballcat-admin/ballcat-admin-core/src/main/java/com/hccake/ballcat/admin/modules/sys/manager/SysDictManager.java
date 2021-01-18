@@ -2,9 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.manager;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.admin.modules.sys.event.DictChangeEvent;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysDictConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
@@ -12,9 +10,13 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.DictItemVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import lombok.RequiredArgsConstructor;
@@ -45,12 +47,12 @@ public class SysDictManager {
 
 	/**
 	 * 字典表分页
-	 * @param page 分页参数
+	 * @param pageParam 分页参数
 	 * @param sysDictQO 查询参数
 	 * @return 字典表分页数据
 	 */
-	public IPage<SysDict> dictPage(Page<SysDict> page, SysDictQO sysDictQO) {
-		return sysDictService.page(page, sysDictQO);
+	public PageResult<SysDictVO> dictPage(PageParam pageParam, SysDictQO sysDictQO) {
+		return sysDictService.queryPage(pageParam, sysDictQO);
 	}
 
 	/**
@@ -105,12 +107,12 @@ public class SysDictManager {
 
 	/**
 	 * 字典项分页
-	 * @param page 分页属性
+	 * @param pageParam 分页属性
 	 * @param dictCode 字典标识
 	 * @return 字典项分页数据
 	 */
-	public IPage<SysDictItem> dictItemPage(Page<SysDictItem> page, String dictCode) {
-		return sysDictItemService.page(page, dictCode);
+	public PageResult<SysDictItemVO> dictItemPage(PageParam pageParam, String dictCode) {
+		return sysDictItemService.queryPage(pageParam, dictCode);
 	}
 
 	/**

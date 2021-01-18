@@ -2,12 +2,8 @@ package com.hccake.ballcat.admin.modules.notify.service.impl;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
 import com.hccake.ballcat.admin.modules.notify.event.AnnouncementCloseEvent;
@@ -25,9 +21,12 @@ import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
 import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
 import com.hccake.ballcat.admin.modules.sys.service.FileService;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -50,10 +49,8 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Announcement>
+public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMapper, Announcement>
 		implements AnnouncementService {
-
-	private final static String TABLE_ALIAS_PREFIX = "a.";
 
 	private final ApplicationEventPublisher publisher;
 
@@ -63,18 +60,13 @@ public class AnnouncementServiceImpl extends ServiceImpl<AnnouncementMapper, Ann
 
 	/**
 	 * 根据QueryObject查询分页数据
-	 * @param page 分页参数
+	 * @param pageParam 分页参数
 	 * @param qo 查询参数对象
-	 * @return IPage<AnnouncementVO> 分页数据
+	 * @return PageResult<AnnouncementVO> 分页数据
 	 */
 	@Override
-	public IPage<AnnouncementVO> selectPageVo(IPage<?> page, AnnouncementQO qo) {
-		QueryWrapper<Announcement> wrapper = Wrappers.<Announcement>query()
-				.like(StrUtil.isNotBlank(qo.getTitle()), TABLE_ALIAS_PREFIX + "title", qo.getTitle())
-				.in(qo.getStatus() != null && qo.getStatus().length > 0, TABLE_ALIAS_PREFIX + "status", qo.getStatus())
-				.eq(ObjectUtil.isNotNull(qo.getRecipientFilterType()), TABLE_ALIAS_PREFIX + "recipient_filter_type",
-						qo.getRecipientFilterType());
-		return baseMapper.selectPageVo(page, wrapper);
+	public PageResult<AnnouncementVO> queryPage(PageParam pageParam, AnnouncementQO qo) {
+		return baseMapper.queryPage(pageParam, qo);
 	}
 
 	/**
