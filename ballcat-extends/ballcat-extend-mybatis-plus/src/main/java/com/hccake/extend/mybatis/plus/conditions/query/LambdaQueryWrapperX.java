@@ -11,8 +11,10 @@ import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
@@ -186,12 +188,22 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 		return super.likeRight(conditional(val), column, val);
 	}
 
-	public LambdaQueryWrapperX<T> inIfPresent(SFunction<T, ?> column, Collection<?> coll) {
-		return super.in(conditional(coll), column, coll);
+	public LambdaQueryWrapperX<T> inIfPresent(SFunction<T, ?> column, Object... values) {
+		return super.in(conditional(values), column,
+				Arrays.stream(Optional.ofNullable(values).orElseGet(() -> new Object[] {})));
 	}
 
-	public LambdaQueryWrapperX<T> notInIfPresent(SFunction<T, ?> column, Collection<?> coll) {
-		return super.notIn(conditional(coll), column, coll);
+	public LambdaQueryWrapperX<T> inIfPresent(SFunction<T, ?> column, Collection<?> values) {
+		return super.in(conditional(values), column, values);
+	}
+
+	public LambdaQueryWrapperX<T> notInIfPresent(SFunction<T, ?> column, Object... values) {
+		return super.notIn(conditional(values), column,
+				Arrays.stream(Optional.ofNullable(values).orElseGet(() -> new Object[] {})));
+	}
+
+	public LambdaQueryWrapperX<T> notInIfPresent(SFunction<T, ?> column, Collection<?> values) {
+		return super.notIn(conditional(values), column, values);
 	}
 
 }

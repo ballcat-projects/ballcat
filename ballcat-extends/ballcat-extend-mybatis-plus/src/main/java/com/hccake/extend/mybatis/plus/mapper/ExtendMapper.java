@@ -1,6 +1,9 @@
 package com.hccake.extend.mybatis.plus.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +14,7 @@ import java.util.Collection;
  *
  * @author lingting 2020/5/27 11:39
  */
-public interface ExtendBaseMapper<T> extends BaseMapper<T> {
+public interface ExtendMapper<T> extends BaseMapper<T> {
 
 	/**
 	 * 批量插入数据 实现类 {@link InsertBatchSomeColumn}
@@ -20,5 +23,13 @@ public interface ExtendBaseMapper<T> extends BaseMapper<T> {
 	 * @author lingting 2020-08-26 22:11
 	 */
 	int insertBatchSomeColumn(@Param("list") Collection<T> list);
+
+	/**
+	 * 根据 entity 条件，查询全部记录（并翻页）
+	 * @param page 分页查询条件（可以为 RowBounds.DEFAULT）
+	 * @param queryWrapper 实体对象封装操作类（可以为 null）
+	 * @return 分页参数
+	 */
+	<V> IPage<V> selectByPage(IPage<V> page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
 }

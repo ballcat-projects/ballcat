@@ -17,6 +17,6 @@ public interface ExtendService<T> extends IService<T> {
 	 * @return int 改动行
 	 * @author lingting 2020-08-26 22:11
 	 */
-	int insertBatchSomeColumn(Collection<T> list);
+	boolean saveBatchSomeColumn(Collection<T> list);
 
 }
