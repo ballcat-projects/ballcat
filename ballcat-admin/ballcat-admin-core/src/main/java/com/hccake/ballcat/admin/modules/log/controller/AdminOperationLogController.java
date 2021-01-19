@@ -1,10 +1,10 @@
 package com.hccake.ballcat.admin.modules.log.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hccake.ballcat.admin.modules.log.model.entity.AdminOperationLog;
+import com.hccake.ballcat.admin.modules.log.model.qo.AdminOperationLogQO;
+import com.hccake.ballcat.admin.modules.log.model.vo.AdminOperationLogVO;
 import com.hccake.ballcat.admin.modules.log.service.OperationLogAdminService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,16 +30,16 @@ public class AdminOperationLogController {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
-	 * @param adminOperationLog 操作日志
+	 * @param pageParam 分页参数
+	 * @param adminOperationLogQO 操作日志
 	 * @return R
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('log:adminoperationlog:read')")
-	public R<IPage<AdminOperationLog>> getOperationLogAdminPage(Page<AdminOperationLog> page,
-			AdminOperationLog adminOperationLog) {
-		return R.ok(operationLogAdminService.page(page, Wrappers.query(adminOperationLog)));
+	public R<PageResult<AdminOperationLogVO>> getOperationLogAdminPage(PageParam pageParam,
+			AdminOperationLogQO adminOperationLogQO) {
+		return R.ok(operationLogAdminService.queryPage(pageParam, adminOperationLogQO));
 	}
 
 }

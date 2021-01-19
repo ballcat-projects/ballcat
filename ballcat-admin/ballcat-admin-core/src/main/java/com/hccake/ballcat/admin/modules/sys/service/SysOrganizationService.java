@@ -1,9 +1,9 @@
 package com.hccake.ballcat.admin.modules.sys.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysOrganizationDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysOrganization;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysOrganizationTree;
+import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author hccake 2020-09-23 12:09:43
  */
-public interface SysOrganizationService extends IService<SysOrganization> {
+public interface SysOrganizationService extends ExtendService<SysOrganization> {
 
 	/**
 	 * 返回组织架构的树形结构

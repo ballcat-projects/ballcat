@@ -6,6 +6,8 @@ import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
 import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
 import com.hccake.ballcat.codegen.service.TemplatePropertyService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.Api;
@@ -30,11 +32,11 @@ public class TemplatePropertyController {
 	private final TemplatePropertyService templatePropertyService;
 
 	/**
-	 * 分页查询
+	 * 查询模板组对应的所有属性
 	 * @param templateGroupId 模板组ID
 	 * @return R
 	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
+	@ApiOperation(value = "模板组属性", notes = "模板组属性")
 	@GetMapping("/list/{groupId}")
 	public R<List<TemplatePropertyVO>> getTemplatePropertyList(@PathVariable("groupId") Integer templateGroupId) {
 		return R.ok(templatePropertyService.list(templateGroupId));
@@ -42,15 +44,16 @@ public class TemplatePropertyController {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
+	 * @param pageParam 分页对象
 	 * @param templatePropertyQO 模板属性配置
 	 * @return R
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	// @PreAuthorize("@per.hasPermission('codegen:templateproperty:read')" )
-	public R<IPage<TemplatePropertyVO>> getTemplatePropertyPage(Page<?> page, TemplatePropertyQO templatePropertyQO) {
-		return R.ok(templatePropertyService.selectPageVo(page, templatePropertyQO));
+	public R<PageResult<TemplatePropertyVO>> getTemplatePropertyPage(PageParam pageParam,
+			TemplatePropertyQO templatePropertyQO) {
+		return R.ok(templatePropertyService.queryPage(pageParam, templatePropertyQO));
 	}
 
 	/**

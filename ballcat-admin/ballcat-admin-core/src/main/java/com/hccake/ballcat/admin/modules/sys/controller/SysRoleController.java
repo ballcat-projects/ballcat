@@ -1,23 +1,24 @@
 package com.hccake.ballcat.admin.modules.sys.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.admin.constants.SysRoleConst;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysRoleConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysRoleUpdateDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysRoleVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRoleService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.core.domain.SelectData;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.vo.SelectData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -45,13 +46,13 @@ public class SysRoleController {
 
 	/**
 	 * 分页查询角色信息
-	 * @param page 分页对象
-	 * @return 分页对象
+	 * @param pageParam 分页参数
+	 * @return PageResult 分页结果
 	 */
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:sysrole:read')")
-	public R<IPage<SysRole>> getRolePage(Page<SysRole> page, SysRoleQO sysRoleQo) {
-		return R.ok(sysRoleService.page(page, sysRoleQo));
+	public R<PageResult<SysRoleVO>> getRolePage(PageParam pageParam, SysRoleQO sysRoleQo) {
+		return R.ok(sysRoleService.queryPage(pageParam, sysRoleQo));
 	}
 
 	/**

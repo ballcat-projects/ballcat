@@ -1,14 +1,15 @@
 package com.hccake.ballcat.admin.modules.sys.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
-import com.hccake.ballcat.common.core.vo.SelectData;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.core.domain.SelectData;
+import com.hccake.extend.mybatis.plus.service.ExtendService;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -20,15 +21,15 @@ import java.util.List;
  * @author ballcat code generator
  * @date 2019-09-12 20:39:31
  */
-public interface SysUserService extends IService<SysUser> {
+public interface SysUserService extends ExtendService<SysUser> {
 
 	/**
 	 * 根据QueryObject查询系统用户列表
-	 * @param page 分页参数
+	 * @param pageParam 分页参数
 	 * @param qo 查询参数对象
-	 * @return IPage<SysUserVO> 分页数据
+	 * @return PageResult<SysUserVO> 分页数据
 	 */
-	IPage<SysUserVO> selectPageVo(IPage<?> page, SysUserQO qo);
+	PageResult<SysUserVO> queryPage(PageParam pageParam, SysUserQO qo);
 
 	/**
 	 * 根据用户名查询用户

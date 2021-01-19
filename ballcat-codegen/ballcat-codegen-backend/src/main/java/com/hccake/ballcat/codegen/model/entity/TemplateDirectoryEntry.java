@@ -1,11 +1,9 @@
 package com.hccake.ballcat.codegen.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
@@ -17,9 +15,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("gen_template_directory_entry")
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "模板文件目录项")
-public class TemplateDirectoryEntry extends Model<TemplateDirectoryEntry> {
+public class TemplateDirectoryEntry {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,7 +24,7 @@ public class TemplateDirectoryEntry extends Model<TemplateDirectoryEntry> {
 	 * ID
 	 */
 	@TableId
-	@ApiModelProperty(value = "")
+	@ApiModelProperty(value = "ID")
 	private Integer id;
 
 	/**

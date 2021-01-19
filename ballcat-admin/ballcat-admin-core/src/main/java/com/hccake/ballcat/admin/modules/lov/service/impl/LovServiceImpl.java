@@ -1,19 +1,21 @@
 package com.hccake.ballcat.admin.modules.lov.service.impl;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hccake.ballcat.admin.modules.lov.mapper.LovMapper;
-import com.hccake.ballcat.admin.modules.lov.model.Vo.LovVo;
 import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovBody;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovSearch;
+import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
+import com.hccake.ballcat.admin.modules.lov.model.vo.LovInfoVO;
+import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
 import com.hccake.ballcat.admin.modules.lov.service.LovBodyService;
 import com.hccake.ballcat.admin.modules.lov.service.LovSearchService;
 import com.hccake.ballcat.admin.modules.lov.service.LovService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,25 +30,15 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovService {
+public class LovServiceImpl extends ExtendServiceImpl<LovMapper, Lov> implements LovService {
 
 	private final LovBodyService bodyService;
 
 	private final LovSearchService searchService;
 
 	@Override
-	public IPage<Lov> selectPage(IPage<Lov> page, Lov entity) {
-		return baseMapper.selectPage(page, Wrappers.<Lov>lambdaQuery()
-
-				.like(StrUtil.isNotEmpty(entity.getKeyword()), Lov::getKeyword, entity.getKeyword())
-
-				.eq(entity.getMethod() != null, Lov::getMethod, entity.getMethod())
-
-				.eq(entity.getPosition() != null, Lov::getPosition, entity.getPosition())
-
-				.like(StrUtil.isNotEmpty(entity.getUrl()), Lov::getUrl, entity.getUrl())
-
-				.like(StrUtil.isNotEmpty(entity.getTitle()), Lov::getTitle, entity.getTitle()));
+	public PageResult<LovVO> queryPage(PageParam pageParam, LovQO qo) {
+		return baseMapper.queryPage(pageParam, qo);
 	}
 
 	@Override
@@ -128,12 +120,13 @@ public class LovServiceImpl extends ServiceImpl<LovMapper, Lov> implements LovSe
 	}
 
 	@Override
-	public LovVo getDataByKeyword(String keyword) {
+	public LovInfoVO getDataByKeyword(String keyword) {
 		Lov lov = baseMapper.selectOne(Wrappers.<Lov>lambdaQuery().eq(Lov::getKeyword, keyword));
 		if (lov != null) {
-			LovVo vo = new LovVo().setKey(lov.getKey()).setFixedParams(lov.getFixedParams()).setMethod(lov.getMethod())
-					.setKeyword(lov.getKeyword()).setMultiple(lov.getMultiple()).setPosition(lov.getPosition())
-					.setRet(lov.getRet()).setTitle(lov.getTitle()).setUrl(lov.getUrl()).setRetField(lov.getRetField());
+			LovInfoVO vo = new LovInfoVO().setKey(lov.getKey()).setFixedParams(lov.getFixedParams())
+					.setMethod(lov.getMethod()).setKeyword(lov.getKeyword()).setMultiple(lov.getMultiple())
+					.setPosition(lov.getPosition()).setRet(lov.getRet()).setTitle(lov.getTitle()).setUrl(lov.getUrl())
+					.setRetField(lov.getRetField());
 			vo.setBodyList(bodyService.list(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getKeyword, lov.getKeyword())));
 			vo.setSearchList(
 					searchService.list(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getKeyword, lov.getKeyword())));

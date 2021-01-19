@@ -1,16 +1,12 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.constants.SysUserConst;
 import com.hccake.ballcat.admin.modules.sys.checker.AdminUserChecker;
@@ -27,8 +23,14 @@ import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
 import com.hccake.ballcat.admin.modules.sys.service.*;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
+import com.hccake.ballcat.common.core.constant.GlobalConstants;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.core.domain.SelectData;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
-import com.hccake.ballcat.common.core.vo.SelectData;
+import com.hccake.extend.mybatis.plus.conditions.query.LambdaAliasQueryWrapperX;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
@@ -51,7 +53,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
 	private final FileService fileService;
 
@@ -68,31 +70,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Value("${password.secret-key}")
 	private String secretKey;
 
-	private final static String TABLE_ALIAS_PREFIX = "su.";
-
 	/**
 	 * 根据QueryObject查询分页数据
-	 * @param page 分页参数
+	 * @param pageParam 分页参数
 	 * @param qo 查询参数对象
-	 * @return IPage<SysUserVO> 分页数据
+	 * @return PageResult<SysUserVO> 分页数据
 	 */
 	@Override
-	public IPage<SysUserVO> selectPageVo(IPage<?> page, SysUserQO qo) {
-
-		QueryWrapper<SysUser> wrapper = Wrappers.<SysUser>query().eq(TABLE_ALIAS_PREFIX + "deleted", 0)
-				.like(ObjectUtil.isNotNull(qo.getUsername()), TABLE_ALIAS_PREFIX + "username", qo.getUsername())
-				.like(ObjectUtil.isNotNull(qo.getEmail()), TABLE_ALIAS_PREFIX + "email", qo.getEmail())
-				.like(ObjectUtil.isNotNull(qo.getPhone()), TABLE_ALIAS_PREFIX + "phone", qo.getPhone())
-				.like(ObjectUtil.isNotNull(qo.getNickname()), TABLE_ALIAS_PREFIX + "nickname", qo.getNickname())
-				.eq(ObjectUtil.isNotNull(qo.getStatus()), TABLE_ALIAS_PREFIX + "status", qo.getStatus())
-				.eq(ObjectUtil.isNotNull(qo.getSex()), TABLE_ALIAS_PREFIX + "sex", qo.getSex())
-				.eq(ObjectUtil.isNotNull(qo.getType()), TABLE_ALIAS_PREFIX + "type", qo.getType())
-				.in(CollectionUtil.isNotEmpty(qo.getOrganizationId()), TABLE_ALIAS_PREFIX + "organization_id",
-						qo.getOrganizationId());
-		if (StringUtils.isNotBlank(qo.getStartTime()) && StringUtils.isNotBlank(qo.getEndTime())) {
-			wrapper.between(TABLE_ALIAS_PREFIX + "create_time", qo.getStartTime(), qo.getEndTime());
-		}
-		return baseMapper.selectPageVo(page, wrapper);
+	public PageResult<SysUserVO> queryPage(PageParam pageParam, SysUserQO qo) {
+		return baseMapper.queryPage(pageParam, qo);
 	}
 
 	/**
@@ -139,8 +125,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		Set<String> permissions = new HashSet<>();
 		roles.forEach(code -> {
 			List<String> permissionList = sysPermissionService.findPermissionVOsByRoleCode(code).stream()
-					.filter(sysPermission -> StrUtil.isNotEmpty(sysPermission.getCode())).map(PermissionVO::getCode)
-					.collect(Collectors.toList());
+					.map(PermissionVO::getCode).filter(StrUtil::isNotEmpty).collect(Collectors.toList());
 			permissions.addAll(permissionList);
 		});
 		userInfoDTO.setPermissions(new ArrayList<>(permissions));

@@ -1,9 +1,10 @@
 package com.hccake.ballcat.codegen.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.hccake.ballcat.codegen.model.qo.TableInfoQO;
 import com.hccake.ballcat.codegen.model.vo.ColumnInfo;
 import com.hccake.ballcat.codegen.model.vo.TableInfo;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 
 import java.util.List;
 
@@ -16,12 +17,12 @@ import java.util.List;
 public interface TableInfoService {
 
 	/**
-	 * 根据QueryObeject查询分页数据
-	 * @param page 分页参数
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
 	 * @param qo 查询参数对象
 	 * @return 分页数据
 	 */
-	IPage<TableInfo> selectPageVo(IPage<?> page, TableInfoQO qo);
+	PageResult<TableInfo> queryPage(PageParam pageParam, TableInfoQO qo);
 
 	/**
 	 * 根据表名查询对应表信息

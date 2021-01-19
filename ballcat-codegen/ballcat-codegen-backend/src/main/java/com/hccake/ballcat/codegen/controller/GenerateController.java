@@ -1,13 +1,13 @@
 package com.hccake.ballcat.codegen.controller;
 
 import cn.hutool.core.io.IoUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
 import com.hccake.ballcat.codegen.model.qo.TableInfoQO;
 import com.hccake.ballcat.codegen.model.vo.TableInfo;
 import com.hccake.ballcat.codegen.service.GeneratorService;
 import com.hccake.ballcat.codegen.service.TableInfoService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.R;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +35,14 @@ public class GenerateController {
 
 	/**
 	 * 表信息分页查询
-	 * @param page 分页对象
+	 * @param pageParam 分页参数
 	 * @param tableInfoQO 表信息查询对象
 	 * @return R
 	 */
 	@ApiOperation(value = "表信息分页查询", notes = "表信息分页查询")
 	@GetMapping("/table-info/page")
-	public R<IPage<TableInfo>> getDataSourceConfigPage(Page<?> page, TableInfoQO tableInfoQO) {
-		return R.ok(tableInfoService.selectPageVo(page, tableInfoQO));
+	public R<PageResult<TableInfo>> getDataSourceConfigPage(PageParam pageParam, TableInfoQO tableInfoQO) {
+		return R.ok(tableInfoService.queryPage(pageParam, tableInfoQO));
 	}
 
 	/**

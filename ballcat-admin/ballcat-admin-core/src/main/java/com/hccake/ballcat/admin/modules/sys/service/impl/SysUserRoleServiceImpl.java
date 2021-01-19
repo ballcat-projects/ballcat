@@ -1,11 +1,11 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hccake.ballcat.admin.modules.sys.mapper.SysUserRoleMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUserRole;
-import com.hccake.ballcat.admin.modules.sys.mapper.SysUserRoleMapper;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +17,13 @@ import java.util.List;
  * @author Hccake
  */
 @Service
-public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
+public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper, SysUserRole>
+		implements SysUserRoleService {
 
 	/**
 	 * 根据UserId删除该用户角色关联关系
-	 * @param userId
-	 * @return
+	 * @param userId 用户ID
+	 * @return boolean
 	 */
 	@Override
 	public Boolean deleteByUserId(Integer userId) {
@@ -31,9 +32,9 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
 	/**
 	 * 插入用户角色关联关系
-	 * @param userId
-	 * @param roleCodes
-	 * @return
+	 * @param userId 用户ID
+	 * @param roleCodes 角色标识集合
+	 * @return boolean
 	 */
 	@Override
 	public Boolean insertUserRoles(Integer userId, List<String> roleCodes) {
@@ -42,8 +43,8 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
 	/**
 	 * 更新用户关联关系
-	 * @param userId
-	 * @param roleCodes
+	 * @param userId 用户ID
+	 * @param roleCodes 角色标识集合
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -58,8 +59,8 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
 	/**
 	 * 通过用户ID 获取用户所有角色ID
-	 * @param userId
-	 * @return
+	 * @param userId 用户ID
+	 * @return 用户拥有的角色集合
 	 */
 	@Override
 	public List<SysRole> getRoles(Integer userId) {

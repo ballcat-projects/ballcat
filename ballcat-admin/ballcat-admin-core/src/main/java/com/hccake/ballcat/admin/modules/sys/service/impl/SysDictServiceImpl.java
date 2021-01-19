@@ -1,16 +1,16 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysDictMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,20 +23,17 @@ import java.util.List;
  * @date 2020-03-26 18:40:20
  */
 @Service
-public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService {
+public class SysDictServiceImpl extends ExtendServiceImpl<SysDictMapper, SysDict> implements SysDictService {
 
 	/**
-	 * 根据QueryObeject查询分页数据
-	 * @param page 分页参数
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
 	 * @param qo 查询参数对象
-	 * @return 分页数据
+	 * @return PageResult<SysDictVO> 分页数据
 	 */
 	@Override
-	public IPage<SysDict> page(IPage<SysDict> page, SysDictQO qo) {
-		LambdaQueryWrapper<SysDict> wrapper = Wrappers.<SysDict>lambdaQuery()
-				.like(StrUtil.isNotBlank(qo.getCode()), SysDict::getCode, qo.getCode())
-				.like(StrUtil.isNotBlank(qo.getTitle()), SysDict::getTitle, qo.getTitle());
-		return baseMapper.selectPage(page, wrapper);
+	public PageResult<SysDictVO> queryPage(PageParam pageParam, SysDictQO qo) {
+		return baseMapper.queryPage(pageParam, qo);
 	}
 
 	/**
@@ -59,7 +56,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 		if (dictCode == null || dictCode.length == 0) {
 			return new ArrayList<>();
 		}
-		return baseMapper.selectList(Wrappers.<SysDict>lambdaQuery().in(SysDict::getCode, dictCode));
+		return baseMapper.selectList(Wrappers.<SysDict>lambdaQuery().in(SysDict::getCode, (Object[]) dictCode));
 	}
 
 	/**

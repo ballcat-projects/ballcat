@@ -1,9 +1,11 @@
 package com.hccake.ballcat.admin.modules.sys.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;
 
@@ -13,15 +15,15 @@ import java.util.List;
  * @author hccake
  * @date 2020-03-26 18:40:20
  */
-public interface SysDictService extends IService<SysDict> {
+public interface SysDictService extends ExtendService<SysDict> {
 
 	/**
-	 * 根据QueryObeject查询分页数据
-	 * @param page 分页参数
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
 	 * @param qo 查询参数对象
-	 * @return 分页数据
+	 * @return PageResult<SysDictVO> 分页数据
 	 */
-	IPage<SysDict> page(IPage<SysDict> page, SysDictQO qo);
+	PageResult<SysDictVO> queryPage(PageParam pageParam, SysDictQO qo);
 
 	/**
 	 * 根据字典标识查询

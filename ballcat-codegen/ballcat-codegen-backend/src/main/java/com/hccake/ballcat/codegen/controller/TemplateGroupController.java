@@ -6,9 +6,11 @@ import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
 import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
 import com.hccake.ballcat.codegen.service.TemplateGroupService;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.vo.SelectData;
+import com.hccake.ballcat.common.core.domain.SelectData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -32,15 +34,15 @@ public class TemplateGroupController {
 
 	/**
 	 * 分页查询
-	 * @param page 分页对象
-	 * @param templateGroupQO 模板组
+	 * @param pageParam 分页参数
+	 * @param templateGroupQO 模板组查询对象
 	 * @return R
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	// @PreAuthorize("@per.hasPermission('codegen:templategroup:read')" )
-	public R<IPage<TemplateGroupVO>> getTemplateGroupPage(Page<?> page, TemplateGroupQO templateGroupQO) {
-		return R.ok(templateGroupService.selectPageVo(page, templateGroupQO));
+	public R<PageResult<TemplateGroupVO>> getTemplateGroupPage(PageParam pageParam, TemplateGroupQO templateGroupQO) {
+		return R.ok(templateGroupService.queryPage(pageParam, templateGroupQO));
 	}
 
 	/**

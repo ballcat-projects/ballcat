@@ -1,11 +1,6 @@
 package com.hccake.ballcat.codegen.service.impl;
 
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.codegen.mapper.TemplateGroupMapper;
 import com.hccake.ballcat.codegen.model.bo.TemplateFile;
@@ -15,7 +10,10 @@ import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
 import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
 import com.hccake.ballcat.codegen.service.TemplateGroupService;
 import com.hccake.ballcat.codegen.service.TemplatePropertyService;
-import com.hccake.ballcat.common.core.vo.SelectData;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.core.domain.SelectData;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +29,8 @@ import java.util.Set;
  */
 @Service
 @RequiredArgsConstructor
-public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, TemplateGroup>
+public class TemplateGroupServiceImpl extends ExtendServiceImpl<TemplateGroupMapper, TemplateGroup>
 		implements TemplateGroupService {
-
-	private final static String TABLE_ALIAS_PREFIX = "tg.";
 
 	private final TemplateDirectoryEntryService templateDirectoryEntryService;
 
@@ -42,15 +38,13 @@ public class TemplateGroupServiceImpl extends ServiceImpl<TemplateGroupMapper, T
 
 	/**
 	 * 根据QueryObject查询分页数据
-	 * @param page 分页参数
+	 * @param pageParam 分页参数
 	 * @param qo 查询参数对象
 	 * @return 分页数据
 	 */
 	@Override
-	public IPage<TemplateGroupVO> selectPageVo(IPage<?> page, TemplateGroupQO qo) {
-		QueryWrapper<TemplateGroup> wrapper = Wrappers.<TemplateGroup>query().eq(ObjectUtil.isNotNull(qo.getId()),
-				TABLE_ALIAS_PREFIX + "Id", qo.getId());
-		return baseMapper.selectPageVo(page, wrapper);
+	public PageResult<TemplateGroupVO> queryPage(PageParam pageParam, TemplateGroupQO qo) {
+		return baseMapper.queryPage(pageParam, qo);
 	}
 
 	/**

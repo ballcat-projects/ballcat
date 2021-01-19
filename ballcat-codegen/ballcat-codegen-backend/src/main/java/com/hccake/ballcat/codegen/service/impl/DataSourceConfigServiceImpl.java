@@ -1,15 +1,10 @@
 package com.hccake.ballcat.codegen.service.impl;
 
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.codegen.mapper.DataSourceConfigMapper;
 import com.hccake.ballcat.codegen.model.converter.DataSourceConfigConverter;
@@ -18,7 +13,10 @@ import com.hccake.ballcat.codegen.model.entity.DataSourceConfig;
 import com.hccake.ballcat.codegen.model.qo.DataSourceConfigQO;
 import com.hccake.ballcat.codegen.model.vo.DataSourceConfigVO;
 import com.hccake.ballcat.codegen.service.DataSourceConfigService;
-import com.hccake.ballcat.common.core.vo.SelectData;
+import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.core.domain.SelectData;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
@@ -40,10 +38,8 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMapper, DataSourceConfig>
+public class DataSourceConfigServiceImpl extends ExtendServiceImpl<DataSourceConfigMapper, DataSourceConfig>
 		implements DataSourceConfigService {
-
-	private final static String TABLE_ALIAS_PREFIX = "dsc.";
 
 	private final StringEncryptor stringEncryptor;
 
@@ -53,16 +49,14 @@ public class DataSourceConfigServiceImpl extends ServiceImpl<DataSourceConfigMap
 	private DynamicRoutingDataSource dynamicRoutingDataSource;
 
 	/**
-	 * 根据QueryObeject查询分页数据
-	 * @param page 分页参数
+	 * 根据QueryObject查询分页数据
+	 * @param pageParam 分页参数
 	 * @param qo 查询参数对象
 	 * @return 分页数据
 	 */
 	@Override
-	public IPage<DataSourceConfigVO> selectPageVo(IPage<?> page, DataSourceConfigQO qo) {
-		QueryWrapper<DataSourceConfig> wrapper = Wrappers.<DataSourceConfig>query().eq(ObjectUtil.isNotNull(qo.getId()),
-				TABLE_ALIAS_PREFIX + "Id", qo.getId());
-		return baseMapper.selectPageVo(page, wrapper);
+	public PageResult<DataSourceConfigVO> queryPage(PageParam pageParam, DataSourceConfigQO qo) {
+		return baseMapper.queryPage(pageParam, qo);
 	}
 
 	/**

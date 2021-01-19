@@ -2,7 +2,6 @@ package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysOrganizationMapper;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysOrganizationConverter;
@@ -12,6 +11,7 @@ import com.hccake.ballcat.admin.modules.sys.model.vo.SysOrganizationTree;
 import com.hccake.ballcat.admin.modules.sys.service.SysOrganizationService;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.util.TreeUtil;
+import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +22,8 @@ import java.util.List;
  * @author hccake 2020-09-23 12:09:43
  */
 @Service
-public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMapper, SysOrganization>
+public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizationMapper, SysOrganization>
 		implements SysOrganizationService {
-
-	private final static String TABLE_ALIAS_PREFIX = "o.";
 
 	/**
 	 * 返回组织架构的树形结构
