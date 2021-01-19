@@ -12,6 +12,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lengleng
@@ -25,6 +27,10 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 
 	private final static String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
 			"alter", "drop", "sleep" };
+
+	private final static String FILED_NAME_REGEX = "[A-Za-z0-9_]+";
+
+	private final static String ASC = "asc";
 
 	/**
 	 * 判断Controller是否包含page 参数
@@ -53,8 +59,8 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 
 		String current = request.getParameter("current");
 		String size = request.getParameter("size");
-		String sortField = request.getParameter("sortField");
-		String sortAsc = request.getParameter("sortAsc");
+		String sortFields = request.getParameter("sortFields");
+		String sortOrders = request.getParameter("sortOrders");
 
 		PageParam pageParam = new PageParam();
 		if (StrUtil.isNotBlank(current)) {
@@ -64,18 +70,57 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 			pageParam.setSize(Long.parseLong(size));
 		}
 
-		if (StrUtil.isNotEmpty(sortField)) {
-			// 校验参数
-			sqlInject(sortField);
-			// 驼峰转下划线
-			sortField = StrUtil.toUnderlineCase(sortField);
-			// 正序/倒序
-			boolean isAsc = (StrUtil.isNotBlank(sortAsc) && Boolean.parseBoolean(sortAsc));
-			pageParam.setSortAsc(isAsc);
-			pageParam.setSortField(sortField);
-		}
+		List<PageParam.Sort> sorts = getOrderItems(sortFields, sortOrders);
+		pageParam.setSorts(sorts);
 
 		return pageParam;
+	}
+
+	/**
+	 * 封装排序规则
+	 * @param sortFields 排序字段，使用英文逗号分割
+	 * @param sortOrders 排序规则，使用英文逗号分割，与排序字段一一对应
+	 * @return List<PageParam.OrderItem>
+	 */
+	private List<PageParam.Sort> getOrderItems(String sortFields, String sortOrders) {
+		List<PageParam.Sort> sorts = new ArrayList<>();
+
+		// 字段和规则都不能为空
+		if (StrUtil.isBlank(sortFields) || StrUtil.isBlank(sortOrders)) {
+			return sorts;
+		}
+
+		// 字段和规则不一一对应则不处理
+		String[] fieldArr = sortFields.split(StrUtil.COMMA);
+		String[] orderArr = sortOrders.split(StrUtil.COMMA);
+		if (fieldArr.length != orderArr.length) {
+			return sorts;
+		}
+
+		String field, order;
+		for (int i = 0; i < fieldArr.length; i++) {
+			field = fieldArr[i];
+			order = orderArr[i];
+			if (validFieldName(field)) {
+				PageParam.Sort sort = new PageParam.Sort();
+				// 驼峰转下划线
+				sort.setAsc(ASC.equalsIgnoreCase(order));
+				// 正序/倒序
+				sort.setField(StrUtil.toUnderlineCase(field));
+				sorts.add(sort);
+			}
+		}
+
+		return sorts;
+	}
+
+	/**
+	 * 判断排序字段名是否非法 字段名只允许数字字母下划线
+	 * @param filedName 字段名
+	 * @return 是否非法
+	 */
+	public static boolean validFieldName(String filedName) {
+		return StrUtil.isNotBlank(filedName) && filedName.matches(FILED_NAME_REGEX);
 	}
 
 	/**

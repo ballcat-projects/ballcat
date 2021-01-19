@@ -3,10 +3,14 @@ package com.hccake.ballcat.common.core.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 分页查询参数
@@ -34,16 +38,26 @@ public class PageParam {
 	@Range(min = 1, max = 100, message = "条数范围为 [1, 100]")
 	private long size = 10;
 
-	/**
-	 * 排序字段
-	 */
-	@ApiModelProperty(value = "排序字段")
-	private String sortField;
+	@ApiModelProperty(value = "排序规则")
+	private List<Sort> sorts = new ArrayList<>();
 
-	/**
-	 * 是否正序排序
-	 */
-	@ApiModelProperty(value = "是否正序排序")
-	private boolean sortAsc;
+	@Getter
+	@Setter
+	@ApiModel("排序元素载体")
+	public static class Sort {
+
+		/**
+		 * 排序字段
+		 */
+		@ApiModelProperty(value = "排序字段")
+		private String field;
+
+		/**
+		 * 是否正序排序
+		 */
+		@ApiModelProperty(value = "是否正序排序")
+		private boolean asc;
+
+	}
 
 }

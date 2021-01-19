@@ -1,13 +1,12 @@
 package com.hccake.ballcat.codegen.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.codegen.model.qo.TableInfoQO;
 import com.hccake.ballcat.codegen.model.vo.ColumnInfo;
 import com.hccake.ballcat.codegen.model.vo.TableInfo;
 import com.hccake.ballcat.common.core.domain.PageParam;
 import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.extend.mybatis.plus.toolkit.PageUtil;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,11 +27,7 @@ public interface TableInfoMapper {
 	 * @return PageResult<TableInfo>
 	 */
 	default PageResult<TableInfo> queryPage(PageParam pageParam, TableInfoQO qo) {
-		// TODO 等前端实现多列排序后，修改为支持多列排序
-		Page<TableInfo> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
-		String sortField = pageParam.getSortField();
-		OrderItem orderItem = pageParam.isSortAsc() ? OrderItem.asc(sortField) : OrderItem.desc(sortField);
-		page.addOrder(orderItem);
+		IPage<TableInfo> page = PageUtil.prodPage(pageParam);
 		this.selectByPage(page, qo.getTableName());
 		return new PageResult<>(page.getRecords(), page.getTotal());
 	}

@@ -3,11 +3,10 @@ package com.hccake.extend.mybatis.plus.mapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.extend.mybatis.plus.toolkit.PageUtil;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
@@ -26,12 +25,7 @@ public interface ExtendMapper<T> extends BaseMapper<T> {
 	 * @return IPage<V>
 	 */
 	default <V> IPage<V> prodPage(PageParam pageParam) {
-		Page<V> page = new Page<>(pageParam.getCurrent(), pageParam.getSize());
-		// TODO 等前端实现多列排序后，修改为支持多列排序
-		String sortField = pageParam.getSortField();
-		OrderItem orderItem = pageParam.isSortAsc() ? OrderItem.asc(sortField) : OrderItem.desc(sortField);
-		page.addOrder(orderItem);
-		return page;
+		return PageUtil.prodPage(pageParam);
 	}
 
 	/**
