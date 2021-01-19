@@ -2,11 +2,9 @@ package com.hccake.ballcat.admin.modules.log.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
@@ -18,9 +16,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("admin_operation_log")
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "操作日志")
-public class AdminOperationLog extends Model<AdminOperationLog> {
+public class AdminOperationLog {
 
 	private static final long serialVersionUID = 1L;
 

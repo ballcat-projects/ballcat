@@ -1,11 +1,9 @@
 package com.hccake.ballcat.admin.modules.sys.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
@@ -17,9 +15,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("sys_dict")
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "字典表")
-public class SysDict extends Model<SysDict> {
+public class SysDict {
 
 	private static final long serialVersionUID = 1L;
 

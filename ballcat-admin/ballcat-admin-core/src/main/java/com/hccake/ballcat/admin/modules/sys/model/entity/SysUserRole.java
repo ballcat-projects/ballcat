@@ -3,25 +3,20 @@ package com.hccake.ballcat.admin.modules.sys.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
- * <p>
  * 用户角色表
- * </p>
  *
- * @author
- * @since 2017-10-29
+ * @author ballcat code generator
+ * @date 2019-10-14 17:42:23
  */
 @Data
 @TableName("sys_user_role")
 @ApiModel(value = "用户角色")
-@EqualsAndHashCode(callSuper = true)
-public class SysUserRole extends Model<SysUserRole> {
+public class SysUserRole {
 
 	private static final long serialVersionUID = 1L;
 

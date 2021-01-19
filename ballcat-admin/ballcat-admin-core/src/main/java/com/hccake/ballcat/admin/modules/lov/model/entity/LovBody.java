@@ -4,11 +4,9 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Pattern;
@@ -19,10 +17,9 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("sys_lov_body")
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value = "lov主体模块")
-public class LovBody extends Model<LovBody> {
+public class LovBody {
 
 	@TableId
 	@ApiModelProperty("编号")

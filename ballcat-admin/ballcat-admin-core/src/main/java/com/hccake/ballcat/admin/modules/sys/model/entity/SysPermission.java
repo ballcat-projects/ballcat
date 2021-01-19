@@ -1,27 +1,22 @@
 package com.hccake.ballcat.admin.modules.sys.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 菜单权限表
- * </p>
+ * 菜单
  *
- * @author
- * @since 2017-11-08
+ * @author ballcat code generator
+ * @date 2019-10-14 17:42:23
  */
 @Data
 @ApiModel(value = "菜单")
 @TableName("sys_permission")
-@EqualsAndHashCode(callSuper = true)
-public class SysPermission extends Model<SysPermission> {
+public class SysPermission {
 
 	private static final long serialVersionUID = 1L;
 

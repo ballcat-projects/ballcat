@@ -4,13 +4,11 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.hccake.ballcat.admin.modules.lov.enums.Tag;
 import com.hccake.ballcat.admin.modules.lov.typehandler.ListLovSelectOptionTypeHandler;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
@@ -22,10 +20,9 @@ import java.util.List;
  */
 @Data
 @TableName(value = "sys_lov_search", autoResultMap = true)
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @ApiModel(value = "lov搜索模块")
-public class LovSearch extends Model<LovSearch> {
+public class LovSearch {
 
 	@TableId
 	@ApiModelProperty("编号")
