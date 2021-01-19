@@ -3,6 +3,7 @@ package com.hccake.ballcat.admin.modules.notify.controller;
 import com.hccake.ballcat.admin.modules.notify.model.qo.UserAnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.UserAnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
+import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.core.domain.PageParam;
 import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.result.R;
@@ -10,9 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 用户公告表
@@ -21,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/notify/userannouncement")
-@Api(value = "userannouncement", tags = "用户公告表管理")
+@RequestMapping("/notify/user-announcement")
+@Api(value = "user-announcement", tags = "用户公告表管理")
 public class UserAnnouncementController {
 
 	private final UserAnnouncementService userAnnouncementService;
@@ -39,6 +38,15 @@ public class UserAnnouncementController {
 	public R<PageResult<UserAnnouncementVO>> getUserAnnouncementPage(PageParam pageParam,
 			UserAnnouncementQO userAnnouncementQO) {
 		return R.ok(userAnnouncementService.queryPage(pageParam, userAnnouncementQO));
+	}
+
+	@ApiOperation(value = "用户公告已读上报", notes = "用户公告已读上报")
+	@PatchMapping("/read/{announcementId}")
+	@PreAuthorize("@per.hasPermission('notify:userannouncement:read')")
+	public R<?> readAnnouncement(@PathVariable Long announcementId) {
+		Integer userId = SecurityUtils.getSysUser().getUserId();
+		userAnnouncementService.readAnnouncement(userId, announcementId);
+		return R.ok();
 	}
 
 }

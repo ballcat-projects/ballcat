@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.modules.notify.service.impl;
 
+import com.hccake.ballcat.admin.constants.UserAnnouncementStateEnum;
 import com.hccake.ballcat.admin.modules.notify.mapper.UserAnnouncementMapper;
 import com.hccake.ballcat.admin.modules.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.UserAnnouncementQO;
@@ -44,8 +45,18 @@ public class UserAnnouncementServiceImpl extends ExtendServiceImpl<UserAnnouncem
 		userAnnouncement.setUserId(userId);
 		userAnnouncement.setAnnouncementId(announcementId);
 		userAnnouncement.setCreateTime(LocalDateTime.now());
-		userAnnouncement.setState(0);
+		userAnnouncement.setState(UserAnnouncementStateEnum.UNREAD.getValue());
 		return userAnnouncement;
+	}
+
+	/**
+	 * 对用户公告进行已读标记
+	 * @param userId 用户id
+	 * @param announcementId 公告id
+	 */
+	@Override
+	public void readAnnouncement(Integer userId, Long announcementId) {
+		baseMapper.updateToReadState(userId, announcementId);
 	}
 
 }

@@ -1,6 +1,9 @@
 package com.hccake.ballcat.admin.modules.notify.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
@@ -34,6 +37,18 @@ public interface AnnouncementMapper extends ExtendMapper<Announcement> {
 				.eqIfPresent(Announcement::getRecipientFilterType, qo.getRecipientFilterType());
 		this.selectByPage(page, wrapperX);
 		return new PageResult<>(page.getRecords(), page.getTotal());
+	}
+
+	/**
+	 * 更新公共（限制只能更新未发布的公共）
+	 * @param announcement 公共信息
+	 * @return 更新是否成功
+	 */
+	default boolean updateIfUnpublished(Announcement announcement) {
+		int flag = this.update(announcement,
+				Wrappers.<Announcement>lambdaUpdate().eq(Announcement::getId, announcement.getId())
+						.eq(Announcement::getStatus, AnnouncementStatusEnum.UNPUBLISHED.getValue()));
+		return SqlHelper.retBool(flag);
 	}
 
 	/**

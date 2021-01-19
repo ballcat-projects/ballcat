@@ -3,7 +3,6 @@ package com.hccake.ballcat.admin.modules.notify.service.impl;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
 import com.hccake.ballcat.admin.modules.notify.event.AnnouncementCloseEvent;
@@ -14,11 +13,9 @@ import com.hccake.ballcat.admin.modules.notify.model.converter.NotifyInfoConvert
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
-import com.hccake.ballcat.admin.modules.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
-import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
 import com.hccake.ballcat.admin.modules.sys.service.FileService;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
 import com.hccake.ballcat.common.core.domain.PageParam;
@@ -55,8 +52,6 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 	private final ApplicationEventPublisher publisher;
 
 	private final FileService fileService;
-
-	private final UserAnnouncementService userAnnouncementService;
 
 	/**
 	 * 根据QueryObject查询分页数据
@@ -109,11 +104,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 			announcement.setStatus(null);
 		}
 		// 保证当前状态未被修改过
-		int flag = baseMapper.update(announcement,
-				Wrappers.<Announcement>lambdaUpdate().eq(Announcement::getId, announcement.getId())
-						.eq(Announcement::getStatus, AnnouncementStatusEnum.UNPUBLISHED.getValue()));
-		boolean isUpdated = SqlHelper.retBool(flag);
-
+		boolean isUpdated = baseMapper.updateIfUnpublished(announcement);
 		// 公告发布事件
 		if (isUpdated && isPublishStatus) {
 			this.onAnnouncementPublish(announcement);
@@ -138,13 +129,11 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 			throw new BusinessException(SystemResultCode.BAD_REQUEST.getCode(), "公告失效时间必须迟于当前时间！");
 		}
 
+		// 更新公共至发布状态
 		Announcement entity = new Announcement();
 		entity.setId(announcementId);
 		entity.setStatus(AnnouncementStatusEnum.ENABLED.getValue());
-		int flag = baseMapper.update(entity,
-				Wrappers.<Announcement>lambdaUpdate().eq(Announcement::getId, entity.getId())
-						.eq(Announcement::getStatus, AnnouncementStatusEnum.UNPUBLISHED.getValue()));
-		boolean isUpdated = SqlHelper.retBool(flag);
+		boolean isUpdated = baseMapper.updateIfUnpublished(entity);
 		if (isUpdated) {
 			announcement.setStatus(AnnouncementStatusEnum.ENABLED.getValue());
 			this.onAnnouncementPublish(announcement);
@@ -211,18 +200,6 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 	@Override
 	public List<Announcement> listActiveAnnouncements(Integer userId) {
 		return baseMapper.listUserAnnouncements(userId, true);
-	}
-
-	/**
-	 * 对用户公告进行已读标记
-	 * @param userId 用户id
-	 * @param announcementId 公告id
-	 */
-	@Override
-	public void readAnnouncement(Integer userId, Long announcementId) {
-		userAnnouncementService.update(Wrappers.<UserAnnouncement>lambdaUpdate().set(UserAnnouncement::getState, 1)
-				.set(UserAnnouncement::getReadTime, LocalDateTime.now())
-				.eq(UserAnnouncement::getAnnouncementId, announcementId).eq(UserAnnouncement::getUserId, userId));
 	}
 
 	/**

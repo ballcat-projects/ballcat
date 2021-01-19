@@ -30,4 +30,11 @@ public interface UserAnnouncementService extends ExtendService<UserAnnouncement>
 	 */
 	UserAnnouncement prodUserAnnouncement(Integer userId, Long announcementId);
 
+	/**
+	 * 对用户公告进行已读标记
+	 * @param userId 用户id
+	 * @param announcementId 公告id
+	 */
+	void readAnnouncement(Integer userId, Long announcementId);
+
 }
