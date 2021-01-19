@@ -2,6 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.checker;
 
 import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,15 @@ public class AdminUserCheckerImpl implements AdminUserChecker {
 		}
 		return StrUtil.isNotEmpty(adminRuleProperties.getUsername())
 				&& adminRuleProperties.getUsername().equals(user.getUsername());
+	}
+
+	@Override
+	public boolean hasModifyPermission(SysUser targetUser) {
+		// 如果需要修改的用户是超级管理员，则只能本人修改
+		if (this.isAdminUser(targetUser)) {
+			return SecurityUtils.getSysUserDetails().getUsername().equals(targetUser.getUsername());
+		}
+		return true;
 	}
 
 }

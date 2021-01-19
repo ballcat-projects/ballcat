@@ -52,6 +52,6 @@ public interface TableInfoMapper {
 	 * @param tableName 表名
 	 * @return List<ColumnInfo>
 	 */
-	List<ColumnInfo> queryColumnInfo(@Param("tableName") String tableName);
+	List<ColumnInfo> listColumnInfo(@Param("tableName") String tableName);
 
 }

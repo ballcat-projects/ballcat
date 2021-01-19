@@ -29,6 +29,13 @@ public interface SysDictItemService extends ExtendService<SysDictItem> {
 	 * @param dictCode 字典标识
 	 * @return 该字典对应的字典项集合
 	 */
-	List<SysDictItem> getByDictCode(String dictCode);
+	List<SysDictItem> listByDictCode(String dictCode);
+
+	/**
+	 * 根据字典标识删除对应字典项
+	 * @param dictCode 字典标识
+	 * @return 是否删除成功
+	 */
+	boolean removeByDictCode(String dictCode);
 
 }

@@ -41,6 +41,6 @@ public interface SysUserRoleService extends ExtendService<SysUserRole> {
 	 * @param userId 用户ID
 	 * @return List<SysRole>
 	 */
-	List<SysRole> getRoles(Integer userId);
+	List<SysRole> listRoles(Integer userId);
 
 }

@@ -33,7 +33,7 @@ public class TemplateInfoController {
 	@ApiOperation(value = "指定模板组的文件列表", notes = "指定模板组的文件列表")
 	@GetMapping("/list/{templateGroupId}")
 	public R<List<TemplateInfo>> listTemplateInfo(@PathVariable Integer templateGroupId) {
-		return R.ok(templateInfoService.listTemplateInfo(templateGroupId));
+		return R.ok(templateInfoService.listByTemplateGroupId(templateGroupId));
 	}
 
 	/**

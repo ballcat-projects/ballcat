@@ -1,7 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.constants.SysPermissionConst;
 import com.hccake.ballcat.admin.constants.UserResourceConstant;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysPermissionConverter;
@@ -26,7 +25,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author
+ * @author hccake
  * @date 2019/09/17
  */
 @RestController
@@ -55,7 +54,7 @@ public class SysPermissionController {
 
 		// 获取符合条件的权限
 		Set<PermissionVO> all = new HashSet<>();
-		roleCodes.forEach(roleCode -> all.addAll(sysPermissionService.findPermissionVOsByRoleCode(roleCode)));
+		roleCodes.forEach(roleCode -> all.addAll(sysPermissionService.listVOByRoleCode(roleCode)));
 
 		// 筛选出菜单
 		List<Router> routerList = all.stream()
@@ -73,9 +72,7 @@ public class SysPermissionController {
 	@GetMapping(value = "/list")
 	@PreAuthorize("@per.hasPermission('sys:syspermission:read')")
 	public R<List<SysPermission>> getTree() {
-		List<SysPermission> list = sysPermissionService
-				.list(Wrappers.<SysPermission>lambdaQuery().orderByAsc(SysPermission::getSort));
-		return R.ok(list);
+		return R.ok(sysPermissionService.listOrderBySort());
 	}
 
 	/**
@@ -107,7 +104,7 @@ public class SysPermissionController {
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('sys:syspermission:edit')")
 	public R<Boolean> update(@Valid @RequestBody SysPermission sysPermission) {
-		return R.ok(sysPermissionService.updatePermissionById(sysPermission));
+		return R.ok(sysPermissionService.updateById(sysPermission));
 	}
 
 	@ApiOperation(value = "通过id删除权限", notes = "通过id删除权限")
@@ -115,7 +112,7 @@ public class SysPermissionController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('sys:syspermission:del')")
 	public R<Boolean> removeById(@PathVariable Integer id) {
-		return R.ok(sysPermissionService.removePermissionById(id));
+		return R.ok(sysPermissionService.removeById(id));
 	}
 
 }

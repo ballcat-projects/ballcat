@@ -1,12 +1,11 @@
 package com.hccake.ballcat.admin.modules.lov.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.admin.modules.lov.mapper.LovMapper;
 import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovBody;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovSearch;
 import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
-import com.hccake.ballcat.admin.modules.lov.model.vo.LovInfoVO;
 import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
 import com.hccake.ballcat.admin.modules.lov.service.LovBodyService;
 import com.hccake.ballcat.admin.modules.lov.service.LovSearchService;
@@ -44,44 +43,45 @@ public class LovServiceImpl extends ExtendServiceImpl<LovMapper, Lov> implements
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean update(Lov lov, List<LovBody> bodyList, List<LovSearch> searchList) {
-		if (updateById(lov)) {
-			List<Long> removeIds = new ArrayList<>();
-			// 获取现有lov body
-			List<LovBody> lovBodyList = bodyService
-					.list(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getKeyword, lov.getKeyword()));
-
-			// 获取现有的id
-			Set<Long> ids = bodyList.stream().map(LovBody::getId).collect(Collectors.toSet());
-			// 筛选需要删除的id
-			for (LovBody body : lovBodyList) {
-				if (!ids.contains(body.getId())) {
-					removeIds.add(body.getId());
-				}
-			}
-			bodyService.removeByIds(removeIds);
-			bodyService.saveOrUpdateBatch(
-					bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()));
-
-			// 清空已有需要删除的id
-			removeIds.clear();
-			// 获取现有lov body
-			List<LovSearch> lovSearchList = searchService
-					.list(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getKeyword, lov.getKeyword()));
-
-			// 获取现有的id
-			ids = searchList.stream().map(LovSearch::getId).collect(Collectors.toSet());
-			// 筛选需要删除的id
-			for (LovSearch search : lovSearchList) {
-				if (!ids.contains(search.getId())) {
-					removeIds.add(search.getId());
-				}
-			}
-			searchService.removeByIds(removeIds);
-			searchService.saveOrUpdateBatch(
-					searchList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()));
-			return true;
+		if (!updateById(lov)) {
+			return false;
 		}
-		return false;
+		List<Long> removeIds = new ArrayList<>();
+		// 获取现有lov body
+		String keyword = lov.getKeyword();
+		List<LovBody> lovBodyList = bodyService.listByKeyword(keyword);
+
+		// 获取现有的id
+		Set<Long> ids = bodyList.stream().map(LovBody::getId).collect(Collectors.toSet());
+		// 筛选需要删除的id
+		for (LovBody body : lovBodyList) {
+			if (!ids.contains(body.getId())) {
+				removeIds.add(body.getId());
+			}
+		}
+		bodyService.removeByIds(removeIds);
+
+		bodyList.forEach((body -> body.setKeyword(keyword)));
+		bodyService.saveOrUpdateBatch(bodyList);
+
+		// 清空已有需要删除的id
+		removeIds.clear();
+		// 获取现有lov body
+		List<LovSearch> lovSearchList = searchService.listByKeyword(keyword);
+
+		// 获取现有的id
+		ids = searchList.stream().map(LovSearch::getId).collect(Collectors.toSet());
+		// 筛选需要删除的id
+		for (LovSearch search : lovSearchList) {
+			if (!ids.contains(search.getId())) {
+				removeIds.add(search.getId());
+			}
+		}
+		searchService.removeByIds(removeIds);
+
+		searchList.forEach((body -> body.setKeyword(keyword)));
+		searchService.saveOrUpdateBatch(searchList);
+		return true;
 	}
 
 	@Override
@@ -91,10 +91,11 @@ public class LovServiceImpl extends ExtendServiceImpl<LovMapper, Lov> implements
 		if (!removeById(id)) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "移除lov失败!");
 		}
-		if (!bodyService.remove(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getKeyword, lov.getKeyword()))) {
+		String keyword = lov.getKeyword();
+		if (!bodyService.removeByKeyword(keyword)) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "移除lovBody失败!");
 		}
-		if (!searchService.remove(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getKeyword, lov.getKeyword()))) {
+		if (!searchService.removeByKeyword(keyword)) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "移除lovSearch失败!");
 		}
 		return true;
@@ -103,36 +104,37 @@ public class LovServiceImpl extends ExtendServiceImpl<LovMapper, Lov> implements
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean save(Lov lov, List<LovBody> bodyList, List<LovSearch> searchList) {
+		// 1. 保存 lov 主体
 		if (!save(lov)) {
 			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lov失败!");
 		}
 
-		if (bodyList.size() > 0 && !bodyService.saveBatch(
-				bodyList.stream().map(body -> body.setKeyword(lov.getKeyword())).collect(Collectors.toList()))) {
-			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovBody失败!");
+		// 2. 插入body
+		if (CollectionUtil.isNotEmpty(bodyList)) {
+			bodyList.forEach(body -> body.setKeyword(lov.getKeyword()));
+			if (!bodyService.saveBatchSomeColumn(bodyList)) {
+				throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovBody失败!");
+			}
 		}
 
-		if (searchList.size() > 0 && !searchService.saveBatch(
-				searchList.stream().map(search -> search.setKeyword(lov.getKeyword())).collect(Collectors.toList()))) {
-			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovSearch失败!");
+		// 3. 插入 search
+		if (CollectionUtil.isNotEmpty(searchList)) {
+			searchList.forEach(x -> x.setKeyword(lov.getKeyword()));
+			if (!searchService.saveBatchSomeColumn(searchList)) {
+				throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovSearch失败!");
+			}
 		}
 		return true;
 	}
 
+	/**
+	 * 根据keyword获取lov数据
+	 * @param keyword keyword
+	 * @return Lov
+	 */
 	@Override
-	public LovInfoVO getDataByKeyword(String keyword) {
-		Lov lov = baseMapper.selectOne(Wrappers.<Lov>lambdaQuery().eq(Lov::getKeyword, keyword));
-		if (lov != null) {
-			LovInfoVO vo = new LovInfoVO().setKey(lov.getKey()).setFixedParams(lov.getFixedParams())
-					.setMethod(lov.getMethod()).setKeyword(lov.getKeyword()).setMultiple(lov.getMultiple())
-					.setPosition(lov.getPosition()).setRet(lov.getRet()).setTitle(lov.getTitle()).setUrl(lov.getUrl())
-					.setRetField(lov.getRetField());
-			vo.setBodyList(bodyService.list(Wrappers.<LovBody>lambdaQuery().eq(LovBody::getKeyword, lov.getKeyword())));
-			vo.setSearchList(
-					searchService.list(Wrappers.<LovSearch>lambdaQuery().eq(LovSearch::getKeyword, lov.getKeyword())));
-			return vo;
-		}
-		return null;
+	public Lov getByKeyword(String keyword) {
+		return baseMapper.selectByKeyword(keyword);
 	}
 
 }

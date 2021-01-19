@@ -30,7 +30,7 @@ public interface TemplatePropertyService extends ExtendService<TemplateProperty>
 	 * @param templateGroupId 模板组ID
 	 * @return List<TemplatePropertyVO> 配置列表
 	 */
-	List<TemplatePropertyVO> list(Integer templateGroupId);
+	List<TemplateProperty> listByTemplateGroupId(Integer templateGroupId);
 
 	/**
 	 * 复制模板属性配置

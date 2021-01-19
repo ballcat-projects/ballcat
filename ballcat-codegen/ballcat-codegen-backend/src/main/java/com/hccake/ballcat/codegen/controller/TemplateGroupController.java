@@ -1,7 +1,5 @@
 package com.hccake.ballcat.codegen.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
 import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
@@ -120,8 +118,8 @@ public class TemplateGroupController {
 	// @DeleteOperationLogging(msg = "通过id删除模板组" )
 	@GetMapping("/select")
 	// @PreAuthorize("@per.hasPermission('codegen:templategroup:del')" )
-	public R<List<SelectData<?>>> getSelectData() {
-		return R.ok(templateGroupService.getSelectData());
+	public R<List<SelectData<?>>> listSelectData() {
+		return R.ok(templateGroupService.listSelectData());
 	}
 
 }

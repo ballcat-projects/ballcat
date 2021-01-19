@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.mapper;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysOrganization;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,6 +13,16 @@ import java.util.List;
  * @author hccake 2020-09-23 12:09:43
  */
 public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
+
+	/**
+	 * 根据组织ID 查询除该组织下的所有儿子组织
+	 * @param organizationId 组织机构ID
+	 * @return List<SysOrganization> 该组织的儿子组织
+	 */
+	default List<SysOrganization> listSubOrganization(Integer organizationId) {
+		return this
+				.selectList(Wrappers.<SysOrganization>lambdaQuery().eq(SysOrganization::getParentId, organizationId));
+	}
 
 	/**
 	 * 跟随父节点移动子节点
@@ -27,6 +38,6 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 	 * @param organizationId 组织机构ID
 	 * @return 子部门集合
 	 */
-	List<SysOrganization> selectChildOrganization(@Param("organizationId") Integer organizationId);
+	List<SysOrganization> listChildOrganization(@Param("organizationId") Integer organizationId);
 
 }

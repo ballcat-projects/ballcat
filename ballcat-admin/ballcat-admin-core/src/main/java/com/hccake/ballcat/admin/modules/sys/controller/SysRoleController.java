@@ -1,6 +1,5 @@
 package com.hccake.ballcat.admin.modules.sys.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.constants.SysRoleConst;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysRoleConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysRoleUpdateDTO;
@@ -107,7 +106,7 @@ public class SysRoleController {
 		if (SysRoleConst.Type.SYSTEM.getValue().equals(oldRole.getType())) {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "系统角色不允许被删除!");
 		}
-		return R.ok(sysRoleService.removeRoleById(id));
+		return R.ok(sysRoleService.removeById(id));
 	}
 
 	/**
@@ -116,7 +115,7 @@ public class SysRoleController {
 	 */
 	@GetMapping("/list")
 	public R<List<SysRole>> listRoles() {
-		return R.ok(sysRoleService.list(Wrappers.emptyWrapper()));
+		return R.ok(sysRoleService.list());
 	}
 
 	/**
@@ -140,7 +139,7 @@ public class SysRoleController {
 	 */
 	@GetMapping("/permission/code/{roleCode}")
 	public R<List<Integer>> getPermissionIds(@PathVariable String roleCode) {
-		return R.ok(sysPermissionService.findPermissionVOsByRoleCode(roleCode).stream().map(PermissionVO::getId)
+		return R.ok(sysPermissionService.listVOByRoleCode(roleCode).stream().map(PermissionVO::getId)
 				.collect(Collectors.toList()));
 	}
 
@@ -149,8 +148,8 @@ public class SysRoleController {
 	 * @return 角色列表
 	 */
 	@GetMapping("/select")
-	public R<List<SelectData<?>>> getSelectData() {
-		return R.ok(sysRoleService.getSelectData());
+	public R<List<SelectData<?>>> listSelectData() {
+		return R.ok(sysRoleService.listSelectData());
 	}
 
 }

@@ -33,7 +33,7 @@
 	</select>
 
 
-	<select id="queryColumnInfo" resultType="com.hccake.ballcat.codegen.model.vo.ColumnInfo">
+	<select id="listColumnInfo" resultType="com.hccake.ballcat.codegen.model.vo.ColumnInfo">
         SELECT
             column_name,
             data_type,

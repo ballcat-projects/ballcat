@@ -1,6 +1,7 @@
 package com.hccake.ballcat.codegen.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
 import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
@@ -9,6 +10,8 @@ import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
+
+import java.util.List;
 
 /**
  * 模板属性配置
@@ -31,6 +34,17 @@ public interface TemplatePropertyMapper extends ExtendMapper<TemplateProperty> {
 				.eqIfPresent(TemplateProperty::getGroupId, qo.getGroupId());
 		this.selectByPage(page, wrapperX);
 		return new PageResult<>(page.getRecords(), page.getTotal());
+	}
+
+	/**
+	 * 根据模板组ID获取模板组的所有配置
+	 * @param templateGroupId 模板组ID
+	 * @return List<TemplateProperty> 配置列表
+	 */
+	default List<TemplateProperty> listByTemplateGroupId(Integer templateGroupId) {
+		return this
+				.selectList(Wrappers.<TemplateProperty>lambdaQuery().eq(TemplateProperty::getGroupId, templateGroupId));
+
 	}
 
 }

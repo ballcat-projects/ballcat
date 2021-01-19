@@ -4,7 +4,6 @@ import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovBody;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovSearch;
 import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
-import com.hccake.ballcat.admin.modules.lov.model.vo.LovInfoVO;
 import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
 import com.hccake.ballcat.common.core.domain.PageParam;
 import com.hccake.ballcat.common.core.domain.PageResult;
@@ -56,9 +55,8 @@ public interface LovService extends ExtendService<Lov> {
 	/**
 	 * 根据keyword获取lov数据
 	 * @param keyword keyword
-	 * @return com.hccake.ballcat.admin.modules.lov.model.Vo.LovVo
-	 * @author lingting 2020-08-12 21:38
+	 * @return Lov
 	 */
-	LovInfoVO getDataByKeyword(String keyword);
+	Lov getByKeyword(String keyword);
 
 }

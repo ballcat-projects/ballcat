@@ -3,7 +3,6 @@ package com.hccake.ballcat.codegen.service.impl;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.codegen.mapper.TemplateGroupMapper;
-import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
 import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 模板组
@@ -48,34 +46,23 @@ public class TemplateGroupServiceImpl extends ExtendServiceImpl<TemplateGroupMap
 	}
 
 	/**
-	 * 查找指定模板组下所有的模板文件
-	 * @param groupId 模板组ID
-	 * @param templateFileIds 指定的文件id
-	 * @return List<TemplateFile>
-	 */
-	@Override
-	public List<TemplateFile> findTemplateFiles(Integer groupId, Set<Integer> templateFileIds) {
-		return templateDirectoryEntryService.findTemplateFiles(groupId, templateFileIds);
-	}
-
-	/**
 	 * 获取SelectData数据
 	 * @return List<SelectData<?>>
 	 */
 	@Override
-	public List<SelectData<?>> getSelectData() {
-		return baseMapper.getSelectData();
+	public List<SelectData<?>> listSelectData() {
+		return baseMapper.listSelectData();
 	}
 
 	/**
 	 * 复制模板组
-	 * @param resourceId 原资源组id
+	 * @param resourceGroupId 原资源组id
 	 * @param templateGroup 模板组
 	 * @return boolean 复制成功: true
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean copy(Integer resourceId, TemplateGroup templateGroup) {
+	public boolean copy(Integer resourceGroupId, TemplateGroup templateGroup) {
 		// 清空id
 		templateGroup.setId(null);
 		int insertFlag = baseMapper.insert(templateGroup);
@@ -83,9 +70,9 @@ public class TemplateGroupServiceImpl extends ExtendServiceImpl<TemplateGroupMap
 		// 获取落库成功后的自增ID
 		Integer groupId = templateGroup.getId();
 		// 复制模板目录文件
-		templateDirectoryEntryService.copy(resourceId, groupId);
+		templateDirectoryEntryService.copy(resourceGroupId, groupId);
 		// 复制模板属性配置
-		templatePropertyService.copy(resourceId, groupId);
+		templatePropertyService.copy(resourceGroupId, groupId);
 
 		return true;
 	}

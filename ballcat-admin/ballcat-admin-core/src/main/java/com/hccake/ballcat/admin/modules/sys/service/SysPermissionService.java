@@ -21,20 +21,12 @@ public interface SysPermissionService extends ExtendService<SysPermission> {
 	 * @param roleCode 角色Code
 	 * @return 菜单列表
 	 */
-	List<PermissionVO> findPermissionVOsByRoleCode(String roleCode);
+	List<PermissionVO> listVOByRoleCode(String roleCode);
 
 	/**
-	 * 级联删除菜单
-	 * @param id 菜单ID
-	 * @return 成功、失败
+	 * 查询权限集合，并按sort排序（升序）
+	 * @return List<SysPermission>
 	 */
-	boolean removePermissionById(Integer id);
-
-	/**
-	 * 更新菜单信息
-	 * @param sysPermission 菜单信息
-	 * @return 成功、失败
-	 */
-	Boolean updatePermissionById(SysPermission sysPermission);
+	List<SysPermission> listOrderBySort();
 
 }

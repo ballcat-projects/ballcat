@@ -53,8 +53,8 @@ public class TableInfoServiceImpl implements TableInfoService {
 	 * @return List<ColumnInfo>
 	 */
 	@Override
-	public List<ColumnInfo> queryColumnInfo(String tableName) {
-		return baseMapper.queryColumnInfo(tableName);
+	public List<ColumnInfo> listColumnInfo(String tableName) {
+		return baseMapper.listColumnInfo(tableName);
 	}
 
 }

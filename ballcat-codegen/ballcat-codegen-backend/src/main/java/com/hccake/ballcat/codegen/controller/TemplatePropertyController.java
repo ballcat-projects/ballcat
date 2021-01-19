@@ -1,7 +1,6 @@
 package com.hccake.ballcat.codegen.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hccake.ballcat.codegen.model.converter.TemplatePropertyConverter;
 import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
 import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
@@ -16,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 模板属性配置
@@ -39,7 +39,10 @@ public class TemplatePropertyController {
 	@ApiOperation(value = "模板组属性", notes = "模板组属性")
 	@GetMapping("/list/{groupId}")
 	public R<List<TemplatePropertyVO>> getTemplatePropertyList(@PathVariable("groupId") Integer templateGroupId) {
-		return R.ok(templatePropertyService.list(templateGroupId));
+		List<TemplateProperty> templateProperties = templatePropertyService.listByTemplateGroupId(templateGroupId);
+		List<TemplatePropertyVO> vos = templateProperties.stream().map(TemplatePropertyConverter.INSTANCE::poToVo)
+				.collect(Collectors.toList());
+		return R.ok(vos);
 	}
 
 	/**

@@ -63,8 +63,8 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	 * @return 用户拥有的角色集合
 	 */
 	@Override
-	public List<SysRole> getRoles(Integer userId) {
-		return baseMapper.getRoles(userId);
+	public List<SysRole> listRoles(Integer userId) {
+		return baseMapper.listRoles(userId);
 	}
 
 }

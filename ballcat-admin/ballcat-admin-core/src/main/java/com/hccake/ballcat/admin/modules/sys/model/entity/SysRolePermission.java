@@ -20,6 +20,14 @@ public class SysRolePermission {
 
 	private static final long serialVersionUID = 1L;
 
+	public SysRolePermission() {
+	}
+
+	public SysRolePermission(String roleCode, Integer permissionId) {
+		this.roleCode = roleCode;
+		this.permissionId = permissionId;
+	}
+
 	@TableId(type = IdType.AUTO)
 	private Long id;
 

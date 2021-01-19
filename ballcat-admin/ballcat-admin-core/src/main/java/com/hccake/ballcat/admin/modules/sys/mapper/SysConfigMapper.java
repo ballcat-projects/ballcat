@@ -29,4 +29,13 @@ public interface SysConfigMapper extends ExtendMapper<SysConfig> {
 		return new PageResult<>(page.getRecords(), page.getTotal());
 	}
 
+	/**
+	 * 根据配置key查询配置信息
+	 * @param confKey 配置key
+	 * @return SysConfig 配置信息
+	 */
+	default SysConfig selectByKey(String confKey) {
+		return this.selectOne(Wrappers.<SysConfig>lambdaQuery().eq(SysConfig::getConfKey, confKey));
+	}
+
 }

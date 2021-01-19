@@ -2,7 +2,6 @@ package com.hccake.ballcat.admin.modules.sys.manager;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.modules.sys.event.DictChangeEvent;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysDictConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
@@ -97,12 +96,12 @@ public class SysDictManager {
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该字典项目不能删除");
 		}
 		// 需级联删除对应的字典项
-		if (sysDictService.removeById(id)) {
-			sysDictItemService
-					.remove(Wrappers.<SysDictItem>lambdaUpdate().eq(SysDictItem::getDictCode, dict.getCode()));
+		if (sysDictService.removeById(id) && sysDictItemService.removeByDictCode(dict.getCode())) {
 			return true;
 		}
-		return false;
+		else {
+			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "字典项删除异常");
+		}
 	}
 
 	/**
@@ -192,10 +191,10 @@ public class SysDictManager {
 	public List<DictDataVO> queryDictDataAndHashVO(String[] dictCodes) {
 		List<DictDataVO> list = new ArrayList<>();
 		// 查询对应hash值，以及字典项数据
-		List<SysDict> sysDictList = sysDictService.getByCode(dictCodes);
+		List<SysDict> sysDictList = sysDictService.listByCodes(dictCodes);
 		if (CollectionUtil.isNotEmpty(sysDictList)) {
 			for (SysDict sysDict : sysDictList) {
-				List<SysDictItem> dictItems = sysDictItemService.getByDictCode(sysDict.getCode());
+				List<SysDictItem> dictItems = sysDictItemService.listByDictCode(sysDict.getCode());
 				// 排序并转换为VO
 				List<DictItemVO> setDictItems = dictItems.stream().sorted(Comparator.comparingInt(SysDictItem::getSort))
 						.map(SysDictConverter.INSTANCE::itemPoToVo).collect(Collectors.toList());
@@ -218,7 +217,7 @@ public class SysDictManager {
 	 * @return List<String> 失效的字典标识集合
 	 */
 	public List<String> invalidDictHash(Map<String, String> dictHashCode) {
-		List<SysDict> byCode = sysDictService.getByCode(dictHashCode.keySet().toArray(new String[] {}));
+		List<SysDict> byCode = sysDictService.listByCodes(dictHashCode.keySet().toArray(new String[] {}));
 		// 过滤相等Hash值的字典项，并返回需要修改的字典项的Code
 		return byCode.stream().filter(x -> !dictHashCode.get(x.getCode()).equals(x.getHashCode())).map(SysDict::getCode)
 				.collect(Collectors.toList());

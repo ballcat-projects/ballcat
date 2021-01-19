@@ -1,13 +1,11 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysPermissionMapper;
-import com.hccake.ballcat.admin.modules.sys.mapper.SysRolePermissionMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysPermission;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysRolePermission;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
+import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
@@ -15,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -30,33 +29,34 @@ import java.util.List;
 public class SysPermissionServiceImpl extends ExtendServiceImpl<SysPermissionMapper, SysPermission>
 		implements SysPermissionService {
 
-	private final SysRolePermissionMapper sysRolePermissionMapper;
+	private final SysRolePermissionService sysRolePermissionService;
 
 	@Override
-	public List<PermissionVO> findPermissionVOsByRoleCode(String roleCode) {
-		return baseMapper.listPermissionVOsByRoleCode(roleCode);
+	public List<PermissionVO> listVOByRoleCode(String roleCode) {
+		return baseMapper.listVOByRoleCode(roleCode);
+	}
+
+	/**
+	 * 查询权限集合，并按sort排序（升序）
+	 * @return List<SysPermission>
+	 */
+	@Override
+	public List<SysPermission> listOrderBySort() {
+		return baseMapper.listOrderBySort();
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean removePermissionById(Integer id) {
-		// 查询父节点为当前节点的节点
-		List<SysPermission> permissionList = this
-				.list(Wrappers.<SysPermission>query().lambda().eq(SysPermission::getParentId, id));
-		if (CollUtil.isNotEmpty(permissionList)) {
+	public boolean removeById(Serializable id) {
+		// 查询当前权限是否有子权限
+		Integer subPermissionNum = baseMapper.countSubPermission(id);
+		if (subPermissionNum != null && subPermissionNum > 0) {
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "菜单含有下级不能删除");
 		}
-
-		sysRolePermissionMapper
-				.delete(Wrappers.<SysRolePermission>query().lambda().eq(SysRolePermission::getPermissionId, id));
-
+		// 删除角色权限关联数据
+		sysRolePermissionService.deleteByPermissionId(id);
 		// 删除当前菜单及其子菜单
-		return this.removeById(id);
-	}
-
-	@Override
-	public Boolean updatePermissionById(SysPermission sysPermission) {
-		return this.updateById(sysPermission);
+		return SqlHelper.retBool(baseMapper.deleteById(id));
 	}
 
 }

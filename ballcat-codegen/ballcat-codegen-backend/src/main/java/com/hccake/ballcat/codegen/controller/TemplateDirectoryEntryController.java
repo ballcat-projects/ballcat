@@ -1,6 +1,8 @@
 package com.hccake.ballcat.codegen.controller;
 
+import com.hccake.ballcat.codegen.model.converter.TemplateModelConverter;
 import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
+import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;
 import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 模板文件目录项
@@ -35,7 +38,10 @@ public class TemplateDirectoryEntryController {
 	@GetMapping("/list/{templateGroupId}")
 	// @PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:read')" )
 	public R<List<TemplateDirectoryEntryVO>> getTemplateDirectoryEntryPage(@PathVariable Integer templateGroupId) {
-		return R.ok(templateDirectoryEntryService.queryDirectoryEntry(templateGroupId));
+		List<TemplateDirectoryEntry> entries = templateDirectoryEntryService.listByTemplateGroupId(templateGroupId);
+		List<TemplateDirectoryEntryVO> vos = entries.stream().map(TemplateModelConverter.INSTANCE::entryPoToVo)
+				.collect(Collectors.toList());
+		return R.ok(vos);
 	}
 
 	/**

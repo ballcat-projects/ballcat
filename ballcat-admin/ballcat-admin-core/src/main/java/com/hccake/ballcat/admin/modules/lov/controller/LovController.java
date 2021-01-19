@@ -1,9 +1,13 @@
 package com.hccake.ballcat.admin.modules.lov.controller;
 
+import com.hccake.ballcat.admin.modules.lov.model.converter.LovConverter;
 import com.hccake.ballcat.admin.modules.lov.model.dto.LovDTO;
+import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
 import com.hccake.ballcat.admin.modules.lov.model.vo.LovInfoVO;
 import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
+import com.hccake.ballcat.admin.modules.lov.service.LovBodyService;
+import com.hccake.ballcat.admin.modules.lov.service.LovSearchService;
 import com.hccake.ballcat.admin.modules.lov.service.LovService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
@@ -29,6 +33,10 @@ public class LovController {
 
 	private final LovService lovService;
 
+	private final LovBodyService bodyService;
+
+	private final LovSearchService searchService;
+
 	/**
 	 * 分页查询
 	 * @param pageParam 分页参数
@@ -45,8 +53,17 @@ public class LovController {
 	@ApiOperation("根据keyword获取lov数据")
 	@GetMapping("/data/{keyword}")
 	public R<LovInfoVO> getDataByKeyword(@PathVariable("keyword") String keyword) {
-		LovInfoVO vo = lovService.getDataByKeyword(keyword);
-		return vo == null ? R.failed(BaseResultCode.UNKNOWN_ERROR, "获取失败!") : R.ok(vo);
+
+		Lov lov = lovService.getByKeyword(keyword);
+		if (lov == null) {
+			return R.failed(BaseResultCode.UNKNOWN_ERROR, "获取失败!");
+		}
+		// 封装VO
+		LovInfoVO lovInfoVO = LovConverter.INSTANCE.poToInfoVO(lov);
+		lovInfoVO.setBodyList(bodyService.listByKeyword(keyword));
+		lovInfoVO.setSearchList(searchService.listByKeyword(keyword));
+
+		return R.ok(lovInfoVO);
 	}
 
 	/**

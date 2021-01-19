@@ -36,6 +36,6 @@ public interface TableInfoService {
 	 * @param tableName 表名
 	 * @return List<ColumnInfo>
 	 */
-	List<ColumnInfo> queryColumnInfo(String tableName);
+	List<ColumnInfo> listColumnInfo(String tableName);
 
 }

@@ -7,7 +7,7 @@ import com.hccake.ballcat.codegen.model.vo.ColumnInfo;
 import com.hccake.ballcat.codegen.model.vo.TableInfo;
 import com.hccake.ballcat.codegen.service.GeneratorService;
 import com.hccake.ballcat.codegen.service.TableInfoService;
-import com.hccake.ballcat.codegen.service.TemplateGroupService;
+import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
 import com.hccake.ballcat.codegen.util.GenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 
 	private final TableInfoService tableInfoService;
 
-	private final TemplateGroupService templateGroupService;
+	private final TemplateDirectoryEntryService templateDirectoryEntryService;
 
 	/**
 	 * 生成代码
@@ -41,7 +41,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 				ZipOutputStream zip = new ZipOutputStream(outputStream)) {
 
 			// 根据tableName 查询最新的表单配置
-			List<TemplateFile> templateFiles = templateGroupService.findTemplateFiles(
+			List<TemplateFile> templateFiles = templateDirectoryEntryService.listTemplateFiles(
 					generatorOptionDTO.getTemplateGroupId(), generatorOptionDTO.getTemplateFileIds());
 			Assert.notEmpty(templateFiles, "模板组中模板文件为空！");
 
@@ -49,7 +49,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 				// 查询表信息
 				TableInfo tableInfo = tableInfoService.queryTableInfo(tableName);
 				// 查询列信息
-				List<ColumnInfo> columnInfoList = tableInfoService.queryColumnInfo(tableName);
+				List<ColumnInfo> columnInfoList = tableInfoService.listColumnInfo(tableName);
 				// 生成代码
 				GenUtils.generatorCode(generatorOptionDTO.getTablePrefix(), generatorOptionDTO.getGenProperties(),
 						tableInfo, columnInfoList, zip, templateFiles);

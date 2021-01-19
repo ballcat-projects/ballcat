@@ -22,7 +22,7 @@ public interface SysUserRoleMapper extends ExtendMapper<SysUserRole> {
 	 * @param userId 用户ID
 	 * @return 用户拥有的角色集合
 	 */
-	List<SysRole> getRoles(Integer userId);
+	List<SysRole> listRoles(Integer userId);
 
 	/**
 	 * 删除用户关联关系

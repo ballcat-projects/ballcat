@@ -1,9 +1,7 @@
 package com.hccake.ballcat.codegen.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.codegen.mapper.TemplatePropertyMapper;
-import com.hccake.ballcat.codegen.model.converter.TemplatePropertyConverter;
 import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
 import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
@@ -38,36 +36,31 @@ public class TemplatePropertyServiceImpl extends ExtendServiceImpl<TemplatePrope
 	}
 
 	/**
-	 * 获取模板组的所有配置
+	 * 根据模板组ID获取模板组的所有配置
 	 * @param templateGroupId 模板组ID
-	 * @return List<TemplatePropertyVO> 配置列表
+	 * @return List<TemplateProperty> 配置列表
 	 */
 	@Override
-	public List<TemplatePropertyVO> list(Integer templateGroupId) {
-		List<TemplateProperty> templateProperties = baseMapper
-				.selectList(Wrappers.<TemplateProperty>lambdaQuery().eq(TemplateProperty::getGroupId, templateGroupId));
-		return templateProperties.stream().map(TemplatePropertyConverter.INSTANCE::poToVo).collect(Collectors.toList());
+	public List<TemplateProperty> listByTemplateGroupId(Integer templateGroupId) {
+		return baseMapper.listByTemplateGroupId(templateGroupId);
 	}
 
 	/**
 	 * 复制模板属性配置
-	 * @param resourceId 原模板组ID
-	 * @param groupId 模板模板组ID
+	 * @param resourceGroupId 原模板组ID
+	 * @param targetGroupId 模板模板组ID
 	 */
 	@Override
-	public void copy(Integer resourceId, Integer groupId) {
-
-		List<TemplateProperty> templateProperties = baseMapper
-				.selectList(Wrappers.<TemplateProperty>lambdaQuery().eq(TemplateProperty::getGroupId, resourceId));
-
+	public void copy(Integer resourceGroupId, Integer targetGroupId) {
+		List<TemplateProperty> templateProperties = baseMapper.listByTemplateGroupId(resourceGroupId);
 		if (CollectionUtil.isNotEmpty(templateProperties)) {
 			List<TemplateProperty> list = templateProperties.stream().peek(x -> {
 				x.setId(null);
 				x.setCreateTime(null);
 				x.setUpdateTime(null);
-				x.setGroupId(groupId);
+				x.setGroupId(targetGroupId);
 			}).collect(Collectors.toList());
-			this.saveBatch(list);
+			baseMapper.insertBatchSomeColumn(list);
 		}
 	}
 

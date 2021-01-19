@@ -17,4 +17,11 @@ public interface AdminUserChecker {
 	 */
 	boolean isAdminUser(SysUser user);
 
+	/**
+	 * 修改权限校验
+	 * @param targetUser 目标用户
+	 * @return 是否有权限修改目标用户
+	 */
+	boolean hasModifyPermission(SysUser targetUser);
+
 }

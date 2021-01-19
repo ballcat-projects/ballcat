@@ -1,6 +1,5 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysConfigMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysConfig;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysConfigQO;
@@ -38,8 +37,7 @@ public class SysConfigServiceImpl extends ExtendServiceImpl<SysConfigMapper, Sys
 	 */
 	@Override
 	public String getConfValueByKey(String confKey) {
-		SysConfig sysConfig = baseMapper
-				.selectOne(Wrappers.<SysConfig>lambdaQuery().eq(SysConfig::getConfKey, confKey));
+		SysConfig sysConfig = baseMapper.selectByKey(confKey);
 		return sysConfig == null ? "" : sysConfig.getConfValue();
 	}
 

@@ -18,6 +18,6 @@ public interface TemplateInfoService extends ExtendService<TemplateInfo> {
 	 * @param templateGroupId the template group id
 	 * @return the list
 	 */
-	List<TemplateInfo> listTemplateInfo(Integer templateGroupId);
+	List<TemplateInfo> listByTemplateGroupId(Integer templateGroupId);
 
 }

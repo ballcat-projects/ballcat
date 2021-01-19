@@ -29,16 +29,9 @@ public interface SysRoleService extends ExtendService<SysRole> {
 	PageResult<SysRoleVO> queryPage(PageParam pageParam, SysRoleQO qo);
 
 	/**
-	 * 通过角色ID，删除角色
-	 * @param id 角色ID
-	 * @return 删除是否成功
-	 */
-	Boolean removeRoleById(Integer id);
-
-	/**
 	 * 角色的选择数据
 	 * @return 角色下拉列表数据集合
 	 */
-	List<SelectData<?>> getSelectData();
+	List<SelectData<?>> listSelectData();
 
 }

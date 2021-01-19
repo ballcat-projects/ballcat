@@ -1,6 +1,5 @@
 package com.hccake.ballcat.codegen.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.codegen.mapper.TemplateInfoMapper;
 import com.hccake.ballcat.codegen.model.entity.TemplateInfo;
 import com.hccake.ballcat.codegen.service.TemplateInfoService;
@@ -25,9 +24,8 @@ public class TemplateInfoServiceImpl extends ExtendServiceImpl<TemplateInfoMappe
 	 * @return the list
 	 */
 	@Override
-	public List<TemplateInfo> listTemplateInfo(Integer templateGroupId) {
-		return baseMapper
-				.selectList(Wrappers.<TemplateInfo>lambdaQuery().eq(TemplateInfo::getGroupId, templateGroupId));
+	public List<TemplateInfo> listByTemplateGroupId(Integer templateGroupId) {
+		return baseMapper.listByTemplateGroupId(templateGroupId);
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.lang.Assert;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysOrganizationMapper;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysOrganizationConverter;
@@ -30,7 +29,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	 * @return OrganizationTree
 	 */
 	@Override
-	public List<SysOrganizationTree> tree() {
+	public List<SysOrganizationTree> listTree() {
 		List<SysOrganization> list = baseMapper.selectList(null);
 		return TreeUtil.buildTree(list, 0, SysOrganizationConverter.INSTANCE::poToTree);
 	}
@@ -91,9 +90,8 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	 * @return List<SysOrganization> 该组织的儿子组织
 	 */
 	@Override
-	public List<SysOrganization> selectSubOrganization(Integer organizationId) {
-		return baseMapper
-				.selectList(Wrappers.<SysOrganization>lambdaQuery().eq(SysOrganization::getParentId, organizationId));
+	public List<SysOrganization> listSubOrganization(Integer organizationId) {
+		return baseMapper.listSubOrganization(organizationId);
 	}
 
 	/**
@@ -102,8 +100,8 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	 * @return List<SysOrganization> 该组织的孩子组织
 	 */
 	@Override
-	public List<SysOrganization> selectChildOrganization(Integer organizationId) {
-		return baseMapper.selectChildOrganization(organizationId);
+	public List<SysOrganization> listChildOrganization(Integer organizationId) {
+		return baseMapper.listChildOrganization(organizationId);
 	}
 
 	/**

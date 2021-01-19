@@ -28,7 +28,7 @@
 	</select>
 
 	<!-- 通过用户ID查询其关联的角色ID-->
-	<select id="selectUsersByRoleCodes" resultType="com.hccake.ballcat.admin.modules.sys.model.entity.SysUser">
+	<select id="listByRoleCodes" resultType="com.hccake.ballcat.admin.modules.sys.model.entity.SysUser">
 		SELECT
 		<include refid="Base_Alias_Column_List"/>
 		FROM
@@ -47,7 +47,7 @@
 		AND su.deleted = 0
 	</select>
 
-	<select id="getSelectData" resultType="com.hccake.ballcat.common.core.domain.SelectData">
+	<select id="listSelectData" resultType="com.hccake.ballcat.common.core.domain.SelectData">
 		select
 		username as name , user_id as value
 		from

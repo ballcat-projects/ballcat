@@ -1,7 +1,7 @@
 
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysRolePermissionMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRolePermission;
 import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
@@ -9,6 +9,7 @@ import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,19 +33,35 @@ public class SysRolePermissionServiceImpl extends ExtendServiceImpl<SysRolePermi
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean saveRolePermissions(String roleCode, Integer[] permissionIds) {
-		this.remove(Wrappers.<SysRolePermission>query().lambda().eq(SysRolePermission::getRoleCode, roleCode));
-
+		// 1、先删除旧数据
+		baseMapper.deleteByRoleCode(roleCode);
 		if (permissionIds == null || permissionIds.length == 0) {
 			return Boolean.TRUE;
 		}
-		List<SysRolePermission> rolePermissionList = Arrays.stream(permissionIds).map(permissionId -> {
-			SysRolePermission rolePermission = new SysRolePermission();
-			rolePermission.setRoleCode(roleCode);
-			rolePermission.setPermissionId(permissionId);
-			return rolePermission;
-		}).collect(Collectors.toList());
 
-		return this.saveBatch(rolePermissionList);
+		// 2、再批量插入新数据
+		List<SysRolePermission> list = Arrays.stream(permissionIds).map(id -> new SysRolePermission(roleCode, id))
+				.collect(Collectors.toList());
+		int i = baseMapper.insertBatchSomeColumn(list);
+		return SqlHelper.retBool(i);
+	}
+
+	/**
+	 * 根据权限ID删除角色权限关联数据
+	 * @param permissionId 权限ID
+	 */
+	@Override
+	public void deleteByPermissionId(Serializable permissionId) {
+		baseMapper.deleteByPermissionId(permissionId);
+	}
+
+	/**
+	 * 根据角色标识删除角色权限关联关系
+	 * @param roleCode 角色标识
+	 */
+	@Override
+	public void deleteByRoleCode(String roleCode) {
+		baseMapper.deleteByRoleCode(roleCode);
 	}
 
 }

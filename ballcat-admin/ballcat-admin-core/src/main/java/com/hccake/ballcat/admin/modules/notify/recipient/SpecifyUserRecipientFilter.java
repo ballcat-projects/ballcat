@@ -37,7 +37,7 @@ public class SpecifyUserRecipientFilter implements RecipientFilter {
 	@Override
 	public List<SysUser> filter(List<Object> filterCondition) {
 		List<Integer> userIds = filterCondition.stream().map(x -> (Integer) x).collect(Collectors.toList());
-		return sysUserService.selectUsersByUserIds(userIds);
+		return sysUserService.listByUserIds(userIds);
 	}
 
 	/**

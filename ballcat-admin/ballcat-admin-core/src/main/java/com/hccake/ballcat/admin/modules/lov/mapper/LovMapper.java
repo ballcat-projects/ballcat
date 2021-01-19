@@ -1,6 +1,7 @@
 package com.hccake.ballcat.admin.modules.lov.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
 import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
@@ -29,6 +30,15 @@ public interface LovMapper extends ExtendMapper<Lov> {
 				.likeIfPresent(Lov::getTitle, qo.getTitle());
 		this.selectByPage(page, wrapperX);
 		return new PageResult<>(page.getRecords(), page.getTotal());
+	}
+
+	/**
+	 * 根据 keyword 查询对应的 lov
+	 * @param keyword lov 标识
+	 * @return Lov 实体
+	 */
+	default Lov selectByKeyword(String keyword) {
+		return this.selectOne(Wrappers.<Lov>lambdaQuery().eq(Lov::getKeyword, keyword));
 	}
 
 }

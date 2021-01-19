@@ -37,7 +37,7 @@ public class SysOrganizationController {
 	@GetMapping("/tree")
 	@PreAuthorize("@per.hasPermission('sys:organization:read')")
 	public R<List<SysOrganizationTree>> getOrganizationTree() {
-		return R.ok(sysOrganizationService.tree());
+		return R.ok(sysOrganizationService.listTree());
 	}
 
 	/**

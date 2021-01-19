@@ -1,8 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysDictMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
@@ -43,20 +41,20 @@ public class SysDictServiceImpl extends ExtendServiceImpl<SysDictMapper, SysDict
 	 */
 	@Override
 	public SysDict getByCode(String dictCode) {
-		return baseMapper.selectOne(Wrappers.<SysDict>lambdaQuery().eq(SysDict::getCode, dictCode));
+		return baseMapper.getByCode(dictCode);
 	}
 
 	/**
-	 * 根据字典标识查询
-	 * @param dictCode 字典标识
-	 * @return 字典数据
+	 * 根据字典标识数组查询对应字典集合
+	 * @param dictCodes 字典标识数组
+	 * @return List<SysDict> 字典集合
 	 */
 	@Override
-	public List<SysDict> getByCode(String[] dictCode) {
-		if (dictCode == null || dictCode.length == 0) {
+	public List<SysDict> listByCodes(String[] dictCodes) {
+		if (dictCodes == null || dictCodes.length == 0) {
 			return new ArrayList<>();
 		}
-		return baseMapper.selectList(Wrappers.<SysDict>lambdaQuery().in(SysDict::getCode, (Object[]) dictCode));
+		return baseMapper.listByCodes(dictCodes);
 	}
 
 	/**
@@ -66,9 +64,7 @@ public class SysDictServiceImpl extends ExtendServiceImpl<SysDictMapper, SysDict
 	 */
 	@Override
 	public boolean updateHashCode(String dictCode) {
-		int flag = baseMapper.update(null, Wrappers.<SysDict>lambdaUpdate()
-				.set(SysDict::getHashCode, IdUtil.fastSimpleUUID()).eq(SysDict::getCode, dictCode));
-		return SqlHelper.retBool(flag);
+		return baseMapper.updateHashCode(dictCode, IdUtil.fastSimpleUUID());
 	}
 
 }

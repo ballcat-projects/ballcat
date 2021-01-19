@@ -1,6 +1,5 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysDictItemMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemVO;
@@ -39,8 +38,18 @@ public class SysDictItemServiceImpl extends ExtendServiceImpl<SysDictItemMapper,
 	 * @return 字典项集合
 	 */
 	@Override
-	public List<SysDictItem> getByDictCode(String dictCode) {
-		return baseMapper.selectList(Wrappers.<SysDictItem>lambdaQuery().eq(SysDictItem::getDictCode, dictCode));
+	public List<SysDictItem> listByDictCode(String dictCode) {
+		return baseMapper.listByDictCode(dictCode);
+	}
+
+	/**
+	 * 根据字典标识删除对应字典项
+	 * @param dictCode 字典标识
+	 * @return 是否删除成功
+	 */
+	@Override
+	public boolean removeByDictCode(String dictCode) {
+		return baseMapper.deleteByDictCode(dictCode);
 	}
 
 }

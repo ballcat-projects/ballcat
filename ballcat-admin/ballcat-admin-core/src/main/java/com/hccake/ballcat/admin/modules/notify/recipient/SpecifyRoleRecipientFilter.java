@@ -38,7 +38,7 @@ public class SpecifyRoleRecipientFilter implements RecipientFilter {
 	@Override
 	public List<SysUser> filter(List<Object> filterCondition) {
 		List<String> roleCodes = filterCondition.stream().map(x -> (String) x).collect(Collectors.toList());
-		return sysUserService.selectUsersByRoleCodes(roleCodes);
+		return sysUserService.listByRoleCodes(roleCodes);
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class SpecifyRoleRecipientFilter implements RecipientFilter {
 	 */
 	@Override
 	public Object getFilterAttr(SysUser sysUser) {
-		return sysUserService.getUserRoleCodes(sysUser.getUserId());
+		return sysUserService.listRoleCodes(sysUser.getUserId());
 	}
 
 	/**

@@ -2,8 +2,6 @@ package com.hccake.ballcat.admin.modules.sys.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hccake.ballcat.admin.constants.SysUserConst;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
@@ -18,10 +16,10 @@ import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.core.domain.PageParam;
 import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.core.domain.SelectData;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
-import com.hccake.ballcat.common.core.domain.SelectData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -71,9 +69,9 @@ public class SysUserController {
 	 */
 	@GetMapping("/select")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:read')")
-	public R<List<SelectData<?>>> getSelectData(
+	public R<List<SelectData<?>>> listSelectData(
 			@RequestParam(value = "userTypes", required = false) List<Integer> userTypes) {
-		return R.ok(sysUserService.getSelectData(userTypes));
+		return R.ok(sysUserService.listSelectData(userTypes));
 	}
 
 	/**
@@ -129,7 +127,7 @@ public class SysUserController {
 	@PreAuthorize("@per.hasPermission('sys:sysuser:grant')")
 	public R<SysUserScope> getUserRoleIds(@PathVariable Integer userId) {
 
-		List<SysRole> roleList = sysUserRoleService.getRoles(userId);
+		List<SysRole> roleList = sysUserRoleService.listRoles(userId);
 
 		List<String> roleCodes = new ArrayList<>();
 		if (CollectionUtil.isNotEmpty(roleList)) {
@@ -186,7 +184,7 @@ public class SysUserController {
 				&& !SysUserConst.Status.LOCKED.getValue().equals(status)) {
 			throw new ValidationException("不支持的用户状态！");
 		}
-		return sysUserService.updateUserStatus(userIds, status) ? R.ok()
+		return sysUserService.updateUserStatusBatch(userIds, status) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "批量修改用户状态！");
 	}
 

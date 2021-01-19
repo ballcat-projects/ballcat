@@ -33,11 +33,11 @@ public interface SysDictService extends ExtendService<SysDict> {
 	SysDict getByCode(String dictCode);
 
 	/**
-	 * 根据字典标识查询
-	 * @param dictCode 字典标识
-	 * @return 字典数据
+	 * 根据字典标识数组查询对应字典集合
+	 * @param dictCodes 字典标识数组
+	 * @return List<SysDict> 字典集合
 	 */
-	List<SysDict> getByCode(String[] dictCode);
+	List<SysDict> listByCodes(String[] dictCodes);
 
 	/**
 	 * 更新字典HashCode

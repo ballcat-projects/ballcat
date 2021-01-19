@@ -1,12 +1,11 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysRoleMapper;
-import com.hccake.ballcat.admin.modules.sys.mapper.SysRolePermissionMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysRolePermission;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysRoleVO;
+import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRoleService;
 import com.hccake.ballcat.common.core.domain.PageParam;
 import com.hccake.ballcat.common.core.domain.PageResult;
@@ -16,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -30,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
-	private final SysRolePermissionMapper sysRolePermissionMapper;
+	private final SysRolePermissionService sysRolePermissionService;
 
 	/**
 	 * 查询系统角色列表
@@ -50,11 +50,10 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean removeRoleById(Integer id) {
+	public boolean removeById(Serializable id) {
 		SysRole role = getById(id);
-		sysRolePermissionMapper.delete(
-				Wrappers.<SysRolePermission>update().lambda().eq(SysRolePermission::getRoleCode, role.getCode()));
-		return this.removeById(id);
+		sysRolePermissionService.deleteByRoleCode(role.getCode());
+		return SqlHelper.retBool(baseMapper.deleteById(id));
 	}
 
 	/**
@@ -62,8 +61,8 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	 * @return List<SelectData<?>>
 	 */
 	@Override
-	public List<SelectData<?>> getSelectData() {
-		return baseMapper.getSelectData();
+	public List<SelectData<?>> listSelectData() {
+		return baseMapper.listSelectData();
 	}
 
 }

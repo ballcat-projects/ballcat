@@ -88,7 +88,7 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param status 状态
 	 * @return boolean
 	 */
-	boolean updateUserStatus(List<Integer> userIds, Integer status);
+	boolean updateUserStatusBatch(List<Integer> userIds, Integer status);
 
 	/**
 	 * 修改系统用户头像
@@ -104,48 +104,48 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param roleCode 角色标识
 	 * @return List<SysUser>
 	 */
-	List<SysUser> selectUsersByRoleCode(String roleCode);
+	List<SysUser> listByRoleCode(String roleCode);
 
 	/**
 	 * 根据角色查询用户
 	 * @param roleCodes 角色标识集合
 	 * @return List<SysUser> 用户集合
 	 */
-	List<SysUser> selectUsersByRoleCodes(List<String> roleCodes);
+	List<SysUser> listByRoleCodes(List<String> roleCodes);
 
 	/**
 	 * 根据组织机构ID查询用户
 	 * @param organizationIds 组织机构id集合
 	 * @return 用户集合
 	 */
-	List<SysUser> selectUsersByOrganizationIds(List<Integer> organizationIds);
+	List<SysUser> listByOrganizationIds(List<Integer> organizationIds);
 
 	/**
 	 * 根据用户类型查询用户
 	 * @param userTypes 用户类型集合
 	 * @return 用户集合
 	 */
-	List<SysUser> selectUsersByUserTypes(List<Integer> userTypes);
+	List<SysUser> listByUserTypes(List<Integer> userTypes);
 
 	/**
 	 * 根据用户Id集合查询用户
 	 * @param userIds 用户Id集合
 	 * @return 用户集合
 	 */
-	List<SysUser> selectUsersByUserIds(List<Integer> userIds);
+	List<SysUser> listByUserIds(List<Integer> userIds);
 
 	/**
 	 * 返回用户的select数据
 	 * @param type 为空时返回所有客户为1返回系统客户 name=> username value => userId
 	 * @return List<SelectData>
 	 */
-	List<SelectData<?>> getSelectData(List<Integer> type);
+	List<SelectData<?>> listSelectData(List<Integer> type);
 
 	/**
 	 * 获取用户的角色Code集合
 	 * @param userId 用户id
 	 * @return List<String>
 	 */
-	List<String> getUserRoleCodes(Integer userId);
+	List<String> listRoleCodes(Integer userId);
 
 }

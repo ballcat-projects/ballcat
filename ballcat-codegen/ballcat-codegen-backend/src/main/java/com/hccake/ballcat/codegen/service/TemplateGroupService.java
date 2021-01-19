@@ -1,6 +1,5 @@
 package com.hccake.ballcat.codegen.service;
 
-import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
 import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
@@ -10,7 +9,6 @@ import com.hccake.ballcat.common.core.domain.SelectData;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 模板组
@@ -29,18 +27,10 @@ public interface TemplateGroupService extends ExtendService<TemplateGroup> {
 	PageResult<TemplateGroupVO> queryPage(PageParam pageParam, TemplateGroupQO qo);
 
 	/**
-	 * 查找指定模板组下所有的模板文件
-	 * @param groupId 模板组ID
-	 * @param templateFileIds 模板文件ID集合
-	 * @return List<TemplateFile>
-	 */
-	List<TemplateFile> findTemplateFiles(Integer groupId, Set<Integer> templateFileIds);
-
-	/**
 	 * 获取SelectData数据
 	 * @return List<SelectData<?>>
 	 */
-	List<SelectData<?>> getSelectData();
+	List<SelectData<?>> listSelectData();
 
 	/**
 	 * 复制模板组
