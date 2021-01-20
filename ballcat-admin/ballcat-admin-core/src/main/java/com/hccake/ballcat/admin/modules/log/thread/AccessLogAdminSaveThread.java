@@ -31,8 +31,8 @@ public class AccessLogAdminSaveThread extends AbstractQueueThread<AdminAccessLog
 
 	/**
 	 * 错误日志打印
-	 * @param e
-	 * @param list
+	 * @param e 错误堆栈
+	 * @param list 后台访问日志列表
 	 */
 	@Override
 	public void errorLog(Throwable e, List<AdminAccessLog> list) {
@@ -41,11 +41,11 @@ public class AccessLogAdminSaveThread extends AbstractQueueThread<AdminAccessLog
 
 	/**
 	 * 数据保存
-	 * @param list
+	 * @param list 后台访问日志列表
 	 */
 	@Override
 	public void save(List<AdminAccessLog> list) throws Exception {
-		adminAccessLogService.saveBatch(list);
+		adminAccessLogService.saveBatchSomeColumn(list);
 	}
 
 }

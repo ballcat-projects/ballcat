@@ -105,7 +105,7 @@ public class PushEventListener {
 					.setNeedBroadcast(false);
 			messageDistributor.distribute(messageDO);
 
-			userAnnouncementService.saveBatch(userAnnouncements);
+			userAnnouncementService.saveBatchSomeColumn(userAnnouncements);
 		}
 	}
 

@@ -19,10 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author lingting 2020-08-10 17:21
@@ -46,41 +43,17 @@ public class LovServiceImpl extends ExtendServiceImpl<LovMapper, Lov> implements
 		if (!updateById(lov)) {
 			return false;
 		}
-		List<Long> removeIds = new ArrayList<>();
-		// 获取现有lov body
+		// 更新 LovBody，先删除再插入
 		String keyword = lov.getKeyword();
-		List<LovBody> lovBodyList = bodyService.listByKeyword(keyword);
-
-		// 获取现有的id
-		Set<Long> ids = bodyList.stream().map(LovBody::getId).collect(Collectors.toSet());
-		// 筛选需要删除的id
-		for (LovBody body : lovBodyList) {
-			if (!ids.contains(body.getId())) {
-				removeIds.add(body.getId());
-			}
-		}
-		bodyService.removeByIds(removeIds);
-
+		bodyService.removeByKeyword(keyword);
 		bodyList.forEach((body -> body.setKeyword(keyword)));
-		bodyService.saveOrUpdateBatch(bodyList);
+		bodyService.saveBatchSomeColumn(bodyList);
 
-		// 清空已有需要删除的id
-		removeIds.clear();
-		// 获取现有lov body
-		List<LovSearch> lovSearchList = searchService.listByKeyword(keyword);
-
-		// 获取现有的id
-		ids = searchList.stream().map(LovSearch::getId).collect(Collectors.toSet());
-		// 筛选需要删除的id
-		for (LovSearch search : lovSearchList) {
-			if (!ids.contains(search.getId())) {
-				removeIds.add(search.getId());
-			}
-		}
-		searchService.removeByIds(removeIds);
-
+		// 更新 LovSearch，先删除再插入
+		searchService.removeByKeyword(keyword);
 		searchList.forEach((body -> body.setKeyword(keyword)));
-		searchService.saveOrUpdateBatch(searchList);
+		searchService.saveBatchSomeColumn(searchList);
+
 		return true;
 	}
 

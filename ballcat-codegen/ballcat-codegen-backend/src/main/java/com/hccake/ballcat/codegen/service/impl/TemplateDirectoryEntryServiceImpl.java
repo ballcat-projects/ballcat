@@ -196,7 +196,7 @@ public class TemplateDirectoryEntryServiceImpl
 			entry.setCreateTime(null);
 			entry.setUpdateTime(null);
 		}
-		this.saveBatch(list);
+		this.saveBatchSomeColumn(list);
 
 		// 3. =============== 获取新老ID的映射表，key: oldId, value: newId ==========
 		Map<Integer, Integer> idMap = new HashMap<>();
