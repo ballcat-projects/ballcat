@@ -1,10 +1,14 @@
 package com.hccake.ballcat.admin.oauth.util;
 
+import com.hccake.ballcat.admin.constants.SecurityConst;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.oauth.SysUserDetails;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.Optional;
 
 /**
  * @author Hccake
@@ -52,6 +56,17 @@ public class SecurityUtils {
 	public SysUser getSysUser() {
 		SysUserDetails sysUserDetails = getSysUserDetails();
 		return sysUserDetails == null ? null : sysUserDetails.getSysUser();
+	}
+
+	/**
+	 * 判断当前是否是测试客户端
+	 * @return boolean 是：true，否：false
+	 */
+	public boolean isTestClient() {
+		// 测试客户端 跳过密码解密（swagger 或 postman测试时使用）
+		Authentication authentication = SecurityUtils.getAuthentication();
+		User user = (User) Optional.ofNullable(authentication).map(Authentication::getPrincipal).orElse(null);
+		return user != null && SecurityConst.TEST_CLIENT_ID.equals(user.getUsername());
 	}
 
 }

@@ -143,6 +143,8 @@ scheme.sql
 ballcat.sql  
 ```
 
+**默认 oauth_client_details 脚本中有一个 test client，该 client 只能用于开发及测试环境，其登陆时会跳过图形验证码以及密码解密过程，生产环境请删除该client**
+
 ## 配置本地hosts
 
 建议使用 switchHost 软件管理hosts配置!  

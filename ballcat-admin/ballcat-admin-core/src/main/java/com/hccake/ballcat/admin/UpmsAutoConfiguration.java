@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin;
 
 import com.anji.captcha.service.CaptchaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hccake.ballcat.admin.constants.UrlMappingConst;
+import com.hccake.ballcat.admin.constants.SecurityConst;
 import com.hccake.ballcat.admin.modules.notify.push.MailNotifyPusher;
 import com.hccake.ballcat.admin.modules.sys.checker.AdminRuleProperties;
 import com.hccake.ballcat.admin.oauth.UserInfoCoordinator;
@@ -53,7 +53,7 @@ public class UpmsAutoConfiguration {
 		bean.setFilter(filter);
 		// 比密码解密早一步
 		bean.setOrder(-1);
-		bean.addUrlPatterns(UrlMappingConst.OAUTH_LOGIN);
+		bean.addUrlPatterns(SecurityConst.LOGIN_URL);
 		return bean;
 	}
 

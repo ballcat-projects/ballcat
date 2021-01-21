@@ -23,4 +23,14 @@ public final class SecurityConst {
 	 */
 	public static final String OAUTH_PREFIX = "oauth:";
 
+	/**
+	 * 登陆地址
+	 */
+	public static final String LOGIN_URL = "/oauth/token";
+
+	/**
+	 * 测试客户端的client_id
+	 */
+	public static final String TEST_CLIENT_ID = "test";
+
 }

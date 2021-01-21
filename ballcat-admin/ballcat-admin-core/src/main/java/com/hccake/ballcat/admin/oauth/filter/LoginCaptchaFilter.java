@@ -4,6 +4,7 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,12 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+
+		// 测试客户端 跳过验证码（swagger 或 postman测试时使用）
+		if (SecurityUtils.isTestClient()) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
 		String captchaVerification = request.getParameter(CAPTCHA_VERIFICATION_PARAM);
 
