@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2019/11/1 20:03
  */
 @Import(SwaggerConfiguration.class)
-@ConditionalOnProperty(name = "swagger.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "ballcat.swagger.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerAggregatorAutoConfiguration {
 
 	@Bean

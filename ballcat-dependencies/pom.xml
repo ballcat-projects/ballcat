@@ -46,9 +46,9 @@
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<spring-boot.version>2.4.1</spring-boot.version>
 		<spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
-		<springfox.version>2.9.2</springfox.version>
+		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
-		<knife4j.version>1.9.6</knife4j.version>
+		<knife4j.version>2.0.8</knife4j.version>
 		<kafka.version>2.5.0</kafka.version>
 		<hutool.version>5.5.7</hutool.version>
 		<mybatis-plus.version>3.4.1</mybatis-plus.version>
@@ -245,6 +245,11 @@
 			<dependency>
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-boot-starter</artifactId>
 				<version>${springfox.version}</version>
 			</dependency>
 			<!-- swagger 增强版 ui -->

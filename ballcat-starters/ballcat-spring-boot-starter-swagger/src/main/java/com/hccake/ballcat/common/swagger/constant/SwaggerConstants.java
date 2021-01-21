@@ -21,11 +21,6 @@ public final class SwaggerConstants {
 	/**
 	 * 默认扫描路径
 	 */
-	public static final String BASE_PATH = "/**";
-
-	/**
-	 * 默认的文档提供路径
-	 */
-	public static final String API_URI = "/v2/api-docs";
+	public static final String DEFAULT_BASE_PATH = "/**";
 
 }

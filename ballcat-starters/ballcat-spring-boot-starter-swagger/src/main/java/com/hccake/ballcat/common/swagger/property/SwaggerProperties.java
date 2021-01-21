@@ -1,7 +1,6 @@
 package com.hccake.ballcat.common.swagger.property;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
  * @date 2019/11/1 19:37
  */
 @Data
-@ConfigurationProperties("swagger")
+@ConfigurationProperties("ballcat.swagger")
 public class SwaggerProperties {
 
 	/**
@@ -27,9 +26,24 @@ public class SwaggerProperties {
 	private String groupName;
 
 	/**
-	 * 额外的Model的包路径 用于扫描并加载未被 swagger 引入的 model， 例如未明确在接口定义会返回的类，或者一些公共的类
+	 * 文档版本，默认使用 2.0
+	 */
+	private DocumentationTypeEnum documentationType = DocumentationTypeEnum.SWAGGER_2;
+
+	/**
+	 * swagger会解析的包路径
 	 **/
-	private String[] additionalModelPackage = {};
+	private String basePackage = "";
+
+	/**
+	 * swagger会解析的url规则
+	 **/
+	private List<String> basePath = new ArrayList<>();
+
+	/**
+	 * 在basePath基础上需要排除的url规则
+	 **/
+	private List<String> excludePath = new ArrayList<>();
 
 	/**
 	 * 标题
@@ -77,7 +91,6 @@ public class SwaggerProperties {
 	private Authorization authorization = new Authorization();
 
 	@Data
-	@NoArgsConstructor
 	public static class Contact {
 
 		/**
@@ -98,7 +111,6 @@ public class SwaggerProperties {
 	}
 
 	@Data
-	@NoArgsConstructor
 	public static class Authorization {
 
 		/**
@@ -107,21 +119,18 @@ public class SwaggerProperties {
 		private String name = "";
 
 		/**
-		 * 需要开启鉴权URL的正则
-		 */
-		private String authRegex = "^.*$";
-
-		/**
 		 * 鉴权作用域列表
 		 */
 		private List<AuthorizationScope> authorizationScopeList = new ArrayList<>();
 
-		private List<String> tokenUrlList = new ArrayList<>();
+		/**
+		 * token请求地址，如需开启OAuth2 password 类型登陆则必传此参数
+		 */
+		private String tokenUrl = "";
 
 	}
 
 	@Data
-	@NoArgsConstructor
 	public static class AuthorizationScope {
 
 		/**

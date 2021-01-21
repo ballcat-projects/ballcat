@@ -1,12 +1,9 @@
 package com.hccake.ballcat.common.swagger;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ClassUtil;
-import com.fasterxml.classmate.ResolvedType;
-import com.fasterxml.classmate.TypeResolver;
+import com.hccake.ballcat.common.swagger.constant.SwaggerConstants;
 import com.hccake.ballcat.common.swagger.property.SwaggerProperties;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -16,104 +13,71 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * @author Hccake
  * @version 1.0
  * @date 2019/11/1 19:43
  */
-@Configuration
-@EnableSwagger2
+@RequiredArgsConstructor
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(SwaggerProperties.class)
 public class SwaggerConfiguration {
 
-	@Bean
-	public SwaggerProperties swaggerProperties() {
-		return new SwaggerProperties();
-	}
+	private final SwaggerProperties swaggerProperties;
 
 	@Bean
-	public Docket api(SwaggerProperties swaggerProperties, TypeResolver typeResolver) {
-
+	public Docket api() {
 		// @formatter:off
-		Docket docket = new Docket(DocumentationType.SWAGGER_2)
+		// 1. 文档信息构建
+		Docket docket = new Docket(swaggerProperties.getDocumentationType().getType())
 				.host(swaggerProperties.getHost())
-				.apiInfo(apiInfo(swaggerProperties))
-				.groupName(swaggerProperties.getGroupName())
-				.select()
-				.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-				.build()
-				.securitySchemes(Collections.singletonList(securitySchema()))
-				.securityContexts(Collections.singletonList(securityContext()))
-				.pathMapping("/");
-		// @formatter:on
+				.apiInfo(apiInfo())
+				.groupName(swaggerProperties.getGroupName());
 
-		// 加载额外的model
-		String[] additionalModelPackage = swaggerProperties.getAdditionalModelPackage();
-		if (additionalModelPackage != null && additionalModelPackage.length > 0) {
-			for (String scanPackage : additionalModelPackage) {
-				// 扫描指定包下，拥有注解 @ApiModel 的 class
-				Set<Class<?>> classes = ClassUtil.scanPackageByAnnotation(scanPackage, ApiModel.class);
-				if (CollectionUtil.isEmpty(classes)) {
-					continue;
-				}
-				for (Class<?> aClass : classes) {
-					ResolvedType resolve = typeResolver.resolve(aClass);
-					docket.additionalModels(resolve);
-				}
-			}
-		}
+		// 2. 安全配置
+		docket.securitySchemes(securitySchema())
+				.securityContexts(securityContext());
+
+		// 3. 文档筛选
+		docket.select()
+			.apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))
+			.paths(paths())
+			.build();
 
 		return docket;
-	}
-
-	/**
-	 * 配置默认的全局鉴权策略的开关，通过正则表达式进行匹配；默认匹配所有URL
-	 * @return
-	 */
-	private SecurityContext securityContext() {
-		// @formatter:off
-		return SecurityContext.builder()
-				.securityReferences(defaultAuth())
-				.forPaths(PathSelectors.regex(swaggerProperties()
-				.getAuthorization()
-				.getAuthRegex()))
-				.build();
 		// @formatter:on
+
 	}
 
-	/**
-	 * 默认的全局鉴权策略
-	 * @return
-	 */
-	private List<SecurityReference> defaultAuth() {
-		ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
-		swaggerProperties().getAuthorization().getAuthorizationScopeList()
-				.forEach(authorizationScope -> authorizationScopeList.add(
-						new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
-		AuthorizationScope[] authorizationScopes = new AuthorizationScope[authorizationScopeList.size()];
-		return Collections
-				.singletonList(SecurityReference.builder().reference(swaggerProperties().getAuthorization().getName())
-						.scopes(authorizationScopeList.toArray(authorizationScopes)).build());
+	private Predicate<String> paths() {
+		// base-path 和 exclude-path 的默认值处理
+		if (swaggerProperties.getBasePath().isEmpty()) {
+			swaggerProperties.getBasePath().add(SwaggerConstants.DEFAULT_BASE_PATH);
+		}
+		if (swaggerProperties.getExcludePath().isEmpty()) {
+			swaggerProperties.getExcludePath().addAll(SwaggerConstants.DEFAULT_EXCLUDE_PATH);
+		}
+
+		List<Predicate<String>> basePath = new ArrayList<>();
+		for (String path : swaggerProperties.getBasePath()) {
+			basePath.add(PathSelectors.ant(path));
+		}
+		List<Predicate<String>> excludePath = new ArrayList<>();
+		for (String path : swaggerProperties.getExcludePath()) {
+			excludePath.add(PathSelectors.ant(path));
+		}
+		// 必须满足basePath 且不满足 exclude-path
+		return s -> basePath.stream().anyMatch(x -> x.test(s)) && excludePath.stream().noneMatch(x -> x.test(s));
 	}
 
-	private OAuth securitySchema() {
-		ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
-		swaggerProperties().getAuthorization().getAuthorizationScopeList()
-				.forEach(authorizationScope -> authorizationScopeList.add(
-						new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
-		ArrayList<GrantType> grantTypes = new ArrayList<>();
-		swaggerProperties().getAuthorization().getTokenUrlList()
-				.forEach(tokenUrl -> grantTypes.add(new ResourceOwnerPasswordCredentialsGrant(tokenUrl)));
-		return new OAuth(swaggerProperties().getAuthorization().getName(), authorizationScopeList, grantTypes);
-	}
-
-	private ApiInfo apiInfo(SwaggerProperties swaggerProperties) {
+	private ApiInfo apiInfo() {
 		// @formatter:off
 		return new ApiInfoBuilder()
 				.title(swaggerProperties.getTitle())
@@ -124,8 +88,66 @@ public class SwaggerConfiguration {
 				.contact(new Contact(swaggerProperties.getContact().getName(),
 						swaggerProperties.getContact().getUrl(),
 						swaggerProperties.getContact().getEmail()))
-				.version(swaggerProperties.getVersion()).build();
+				.version(swaggerProperties.getVersion())
+				.build();
 		// @formatter:on
+	}
+
+	private List<SecurityScheme> securitySchema() {
+		SwaggerProperties.Authorization authorizationProps = swaggerProperties.getAuthorization();
+
+		List<AuthorizationScope> authorizationScopeList = authorizationProps.getAuthorizationScopeList().stream()
+				.map(scope -> new AuthorizationScope(scope.getScope(), scope.getDescription()))
+				.collect(Collectors.toList());
+
+		String tokenUrl = authorizationProps.getTokenUrl();
+
+		DocumentationType documentationType = swaggerProperties.getDocumentationType().getType();
+		SecurityScheme securityScheme;
+		if (documentationType.equals(DocumentationType.SWAGGER_2)) {
+			// swagger2 OAuth2
+			List<GrantType> grantTypes = Collections.singletonList(new ResourceOwnerPasswordCredentialsGrant(tokenUrl));
+			securityScheme = new OAuth(authorizationProps.getName(), authorizationScopeList, grantTypes);
+		}
+		else {
+			// Swagger3 Oauth2
+			securityScheme = OAuth2Scheme.OAUTH2_PASSWORD_FLOW_BUILDER.name(authorizationProps.getName())
+					.tokenUrl(tokenUrl).scopes(authorizationScopeList).build();
+		}
+
+		return Collections.singletonList(securityScheme);
+	}
+
+	/**
+	 * 配置默认的全局鉴权策略的开关，通过正则表达式进行匹配；默认匹配所有URL
+	 * @return SecurityContext
+	 */
+	private List<SecurityContext> securityContext() {
+		// @formatter:off
+		SecurityContext securityContext = SecurityContext.builder()
+				.securityReferences(defaultAuth())
+				.build();
+		// @formatter:on
+
+		return Collections.singletonList(securityContext);
+	}
+
+	/**
+	 * 默认的全局鉴权策略
+	 * @return List<SecurityReference>
+	 */
+	private List<SecurityReference> defaultAuth() {
+		SwaggerProperties.Authorization authorization = swaggerProperties.getAuthorization();
+		List<AuthorizationScope> authorizationScopeList = authorization.getAuthorizationScopeList().stream()
+				.map(scope -> new AuthorizationScope(scope.getScope(), scope.getDescription()))
+				.collect(Collectors.toList());
+
+		AuthorizationScope[] authorizationScopes = new AuthorizationScope[authorizationScopeList.size()];
+
+		SecurityReference securityReference = SecurityReference.builder().reference(authorization.getName())
+				.scopes(authorizationScopeList.toArray(authorizationScopes)).build();
+
+		return Collections.singletonList(securityReference);
 	}
 
 }

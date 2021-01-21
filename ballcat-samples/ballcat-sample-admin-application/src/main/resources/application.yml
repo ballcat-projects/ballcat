@@ -21,6 +21,28 @@ ballcat:
     auth: true
     secret-id: 'ballcat-monitor'
     secret-key: '=BallCat-Monitor'
+  swagger:
+    title: BallCat-Admin Docs
+    group-name: ballcat-admin
+    documentation-type: swagger_2
+    description: BallCat 后台管理服务Api文档
+    version: 0.0.1
+    license: Powered By BallCat
+    licenseUrl: http://www.ballcat.cn/
+    terms-of-service-url: http://www.ballcat.cn/
+    contact:
+      name: Hccake
+      email: chengbohua@foxmail.com
+      url: https://github.com/Hccake
+    authorization:
+      name: BallCat OAuth
+      authorization-scope-list:
+        - scope: server
+          description: server all
+      token-url: http://ballcat-admin:8080/oauth/token
+    aggregator:
+      provider-resources:
+        - { name: ballcat-api,  url: http://ballcat-api:9090/v2/api-docs, swagger-version: 2.0 }
 
 security:
   oauth2:
@@ -33,7 +55,7 @@ security:
       - /swagger-ui.html**
       - /webjars/**
       - /bycdao-ui/**
-      - favicon.ico
+      - /favicon.ico
 
 # 图形验证码
 aj:
@@ -75,27 +97,3 @@ xxl:
       appName: ballcat-admin-jobs
       logretentiondays: 30 #日志保留天数
 
-
-swagger:
-  title: BallCat-Admin Docs
-  group-name: ballcat-admin
-  description: BallCat 后台管理服务Api文档
-  version: 0.0.1
-  license: Powered By BallCat
-  licenseUrl: http://www.ballcat.cn/
-  terms-of-service-url: http://www.ballcat.cn/
-  contact:
-    name: Hccake
-    email: chengbohua@foxmail.com
-    url: https://github.com/Hccake
-  authorization:
-    name: BallCat OAuth
-    auth-regex: ^.*$
-    authorization-scope-list:
-      - scope: server
-        description: server all
-    token-url-list:
-      - http://ballcat-admin:8080/oauth/token
-  aggregator:
-    provider-resources:
-      - {name: ballcat-api,  url: http://ballcat-api:9090/v2/api-docs, swagger-version: 2.0}

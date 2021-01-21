@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2019/11/1 20:05
  */
 @Data
-@ConfigurationProperties("swagger.aggregator")
+@ConfigurationProperties("ballcat.swagger.aggregator")
 public class SwaggerAggregatorProperties {
 
 	/**

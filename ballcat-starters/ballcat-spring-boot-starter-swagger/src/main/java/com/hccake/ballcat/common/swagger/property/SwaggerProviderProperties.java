@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date 2019/11/1 20:05
  */
 @Data
-@ConfigurationProperties("swagger.provider")
+@ConfigurationProperties("ballcat.swagger.provider")
 public class SwaggerProviderProperties {
 
 	/**
