@@ -29,6 +29,10 @@ public class DingTalkResponse {
 		this.success = SUCCESS_CODE.equals(this.code);
 	}
 
+	public static DingTalkResponse of(String res) {
+		return new DingTalkResponse(res);
+	}
+
 	private Long code;
 
 	/**

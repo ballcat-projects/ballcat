@@ -3,16 +3,14 @@ package com.hccake.extend.dingtalk;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
 import com.hccake.extend.dingtalk.message.DingTalkMessage;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 订单消息发送
@@ -33,18 +31,11 @@ public class DingTalkSender {
 	 */
 	private String secret;
 
-	/**
-	 * 普通消息发送请求
-	 */
-	private final HttpRequest request;
-
 	private final Mac mac;
 
 	@SneakyThrows
 	public DingTalkSender(String url) {
 		this.url = url;
-		request = HttpUtil.createPost(url);
-
 		mac = Mac.getInstance("HmacSHA256");
 	}
 
@@ -69,7 +60,7 @@ public class DingTalkSender {
 	 * @author lingting 2020-06-11 00:09:23
 	 */
 	public DingTalkResponse sendNormalMessage(DingTalkMessage message) {
-		return new DingTalkResponse(request.body(message.generate()).execute().body());
+		return request(message, false);
 	}
 
 	/**
@@ -79,8 +70,7 @@ public class DingTalkSender {
 	 */
 	@SneakyThrows
 	public DingTalkResponse sendSecretMessage(DingTalkMessage message) {
-		return new DingTalkResponse(
-				request.setUrl(secret(System.currentTimeMillis())).body(message.generate()).execute().body());
+		return request(message, true);
 	}
 
 	/**
@@ -105,6 +95,28 @@ public class DingTalkSender {
 	public String secret(long timestamp) {
 		return url + "&timestamp=" + timestamp + "&sign=" + URLEncoder.encode(
 				Base64.encode(mac.doFinal((timestamp + "\n" + secret).getBytes(StandardCharsets.UTF_8))), "UTF-8");
+	}
+
+	/**
+	 * 发起消息请求
+	 * @param message 消息内容
+	 * @param isSecret 是否签名 true 签名
+	 * @return java.lang.String
+	 * @author lingting 2021-01-22 17:11
+	 */
+	public DingTalkResponse request(DingTalkMessage message, boolean isSecret) {
+		if (isSecret) {
+			return DingTalkResponse.of(HttpRequest.post(url)
+					// 设置新的请求路径
+					.setUrl(secret(System.currentTimeMillis()))
+					// 请求体
+					.body(message.generate())
+					// 获取返回值
+					.execute().body());
+		}
+		else {
+			return DingTalkResponse.of(HttpRequest.post(url).body(message.generate()).execute().body());
+		}
 	}
 
 }
