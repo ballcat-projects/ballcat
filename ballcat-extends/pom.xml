@@ -16,5 +16,6 @@
 		<module>ballcat-extend-dingtalk</module>
 		<module>ballcat-extend-kafka</module>
 		<module>ballcat-extend-kafka-stream</module>
-	</modules>
+        <module>ballcat-extend-pay-virtual</module>
+    </modules>
 </project>

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.hccake.starter.pay.PayAutoConfiguration
+  com.hccake.starter.pay.virtual.VirtualPayAutoConfiguration

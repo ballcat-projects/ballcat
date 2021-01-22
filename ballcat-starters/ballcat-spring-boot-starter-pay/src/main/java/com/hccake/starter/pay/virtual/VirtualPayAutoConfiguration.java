@@ -1,8 +1,11 @@
-package com.hccake.starter.pay;
+package com.hccake.starter.pay.virtual;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import live.lingting.virtual.currency.properties.InfuraProperties;
@@ -17,10 +20,10 @@ import live.lingting.virtual.currency.service.impl.TronscanServiceImpl;
  */
 @Slf4j
 @RequiredArgsConstructor
-@EnableConfigurationProperties({ PayProperties.class })
-public class PayAutoConfiguration {
-
-	private final PayProperties properties;
+@ConditionalOnClass(InfuraProperties.class)
+@EnableConfigurationProperties({ BitcoinProperties.class, EthereumProperties.class,
+		com.hccake.starter.pay.virtual.TronscanProperties.class })
+public class VirtualPayAutoConfiguration {
 
 	/*
 	 * Ethereum 配置
@@ -32,8 +35,10 @@ public class PayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public InfuraProperties infuraProperties() {
-		PayProperties.Ethereum.Infura infura = properties.getEthereum().getInfura();
+	@ConditionalOnProperty(prefix = "ballcat.pay.ethereum", name = "enabled", havingValue = "true",
+			matchIfMissing = true)
+	public InfuraProperties infuraProperties(EthereumProperties properties) {
+		EthereumProperties.Infura infura = properties.getInfura();
 		return new InfuraProperties()
 				// 节点
 				.setEndpoints(infura.getEndpoints())
@@ -49,6 +54,7 @@ public class PayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
+	@ConditionalOnBean(InfuraProperties.class)
 	public InfuraServiceImpl infuraService(InfuraProperties properties) {
 		return new InfuraServiceImpl(properties);
 	}
@@ -63,10 +69,12 @@ public class PayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public TronscanProperties tronscanProperties() {
+	@ConditionalOnProperty(prefix = "ballcat.pay.tronscan", name = "enabled", havingValue = "true",
+			matchIfMissing = true)
+	public TronscanProperties tronscanProperties(com.hccake.starter.pay.virtual.TronscanProperties properties) {
 		return new TronscanProperties()
 				// 节点
-				.setEndpoints(properties.getTronscan().getEndpoints());
+				.setEndpoints(properties.getEndpoints());
 	}
 
 	/**
@@ -75,6 +83,7 @@ public class PayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
+	@ConditionalOnBean(TronscanProperties.class)
 	public TronscanServiceImpl tronscanService(TronscanProperties properties) {
 		return new TronscanServiceImpl(properties);
 	}
@@ -89,12 +98,14 @@ public class PayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public OmniProperties bitcoinProperties() {
+	@ConditionalOnProperty(prefix = "ballcat.pay.bitcoin", name = "enabled", havingValue = "true",
+			matchIfMissing = true)
+	public OmniProperties bitcoinProperties(BitcoinProperties properties) {
 		return new OmniProperties()
 				// 节点
-				.setOmniEndpoints(properties.getBitcoin().getOmni().getEndpoints())
+				.setOmniEndpoints(properties.getOmni().getEndpoints())
 				// 比特节点
-				.setBitcoinEndpoints(properties.getBitcoin().getEndpoints());
+				.setBitcoinEndpoints(properties.getEndpoints());
 	}
 
 	/**
@@ -103,6 +114,7 @@ public class PayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
+	@ConditionalOnBean(OmniProperties.class)
 	public BtcOmniServiceImpl bitcoinService(OmniProperties properties) {
 		return new BtcOmniServiceImpl(properties);
 	}

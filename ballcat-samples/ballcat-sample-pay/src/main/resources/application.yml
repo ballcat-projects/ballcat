@@ -3,6 +3,7 @@ ballcat:
     bitcoin:
       omni:
         endpoints: mainnet
+      enabled: true
     ethereum:
       infura:
         endpoints: mainnet
@@ -10,6 +11,7 @@ ballcat:
         project-id: b6066b4cfce54e7384ea38d52f9260ac
     tronscan:
       endpoints: mainnet
+      enabled: true
 
 management:
   endpoints:
