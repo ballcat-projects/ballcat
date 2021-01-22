@@ -1,11 +1,10 @@
 package com.hccake.sample.pay.virtual.config;
 
 import com.hccake.starter.pay.PayProperties;
-import live.lingting.virtual.currency.properties.OmniProperties;
+import java.util.function.Supplier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.function.Supplier;
+import live.lingting.virtual.currency.properties.OmniProperties;
 
 /**
  * @author lingting 2021/1/5 16:24
@@ -21,7 +20,11 @@ public class OmniConfig {
 
 		return new OmniProperties()
 				// 节点
-				.setEndpoints(properties.getBitcoin().getOmni().getEndpoints()).setLock(lock).setUnlock(unlock);
+				.setOmniEndpoints(properties.getBitcoin().getOmni().getEndpoints())
+				// 比特节点
+				.setBitcoinEndpoints(properties.getBitcoin().getEndpoints())
+				// 请求锁
+				.setLock(lock).setUnlock(unlock);
 	}
 
 }

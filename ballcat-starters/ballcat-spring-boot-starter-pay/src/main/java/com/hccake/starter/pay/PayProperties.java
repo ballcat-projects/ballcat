@@ -2,6 +2,8 @@ package com.hccake.starter.pay;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import live.lingting.virtual.currency.endpoints.BitcoinEndpoints;
+import live.lingting.virtual.currency.endpoints.Endpoints;
 import live.lingting.virtual.currency.endpoints.InfuraEndpoints;
 import live.lingting.virtual.currency.endpoints.OmniEndpoints;
 import live.lingting.virtual.currency.endpoints.TronscanEndpoints;
@@ -75,6 +77,11 @@ public class PayProperties {
 		 * 使用 omni 平台
 		 */
 		private Omni omni;
+
+		/**
+		 * 比特节点
+		 */
+		private BitcoinEndpoints endpoints;
 
 		@Data
 		public static class Omni {

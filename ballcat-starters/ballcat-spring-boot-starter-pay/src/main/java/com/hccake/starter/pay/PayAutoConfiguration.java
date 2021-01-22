@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Bean;
 import live.lingting.virtual.currency.properties.InfuraProperties;
 import live.lingting.virtual.currency.properties.OmniProperties;
 import live.lingting.virtual.currency.properties.TronscanProperties;
+import live.lingting.virtual.currency.service.impl.BtcOmniServiceImpl;
 import live.lingting.virtual.currency.service.impl.InfuraServiceImpl;
-import live.lingting.virtual.currency.service.impl.OmniServiceImpl;
 import live.lingting.virtual.currency.service.impl.TronscanServiceImpl;
 
 /**
@@ -92,7 +92,9 @@ public class PayAutoConfiguration {
 	public OmniProperties bitcoinProperties() {
 		return new OmniProperties()
 				// 节点
-				.setEndpoints(properties.getBitcoin().getOmni().getEndpoints());
+				.setOmniEndpoints(properties.getBitcoin().getOmni().getEndpoints())
+				// 比特节点
+				.setBitcoinEndpoints(properties.getBitcoin().getEndpoints());
 	}
 
 	/**
@@ -101,8 +103,8 @@ public class PayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public OmniServiceImpl bitcoinService(OmniProperties properties) {
-		return new OmniServiceImpl(properties);
+	public BtcOmniServiceImpl bitcoinService(OmniProperties properties) {
+		return new BtcOmniServiceImpl(properties);
 	}
 
 }

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import live.lingting.virtual.currency.Transaction;
-import live.lingting.virtual.currency.service.impl.OmniServiceImpl;
+import live.lingting.virtual.currency.service.impl.BtcOmniServiceImpl;
 
 /**
  * @author lingting 2021/1/5 15:22
@@ -17,7 +17,7 @@ import live.lingting.virtual.currency.service.impl.OmniServiceImpl;
 @RequiredArgsConstructor
 public class OmniThread extends AbstractThread {
 
-	private final OmniServiceImpl service;
+	private final BtcOmniServiceImpl service;
 
 	@Override
 	public void startLog() {

@@ -62,7 +62,7 @@
 		<jsoup.version>1.13.1</jsoup.version>
 		<anji-captcha.version>1.2.5</anji-captcha.version>
 
-		<virtual-currency.version>0.2.2</virtual-currency.version>
+		<virtual-currency.version>0.3.2</virtual-currency.version>
 	</properties>
 
 	<dependencyManagement>
