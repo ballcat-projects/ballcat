@@ -82,7 +82,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	 * @param sortOrders 排序规则，使用英文逗号分割，与排序字段一一对应
 	 * @return List<PageParam.OrderItem>
 	 */
-	private List<PageParam.Sort> getOrderItems(String sortFields, String sortOrders) {
+	protected List<PageParam.Sort> getOrderItems(String sortFields, String sortOrders) {
 		List<PageParam.Sort> sorts = new ArrayList<>();
 
 		// 字段和规则都不能为空

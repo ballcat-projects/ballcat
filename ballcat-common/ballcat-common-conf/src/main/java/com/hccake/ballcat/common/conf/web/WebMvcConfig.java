@@ -23,6 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(new PageParamArgumentResolver());
+		argumentResolvers.add(new IPageArgumentResolver());
 	}
 
 }
