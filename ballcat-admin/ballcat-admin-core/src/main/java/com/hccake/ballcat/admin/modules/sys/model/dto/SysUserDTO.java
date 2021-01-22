@@ -1,5 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.model.dto;
 
+import com.hccake.ballcat.common.core.desensite.DesensitizationTypeConstant;
+import com.hccake.ballcat.common.core.desensite.JsonDesensitize;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -21,6 +23,7 @@ public class SysUserDTO {
 	/**
 	 * 前端传入密码
 	 */
+	@JsonDesensitize(type = DesensitizationTypeConstant.ENCRYPTED_PASSWORD)
 	@ApiModelProperty(value = "前端传入密码")
 	private String pass;
 

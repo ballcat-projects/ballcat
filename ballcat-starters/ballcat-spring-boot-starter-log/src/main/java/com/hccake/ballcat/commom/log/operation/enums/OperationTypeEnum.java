@@ -13,6 +13,21 @@ import lombok.RequiredArgsConstructor;
 public enum OperationTypeEnum {
 
 	/**
+	 * 其他操作
+	 */
+	OTHER(0),
+
+	/**
+	 * 导入操作
+	 */
+	IMPORT(1),
+
+	/**
+	 * 导出操作
+	 */
+	EXPORT(2),
+
+	/**
 	 * 查看操作，主要用于敏感数据查询记录
 	 */
 	READ(3),
