@@ -13,6 +13,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -54,6 +56,31 @@ public class GlobalExceptionHandlerResolver {
 	}
 
 	/**
+	 * MethodArgumentTypeMismatchException 参数类型转换异常
+	 * @param e the e
+	 * @return R
+	 */
+	@ExceptionHandler({ MethodArgumentTypeMismatchException.class })
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public R<String> handleMethodArgumentTypeMismatchException(Exception e) {
+		log.error("请求入参异常 ex={}", e.getMessage());
+		globalExceptionHandler.handle(e);
+		return R.failed(SystemResultCode.BAD_REQUEST,
+				GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getMessage());
+	}
+
+	/**
+	 * 请求方式有问题 - MediaType 异常 - Method 异常
+	 * @return R
+	 */
+	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, HttpRequestMethodNotSupportedException.class })
+	public R<String> requestNotSupportedException(Exception e) {
+		log.error("请求方式异常 ex={}", e.getMessage());
+		globalExceptionHandler.handle(e);
+		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
+	}
+
+	/**
 	 * IllegalArgumentException 异常捕获，主要用于Assert
 	 * @param e the e
 	 * @return R
@@ -64,48 +91,6 @@ public class GlobalExceptionHandlerResolver {
 		log.error("非法数据输入 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getMessage());
-	}
-
-	/**
-	 * MethodArgumentTypeMismatchException 异常捕获，主要用于Assert
-	 * @param e the e
-	 * @return R
-	 */
-	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R<String> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-		log.error("参数类型转换异常 ex={}", e.getMessage());
-		globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.BAD_REQUEST,
-				GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getMessage());
-	}
-
-	/**
-	 * 自定义业务异常捕获 业务异常响应码推荐使用200 用 result 结构中的code做为业务错误码标识
-	 * @param e the e
-	 * @return R
-	 */
-	@ExceptionHandler(BusinessException.class)
-	@ResponseStatus(HttpStatus.OK)
-	public R<String> handleBallCatException(BusinessException e) {
-		log.error("自定义异常信息 ex={}", e.getMessage());
-		globalExceptionHandler.handle(e);
-		return R.failed(e.getCode(), e.getMessage());
-	}
-
-	/**
-	 * AccessDeniedException
-	 * @param e the e
-	 * @return R
-	 */
-	@ExceptionHandler(AccessDeniedException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public R<String> handleAccessDeniedException(AccessDeniedException e) {
-		String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
-				e.getMessage());
-		log.error("拒绝授权异常信息 ex={}", msg);
-		globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
 	}
 
 	/**
@@ -144,6 +129,34 @@ public class GlobalExceptionHandlerResolver {
 		log.error("参数绑定异常 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
+	}
+
+	/**
+	 * AccessDeniedException
+	 * @param e the e
+	 * @return R
+	 */
+	@ExceptionHandler(AccessDeniedException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public R<String> handleAccessDeniedException(AccessDeniedException e) {
+		String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
+				e.getMessage());
+		log.error("拒绝授权异常信息 ex={}", msg);
+		globalExceptionHandler.handle(e);
+		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
+	}
+
+	/**
+	 * 自定义业务异常捕获 业务异常响应码推荐使用200 用 result 结构中的code做为业务错误码标识
+	 * @param e the e
+	 * @return R
+	 */
+	@ExceptionHandler(BusinessException.class)
+	@ResponseStatus(HttpStatus.OK)
+	public R<String> handleBallCatException(BusinessException e) {
+		log.error("业务异常信息 ex={}", e.getMessage());
+		globalExceptionHandler.handle(e);
+		return R.failed(e.getCode(), e.getMessage());
 	}
 
 }
