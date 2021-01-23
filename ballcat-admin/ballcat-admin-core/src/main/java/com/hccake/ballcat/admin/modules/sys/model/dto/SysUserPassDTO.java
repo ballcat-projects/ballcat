@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.model.dto;
 
-import com.hccake.ballcat.common.core.desensite.DesensitizationTypeConstant;
-import com.hccake.ballcat.common.core.desensite.JsonDesensitize;
+import com.hccake.ballcat.common.core.desensite.annotation.JsonRegexDesensitize;
+import com.hccake.ballcat.common.core.desensite.enums.RegexDesensitizationTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -20,7 +20,7 @@ public class SysUserPassDTO {
 	 * 前端传入密码
 	 */
 	@NotBlank(message = "The password cannot be empty!")
-	@JsonDesensitize(type = DesensitizationTypeConstant.ENCRYPTED_PASSWORD)
+	@JsonRegexDesensitize(type = RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD)
 	@ApiModelProperty(value = "前端输入密码")
 	private String pass;
 
@@ -28,7 +28,7 @@ public class SysUserPassDTO {
 	 * 前端确认密码
 	 */
 	@NotBlank(message = "The confirm password cannot be empty!")
-	@JsonDesensitize(type = DesensitizationTypeConstant.ENCRYPTED_PASSWORD)
+	@JsonRegexDesensitize(type = RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD)
 	@ApiModelProperty(value = "前端确认密码")
 	private String confirmPass;
 

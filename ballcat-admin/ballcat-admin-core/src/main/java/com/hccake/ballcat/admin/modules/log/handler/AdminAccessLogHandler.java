@@ -10,9 +10,8 @@ import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.commom.log.access.handler.AccessLogHandler;
 import com.hccake.ballcat.commom.log.constant.LogConstant;
 import com.hccake.ballcat.commom.log.util.LogUtils;
-import com.hccake.ballcat.common.core.desensite.DesensitizationHandler;
-import com.hccake.ballcat.common.core.desensite.DesensitizationHandlerHolder;
-import com.hccake.ballcat.common.core.desensite.DesensitizationTypeConstant;
+import com.hccake.ballcat.common.core.desensite.enums.RegexDesensitizationTypeEnum;
+import com.hccake.ballcat.common.core.desensite.handler.RegexDesensitizationHandler;
 import com.hccake.ballcat.common.core.util.IPUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,8 +52,7 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 	/**
 	 * 脱敏处理器
 	 */
-	private final DesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder.TYPE_MAPS
-			.get(DesensitizationTypeConstant.ENCRYPTED_PASSWORD);
+	private final RegexDesensitizationHandler regexDesensitizationHandler = new RegexDesensitizationHandler();
 
 	/**
 	 * 生产一个日志
@@ -122,7 +120,9 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 			for (String paramKey : needDesensitizeParams) {
 				String[] values = parameterMap.get(paramKey);
 				if (values != null && values.length != 0) {
-					parameterMap.put(paramKey, new String[] { desensitizationHandler.handle(values[0]) });
+					String value = regexDesensitizationHandler.handle(values[0],
+							RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD);
+					parameterMap.put(paramKey, new String[] { value });
 				}
 			}
 			params = objectMapper.writeValueAsString(parameterMap);

@@ -1,5 +1,7 @@
 package com.hccake.ballcat.common.core.desensite;
 
+import com.hccake.ballcat.common.core.desensite.handler.SimpleDesensitizationHandler;
+
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,14 +12,15 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Hccake 2021/1/22
  * @version 1.0
  */
-public class DesensitizationHandlerHolder {
+public class SimpleDesensitizationHandlerHolder {
 
-	public final static Map<String, DesensitizationHandler> TYPE_MAPS = new ConcurrentHashMap<>();
+	public final static Map<String, SimpleDesensitizationHandler> TYPE_MAPS = new ConcurrentHashMap<>();
 
 	static {
 		// SPI 加载所有的脱敏类型处理
-		ServiceLoader<DesensitizationHandler> loadedDrivers = ServiceLoader.load(DesensitizationHandler.class);
-		for (DesensitizationHandler desensitizationHandler : loadedDrivers) {
+		ServiceLoader<SimpleDesensitizationHandler> loadedDrivers = ServiceLoader
+				.load(SimpleDesensitizationHandler.class);
+		for (SimpleDesensitizationHandler desensitizationHandler : loadedDrivers) {
 			TYPE_MAPS.put(desensitizationHandler.getType(), desensitizationHandler);
 		}
 	}

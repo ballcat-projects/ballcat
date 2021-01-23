@@ -1,7 +1,0 @@
-com.hccake.ballcat.common.core.desensite.handler.AllMaskDesensitizationHandler
-com.hccake.ballcat.common.core.desensite.handler.BankCardNODesensitizationHandler
-com.hccake.ballcat.common.core.desensite.handler.EmailDesensitizationHandler
-com.hccake.ballcat.common.core.desensite.handler.EncryptedPasswordDesensitizationHandler
-com.hccake.ballcat.common.core.desensite.handler.FixedLengthDesensitizationHandler
-com.hccake.ballcat.common.core.desensite.handler.IDCardNODesensitizationHandler
-com.hccake.ballcat.common.core.desensite.handler.PhoneNumberDesensitizationHandler

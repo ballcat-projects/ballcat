@@ -1,15 +1,14 @@
 package com.hccake.ballcat.common.core.desensite.handler;
 
-import com.hccake.ballcat.common.core.desensite.DesensitizationHandler;
-import com.hccake.ballcat.common.core.desensite.DesensitizationTypeConstant;
+import com.hccake.ballcat.common.core.desensite.SimpleDesensitizationTypeConstant;
 
 /**
- * 【固定长度】，不管原文是什么，一律返回6个* eg. ******
+ * 【6*脱敏】，不管原文是什么，一律返回6个* eg. ******
  *
  * @author Hccake 2021/1/22
  * @version 1.0
  */
-public class FixedLengthDesensitizationHandler implements DesensitizationHandler {
+public class SixAsteriskDesensitizationHandler implements SimpleDesensitizationHandler {
 
 	/**
 	 * 脱敏类型
@@ -17,7 +16,7 @@ public class FixedLengthDesensitizationHandler implements DesensitizationHandler
 	 */
 	@Override
 	public String getType() {
-		return DesensitizationTypeConstant.FIXED_LENGTH;
+		return SimpleDesensitizationTypeConstant.SIX_ASTERISK;
 	}
 
 	/**
