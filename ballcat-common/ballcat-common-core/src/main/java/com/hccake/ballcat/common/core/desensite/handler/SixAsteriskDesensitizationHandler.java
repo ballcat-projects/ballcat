@@ -1,7 +1,5 @@
 package com.hccake.ballcat.common.core.desensite.handler;
 
-import com.hccake.ballcat.common.core.desensite.SimpleDesensitizationTypeConstant;
-
 /**
  * 【6*脱敏】，不管原文是什么，一律返回6个* eg. ******
  *
@@ -11,12 +9,18 @@ import com.hccake.ballcat.common.core.desensite.SimpleDesensitizationTypeConstan
 public class SixAsteriskDesensitizationHandler implements SimpleDesensitizationHandler {
 
 	/**
+	 * 定长脱敏，总是6个星号，不管原文是啥
+	 * @see SixAsteriskDesensitizationHandler
+	 */
+	public static final String TYPE = "SIX_ASTERISK";
+
+	/**
 	 * 脱敏类型
 	 * @return 类型
 	 */
 	@Override
 	public String getType() {
-		return SimpleDesensitizationTypeConstant.SIX_ASTERISK;
+		return TYPE;
 	}
 
 	/**
