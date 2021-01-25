@@ -17,8 +17,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>live.lingting</groupId>
-            <artifactId>virtual-currency</artifactId>
+            <groupId>com.hccake</groupId>
+            <artifactId>ballcat-extend-pay-virtual</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -35,11 +36,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <!-- 用于校验参数 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 </project>

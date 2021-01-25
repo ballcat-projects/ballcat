@@ -62,7 +62,8 @@
 		<jsoup.version>1.13.1</jsoup.version>
 		<anji-captcha.version>1.2.5</anji-captcha.version>
 
-		<virtual-currency.version>0.2.2</virtual-currency.version>
+		<virtual-currency.version>0.3.2</virtual-currency.version>
+		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
 	</properties>
 
 	<dependencyManagement>
@@ -196,6 +197,11 @@
 				<artifactId>ballcat-spring-boot-starter-websocket</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-pay</artifactId>
+				<version>${revision}</version>
+			</dependency>
 
 
 			<!-- extends -->
@@ -211,17 +217,22 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-mybatis-plus-mysql</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-extend-kafka</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-extend-kafka-stream</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-pay-virtual</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-pay-ali</artifactId>
 				<version>${revision}</version>
 			</dependency>
 
@@ -370,7 +381,12 @@
 				<artifactId>captcha-spring-boot-starter</artifactId>
 				<version>${anji-captcha.version}</version>
 			</dependency>
-
+			<!-- 支付宝支付 -->
+			<dependency>
+				<groupId>com.alipay.sdk</groupId>
+				<artifactId>alipay-sdk-java</artifactId>
+				<version>${alipay-sdk.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
