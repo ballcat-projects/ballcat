@@ -12,6 +12,14 @@ ballcat:
     tronscan:
       endpoints: mainnet
       enabled: true
+    ali:
+      sandbox: true
+      dev:
+        app-id: 1122334
+        private-key: '***'
+        alipay-public-key: '***'
+        notify-url: https://www.baidu.com
+        return-url: https://www.baidu.com
 
 management:
   endpoints:
