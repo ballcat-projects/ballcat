@@ -42,7 +42,7 @@ public class DesensitizationUser {
 	/**
 	 * 测试自定义脱敏
 	 */
-	@JsonSimpleDesensitize(type = TestDesensitizationHandler.TYPE)
+	@JsonSimpleDesensitize(handler = TestDesensitizationHandler.class)
 	private String testField;
 
 }

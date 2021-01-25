@@ -55,9 +55,9 @@ public class JsonDesensitizeSerializer extends JsonSerializer<String> implements
 		if (jsonDesensitizeAnnotation instanceof JsonSimpleDesensitize) {
 			// Simple 类型处理
 			JsonSimpleDesensitize an = (JsonSimpleDesensitize) this.jsonDesensitizeAnnotation;
-			String type = an.type();
-			SimpleDesensitizationHandler desensitizationHandler = SimpleDesensitizationHandlerHolder.TYPE_MAPS
-					.get(type);
+			Class<? extends SimpleDesensitizationHandler> handlerClass = an.handler();
+			SimpleDesensitizationHandler desensitizationHandler = SimpleDesensitizationHandlerHolder
+					.getHandler(handlerClass);
 			Assert.notNull(desensitizationHandler, "SimpleDesensitizationHandler can not be Null");
 			str = desensitizationHandler.handle(value);
 		}

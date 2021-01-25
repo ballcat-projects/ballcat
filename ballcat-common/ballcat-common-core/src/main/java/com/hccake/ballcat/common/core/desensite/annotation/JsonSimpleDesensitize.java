@@ -22,9 +22,8 @@ public @interface JsonSimpleDesensitize {
 
 	/**
 	 * 脱敏类型，用于指定脱敏处理器
-	 * @see SimpleDesensitizationHandler#getType()
 	 * @return type
 	 */
-	String type();
+	Class<? extends SimpleDesensitizationHandler> handler();
 
 }

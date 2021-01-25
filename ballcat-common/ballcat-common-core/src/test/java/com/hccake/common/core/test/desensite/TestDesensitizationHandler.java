@@ -8,13 +8,6 @@ import com.hccake.ballcat.common.core.desensite.handler.SimpleDesensitizationHan
  */
 public class TestDesensitizationHandler implements SimpleDesensitizationHandler {
 
-	public final static String TYPE = "TEST";
-
-	@Override
-	public String getType() {
-		return TYPE;
-	}
-
 	@Override
 	public String handle(String s) {
 		return "TEST-" + s;

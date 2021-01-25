@@ -14,15 +14,35 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SimpleDesensitizationHandlerHolder {
 
-	public final static Map<String, SimpleDesensitizationHandler> TYPE_MAPS = new ConcurrentHashMap<>();
+	private final static Map<Class<? extends SimpleDesensitizationHandler>, SimpleDesensitizationHandler> MAP = new ConcurrentHashMap<>();
 
 	static {
 		// SPI 加载所有的脱敏类型处理
 		ServiceLoader<SimpleDesensitizationHandler> loadedDrivers = ServiceLoader
 				.load(SimpleDesensitizationHandler.class);
 		for (SimpleDesensitizationHandler desensitizationHandler : loadedDrivers) {
-			TYPE_MAPS.put(desensitizationHandler.getType(), desensitizationHandler);
+			MAP.put(desensitizationHandler.getClass(), desensitizationHandler);
 		}
+	}
+
+	/**
+	 * 获取Handler
+	 * @param handlerClass SimpleDesensitizationHandler的实现类
+	 * @return 处理器实例
+	 */
+	public static SimpleDesensitizationHandler getHandler(Class<? extends SimpleDesensitizationHandler> handlerClass) {
+		return MAP.get(handlerClass);
+	}
+
+	/**
+	 * 添加Handler
+	 * @param handlerClass SimpleDesensitizationHandler的实现类
+	 * @param handler 处理器实例
+	 * @return handler 处理器实例
+	 */
+	public static SimpleDesensitizationHandler addHandler(Class<? extends SimpleDesensitizationHandler> handlerClass,
+			SimpleDesensitizationHandler handler) {
+		return MAP.put(handlerClass, handler);
 	}
 
 }
