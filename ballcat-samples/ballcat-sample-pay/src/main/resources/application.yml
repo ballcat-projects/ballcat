@@ -1,3 +1,7 @@
+spring:
+  application:
+    name: 支付演示
+
 ballcat:
   pay:
     bitcoin:
