@@ -15,9 +15,9 @@ import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.alipay.api.response.AlipayTradePayResponse;
-import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
+import com.hccake.starte.pay.ali.domain.AliPayQuery;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import lombok.Data;
@@ -286,7 +286,7 @@ public class AliPay {
 	 * @return com.alipay.api.response.AlipayTradeQueryResponse
 	 * @author lingting 2021-01-25 11:12
 	 */
-	public AlipayTradeQueryResponse query(String sn) throws AlipayApiException {
+	public AliPayQuery  query(String sn) throws AlipayApiException {
 		return query(sn, null);
 	}
 
@@ -297,7 +297,7 @@ public class AliPay {
 	 * @return com.alipay.api.response.AlipayTradeQueryResponse
 	 * @author lingting 2021-01-25 11:12
 	 */
-	public AlipayTradeQueryResponse query(String sn, String tradeNo) throws AlipayApiException {
+	public AliPayQuery  query(String sn, String tradeNo) throws AlipayApiException {
 		AlipayTradeQueryModel model = new AlipayTradeQueryModel();
 		model.setOutTradeNo(sn);
 		model.setTradeNo(tradeNo);
@@ -309,10 +309,10 @@ public class AliPay {
 	 * @return com.alipay.api.response.AlipayTradeQueryResponse
 	 * @author lingting 2021-01-25 11:12
 	 */
-	public AlipayTradeQueryResponse query(AlipayTradeQueryModel model) throws AlipayApiException {
+	public AliPayQuery  query(AlipayTradeQueryModel model) throws AlipayApiException {
 		AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
 		request.setBizModel(model);
-		return client.execute(request);
+		return AliPayQuery.of(client.execute(request));
 	}
 
 	/**
