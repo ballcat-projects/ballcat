@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.datascope.test;
 
 import com.hccake.ballcat.common.datascope.DataScope;
+import com.hccake.ballcat.common.datascope.handler.AbstractDataPermissionHandler;
 import com.hccake.ballcat.common.datascope.handler.DataPermissionHandler;
 import com.hccake.ballcat.common.datascope.processor.DataScopeSqlProcessor;
 import net.sf.jsqlparser.expression.Alias;
@@ -10,6 +11,7 @@ import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
 import net.sf.jsqlparser.schema.Column;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.Assert;
 
 import java.util.*;
 
@@ -45,16 +47,12 @@ public class SqlParseTest {
 			}
 		};
 
-		DataPermissionHandler dataPermissionHandler = new DataPermissionHandler() {
-			@Override
-			public List<DataScope> dataScopes() {
-				List<DataScope> list = new ArrayList<>();
-				list.add(dataScope);
-				return list;
-			}
+		List<DataScope> dataScopes = new ArrayList<>();
+		dataScopes.add(dataScope);
 
+		DataPermissionHandler dataPermissionHandler = new AbstractDataPermissionHandler(dataScopes) {
 			@Override
-			public boolean ignorePermissionControl() {
+			public boolean ignorePermissionControl(String mappedStatementId) {
 				return false;
 			}
 		};
@@ -67,7 +65,11 @@ public class SqlParseTest {
 				+ "from t_ORDER o left join t_order_info oi on o.order_id = oi.order_id "
 				+ "where oi.order_price > 100";
 
-		dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
+		String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
+		System.out.println(parseSql);
+
+		String trueSql = "SELECT o.order_id, o.order_name, oi.order_price FROM t_ORDER o LEFT JOIN t_order_info oi ON o.order_id = oi.order_id AND oi.order_id IN ('1', '2') WHERE oi.order_price > 100 AND o.order_id IN ('1', '2')";
+		Assert.isTrue(trueSql.equals(parseSql), "sql 数据权限解析异常");
 	}
 
 }
