@@ -18,6 +18,7 @@ public class AccessLogProperties {
 	/**
 	 * 忽略的Url匹配规则，Ant风格
 	 */
-	private List<String> ignoreUrlPatterns = Arrays.asList("/actuator/**", "/webjars/**", "/favicon.ico");
+	private List<String> ignoreUrlPatterns = Arrays.asList("/actuator/**", "/webjars/**", "/favicon.ico",
+			"/captcha/get");
 
 }
