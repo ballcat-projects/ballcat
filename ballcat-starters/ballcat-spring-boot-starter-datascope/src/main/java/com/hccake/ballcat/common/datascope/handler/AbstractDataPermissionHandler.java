@@ -13,12 +13,19 @@ import java.util.stream.Collectors;
  * @author Hccake 2021/1/27
  * @version 1.0
  */
+@DataPermission
 @RequiredArgsConstructor
 public abstract class AbstractDataPermissionHandler implements DataPermissionHandler {
 
 	private final List<DataScope> dataScopes;
 
 	private final static Map<String, DataPermission> DATA_PERMISSION_CACHE = new ConcurrentHashMap<>();
+
+	/**
+	 * 提供一个默认的空值注解，用于缓存空值占位使用
+	 */
+	private final static DataPermission EMPTY_DATA_PERMISSION = AbstractDataPermissionHandler.class
+			.getAnnotation(DataPermission.class);
 
 	/**
 	 * 系统配置的所有的数据范围
@@ -69,14 +76,16 @@ public abstract class AbstractDataPermissionHandler implements DataPermissionHan
 	 * @param mappedStatementId 类名.方法名
 	 * @return 当前方法有效的数据权限注解
 	 */
-	public DataPermission getDataPermissionCache(String mappedStatementId) {
+	private DataPermission getDataPermissionCache(String mappedStatementId) {
+		DataPermission dataPermission;
 		if (DATA_PERMISSION_CACHE.containsKey(mappedStatementId)) {
-			return DATA_PERMISSION_CACHE.get(mappedStatementId);
+			dataPermission = DATA_PERMISSION_CACHE.get(mappedStatementId);
+			return EMPTY_DATA_PERMISSION.equals(dataPermission) ? null : dataPermission;
 		}
 		else {
-			DataPermission dataPermission = AnnotationUtil.findAnnotationByMappedStatementId(mappedStatementId,
-					DataPermission.class);
-			DATA_PERMISSION_CACHE.put(mappedStatementId, dataPermission);
+			dataPermission = AnnotationUtil.findAnnotationByMappedStatementId(mappedStatementId, DataPermission.class);
+			DATA_PERMISSION_CACHE.put(mappedStatementId,
+					dataPermission == null ? EMPTY_DATA_PERMISSION : dataPermission);
 			return dataPermission;
 		}
 	}
