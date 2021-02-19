@@ -35,7 +35,7 @@ ballcat:
       email: chengbohua@foxmail.com
       url: https://github.com/Hccake
     authorization:
-      name: BallCat OAuth
+      name: oauth2   #由于Knife4j是根据名称进行判断的，所以必须叫oauth2
       authorization-scope-list:
         - scope: server
           description: server all
@@ -50,12 +50,14 @@ security:
       - /public/**
       - /actuator/**
       - /doc.html
-      - /v2/api-docs
+      - /v2/api-docs/**
+      - /v3/api-docs/**
       - /swagger-resources/**
-      - /swagger-ui.html**
+      - /swagger-ui/**
       - /webjars/**
       - /bycdao-ui/**
       - /favicon.ico
+      - /captcha/**
 
 # 图形验证码
 aj:
