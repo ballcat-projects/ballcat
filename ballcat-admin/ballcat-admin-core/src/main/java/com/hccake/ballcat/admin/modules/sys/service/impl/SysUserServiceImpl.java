@@ -60,7 +60,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 	private final ApplicationEventPublisher publisher;
 
-	@Value("${password.secret-key}")
+	@Value("${ballcat.password.secret-key}")
 	private String secretKey;
 
 	/**

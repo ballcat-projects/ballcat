@@ -14,6 +14,8 @@ spring:
         password: 123456
 
 ballcat:
+  password:
+    secret-key: '==BallCat-Auth=='
   redis:
     key-prefix: 'ballcat:'
   # actuator 加解密密钥
