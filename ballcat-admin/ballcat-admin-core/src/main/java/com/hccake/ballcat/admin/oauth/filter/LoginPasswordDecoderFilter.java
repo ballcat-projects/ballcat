@@ -37,7 +37,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
 	private final ObjectMapper objectMapper;
 
-	@Value("${password.secret-key}")
+	@Value("${ballcat.password.secret-key}")
 	private String secretKey;
 
 	private static final String PASSWORD = "password";

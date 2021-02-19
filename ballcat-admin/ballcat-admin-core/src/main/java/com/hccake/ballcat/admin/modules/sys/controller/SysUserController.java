@@ -59,7 +59,7 @@ public class SysUserController {
 	/**
 	 * TODO 封装为实体对象，方便归档系统参数
 	 */
-	@Value("${password.secret-key}")
+	@Value("${ballcat.password.secret-key}")
 	private String passwordSecretKey;
 
 	/**

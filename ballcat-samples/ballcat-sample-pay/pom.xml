@@ -19,6 +19,10 @@
     <dependencies>
         <dependency>
             <groupId>com.hccake</groupId>
+            <artifactId>ballcat-common-conf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hccake</groupId>
             <artifactId>ballcat-spring-boot-starter-pay</artifactId>
         </dependency>
         <dependency>

@@ -22,4 +22,9 @@ public class AliPayConstant {
 	 */
 	public static final String SERVER_URL_DEV = "https://openapi.alipaydev.com/gateway.do";
 
+	/**
+	 * 查询支付成功返回code
+	 */
+	public static final String CODE_SUCCESS = "10000";
+
 }

@@ -13,6 +13,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -46,6 +47,8 @@ public class UpmsAutoConfiguration {
 	}
 
 	@Bean
+	@ConditionalOnProperty(prefix = "ballcat.login.captcha", name = "enabled", havingValue = "true",
+			matchIfMissing = true)
 	public FilterRegistrationBean<LoginCaptchaFilter> filterRegistrationBean(ObjectMapper objectMapper,
 			CaptchaService captchaService) {
 		FilterRegistrationBean<LoginCaptchaFilter> bean = new FilterRegistrationBean<>();
