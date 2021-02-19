@@ -44,7 +44,7 @@
 
 		<org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-		<spring-boot.version>2.4.1</spring-boot.version>
+		<spring-boot.version>2.4.3</spring-boot.version>
 		<spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
@@ -54,7 +54,7 @@
 		<mybatis-plus.version>3.4.1</mybatis-plus.version>
 		<dynamic-datasource.version>3.2.0</dynamic-datasource.version>
 		<xxl-job.version>2.2.0</xxl-job.version>
-		<spring-boot-admin.version>2.2.4</spring-boot-admin.version>
+		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
 		<oss.aliyun.version>3.8.0</oss.aliyun.version>
 		<easyexcel.version>2.2.6</easyexcel.version>
 		<jasypt.version>3.0.3</jasypt.version>
