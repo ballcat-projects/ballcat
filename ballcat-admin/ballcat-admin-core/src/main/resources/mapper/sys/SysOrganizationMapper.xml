@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hccake.ballcat.admin.modules.sys.mapper.SysOrganizationMapper">
 
+	<sql id="Base_Column_List">
+		id,
+		name,
+		parent_id,
+		hierarchy,
+		depth,
+		description,
+		sort,
+		create_by,
+		update_by,
+		create_time,
+		update_time
+	</sql>
+
 	<update id="followMoveChildNode">
 		UPDATE
 		sys_organization
@@ -14,7 +28,7 @@
 
 	<select id="listChildOrganization" resultType="com.hccake.ballcat.admin.modules.sys.model.entity.SysOrganization">
 		SELECT
-			id, name, parent_id, hierarchy, depth, description, sort, create_by, update_by, create_time, update_time
+		<include refid="Base_Column_List"/>
 		FROM
 			sys_organization
 		WHERE

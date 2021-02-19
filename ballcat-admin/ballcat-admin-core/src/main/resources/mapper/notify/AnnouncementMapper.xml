@@ -31,7 +31,8 @@
 
 	<select id="selectByPage" resultMap="announcementVoMap">
 		SELECT
-			${ew.allAliasSqlSelect}, su.username as create_username
+		<include refid="Base_Alias_Column_List"/>
+		, su.username as create_username
 		FROM
 			notify_announcement a
 		LEFT JOIN sys_user su ON a.create_by = su.user_id

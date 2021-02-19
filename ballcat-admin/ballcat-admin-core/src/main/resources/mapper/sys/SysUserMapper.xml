@@ -19,7 +19,8 @@
 
 	<select id="selectByPage" resultType="com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO">
 		SELECT
-		${ew.allAliasSqlSelect}, so.name as organization_name
+		<include refid="Base_Alias_Column_List"/>
+		,so.name as organization_name
 		FROM sys_user su
 		LEFT JOIN
 		sys_organization so

@@ -1,7 +1,5 @@
 package com.hccake.ballcat.admin.modules.sys.mapper;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -10,7 +8,9 @@ import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
 import com.hccake.ballcat.common.core.domain.PageParam;
 import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
+import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
 
 import java.util.List;
 
@@ -30,9 +30,8 @@ public interface SysDictMapper extends ExtendMapper<SysDict> {
 	 */
 	default PageResult<SysDictVO> queryPage(PageParam pageParam, SysDictQO qo) {
 		IPage<SysDictVO> page = this.prodPage(pageParam);
-		LambdaQueryWrapper<SysDict> wrapper = Wrappers.lambdaQuery(SysDict.class)
-				.like(StrUtil.isNotBlank(qo.getCode()), SysDict::getCode, qo.getCode())
-				.like(StrUtil.isNotBlank(qo.getTitle()), SysDict::getTitle, qo.getTitle());
+		LambdaQueryWrapperX<SysDict> wrapper = WrappersX.lambdaQueryX(SysDict.class)
+				.likeIfPresent(SysDict::getCode, qo.getCode()).likeIfPresent(SysDict::getTitle, qo.getTitle());
 		this.selectByPage(page, wrapper);
 		return new PageResult<>(page.getRecords(), page.getTotal());
 	}

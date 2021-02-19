@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hccake.ballcat.admin.modules.sys.mapper.SysPermissionMapper">
+
+	<sql id="Base_Alias_Column_List">
+		sp.id,
+		sp.title,
+		sp.code,
+		sp.path,
+		sp.router_name,
+		sp.component,
+		sp.redirect,
+		sp.target,
+		sp.parent_id,
+		sp.icon,
+		sp.sort,
+		sp.keep_alive,
+		sp.hidden,
+		sp.type,
+		sp.deleted,
+		sp.create_time,
+		sp.update_time
+	</sql>
+
 	<!--通过角色查询菜单信息-->
 	<select id="listVOByRoleCode" resultType="com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO">
 		SELECT
-			m.*
+			<include refid="Base_Alias_Column_List"/>
 		FROM
-			sys_permission m
-		LEFT JOIN sys_role_permission rm ON m.id = rm.permission_id
+			sys_permission sp
+		LEFT JOIN sys_role_permission rm ON sp.id = rm.permission_id
 		WHERE
-			m.deleted = 0
+			sp.deleted = 0
 		AND rm.role_code = #{roleCode}
 		ORDER BY
-			m.sort DESC
+			sp.sort DESC
     </select>
 </mapper>
