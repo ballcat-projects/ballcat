@@ -22,16 +22,6 @@ public class PasswordUtil {
 	public static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
 	/**
-	 * 将前端传递过来的密文解密后再进行加密
-	 * @param pass AES加密后的密文
-	 * @param secretKey 密钥
-	 * @return BCrypt加密后的密文密码
-	 */
-	public static String decodeAesAndEncodeBCrypt(String pass, String secretKey) {
-		return encodeBCrypt(decodeAES(pass, secretKey));
-	}
-
-	/**
 	 * 将前端传递过来的密文解密为明文
 	 * @param aesPass AES加密后的密文
 	 * @param secretKey 密钥

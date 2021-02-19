@@ -25,7 +25,6 @@ import com.hccake.ballcat.common.core.domain.SelectData;
 import com.hccake.ballcat.common.core.util.PasswordUtil;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,9 +58,6 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	private final SysRoleService sysRoleService;
 
 	private final ApplicationEventPublisher publisher;
-
-	@Value("${password.secret-key}")
-	private String secretKey;
 
 	/**
 	 * 根据QueryObject查询分页数据
@@ -135,9 +131,10 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
 		sysUser.setStatus(SysUserConst.Status.NORMAL.getValue());
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
-
-		String password = PasswordUtil.decodeAesAndEncodeBCrypt(sysUserDto.getPass(), secretKey);
-		sysUser.setPassword(password);
+		// 对密码进行 BCrypt 加密
+		String password = sysUserDto.getPassword();
+		String bCryptPassword = PasswordUtil.encodeBCrypt(password);
+		sysUser.setPassword(bCryptPassword);
 		boolean result = SqlHelper.retBool(baseMapper.insert(sysUser));
 		if (result) {
 			publisher.publishEvent(new UserChangeEvent(sysUser));
@@ -187,14 +184,15 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	/**
 	 * 修改用户密码
 	 * @param userId 用户ID
-	 * @param pass 明文密码
+	 * @param password 明文密码
 	 * @return 更新成功：true
 	 */
 	@Override
-	public boolean updateUserPass(Integer userId, String pass) {
+	public boolean updatePassword(Integer userId, String password) {
 		Assert.isTrue(adminUserChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
-		String password = PasswordUtil.decodeAesAndEncodeBCrypt(pass, secretKey);
-		return baseMapper.updateUserPassword(userId, password);
+		// BCrypt 加密
+		String bCryptPassword = PasswordUtil.encodeBCrypt(password);
+		return baseMapper.updatePassword(userId, bCryptPassword);
 	}
 
 	/**

@@ -4,6 +4,7 @@ import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -21,6 +22,7 @@ public interface SysUserConverter {
 	 * @param sysUserDTO 系统用户DTO
 	 * @return SysUser 系统用户
 	 */
+	@Mapping(target = "password", ignore = true)
 	SysUser dtoToPo(SysUserDTO sysUserDTO);
 
 	/**
