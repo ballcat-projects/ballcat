@@ -1,0 +1,15 @@
+{
+    "properties": [
+        {
+            "name": "ballcat.login.captcha.enabled",
+            "type": "java.lang.Boolean",
+            "description": "是否开启登录验证码.",
+            "defaultValue": true
+        },
+        {
+            "name": "ballcat.password.secret-key",
+            "type": "java.lang.String",
+            "description": "密码加解密密钥."
+        }
+    ]
+}
