@@ -22,15 +22,14 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Hccake
@@ -46,6 +45,17 @@ public class OperationLogAspect {
 	private final ObjectMapper objectMapper;
 
 	private final ApplicationEventPublisher publisher;
+
+	private final List<Class<?>> ignoredParamClasses = Arrays.asList(ServletRequest.class, ServletResponse.class,
+			MultipartFile.class);
+
+	/**
+	 * 添加忽略记录的参数类型
+	 * @param clazz 参数类型
+	 */
+	public void addIgnoredParamClass(Class<?> clazz) {
+		ignoredParamClasses.add(clazz);
+	}
 
 	@Around("execution(@(@com.hccake.ballcat.commom.log.operation.annotation.OperationLogging *) * *(..)) "
 			+ "|| @annotation(com.hccake.ballcat.commom.log.operation.annotation.OperationLogging)")
@@ -125,14 +135,21 @@ public class OperationLogAspect {
 		}
 		Map<String, Object> paramsMap = new HashMap<>();
 		for (int i = 0; i < parameterNames.length; i++) {
-			if (args[i] instanceof ServletRequest || args[i] instanceof ServletResponse) {
-				continue;
+			Object arg = args[i];
+			Class<?> argClass = arg.getClass();
+			// 忽略部分类型的参数记录
+			for (Class<?> ignoredParamClass : ignoredParamClasses) {
+				if (ignoredParamClass.isAssignableFrom(argClass)) {
+					arg = "ignored param type: " + argClass;
+					break;
+				}
 			}
-			paramsMap.put(parameterNames[i], args[i]);
+			paramsMap.put(parameterNames[i], arg);
 		}
 
 		String params = "";
 		try {
+			// 入参类中的属性可以通过注解进行数据落库脱敏以及忽略等操作
 			params = objectMapper.writeValueAsString(paramsMap);
 		}
 		catch (Exception e) {

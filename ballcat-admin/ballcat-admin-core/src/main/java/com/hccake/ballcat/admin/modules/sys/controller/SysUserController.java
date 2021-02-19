@@ -20,10 +20,12 @@ import com.hccake.ballcat.common.core.domain.SelectData;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
+import com.hccake.ballcat.common.core.util.PasswordUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +57,12 @@ public class SysUserController {
 	private final SysUserRoleService sysUserRoleService;
 
 	/**
+	 * TODO 封装为实体对象，方便归档系统参数
+	 */
+	@Value("${password.secret-key}")
+	private String passwordSecretKey;
+
+	/**
 	 * 分页查询用户
 	 * @param pageParam 参数集
 	 * @return 用户集合
@@ -78,20 +86,22 @@ public class SysUserController {
 
 	/**
 	 * 新增用户
-	 * @param sysUserDto userInfo
+	 * @param sysUserDTO userInfo
 	 * @return success/false
 	 */
 	@PostMapping
 	@ApiOperation(value = "新增系统用户", notes = "新增系统用户")
 	@CreateOperationLogging(msg = "新增系统用户")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:add')")
-	public R<?> addSysUser(@Valid @RequestBody SysUserDTO sysUserDto) {
-
-		SysUser user = sysUserService.getByUsername(sysUserDto.getUsername());
+	public R<?> addSysUser(@Valid @RequestBody SysUserDTO sysUserDTO) {
+		SysUser user = sysUserService.getByUsername(sysUserDTO.getUsername());
 		if (user != null) {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "用户名已存在");
 		}
-		return sysUserService.addSysUser(sysUserDto) ? R.ok()
+		// 明文密码
+		String password = PasswordUtil.decodeAES(sysUserDTO.getPass(), passwordSecretKey);
+		sysUserDTO.setPassword(password);
+		return sysUserService.addSysUser(sysUserDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增系统用户失败");
 	}
 
@@ -164,10 +174,14 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "修改系统用户密码")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:pass')")
 	public R<?> updateUserPass(@PathVariable Integer userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
-		if (!sysUserPassDTO.getPass().equals(sysUserPassDTO.getConfirmPass())) {
+		String pass = sysUserPassDTO.getPass();
+		if (!pass.equals(sysUserPassDTO.getConfirmPass())) {
 			return R.failed(SystemResultCode.BAD_REQUEST, "错误的密码!");
 		}
-		return sysUserService.updateUserPass(userId, sysUserPassDTO.getPass()) ? R.ok()
+
+		// 明文密码
+		String password = PasswordUtil.decodeAES(pass, passwordSecretKey);
+		return sysUserService.updatePassword(userId, password) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改用户密码失败！");
 	}
 

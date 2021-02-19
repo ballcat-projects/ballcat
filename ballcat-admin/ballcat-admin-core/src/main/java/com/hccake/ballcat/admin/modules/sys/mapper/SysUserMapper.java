@@ -74,7 +74,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param password 密码
 	 * @return 更新条数
 	 */
-	default boolean updateUserPassword(Integer userId, String password) {
+	default boolean updatePassword(Integer userId, String password) {
 		int i = this.update(null,
 				Wrappers.<SysUser>lambdaUpdate().eq(SysUser::getUserId, userId).set(SysUser::getPassword, password));
 		return SqlHelper.retBool(i);

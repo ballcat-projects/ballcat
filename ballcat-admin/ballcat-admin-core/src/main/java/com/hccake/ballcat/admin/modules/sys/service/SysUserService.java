@@ -77,10 +77,10 @@ public interface SysUserService extends ExtendService<SysUser> {
 	/**
 	 * 修改用户密码
 	 * @param userId 用户ID
-	 * @param pass 未加密的密码
+	 * @param password 明文密码
 	 * @return boolean
 	 */
-	boolean updateUserPass(Integer userId, String pass);
+	boolean updatePassword(Integer userId, String password);
 
 	/**
 	 * 批量修改用户状态

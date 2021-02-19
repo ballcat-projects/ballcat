@@ -1,6 +1,9 @@
 package com.hccake.extend.mybatis.plus.conditions.query;
 
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.collection.IterUtil;
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.query.Query;
@@ -11,10 +14,7 @@ import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
@@ -144,66 +144,90 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 
 	// ======= 分界线，以上 copy 自 mybatis-plus 源码 =====
 
-	private boolean conditional(Object val) {
-		return ObjectUtil.isNotEmpty(val);
+	/**
+	 * 当前条件只是否非null，且不为空
+	 * @param obj 值
+	 * @return boolean 不为空返回true
+	 */
+	@SuppressWarnings("rawtypes")
+	private boolean isPresent(Object obj) {
+		if (null == obj) {
+			return false;
+		}
+		else if (obj instanceof CharSequence) {
+			// 字符串比较特殊，如果是空字符串也不行
+			return StrUtil.isNotBlank((CharSequence) obj);
+		}
+		else if (obj instanceof Map) {
+			return MapUtil.isNotEmpty((Map) obj);
+		}
+		else if (obj instanceof Iterable) {
+			return IterUtil.isNotEmpty((Iterable) obj);
+		}
+		else if (obj instanceof Iterator) {
+			return IterUtil.isNotEmpty((Iterator) obj);
+		}
+		else {
+			return ArrayUtil.isArray(obj) && ArrayUtil.isNotEmpty(obj);
+		}
 	}
 
 	public LambdaQueryWrapperX<T> eqIfPresent(SFunction<T, ?> column, Object val) {
-		return super.eq(conditional(val), column, val);
+		return super.eq(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> neIfPresent(SFunction<T, ?> column, Object val) {
-		return super.ne(conditional(val), column, val);
+		return super.ne(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> gtIfPresent(SFunction<T, ?> column, Object val) {
-		return super.gt(conditional(val), column, val);
+		return super.gt(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> geIfPresent(SFunction<T, ?> column, Object val) {
-		return super.ge(conditional(val), column, val);
+		return super.ge(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> ltIfPresent(SFunction<T, ?> column, Object val) {
-		return super.lt(conditional(val), column, val);
+		return super.lt(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> leIfPresent(SFunction<T, ?> column, Object val) {
-		return super.le(conditional(val), column, val);
+		return super.le(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> likeIfPresent(SFunction<T, ?> column, Object val) {
-		return super.like(conditional(val), column, val);
+		return super.like(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> notLikeIfPresent(SFunction<T, ?> column, Object val) {
-		return super.notLike(conditional(val), column, val);
+		return super.notLike(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> likeLeftIfPresent(SFunction<T, ?> column, Object val) {
-		return super.likeLeft(conditional(val), column, val);
+		return super.likeLeft(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> likeRightIfPresent(SFunction<T, ?> column, Object val) {
-		return super.likeRight(conditional(val), column, val);
+		return super.likeRight(isPresent(val), column, val);
 	}
 
 	public LambdaQueryWrapperX<T> inIfPresent(SFunction<T, ?> column, Object... values) {
-		return super.in(conditional(values), column,
+		return super.in(isPresent(values), column,
 				Arrays.stream(Optional.ofNullable(values).orElseGet(() -> new Object[] {})));
 	}
 
 	public LambdaQueryWrapperX<T> inIfPresent(SFunction<T, ?> column, Collection<?> values) {
-		return super.in(conditional(values), column, values);
+		return super.in(isPresent(values), column, values);
 	}
 
 	public LambdaQueryWrapperX<T> notInIfPresent(SFunction<T, ?> column, Object... values) {
-		return super.notIn(conditional(values), column,
+		return super.notIn(isPresent(values), column,
 				Arrays.stream(Optional.ofNullable(values).orElseGet(() -> new Object[] {})));
 	}
 
 	public LambdaQueryWrapperX<T> notInIfPresent(SFunction<T, ?> column, Collection<?> values) {
-		return super.notIn(conditional(values), column, values);
+		return super.notIn(isPresent(values), column, values);
 	}
 
 }

@@ -13,15 +13,23 @@ import java.lang.annotation.*;
 public @interface DataPermission {
 
 	/**
-	 * 资源类型
-	 * @return 资源类型数组
+	 * 当前类或方法是否忽略数据权限
+	 * @return boolean 默认返回 false
 	 */
-	String[] resources();
+	boolean ignore() default false;
 
 	/**
-	 * 用于在全局开启或者关闭数据权限时，对指定类或者指定方法进行开关控制
-	 * @return boolean 默认返回 true
+	 * 仅对指定资源类型进行数据权限控制，只在开启情况下有效，当该数组有值时，exclude不生效
+	 * @see DataPermission#excludeResources
+	 * @return 资源类型数组
 	 */
-	boolean enabled() default true;
+	String[] includeResources() default {};
+
+	/**
+	 * 对指定资源类型跳过数据权限控制，只在开启情况下有效，当该includeResources有值时，exclude不生效
+	 * @see DataPermission#includeResources
+	 * @return 资源类型数组
+	 */
+	String[] excludeResources() default {};
 
 }

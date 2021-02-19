@@ -19,9 +19,17 @@ public interface DataPermissionHandler {
 	List<DataScope> dataScopes();
 
 	/**
-	 * 是否忽略权限控制
-	 * @return boolean true: 忽略，false: 进行权限控制
+	 * 根据权限注解过滤后的数据范围集合
+	 * @param mappedStatementId Mapper方法ID
+	 * @return 数据范围集合
 	 */
-	boolean ignorePermissionControl();
+	List<DataScope> filterDataScopes(String mappedStatementId);
+
+	/**
+	 * 是否忽略权限控制，用于及早的忽略控制，例如管理员直接放行，而不必等到DataScope中再进行过滤处理，提升效率
+	 * @return boolean true: 忽略，false: 进行权限控制
+	 * @param mappedStatementId Mapper方法ID
+	 */
+	boolean ignorePermissionControl(String mappedStatementId);
 
 }
