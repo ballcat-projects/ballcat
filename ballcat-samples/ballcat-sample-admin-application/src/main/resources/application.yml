@@ -45,6 +45,9 @@ ballcat:
     aggregator:
       provider-resources:
         - { name: ballcat-api,  url: http://ballcat-api:9090/v2/api-docs, swagger-version: 2.0 }
+  login:
+    captcha:
+      enabled: true
 
 security:
   oauth2:
@@ -83,11 +86,6 @@ mybatis-plus:
       update-strategy: not_empty
       logic-delete-value: "NOW()" # 逻辑已删除值(使用当前时间标识)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
-
-
-# 密码加解密密钥
-password:
-  secret-key: '==BallCat-Auth=='
 
 # 定时任务相关配置
 xxl:
