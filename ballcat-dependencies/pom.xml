@@ -440,9 +440,6 @@
 				<groupId>io.spring.javaformat</groupId>
 				<artifactId>spring-javaformat-maven-plugin</artifactId>
 				<version>${spring-javaformat-checkstyle.version}</version>
-				<configuration>
-					<lineSeparator>LF</lineSeparator>
-				</configuration>
 				<executions>
 					<execution>
 						<phase>validate</phase>

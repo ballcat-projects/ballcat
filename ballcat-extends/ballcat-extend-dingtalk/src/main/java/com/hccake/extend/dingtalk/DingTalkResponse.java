@@ -2,11 +2,12 @@ package com.hccake.extend.dingtalk;
 
 import cn.hutool.core.convert.Convert;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
+
+import java.util.Map;
 
 /**
  * 钉钉返回信息

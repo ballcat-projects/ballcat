@@ -1,4 +1,7 @@
 *.js linguist-language=java
 *.html linguist-language=java
 
-eol = lf
+* text auto
+
+# 强制换行符为 LF
+# * text eol=lf

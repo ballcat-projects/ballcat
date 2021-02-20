@@ -1,7 +1,5 @@
 package com.hccake.starte.pay.ali;
 
-import static com.hccake.starte.pay.ali.constants.AliPayConstant.HUNDRED;
-
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -9,20 +7,19 @@ import com.alipay.api.domain.AlipayTradePayModel;
 import com.alipay.api.domain.AlipayTradeQueryModel;
 import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.internal.util.AlipaySignature;
-import com.alipay.api.request.AlipayTradeAppPayRequest;
-import com.alipay.api.request.AlipayTradePayRequest;
-import com.alipay.api.request.AlipayTradeQueryRequest;
-import com.alipay.api.request.AlipayTradeRefundRequest;
-import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.alipay.api.request.*;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.alipay.api.response.AlipayTradePayResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.hccake.starte.pay.ali.domain.AliPayQuery;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
-import lombok.Data;
+
+import static com.hccake.starte.pay.ali.constants.AliPayConstant.HUNDRED;
 
 /**
  * api文档: https://opendocs.alipay.com/apis.
@@ -362,7 +359,7 @@ public class AliPay {
 	 */
 	public boolean checkSignV1(Map<String, String> map) throws AlipayApiException {
 		// 验签需要先移除 fund_bill_list 参数值中的 &quot; 否则会导致正确的签名验签失败
-		map.put("fund_bill_list", map.get("fund_bill_list").replaceAll("&quot;","\""));
+		map.put("fund_bill_list", map.get("fund_bill_list").replaceAll("&quot;", "\""));
 		return AlipaySignature.rsaCheckV1(map, alipayPublicKey, charset, signType);
 	}
 
@@ -374,7 +371,7 @@ public class AliPay {
 	 */
 	public boolean checkSignV2(Map<String, String> map) throws AlipayApiException {
 		// 验签需要先移除 fund_bill_list 参数值中的 &quot; 否则会导致正确的签名验签失败
-		map.put("fund_bill_list", map.get("fund_bill_list").replaceAll("&quot;","\""));
+		map.put("fund_bill_list", map.get("fund_bill_list").replaceAll("&quot;", "\""));
 		return AlipaySignature.rsaCheckV2(map, alipayPublicKey, charset, signType);
 	}
 

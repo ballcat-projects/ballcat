@@ -1,11 +1,12 @@
 package com.hccake.starter.pay.viratual;
 
 import com.hccake.ballcat.common.core.thread.AbstractQueueThread;
+import live.lingting.virtual.currency.Transaction;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
-import javax.validation.constraints.NotNull;
-import lombok.extern.slf4j.Slf4j;
-import live.lingting.virtual.currency.Transaction;
 
 /**
  * 用于校验交易的线程

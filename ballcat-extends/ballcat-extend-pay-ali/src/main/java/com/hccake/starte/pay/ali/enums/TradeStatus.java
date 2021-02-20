@@ -33,16 +33,16 @@ public enum TradeStatus {
 	@JsonCreator
 	public static TradeStatus of(String status) {
 		switch (status) {
-			case "WAIT_BUYER_PAY":
-				return WAIT;
-			case "TRADE_CLOSED":
-				return CLOSED;
-			case "TRADE_SUCCESS":
-				return SUCCESS;
-			case "TRADE_FINISHED":
-				return FINISHED;
-			default:
-				return ERROR;
+		case "WAIT_BUYER_PAY":
+			return WAIT;
+		case "TRADE_CLOSED":
+			return CLOSED;
+		case "TRADE_SUCCESS":
+			return SUCCESS;
+		case "TRADE_FINISHED":
+			return FINISHED;
+		default:
+			return ERROR;
 		}
 	}
 

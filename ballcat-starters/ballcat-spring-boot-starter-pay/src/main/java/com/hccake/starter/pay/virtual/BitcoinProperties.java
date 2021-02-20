@@ -1,10 +1,9 @@
 package com.hccake.starter.pay.virtual;
 
-import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import live.lingting.virtual.currency.endpoints.BitcoinEndpoints;
 import live.lingting.virtual.currency.endpoints.OmniEndpoints;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author lingting 2021/1/22 17:45
