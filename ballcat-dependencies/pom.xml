@@ -327,12 +327,22 @@
 			<!--hutool工具类-->
 			<dependency>
 				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-all</artifactId>
+				<artifactId>hutool-core</artifactId>
 				<version>${hutool.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-core</artifactId>
+				<artifactId>hutool-http</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-crypto</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-extra</artifactId>
 				<version>${hutool.version}</version>
 			</dependency>
 			<!--配置文件加密-->
