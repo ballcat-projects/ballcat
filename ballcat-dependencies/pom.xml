@@ -40,9 +40,9 @@
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<flatten-maven-plugin.version>1.2.5</flatten-maven-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.26</spring-javaformat-checkstyle.version>
+		<spring-javaformat-checkstyle.version>0.0.27</spring-javaformat-checkstyle.version>
 
-		<org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<spring-boot.version>2.4.3</spring-boot.version>
 		<spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
@@ -50,18 +50,17 @@
 		<swagger.version>1.5.21</swagger.version>
 		<knife4j.version>2.0.8</knife4j.version>
 		<kafka.version>2.5.0</kafka.version>
-		<hutool.version>5.5.7</hutool.version>
-		<mybatis-plus.version>3.4.1</mybatis-plus.version>
-		<dynamic-datasource.version>3.2.0</dynamic-datasource.version>
-		<xxl-job.version>2.2.0</xxl-job.version>
-		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
-		<oss.aliyun.version>3.8.0</oss.aliyun.version>
+		<hutool.version>5.5.8</hutool.version>
+		<mybatis-plus.version>3.4.2</mybatis-plus.version>
+		<dynamic-datasource.version>3.3.1</dynamic-datasource.version>
+		<xxl-job.version>2.3.0</xxl-job.version>
+		<spring-boot-admin.version>2.4.0</spring-boot-admin.version>
+		<oss.aliyun.version>3.11.3</oss.aliyun.version>
 		<easyexcel.version>2.2.6</easyexcel.version>
 		<jasypt.version>3.0.3</jasypt.version>
-		<hibernate-validator.version>6.1.7.Final</hibernate-validator.version>
+		<hibernate-validator.version>7.0.1.Final</hibernate-validator.version>
 		<jsoup.version>1.13.1</jsoup.version>
-		<anji-captcha.version>1.2.5</anji-captcha.version>
-
+		<anji-captcha.version>1.2.7</anji-captcha.version>
 		<virtual-currency.version>0.3.2</virtual-currency.version>
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
 	</properties>

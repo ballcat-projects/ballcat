@@ -1,8 +1,7 @@
 package com.hccake.ballcat.api.modules.job;
 
-import com.xxl.job.core.biz.model.ReturnT;
+import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import com.xxl.job.core.log.XxlJobLogger;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -22,16 +21,24 @@ import java.util.concurrent.TimeUnit;
 public class ApiDemoJobHandler {
 
 	@XxlJob("apiDemoJobHandler")
-	public ReturnT<String> execute(String param) throws Exception {
-		XxlJobLogger.log("ApiDemoJobHandler Invoke Success.");
+	public void execute() throws Exception {
+		// XxlJobLogger 改为使用 XxlJobHelper
+		XxlJobHelper.log("ApiDemoJobHandler Invoke Success.");
 
-		System.out.println("执行成功！：" + LocalDateTime.now().toString());
+		// param 获取改为使用 XxlJobHelper.getJobParam 方法
+		String param = XxlJobHelper.getJobParam();
+		XxlJobHelper.log("ApiDemoJobHandler param: " + param);
 
 		for (int i = 0; i < 5; i++) {
-			XxlJobLogger.log("beat at:" + i);
+			XxlJobHelper.log("beat at:" + i);
 			TimeUnit.SECONDS.sleep(2);
 		}
-		return ReturnT.SUCCESS;
+
+		XxlJobHelper.log(("执行成功！：" + LocalDateTime.now()));
+
+		// 无异常情况下可省略
+		XxlJobHelper.handleSuccess();
+
 	}
 
 }
