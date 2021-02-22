@@ -8,11 +8,6 @@ import java.math.BigDecimal;
 public class AliPayConstant {
 
 	/**
-	 * 一百
-	 */
-	public static final BigDecimal HUNDRED = new BigDecimal("100");
-
-	/**
 	 * 支付宝支付线上api路径
 	 */
 	public static final String SERVER_URL_PROD = "https://openapi.alipay.com/gateway.do";

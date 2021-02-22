@@ -60,7 +60,7 @@
 		<maven-source-plugin.version>3.1.0</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
 
-		<spring-boot.version>2.4.1</spring-boot.version>
+		<spring-boot.version>2.4.2</spring-boot.version>
 	</properties>
 
 	<dependencies>
