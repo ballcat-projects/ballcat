@@ -58,7 +58,6 @@
 		<oss.aliyun.version>3.11.3</oss.aliyun.version>
 		<easyexcel.version>2.2.6</easyexcel.version>
 		<jasypt.version>3.0.3</jasypt.version>
-		<hibernate-validator.version>7.0.1.Final</hibernate-validator.version>
 		<jsoup.version>1.13.1</jsoup.version>
 		<anji-captcha.version>1.2.7</anji-captcha.version>
 		<virtual-currency.version>0.3.2</virtual-currency.version>
@@ -134,6 +133,12 @@
 				<artifactId>ballcat-common-core</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-desensitize</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
 
 			<!-- ballcat-stater -->
 			<dependency>
@@ -349,12 +354,6 @@
 				<groupId>com.github.ulisesbocchio</groupId>
 				<artifactId>jasypt-spring-boot-starter</artifactId>
 				<version>${jasypt.version}</version>
-			</dependency>
-			<!--hibernate validator-->
-			<dependency>
-				<groupId>org.hibernate.validator</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate-validator.version}</version>
 			</dependency>
 			<!--kafka MQ-->
 			<dependency>
