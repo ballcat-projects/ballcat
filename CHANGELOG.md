@@ -10,6 +10,65 @@
 
 
 
+## [0.0.8]
+
+### Warning
+
+- 更新了 Service 层的父类，现在无法直接使用 service 对象，进行 Wrapper 条件构造
+- 更新了分页查询的排序参数，前端需要对应升级
+
+### Added
+
+- feat: Swagger3 支持
+- feat: 剥离全局异常捕获中请求方法和请求媒体类型不支持的异常，方便生产环境排查问题
+- feat: 新增 common-desensitize 脱敏模块，默认提供了部分常用脱敏类型，且支持SPI形式追加用户自定义脱敏处理器
+- feat: 新增 pay-ali 模块，用于支持支付宝支付
+- feat: 新增图形验证码开关配置，默认开启
+- feat: 分页查询出入参封装，提供 PageParam 作为入参，PageResult 作为出参，不再用 Page 贯穿
+- feat: 密码在日志中的存储脱敏
+- feat: 数据权限注解提供对于指定 Mapper类，或指定方法的数据权限关闭功能
+- test: 对 client test 跳过登陆验证和密码解密，便于测试，注意生产环境不要开启 test client
+
+### Changed
+
+- refactor: 取消了项目文件格式化指定换行符使用 LF 的限制
+- refactor: 分页查询的排序参数属性修改，用于支持多列排序
+
+- refactor: mybatis-plus-extend 扩展包调整
+  - 新增 LambdaQueryWrapperX ，提供 ifPresent 方法，用于简化条件判断
+  - 新增 LambdaAliasQueryWrapperX 用于构造带别名的条件语句和查询sql
+  - ExtendMapper 新增 selectByPage 方法，扩展自 selectPage 方法，支持查询数据直接转换为 VO 的映射
+  - ExtendMapper 新增 insertBatchSomeColumn，使用 insert into 方式进行插入，提升批量插入效率
+  - ExtendService 扩展自 IService，但是取消所有对外暴露 Wrapper 参数的方法，便于规范代码分层
+- refactor: 所有 Service 改为继承 ExtendService，所有 Mapper 改为继承 ExtendMapper，且所有查询 条件构造下沉入DAO 层
+- refactor:  部分方法名修改，查询方法返回结果为集合时，方法名使用 list 开头
+- refactor: 钉钉消息通知优化，每次通知使用新的 request 实例
+- refactor: 访问日志默认忽略验证码获取请求，操作日志忽略 MutipartFile 类型的参数记录
+- refactor: 用户密码在 service 使用明文密码交互，AES 加解密在 controller 或者过滤器中完成
+- refactor: 密码加解密密钥的配置添加 ballcat 前缀：ballcat.password.secret-key
+- refactor: hutool 改为按需引入
+- refactor: 取消代码文件换行符强制使用 LF 的限制
+
+### Removed
+
+- 移除 mybatis-plus-extend-mysql 扩展包，相关方法移入 mybatis-plus-extend 扩展中
+- 移除 model 的 AR 模式支持
+- 移除 hibernate-validator 的版本指定，改为跟随 spring-boot 的依赖版本
+
+### Dependency
+
+- Bump spring-boot from 2.4.1 to 2.4.3
+- Bump mapstruct from 1.4.1.final to 1.4.2.final
+- Bump spring-javaformat-maven-plugin 0.0.26 to 0.0.27
+- Bump hutool from 5.5.7 from 5.5.8
+- Bump mybatis-plus from 3.4.1 to 3.4.2
+- Bump dynamic-datasource from 3.2.0 to 3.3.1
+- Bump spring-boot-admin from 2.3.1 to 2.4.0
+- Bump oss.aliyun from 3.8.0 to 3.11.3
+- Bump anji-captcha 1.2.5 to 1.2.8
+
+
+
 ## [0.0.7]
 
 ### Added
