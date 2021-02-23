@@ -12,6 +12,11 @@
     <artifactId>ballcat-admin-core</artifactId>
 
     <dependencies>
+		<!-- 脱敏工具 -->
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-desensitize</artifactId>
+		</dependency>
         <dependency>
             <groupId>com.hccake</groupId>
             <artifactId>ballcat-common-conf</artifactId>
@@ -46,8 +51,8 @@
 
 		<!-- 图形验证码 -->
 		<dependency>
-			<groupId>com.github.anji-plus</groupId>
-			<artifactId>captcha-spring-boot-starter</artifactId>
+			<groupId>com.anji-plus</groupId>
+			<artifactId>spring-boot-starter-captcha</artifactId>
 		</dependency>
     </dependencies>
 

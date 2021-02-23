@@ -27,8 +27,9 @@
 |   `-- ballcat-admin-websocket     -- 后台管理 websocket 支持插件（公告和字典等同步）
 |-- ballcat-codegen             -- 代码生成器
 |-- ballcat-common			   
-|   |-- ballcat-common-conf		-- web公用配置
-|   `-- ballcat-common-core     -- 核心的工具类
+|   |-- ballcat-common-conf		        -- web公用配置
+|   |-- ballcat-common-core             -- 核心的工具类
+|   `-- ballcat-common-desensitize		-- 脱敏工具类
 |-- ballcat-dependencies        -- ballcat项目本身各子模块的依赖管理，以及第三方模块的依赖管理
 |-- ballcat-samples				
 |   |-- ballcat-sample-admin-application  -- 集成admin的项目示例（swagger聚合者）
@@ -86,18 +87,18 @@
 
 | 依赖                   | 版本          | 官网                                             |
 | ---------------------- | ------------- | ------------------------------------------------ |
-| Spring Boot            | 2.4.1         | https://spring.io/projects/spring-boot#learn     |
+| Spring Boot            | 2.4.3         | https://spring.io/projects/spring-boot#learn     |
 | Spring Security OAuth2 | 2.3.8.RELEASE | https://spring.io/projects/spring-security-oauth |
-| Mybatis Plus           | 3.4.1         | https://mp.baomidou.com/                         |
-| XXL-JOB                | 2.2.0         | http://www.xuxueli.com/xxl-job                   |
-| Hutool                 | 5.5.4         | https://www.hutool.cn/                           |
+| Mybatis Plus           | 3.4.2         | https://mp.baomidou.com/                         |
+| XXL-JOB                | 2.3.0         | http://www.xuxueli.com/xxl-job                   |
+| Hutool                 | 5.5.8         | https://www.hutool.cn/                           |
 
 
 - 前端
 
 | 依赖               | 版本   | 官网                   |
 | ------------------ | ------ | ---------------------- |
-| Vue                | 2.6.10 | https://cn.vuejs.org/  |
+| Vue                | 2.6.12 | https://cn.vuejs.org/  |
 | Ant Design Vue     | 1.7.2  | https://www.antdv.com  |
 | Ant Design Vue Pro | 2.0.2  | https://pro.loacg.com/ |
 
