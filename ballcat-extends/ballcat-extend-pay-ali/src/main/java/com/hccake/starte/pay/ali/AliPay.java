@@ -16,10 +16,7 @@ import com.hccake.starte.pay.ali.domain.AliPayQuery;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Map;
-
-import static com.hccake.starte.pay.ali.constants.AliPayConstant.HUNDRED;
 
 /**
  * api文档: https://opendocs.alipay.com/apis.
@@ -31,17 +28,17 @@ import static com.hccake.starte.pay.ali.constants.AliPayConstant.HUNDRED;
 @Data
 public class AliPay {
 
-	private String serverUrl;
+	private final String serverUrl;
 
-	private String appId;
+	private final String appId;
 
-	private String privateKey;
+	private final String privateKey;
 
-	private String format;
+	private final String format;
 
-	private String charset;
+	private final String charset;
 
-	private String alipayPublicKey;
+	private final String alipayPublicKey;
 
 	private String signType;
 
@@ -373,16 +370,6 @@ public class AliPay {
 		// 验签需要先移除 fund_bill_list 参数值中的 &quot; 否则会导致正确的签名验签失败
 		map.put("fund_bill_list", map.get("fund_bill_list").replaceAll("&quot;", "\""));
 		return AlipaySignature.rsaCheckV2(map, alipayPublicKey, charset, signType);
-	}
-
-	/**
-	 * 金额单位转换, 元 转为 分
-	 * @param amount 支付金额, 单位 元
-	 * @return java.lang.String
-	 * @author lingting 2021-01-25 10:27
-	 */
-	public String yuanToFen(BigDecimal amount) {
-		return amount.multiply(HUNDRED).setScale(2, RoundingMode.UP).toPlainString();
 	}
 
 }
