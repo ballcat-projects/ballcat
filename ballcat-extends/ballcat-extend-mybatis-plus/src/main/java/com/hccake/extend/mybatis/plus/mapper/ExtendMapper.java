@@ -34,7 +34,7 @@ public interface ExtendMapper<T> extends BaseMapper<T> {
 	 * @return int 改动行
 	 * @author lingting 2020-08-26 22:11
 	 */
-	int insertBatchSomeColumn(@Param("list") Collection<T> list);
+	int insertBatchSomeColumn(@Param("collection") Collection<T> list);
 
 	/**
 	 * 根据 entity 条件，查询全部记录（并翻页）
