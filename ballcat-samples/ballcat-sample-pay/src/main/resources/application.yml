@@ -24,6 +24,14 @@ ballcat:
         alipay-public-key: '***'
         notify-url: https://www.baidu.com
         return-url: https://www.baidu.com
+    wx:
+      sandbox: false
+      prod:
+        app-id: '****'
+        mch-id: '****'
+        mck-key: '***'
+        notify-url: https://www.baidu.com
+        return-url: https://www.baidu.com
 
 management:
   endpoints:

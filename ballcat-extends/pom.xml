@@ -18,5 +18,6 @@
 		<module>ballcat-extend-kafka-stream</module>
         <module>ballcat-extend-pay-virtual</module>
         <module>ballcat-extend-pay-ali</module>
+        <module>ballcat-extend-pay-wx</module>
     </modules>
 </project>
