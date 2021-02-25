@@ -33,7 +33,6 @@
 
 - refactor: 取消了项目文件格式化指定换行符使用 LF 的限制
 - refactor: 分页查询的排序参数属性修改，用于支持多列排序
-
 - refactor: mybatis-plus-extend 扩展包调整
   - 新增 LambdaQueryWrapperX ，提供 ifPresent 方法，用于简化条件判断
   - 新增 LambdaAliasQueryWrapperX 用于构造带别名的条件语句和查询sql
@@ -48,6 +47,11 @@
 - refactor: 密码加解密密钥的配置添加 ballcat 前缀：ballcat.password.secret-key
 - refactor: hutool 改为按需引入
 - refactor: 取消代码文件换行符强制使用 LF 的限制
+- refactor: 取消 jackson 配置中，全局 Null 值转 '' 的处理，但是以下对 类型 Null 值特殊处理
+  - String Null 转 ''
+  - Array 和 Collection Null 转 []
+  - Map Null 转 {}
+
 
 ### Removed
 

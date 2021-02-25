@@ -1,9 +1,8 @@
 package com.hccake.ballcat.common.conf.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hccake.ballcat.common.core.jackson.ArraySerializerModifier;
 import com.hccake.ballcat.common.core.jackson.JavaTimeModule;
-import com.hccake.ballcat.common.core.jackson.NullSerializer;
+import com.hccake.ballcat.common.core.jackson.NullSerializerModifier;
 import com.hccake.ballcat.common.core.util.JacksonUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,11 +26,9 @@ public class JacksonConfig {
 	@ConditionalOnMissingBean(ObjectMapper.class)
 	public ObjectMapper objectMapper() {
 		JacksonUtils.config(mapper -> {
-			// NULL 数组转 []
+			// NULL值修改
 			mapper.setSerializerFactory(
-					mapper.getSerializerFactory().withSerializerModifier(new ArraySerializerModifier()));
-			// NULL 值转 ""
-			mapper.getSerializerProvider().setNullValueSerializer(new NullSerializer());
+					mapper.getSerializerFactory().withSerializerModifier(new NullSerializerModifier()));
 			// 时间解析器
 			mapper.registerModule(new JavaTimeModule());
 		});
