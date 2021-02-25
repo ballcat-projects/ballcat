@@ -4,12 +4,16 @@ import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import com.hccake.starte.pay.ali.AliPay;
 import com.hccake.starte.pay.ali.domain.AliPayCallback;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author lingting 2021/1/25 15:18
@@ -17,7 +21,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("ali")
 @RequiredArgsConstructor
-public class Controller {
+public class AliController {
+
 
 	private final AliPay aliPay;
 
