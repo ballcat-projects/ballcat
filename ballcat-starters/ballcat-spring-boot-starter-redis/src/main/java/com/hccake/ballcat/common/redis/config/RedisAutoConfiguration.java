@@ -3,6 +3,7 @@ package com.hccake.ballcat.common.redis.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.redis.core.CacheLock;
 import com.hccake.ballcat.common.redis.core.CacheStringAspect;
+import com.hccake.ballcat.common.redis.core.Redis;
 import com.hccake.ballcat.common.redis.serialize.CacheSerializer;
 import com.hccake.ballcat.common.redis.serialize.JacksonSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixJdkRedisSerializer;
@@ -95,6 +96,12 @@ public class RedisAutoConfiguration {
 		template.setConnectionFactory(redisConnectionFactory);
 		template.setKeySerializer(new PrefixJdkRedisSerializer(CachePropertiesHolder.keyPrefix()));
 		return template;
+	}
+
+	@Bean(name = "com.hccake.ballcat.common.redis.core.Redis")
+	@ConditionalOnMissingBean(Redis.class)
+	public Redis redis(StringRedisTemplate template) {
+		return new Redis(template);
 	}
 
 }
