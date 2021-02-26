@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.redis.core;
+package com.hccake.ballcat.common.redis;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -8,7 +8,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
@@ -22,51 +23,44 @@ import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 
 /**
  * @author lingting 2020/4/17 11:49
  */
 @Slf4j
-@RequiredArgsConstructor
-public class Redis {
+public class RedisHelpers {
 
-	private final StringRedisTemplate template;
+	@Getter
+	@Setter
+	static StringRedisTemplate template;
 
 	/*
 	 * common ----------------------------------------------------------
 	 */
 
 	/**
-	 * @author lingting 2020-04-29 15:04:35
-	 */
-	public StringRedisTemplate getTemplate() {
-		return template;
-	}
-
-	/**
 	 * @author lingting 2020-04-29 15:04:39
 	 */
-	public HashOperations<String, Object, Object> getHash() {
+	public static HashOperations<String, Object, Object> getHash() {
 		return template.opsForHash();
 	}
 
 	/**
 	 * @author lingting 2020-04-29 15:04:40
 	 */
-	public ValueOperations<String, String> getValue() {
+	public static ValueOperations<String, String> getValue() {
 		return template.opsForValue();
 	}
 
-	public ListOperations<String, String> getList() {
+	public static ListOperations<String, String> getList() {
 		return template.opsForList();
 	}
 
-	public SetOperations<String, String> getSet() {
+	public static SetOperations<String, String> getSet() {
 		return template.opsForSet();
 	}
 
-	public boolean hasKey(String key) {
+	public static boolean hasKey(String key) {
 		Boolean b = template.hasKey(key);
 		return b != null && b;
 	}
@@ -76,7 +70,7 @@ public class Redis {
 	 * @param time 时间，单位 秒
 	 * @author lingting 2020-07-28 13:28:41
 	 */
-	public boolean expire(String key, long time) {
+	public static boolean expire(String key, long time) {
 		Boolean b = template.expire(key, time, TimeUnit.SECONDS);
 		return b != null && b;
 	}
@@ -87,56 +81,70 @@ public class Redis {
 	 * @return java.util.Set<java.lang.String>
 	 * @author lingting 2020-04-27 15:44:09
 	 */
-	public Set<String> keys(String pattern) {
+	public static Set<String> keys(String pattern) {
 		return template.keys(pattern);
 	}
 
 	/*
 	 * lua 脚本 ----------------------------------------------------------
 	 */
-	public <T> T execute(RedisCallback<T> action) {
+
+	/**
+	 * 执行 lua脚本
+	 * @param action
+	 * @return T
+	 * @author lingting 2021-02-26 15:22
+	 */
+	public static <T> T execute(RedisCallback<T> action) {
 		return template.execute(action);
 	}
 
 	@Nullable
-	public <T> T execute(RedisCallback<T> action, boolean exposeConnection) {
+	public static <T> T execute(RedisCallback<T> action, boolean exposeConnection) {
 		return execute(action, exposeConnection, false);
 	}
 
 	@Nullable
-	public <T> T execute(RedisCallback<T> action, boolean exposeConnection, boolean pipeline) {
+	public static <T> T execute(RedisCallback<T> action, boolean exposeConnection, boolean pipeline) {
 		return template.execute(action, exposeConnection, pipeline);
 	}
 
-	public <T> T execute(SessionCallback<T> session) {
+	public static <T> T execute(SessionCallback<T> session) {
 		return template.execute(session);
 	}
 
-	public <T> T execute(RedisScript<T> script, List<String> keys, Object... args) {
+	public static <T> T execute(RedisScript<T> script, List<String> keys, Object... args) {
 		return template.execute(script, keys, args);
 	}
 
-	public <T> T execute(RedisScript<T> script, RedisSerializer<?> argsSerializer, RedisSerializer<T> resultSerializer,
-			List<String> keys, Object... args) {
+	public static <T> T execute(RedisScript<T> script, RedisSerializer<?> argsSerializer,
+			RedisSerializer<T> resultSerializer, List<String> keys, Object... args) {
 		return template.execute(script, argsSerializer, resultSerializer, keys, args);
 	}
 
 	/*
 	 * pipelined 操作 ----------------------------------------------------------
 	 */
-	public List<Object> executePipelined(SessionCallback<?> session) {
+
+	/**
+	 * 操作 pipelined
+	 * @author lingting 2021-02-26 15:23
+	 */
+	public static List<Object> executePipelined(SessionCallback<?> session) {
 		return template.executePipelined(session);
 	}
 
-	public List<Object> executePipelined(SessionCallback<?> session, @Nullable RedisSerializer<?> resultSerializer) {
+	public static List<Object> executePipelined(SessionCallback<?> session,
+			@Nullable RedisSerializer<?> resultSerializer) {
 		return template.executePipelined(session, resultSerializer);
 	}
 
-	public List<Object> executePipelined(RedisCallback<?> action) {
+	public static List<Object> executePipelined(RedisCallback<?> action) {
 		return template.executePipelined(action);
 	}
 
-	public List<Object> executePipelined(RedisCallback<?> action, @Nullable RedisSerializer<?> resultSerializer) {
+	public static List<Object> executePipelined(RedisCallback<?> action,
+			@Nullable RedisSerializer<?> resultSerializer) {
 		return template.executePipelined(action, resultSerializer);
 	}
 
@@ -147,11 +155,11 @@ public class Redis {
 	/**
 	 * @author lingting 2020-04-29 15:04:48
 	 */
-	public String get(String key) {
+	public static String get(String key) {
 		return getValue().get(key);
 	}
 
-	public void set(String key, String val) {
+	public static void set(String key, String val) {
 		getValue().set(key, val);
 	}
 
@@ -162,7 +170,7 @@ public class Redis {
 	 * @param second 过期时间 单位：秒
 	 * @author lingting 2020-04-22 11:38:13
 	 */
-	public void set(String key, String val, long second) {
+	public static void set(String key, String val, long second) {
 		if (second > 0) {
 			getValue().set(key, val, second, TimeUnit.SECONDS);
 		}
@@ -175,17 +183,17 @@ public class Redis {
 	 * @param instant 在指定时间过期
 	 * @author lingting 2021-02-02 10:31
 	 */
-	public void set(String key, String val, Instant instant) {
+	public static void set(String key, String val, Instant instant) {
 		getValue().set(key, val);
 		getTemplate().expireAt(key, instant);
 	}
 
-	public boolean delete(String key) {
+	public static boolean delete(String key) {
 		Boolean b = template.delete(key);
 		return b != null && b;
 	}
 
-	public long delete(Collection<String> keys) {
+	public static long delete(Collection<String> keys) {
 		Long l = template.delete(keys);
 		return l == null ? 0 : l;
 	}
@@ -197,7 +205,7 @@ public class Redis {
 	 * @return boolean
 	 * @author lingting 2020-04-29 15:56:51
 	 */
-	public boolean setIfAbsent(String key, String value) {
+	public static boolean setIfAbsent(String key, String value) {
 		Boolean b = getValue().setIfAbsent(key, value);
 		return b != null && b;
 	}
@@ -210,12 +218,12 @@ public class Redis {
 	 * @return boolean
 	 * @author lingting 2021-01-18 14:59
 	 */
-	public boolean setIfAbsent(String key, String value, long time) {
+	public static boolean setIfAbsent(String key, String value, long time) {
 		Boolean b = getValue().setIfAbsent(key, value, Duration.ofSeconds(time));
 		return b != null && b;
 	}
 
-	public List<String> multiGet(Collection<String> keys) {
+	public static List<String> multiGet(Collection<String> keys) {
 		List<String> list = getValue().multiGet(keys);
 		return list == null ? new ArrayList<>() : new ArrayList<>(list);
 	}
@@ -225,7 +233,7 @@ public class Redis {
 	 *
 	 * @author lingting 2020-05-13 11:04:17
 	 */
-	public Long increment(String key) {
+	public static Long increment(String key) {
 		return getValue().increment(key);
 	}
 
@@ -234,15 +242,15 @@ public class Redis {
 	 *
 	 * @author lingting 2020-05-13 11:04:17
 	 */
-	public Long increment(String key, long delta) {
+	public static Long increment(String key, long delta) {
 		return getValue().increment(key, delta);
 	}
 
-	public Long incrementAndExpire(String key, long time) {
+	public static Long incrementAndExpire(String key, long time) {
 		return incrementAndExpire(key, 1, time);
 	}
 
-	public Long incrementAndExpire(String key, long delta, long time) {
+	public static Long incrementAndExpire(String key, long delta, long time) {
 		Long increment = getValue().increment(key, delta);
 		expire(key, time);
 		return increment;
@@ -255,7 +263,7 @@ public class Redis {
 	/**
 	 * @author lingting 2020-04-29 15:04:52
 	 */
-	public List<String> listGet(String key) {
+	public static List<String> listGet(String key) {
 		return getList().range(key, 0, listSize(key) - 1);
 	}
 
@@ -263,7 +271,7 @@ public class Redis {
 	 * 获取指定值在指定key中的索引
 	 * @author lingting 2020-12-17 11:06
 	 */
-	public Long listIndexOf(String key, String val) {
+	public static Long listIndexOf(String key, String val) {
 		return getList().indexOf(key, val);
 	}
 
@@ -271,11 +279,11 @@ public class Redis {
 	 * 获知指定key中指定索引的值
 	 * @author lingting 2020-12-17 11:07
 	 */
-	public String listIndex(String key, long index) {
+	public static String listIndex(String key, long index) {
 		return getList().index(key, index);
 	}
 
-	public Long listRemove(String key, String val) {
+	public static Long listRemove(String key, String val) {
 		return listRemove(key, 1, val);
 	}
 
@@ -283,16 +291,16 @@ public class Redis {
 	 * @param count 删除多少个
 	 * @author lingting 2020-12-16 19:13
 	 */
-	public Long listRemove(String key, long count, String val) {
+	public static Long listRemove(String key, long count, String val) {
 		return getList().remove(key, count, val);
 	}
 
-	public long listSize(String key) {
+	public static long listSize(String key) {
 		Long size = getList().size(key);
 		return size == null ? 0 : size;
 	}
 
-	private long listSet(String key, List<String> list) {
+	private static long listSet(String key, List<String> list) {
 		long l = 0;
 		for (String str : list) {
 			l += listLeftPush(key, str);
@@ -308,7 +316,7 @@ public class Redis {
 	 * @return long
 	 * @author lingting 2020-04-22 15:22:02
 	 */
-	public long listSet(String key, List<String> list, long time) {
+	public static long listSet(String key, List<String> list, long time) {
 		long l = listSet(key, list);
 		expire(key, time);
 		return l;
@@ -320,11 +328,11 @@ public class Redis {
 	 * @param val val
 	 * @author lingting 2020-04-22 15:18:07
 	 */
-	public Long listLeftPush(String key, String val) {
+	public static Long listLeftPush(String key, String val) {
 		return getList().leftPush(key, val);
 	}
 
-	public String listPop(String key) {
+	public static String listPop(String key) {
 		return getList().rightPop(key);
 	}
 
@@ -335,7 +343,7 @@ public class Redis {
 	/**
 	 * @author lingting 2020-04-29 15:05:41
 	 */
-	public void hashSet(String key, String field, String value) {
+	public static void hashSet(String key, String field, String value) {
 		getHash().put(key, field, value);
 	}
 
@@ -346,7 +354,7 @@ public class Redis {
 	 * @return java.lang.Object
 	 * @author lingting 2020-04-22 17:17:33
 	 */
-	public String hashGet(String key, String field) {
+	public static String hashGet(String key, String field) {
 		Object o = getHash().get(key, field);
 		return o == null ? null : o.toString();
 	}
@@ -358,7 +366,7 @@ public class Redis {
 	 * @return java.lang.Long
 	 * @author lingting 2020-12-21 10:16
 	 */
-	public Long hashDelete(String key, String... fields) {
+	public static Long hashDelete(String key, String... fields) {
 		return getHash().delete(key, (Object[]) fields);
 	}
 
@@ -371,7 +379,7 @@ public class Redis {
 	 *
 	 * @author lingting 2020-12-17 10:50
 	 */
-	public Long setAdd(String key, String... values) {
+	public static Long setAdd(String key, String... values) {
 		return getSet().add(key, values);
 	}
 
@@ -379,7 +387,7 @@ public class Redis {
 	 * 获取集合中元素数量
 	 * @author lingting 2020-12-17 10:51
 	 */
-	public Long setSize(String key) {
+	public static Long setSize(String key) {
 		return getSet().size(key);
 	}
 
@@ -387,7 +395,7 @@ public class Redis {
 	 * 随机弹出一个元素
 	 * @author lingting 2020-12-17 10:52
 	 */
-	public String setPop(String key) {
+	public static String setPop(String key) {
 		return getSet().pop(key);
 	}
 
@@ -395,11 +403,11 @@ public class Redis {
 	 * 移除集合中的元素
 	 * @author lingting 2020-12-17 10:55
 	 */
-	public Long setRemove(String key, String... values) {
+	public static Long setRemove(String key, String... values) {
 		return getSet().remove(key, (Object[]) values);
 	}
 
-	public Object evalLua(String lua, List<String> key, Object... argv) {
+	public static Object evalLua(String lua, List<String> key, Object... argv) {
 		String[] arg = Arrays.stream(argv).map(String::valueOf).toArray(String[]::new);
 
 		try {

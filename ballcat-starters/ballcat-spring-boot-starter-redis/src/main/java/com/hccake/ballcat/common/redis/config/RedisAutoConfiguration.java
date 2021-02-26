@@ -3,11 +3,11 @@ package com.hccake.ballcat.common.redis.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.redis.core.CacheLock;
 import com.hccake.ballcat.common.redis.core.CacheStringAspect;
-import com.hccake.ballcat.common.redis.core.Redis;
 import com.hccake.ballcat.common.redis.serialize.CacheSerializer;
 import com.hccake.ballcat.common.redis.serialize.JacksonSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixJdkRedisSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixStringRedisSerializer;
+import com.hccake.ballcat.common.redis.RedisHelpers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -98,10 +98,11 @@ public class RedisAutoConfiguration {
 		return template;
 	}
 
-	@Bean(name = "com.hccake.ballcat.common.redis.core.Redis")
-	@ConditionalOnMissingBean(Redis.class)
-	public Redis redis(StringRedisTemplate template) {
-		return new Redis(template);
+	@Bean(name = "com.hccake.ballcat.common.redis.RedisHelpers")
+	@ConditionalOnMissingBean(RedisHelpers.class)
+	public RedisHelpers redis(StringRedisTemplate template) {
+		RedisHelpers.setTemplate(template);
+		return new RedisHelpers();
 	}
 
 }
