@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.desensitize;
+package com.hccake.ballcat.common.desensitize.json;
 
 import cn.hutool.core.lang.Assert;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -7,14 +7,15 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.hccake.ballcat.common.desensitize.annotation.JsonRegexDesensitize;
-import com.hccake.ballcat.common.desensitize.annotation.JsonSimpleDesensitize;
-import com.hccake.ballcat.common.desensitize.annotation.JsonSlideDesensitize;
+import com.hccake.ballcat.common.desensitize.DesensitizationHandlerHolder;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.desensitize.enums.SlideDesensitizationTypeEnum;
 import com.hccake.ballcat.common.desensitize.handler.RegexDesensitizationHandler;
 import com.hccake.ballcat.common.desensitize.handler.SimpleDesensitizationHandler;
 import com.hccake.ballcat.common.desensitize.handler.SlideDesensitizationHandler;
+import com.hccake.ballcat.common.desensitize.json.annotation.JsonRegexDesensitize;
+import com.hccake.ballcat.common.desensitize.json.annotation.JsonSimpleDesensitize;
+import com.hccake.ballcat.common.desensitize.json.annotation.JsonSlideDesensitize;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -30,17 +31,10 @@ import java.util.Objects;
  */
 public class JsonDesensitizeSerializer extends JsonSerializer<String> implements ContextualSerializer {
 
+	/**
+	 * json 脱敏处理注解
+	 */
 	private Annotation jsonDesensitizeAnnotation;
-
-	/**
-	 * 滑动脱敏处理器
-	 */
-	private final SlideDesensitizationHandler slideDesensitizationHandler = new SlideDesensitizationHandler();
-
-	/**
-	 * 正则脱敏处理器
-	 */
-	private final RegexDesensitizationHandler regexDesensitizationHandler = new RegexDesensitizationHandler();
 
 	/**
 	 * 脱敏注解Class列表
@@ -56,8 +50,8 @@ public class JsonDesensitizeSerializer extends JsonSerializer<String> implements
 			// Simple 类型处理
 			JsonSimpleDesensitize an = (JsonSimpleDesensitize) this.jsonDesensitizeAnnotation;
 			Class<? extends SimpleDesensitizationHandler> handlerClass = an.handler();
-			SimpleDesensitizationHandler desensitizationHandler = SimpleDesensitizationHandlerHolder
-					.getHandler(handlerClass);
+			SimpleDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
+					.getSimpleHandler(handlerClass);
 			Assert.notNull(desensitizationHandler, "SimpleDesensitizationHandler can not be Null");
 			str = desensitizationHandler.handle(value);
 		}
@@ -65,6 +59,8 @@ public class JsonDesensitizeSerializer extends JsonSerializer<String> implements
 			// 正则类型脱敏处理
 			JsonRegexDesensitize an = (JsonRegexDesensitize) this.jsonDesensitizeAnnotation;
 			RegexDesensitizationTypeEnum type = an.type();
+			RegexDesensitizationHandler regexDesensitizationHandler = DesensitizationHandlerHolder
+					.getRegexDesensitizationHandler();
 			str = RegexDesensitizationTypeEnum.CUSTOM.equals(type)
 					? regexDesensitizationHandler.handle(value, an.regex(), an.replacement())
 					: regexDesensitizationHandler.handle(value, type);
@@ -73,6 +69,8 @@ public class JsonDesensitizeSerializer extends JsonSerializer<String> implements
 			// 滑动类型脱敏处理
 			JsonSlideDesensitize an = (JsonSlideDesensitize) this.jsonDesensitizeAnnotation;
 			SlideDesensitizationTypeEnum type = an.type();
+			SlideDesensitizationHandler slideDesensitizationHandler = DesensitizationHandlerHolder
+					.getSlideDesensitizationHandler();
 			str = SlideDesensitizationTypeEnum.CUSTOM.equals(type) ? slideDesensitizationHandler.handle(value,
 					an.leftPlainTextLen(), an.rightPlainTextLen(), an.maskString())
 					: slideDesensitizationHandler.handle(value, type);

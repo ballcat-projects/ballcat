@@ -1,8 +1,8 @@
-package com.hccake.ballcat.common.desensitize.annotation;
+package com.hccake.ballcat.common.desensitize.json.annotation;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.hccake.ballcat.common.desensitize.JsonDesensitizeSerializer;
+import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializer;
 import com.hccake.ballcat.common.desensitize.enums.SlideDesensitizationTypeEnum;
 import com.hccake.ballcat.common.desensitize.handler.SlideDesensitizationHandler;
 

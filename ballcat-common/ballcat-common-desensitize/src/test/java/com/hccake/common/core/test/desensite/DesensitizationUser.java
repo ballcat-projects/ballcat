@@ -1,8 +1,8 @@
 package com.hccake.common.core.test.desensite;
 
-import com.hccake.ballcat.common.desensitize.annotation.JsonRegexDesensitize;
-import com.hccake.ballcat.common.desensitize.annotation.JsonSimpleDesensitize;
-import com.hccake.ballcat.common.desensitize.annotation.JsonSlideDesensitize;
+import com.hccake.ballcat.common.desensitize.json.annotation.JsonRegexDesensitize;
+import com.hccake.ballcat.common.desensitize.json.annotation.JsonSimpleDesensitize;
+import com.hccake.ballcat.common.desensitize.json.annotation.JsonSlideDesensitize;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.desensitize.enums.SlideDesensitizationTypeEnum;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hccake.ballcat.common.desensitize.annotation.JsonRegexDesensitize;
+import com.hccake.ballcat.common.desensitize.json.annotation.JsonRegexDesensitize;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
