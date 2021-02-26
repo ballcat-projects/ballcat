@@ -11,7 +11,7 @@ import java.util.function.BiConsumer;
 /**
  * @author lingting 2021/2/26 10:32
  */
-public class FastjsonAdapter implements JsonAdapter {
+public class FastjsonJsonToolAdapter implements JsonTool {
 
 	/**
 	 * json str -> obj 时
@@ -54,11 +54,11 @@ public class FastjsonAdapter implements JsonAdapter {
 	@Override
 	public <T> T toObj(String json, TypeReference<T> t) {
 		/*
-		由于 fastjson 下面这个方法
-		com.alibaba.fastjson.JSON.parseObject(java.lang.String, com.alibaba.fastjson.TypeReference<T>, com.alibaba
-		.fastjson.parser.Feature...)
-		直接调用了 type.type, 而不是使用的 getType()方法. 所以使用 com.debug.json.FastjsonAdapter.toObj(java.lang.String, java.lang
-		.reflect.Type) 方法
+		 * 由于 fastjson 下面这个方法 com.alibaba.fastjson.JSON.parseObject(java.lang.String,
+		 * com.alibaba.fastjson.TypeReference<T>, com.alibaba .fastjson.parser.Feature...)
+		 * 直接调用了 type.type, 而不是使用的 getType()方法. 所以使用
+		 * com.debug.json.FastjsonAdapter.toObj(java.lang.String, java.lang .reflect.Type)
+		 * 方法
 		 */
 
 		return toObj(json, t.getType());

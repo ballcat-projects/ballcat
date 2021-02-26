@@ -4,14 +4,15 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.sample.pay.virtual.domain.Result;
 import com.hccake.sample.pay.virtual.entity.Order;
 import com.hccake.starter.pay.viratual.AbstractVerifyThread;
+import live.lingting.virtual.currency.Transaction;
+import live.lingting.virtual.currency.enums.TransactionStatus;
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
-import live.lingting.virtual.currency.Transaction;
-import live.lingting.virtual.currency.enums.TransactionStatus;
 
 /**
  * 配置基本校验
@@ -108,15 +109,13 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 	@Override
 	public void success(Order obj, Optional<Transaction> optional, Result verifyResult) {
 		log.info("交易成功, 订单数据: {}, 交易信息: {}, 结果: {}", JsonUtils.toJson(obj),
-				!optional.isPresent() ? "null" : JsonUtils.toJson(optional.get()),
-				JsonUtils.toJson(verifyResult));
+				!optional.isPresent() ? "null" : JsonUtils.toJson(optional.get()), JsonUtils.toJson(verifyResult));
 	}
 
 	@Override
 	public void failed(Order obj, Optional<Transaction> optional, Result verifyResult) {
 		log.info("交易失败, 订单数据: {}, 交易信息: {}, 结果: {}", JsonUtils.toJson(obj),
-				!optional.isPresent() ? "null" : JsonUtils.toJson(optional.get()),
-				JsonUtils.toJson(verifyResult));
+				!optional.isPresent() ? "null" : JsonUtils.toJson(optional.get()), JsonUtils.toJson(verifyResult));
 	}
 
 	@Override

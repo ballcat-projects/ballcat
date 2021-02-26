@@ -2,14 +2,15 @@ package com.hccake.ballcat.common.util.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Getter;
+
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
-import lombok.Getter;
 
 /**
  * @author lingting 2021/2/26 10:22
  */
-public class GsonAdapter implements JsonAdapter {
+public class GsonJsonToolAdapter implements JsonTool {
 
 	@Getter
 	static Gson gson = new GsonBuilder().create();
@@ -37,12 +38,12 @@ public class GsonAdapter implements JsonAdapter {
 
 	@Override
 	public <T> T toObj(String json, Class<T> r) {
-		return gson.fromJson(json,r);
+		return gson.fromJson(json, r);
 	}
 
 	@Override
 	public <T> T toObj(String json, Type t) {
-		return gson.fromJson(json,t);
+		return gson.fromJson(json, t);
 	}
 
 	@Override

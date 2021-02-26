@@ -33,4 +33,5 @@ public class WxPayConstant {
 	 */
 	public static String CALLBACK_SIGN_ERROR = "<xml>\n" + "  <return_code><![CDATA[FAIL]]></return_code>\n"
 			+ "  <return_msg><![CDATA[签名异常]]></return_msg>\n" + "</xml>";
+
 }

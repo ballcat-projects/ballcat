@@ -4,16 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.starte.pay.wx.enums.ResponseCode;
 import com.hccake.starte.pay.wx.enums.TradeType;
-import java.util.Map;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.Map;
 
 /**
  * @author lingting 2021/2/1 11:38
  */
 @Data
 @Accessors(chain = true)
-public class WxPayResponse  {
+public class WxPayResponse {
 
 	public static WxPayResponse of(Map<String, String> res) {
 		return JsonUtils.toObj(JsonUtils.toJson(res), WxPayResponse.class).setRaw(res);

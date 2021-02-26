@@ -10,7 +10,7 @@ import lombok.SneakyThrows;
 /**
  * @author lingting 2021/2/25 21:04
  */
-public class JacksonAdapter implements JsonAdapter {
+public class JacksonJsonToolAdapter implements JsonTool {
 
 	@Getter
 	static ObjectMapper mapper = new ObjectMapper();

@@ -23,12 +23,13 @@ public enum SignType {
 
 	private final String str;
 
-	public static SignType of(String str){
-		for (SignType e: values()){
-			if (e.str.equals(str)){
+	public static SignType of(String str) {
+		for (SignType e : values()) {
+			if (e.str.equals(str)) {
 				return e;
 			}
 		}
 		return null;
 	}
+
 }

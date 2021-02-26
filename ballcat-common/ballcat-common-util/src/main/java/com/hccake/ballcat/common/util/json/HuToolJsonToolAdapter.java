@@ -2,14 +2,15 @@ package com.hccake.ballcat.common.util.json;
 
 import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
+import lombok.Getter;
+
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
-import lombok.Getter;
 
 /**
  * @author lingting 2021/2/26 10:00
  */
-public class HuToolJsonAdapter implements JsonAdapter {
+public class HuToolJsonToolAdapter implements JsonTool {
 
 	@Getter
 	static JSONConfig jsonConfig = JSONConfig.create();

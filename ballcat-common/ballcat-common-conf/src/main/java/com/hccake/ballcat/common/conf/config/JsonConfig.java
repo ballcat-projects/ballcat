@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.core.jackson.JavaTimeModule;
 import com.hccake.ballcat.common.core.jackson.NullSerializerModifier;
 import com.hccake.ballcat.common.util.JsonUtils;
-import com.hccake.ballcat.common.util.json.JacksonAdapter;
+import com.hccake.ballcat.common.util.json.JacksonJsonToolAdapter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +26,7 @@ public class JsonConfig {
 	@ConditionalOnClass(ObjectMapper.class)
 	@ConditionalOnMissingBean(ObjectMapper.class)
 	public ObjectMapper objectMapper() {
-		JacksonAdapter adapter = (JacksonAdapter) JsonUtils.getAdapter();
+		JacksonJsonToolAdapter adapter = (JacksonJsonToolAdapter) JsonUtils.getJsonTool();
 		adapter.config(mapper -> {
 			// NULL值修改
 			mapper.setSerializerFactory(
@@ -34,7 +34,7 @@ public class JsonConfig {
 			// 时间解析器
 			mapper.registerModule(new JavaTimeModule());
 		});
-		return JacksonAdapter.getMapper();
+		return JacksonJsonToolAdapter.getMapper();
 	}
 
 }

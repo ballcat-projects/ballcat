@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
  * 
  * @author lingting 2021/2/25 20:43
  */
-public interface JsonAdapter {
+public interface JsonTool {
 
 	/**
 	 * obj -> jsonStr
