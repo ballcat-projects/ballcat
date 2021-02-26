@@ -11,7 +11,7 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.websocket.message.AnnouncementCloseMessage;
 import com.hccake.ballcat.admin.websocket.message.AnnouncementPushMessage;
 import com.hccake.ballcat.admin.websocket.message.DictChangeMessage;
-import com.hccake.ballcat.common.core.util.JacksonUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -44,7 +44,7 @@ public class PushEventListener {
 		// 构建字典修改的消息体
 		DictChangeMessage dictChangeMessage = new DictChangeMessage();
 		dictChangeMessage.setDictCode(event.getDictCode());
-		String msg = JacksonUtils.toJson(dictChangeMessage);
+		String msg = JsonUtils.toJson(dictChangeMessage);
 
 		// 广播修改信息
 		MessageDO messageDO = new MessageDO().setMessageText(msg).setNeedBroadcast(true);
@@ -61,7 +61,7 @@ public class PushEventListener {
 		// 构建字典修改的消息体
 		AnnouncementCloseMessage message = new AnnouncementCloseMessage();
 		message.setId(event.getId());
-		String msg = JacksonUtils.toJson(message);
+		String msg = JsonUtils.toJson(message);
 
 		// 广播修改信息
 		MessageDO messageDO = new MessageDO().setMessageText(msg).setNeedBroadcast(true);
@@ -88,7 +88,7 @@ public class PushEventListener {
 			message.setContent(announcementNotifyInfo.getContent());
 			message.setImmortal(announcementNotifyInfo.getImmortal());
 			message.setDeadline(announcementNotifyInfo.getDeadline());
-			String msg = JacksonUtils.toJson(message);
+			String msg = JsonUtils.toJson(message);
 
 			List<UserAnnouncement> userAnnouncements = new ArrayList<>();
 			List<Object> sessionKeys = new ArrayList<>();

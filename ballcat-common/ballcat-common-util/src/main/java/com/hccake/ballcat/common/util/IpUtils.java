@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.util;
+package com.hccake.ballcat.common.util;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.extra.servlet.ServletUtil;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Hccake
  */
-public class IPUtil {
+public class IpUtils {
 
 	/**
 	 * 如果在前端和服务端中间还有一层Node服务 在Node对前端数据进行处理并发起新请求时，需携带此头部信息 便于获取真实IP

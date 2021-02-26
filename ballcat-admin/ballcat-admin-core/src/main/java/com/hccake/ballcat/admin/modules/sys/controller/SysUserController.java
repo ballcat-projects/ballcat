@@ -20,7 +20,7 @@ import com.hccake.ballcat.common.core.domain.SelectData;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
-import com.hccake.ballcat.common.core.util.PasswordUtil;
+import com.hccake.ballcat.common.util.PasswordUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -99,7 +99,7 @@ public class SysUserController {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "用户名已存在");
 		}
 		// 明文密码
-		String password = PasswordUtil.decodeAES(sysUserDTO.getPass(), passwordSecretKey);
+		String password = PasswordUtils.decodeAES(sysUserDTO.getPass(), passwordSecretKey);
 		sysUserDTO.setPassword(password);
 		return sysUserService.addSysUser(sysUserDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增系统用户失败");
@@ -180,7 +180,7 @@ public class SysUserController {
 		}
 
 		// 明文密码
-		String password = PasswordUtil.decodeAES(pass, passwordSecretKey);
+		String password = PasswordUtils.decodeAES(pass, passwordSecretKey);
 		return sysUserService.updatePassword(userId, password) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改用户密码失败！");
 	}

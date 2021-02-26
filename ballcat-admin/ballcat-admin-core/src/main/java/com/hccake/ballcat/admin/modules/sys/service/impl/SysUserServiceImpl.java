@@ -22,7 +22,7 @@ import com.hccake.ballcat.admin.modules.sys.service.*;
 import com.hccake.ballcat.common.core.domain.PageParam;
 import com.hccake.ballcat.common.core.domain.PageResult;
 import com.hccake.ballcat.common.core.domain.SelectData;
-import com.hccake.ballcat.common.core.util.PasswordUtil;
+import com.hccake.ballcat.common.util.PasswordUtils;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -133,7 +133,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
 		// 对密码进行 BCrypt 加密
 		String password = sysUserDto.getPassword();
-		String bCryptPassword = PasswordUtil.encodeBCrypt(password);
+		String bCryptPassword = PasswordUtils.encodeBCrypt(password);
 		sysUser.setPassword(bCryptPassword);
 		boolean result = SqlHelper.retBool(baseMapper.insert(sysUser));
 		if (result) {
@@ -191,7 +191,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	public boolean updatePassword(Integer userId, String password) {
 		Assert.isTrue(adminUserChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		// BCrypt 加密
-		String bCryptPassword = PasswordUtil.encodeBCrypt(password);
+		String bCryptPassword = PasswordUtils.encodeBCrypt(password);
 		return baseMapper.updatePassword(userId, bCryptPassword);
 	}
 

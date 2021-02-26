@@ -1,7 +1,7 @@
 package com.hccake.starte.pay.wx.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hccake.ballcat.common.core.util.JacksonUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.starte.pay.wx.WxPay;
 import com.hccake.starte.pay.wx.enums.ResponseCode;
 import com.hccake.starte.pay.wx.enums.TradeType;
@@ -68,7 +68,7 @@ public class WxPayCallback {
 	private ResponseCode returnCode;
 
 	public static WxPayCallback of(Map<String, String> res) {
-		return JacksonUtils.toObj(JacksonUtils.toJson(res), WxPayCallback.class).setRaw(res);
+		return JsonUtils.toObj(JsonUtils.toJson(res), WxPayCallback.class).setRaw(res);
 	}
 
 	/**

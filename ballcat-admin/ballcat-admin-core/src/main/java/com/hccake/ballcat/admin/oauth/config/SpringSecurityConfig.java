@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.oauth.config;
 
 import com.hccake.ballcat.admin.oauth.CustomAuthenticationEntryPoint;
 import com.hccake.ballcat.admin.oauth.mobile.MobileAuthenticationProvider;
-import com.hccake.ballcat.common.core.util.PasswordUtil;
+import com.hccake.ballcat.common.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Bean
 	protected PasswordEncoder passwordEncoder() {
-		return PasswordUtil.ENCODER;
+		return PasswordUtils.ENCODER;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.websocket.distribute;
 
-import com.hccake.ballcat.common.core.util.JacksonUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
@@ -30,7 +30,7 @@ public class RedisWebsocketMessageListener implements MessageListener, MessageSe
 		if (CHANNEL.equals(channel)) {
 			byte[] bodyBytes = message.getBody();
 			String body = stringSerializer.deserialize(bodyBytes);
-			MessageDO messageDO = JacksonUtils.toObj(body, MessageDO.class);
+			MessageDO messageDO = JsonUtils.toObj(body, MessageDO.class);
 			doSend(messageDO);
 		}
 	}

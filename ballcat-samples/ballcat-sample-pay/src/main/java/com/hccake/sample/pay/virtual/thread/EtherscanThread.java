@@ -1,6 +1,6 @@
 package com.hccake.sample.pay.virtual.thread;
 
-import com.hccake.ballcat.common.core.util.JacksonUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.sample.pay.virtual.entity.Order;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class EtherscanThread extends AbstractThread {
 			return service.getTransactionByHash(obj.getHash());
 		}
 		catch (Throwable e) {
-			log.error("查询订单出错, 订单: " + JacksonUtils.toJson(obj), e);
+			log.error("查询订单出错, 订单: " + JsonUtils.toJson(obj), e);
 			// 查询出错, 返回 empty
 			return Optional.empty();
 		}

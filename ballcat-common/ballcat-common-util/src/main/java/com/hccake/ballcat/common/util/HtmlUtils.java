@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.util;
+package com.hccake.ballcat.common.util;
 
 import cn.hutool.core.util.StrUtil;
 import org.jsoup.Jsoup;
@@ -9,7 +9,7 @@ import org.jsoup.safety.Whitelist;
  * @author Hccake 2020/12/21
  * @version 1.0
  */
-public class HtmlUtil {
+public class HtmlUtils {
 
 	/**
 	 * html 转字符串，保留换行样式

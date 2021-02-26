@@ -126,7 +126,7 @@
 - feat: 角色新增 scopeType，暂时支持全部，本人，本部门，本人及子部门等几种范围类型
 - feat: 新增短信发送 stater
 - feat: excel导出支持自定义头信息
-- feat: 新增 JacksonUtils，方便全局统一 objectMapper 配置
+- feat: 新增 JsonUtils，方便全局统一 objectMapper 配置
 
 ### Changed
 

@@ -12,7 +12,7 @@ import com.hccake.ballcat.commom.log.constant.LogConstant;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.desensitize.handler.RegexDesensitizationHandler;
-import com.hccake.ballcat.common.core.util.IPUtil;
+import com.hccake.ballcat.common.util.IpUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -73,7 +73,7 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 				.setTraceId(MDC.get(LogConstant.TRACE_ID))
 				.setCreateTime(LocalDateTime.now())
 				.setTime(time)
-				.setIp(IPUtil.getIpAddr(request))
+				.setIp(IpUtils.getIpAddr(request))
 				.setMethod(request.getMethod())
 				.setUserAgent(request.getHeader("user-agent"))
 				.setUri(uri)
