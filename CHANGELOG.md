@@ -29,7 +29,7 @@
 - feat: 密码在日志中的存储脱敏
 - feat: 数据权限注解提供对于指定 Mapper类，或指定方法的数据权限关闭功能
 - feat: 添加 JsonUtils 根据依赖执行对应的json处理方法
-- feat: 添加 RedisHelpers 提供对redis的常用方法支持
+- feat: 添加 RedisHelper 提供对redis的常用方法支持
 - test: 对 client test 跳过登陆验证和密码解密，便于测试，注意生产环境不要开启 test client
 
 ### Changed

@@ -28,7 +28,7 @@ import org.springframework.lang.Nullable;
  * @author lingting 2020/4/17 11:49
  */
 @Slf4j
-public class RedisHelpers {
+public class RedisHelper {
 
 	@Getter
 	@Setter
