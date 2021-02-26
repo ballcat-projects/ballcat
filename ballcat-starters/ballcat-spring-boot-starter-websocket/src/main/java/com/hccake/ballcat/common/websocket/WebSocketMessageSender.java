@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.websocket;
 
-import com.hccake.ballcat.common.core.util.JacksonUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.websocket.holder.WebSocketSessionHolder;
 import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ public class WebSocketMessageSender {
 	}
 
 	public static void send(WebSocketSession session, JsonWebSocketMessage message) {
-		send(session, JacksonUtils.toJson(message));
+		send(session, JsonUtils.toJson(message));
 	}
 
 	public static boolean send(WebSocketSession session, String message) {

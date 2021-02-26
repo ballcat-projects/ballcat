@@ -1,6 +1,6 @@
 package com.hccake.sample.pay.virtual.thread;
 
-import com.hccake.ballcat.common.core.util.JacksonUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.sample.pay.virtual.domain.Result;
 import com.hccake.sample.pay.virtual.entity.Order;
 import com.hccake.starter.pay.viratual.AbstractVerifyThread;
@@ -31,7 +31,7 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 	@Override
 	public void errorLog(Throwable e, List<Order> list) {
 		// 读取缓存 和 接收数据时出现异常执行此方法
-		log.error("读取缓存 和 接收数据时出现异常执行此方法, 数据: " + JacksonUtils.toJson(list), e);
+		log.error("读取缓存 和 接收数据时出现异常执行此方法, 数据: " + JsonUtils.toJson(list), e);
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 	@Override
 	public void error(Order obj, Throwable e) {
 		// 校验订单 和 获取交易数据时出现异常执行此方法
-		log.error("校验订单 和 获取交易数据时出现异常执行此方法, 出错订单: " + JacksonUtils.toJson(obj), e);
+		log.error("校验订单 和 获取交易数据时出现异常执行此方法, 出错订单: " + JsonUtils.toJson(obj), e);
 
 		// 可根据业务需求在此进行其他处理.
 
@@ -107,16 +107,16 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 
 	@Override
 	public void success(Order obj, Optional<Transaction> optional, Result verifyResult) {
-		log.info("交易成功, 订单数据: {}, 交易信息: {}, 结果: {}", JacksonUtils.toJson(obj),
-				!optional.isPresent() ? "null" : JacksonUtils.toJson(optional.get()),
-				JacksonUtils.toJson(verifyResult));
+		log.info("交易成功, 订单数据: {}, 交易信息: {}, 结果: {}", JsonUtils.toJson(obj),
+				!optional.isPresent() ? "null" : JsonUtils.toJson(optional.get()),
+				JsonUtils.toJson(verifyResult));
 	}
 
 	@Override
 	public void failed(Order obj, Optional<Transaction> optional, Result verifyResult) {
-		log.info("交易失败, 订单数据: {}, 交易信息: {}, 结果: {}", JacksonUtils.toJson(obj),
-				!optional.isPresent() ? "null" : JacksonUtils.toJson(optional.get()),
-				JacksonUtils.toJson(verifyResult));
+		log.info("交易失败, 订单数据: {}, 交易信息: {}, 结果: {}", JsonUtils.toJson(obj),
+				!optional.isPresent() ? "null" : JsonUtils.toJson(optional.get()),
+				JsonUtils.toJson(verifyResult));
 	}
 
 	@Override

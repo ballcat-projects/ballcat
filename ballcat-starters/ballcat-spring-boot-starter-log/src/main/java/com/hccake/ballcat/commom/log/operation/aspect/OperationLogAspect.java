@@ -9,7 +9,7 @@ import com.hccake.ballcat.commom.log.operation.enums.LogStatusEnum;
 import com.hccake.ballcat.commom.log.operation.event.OperationLogEvent;
 import com.hccake.ballcat.commom.log.operation.model.OperationLogDTO;
 import com.hccake.ballcat.commom.log.util.LogUtils;
-import com.hccake.ballcat.common.core.util.IPUtil;
+import com.hccake.ballcat.common.util.IpUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -102,7 +102,7 @@ public class OperationLogAspect {
 		// @formatter:off
 		return new OperationLogDTO()
 				.setCreateTime(LocalDateTime.now())
-				.setIp(IPUtil.getIpAddr(request))
+				.setIp(IpUtils.getIpAddr(request))
 				.setMethod(request.getMethod())
 				.setOperator(Objects.requireNonNull(LogUtils.getUsername()))
 				.setStatus(LogStatusEnum.SUCCESS.getValue())

@@ -9,7 +9,7 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysOrganization;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysOrganizationTree;
 import com.hccake.ballcat.admin.modules.sys.service.SysOrganizationService;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
-import com.hccake.ballcat.common.core.util.TreeUtil;
+import com.hccake.ballcat.common.util.TreeUtils;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	@Override
 	public List<SysOrganizationTree> listTree() {
 		List<SysOrganization> list = baseMapper.selectList(null);
-		return TreeUtil.buildTree(list, 0, SysOrganizationConverter.INSTANCE::poToTree);
+		return TreeUtils.buildTree(list, 0, SysOrganizationConverter.INSTANCE::poToTree);
 	}
 
 	/**

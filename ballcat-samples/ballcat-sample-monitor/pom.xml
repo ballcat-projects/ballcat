@@ -35,7 +35,7 @@
         <!-- ballcat-common-core -->
         <dependency>
             <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-core</artifactId>
+            <artifactId>ballcat-common-util</artifactId>
         </dependency>
 
     </dependencies>

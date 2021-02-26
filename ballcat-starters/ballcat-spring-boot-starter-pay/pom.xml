@@ -32,7 +32,7 @@
 
         <dependency>
             <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-core</artifactId>
+            <artifactId>ballcat-common-util</artifactId>
         </dependency>
 
         <!-- spring boot 配置所需依赖 -->

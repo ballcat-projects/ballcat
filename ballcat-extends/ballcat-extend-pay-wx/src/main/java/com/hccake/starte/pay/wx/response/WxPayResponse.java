@@ -1,15 +1,11 @@
 package com.hccake.starte.pay.wx.response;
 
-import static com.hccake.starte.pay.wx.enums.ResponseCode.SUCCESS;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hccake.ballcat.common.core.util.JacksonUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.starte.pay.wx.enums.ResponseCode;
 import com.hccake.starte.pay.wx.enums.TradeType;
 import java.util.Map;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
@@ -20,7 +16,7 @@ import lombok.experimental.Accessors;
 public class WxPayResponse  {
 
 	public static WxPayResponse of(Map<String, String> res) {
-		return JacksonUtils.toObj(JacksonUtils.toJson(res), WxPayResponse.class).setRaw(res);
+		return JsonUtils.toObj(JsonUtils.toJson(res), WxPayResponse.class).setRaw(res);
 	}
 
 	/**

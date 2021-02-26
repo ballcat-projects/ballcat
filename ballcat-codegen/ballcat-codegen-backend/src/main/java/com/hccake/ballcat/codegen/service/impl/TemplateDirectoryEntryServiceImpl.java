@@ -18,7 +18,7 @@ import com.hccake.ballcat.codegen.service.TemplateInfoService;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.result.BaseResultCode;
-import com.hccake.ballcat.common.core.util.TreeUtil;
+import com.hccake.ballcat.common.util.TreeUtils;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -150,10 +150,10 @@ public class TemplateDirectoryEntryServiceImpl
 				// 1. 获取所有目录项（目录项不会太多，一次查询比较方便）
 				List<TemplateDirectoryEntry> entryList = baseMapper.selectList(null);
 				// 2. 获取当前删除目录项的孩子节点列表
-				List<TemplateDirectory> treeList = TreeUtil.buildTree(entryList, entryId,
+				List<TemplateDirectory> treeList = TreeUtils.buildTree(entryList, entryId,
 						TemplateModelConverter.INSTANCE::entryPoToTree);
 				// 3. 获取当前删除目录项的孩子节点Id
-				List<Integer> treeNodeIds = TreeUtil.getTreeNodeIds(treeList);
+				List<Integer> treeNodeIds = TreeUtils.getTreeNodeIds(treeList);
 				// 4. 删除所有孩子节点
 				if (CollectionUtil.isNotEmpty(treeNodeIds)) {
 					baseMapper.deleteBatchIds(treeNodeIds);
@@ -243,7 +243,7 @@ public class TemplateDirectoryEntryServiceImpl
 		}
 
 		// 转树形目录结构
-		List<TemplateDirectory> treeList = TreeUtil.buildTree(list, GlobalConstants.TREE_ROOT_ID,
+		List<TemplateDirectory> treeList = TreeUtils.buildTree(list, GlobalConstants.TREE_ROOT_ID,
 				TemplateModelConverter.INSTANCE::entryPoToTree);
 
 		// 填充模板文件

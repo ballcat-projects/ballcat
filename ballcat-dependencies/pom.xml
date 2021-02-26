@@ -51,6 +51,7 @@
 		<knife4j.version>2.0.8</knife4j.version>
 		<kafka.version>2.5.0</kafka.version>
 		<hutool.version>5.5.8</hutool.version>
+		<fastjson.version>1.2.9</fastjson.version>
 		<mybatis-plus.version>3.4.2</mybatis-plus.version>
 		<dynamic-datasource.version>3.3.1</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
@@ -131,6 +132,11 @@
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-common-core</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-util</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -353,6 +359,19 @@
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-extra</artifactId>
 				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-json</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<!-- fastjson -->
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+				<optional>true</optional>
 			</dependency>
 			<!--配置文件加密-->
 			<dependency>

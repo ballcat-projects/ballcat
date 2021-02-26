@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.util;
+package com.hccake.ballcat.common.util;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.crypto.Mode;
@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
  * @version 1.0
  * @date 2019/9/25 15:14
  */
-public class PasswordUtil {
+public class PasswordUtils {
 
 	public static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
 

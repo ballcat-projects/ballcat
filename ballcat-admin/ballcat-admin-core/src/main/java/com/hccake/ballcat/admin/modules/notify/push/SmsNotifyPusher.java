@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.admin.constants.NotifyChannel;
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
-import com.hccake.ballcat.common.core.util.HtmlUtil;
+import com.hccake.ballcat.common.util.HtmlUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class SmsNotifyPusher implements NotifyPusher {
 		List<String> phoneList = userList.stream().map(SysUser::getPhone).filter(StrUtil::isNotBlank)
 				.collect(Collectors.toList());
 		// 短信文本去除 html 标签
-		String content = HtmlUtil.toText(notifyInfo.getContent());
+		String content = HtmlUtils.toText(notifyInfo.getContent());
 		// TODO 对接短信发送平台
 		System.out.println("短信推送");
 	}

@@ -7,6 +7,7 @@ import com.hccake.ballcat.common.redis.serialize.CacheSerializer;
 import com.hccake.ballcat.common.redis.serialize.JacksonSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixJdkRedisSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixStringRedisSerializer;
+import com.hccake.ballcat.common.redis.RedisHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -95,6 +96,13 @@ public class RedisAutoConfiguration {
 		template.setConnectionFactory(redisConnectionFactory);
 		template.setKeySerializer(new PrefixJdkRedisSerializer(CachePropertiesHolder.keyPrefix()));
 		return template;
+	}
+
+	@Bean(name = "com.hccake.ballcat.common.redis.RedisHelpers")
+	@ConditionalOnMissingBean(RedisHelper.class)
+	public RedisHelper redis(StringRedisTemplate template) {
+		RedisHelper.setTemplate(template);
+		return new RedisHelper();
 	}
 
 }

@@ -1,9 +1,7 @@
 package com.hccake.starte.pay.ali.domain;
 
-import static com.hccake.ballcat.common.core.util.JacksonUtils.toJson;
-import static com.hccake.ballcat.common.core.util.JacksonUtils.toObj;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.starte.pay.ali.enums.TradeStatus;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -28,10 +26,10 @@ public class AliPayCallback {
 	public static AliPayCallback of(Map<String, String> callbackParams) {
 		Map<String, Object> map = new HashMap<>(callbackParams);
 		String fundBillListStr = callbackParams.get("fund_bill_list").replaceAll("&quot;", "\"");
-		map.put("fund_bill_list", toObj(fundBillListStr, List.class));
+		map.put("fund_bill_list", JsonUtils.toObj(fundBillListStr, List.class));
 		// 覆盖原值
 		callbackParams.put("fund_bill_list", fundBillListStr);
-		return toObj(toJson(map), AliPayCallback.class);
+		return JsonUtils.toObj(JsonUtils.toJson(map), AliPayCallback.class);
 	}
 
 	@JsonProperty("gmt_create")

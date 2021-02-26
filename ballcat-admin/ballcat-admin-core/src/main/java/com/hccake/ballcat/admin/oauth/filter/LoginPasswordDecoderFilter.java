@@ -6,7 +6,7 @@ import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.core.result.R;
 import com.hccake.ballcat.common.core.result.SystemResultCode;
-import com.hccake.ballcat.common.core.util.PasswordUtil;
+import com.hccake.ballcat.common.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +58,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		Map<String, String[]> parameterMap = new HashMap<>(request.getParameterMap());
 		try {
 			if (request.getParameter(GRANT_TYPE).equals(PASSWORD)) {
-				String password = PasswordUtil.decodeAES(request.getParameter(PASSWORD), secretKey);
+				String password = PasswordUtils.decodeAES(request.getParameter(PASSWORD), secretKey);
 				parameterMap.put(PASSWORD, new String[] { password });
 			}
 		}

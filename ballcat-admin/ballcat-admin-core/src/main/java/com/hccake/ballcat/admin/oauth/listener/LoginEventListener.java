@@ -8,7 +8,7 @@ import com.hccake.ballcat.admin.modules.log.service.AdminLoginLogService;
 import com.hccake.ballcat.commom.log.constant.LogConstant;
 import com.hccake.ballcat.commom.log.operation.enums.LogStatusEnum;
 import com.hccake.ballcat.commom.log.util.LogUtils;
-import com.hccake.ballcat.common.core.util.IPUtil;
+import com.hccake.ballcat.common.util.IpUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.MDC;
 import org.springframework.context.event.EventListener;
@@ -89,7 +89,7 @@ public class LoginEventListener {
 		// 获取 Request
 		HttpServletRequest request = LogUtils.getHttpServletRequest();
 		AdminLoginLog adminLoginLog = new AdminLoginLog().setLoginTime(LocalDateTime.now())
-				.setIp(IPUtil.getIpAddr(request)).setStatus(LogStatusEnum.SUCCESS.getValue())
+				.setIp(IpUtils.getIpAddr(request)).setStatus(LogStatusEnum.SUCCESS.getValue())
 				.setTraceId(MDC.get(LogConstant.TRACE_ID)).setUsername(source.getName());
 		// 根据 ua 获取浏览器和操作系统
 		UserAgent ua = UserAgentUtil.parse(request.getHeader("user-agent"));

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.websocket.distribute;
 
-import com.hccake.ballcat.common.core.util.JacksonUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -21,7 +21,7 @@ public class RedisMessageDistributor implements MessageDistributor {
 	 */
 	@Override
 	public void distribute(MessageDO messageDO) {
-		String str = JacksonUtils.toJson(messageDO);
+		String str = JsonUtils.toJson(messageDO);
 		stringRedisTemplate.convertAndSend(RedisWebsocketMessageListener.CHANNEL, str);
 	}
 

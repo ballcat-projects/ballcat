@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.util;
+package com.hccake.ballcat.common.util;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.core.tree.TreeNode;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 @UtilityClass
-public class TreeUtil {
+public class TreeUtils {
 
 	/**
 	 * 根据一个TreeNode集合，返回构建好的树列表
@@ -27,7 +27,7 @@ public class TreeUtil {
 	 * @return 树列表
 	 */
 	public <T extends TreeNode<I>, I> List<T> buildTree(List<T> nodes, I rootId) {
-		return TreeUtil.buildTree(nodes, rootId, Function.identity());
+		return TreeUtils.buildTree(nodes, rootId, Function.identity());
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class TreeUtil {
 		// 根据根节点ID拿到一级节点
 		List<T> treeList = childrenMap.get(rootId);
 		// 遍历所有一级节点，赋值其子节点
-		treeList.forEach(node -> TreeUtil.setChildren(node, childrenMap));
+		treeList.forEach(node -> TreeUtils.setChildren(node, childrenMap));
 		return treeList;
 	}
 
@@ -65,7 +65,7 @@ public class TreeUtil {
 		// 如果有孩子节点则赋值，且给孩子节点的孩子节点赋值
 		if (CollectionUtil.isNotEmpty(children)) {
 			parent.setChildren(children);
-			children.forEach(node -> TreeUtil.setChildren(node, childrenMap));
+			children.forEach(node -> TreeUtils.setChildren(node, childrenMap));
 		}
 		else {
 			parent.setChildren(new ArrayList<>());

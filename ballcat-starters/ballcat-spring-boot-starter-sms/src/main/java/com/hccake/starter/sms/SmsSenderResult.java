@@ -1,9 +1,8 @@
 package com.hccake.starter.sms;
 
 import cn.hutool.core.convert.Convert;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hccake.ballcat.common.core.util.SpringUtil;
+import com.hccake.ballcat.common.util.JsonUtils;
+import com.hccake.ballcat.common.util.json.TypeReference;
 import com.hccake.starter.sms.enums.TypeEnum;
 import java.util.Map;
 import java.util.Set;
@@ -19,10 +18,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(chain = true)
 public class SmsSenderResult {
-
-	public static ObjectMapper getObjectMapper() {
-		return SpringUtil.getBean(ObjectMapper.class);
-	}
 
 	/**
 	 * 状态字段名
@@ -85,7 +80,7 @@ public class SmsSenderResult {
 		SmsSenderResult result = new SmsSenderResult();
 		result.success = false;
 		result.msg = "短信发送失败，出现异常:" + e.getMessage() + "," + id;
-		result.target = getObjectMapper().writeValueAsString(phoneNumbers);
+		result.target = JsonUtils.toJson(phoneNumbers);
 		result.platform = platform.name();
 		return result;
 	}
@@ -102,7 +97,7 @@ public class SmsSenderResult {
 		// 没有异常就是成功!
 		result.success = true;
 		result.platform = TypeEnum.TENCENT.name();
-		result.target = getObjectMapper().writeValueAsString(phoneNumbers);
+		result.target = JsonUtils.toJson(phoneNumbers);
 		result.req = req;
 		return result;
 	}
@@ -114,10 +109,10 @@ public class SmsSenderResult {
 		// 没有异常就是成功!
 		result.success = true;
 		result.platform = TypeEnum.TIAN_YI_HONG.name();
-		result.target = getObjectMapper().writeValueAsString(phoneNumbers);
+		result.target = JsonUtils.toJson(phoneNumbers);
 		result.req = req;
 
-		Map<String, Object> map = getObjectMapper().readValue(resp, new TypeReference<Map<String, Object>>() {
+		Map<String, Object> map = JsonUtils.toObj(resp, new TypeReference<Map<String, Object>>() {
 		});
 		if (Convert.toInt(map.get(TIAN_YI_HONG_STATUS), -1) < 0) {
 			result.success = false;
@@ -129,7 +124,7 @@ public class SmsSenderResult {
 	@SneakyThrows
 	@Override
 	public String toString() {
-		return getObjectMapper().writeValueAsString(this);
+		return JsonUtils.toJson(this);
 	}
 
 }

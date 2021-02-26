@@ -16,6 +16,7 @@
 
 - 更新了 Service 层的父类，现在无法直接使用 service 对象，进行 Wrapper 条件构造
 - 更新了分页查询的排序参数，前端需要对应升级
+- 工具类移动到 common-util 模块, 相应包名已更改,请注意
 
 ### Added
 
@@ -27,6 +28,8 @@
 - feat: 分页查询出入参封装，提供 PageParam 作为入参，PageResult 作为出参，不再用 Page 贯穿
 - feat: 密码在日志中的存储脱敏
 - feat: 数据权限注解提供对于指定 Mapper类，或指定方法的数据权限关闭功能
+- feat: 添加 JsonUtils 根据依赖执行对应的json处理方法
+- feat: 添加 RedisHelper 提供对redis的常用方法支持
 - test: 对 client test 跳过登陆验证和密码解密，便于测试，注意生产环境不要开启 test client
 
 ### Changed
@@ -58,6 +61,7 @@
 - 移除 mybatis-plus-extend-mysql 扩展包，相关方法移入 mybatis-plus-extend 扩展中
 - 移除 model 的 AR 模式支持
 - 移除 hibernate-validator 的版本指定，改为跟随 spring-boot 的依赖版本
+- 移除 JacksonUtils
 
 ### Dependency
 
