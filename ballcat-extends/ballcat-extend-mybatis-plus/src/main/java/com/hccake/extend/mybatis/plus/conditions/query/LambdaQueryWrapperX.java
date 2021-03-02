@@ -1,7 +1,6 @@
 package com.hccake.extend.mybatis.plus.conditions.query;
 
-import cn.hutool.core.collection.IterUtil;
-import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
@@ -14,7 +13,10 @@ import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
@@ -158,18 +160,13 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 			// 字符串比较特殊，如果是空字符串也不行
 			return StrUtil.isNotBlank((CharSequence) obj);
 		}
-		else if (obj instanceof Map) {
-			return MapUtil.isNotEmpty((Map) obj);
+		else if (obj instanceof Collection) {
+			return CollectionUtil.isNotEmpty((Collection) obj);
 		}
-		else if (obj instanceof Iterable) {
-			return IterUtil.isNotEmpty((Iterable) obj);
+		if (obj.getClass().isArray()) {
+			return ArrayUtil.isNotEmpty(obj);
 		}
-		else if (obj instanceof Iterator) {
-			return IterUtil.isNotEmpty((Iterator) obj);
-		}
-		else {
-			return ArrayUtil.isArray(obj) && ArrayUtil.isNotEmpty(obj);
-		}
+		return true;
 	}
 
 	public LambdaQueryWrapperX<T> eqIfPresent(SFunction<T, ?> column, Object val) {
