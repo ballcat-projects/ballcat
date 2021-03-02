@@ -4,15 +4,14 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.sample.pay.virtual.domain.Result;
 import com.hccake.sample.pay.virtual.entity.Order;
 import com.hccake.starter.pay.viratual.AbstractVerifyThread;
-import live.lingting.virtual.currency.Transaction;
-import live.lingting.virtual.currency.enums.TransactionStatus;
-import lombok.extern.slf4j.Slf4j;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import live.lingting.virtual.currency.Transaction;
+import live.lingting.virtual.currency.enums.TransactionStatus;
 
 /**
  * 配置基本校验
@@ -25,12 +24,12 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 	public final List<Order> CACHE = new ArrayList<>();
 
 	@Override
-	public long getBatchSize() {
+	public int getBatchSize() {
 		return 1;
 	}
 
 	@Override
-	public void errorLog(Throwable e, List<Order> list) {
+	public void error(Throwable e, List<Order> list) {
 		// 读取缓存 和 接收数据时出现异常执行此方法
 		log.error("读取缓存 和 接收数据时出现异常执行此方法, 数据: " + JsonUtils.toJson(list), e);
 	}
