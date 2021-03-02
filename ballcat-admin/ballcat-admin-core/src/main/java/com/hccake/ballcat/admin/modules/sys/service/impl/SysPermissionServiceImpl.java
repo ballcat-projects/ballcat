@@ -7,7 +7,7 @@ import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
 import com.hccake.ballcat.common.core.exception.BusinessException;
-import com.hccake.ballcat.common.core.result.BaseResultCode;
+import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

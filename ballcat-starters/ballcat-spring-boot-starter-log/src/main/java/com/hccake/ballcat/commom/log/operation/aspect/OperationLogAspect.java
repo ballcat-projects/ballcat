@@ -2,7 +2,6 @@ package com.hccake.ballcat.commom.log.operation.aspect;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.commom.log.constant.LogConstant;
 import com.hccake.ballcat.commom.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.commom.log.operation.enums.LogStatusEnum;
@@ -10,6 +9,7 @@ import com.hccake.ballcat.commom.log.operation.event.OperationLogEvent;
 import com.hccake.ballcat.commom.log.operation.model.OperationLogDTO;
 import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.util.IpUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -41,8 +41,6 @@ import java.util.*;
 @Order(0)
 @RequiredArgsConstructor
 public class OperationLogAspect {
-
-	private final ObjectMapper objectMapper;
 
 	private final ApplicationEventPublisher publisher;
 
@@ -150,7 +148,7 @@ public class OperationLogAspect {
 		String params = "";
 		try {
 			// 入参类中的属性可以通过注解进行数据落库脱敏以及忽略等操作
-			params = objectMapper.writeValueAsString(paramsMap);
+			params = JsonUtils.toJson(paramsMap);
 		}
 		catch (Exception e) {
 			log.error("[getParams]，获取方法参数异常，[类名]:{},[方法]:{}", strClassName, strMethodName, e);

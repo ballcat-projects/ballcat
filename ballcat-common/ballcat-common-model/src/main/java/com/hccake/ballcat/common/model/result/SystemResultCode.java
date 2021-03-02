@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.result;
+package com.hccake.ballcat.common.model.result;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

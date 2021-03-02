@@ -114,6 +114,7 @@
 			</dependency>
 
 
+			<!-- ballcat 自身模块版本 -->
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-admin-core</artifactId>
@@ -136,16 +137,19 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-common-util</artifactId>
+				<artifactId>ballcat-common-desensitize</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-common-desensitize</artifactId>
+				<artifactId>ballcat-common-model</artifactId>
 				<version>${revision}</version>
 			</dependency>
-
-
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-util</artifactId>
+				<version>${revision}</version>
+			</dependency>
 			<!-- ballcat-stater -->
 			<dependency>
 				<groupId>com.hccake</groupId>
@@ -212,8 +216,6 @@
 				<artifactId>ballcat-spring-boot-starter-pay</artifactId>
 				<version>${revision}</version>
 			</dependency>
-
-
 			<!-- extends -->
 			<dependency>
 				<groupId>com.hccake</groupId>
@@ -250,6 +252,7 @@
 				<artifactId>ballcat-extend-pay-wx</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
 
 			<!--swagger注解-->
 			<dependency>

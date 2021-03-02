@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.tree;
+package com.hccake.ballcat.common.model.tree;
 
 import lombok.Data;
 

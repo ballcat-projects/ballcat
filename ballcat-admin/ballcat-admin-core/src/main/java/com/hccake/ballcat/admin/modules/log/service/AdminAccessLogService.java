@@ -3,8 +3,8 @@ package com.hccake.ballcat.admin.modules.log.service;
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminAccessLog;
 import com.hccake.ballcat.admin.modules.log.model.qo.AdminAccessLogQO;
 import com.hccake.ballcat.admin.modules.log.model.vo.AdminAccessLogVO;
-import com.hccake.ballcat.common.core.domain.PageParam;
-import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 /**

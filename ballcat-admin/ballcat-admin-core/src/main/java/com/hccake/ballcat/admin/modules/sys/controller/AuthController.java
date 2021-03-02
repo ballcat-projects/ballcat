@@ -1,8 +1,8 @@
 package com.hccake.ballcat.admin.modules.sys.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultCode;
+import com.hccake.ballcat.common.model.result.R;
+import com.hccake.ballcat.common.model.result.SystemResultCode;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;

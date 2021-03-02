@@ -2,10 +2,11 @@ package com.hccake.ballcat.common.util.json;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.lang.reflect.Type;
-import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.SneakyThrows;
+
+import java.lang.reflect.Type;
+import java.util.function.Consumer;
 
 /**
  * @author lingting 2021/2/25 21:04

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.core.exception;
 
-import com.hccake.ballcat.common.core.result.ResultCode;
+import com.hccake.ballcat.common.model.result.ResultCode;
 import lombok.Getter;
 
 /**

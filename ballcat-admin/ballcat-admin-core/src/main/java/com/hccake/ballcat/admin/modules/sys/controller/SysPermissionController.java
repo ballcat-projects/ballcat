@@ -13,7 +13,7 @@ import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
-import com.hccake.ballcat.common.core.result.R;
+import com.hccake.ballcat.common.model.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

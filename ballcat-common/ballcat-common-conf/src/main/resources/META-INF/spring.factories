@@ -5,5 +5,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.hccake.ballcat.common.conf.mybatis.MybatisPlusConfig,\
     com.hccake.ballcat.common.conf.web.WebMvcConfig,\
     com.hccake.ballcat.common.conf.config.ExceptionHandleConfig,\
-    com.hccake.ballcat.common.conf.util.SpringUtils
+    com.hccake.ballcat.common.conf.holder.ApplicationContextHolder
 

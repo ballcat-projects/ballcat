@@ -3,8 +3,8 @@ package com.hccake.ballcat.admin.oauth.exception;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultCode;
+import com.hccake.ballcat.common.model.result.R;
+import com.hccake.ballcat.common.model.result.SystemResultCode;
 
 import java.io.IOException;
 

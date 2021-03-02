@@ -1,9 +1,8 @@
 package com.hccake.ballcat.admin.oauth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultCode;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hccake.ballcat.common.model.result.R;
+import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.util.JsonUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -21,17 +20,14 @@ import java.io.IOException;
  */
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-	@Autowired
-	private ObjectMapper objectMapper;
-
 	@Override
 	public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			AuthenticationException e) throws IOException, ServletException {
 
 		httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
 		httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-		httpServletResponse.getWriter()
-				.write(objectMapper.writeValueAsString(R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage())));
+		R<Object> r = R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage());
+		httpServletResponse.getWriter().write(JsonUtils.toJson(r));
 	}
 
 }

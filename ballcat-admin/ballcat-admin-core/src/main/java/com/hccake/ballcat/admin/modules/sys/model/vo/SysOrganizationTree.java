@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.modules.sys.model.vo;
 
-import com.hccake.ballcat.common.core.tree.TreeNode;
+import com.hccake.ballcat.common.model.tree.TreeNode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

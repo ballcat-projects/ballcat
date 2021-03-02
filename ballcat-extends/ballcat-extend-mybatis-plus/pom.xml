@@ -12,6 +12,15 @@
 	<artifactId>ballcat-extend-mybatis-plus</artifactId>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-core</artifactId>
+		</dependency>
+
 		<!-- mybatis-plus -->
 		<dependency>
 			<groupId>com.baomidou</groupId>
@@ -36,10 +45,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-autoconfigure</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-common-core</artifactId>
 		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>

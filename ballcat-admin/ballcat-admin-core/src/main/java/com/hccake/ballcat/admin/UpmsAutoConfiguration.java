@@ -1,7 +1,6 @@
 package com.hccake.ballcat.admin;
 
 import com.anji.captcha.service.CaptchaService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.admin.constants.SecurityConst;
 import com.hccake.ballcat.admin.modules.notify.push.MailNotifyPusher;
 import com.hccake.ballcat.admin.modules.sys.checker.AdminRuleProperties;
@@ -49,10 +48,9 @@ public class UpmsAutoConfiguration {
 	@Bean
 	@ConditionalOnProperty(prefix = "ballcat.login.captcha", name = "enabled", havingValue = "true",
 			matchIfMissing = true)
-	public FilterRegistrationBean<LoginCaptchaFilter> filterRegistrationBean(ObjectMapper objectMapper,
-			CaptchaService captchaService) {
+	public FilterRegistrationBean<LoginCaptchaFilter> filterRegistrationBean(CaptchaService captchaService) {
 		FilterRegistrationBean<LoginCaptchaFilter> bean = new FilterRegistrationBean<>();
-		LoginCaptchaFilter filter = new LoginCaptchaFilter(objectMapper, captchaService);
+		LoginCaptchaFilter filter = new LoginCaptchaFilter(captchaService);
 		bean.setFilter(filter);
 		// 比密码解密早一步
 		bean.setOrder(-1);

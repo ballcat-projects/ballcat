@@ -1,9 +1,9 @@
 package com.hccake.ballcat.common.conf.web;
 
 import cn.hutool.core.util.StrUtil;
-import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.core.exception.SqlCheckedException;
-import com.hccake.ballcat.common.core.result.BaseResultCode;
+import com.hccake.ballcat.common.model.result.BaseResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

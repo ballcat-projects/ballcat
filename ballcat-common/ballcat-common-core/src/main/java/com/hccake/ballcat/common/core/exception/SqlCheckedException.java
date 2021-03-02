@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.core.exception;
 
-import com.hccake.ballcat.common.core.result.SystemResultCode;
+import com.hccake.ballcat.common.model.result.SystemResultCode;
 
 /**
  * @author Hccake

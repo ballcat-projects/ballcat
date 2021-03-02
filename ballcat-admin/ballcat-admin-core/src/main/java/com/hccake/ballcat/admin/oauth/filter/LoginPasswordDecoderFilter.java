@@ -1,11 +1,11 @@
 package com.hccake.ballcat.admin.oauth.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.admin.constants.SecurityConst;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
-import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultCode;
+import com.hccake.ballcat.common.model.result.R;
+import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +35,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
-	private final ObjectMapper objectMapper;
-
 	@Value("${ballcat.password.secret-key}")
 	private String secretKey;
 
@@ -65,8 +63,8 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		catch (Exception e) {
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getWriter()
-					.write(objectMapper.writeValueAsString(R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage())));
+			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage());
+			response.getWriter().write(JsonUtils.toJson(r));
 			return;
 		}
 

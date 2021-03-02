@@ -4,9 +4,9 @@ import com.hccake.ballcat.codegen.model.dto.DataSourceConfigDTO;
 import com.hccake.ballcat.codegen.model.entity.DataSourceConfig;
 import com.hccake.ballcat.codegen.model.qo.DataSourceConfigQO;
 import com.hccake.ballcat.codegen.model.vo.DataSourceConfigVO;
-import com.hccake.ballcat.common.core.domain.PageParam;
-import com.hccake.ballcat.common.core.domain.PageResult;
-import com.hccake.ballcat.common.core.domain.SelectData;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
+import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;

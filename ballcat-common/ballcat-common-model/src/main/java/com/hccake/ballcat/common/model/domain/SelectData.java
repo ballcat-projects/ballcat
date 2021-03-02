@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.domain;
+package com.hccake.ballcat.common.model.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

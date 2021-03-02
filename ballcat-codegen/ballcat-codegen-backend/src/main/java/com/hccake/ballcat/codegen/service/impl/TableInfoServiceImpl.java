@@ -6,8 +6,8 @@ import com.hccake.ballcat.codegen.model.qo.TableInfoQO;
 import com.hccake.ballcat.codegen.model.vo.ColumnInfo;
 import com.hccake.ballcat.codegen.model.vo.TableInfo;
 import com.hccake.ballcat.codegen.service.TableInfoService;
-import com.hccake.ballcat.common.core.domain.PageParam;
-import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -3,8 +3,8 @@ package com.hccake.ballcat.admin.modules.sys.service;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
-import com.hccake.ballcat.common.core.domain.PageParam;
-import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;

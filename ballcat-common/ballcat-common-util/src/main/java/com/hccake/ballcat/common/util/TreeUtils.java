@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.util;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hccake.ballcat.common.core.tree.TreeNode;
+import com.hccake.ballcat.common.model.tree.TreeNode;
 import lombok.experimental.UtilityClass;
 import org.springframework.util.CollectionUtils;
 

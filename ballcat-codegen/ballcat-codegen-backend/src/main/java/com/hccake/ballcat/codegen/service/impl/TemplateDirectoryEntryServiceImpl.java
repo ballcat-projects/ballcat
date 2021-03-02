@@ -17,7 +17,7 @@ import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
 import com.hccake.ballcat.codegen.service.TemplateInfoService;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.exception.BusinessException;
-import com.hccake.ballcat.common.core.result.BaseResultCode;
+import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.util.TreeUtils;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;

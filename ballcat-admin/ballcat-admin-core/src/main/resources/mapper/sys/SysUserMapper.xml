@@ -48,7 +48,7 @@
 		AND su.deleted = 0
 	</select>
 
-	<select id="listSelectData" resultType="com.hccake.ballcat.common.core.domain.SelectData">
+	<select id="listSelectData" resultType="com.hccake.ballcat.common.model.domain.SelectData">
 		select
 		username as name , user_id as value
 		from

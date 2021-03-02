@@ -6,9 +6,9 @@ import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
-import com.hccake.ballcat.common.core.domain.PageParam;
-import com.hccake.ballcat.common.core.domain.PageResult;
-import com.hccake.ballcat.common.core.domain.SelectData;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
+import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 import org.springframework.web.multipart.MultipartFile;
 

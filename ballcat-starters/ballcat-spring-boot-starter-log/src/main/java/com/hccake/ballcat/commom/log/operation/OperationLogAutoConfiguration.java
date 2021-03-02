@@ -1,6 +1,5 @@
 package com.hccake.ballcat.commom.log.operation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.commom.log.operation.aspect.OperationLogAspect;
 import com.hccake.ballcat.commom.log.operation.event.OperationLogListener;
 import com.hccake.ballcat.commom.log.operation.service.OperationLogHandler;
@@ -31,8 +30,8 @@ public class OperationLogAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(OperationLogHandler.class)
-	public OperationLogAspect operationLogAspect(ObjectMapper objectMapper, ApplicationEventPublisher publisher) {
-		return new OperationLogAspect(objectMapper, publisher);
+	public OperationLogAspect operationLogAspect(ApplicationEventPublisher publisher) {
+		return new OperationLogAspect(publisher);
 	}
 
 }

@@ -2,8 +2,8 @@ package com.hccake.ballcat.codegen.controller;
 
 import com.hccake.ballcat.codegen.model.entity.TemplateInfo;
 import com.hccake.ballcat.codegen.service.TemplateInfoService;
-import com.hccake.ballcat.common.core.result.BaseResultCode;
-import com.hccake.ballcat.common.core.result.R;
+import com.hccake.ballcat.common.model.result.BaseResultCode;
+import com.hccake.ballcat.common.model.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

@@ -5,8 +5,8 @@ import com.hccake.ballcat.admin.modules.lov.model.entity.LovBody;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovSearch;
 import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
 import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
-import com.hccake.ballcat.common.core.domain.PageParam;
-import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;

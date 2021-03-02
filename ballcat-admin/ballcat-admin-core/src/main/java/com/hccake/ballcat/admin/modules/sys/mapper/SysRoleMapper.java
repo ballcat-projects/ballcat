@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysRoleVO;
-import com.hccake.ballcat.common.core.domain.PageParam;
-import com.hccake.ballcat.common.core.domain.PageResult;
-import com.hccake.ballcat.common.core.domain.SelectData;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
+import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 
 import java.util.List;

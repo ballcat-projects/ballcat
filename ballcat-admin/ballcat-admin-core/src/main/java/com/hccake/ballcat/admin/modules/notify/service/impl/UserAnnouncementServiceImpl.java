@@ -6,8 +6,8 @@ import com.hccake.ballcat.admin.modules.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.UserAnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.UserAnnouncementVO;
 import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
-import com.hccake.ballcat.common.core.domain.PageParam;
-import com.hccake.ballcat.common.core.domain.PageResult;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 

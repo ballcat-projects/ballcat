@@ -3,10 +3,10 @@ package com.hccake.ballcat.admin.oauth.filter;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
-import com.hccake.ballcat.common.core.result.R;
-import com.hccake.ballcat.common.core.result.SystemResultCode;
+import com.hccake.ballcat.common.model.result.R;
+import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,8 +24,6 @@ import java.io.IOException;
  */
 @RequiredArgsConstructor
 public class LoginCaptchaFilter extends OncePerRequestFilter {
-
-	private final ObjectMapper objectMapper;
 
 	private final CaptchaService captchaService;
 
@@ -60,8 +58,8 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			// repCode 6112 获取验证码失败,请联系管理员
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getWriter().write(
-					objectMapper.writeValueAsString(R.failed(SystemResultCode.UNAUTHORIZED, "Captcha code error")));
+			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED, "Captcha code error");
+			response.getWriter().write(JsonUtils.toJson(r));
 		}
 
 	}

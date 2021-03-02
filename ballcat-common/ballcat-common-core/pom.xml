@@ -13,27 +13,27 @@
     <packaging>jar</packaging>
 
     <dependencies>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-util</artifactId>
+		</dependency>
+
         <!--hutool-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-crypto</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-extra</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-crypto</artifactId>
+		</dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
-        </dependency>
-        <!--swagger注解-->
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
         </dependency>
 
 		<!-- web相关 -->
@@ -45,12 +45,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
-
-		<!-- security -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-        </dependency>
 
 		<!-- slf4j日志 -->
         <dependency>
@@ -70,17 +64,5 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
-		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
 	</dependencies>
 </project>

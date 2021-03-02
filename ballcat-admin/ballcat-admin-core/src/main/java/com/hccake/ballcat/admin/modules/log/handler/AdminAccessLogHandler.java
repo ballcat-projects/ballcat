@@ -1,8 +1,6 @@
 package com.hccake.ballcat.admin.modules.log.handler;
 
 import cn.hutool.core.util.URLUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminAccessLog;
 import com.hccake.ballcat.admin.modules.log.thread.AccessLogAdminSaveThread;
 import com.hccake.ballcat.admin.oauth.SysUserDetails;
@@ -13,6 +11,7 @@ import com.hccake.ballcat.commom.log.util.LogUtils;
 import com.hccake.ballcat.common.desensitize.DesensitizationHandlerHolder;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.util.IpUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -41,8 +40,6 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 	private final static String APPLICATION_JSON = "application/json";
 
 	private final AccessLogAdminSaveThread accessLogAdminSaveThread;
-
-	private final ObjectMapper objectMapper;
 
 	/**
 	 * 需要脱敏记录的参数
@@ -120,9 +117,9 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 					parameterMap.put(paramKey, new String[] { value });
 				}
 			}
-			params = objectMapper.writeValueAsString(parameterMap);
+			params = JsonUtils.toJson(parameterMap);
 		}
-		catch (JsonProcessingException e) {
+		catch (Exception e) {
 			params = "记录参数异常";
 			log.error("[prodLog]，参数获取序列化异常", e);
 		}

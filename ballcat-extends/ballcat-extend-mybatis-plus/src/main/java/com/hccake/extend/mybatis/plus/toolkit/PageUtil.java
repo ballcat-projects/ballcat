@@ -3,7 +3,7 @@ package com.hccake.extend.mybatis.plus.toolkit;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageParam;
 
 import java.util.List;
 

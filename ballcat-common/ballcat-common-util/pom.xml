@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ballcat-common</artifactId>
         <groupId>com.hccake</groupId>
-        <version>0.0.8-SNAPSHOT</version>
+		<version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,26 +17,58 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-common-core</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-model</artifactId>
+		</dependency>
+
+		<!-- json 工具支持, 默认 jackson 按需替换-->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-json</artifactId>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <optional>true</optional>
         </dependency>
-    </dependencies>
+
+
+		<!-- Hutool 工具 -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-crypto</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-extra</artifactId>
+		</dependency>
+
+		<!-- security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+		</dependency>
+
+	</dependencies>
 </project>

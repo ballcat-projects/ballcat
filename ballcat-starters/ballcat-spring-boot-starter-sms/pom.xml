@@ -24,6 +24,11 @@
             <groupId>com.hccake</groupId>
             <artifactId>ballcat-common-util</artifactId>
         </dependency>
+		<!-- slf4j日志 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
         <!-- spring boot 配置所需依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
-import com.hccake.ballcat.common.core.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.extend.mybatis.plus.toolkit.PageUtil;
 import org.apache.ibatis.annotations.Param;
 

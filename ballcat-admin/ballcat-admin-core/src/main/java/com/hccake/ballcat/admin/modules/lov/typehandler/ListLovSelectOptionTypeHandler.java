@@ -1,9 +1,8 @@
 package com.hccake.ballcat.admin.modules.lov.typehandler;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovSelectOptions;
-import com.hccake.ballcat.common.conf.util.SpringUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
+import com.hccake.ballcat.common.util.json.TypeReference;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
@@ -19,20 +18,11 @@ import java.util.List;
  */
 public class ListLovSelectOptionTypeHandler implements TypeHandler<List<LovSelectOptions>> {
 
-	public ObjectMapper om = null;
-
-	public ObjectMapper getOm() {
-		if (om == null) {
-			om = SpringUtils.getBean(ObjectMapper.class);
-		}
-		return om;
-	}
-
 	@Override
 	public void setParameter(PreparedStatement ps, int i, List<LovSelectOptions> parameter, JdbcType jdbcType)
 			throws SQLException {
 		try {
-			ps.setString(i, getOm().writeValueAsString(parameter));
+			ps.setString(i, JsonUtils.toJson(parameter));
 		}
 		catch (Exception e) {
 			ps.setString(i, "[]");
@@ -56,7 +46,7 @@ public class ListLovSelectOptionTypeHandler implements TypeHandler<List<LovSelec
 
 	List<LovSelectOptions> toVal(String string) {
 		try {
-			return getOm().readValue(string, new TypeReference<List<LovSelectOptions>>() {
+			return JsonUtils.toObj(string, new TypeReference<List<LovSelectOptions>>() {
 			});
 		}
 		catch (Exception e) {
