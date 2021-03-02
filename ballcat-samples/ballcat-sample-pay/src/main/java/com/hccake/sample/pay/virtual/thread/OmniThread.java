@@ -21,7 +21,7 @@ public class OmniThread extends AbstractThread {
 	private final BtcOmniServiceImpl service;
 
 	@Override
-	public void startLog() {
+	public void init() {
 		log.debug("Omni 订单校验");
 	}
 

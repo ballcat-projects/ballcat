@@ -20,7 +20,7 @@ public class TronscanThread extends AbstractThread {
 	private final TronscanServiceImpl service;
 
 	@Override
-	public void startLog() {
+	public void init() {
 		log.debug("Tronscan 订单校验");
 	}
 

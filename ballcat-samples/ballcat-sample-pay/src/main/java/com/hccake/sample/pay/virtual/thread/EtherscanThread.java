@@ -20,7 +20,7 @@ public class EtherscanThread extends AbstractThread {
 	private final InfuraServiceImpl service;
 
 	@Override
-	public void startLog() {
+	public void init() {
 		log.debug("Etherscan 订单校验");
 	}
 

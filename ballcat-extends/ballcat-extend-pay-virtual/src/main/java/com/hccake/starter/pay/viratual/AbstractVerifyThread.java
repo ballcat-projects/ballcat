@@ -1,12 +1,11 @@
 package com.hccake.starter.pay.viratual;
 
-import com.hccake.ballcat.common.core.thread.AbstractQueueThread;
-import live.lingting.virtual.currency.Transaction;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.validation.constraints.NotNull;
+import com.hccake.ballcat.common.core.thread.AbstractBlockingQueueThread;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
+import live.lingting.virtual.currency.Transaction;
 
 /**
  * 用于校验交易的线程
@@ -14,10 +13,10 @@ import java.util.Optional;
  * @author lingting 2021/1/5 11:08
  */
 @Slf4j
-public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends AbstractQueueThread<T> {
+public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends AbstractBlockingQueueThread<T> {
 
 	@Override
-	public long getBatchSize() {
+	public int getBatchSize() {
 		// 校验对象不需要堆积太多, 10条直接处理
 		return 10;
 	}
@@ -79,7 +78,7 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	public abstract void error(T obj, Throwable e);
 
 	@Override
-	public void preProcessor() {
+	public void preProcess() {
 		for (T obj : readCache()) {
 			// 把缓存中的所有数据插入线程
 			putObject(obj);
@@ -87,7 +86,7 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	}
 
 	@Override
-	public void save(List<T> list) throws Exception {
+	public void process(List<T> list) throws Exception {
 		for (T obj : list) {
 			try {
 				handler(obj, getTransaction(obj));
@@ -96,12 +95,6 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 				error(obj, e);
 			}
 		}
-	}
-
-	@Override
-	public void afterPropertiesSet() {
-		setName(this.getClass().getSimpleName());
-		super.afterPropertiesSet();
 	}
 
 }
