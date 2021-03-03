@@ -332,7 +332,15 @@ public class RedisHelper {
 		return getList().leftPush(key, val);
 	}
 
-	public static String listPop(String key) {
+	public static Long listRightPush(String key, String val){
+		return getList().rightPush(key, val);
+	}
+
+	public static String listLeftPop(String key) {
+		return getList().leftPop(key);
+	}
+
+	public static String listRightPop(String key) {
 		return getList().rightPop(key);
 	}
 
