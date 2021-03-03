@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.lang.Nullable;
 
 /**
  * 顶级队列线程类
@@ -57,10 +58,9 @@ public abstract class AbstractQueueThread<E> extends Thread implements Initializ
 	/**
 	 * 往队列插入数据
 	 * @param e 数据
-	 * @exception InterruptedException 线程中断
 	 * @author lingting 2021-03-02 15:09
 	 */
-	public abstract void put(@NotNull E e) throws InterruptedException;
+	public abstract void put(@NotNull E e);
 
 	/**
 	 * 运行前执行初始化
@@ -93,6 +93,7 @@ public abstract class AbstractQueueThread<E> extends Thread implements Initializ
 	 * @throws InterruptedException 线程中断
 	 * @author lingting 2021-03-02 15:20
 	 */
+	@Nullable
 	public abstract E poll(long time) throws InterruptedException;
 
 	/**
@@ -166,7 +167,6 @@ public abstract class AbstractQueueThread<E> extends Thread implements Initializ
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-
 		// 默认配置线程名. 用来方便查询
 		setName(this.getClass().getSimpleName());
 		start();

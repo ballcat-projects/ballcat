@@ -5,6 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 
 /**
  * 抽象的线程类，主要用于汇聚详情数据 做一些基础的处理后 进行批量插入
@@ -16,23 +17,20 @@ public abstract class AbstractBlockingQueueThread<T> extends AbstractQueueThread
 
 	private final BlockingQueue<T> queue = new LinkedBlockingQueue<>();
 
-	public void putObject(T t) {
-		try {
-			if (t != null) {
+	@Override
+	public void put(@NotNull T t) {
+		if (t != null) {
+			try {
 				queue.put(t);
 			}
-		}
-		catch (Exception e) {
-			log.error("{} putObject error, param: {}", this.getClass().toString(), t, e);
+			catch (Exception e) {
+				log.error("{} put Object error, param: {}", this.getClass().toString(), t, e);
+			}
 		}
 	}
 
 	@Override
-	public void put(@NotNull T t) throws InterruptedException {
-		queue.put(t);
-	}
-
-	@Override
+	@Nullable
 	public T poll(long time) throws InterruptedException {
 		return queue.poll(time, TimeUnit.MILLISECONDS);
 	}

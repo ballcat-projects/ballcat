@@ -1,12 +1,12 @@
 package com.hccake.sample.pay.virtual.entity;
 
+import com.hccake.sample.pay.virtual.enums.Contract;
 import com.hccake.sample.pay.virtual.enums.Status;
 import com.hccake.starter.pay.viratual.VerifyObj;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import live.lingting.virtual.currency.contract.Contract;
 
 /**
  * 充值订单, 实现 {@link VerifyObj}
@@ -33,10 +33,7 @@ public class Order implements VerifyObj {
 	private String address;
 
 	/**
-	 * 收款货币类型, 以下三个枚举分别用来表示三个平台的货币类型
-	 * @see live.lingting.virtual.currency.contract.EtherscanContract
-	 * @see live.lingting.virtual.currency.contract.TronscanContract
-	 * @see live.lingting.virtual.currency.contract.OmniContract
+	 * 收款货币类型
 	 */
 	private Contract contract;
 

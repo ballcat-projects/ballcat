@@ -12,19 +12,18 @@ import com.hccake.ballcat.common.desensitize.DesensitizationHandlerHolder;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.util.IpUtils;
 import com.hccake.ballcat.common.util.JsonUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
-import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.HandlerMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.HandlerMapping;
 
 /**
  * 访问日志
@@ -132,7 +131,7 @@ public class AdminAccessLogHandler implements AccessLogHandler<AdminAccessLog> {
 	 */
 	@Override
 	public void saveLog(AdminAccessLog accessLog) {
-		accessLogAdminSaveThread.putObject(accessLog);
+		accessLogAdminSaveThread.put(accessLog);
 	}
 
 }
