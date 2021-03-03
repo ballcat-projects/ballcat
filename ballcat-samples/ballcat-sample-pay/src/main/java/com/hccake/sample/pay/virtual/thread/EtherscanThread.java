@@ -36,4 +36,9 @@ public class EtherscanThread extends AbstractThread {
 		}
 	}
 
+	@Override
+	public String getKey() {
+		return "virtual:currency:etherscan";
+	}
+
 }

@@ -1,6 +1,6 @@
 package com.hccake.starter.pay.viratual;
 
-import com.hccake.ballcat.common.core.thread.AbstractBlockingQueueThread;
+import com.hccake.ballcat.common.redis.thread.AbstractRedisThread;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.constraints.NotNull;
@@ -13,7 +13,7 @@ import live.lingting.virtual.currency.Transaction;
  * @author lingting 2021/1/5 11:08
  */
 @Slf4j
-public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends AbstractBlockingQueueThread<T> {
+public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends AbstractRedisThread<T> {
 
 	@Override
 	public int getBatchSize() {
@@ -56,20 +56,6 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	public abstract void success(T obj, @NotNull Optional<Transaction> optional, R r);
 
 	/**
-	 * 缓存校验对象
-	 * @param obj 校验对象
-	 * @author lingting 2021-01-05 11:17
-	 */
-	public abstract void cache(T obj);
-
-	/**
-	 * 读取所有缓存的校验对象
-	 * @return java.util.List<T>
-	 * @author lingting 2021-01-05 11:17
-	 */
-	public abstract List<T> readCache();
-
-	/**
 	 * 异常处理
 	 * @param obj 校验对象
 	 * @param e 异常信息
@@ -78,23 +64,18 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	public abstract void error(T obj, Throwable e);
 
 	@Override
-	public void preProcess() {
-		for (T obj : readCache()) {
-			// 把缓存中的所有数据插入线程
-			putObject(obj);
+	public void receiveProcess(List<T> list, T t) {
+		try {
+			// 收到就处理. 不再汇总处理
+			handler(t, getTransaction(t));
+		}
+		catch (Exception e) {
+			error(t, e);
 		}
 	}
 
 	@Override
 	public void process(List<T> list) throws Exception {
-		for (T obj : list) {
-			try {
-				handler(obj, getTransaction(obj));
-			}
-			catch (Throwable e) {
-				error(obj, e);
-			}
-		}
 	}
 
 }

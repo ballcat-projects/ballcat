@@ -3,10 +3,11 @@ package com.hccake.sample.pay.virtual.thread;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.sample.pay.virtual.domain.Result;
 import com.hccake.sample.pay.virtual.entity.Order;
+import com.hccake.sample.pay.virtual.enums.Contract;
 import com.hccake.starter.pay.viratual.AbstractVerifyThread;
+import java.lang.reflect.Type;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,20 @@ import live.lingting.virtual.currency.enums.TransactionStatus;
 @Slf4j
 public abstract class AbstractThread extends AbstractVerifyThread<Order, Result> {
 
-	public final List<Order> CACHE = new ArrayList<>();
-
 	@Override
 	public int getBatchSize() {
 		return 1;
+	}
+
+	/**
+	 * 如果默认程序无法正确解析你的数据. 可自定义类型. 或者重写 {@link this#convertToObj(String)} 方法 自定义转换
+	 *
+	 * 可重写 {@link this#convertToString(Object)} 方法. 自定义缓存数据
+	 * @author lingting 2021-03-03 10:29
+	 */
+	@Override
+	protected Type getObjType() {
+		return super.getObjType();
 	}
 
 	@Override
@@ -50,7 +60,7 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 			}
 			// 没有超过限时, 缓存
 			else {
-				cache(obj);
+				put(obj);
 			}
 			return;
 		}
@@ -59,7 +69,7 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 
 		if (transaction.getStatus() == TransactionStatus.WAIT) {
 			// 交易需要等待继续查询
-			cache(obj);
+			put(obj);
 		}
 		// 交易失败
 		else if (transaction.getStatus() == TransactionStatus.FAIL) {
@@ -74,7 +84,7 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 			failed(obj, optional, new Result("收款地址异常"));
 		}
 		// 收款货币类型验证
-		else if (obj.getContract() != transaction.getContract()) {
+		else if (obj.getContract() != Contract.USDT) {
 			failed(obj, optional, new Result("收款货币类型异常"));
 		}
 
@@ -98,7 +108,7 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 		/*
 		 * 例如 放入缓存等待下次处理.
 		 */
-		cache(obj);
+		put(obj);
 		/*
 		 * 例如 直接按照充值失败进行结算
 		 */
@@ -115,21 +125,6 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 	public void failed(Order obj, Optional<Transaction> optional, Result verifyResult) {
 		log.info("交易失败, 订单数据: {}, 交易信息: {}, 结果: {}", JsonUtils.toJson(obj),
 				!optional.isPresent() ? "null" : JsonUtils.toJson(optional.get()), JsonUtils.toJson(verifyResult));
-	}
-
-	@Override
-	public void cache(Order obj) {
-		CACHE.add(obj);
-	}
-
-	@Override
-	public List<Order> readCache() {
-		/*
-		 * 这里使用 list 缓存是因为只是样例, 生产环境不建议
-		 */
-		List<Order> list = new ArrayList<>(CACHE);
-		CACHE.clear();
-		return list;
 	}
 
 }
