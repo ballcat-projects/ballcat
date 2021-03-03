@@ -2,13 +2,12 @@ package com.hccake.sample.pay.virtual.thread;
 
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.sample.pay.virtual.entity.Order;
-import live.lingting.virtual.currency.Transaction;
-import live.lingting.virtual.currency.service.impl.BtcOmniServiceImpl;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
+import live.lingting.virtual.currency.Transaction;
+import live.lingting.virtual.currency.service.impl.BtcOmniServiceImpl;
 
 /**
  * @author lingting 2021/1/5 15:22
@@ -35,6 +34,11 @@ public class OmniThread extends AbstractThread {
 			// 查询出错, 返回 empty
 			return Optional.empty();
 		}
+	}
+
+	@Override
+	public String getKey() {
+		return "virtual:currency:omni";
 	}
 
 }

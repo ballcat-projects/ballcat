@@ -36,4 +36,9 @@ public class TronscanThread extends AbstractThread {
 		}
 	}
 
+	@Override
+	public String getKey() {
+		return "virtual:currency:tronscan";
+	}
+
 }
