@@ -18,5 +18,6 @@ file:
 
 
 # 生产环境关闭文档
-swagger:
-  enabled: false
+ballcat:
+  swagger:
+    enabled: false

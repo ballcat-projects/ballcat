@@ -22,9 +22,9 @@ export default {
       // 筛选参数字段
       filters: {},
       // 默认排序字段
-      sortField: 'createTime',
-      // 升序/降序
-      sortAsc: false,
+      sortField: null,
+      // 升序 asc/降序 desc
+      sortOrder: null,
       // 表格展示
       tableShow: true,
       // 高级搜索 展开/关闭
@@ -56,6 +56,13 @@ export default {
   },
   methods: {
     /**
+     * 默认排序规则
+     */
+    initDefaultSort() {
+      this.sortField = 'id'
+      this.sortOrder = 'desc'
+    },
+    /**
      * 表格重新加载方法
      * 如果参数为 true, 则强制刷新到第一页
      * @param bool
@@ -65,27 +72,34 @@ export default {
       this.loadData()
     },
     /**
-     * 表格数据加载方法
+     * 合并查询参数，分页参数，排序参数，过滤参数
+     * @returns {{current: number, size: number} & {sortOrders: null, sortFields: null}}
      */
-    loadData() {
-      // 合并查询参数，分页参数，排序参数，过滤参数
-      const params = Object.assign(
+    pageParams: function() {
+      return Object.assign(
         this.queryParam,
         {
           current: this.pagination.current,
           size: this.pagination.pageSize
         },
         {
-          sortField: this.sortField,
-          sortAsc: this.sortAsc
+          // TODO 多列排序支持
+          sortFields: this.sortField,
+          sortOrders: this.sortOrder
         },
         { ...this.filters }
       )
+    },
+    /**
+     * 表格数据加载方法
+     */
+    loadData() {
+      const params = this.pageParams()
 
       this.loading = true
       this.getPage(params)
         .then(res => {
-          if (res.code === 200 || res.code === 0) {
+          if (res.code === 200) {
             const page = res.data
             // 为防止删除数据后导致页面当前页面数据长度为 0 ,自动翻页到上一页
             if (page.records.length === 0 && this.pagination.current > 1) {
@@ -95,17 +109,24 @@ export default {
             }
             this.dataSource = page.records
             this.pagination.total = page.total
+            this.onPageLoadSuccess(page)
           } else {
-            this.$message.warning(res.message)
+            this.$message.warning(res.message || 'error request')
           }
         })
-        .catch(error => {
-          this.$message.error(error.message)
+        .catch(e => {
+          // 未被 axios拦截器处理过，则在这里继续处理
+          !e.resolved && this.$message.error(e.message || 'error request')
         })
         .finally(() => {
           this.loading = false
         })
     },
+    /**
+     * 分页查询成功回调
+     * @param page
+     */
+    onPageLoadSuccess(page) {},
     /**
      * 分页、排序、筛选变化时进行数据更新
      * @param pagination
@@ -114,8 +135,14 @@ export default {
      */
     handleTableChange(pagination, filters, sorter) {
       this.filters = filters
-      sorter && sorter.field && (this.sortField = sorter.field)
-      sorter && sorter.order && (this.sortAsc = sorter.order === 'ascend')
+      if (sorter && sorter.field) {
+        if (sorter.order) {
+          this.sortField = sorter.field
+          this.sortOrder = sorter.order === 'ascend' ? 'asc' : 'desc'
+        } else {
+          this.initDefaultSort()
+        }
+      }
       this.pagination = pagination
       this.loadData()
     },

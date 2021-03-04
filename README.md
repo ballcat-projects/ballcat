@@ -28,7 +28,9 @@
 |-- ballcat-codegen             -- 代码生成器
 |-- ballcat-common			   
 |   |-- ballcat-common-conf		        -- web公用配置
-|   |-- ballcat-common-core             -- 核心的工具类
+|   |-- ballcat-common-core             -- 核心组件
+|   |-- ballcat-common-model            -- 公用的一些模型
+|   |-- ballcat-common-util             -- 公用的工具类
 |   `-- ballcat-common-desensitize		-- 脱敏工具类
 |-- ballcat-dependencies        -- ballcat项目本身各子模块的依赖管理，以及第三方模块的依赖管理
 |-- ballcat-samples				
@@ -89,7 +91,7 @@
 | ---------------------- | ------------- | ------------------------------------------------ |
 | Spring Boot            | 2.4.3         | https://spring.io/projects/spring-boot#learn     |
 | Spring Security OAuth2 | 2.3.8.RELEASE | https://spring.io/projects/spring-security-oauth |
-| Mybatis Plus           | 3.4.2         | https://mp.baomidou.com/                         |
+| Mybatis Plus           | 3.4.3         | https://mp.baomidou.com/                         |
 | XXL-JOB                | 2.3.0         | http://www.xuxueli.com/xxl-job                   |
 | Hutool                 | 5.5.8         | https://www.hutool.cn/                           |
 

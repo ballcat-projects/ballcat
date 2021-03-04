@@ -29,7 +29,7 @@ public interface DataSourceConfigMapper extends ExtendMapper<DataSourceConfig> {
 	 */
 	default PageResult<DataSourceConfigVO> queryPage(PageParam pageParam, DataSourceConfigQO qo) {
 		IPage<DataSourceConfigVO> page = this.prodPage(pageParam);
-		LambdaQueryWrapperX<DataSourceConfig> wrapperX = WrappersX.lambdaAliasQueryX(DataSourceConfig.class)
+		LambdaQueryWrapperX<DataSourceConfig> wrapperX = WrappersX.lambdaQueryX(DataSourceConfig.class)
 				.eqIfPresent(DataSourceConfig::getId, qo.getId());
 		this.selectByPage(page, wrapperX);
 		return new PageResult<>(page.getRecords(), page.getTotal());

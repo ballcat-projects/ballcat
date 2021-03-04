@@ -16,11 +16,11 @@
 
 - 更新了 Service 层的父类，现在无法直接使用 service 对象，进行 Wrapper 条件构造
 - 更新了分页查询的排序参数，前端需要对应升级
-- 工具类移动到 common-util 模块, 相应包名已更改,请注意
+- commom-model和common-util的抽离，导致部分工具类和部分通用实体包名修改, 请注意替换
 
 ### Added
 
-- feat: Swagger3 支持
+- feat: Swagger3 支持，文档地址更新为 /swagger-ui/index.html
 - feat: 剥离全局异常捕获中请求方法和请求媒体类型不支持的异常，方便生产环境排查问题
 - feat: 新增 common-desensitize 脱敏模块，默认提供了部分常用脱敏类型，且支持SPI形式追加用户自定义脱敏处理器
 - feat: 新增 pay-ali 模块，用于支持支付宝支付
@@ -54,7 +54,7 @@
   - String Null 转 ''
   - Array 和 Collection Null 转 []
   - Map Null 转 {}
-
+- refactor: 从 common-core 中剥离出 common-util 和 common-model
 
 ### Removed
 
