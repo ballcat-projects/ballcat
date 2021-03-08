@@ -138,7 +138,11 @@ public class WxPayUtil {
 	public static String sign(Map<String, String> params, String mckKey) {
 		SignType st = SignType.of(params.get(WxPayConstant.FIELD_SIGN_TYPE));
 		Assert.isFalse(st == null, "签名类型不能为空!");
+		return sign(params, st, mckKey);
+	}
 
+	@SneakyThrows
+	public static String sign(Map<String, String> params, SignType type, String mckKey) {
 		String[] keyArray = params.keySet().toArray(new String[0]);
 		// 参数key排序
 		Arrays.sort(keyArray);
@@ -157,7 +161,7 @@ public class WxPayUtil {
 
 		// 签名后的字节
 		byte[] bytes;
-		if (st == SignType.MD5) {
+		if (type == SignType.MD5) {
 			final MessageDigest md5 = MessageDigest.getInstance("MD5");
 			bytes = md5.digest(paramsStr.toString().getBytes(StandardCharsets.UTF_8));
 		}

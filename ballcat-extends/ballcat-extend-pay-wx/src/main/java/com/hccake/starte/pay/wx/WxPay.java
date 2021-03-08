@@ -205,8 +205,7 @@ public class WxPay {
 	 * @author lingting 2021-02-25 16:01
 	 */
 	public boolean checkSign(WxPayCallback callback) {
-		Map<String, String> params = new HashMap<>(callback.getRaw().size());
-		params.putAll(callback.getRaw());
+		Map<String, String> params = new HashMap<>(callback.getRaw());
 
 		// 存在签名类型, 直接验签
 		if (params.containsKey(WxPayConstant.FIELD_SIGN_TYPE)) {
@@ -214,13 +213,11 @@ public class WxPay {
 		}
 
 		// 两种签名类型都试一次
-		params.put(WxPayConstant.FIELD_SIGN_TYPE, SignType.HMAC_SHA256.getStr());
-		if (WxPayUtil.sign(params, mckKey).equals(callback.getSign())) {
+		if (WxPayUtil.sign(params, SignType.HMAC_SHA256, mckKey).equals(callback.getSign())) {
 			return true;
 		}
 
-		params.put(WxPayConstant.FIELD_SIGN_TYPE, SignType.MD5.getStr());
-		if (WxPayUtil.sign(params, mckKey).equals(callback.getSign())) {
+		if (WxPayUtil.sign(params, SignType.MD5, mckKey).equals(callback.getSign())) {
 			return true;
 		}
 		return false;
