@@ -61,7 +61,7 @@
 		<jasypt.version>3.0.3</jasypt.version>
 		<jsoup.version>1.13.1</jsoup.version>
 		<anji-captcha.version>1.2.8</anji-captcha.version>
-		<virtual-currency.version>0.3.2</virtual-currency.version>
+		<virtual-currency.version>0.4.1</virtual-currency.version>
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
 	</properties>
 
@@ -407,7 +407,7 @@
 			<!-- 虚拟货币处理 -->
 			<dependency>
 				<groupId>live.lingting</groupId>
-				<artifactId>virtual-currency</artifactId>
+				<artifactId>virtual-currency-all</artifactId>
 				<version>${virtual-currency.version}</version>
 			</dependency>
 			<!-- 图形验证码 -->

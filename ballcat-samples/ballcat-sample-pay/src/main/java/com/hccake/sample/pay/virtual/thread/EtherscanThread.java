@@ -6,8 +6,8 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import live.lingting.virtual.currency.Transaction;
-import live.lingting.virtual.currency.service.impl.InfuraServiceImpl;
+import live.lingting.virtual.currency.core.model.TransactionInfo;
+import live.lingting.virtual.currency.etherscan.EtherscanServiceImpl;
 
 /**
  * @author lingting 2021/1/5 15:22
@@ -17,7 +17,7 @@ import live.lingting.virtual.currency.service.impl.InfuraServiceImpl;
 @RequiredArgsConstructor
 public class EtherscanThread extends AbstractThread {
 
-	private final InfuraServiceImpl service;
+	private final EtherscanServiceImpl service;
 
 	@Override
 	public void init() {
@@ -25,7 +25,7 @@ public class EtherscanThread extends AbstractThread {
 	}
 
 	@Override
-	public Optional<Transaction> getTransaction(Order obj) {
+	public Optional<TransactionInfo> getTransaction(Order obj) {
 		try {
 			return service.getTransactionByHash(obj.getHash());
 		}

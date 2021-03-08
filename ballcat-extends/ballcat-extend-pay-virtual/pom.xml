@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>live.lingting</groupId>
-            <artifactId>virtual-currency</artifactId>
+            <artifactId>virtual-currency-all</artifactId>
         </dependency>
 
         <dependency>
