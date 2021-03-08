@@ -17,7 +17,10 @@ import java.nio.charset.StandardCharsets;
  * @version 1.0
  * @date 2019/9/25 15:14
  */
-public class PasswordUtils {
+public final class PasswordUtils {
+
+	private PasswordUtils() {
+	}
 
 	public static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
 

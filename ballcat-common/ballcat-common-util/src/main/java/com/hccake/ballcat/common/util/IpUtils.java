@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Hccake
  */
-public class IpUtils {
+public final class IpUtils {
+
+	private IpUtils() {
+	}
 
 	/**
 	 * 如果在前端和服务端中间还有一层Node服务 在Node对前端数据进行处理并发起新请求时，需携带此头部信息 便于获取真实IP

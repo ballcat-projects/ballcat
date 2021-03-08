@@ -9,7 +9,10 @@ import java.lang.reflect.Type;
 /**
  * @author lingting 2021/2/25 20:38
  */
-public class JsonUtils {
+public final class JsonUtils {
+
+	private JsonUtils() {
+	}
 
 	@Getter
 	private static JsonTool jsonTool;
