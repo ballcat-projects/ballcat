@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,11 +36,17 @@ public class WxController {
 		String ip = "27.115.44.246";
 		// WxPayResponse response = wxPay.nativePay(sn, val, ip, "商品");
 		WxPayOrderQueryResponse queryResponse = wxPay.query("1364829305962557441", "");
-
-		String data = "**";
-		WxPayCallback callback = WxPayCallback.of(WxPayUtil.xmlToMap(data));
+		WxPayCallback callback = WxPayCallback.of(WxPayUtil.xmlToMap("回调xml字符串"));
 		System.out.println(callback.checkSign(wxPay));
 		return "";
+	}
+
+	@SneakyThrows
+	@PostMapping
+	public String callback(HttpServletRequest request, @RequestBody String notify) {
+		WxPayCallback callback = WxPayCallback.of(WxPayUtil.xmlToMap(notify));
+		boolean sign = callback.checkSign(wxPay);
+		return "success";
 	}
 
 }
