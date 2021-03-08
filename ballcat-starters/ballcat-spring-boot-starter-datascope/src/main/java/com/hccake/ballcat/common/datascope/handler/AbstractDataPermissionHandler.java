@@ -19,12 +19,12 @@ public abstract class AbstractDataPermissionHandler implements DataPermissionHan
 
 	private final List<DataScope> dataScopes;
 
-	private final static Map<String, DataPermission> DATA_PERMISSION_CACHE = new ConcurrentHashMap<>();
+	private static final Map<String, DataPermission> DATA_PERMISSION_CACHE = new ConcurrentHashMap<>();
 
 	/**
 	 * 提供一个默认的空值注解，用于缓存空值占位使用
 	 */
-	private final static DataPermission EMPTY_DATA_PERMISSION = AbstractDataPermissionHandler.class
+	private static final DataPermission EMPTY_DATA_PERMISSION = AbstractDataPermissionHandler.class
 			.getAnnotation(DataPermission.class);
 
 	/**
@@ -43,7 +43,7 @@ public abstract class AbstractDataPermissionHandler implements DataPermissionHan
 	 */
 	@Override
 	public List<DataScope> filterDataScopes(String mappedStatementId) {
-		if (this.dataScopes == null || this.dataScopes.size() == 0) {
+		if (this.dataScopes == null || this.dataScopes.isEmpty()) {
 			return new ArrayList<>();
 		}
 		// 获取当前方法对应的权限注解，根据注解进行数据范围控制的过滤

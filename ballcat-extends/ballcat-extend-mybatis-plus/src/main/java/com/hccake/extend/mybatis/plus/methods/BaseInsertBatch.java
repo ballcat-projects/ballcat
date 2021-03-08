@@ -76,14 +76,14 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 	 * @return java.lang.String
 	 * @author lingting 2020-06-09 20:38:54
 	 */
-	abstract protected String getSql();
+	protected abstract String getSql();
 
 	/**
 	 * 获取脚本id 即 方法名
 	 * @return java.lang.String
 	 * @author lingting 2020-06-09 20:39:30
 	 */
-	abstract protected String getId();
+	protected abstract String getId();
 
 	protected String prepareValuesSqlForMysqlBatch(TableInfo tableInfo) {
 		return prepareValuesBuildSqlForMysqlBatch(tableInfo).toString();

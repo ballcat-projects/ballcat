@@ -13,7 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Hccake 2021/1/4
  * @version 1.0
  */
-public class WebSocketSessionHolder {
+public final class WebSocketSessionHolder {
+
+	private WebSocketSessionHolder() {
+	}
 
 	private static final Map<Object, WebSocketSession> USER_SESSION_MAP = new ConcurrentHashMap<>();
 

@@ -62,10 +62,10 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 			hostname = ia.getHostName();
 			ip = ia.getHostAddress();
 
-			byte[] mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
+			byte[] macByte = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < mac.length; i++) {
-				sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+			for (int i = 0; i < macByte.length; i++) {
+				sb.append(String.format("%02X%s", macByte[i], (i < macByte.length - 1) ? "-" : ""));
 			}
 			this.mac = sb.toString();
 		}
@@ -131,7 +131,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 
 	public ExceptionMessage init(Throwable t) {
 		return new ExceptionMessage().setNumber(1).setMac(mac).setApplicationName(applicationName).setHostname(hostname)
-				.setIp(ip).setStack(ExceptionUtil.stacktraceToString(t, config.getLength()).replaceAll("\\r", ""))
+				.setIp(ip).setStack(ExceptionUtil.stacktraceToString(t, config.getLength()).replace("\\r", ""))
 				.setTime(DateUtil.now());
 	}
 

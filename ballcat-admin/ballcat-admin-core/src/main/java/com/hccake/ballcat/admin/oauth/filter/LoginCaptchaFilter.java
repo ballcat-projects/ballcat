@@ -27,7 +27,7 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 
 	private final CaptchaService captchaService;
 
-	private final static String CAPTCHA_VERIFICATION_PARAM = "captchaVerification";
+	private static final String CAPTCHA_VERIFICATION_PARAM = "captchaVerification";
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

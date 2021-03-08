@@ -4,15 +4,14 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.RandomUtil;
 import com.hccake.starte.pay.wx.constants.WxPayConstant;
 import com.hccake.starte.pay.wx.enums.SignType;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.XMLConstants;
@@ -25,19 +24,24 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author lingting 2021/1/26 16:04
  */
 @Slf4j
-public class WxPayUtil {
+public final class WxPayUtil {
+
+	private WxPayUtil() {
+	}
 
 	public static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -65,13 +69,13 @@ public class WxPayUtil {
 		Document document = getDocument();
 		Element root = document.createElement("xml");
 		document.appendChild(root);
-		for (String key : data.keySet()) {
-			String value = data.get(key);
+		for (Map.Entry<String, String> entry : data.entrySet()) {
+			String value = entry.getValue();
 			if (value == null) {
 				value = "";
 			}
 			value = value.trim();
-			Element filed = document.createElement(key);
+			Element filed = document.createElement(entry.getKey());
 			filed.appendChild(document.createTextNode(value));
 			root.appendChild(filed);
 		}

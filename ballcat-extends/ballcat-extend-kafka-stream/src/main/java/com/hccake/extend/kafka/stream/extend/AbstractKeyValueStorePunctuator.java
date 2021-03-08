@@ -78,7 +78,7 @@ public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractP
 	 */
 	public void runHandle(long timestamp, List<R> list) {
 		try {
-			if (list.size() > 0) {
+			if (!list.isEmpty()) {
 				log.debug("任务执行中,类名 {}, 操作数据量: {}", this.getClass().getSimpleName(), list.size());
 				handle(timestamp, list);
 			}

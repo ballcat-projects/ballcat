@@ -1,7 +1,5 @@
 package com.hccake.starte.pay.wx;
 
-import static com.hccake.starte.pay.wx.constants.WxPayConstant.HUNDRED;
-
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.hccake.starte.pay.wx.constants.WxPayConstant;
@@ -14,12 +12,15 @@ import com.hccake.starte.pay.wx.response.WxPayCallback;
 import com.hccake.starte.pay.wx.response.WxPayOrderQueryResponse;
 import com.hccake.starte.pay.wx.response.WxPayResponse;
 import com.hccake.starte.pay.wx.utils.WxPayUtil;
+import lombok.Data;
+import lombok.SneakyThrows;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Data;
-import lombok.SneakyThrows;
+
+import static com.hccake.starte.pay.wx.constants.WxPayConstant.HUNDRED;
 
 /**
  * @author lingting 2021/1/26 15:54
@@ -217,10 +218,7 @@ public class WxPay {
 			return true;
 		}
 
-		if (WxPayUtil.sign(params, SignType.MD5, mckKey).equals(callback.getSign())) {
-			return true;
-		}
-		return false;
+		return WxPayUtil.sign(params, SignType.MD5, mckKey).equals(callback.getSign());
 	}
 
 }

@@ -16,7 +16,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @RequiredArgsConstructor
 public class RedisWebsocketMessageListener implements MessageListener, MessageSender {
 
-	public final static String CHANNEL = "websocket-send";
+	public static final String CHANNEL = "websocket-send";
 
 	private final StringRedisTemplate stringRedisTemplate;
 

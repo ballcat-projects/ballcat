@@ -25,12 +25,12 @@ import java.util.List;
 @Slf4j
 public class PageParamArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private final static String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
+	private static final String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
 			"alter", "drop", "sleep" };
 
-	private final static String FILED_NAME_REGEX = "[A-Za-z0-9_]+";
+	private static final String FILED_NAME_REGEX = "[A-Za-z0-9_]+";
 
-	private final static String ASC = "asc";
+	private static final String ASC = "asc";
 
 	/**
 	 * 判断Controller是否包含page 参数
@@ -97,7 +97,8 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 			return sorts;
 		}
 
-		String field, order;
+		String field;
+		String order;
 		for (int i = 0; i < fieldArr.length; i++) {
 			field = fieldArr[i];
 			order = orderArr[i];

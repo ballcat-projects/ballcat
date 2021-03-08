@@ -1,6 +1,5 @@
 package com.hccake.ballcat.admin.modules.lov.enums;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

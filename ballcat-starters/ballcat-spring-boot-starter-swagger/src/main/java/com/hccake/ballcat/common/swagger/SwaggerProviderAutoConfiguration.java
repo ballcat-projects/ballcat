@@ -20,7 +20,7 @@ import org.springframework.web.filter.CorsFilter;
 @ConditionalOnProperty(name = "ballcat.swagger.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerProviderAutoConfiguration {
 
-	private final static String ALL = "*";
+	private static final String ALL = "*";
 
 	@Bean
 	@ConditionalOnMissingBean

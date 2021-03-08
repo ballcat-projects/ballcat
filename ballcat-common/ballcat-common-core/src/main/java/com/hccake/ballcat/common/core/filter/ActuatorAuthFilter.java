@@ -82,7 +82,7 @@ public class ActuatorAuthFilter extends OncePerRequestFilter {
 				return false;
 			}
 			// 过期时间 30秒失效
-			long expireTime = 30 * 1000;
+			long expireTime = 30 * 1000L;
 			long nowTime = System.currentTimeMillis();
 			if (nowTime - Long.parseLong(reqTime) <= expireTime) {
 				String reverse = StrUtil.reverse(reqTime);

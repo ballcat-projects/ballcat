@@ -37,7 +37,7 @@ public class SpecifyRoleRecipientFilter implements RecipientFilter {
 	 */
 	@Override
 	public List<SysUser> filter(List<Object> filterCondition) {
-		List<String> roleCodes = filterCondition.stream().map(x -> (String) x).collect(Collectors.toList());
+		List<String> roleCodes = filterCondition.stream().map(String.class::cast).collect(Collectors.toList());
 		return sysUserService.listByRoleCodes(roleCodes);
 	}
 
@@ -58,6 +58,7 @@ public class SpecifyRoleRecipientFilter implements RecipientFilter {
 	 * @return boolean true: 是否匹配
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean match(Object filterAttr, List<Object> filterCondition) {
 		if (!(filterAttr instanceof List)) {
 			return false;
@@ -67,7 +68,7 @@ public class SpecifyRoleRecipientFilter implements RecipientFilter {
 			return false;
 		}
 		for (Object roleCode : roleCodes) {
-			boolean matched = filterCondition.stream().map(x -> (String) x).anyMatch(x -> x.equals(roleCode));
+			boolean matched = filterCondition.stream().map(String.class::cast).anyMatch(x -> x.equals(roleCode));
 			if (matched) {
 				return true;
 			}

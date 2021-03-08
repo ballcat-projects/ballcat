@@ -15,8 +15,6 @@ import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
-import java.io.IOException;
-
 /**
  * @author Hccake
  * @version 1.0
@@ -60,7 +58,7 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 		return handleOAuth2Exception(new ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
 	}
 
-	private ResponseEntity<OAuth2Exception> handleOAuth2Exception(OAuth2Exception e) throws IOException {
+	private ResponseEntity<OAuth2Exception> handleOAuth2Exception(OAuth2Exception e) {
 
 		int status = e.getHttpErrorCode();
 		HttpHeaders headers = new HttpHeaders();

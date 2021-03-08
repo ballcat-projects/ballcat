@@ -90,7 +90,7 @@ public interface MailSender {
 		boolean noTo = mailDetails.getTo() == null || mailDetails.getTo().length <= 0;
 		boolean noCc = mailDetails.getCc() == null || mailDetails.getCc().length <= 0;
 		boolean noBcc = mailDetails.getBcc() == null || mailDetails.getBcc().length <= 0;
-		if (noTo && noCc & noBcc) {
+		if (noTo && noCc && noBcc) {
 			throw new MailSendException("The email should have at least one recipient");
 		}
 		if (!StringUtils.hasText(mailDetails.getSubject())) {

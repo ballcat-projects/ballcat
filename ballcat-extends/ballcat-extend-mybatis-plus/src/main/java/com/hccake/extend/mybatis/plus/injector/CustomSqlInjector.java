@@ -14,12 +14,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomSqlInjector extends DefaultSqlInjector {
 
-	private final List<AbstractMethod> list;
+	private final List<AbstractMethod> methods;
 
 	@Override
 	public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
 		List<AbstractMethod> list = super.getMethodList(mapperClass);
-		list.addAll(this.list);
+		list.addAll(this.methods);
 		return list;
 	}
 

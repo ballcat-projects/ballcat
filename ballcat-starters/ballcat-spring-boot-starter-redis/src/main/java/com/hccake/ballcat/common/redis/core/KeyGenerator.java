@@ -37,7 +37,7 @@ public class KeyGenerator {
 		String joint = SpELUtil.parseValueToString(spElContext, spELExpressions);
 		Assert.notNull(joint, "Key joint cannot be null!");
 
-		if (StringUtils.isEmpty(key)) {
+		if (!StringUtils.hasText(key)) {
 			return joint;
 		}
 		// 拼接后返回

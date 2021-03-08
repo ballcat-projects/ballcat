@@ -51,17 +51,13 @@ public class KafkaKeyValueStore<K, V> implements KafkaWindow<V, KeyValueStore<K,
 
 	public List<K> keys() {
 		List<K> list = new ArrayList<>();
-		all().forEachRemaining(kv -> {
-			list.add(kv.key);
-		});
+		all().forEachRemaining(kv -> list.add(kv.key));
 		return list;
 	}
 
 	public List<V> values() {
 		List<V> list = new ArrayList<>();
-		all().forEachRemaining(kv -> {
-			list.add(kv.value);
-		});
+		all().forEachRemaining(kv -> list.add(kv.value));
 		return list;
 	}
 

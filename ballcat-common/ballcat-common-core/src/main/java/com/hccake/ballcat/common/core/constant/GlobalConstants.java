@@ -19,7 +19,7 @@ public final class GlobalConstants {
 	/**
 	 * 生产环境
 	 */
-	public final static String ENV_PROD = "prod";
+	public static final String ENV_PROD = "prod";
 
 	/**
 	 * 树根节点ID

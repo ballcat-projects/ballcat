@@ -5,11 +5,12 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.starte.pay.wx.enums.ResponseCode;
 import com.hccake.starte.pay.wx.enums.TradeState;
 import com.hccake.starte.pay.wx.enums.TradeType;
-import java.math.BigInteger;
-import java.util.Map;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.math.BigInteger;
+import java.util.Map;
 
 /**
  * @author lingting 2021/2/25 15:19
@@ -98,11 +99,8 @@ public class WxPayOrderQueryResponse {
 	 */
 	public boolean isSuccess() {
 		// 交易成功
-		if (returnCode == ResponseCode.SUCCESS && resultCode == ResponseCode.SUCCESS
-				&& tradeState == TradeState.SUCCESS) {
-			return true;
-		}
-		return false;
+		return returnCode == ResponseCode.SUCCESS && resultCode == ResponseCode.SUCCESS
+				&& tradeState == TradeState.SUCCESS;
 	}
 
 }

@@ -8,7 +8,10 @@ import org.apache.kafka.streams.processor.internals.ProcessorContextImpl;
  *
  * @author lingting 2020/6/23 18:00
  */
-public class ProcessorContextUtil {
+public final class ProcessorContextUtil {
+
+	private ProcessorContextUtil() {
+	}
 
 	public static String toLogString(ProcessorContext context) {
 		String res = " 节点属性: application-id: " + context.applicationId();

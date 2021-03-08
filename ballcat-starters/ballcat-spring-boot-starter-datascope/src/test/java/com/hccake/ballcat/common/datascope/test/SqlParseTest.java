@@ -19,10 +19,10 @@ import java.util.*;
  * @author Hccake 2020/9/28
  * @version 1.0
  */
-public class SqlParseTest {
+class SqlParseTest {
 
 	@Test
-	public void test() {
+	void test() {
 		DataScope dataScope = new DataScope() {
 			final String columnId = "order_id";
 

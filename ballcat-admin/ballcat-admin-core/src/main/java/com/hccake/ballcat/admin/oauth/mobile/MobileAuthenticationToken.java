@@ -50,9 +50,4 @@ public class MobileAuthenticationToken extends AbstractAuthenticationToken {
 		super.setAuthenticated(false);
 	}
 
-	@Override
-	public void eraseCredentials() {
-		super.eraseCredentials();
-	}
-
 }

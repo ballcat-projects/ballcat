@@ -65,7 +65,7 @@ public class TencentSenderImpl extends BaseServiceImpl implements SmsSender<SmsS
 			if (StrUtil.isNotEmpty(tencent.getSign())) {
 				json.put("Sign", tencent.getSign());
 			}
-			if (sp.getTemplateParam().size() != 0) {
+			if (!sp.getTemplateParam().isEmpty()) {
 				json.put("TemplateParamSet", sp.getTemplateParam());
 			}
 			SendSmsRequest req = SendSmsRequest.fromJsonString(om.writeValueAsString(json), SendSmsRequest.class);

@@ -7,7 +7,10 @@ import java.lang.reflect.Method;
  * @author Hccake 2021/1/27
  * @version 1.0
  */
-public class AnnotationUtil {
+public final class AnnotationUtil {
+
+	private AnnotationUtil() {
+	}
 
 	/**
 	 * 获取数据权限注解 优先获取方法上的注解，再获取类上的注解

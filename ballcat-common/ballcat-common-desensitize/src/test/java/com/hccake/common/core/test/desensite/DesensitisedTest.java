@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
  * @version 1.0
  */
 @Slf4j
-public class DesensitisedTest {
+class DesensitisedTest {
 
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Test
-	public void test1() throws JsonProcessingException {
+	void test1() throws JsonProcessingException {
 		DesensitizationUser user = new DesensitizationUser().setEmail("chengbohua@foxmail.com").setUsername("xiaoming")
 				.setPassword("admina123456").setPhoneNumber("15800000000").setTestField("这是测试属性");
 		String value = objectMapper.writeValueAsString(user);

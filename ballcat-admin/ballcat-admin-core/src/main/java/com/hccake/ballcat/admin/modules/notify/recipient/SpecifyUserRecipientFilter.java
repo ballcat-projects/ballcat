@@ -36,7 +36,7 @@ public class SpecifyUserRecipientFilter implements RecipientFilter {
 	 */
 	@Override
 	public List<SysUser> filter(List<Object> filterCondition) {
-		List<Integer> userIds = filterCondition.stream().map(x -> (Integer) x).collect(Collectors.toList());
+		List<Integer> userIds = filterCondition.stream().map(Integer.class::cast).collect(Collectors.toList());
 		return sysUserService.listByUserIds(userIds);
 	}
 
@@ -59,7 +59,7 @@ public class SpecifyUserRecipientFilter implements RecipientFilter {
 	@Override
 	public boolean match(Object filterAttr, List<Object> filterCondition) {
 		Integer userId = (Integer) filterAttr;
-		return filterCondition.stream().map(x -> (Integer) x).anyMatch(x -> x.equals(userId));
+		return filterCondition.stream().map(Integer.class::cast).anyMatch(x -> x.equals(userId));
 	}
 
 }

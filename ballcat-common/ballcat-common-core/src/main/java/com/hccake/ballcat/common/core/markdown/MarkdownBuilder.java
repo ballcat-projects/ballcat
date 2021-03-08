@@ -58,7 +58,7 @@ public class MarkdownBuilder {
 	public MarkdownBuilder orderList(String content) {
 		// 获取最后一个字符串
 		String tmp = "";
-		if (this.content.size() != 0) {
+		if (!this.content.isEmpty()) {
 			tmp = this.content.get(this.content.size() - 1);
 		}
 		// 索引
@@ -241,7 +241,7 @@ public class MarkdownBuilder {
 	public String build() {
 		lineBreak();
 		StringBuilder res = new StringBuilder();
-		content.forEach(content -> res.append(content).append(" \n"));
+		content.forEach(line -> res.append(line).append(" \n"));
 		return res.toString();
 	}
 

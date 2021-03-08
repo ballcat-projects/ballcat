@@ -37,7 +37,7 @@ public class NullSerializerModifier extends BeanSerializerModifier {
 				writer.assignNullSerializer(this.nullArrayJsonSerializer);
 			}
 			else if (isMapType(writer)) {
-				// null Map 转 {}
+				// null Map 转 '{}'
 				writer.assignNullSerializer(this.nullMapJsonSerializer);
 			}
 		}

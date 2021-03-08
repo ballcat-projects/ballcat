@@ -5,7 +5,6 @@ import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
-import javax.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.validation.ValidationException;
+
 /**
  * 全局异常处理
  *
@@ -37,9 +38,9 @@ public class GlobalExceptionHandlerResolver {
 	@Value("${spring.profiles.active:prod}")
 	private String profile;
 
-	public final static String PROD_ERR_MSG = "系统异常，请联系管理员";
+	public static final String PROD_ERR_MSG = "系统异常，请联系管理员";
 
-	public final static String NLP_MSG = "空指针异常!";
+	public static final String NLP_MSG = "空指针异常!";
 
 	/**
 	 * 全局异常捕获

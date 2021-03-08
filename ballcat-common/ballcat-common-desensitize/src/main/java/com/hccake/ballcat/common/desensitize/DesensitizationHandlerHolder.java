@@ -19,9 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Hccake 2021/1/22
  * @version 1.0
  */
-public class DesensitizationHandlerHolder {
+public final class DesensitizationHandlerHolder {
 
-	private final static Map<Class<? extends DesensitizationHandler>, DesensitizationHandler> MAP = new ConcurrentHashMap<>();
+	private DesensitizationHandlerHolder() {
+	}
+
+	private static final Map<Class<? extends DesensitizationHandler>, DesensitizationHandler> MAP = new ConcurrentHashMap<>();
 
 	static {
 		// 滑动脱敏处理器

@@ -11,7 +11,7 @@ public class InsertOrUpdateFieldByBatch extends BaseInsertBatch {
 
 	@Override
 	protected String getSql() {
-		return "<script>insert into %s %s values %s</script>";
+		return SQL;
 	}
 
 	@Override

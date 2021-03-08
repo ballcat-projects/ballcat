@@ -9,7 +9,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Hccake 2021/1/4
  * @version 1.0
  */
-public class JsonMessageHandlerHolder {
+public final class JsonMessageHandlerHolder {
+
+	private JsonMessageHandlerHolder() {
+	}
 
 	private static final Map<String, JsonMessageHandler> MESSAGE_HANDLER_MAP = new ConcurrentHashMap<>();
 

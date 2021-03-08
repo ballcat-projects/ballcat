@@ -12,7 +12,6 @@ import org.apache.ibatis.plugin.*;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * 数据权限拦截器
@@ -46,7 +45,7 @@ public class DataPermissionInterceptor implements Interceptor {
 		}
 
 		List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(mappedStatementId);
-		if (dataScopes == null || dataScopes.size() == 0) {
+		if (dataScopes == null || dataScopes.isEmpty()) {
 			return invocation.proceed();
 		}
 
@@ -67,11 +66,6 @@ public class DataPermissionInterceptor implements Interceptor {
 			return Plugin.wrap(target, this);
 		}
 		return target;
-	}
-
-	@Override
-	public void setProperties(Properties properties) {
-
 	}
 
 }

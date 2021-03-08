@@ -6,7 +6,7 @@ package com.hccake.ballcat.common.websocket.message;
  */
 public abstract class AbstractJsonWebSocketMessage implements JsonWebSocketMessage {
 
-	public final static String TYPE_FIELD = "type";
+	public static final String TYPE_FIELD = "type";
 
 	private final String type;
 

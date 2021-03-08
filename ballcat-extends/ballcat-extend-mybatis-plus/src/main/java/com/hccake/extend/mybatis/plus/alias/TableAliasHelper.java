@@ -15,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TableAliasHelper {
 
-	private final static String COMMA = ",";
+	private static final String COMMA = ",";
 
-	private final static String DOT = ".";
+	private static final String DOT = ".";
 
 	/**
 	 * 存储类对应的表别名

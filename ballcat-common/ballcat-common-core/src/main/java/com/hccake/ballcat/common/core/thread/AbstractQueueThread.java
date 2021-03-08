@@ -1,10 +1,11 @@
 package com.hccake.ballcat.common.core.thread;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
+
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 顶级队列线程类
@@ -16,17 +17,17 @@ public abstract class AbstractQueueThread<E> extends Thread implements Initializ
 	/**
 	 * 默认缓存数据数量
 	 */
-	private final static int DEFAULT_BATCH_SIZE = 500;
+	private static final int DEFAULT_BATCH_SIZE = 500;
 
 	/**
 	 * 默认等待时长 30秒；单位 毫秒
 	 */
-	private final static long DEFAULT_BATCH_TIMEOUT_MS = 30 * 1000L;
+	private static final long DEFAULT_BATCH_TIMEOUT_MS = 30 * 1000L;
 
 	/**
 	 * 默认获取数据时的超时时间
 	 */
-	private final static long POLL_TIMEOUT_MS = 5 * 1000;
+	private static final long POLL_TIMEOUT_MS = 5 * 1000L;
 
 	/**
 	 * 用于子类自定义缓存数据数量

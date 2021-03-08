@@ -30,7 +30,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
 	/**
 	 * 针对需忽略的Url的规则匹配器
 	 */
-	private final static AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
+	private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
 
 	/**
 	 * Same contract as for {@code doFilter}, but guaranteed to be just invoked once per

@@ -38,7 +38,7 @@ public class MobileTokenGranter extends AbstractTokenGranter {
 	@Override
 	protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
 		Map<String, String> parameters = new LinkedHashMap<>(tokenRequest.getRequestParameters());
-		String mobile = parameters.get("mobile");
+		String mobile = parameters.get(GRANT_TYPE);
 		if (mobile == null) {
 			mobile = "";
 		}

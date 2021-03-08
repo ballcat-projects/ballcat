@@ -70,7 +70,7 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 				.setBtnOrientation(orientation.getVal());
 
 		// 当 单按钮的 文本和链接都不为空时
-		if (buttons.size() == 0) {
+		if (buttons.isEmpty()) {
 			card.setSingleTitle(singleTitle).setSingleUrl(singleUrl);
 		}
 		else {

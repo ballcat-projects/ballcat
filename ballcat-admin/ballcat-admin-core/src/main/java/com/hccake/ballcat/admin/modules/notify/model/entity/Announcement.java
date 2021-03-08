@@ -26,7 +26,7 @@ public class Announcement {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static String TABLE_ALIAS = "a";
+	public static final String TABLE_ALIAS = "a";
 
 	/**
 	 * ID

@@ -43,7 +43,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 
 		processSelectBody(select.getSelectBody(), dataScopes);
 		List<WithItem> withItemsList = select.getWithItemsList();
-		if (withItemsList != null && withItemsList.size() != 0) {
+		if (withItemsList != null && !withItemsList.isEmpty()) {
 			withItemsList.forEach(selectBody -> processSelectBody(selectBody, dataScopes));
 		}
 	}
@@ -61,7 +61,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 		else {
 			SetOperationList operationList = (SetOperationList) selectBody;
-			if (operationList.getSelects() != null && operationList.getSelects().size() > 0) {
+			if (operationList.getSelects() != null && !operationList.getSelects().isEmpty()) {
 				operationList.getSelects().forEach(item -> processSelectBody(item, dataScopes));
 			}
 		}
@@ -112,7 +112,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			processFromItem(fromItem, dataScopes);
 		}
 		List<Join> joins = plainSelect.getJoins();
-		if (joins != null && joins.size() > 0) {
+		if (joins != null && !joins.isEmpty()) {
 			joins.forEach(j -> {
 				processJoin(j, dataScopes);
 				processFromItem(j.getRightItem(), dataScopes);

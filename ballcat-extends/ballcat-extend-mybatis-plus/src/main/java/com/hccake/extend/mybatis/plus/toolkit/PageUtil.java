@@ -13,6 +13,9 @@ import java.util.List;
  */
 public final class PageUtil {
 
+	private PageUtil() {
+	}
+
 	/**
 	 * 根据 PageParam 生成一个 IPage 实例
 	 * @param pageParam 分页参数
