@@ -1,9 +1,7 @@
 package com.hccake.ballcat.common.conf.web;
 
 import com.hccake.ballcat.common.conf.config.MonitorProperties;
-import com.hccake.ballcat.common.conf.config.SecurityProperties;
 import com.hccake.ballcat.common.core.filter.ActuatorAuthFilter;
-import com.hccake.ballcat.common.core.filter.XSSFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -18,20 +16,10 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019/10/17 20:26
  */
 @Slf4j
-@EnableConfigurationProperties({ SecurityProperties.class, MonitorProperties.class })
+@EnableConfigurationProperties(MonitorProperties.class)
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication
 public class FilterConfig {
-
-	@Bean
-	@ConditionalOnProperty(prefix = "ballcat.security.xss", name = "enabled", havingValue = "true",
-			matchIfMissing = true)
-	public FilterRegistrationBean<XSSFilter> xssFilterRegistrationBean() {
-		log.debug("XSS 过滤已开启====");
-		FilterRegistrationBean<XSSFilter> registrationBean = new FilterRegistrationBean<>(new XSSFilter());
-		registrationBean.setOrder(-1);
-		return registrationBean;
-	}
 
 	@Bean
 	@ConditionalOnProperty(prefix = "ballcat.actuator", name = "auth", havingValue = "true")

@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.core.request.wrapper;
 
+import com.hccake.ballcat.common.util.HtmlUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -14,9 +14,9 @@ import java.util.Map;
  * @date 2019/10/16 10:29 Request包装类 1. XSS过滤
  */
 @Slf4j
-public class XSSRequestWrapper extends HttpServletRequestWrapper {
+public class XssRequestWrapper extends HttpServletRequestWrapper {
 
-	public XSSRequestWrapper(HttpServletRequest request) {
+	public XssRequestWrapper(HttpServletRequest request) {
 		super(request);
 	}
 
@@ -24,12 +24,12 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 	public Map<String, String[]> getParameterMap() {
 		Map<String, String[]> map = new LinkedHashMap<>();
 		Map<String, String[]> parameters = super.getParameterMap();
-		for (String key : parameters.keySet()) {
-			String[] values = parameters.get(key);
+		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
+			String[] values = entry.getValue();
 			for (int i = 0; i < values.length; i++) {
-				values[i] = HtmlUtils.htmlEscape(values[i]);
+				values[i] = HtmlUtils.cleanUnSafe(values[i]);
 			}
-			map.put(key, values);
+			map.put(entry.getKey(), values);
 		}
 		return map;
 	}
@@ -43,7 +43,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 		int count = values.length;
 		String[] encodedValues = new String[count];
 		for (int i = 0; i < count; i++) {
-			encodedValues[i] = HtmlUtils.htmlEscape(values[i]);
+			encodedValues[i] = HtmlUtils.cleanUnSafe(values[i]);
 		}
 		return encodedValues;
 	}
@@ -54,14 +54,14 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 		if (value == null) {
 			return null;
 		}
-		return HtmlUtils.htmlEscape(value);
+		return HtmlUtils.cleanUnSafe(value);
 	}
 
 	@Override
 	public Object getAttribute(String name) {
 		Object value = super.getAttribute(name);
 		if (value instanceof String) {
-			HtmlUtils.htmlEscape((String) value);
+			HtmlUtils.cleanUnSafe((String) value);
 		}
 		return value;
 	}
@@ -72,7 +72,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 		if (value == null) {
 			return null;
 		}
-		return HtmlUtils.htmlEscape(value);
+		return HtmlUtils.cleanUnSafe(value);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 		if (value == null) {
 			return null;
 		}
-		return HtmlUtils.htmlEscape(value);
+		return HtmlUtils.cleanUnSafe(value);
 	}
 
 }
