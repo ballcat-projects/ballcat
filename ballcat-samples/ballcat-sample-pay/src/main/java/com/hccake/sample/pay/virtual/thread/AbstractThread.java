@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import live.lingting.virtual.currency.Transaction;
-import live.lingting.virtual.currency.enums.TransactionStatus;
+import live.lingting.virtual.currency.core.model.TransactionInfo;
+import live.lingting.virtual.currency.core.enums.TransactionStatus;
 
 /**
  * 配置基本校验
@@ -45,7 +45,7 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 	}
 
 	@Override
-	public void handler(Order obj, Optional<Transaction> optional) {
+	public void handler(Order obj, Optional<TransactionInfo> optional) {
 		/*
 		 * 不管哪个平台的充值订单, 验证逻辑都是一样的
 		 *
@@ -65,7 +65,7 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 			return;
 		}
 
-		Transaction transaction = optional.get();
+		TransactionInfo transaction = optional.get();
 
 		if (transaction.getStatus() == TransactionStatus.WAIT) {
 			// 交易需要等待继续查询
@@ -116,13 +116,13 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 	}
 
 	@Override
-	public void success(Order obj, Optional<Transaction> optional, Result verifyResult) {
+	public void success(Order obj, Optional<TransactionInfo> optional, Result verifyResult) {
 		log.info("交易成功, 订单数据: {}, 交易信息: {}, 结果: {}", JsonUtils.toJson(obj),
 				!optional.isPresent() ? "null" : JsonUtils.toJson(optional.get()), JsonUtils.toJson(verifyResult));
 	}
 
 	@Override
-	public void failed(Order obj, Optional<Transaction> optional, Result verifyResult) {
+	public void failed(Order obj, Optional<TransactionInfo> optional, Result verifyResult) {
 		log.info("交易失败, 订单数据: {}, 交易信息: {}, 结果: {}", JsonUtils.toJson(obj),
 				!optional.isPresent() ? "null" : JsonUtils.toJson(optional.get()), JsonUtils.toJson(verifyResult));
 	}

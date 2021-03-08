@@ -332,7 +332,7 @@ public class RedisHelper {
 		return getList().leftPush(key, val);
 	}
 
-	public static Long listRightPush(String key, String val){
+	public static Long listRightPush(String key, String val) {
 		return getList().rightPush(key, val);
 	}
 

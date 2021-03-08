@@ -8,20 +8,18 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import live.lingting.virtual.currency.properties.InfuraProperties;
-import live.lingting.virtual.currency.properties.OmniProperties;
-import live.lingting.virtual.currency.properties.TronscanProperties;
-import live.lingting.virtual.currency.service.impl.BtcOmniServiceImpl;
-import live.lingting.virtual.currency.service.impl.InfuraServiceImpl;
-import live.lingting.virtual.currency.service.impl.TronscanServiceImpl;
+import live.lingting.virtual.currency.bitcoin.BitcoinServiceImpl;
+import live.lingting.virtual.currency.core.Contract;
+import live.lingting.virtual.currency.etherscan.EtherscanServiceImpl;
+import live.lingting.virtual.currency.tronscan.TronscanServiceImpl;
 
 /**
  * @author lingting 2021/1/5 9:52
  */
 @Slf4j
 @RequiredArgsConstructor
-@ConditionalOnClass(InfuraProperties.class)
-@EnableConfigurationProperties({ BitcoinProperties.class, EthereumProperties.class,
+@ConditionalOnClass(Contract.class)
+@EnableConfigurationProperties({ BitcoinProperties.class, EtherscanProperties.class,
 		com.hccake.starter.pay.virtual.TronscanProperties.class })
 public class VirtualPayAutoConfiguration {
 
@@ -35,13 +33,15 @@ public class VirtualPayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
+	@ConditionalOnClass(EtherscanServiceImpl.class)
 	@ConditionalOnProperty(prefix = "ballcat.pay.ethereum", name = "enabled", havingValue = "true",
 			matchIfMissing = true)
-	public InfuraProperties infuraProperties(EthereumProperties properties) {
-		EthereumProperties.Infura infura = properties.getInfura();
-		return new InfuraProperties()
+	public live.lingting.virtual.currency.etherscan.properties.EtherscanProperties infuraProperties(
+			EtherscanProperties properties) {
+		EtherscanProperties.Infura infura = properties.getInfura();
+		return new live.lingting.virtual.currency.etherscan.properties.EtherscanProperties()
 				// 节点
-				.setEndpoints(infura.getEndpoints())
+				.setEndpoints(properties.getEndpoints())
 				// project id
 				.setProjectId(infura.getProjectId())
 				// project secret
@@ -54,9 +54,11 @@ public class VirtualPayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	@ConditionalOnBean(InfuraProperties.class)
-	public InfuraServiceImpl infuraService(InfuraProperties properties) {
-		return new InfuraServiceImpl(properties);
+	@ConditionalOnClass(EtherscanServiceImpl.class)
+	@ConditionalOnBean(live.lingting.virtual.currency.etherscan.properties.EtherscanProperties.class)
+	public EtherscanServiceImpl infuraService(
+			live.lingting.virtual.currency.etherscan.properties.EtherscanProperties properties) {
+		return new EtherscanServiceImpl(properties);
 	}
 
 	/*
@@ -69,10 +71,12 @@ public class VirtualPayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
+	@ConditionalOnClass(TronscanServiceImpl.class)
 	@ConditionalOnProperty(prefix = "ballcat.pay.tronscan", name = "enabled", havingValue = "true",
 			matchIfMissing = true)
-	public TronscanProperties tronscanProperties(com.hccake.starter.pay.virtual.TronscanProperties properties) {
-		return new TronscanProperties()
+	public live.lingting.virtual.currency.tronscan.properties.TronscanProperties tronscanProperties(
+			TronscanProperties properties) {
+		return new live.lingting.virtual.currency.tronscan.properties.TronscanProperties()
 				// 节点
 				.setEndpoints(properties.getEndpoints());
 	}
@@ -83,8 +87,9 @@ public class VirtualPayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	@ConditionalOnBean(TronscanProperties.class)
-	public TronscanServiceImpl tronscanService(TronscanProperties properties) {
+	@ConditionalOnBean(live.lingting.virtual.currency.tronscan.properties.TronscanProperties.class)
+	public TronscanServiceImpl tronscanService(
+			live.lingting.virtual.currency.tronscan.properties.TronscanProperties properties) {
 		return new TronscanServiceImpl(properties);
 	}
 
@@ -98,14 +103,14 @@ public class VirtualPayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
+	@ConditionalOnClass(BitcoinServiceImpl.class)
 	@ConditionalOnProperty(prefix = "ballcat.pay.bitcoin", name = "enabled", havingValue = "true",
 			matchIfMissing = true)
-	public OmniProperties bitcoinProperties(BitcoinProperties properties) {
-		return new OmniProperties()
-				// 节点
-				.setOmniEndpoints(properties.getOmni().getEndpoints())
+	public live.lingting.virtual.currency.bitcoin.properties.BitcoinProperties bitcoinProperties(
+			BitcoinProperties properties) {
+		return new live.lingting.virtual.currency.bitcoin.properties.BitcoinProperties()
 				// 比特节点
-				.setBitcoinEndpoints(properties.getEndpoints());
+				.setEndpoints(properties.getEndpoints());
 	}
 
 	/**
@@ -114,9 +119,10 @@ public class VirtualPayAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	@ConditionalOnBean(OmniProperties.class)
-	public BtcOmniServiceImpl bitcoinService(OmniProperties properties) {
-		return new BtcOmniServiceImpl(properties);
+	@ConditionalOnBean(live.lingting.virtual.currency.bitcoin.properties.BitcoinProperties.class)
+	public BitcoinServiceImpl bitcoinService(
+			live.lingting.virtual.currency.bitcoin.properties.BitcoinProperties properties) {
+		return new BitcoinServiceImpl(properties);
 	}
 
 }

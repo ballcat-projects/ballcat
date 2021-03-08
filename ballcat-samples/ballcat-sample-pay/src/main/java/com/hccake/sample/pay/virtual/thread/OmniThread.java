@@ -6,8 +6,8 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import live.lingting.virtual.currency.Transaction;
-import live.lingting.virtual.currency.service.impl.BtcOmniServiceImpl;
+import live.lingting.virtual.currency.bitcoin.BitcoinServiceImpl;
+import live.lingting.virtual.currency.core.model.TransactionInfo;
 
 /**
  * @author lingting 2021/1/5 15:22
@@ -17,7 +17,7 @@ import live.lingting.virtual.currency.service.impl.BtcOmniServiceImpl;
 @RequiredArgsConstructor
 public class OmniThread extends AbstractThread {
 
-	private final BtcOmniServiceImpl service;
+	private final BitcoinServiceImpl service;
 
 	@Override
 	public void init() {
@@ -25,7 +25,7 @@ public class OmniThread extends AbstractThread {
 	}
 
 	@Override
-	public Optional<Transaction> getTransaction(Order obj) {
+	public Optional<TransactionInfo> getTransaction(Order obj) {
 		try {
 			return service.getTransactionByHash(obj.getHash());
 		}

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import live.lingting.virtual.currency.Transaction;
+import live.lingting.virtual.currency.core.model.TransactionInfo;
 
 /**
  * 用于校验交易的线程
@@ -27,7 +27,7 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	 * @return live.lingting.virtual.currency.Transaction
 	 * @author lingting 2021-01-05 11:22
 	 */
-	public abstract Optional<Transaction> getTransaction(T obj);
+	public abstract Optional<TransactionInfo> getTransaction(T obj);
 
 	/**
 	 * 处理交易
@@ -35,7 +35,7 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	 * @param optional 交易数据
 	 * @author lingting 2021-01-05 11:13
 	 */
-	public abstract void handler(T obj, @NotNull Optional<Transaction> optional);
+	public abstract void handler(T obj, @NotNull Optional<TransactionInfo> optional);
 
 	/**
 	 * 失败处理
@@ -44,7 +44,7 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	 * @param r 处理结果
 	 * @author lingting 2021-01-05 11:18
 	 */
-	public abstract void failed(T obj, @NotNull Optional<Transaction> optional, R r);
+	public abstract void failed(T obj, @NotNull Optional<TransactionInfo> optional, R r);
 
 	/**
 	 * 成功处理
@@ -53,7 +53,7 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	 * @param r 处理结果
 	 * @author lingting 2021-01-05 11:19
 	 */
-	public abstract void success(T obj, @NotNull Optional<Transaction> optional, R r);
+	public abstract void success(T obj, @NotNull Optional<TransactionInfo> optional, R r);
 
 	/**
 	 * 异常处理
