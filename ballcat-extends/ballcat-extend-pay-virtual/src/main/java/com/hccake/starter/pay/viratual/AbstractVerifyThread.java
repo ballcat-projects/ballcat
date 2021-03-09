@@ -66,8 +66,14 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	@Override
 	public void receiveProcess(List<T> list, T t) {
 		try {
-			// 收到就处理. 不再汇总处理
-			handler(t, getTransaction(t));
+			if (isRun()) {
+				// 收到就处理. 不再汇总处理. 减少数据丢失的问题
+				handler(t, getTransaction(t));
+			}
+			else {
+				// 结束运行插入redis
+				put(t);
+			}
 		}
 		catch (Exception e) {
 			error(t, e);

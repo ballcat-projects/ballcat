@@ -24,7 +24,7 @@ public abstract class AbstractThread extends AbstractVerifyThread<Order, Result>
 
 	@Override
 	public int getBatchSize() {
-		return 1;
+		return 10;
 	}
 
 	/**

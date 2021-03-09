@@ -8,14 +8,13 @@ spring:
 ballcat:
   pay:
     bitcoin:
-      omni:
-        endpoints: mainnet
       enabled: true
+      endpoints: mainnet
     ethereum:
       infura:
-        endpoints: mainnet
         # 正式运营请使用自己的 project id, 这个随时可能失效
         project-id: b6066b4cfce54e7384ea38d52f9260ac
+      endpoints: mainnet
     tronscan:
       endpoints: mainnet
       enabled: true

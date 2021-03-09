@@ -1,18 +1,23 @@
 package com.hccake.ballcat.common.core.thread;
 
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.lang.Nullable;
-
-import javax.validation.constraints.NotNull;
+import com.hccake.ballcat.common.util.JsonUtils;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.lang.Nullable;
 
 /**
  * 顶级队列线程类
  *
  * @author lingting 2021/3/2 15:07
  */
-public abstract class AbstractQueueThread<E> extends Thread implements InitializingBean {
+@Slf4j
+public abstract class AbstractQueueThread<E> extends Thread
+		implements InitializingBean, ApplicationListener<ContextClosedEvent> {
 
 	/**
 	 * 默认缓存数据数量
@@ -133,7 +138,7 @@ public abstract class AbstractQueueThread<E> extends Thread implements Initializ
 						e = poll(getPollTimeoutMs());
 					}
 					catch (InterruptedException interruptedException) {
-						interruptedException.printStackTrace();
+						log.error("{} 类的线程被中断!id: {}", getClass().getSimpleName(), getId());
 					}
 
 					if (e != null) {
@@ -150,7 +155,13 @@ public abstract class AbstractQueueThread<E> extends Thread implements Initializ
 						break;
 					}
 				}
-				process(list);
+
+				if (!isRun()) {
+					shutdownHandler(list);
+				}
+				else {
+					process(list);
+				}
 			}
 			catch (Throwable e) {
 				error(e, list);
@@ -171,6 +182,37 @@ public abstract class AbstractQueueThread<E> extends Thread implements Initializ
 		// 默认配置线程名. 用来方便查询
 		setName(this.getClass().getSimpleName());
 		start();
+	}
+
+	@Override
+	public void onApplicationEvent(ContextClosedEvent event) {
+		log.warn("{} 类的线程开始关闭! id: {} ", getClass().getSimpleName(), getId());
+		// 执行关闭方法
+		shutdown();
+	}
+
+	/**
+	 * 线程关闭时执行
+	 * @author lingting 2021-03-08 22:25
+	 */
+	public void shutdown() {
+		// 通过中断线程唤醒当前线程. 让线程进入 shutdownHandler 方法处理数据
+		this.interrupt();
+	}
+
+	/**
+	 * 线程被中断后的处理. 如果有缓存手段可以让数据进入缓存.
+	 * @param list 当前数据
+	 * @author lingting 2021-03-08 22:40
+	 */
+	public void shutdownHandler(List<E> list) {
+		try {
+			log.error("{} 类 线程: {} 被关闭. 数据:{}", this.getClass().getSimpleName(), getId(), JsonUtils.toJson(list));
+		}
+		catch (Throwable e) {
+			log.error("{} 类 线程: {} 被关闭. 数据:{}", this.getClass().getSimpleName(), getId(), list);
+
+		}
 	}
 
 }
