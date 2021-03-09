@@ -133,13 +133,13 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 					// 休眠. 返回剩余的休眠时间
 					nanos = condition.awaitNanos(nanos);
 
-					// 被唤醒. 或者超时
-					pop = get();
-
 					// 如果不运行了
 					if (!isRun()) {
 						break;
 					}
+
+					// 被唤醒. 或者超时
+					pop = get();
 
 					// 获取到值
 					if (StrUtil.isNotBlank(pop)) {
