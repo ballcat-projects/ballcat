@@ -6,6 +6,7 @@ import com.hccake.ballcat.common.redis.RedisHelper;
 import com.hccake.ballcat.common.util.JsonUtils;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -25,14 +26,19 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 	protected RedisHelper redisHelper;
 
 	/**
+	 * 是否正在运行
+	 */
+	protected boolean run = true;
+
+	/**
 	 * 锁
 	 */
-	private final ReentrantLock lock = new ReentrantLock();
+	protected final ReentrantLock lock = new ReentrantLock();
 
 	/**
 	 * 激活与休眠线程
 	 */
-	private final Condition condition = lock.newCondition();
+	protected final Condition condition = lock.newCondition();
 
 	/**
 	 * 获取数据存储的key
@@ -83,6 +89,7 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 			try {
 				lock.lockInterruptibly();
 				try {
+					// 线程被中断后无法执行Redis命令
 					RedisHelper.listRightPush(getKey(), convertToString(e));
 					// 激活线程
 					condition.signal();
@@ -92,7 +99,7 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 				}
 			}
 			catch (Exception ex) {
-				log.error("{} put Object error, param: {}", this.getClass().toString(), e, ex);
+				log.error("{} put error, param: {}", this.getClass().toString(), e, ex);
 			}
 		}
 	}
@@ -109,6 +116,10 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 	@Override
 	@Nullable
 	public E poll(long time) throws InterruptedException {
+		if (!isRun()) {
+			// 停止运行时返回null, 让数据待在redis里面
+			return null;
+		}
 		// 上锁
 		lock.lockInterruptibly();
 		try {
@@ -125,6 +136,11 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 					// 被唤醒. 或者超时
 					pop = get();
 
+					// 如果不运行了
+					if (!isRun()) {
+						break;
+					}
+
 					// 获取到值
 					if (StrUtil.isNotBlank(pop)) {
 						// 结束循环. 返回值
@@ -138,6 +154,35 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 			lock.unlock();
 		}
 
+	}
+
+	@Override
+	public void shutdown() {
+		// 修改运行标志
+		run = false;
+		lock.lock();
+		try {
+			condition.signalAll();
+		}
+		finally {
+			lock.unlock();
+		}
+	}
+
+	@Override
+	public void shutdownHandler(List<E> list) {
+		log.warn("{} 线程被关闭! id: {}", getClass().getSimpleName(), getId());
+		for (E e : list) {
+			// 所有数据插入redis
+			put(e);
+			log.error("{}", e);
+		}
+	}
+
+	@Override
+	public boolean isRun() {
+		// 运行中 且 未被中断
+		return run && !isInterrupted();
 	}
 
 }
