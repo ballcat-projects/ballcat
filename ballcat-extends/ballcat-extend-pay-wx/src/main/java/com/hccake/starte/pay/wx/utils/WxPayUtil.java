@@ -2,16 +2,18 @@ package com.hccake.starte.pay.wx.utils;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.hccake.starte.pay.wx.constants.WxPayConstant;
 import com.hccake.starte.pay.wx.enums.SignType;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.XMLConstants;
@@ -24,15 +26,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * @author lingting 2021/1/26 16:04
@@ -152,13 +152,16 @@ public final class WxPayUtil {
 		Arrays.sort(keyArray);
 		// 构建排序后的用于签名的字符串
 		StringBuilder paramsStr = new StringBuilder();
+		// 参数值
+		String val;
 		for (String k : keyArray) {
 			if (k.equals(WxPayConstant.FIELD_SIGN)) {
 				continue;
 			}
 			// 参数值为空，则不参与签名
-			if (params.get(k).trim().length() > 0) {
-				paramsStr.append(k).append("=").append(params.get(k).trim()).append("&");
+			val = params.get(k);
+			if (StrUtil.isNotBlank(val)) {
+				paramsStr.append(k).append("=").append(val.trim()).append("&");
 			}
 		}
 		paramsStr.append("key=").append(mckKey);
