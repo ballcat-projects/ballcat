@@ -49,7 +49,11 @@ public class SysDictItemServiceImpl extends ExtendServiceImpl<SysDictItemMapper,
 	 */
 	@Override
 	public boolean removeByDictCode(String dictCode) {
-		return baseMapper.deleteByDictCode(dictCode);
+		// 如果存在字典项则进行删除
+		if (baseMapper.existsDictItem(dictCode)) {
+			return baseMapper.deleteByDictCode(dictCode);
+		}
+		return true;
 	}
 
 }

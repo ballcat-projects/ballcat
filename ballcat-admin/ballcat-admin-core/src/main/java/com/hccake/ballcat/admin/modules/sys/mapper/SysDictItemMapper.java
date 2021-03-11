@@ -53,4 +53,15 @@ public interface SysDictItemMapper extends ExtendMapper<SysDictItem> {
 		return SqlHelper.retBool(i);
 	}
 
+	/**
+	 * 判断是否存在指定字典标识的字典项
+	 * @param dictCode 字典标识
+	 * @return boolean 存在：true
+	 */
+	default boolean existsDictItem(String dictCode) {
+		Integer count = this
+				.selectCount(Wrappers.lambdaQuery(SysDictItem.class).eq(SysDictItem::getDictCode, dictCode));
+		return count != null && count > 0;
+	}
+
 }
