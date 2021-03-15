@@ -1,7 +1,5 @@
 package com.hccake.starte.pay.ali.constants;
 
-import java.math.BigDecimal;
-
 /**
  * @author lingting 2021/1/25 13:35
  */
@@ -21,5 +19,10 @@ public class AliPayConstant {
 	 * 查询支付成功返回code
 	 */
 	public static final String CODE_SUCCESS = "10000";
+
+	/**
+	 * 用于电脑网页支付时的产品码
+	 */
+	public static final String PRODUCT_CODE = "FAST_INSTANT_TRADE_PAY";
 
 }
