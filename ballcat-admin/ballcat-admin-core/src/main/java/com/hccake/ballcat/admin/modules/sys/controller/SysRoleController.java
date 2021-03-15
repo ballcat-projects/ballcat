@@ -4,12 +4,15 @@ import com.hccake.ballcat.admin.constants.SysRoleConst;
 import com.hccake.ballcat.admin.modules.sys.model.converter.SysRoleConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysRoleUpdateDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
+import com.hccake.ballcat.admin.modules.sys.model.qo.RoleBindUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.RoleBindUserVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysRoleVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRoleService;
+import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
@@ -39,9 +42,11 @@ public class SysRoleController {
 
 	private final SysRoleService sysRoleService;
 
-	private final SysRolePermissionService sysRolePermissionService;
-
 	private final SysPermissionService sysPermissionService;
+
+	private final SysUserRoleService sysUserRoleService;
+
+	private final SysRolePermissionService sysRolePermissionService;
 
 	/**
 	 * 分页查询角色信息
@@ -150,6 +155,30 @@ public class SysRoleController {
 	@GetMapping("/select")
 	public R<List<SelectData<?>>> listSelectData() {
 		return R.ok(sysRoleService.listSelectData());
+	}
+
+	/**
+	 * 分页查询已授权指定角色的用户列表
+	 * @param roleBindUserQO 角色绑定用户的查询条件
+	 * @return R
+	 */
+	@GetMapping("/user/page")
+	@ApiOperation(value = "查看已授权指定角色的用户列表", notes = "查看已授权指定角色的用户列表")
+	@PreAuthorize("@per.hasPermission('sys:sysrole:grant')")
+	public R<PageResult<RoleBindUserVO>> queryUserPageByRoleCode(PageParam pageParam,
+			@Valid RoleBindUserQO roleBindUserQO) {
+		return R.ok(sysUserRoleService.queryUserPageByRoleCode(pageParam, roleBindUserQO));
+	}
+
+	/**
+	 * 解绑与用户绑定关系
+	 * @return R
+	 */
+	@DeleteMapping("/user")
+	@ApiOperation(value = "解绑与用户绑定关系", notes = "解绑与用户绑定关系")
+	@PreAuthorize("@per.hasPermission('sys:sysrole:grant')")
+	public R<Boolean> unbindRoleUser(@RequestParam Integer userId, @RequestParam String roleCode) {
+		return R.ok(sysUserRoleService.unbindRoleUser(userId, roleCode));
 	}
 
 }

@@ -2,6 +2,10 @@ package com.hccake.ballcat.admin.modules.sys.service;
 
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUserRole;
+import com.hccake.ballcat.admin.modules.sys.model.qo.RoleBindUserQO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.RoleBindUserVO;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;
@@ -18,7 +22,7 @@ public interface SysUserRoleService extends ExtendService<SysUserRole> {
 	 * @param userId 用户ID
 	 * @return 删除是否程
 	 */
-	Boolean deleteByUserId(Integer userId);
+	boolean deleteByUserId(Integer userId);
 
 	/**
 	 * 插入用户角色关联关系
@@ -26,7 +30,7 @@ public interface SysUserRoleService extends ExtendService<SysUserRole> {
 	 * @param roleCodes 角色标识集合
 	 * @return 插入是否成功
 	 */
-	Boolean insertUserRoles(Integer userId, List<String> roleCodes);
+	boolean insertUserRoles(Integer userId, List<String> roleCodes);
 
 	/**
 	 * 更新用户关联关系
@@ -42,5 +46,21 @@ public interface SysUserRoleService extends ExtendService<SysUserRole> {
 	 * @return List<SysRole>
 	 */
 	List<SysRole> listRoles(Integer userId);
+
+	/**
+	 * 通过角色标识，查询用户列表
+	 * @param pageParam 分页参数
+	 * @param roleCode 角色标识
+	 * @return PageResult<RoleBindUserVO> 角色授权的用户列表
+	 */
+	PageResult<RoleBindUserVO> queryUserPageByRoleCode(PageParam pageParam, RoleBindUserQO roleCode);
+
+	/**
+	 * 解绑角色和用户关系
+	 * @param userId 用户ID
+	 * @param roleCode 角色标识
+	 * @return 解绑成功：true
+	 */
+	boolean unbindRoleUser(Integer userId, String roleCode);
 
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hccake.ballcat.admin.modules.sys.mapper.SysUserRoleMapper">
 	<!-- 通过用户ID查询其关联的角色ID-->
-	<select id="listRoles" resultType="com.hccake.ballcat.admin.modules.sys.model.entity.SysRole">
+	<select id="listRoleByUserId" resultType="com.hccake.ballcat.admin.modules.sys.model.entity.SysRole">
         SELECT
             r.id, r.name, r.code
         FROM
@@ -14,20 +14,28 @@
         and r.deleted = 0
     </select>
 
-	<!--新建用户角色关联关系-->
-	<insert id="insertUserRoles">
-		insert into
-			sys_user_role (user_id, role_code)
-		values
-		<foreach collection="roleCodes" item="roleCode" separator=",">
-			( #{userId}, #{roleCode} )
-		</foreach>
-	</insert>
 
-	<!--根据UserId删除用户角色关联关系-->
-	<delete id="deleteByUserId">
-		DELETE FROM sys_user_role WHERE user_id = #{userId}
-	</delete>
-
+	<!-- 通过角色Code查询其关联的用户列表-->
+	<select id="queryUserPageByRoleCode" resultType="com.hccake.ballcat.admin.modules.sys.model.vo.RoleBindUserVO">
+		SELECT
+			su.user_id, su.username, su.nickname, so.name as organization_name
+		FROM
+			sys_user_role ur
+		LEFT JOIN
+			sys_user su ON su.user_id = ur.user_id
+		LEFT JOIN
+			sys_organization so ON su.organization_id = so.id
+		WHERE ur.role_code = #{qo.roleCode}
+		and su.deleted = 0
+		<if test="qo.userId != null">
+			su.user_id = #{qo.userId}
+		</if>
+		<if test="qo.username != null">
+			su.qo.username = #{qo.username}
+		</if>
+		<if test="qo.organizationId != null">
+			so.id = #{organizationId}
+		</if>
+	</select>
 
 </mapper>
