@@ -9,6 +9,7 @@ import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.*;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
+import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.alipay.api.response.AlipayTradePayResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
@@ -125,7 +126,7 @@ public class AliPay {
 	 * @return com.alipay.api.response.AlipayTradeWapPayResponse
 	 * @author lingting 2021-01-25 10:14
 	 */
-	public AlipayTradeWapPayResponse computerWapPay(String sn, BigDecimal amount, String subject)
+	public AlipayTradePagePayResponse computerWapPay(String sn, BigDecimal amount, String subject)
 			throws AlipayApiException {
 		return computerWapPay(sn, amount, subject, returnUrl, notifyUrl);
 	}
@@ -138,7 +139,7 @@ public class AliPay {
 	 * @return com.alipay.api.response.AlipayTradeWapPayResponse
 	 * @author lingting 2021-01-25 10:14
 	 */
-	public AlipayTradeWapPayResponse computerWapPay(String sn, BigDecimal amount, String subject, String returnUrl,
+	public AlipayTradePagePayResponse computerWapPay(String sn, BigDecimal amount, String subject, String returnUrl,
 			String notifyUrl) throws AlipayApiException {
 		AlipayTradePayModel model = new AlipayTradePayModel();
 		model.setOutTradeNo(sn);
@@ -152,7 +153,7 @@ public class AliPay {
 	 * 电脑网站支付-复杂支付
 	 * @author lingting 2021-01-25 09:56
 	 */
-	public AlipayTradeWapPayResponse computerWapPay(AlipayTradePayModel model) throws AlipayApiException {
+	public AlipayTradePagePayResponse computerWapPay(AlipayTradePayModel model) throws AlipayApiException {
 		return computerWapPay(model, returnUrl, notifyUrl);
 	}
 
@@ -160,9 +161,9 @@ public class AliPay {
 	 * 电脑网站支付-复杂支付
 	 * @author lingting 2021-01-25 09:56
 	 */
-	public AlipayTradeWapPayResponse computerWapPay(AlipayTradePayModel model, String returnUrl, String notifyUrl)
+	public AlipayTradePagePayResponse computerWapPay(AlipayTradePayModel model, String returnUrl, String notifyUrl)
 			throws AlipayApiException {
-		AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
+		AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
 		request.setBizModel(model);
 		request.setReturnUrl(returnUrl);
 		request.setNotifyUrl(notifyUrl);
