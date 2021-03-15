@@ -13,6 +13,7 @@ import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.alipay.api.response.AlipayTradePayResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
+import com.hccake.starte.pay.ali.constants.AliPayConstant;
 import com.hccake.starte.pay.ali.domain.AliPayQuery;
 import lombok.Data;
 
@@ -146,6 +147,7 @@ public class AliPay {
 		// 单位为 元 金额需要转为 分
 		model.setTotalAmount(amount.toPlainString());
 		model.setSubject(subject);
+		model.setProductCode(AliPayConstant.PRODUCT_CODE);
 		return computerWapPay(model, returnUrl, notifyUrl);
 	}
 
