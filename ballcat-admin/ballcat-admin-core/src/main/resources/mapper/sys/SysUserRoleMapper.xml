@@ -28,13 +28,13 @@
 		WHERE ur.role_code = #{qo.roleCode}
 		and su.deleted = 0
 		<if test="qo.userId != null">
-			su.user_id = #{qo.userId}
+			and su.user_id = #{qo.userId}
 		</if>
 		<if test="qo.username != null">
-			su.qo.username = #{qo.username}
+			and su.username = #{qo.username}
 		</if>
 		<if test="qo.organizationId != null">
-			so.id = #{organizationId}
+			and so.id = #{qo.organizationId}
 		</if>
 	</select>
 

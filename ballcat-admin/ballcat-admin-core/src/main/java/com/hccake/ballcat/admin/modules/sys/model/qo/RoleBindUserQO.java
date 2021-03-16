@@ -23,7 +23,7 @@ public class RoleBindUserQO {
 	private Integer userId;
 
 	@ApiModelProperty(value = "用户名")
-	private Integer username;
+	private String username;
 
 	@ApiModelProperty(value = "组织ID")
 	private Integer organizationId;
