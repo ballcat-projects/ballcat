@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.jackson;
+package com.hccake.ballcat.common.xss.core;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -23,8 +23,11 @@ public class XssStringJsonSerializer extends JsonSerializer<String> {
 	public void serialize(String value, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
 			throws IOException {
 		if (value != null) {
-			String encodedValue = HtmlUtils.cleanUnSafe(value);
-			jsonGenerator.writeString(encodedValue);
+			// 开启 Xss 才进行处理
+			if (XssStateHolder.enabled()) {
+				value = HtmlUtils.cleanUnSafe(value);
+			}
+			jsonGenerator.writeString(value);
 		}
 	}
 

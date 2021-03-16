@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.conf.config;
+package com.hccake.ballcat.common.xss.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -21,7 +21,7 @@ public class XssProperties {
 	/**
 	 * 是否开启
 	 */
-	private Boolean enabled = true;
+	private boolean enabled = true;
 
 	/**
 	 * xss 过滤包含的路径（Ant风格）

@@ -1,9 +1,9 @@
-package com.hccake.ballcat.common.conf.web;
+package com.hccake.ballcat.common.xss;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hccake.ballcat.common.conf.config.XssProperties;
-import com.hccake.ballcat.common.core.filter.XssFilter;
-import com.hccake.ballcat.common.core.jackson.XssStringJsonDeserializer;
+import com.hccake.ballcat.common.xss.config.XssProperties;
+import com.hccake.ballcat.common.xss.core.XssFilter;
+import com.hccake.ballcat.common.xss.core.XssStringJsonDeserializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -34,8 +34,7 @@ public class XssAutoConfiguration {
 	@Bean
 	public FilterRegistrationBean<XssFilter> xssFilterRegistrationBean(XssProperties xssProperties) {
 		log.debug("XSS 过滤已开启====");
-		XssFilter xssFilter = new XssFilter(xssProperties.getIncludeHttpMethods(), xssProperties.getIncludePaths(),
-				xssProperties.getExcludePaths());
+		XssFilter xssFilter = new XssFilter(xssProperties);
 		FilterRegistrationBean<XssFilter> registrationBean = new FilterRegistrationBean<>(xssFilter);
 		registrationBean.setOrder(-1);
 		return registrationBean;

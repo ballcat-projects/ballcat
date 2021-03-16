@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.request.wrapper;
+package com.hccake.ballcat.common.xss.core;
 
 import com.hccake.ballcat.common.util.HtmlUtils;
 import lombok.extern.slf4j.Slf4j;

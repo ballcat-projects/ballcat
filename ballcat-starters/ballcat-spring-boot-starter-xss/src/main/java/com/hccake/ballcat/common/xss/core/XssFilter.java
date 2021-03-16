@@ -1,7 +1,7 @@
-package com.hccake.ballcat.common.core.filter;
+package com.hccake.ballcat.common.xss.core;
 
 import cn.hutool.core.util.StrUtil;
-import com.hccake.ballcat.common.core.request.wrapper.XssRequestWrapper;
+import com.hccake.ballcat.common.xss.config.XssProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Set;
 
 /**
  * @author Hccake
@@ -22,19 +21,9 @@ import java.util.Set;
 public class XssFilter extends OncePerRequestFilter {
 
 	/**
-	 * 需要处理的 HTTP 请求方法集合
+	 * Xss 防注入配置
 	 */
-	private final Set<String> includeHttpMethods;
-
-	/**
-	 * xss 过滤包含的路径（Ant风格）
-	 **/
-	private final Set<String> includePaths;
-
-	/**
-	 * xss 需要排除的路径（Ant风格），优先级高于包含路径
-	 **/
-	private final Set<String> excludePaths;
+	private final XssProperties xssProperties;
 
 	/**
 	 * AntPath规则匹配器
@@ -55,26 +44,41 @@ public class XssFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		filterChain.doFilter(new XssRequestWrapper(request), response);
+		// 开启 Xss 过滤状态
+		XssStateHolder.open();
+		try {
+			filterChain.doFilter(new XssRequestWrapper(request), response);
+		}
+		finally {
+			// 必须删除 ThreadLocal 存储的状态
+			XssStateHolder.remove();
+		}
 	}
 
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		// 关闭直接跳过
+		if (!xssProperties.isEnabled()) {
+			return true;
+		}
+
 		// 请求方法检查
-		if (!StrUtil.equalsAnyIgnoreCase(request.getMethod(), includeHttpMethods.toArray(new String[] {}))) {
+		if (!StrUtil.equalsAnyIgnoreCase(request.getMethod(),
+				xssProperties.getIncludeHttpMethods().toArray(new String[] {}))) {
 			return true;
 		}
 
 		// 请求路径检查
 		String requestUri = request.getRequestURI();
 		// 此路径是否不需要处理
-		for (String exclude : excludePaths) {
+		for (String exclude : xssProperties.getExcludePaths()) {
 			if (ANT_PATH_MATCHER.match(exclude, requestUri)) {
 				return true;
 			}
 		}
+
 		// 路径是否包含
-		for (String include : includePaths) {
+		for (String include : xssProperties.getIncludePaths()) {
 			if (ANT_PATH_MATCHER.match(include, requestUri)) {
 				return false;
 			}
