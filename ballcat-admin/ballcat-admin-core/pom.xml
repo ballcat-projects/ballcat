@@ -38,6 +38,14 @@
             <groupId>com.hccake</groupId>
             <artifactId>ballcat-spring-boot-starter-storage</artifactId>
         </dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-spring-boot-starter-xss</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-spring-boot-starter-mail</artifactId>
+		</dependency>
         <!--mybatis plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -48,16 +56,10 @@
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
         </dependency>
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-spring-boot-starter-mail</artifactId>
-		</dependency>
-
 		<!-- 图形验证码 -->
 		<dependency>
 			<groupId>com.anji-plus</groupId>
 			<artifactId>spring-boot-starter-captcha</artifactId>
 		</dependency>
     </dependencies>
-
 </project>
