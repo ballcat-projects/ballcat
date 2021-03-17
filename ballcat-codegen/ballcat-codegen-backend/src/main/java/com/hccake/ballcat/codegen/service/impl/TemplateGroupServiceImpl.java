@@ -79,7 +79,6 @@ public class TemplateGroupServiceImpl extends ExtendServiceImpl<TemplateGroupMap
 
 	/**
 	 * 删除模板组
-	 *
 	 * @param groupId 模板组ID
 	 * @return 删除成功与否
 	 */

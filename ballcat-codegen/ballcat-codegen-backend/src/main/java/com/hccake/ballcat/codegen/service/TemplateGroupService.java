@@ -45,5 +45,6 @@ public interface TemplateGroupService extends ExtendService<TemplateGroup> {
 	 * @param id 模板组ID
 	 * @return 删除成功与否
 	 */
-    boolean removeGroupById(Integer id);
+	boolean removeGroupById(Integer id);
+
 }

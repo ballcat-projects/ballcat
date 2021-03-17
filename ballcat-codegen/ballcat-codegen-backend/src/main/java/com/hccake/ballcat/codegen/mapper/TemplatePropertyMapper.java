@@ -49,10 +49,10 @@ public interface TemplatePropertyMapper extends ExtendMapper<TemplateProperty> {
 
 	/**
 	 * 根据模板组ID 删除模板属性
-	 *
 	 * @param groupId 模板组ID
 	 */
-	default void removeByGroupId(Integer groupId){
+	default void removeByGroupId(Integer groupId) {
 		this.delete(Wrappers.lambdaQuery(TemplateProperty.class).eq(TemplateProperty::getGroupId, groupId));
 	}
+
 }

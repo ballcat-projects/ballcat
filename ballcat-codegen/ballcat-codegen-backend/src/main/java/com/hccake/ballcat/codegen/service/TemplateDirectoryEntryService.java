@@ -89,4 +89,5 @@ public interface TemplateDirectoryEntryService extends ExtendService<TemplateDir
 	 * @param groupId 模板组ID
 	 */
 	void removeByGroupId(Integer groupId);
+
 }

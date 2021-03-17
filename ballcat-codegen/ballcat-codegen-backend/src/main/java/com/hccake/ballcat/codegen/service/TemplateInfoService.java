@@ -22,8 +22,8 @@ public interface TemplateInfoService extends ExtendService<TemplateInfo> {
 
 	/**
 	 * 删除模板文件
-	 *
 	 * @param groupId 模板组ID
 	 */
-    void removeByGroupId(Integer groupId);
+	void removeByGroupId(Integer groupId);
+
 }

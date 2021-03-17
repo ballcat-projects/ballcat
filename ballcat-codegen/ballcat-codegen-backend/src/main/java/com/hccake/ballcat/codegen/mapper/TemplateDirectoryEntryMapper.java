@@ -56,8 +56,7 @@ public interface TemplateDirectoryEntryMapper extends ExtendMapper<TemplateDirec
 	 */
 	default void updateParentId(Integer groupId, Integer oldParentId, Integer newParentId) {
 		LambdaUpdateWrapper<TemplateDirectoryEntry> wrapper = Wrappers.<TemplateDirectoryEntry>lambdaUpdate()
-				.set(TemplateDirectoryEntry::getParentId, newParentId)
-				.eq(TemplateDirectoryEntry::getGroupId, groupId)
+				.set(TemplateDirectoryEntry::getParentId, newParentId).eq(TemplateDirectoryEntry::getGroupId, groupId)
 				.eq(TemplateDirectoryEntry::getParentId, oldParentId);
 		this.update(null, wrapper);
 	}
