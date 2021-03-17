@@ -77,4 +77,22 @@ public class TemplateGroupServiceImpl extends ExtendServiceImpl<TemplateGroupMap
 		return true;
 	}
 
+	/**
+	 * 删除模板组
+	 *
+	 * @param groupId 模板组ID
+	 * @return 删除成功与否
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean removeGroupById(Integer groupId) {
+		// 删除模板组
+		baseMapper.deleteById(groupId);
+		// 删除关联文件
+		templateDirectoryEntryService.removeByGroupId(groupId);
+		// 删除模板属性
+		templatePropertyService.removeByGroupId(groupId);
+		return true;
+	}
+
 }

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -32,7 +33,7 @@ public class SpaRedirectFilterConfiguration {
 		registration.setFilter(createRedirectFilter());
 		registration.addUrlPatterns("/*");
 		registration.setName("frontendRedirectFiler");
-		registration.setOrder(1);
+		registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return registration;
 	}
 

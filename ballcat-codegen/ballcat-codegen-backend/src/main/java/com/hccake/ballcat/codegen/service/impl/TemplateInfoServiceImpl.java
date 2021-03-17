@@ -28,4 +28,14 @@ public class TemplateInfoServiceImpl extends ExtendServiceImpl<TemplateInfoMappe
 		return baseMapper.listByTemplateGroupId(templateGroupId);
 	}
 
+	/**
+	 * 删除模板文件
+	 *
+	 * @param groupId 模板组ID
+	 */
+	@Override
+	public void removeByGroupId(Integer groupId) {
+		baseMapper.deleteByGroupId(groupId);
+	}
+
 }

@@ -29,7 +29,7 @@ public interface TemplatePropertyMapper extends ExtendMapper<TemplateProperty> {
 	 */
 	default PageResult<TemplatePropertyVO> queryPage(PageParam pageParam, TemplatePropertyQO qo) {
 		IPage<TemplatePropertyVO> page = this.prodPage(pageParam);
-		LambdaQueryWrapperX<TemplateProperty> wrapperX = WrappersX.lambdaAliasQueryX(TemplateProperty.class)
+		LambdaQueryWrapperX<TemplateProperty> wrapperX = WrappersX.lambdaQueryX(TemplateProperty.class)
 				.eqIfPresent(TemplateProperty::getId, qo.getId())
 				.eqIfPresent(TemplateProperty::getGroupId, qo.getGroupId());
 		this.selectByPage(page, wrapperX);
@@ -47,4 +47,12 @@ public interface TemplatePropertyMapper extends ExtendMapper<TemplateProperty> {
 
 	}
 
+	/**
+	 * 根据模板组ID 删除模板属性
+	 *
+	 * @param groupId 模板组ID
+	 */
+	default void removeByGroupId(Integer groupId){
+		this.delete(Wrappers.lambdaQuery(TemplateProperty.class).eq(TemplateProperty::getGroupId, groupId));
+	}
 }

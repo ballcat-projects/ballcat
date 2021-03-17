@@ -23,3 +23,9 @@ mybatis-plus:
 jasypt:
   encryptor:
     password: "123456"
+
+
+ballcat:
+  security:
+    xss:
+      exclude-paths: /gen/template/info

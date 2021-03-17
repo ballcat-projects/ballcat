@@ -40,4 +40,10 @@ public interface TemplateGroupService extends ExtendService<TemplateGroup> {
 	 */
 	boolean copy(Integer resourceId, TemplateGroup templateGroup);
 
+	/**
+	 * 删除模板组
+	 * @param id 模板组ID
+	 * @return 删除成功与否
+	 */
+    boolean removeGroupById(Integer id);
 }

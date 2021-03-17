@@ -84,4 +84,9 @@ public interface TemplateDirectoryEntryService extends ExtendService<TemplateDir
 	 */
 	void copy(Integer resourceGroupId, Integer targetGroupId);
 
+	/**
+	 * 删除模板文件
+	 * @param groupId 模板组ID
+	 */
+	void removeByGroupId(Integer groupId);
 }

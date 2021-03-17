@@ -34,7 +34,7 @@ public interface TemplateDirectoryEntryMapper extends ExtendMapper<TemplateDirec
 	default boolean existSameName(Integer entryId, String name) {
 		Integer count = this.selectCount(Wrappers.<TemplateDirectoryEntry>lambdaQuery()
 				.eq(TemplateDirectoryEntry::getParentId, entryId).eq(TemplateDirectoryEntry::getFileName, name));
-		return count != null && count >= 0;
+		return count != null && count > 0;
 	}
 
 	/**
@@ -45,19 +45,29 @@ public interface TemplateDirectoryEntryMapper extends ExtendMapper<TemplateDirec
 	default boolean existEntryId(Integer entryId) {
 		Integer count = this
 				.selectCount(Wrappers.<TemplateDirectoryEntry>lambdaQuery().eq(TemplateDirectoryEntry::getId, entryId));
-		return count != null && count >= 0;
+		return count != null && count > 0;
 	}
 
 	/**
 	 * 更新父级目录id
+	 * @param groupId 分组ID
 	 * @param oldParentId 老的父级ID
 	 * @param newParentId 新增父级ID
 	 */
-	default void updateParentId(Integer oldParentId, Integer newParentId) {
+	default void updateParentId(Integer groupId, Integer oldParentId, Integer newParentId) {
 		LambdaUpdateWrapper<TemplateDirectoryEntry> wrapper = Wrappers.<TemplateDirectoryEntry>lambdaUpdate()
 				.set(TemplateDirectoryEntry::getParentId, newParentId)
+				.eq(TemplateDirectoryEntry::getGroupId, groupId)
 				.eq(TemplateDirectoryEntry::getParentId, oldParentId);
 		this.update(null, wrapper);
+	}
+
+	/**
+	 * 删除模板文件
+	 * @param groupId 模板组ID
+	 */
+	default void deleteByGroupId(Integer groupId) {
+		this.delete(Wrappers.lambdaQuery(TemplateDirectoryEntry.class).eq(TemplateDirectoryEntry::getGroupId, groupId));
 	}
 
 }

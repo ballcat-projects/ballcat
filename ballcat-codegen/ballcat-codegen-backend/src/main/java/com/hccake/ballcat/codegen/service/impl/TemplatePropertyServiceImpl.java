@@ -64,4 +64,14 @@ public class TemplatePropertyServiceImpl extends ExtendServiceImpl<TemplatePrope
 		}
 	}
 
+	/**
+	 * 根据模板组ID 删除模板属性
+	 *
+	 * @param groupId 模板组ID
+	 */
+	@Override
+	public void removeByGroupId(Integer groupId) {
+		baseMapper.removeByGroupId(groupId);
+	}
+
 }

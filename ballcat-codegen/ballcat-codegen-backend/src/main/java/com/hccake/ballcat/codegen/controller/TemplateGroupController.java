@@ -106,7 +106,7 @@ public class TemplateGroupController {
 	@DeleteMapping("/{id}")
 	// @PreAuthorize("@per.hasPermission('codegen:templategroup:del')" )
 	public R removeById(@PathVariable Integer id) {
-		return templateGroupService.removeById(id) ? R.ok()
+		return templateGroupService.removeGroupById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除模板组失败");
 	}
 

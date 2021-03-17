@@ -82,7 +82,6 @@ public class TemplateDirectoryEntryController {
 	@PostMapping
 	// @PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:add')" )
 	public R<?> save(@RequestBody TemplateDirectoryCreateDTO templateDirectoryCreateDTO) {
-
 		return templateDirectoryEntryService.createEntry(templateDirectoryCreateDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增模板文件目录项失败");
 	}

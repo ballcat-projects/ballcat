@@ -137,18 +137,19 @@ public class TemplateDirectoryEntryServiceImpl
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeEntry(Integer entryId, Integer mode) {
 		TemplateDirectoryEntry entry = baseMapper.selectById(entryId);
+		Integer groupId = entry.getGroupId();
 		Assert.notNull(entry, "This is a nonexistent directory entry!");
 
 		// 如果是文件夹类型，则根据删除模式进行子节点删除或上移操作
 		if (DirectoryEntryTypeEnum.FOLDER.getType().equals(entry.getType())) {
 			if (DirectoryEntryRemoveModeEnum.RESERVED_CHILD_NODE.getType().equals(mode)) {
 				// 子节点上移
-				baseMapper.updateParentId(entryId, entry.getParentId());
+				baseMapper.updateParentId(groupId, entryId, entry.getParentId());
 			}
 			else if (DirectoryEntryRemoveModeEnum.REMOVE_CHILD_NODE.getType().equals(mode)) {
 				// ==========删除所有子节点=============
 				// 1. 获取所有目录项（目录项不会太多，一次查询比较方便）
-				List<TemplateDirectoryEntry> entryList = baseMapper.selectList(null);
+				List<TemplateDirectoryEntry> entryList = baseMapper.listByTemplateGroupId(groupId);
 				// 2. 获取当前删除目录项的孩子节点列表
 				List<TemplateDirectory> treeList = TreeUtils.buildTree(entryList, entryId,
 						TemplateModelConverter.INSTANCE::entryPoToTree);
@@ -208,7 +209,7 @@ public class TemplateDirectoryEntryServiceImpl
 		// 父节点为根节点的不需要修改
 		oldParentIdSet.remove(GlobalConstants.TREE_ROOT_ID);
 		for (Integer oldParentId : oldParentIdSet) {
-			baseMapper.updateParentId(oldParentId, idMap.get(oldParentId));
+			baseMapper.updateParentId(targetGroupId, oldParentId, idMap.get(oldParentId));
 		}
 
 		// 5. ================保存模板文件详情信息===================
@@ -224,6 +225,18 @@ public class TemplateDirectoryEntryServiceImpl
 		}
 		templateInfoService.saveBatchSomeColumn(templateInfoList);
 
+	}
+
+	/**
+	 * 删除模板文件
+	 *
+	 * @param groupId 模板组ID
+	 */
+	@Override
+	public void removeByGroupId(Integer groupId) {
+		baseMapper.deleteByGroupId(groupId);
+		// 删除关联文件详情
+		templateInfoService.removeByGroupId(groupId);
 	}
 
 	/**

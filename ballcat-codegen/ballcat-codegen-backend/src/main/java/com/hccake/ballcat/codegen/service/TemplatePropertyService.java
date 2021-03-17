@@ -39,4 +39,9 @@ public interface TemplatePropertyService extends ExtendService<TemplateProperty>
 	 */
 	void copy(Integer resourceId, Integer groupId);
 
+	/**
+	 * 根据模板组ID 删除模板属性
+	 * @param groupId 模板组ID
+	 */
+    void removeByGroupId(Integer groupId);
 }

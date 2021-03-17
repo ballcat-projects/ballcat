@@ -25,4 +25,12 @@ public interface TemplateInfoMapper extends ExtendMapper<TemplateInfo> {
 		return this.selectList(Wrappers.<TemplateInfo>lambdaQuery().eq(TemplateInfo::getGroupId, templateGroupId));
 	}
 
+	/**
+	 * 删除模板文件
+	 * @param groupId 模板组ID
+	 */
+	default void deleteByGroupId(Integer groupId) {
+		this.delete(Wrappers.lambdaQuery(TemplateInfo.class).eq(TemplateInfo::getGroupId, groupId));
+	}
+
 }
