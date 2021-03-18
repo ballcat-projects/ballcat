@@ -48,13 +48,21 @@ public final class HtmlUtils {
 		}
 		Document document = Jsoup.parse(html);
 		// makes html() preserve linebreaks and spacing
-		document.outputSettings(new Document.OutputSettings().prettyPrint(false));
-		document.select("br").append("\\n");
-		document.select("p").prepend("\\n\\n");
-		String s = document.html().replace("\\\\n", "\n");
-		String result = Jsoup.clean(s, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false));
+		document.outputSettings(new Document.OutputSettings().prettyPrint(true));
+		String result = document.wholeText();
+
 		// 合并多个换行
-		return mergeLineBreak ? result.replaceAll("(\r?\n(\\s*\r?\n)+)", "\n") : result;
+		if (mergeLineBreak) {
+			int oldLength;
+			do {
+				oldLength = result.length();
+				result = result.replace('\r', '\n');
+				result = result.replace("\n\n", "\n");
+			}
+			while (result.length() != oldLength);
+		}
+
+		return result;
 	}
 
 	/**
@@ -68,7 +76,7 @@ public final class HtmlUtils {
 
 	/**
 	 * <p>
-	 * 清理不安全的 Html 标签。
+	 * 清理不安全的 Html 标签。保留换行符
 	 * </p>
 	 * 白名单配置参见：{@link HtmlUtils#WHITELIST}
 	 * @see Whitelist#relaxed()
@@ -76,19 +84,19 @@ public final class HtmlUtils {
 	 * @return 清理后的 HTML 文本
 	 */
 	public static String cleanUnSafe(String bodyHtml) {
-		return Jsoup.clean(bodyHtml, WHITELIST);
+		return cleanUnSafe(bodyHtml, WHITELIST);
 	}
 
 	/**
 	 * <p>
-	 * 清理不安全的 Html 标签。
+	 * 清理不安全的 Html 标签。保留换行符
 	 * </p>
 	 * @param bodyHtml HTML 文本
 	 * @param whitelist 白名单配置
 	 * @return 清理后的 HTML 文本
 	 */
 	public static String cleanUnSafe(String bodyHtml, Whitelist whitelist) {
-		return Jsoup.clean(bodyHtml, whitelist);
+		return Jsoup.clean(bodyHtml, "", whitelist, new Document.OutputSettings().prettyPrint(false));
 	}
 
 }
