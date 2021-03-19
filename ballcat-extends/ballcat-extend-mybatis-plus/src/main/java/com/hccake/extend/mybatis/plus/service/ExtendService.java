@@ -24,6 +24,11 @@ public interface ExtendService<T> {
 	int DEFAULT_BATCH_SIZE = 1000;
 
 	/**
+	 * 默认一次批量插入的数量
+	 */
+	int DEFAULT_INSERT_BATCH_SIZE = 5000;
+
+	/**
 	 * 插入一条记录（选择字段，策略插入）
 	 * @param entity 实体对象
 	 */
@@ -118,6 +123,18 @@ public interface ExtendService<T> {
 	 * @return int 改动行
 	 * @author lingting 2020-08-26 22:11
 	 */
-	boolean saveBatchSomeColumn(Collection<T> list);
+	@Transactional(rollbackFor = Exception.class)
+	default boolean saveBatchSomeColumn(Collection<T> list) {
+		return this.saveBatchSomeColumn(list, DEFAULT_INSERT_BATCH_SIZE);
+	}
+
+	/**
+	 * 批量插入数据
+	 * @param list 数据列表
+	 * @param batchSize 批次插入数据量
+	 * @return int 改动行
+	 * @author lingting 2020-08-26 22:11
+	 */
+	boolean saveBatchSomeColumn(Collection<T> list, int batchSize);
 
 }

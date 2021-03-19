@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 /**
@@ -92,13 +93,24 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 	// ^^^^^^ Copy From com.baomidou.mybatisplus.extension.service.impl.ServiceImpl end
 	// ^^^^^^
 
+	/**
+	 * 批量插入数据
+	 * @param list 数据列表
+	 * @param batchSize 批次插入数据量
+	 * @return int 改动行
+	 * @author lingting 2020-08-26 22:11
+	 */
 	@Override
-	public boolean saveBatchSomeColumn(Collection<T> list) {
+	@Transactional(rollbackFor = Exception.class)
+	public boolean saveBatchSomeColumn(Collection<T> list, int batchSize) {
 		if (CollectionUtil.isEmpty(list)) {
 			return false;
 		}
-		int i = baseMapper.insertBatchSomeColumn(list);
-		return SqlHelper.retBool(i);
+		List<List<T>> segmentDataList = CollectionUtil.split(list, batchSize);
+		for (List<T> data : segmentDataList) {
+			baseMapper.insertBatchSomeColumn(data);
+		}
+		return true;
 	}
 
 }
