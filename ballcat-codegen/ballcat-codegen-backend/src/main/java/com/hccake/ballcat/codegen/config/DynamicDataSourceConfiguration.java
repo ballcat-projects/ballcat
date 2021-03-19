@@ -4,8 +4,9 @@ import com.baomidou.dynamic.datasource.processor.DsHeaderProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
+import com.hccake.ballcat.codegen.datasource.DsRequestProcessor;
+import com.hccake.ballcat.codegen.datasource.MasterDataSourceProvider;
 import lombok.RequiredArgsConstructor;
-import org.jasypt.encryption.StringEncryptor;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,17 +20,14 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class DynamicDataSourceConfiguration {
 
-	private final StringEncryptor stringEncryptor;
-
 	/**
 	 * JDBC 动态数据源提供者
 	 * @param dataSourceProperties spring数据源配置
-	 * @return DynamicJdbcDataSourceProvider 动态数据源提供者
+	 * @return MasterDataSourceProvider 动态数据源提供者
 	 */
 	@Bean
-	public DynamicJdbcDataSourceProvider dynamicDataSourceProvider(DataSourceProperties dataSourceProperties) {
-		return new DynamicJdbcDataSourceProvider(stringEncryptor, dataSourceProperties.getUrl(),
-				dataSourceProperties.getUsername(), dataSourceProperties.getPassword());
+	public MasterDataSourceProvider masterDataSourceProvider(DataSourceProperties dataSourceProperties) {
+		return new MasterDataSourceProvider(dataSourceProperties);
 	}
 
 	@Bean

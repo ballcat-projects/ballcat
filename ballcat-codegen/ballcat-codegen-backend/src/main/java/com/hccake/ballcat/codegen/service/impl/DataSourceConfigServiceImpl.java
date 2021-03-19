@@ -2,10 +2,9 @@ package com.hccake.ballcat.codegen.service.impl;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
-import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.codegen.datasource.DynamicDataSourceHelper;
 import com.hccake.ballcat.codegen.mapper.DataSourceConfigMapper;
 import com.hccake.ballcat.codegen.model.converter.DataSourceConfigConverter;
 import com.hccake.ballcat.codegen.model.dto.DataSourceConfigDTO;
@@ -19,14 +18,9 @@ import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jasypt.encryption.StringEncryptor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.sql.DataSource;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.List;
 
 /**
@@ -41,12 +35,7 @@ import java.util.List;
 public class DataSourceConfigServiceImpl extends ExtendServiceImpl<DataSourceConfigMapper, DataSourceConfig>
 		implements DataSourceConfigService {
 
-	private final StringEncryptor stringEncryptor;
-
-	private final DataSourceCreator dataSourceCreator;
-
-	@Resource(type = DataSource.class)
-	private DynamicRoutingDataSource dynamicRoutingDataSource;
+	private final DynamicDataSourceHelper dynamicDataSourceHelper;
 
 	/**
 	 * 根据QueryObject查询分页数据
@@ -61,7 +50,7 @@ public class DataSourceConfigServiceImpl extends ExtendServiceImpl<DataSourceCon
 
 	/**
 	 * 获取 SelectData 集合
-	 * @return List<SelectData < ?>> SelectData 集合
+	 * @return List<SelectData <?>> SelectData 集合
 	 */
 	@Override
 	public List<SelectData<?>> listSelectData() {
@@ -71,17 +60,17 @@ public class DataSourceConfigServiceImpl extends ExtendServiceImpl<DataSourceCon
 	@Override
 	public boolean save(DataSourceConfigDTO dto) {
 		// 新的数据源配置信息
-		DataSourceProperty dataSourceProperty = getDataSourceProperty(dto.getName(), dto.getUrl(), dto.getUsername(),
-				dto.getPass());
+		DataSourceProperty dataSourceProperty = dynamicDataSourceHelper.prodDataSourceProperty(dto.getName(),
+				dto.getUrl(), dto.getUsername(), dto.getPass());
 		// 校验数据源配置
-		if (isErrorDataSourceProperty(dataSourceProperty)) {
+		if (dynamicDataSourceHelper.isErrorDataSourceProperty(dataSourceProperty)) {
 			return false;
 		}
 
 		// 转换为实体，并将密码加密
 		DataSourceConfig dataSourceConfig = DataSourceConfigConverter.INSTANCE.dtoToPo(dto);
 		String pass = dto.getPass();
-		dataSourceConfig.setPassword(stringEncryptor.encrypt(pass));
+		dataSourceConfig.setPassword(dynamicDataSourceHelper.encryptPass(pass));
 
 		// 落库存储
 		int flag = baseMapper.insert(dataSourceConfig);
@@ -90,7 +79,7 @@ public class DataSourceConfigServiceImpl extends ExtendServiceImpl<DataSourceCon
 		}
 
 		// 动态添加数据源
-		addDynamicDataSource(dataSourceProperty);
+		dynamicDataSourceHelper.addDynamicDataSource(dataSourceProperty);
 		return true;
 	}
 
@@ -111,17 +100,17 @@ public class DataSourceConfigServiceImpl extends ExtendServiceImpl<DataSourceCon
 		// 若没有修改密码，则使用现有的密码，否则加密存储
 		String pass = dto.getPass();
 		if (StrUtil.isBlank(pass)) {
-			pass = stringEncryptor.decrypt(oldConfig.getPassword());
+			pass = dynamicDataSourceHelper.decryptPassword(oldConfig.getPassword());
 		}
 		else {
-			dataSourceConfig.setPassword(stringEncryptor.encrypt(pass));
+			dataSourceConfig.setPassword(dynamicDataSourceHelper.encryptPass(pass));
 		}
 
 		// 新的数据源配置信息
-		DataSourceProperty dataSourceProperty = getDataSourceProperty(dto.getName(), dto.getUrl(), dto.getUsername(),
-				pass);
+		DataSourceProperty dataSourceProperty = dynamicDataSourceHelper.prodDataSourceProperty(dto.getName(),
+				dto.getUrl(), dto.getUsername(), pass);
 		// 校验数据源配置
-		if (isErrorDataSourceProperty(dataSourceProperty)) {
+		if (dynamicDataSourceHelper.isErrorDataSourceProperty(dataSourceProperty)) {
 			return false;
 		}
 
@@ -132,9 +121,9 @@ public class DataSourceConfigServiceImpl extends ExtendServiceImpl<DataSourceCon
 		}
 
 		// 先删除现有数据源
-		dynamicRoutingDataSource.removeDataSource(oldConfig.getName());
+		dynamicDataSourceHelper.removeDataSource(oldConfig.getName());
 		// 再添加数据源
-		addDynamicDataSource(dataSourceProperty);
+		dynamicDataSourceHelper.addDynamicDataSource(dataSourceProperty);
 
 		return true;
 	}
@@ -147,52 +136,7 @@ public class DataSourceConfigServiceImpl extends ExtendServiceImpl<DataSourceCon
 
 		if (SqlHelper.retBool(baseMapper.deleteById(id))) {
 			// 删除现有数据源
-			dynamicRoutingDataSource.removeDataSource(oldConfig.getName());
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * 添加动态数据源
-	 * @param dataSourceProperty 数据源配置
-	 */
-	private void addDynamicDataSource(DataSourceProperty dataSourceProperty) {
-		DataSource dataSource = dataSourceCreator.createDataSource(dataSourceProperty);
-		dynamicRoutingDataSource.addDataSource(dataSourceProperty.getPoolName(), dataSource);
-	}
-
-	/**
-	 * 获得数据源配置实体
-	 * @param dsName 数据源名称
-	 * @param url 数据库连接
-	 * @param username 数据库用户名
-	 * @param password 数据库密码
-	 * @return 数据源配置
-	 */
-	private DataSourceProperty getDataSourceProperty(String dsName, String url, String username, String password) {
-		DataSourceProperty dataSourceProperty = new DataSourceProperty();
-		dataSourceProperty.setPoolName(dsName);
-		dataSourceProperty.setUrl(url);
-		dataSourceProperty.setUsername(username);
-		dataSourceProperty.setPassword(password);
-		return dataSourceProperty;
-	}
-
-	/**
-	 * 校验数据源是配置否可用
-	 * @param dataSourceProperty 数据源配置信息
-	 * @return boolean
-	 */
-	private boolean isErrorDataSourceProperty(DataSourceProperty dataSourceProperty) {
-		try (Connection ignored = DriverManager.getConnection(dataSourceProperty.getUrl(),
-				dataSourceProperty.getUsername(), dataSourceProperty.getPassword())) {
-			if (log.isDebugEnabled()) {
-				log.debug("check connection success, dataSourceProperty: {}", dataSourceProperty);
-			}
-		}
-		catch (Exception e) {
-			log.error("get connection error, dataSourceProperty: {}", dataSourceProperty, e);
+			dynamicDataSourceHelper.removeDataSource(oldConfig.getName());
 			return true;
 		}
 		return false;

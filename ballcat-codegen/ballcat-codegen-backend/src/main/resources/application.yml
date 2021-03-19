@@ -28,4 +28,7 @@ jasypt:
 ballcat:
   security:
     xss:
-      exclude-paths: /gen/template/info
+      exclude-paths:
+        - /gen/template/info
+        - /gen/datasource-config
+

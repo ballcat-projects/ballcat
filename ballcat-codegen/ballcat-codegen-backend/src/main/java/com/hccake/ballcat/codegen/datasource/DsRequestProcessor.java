@@ -1,4 +1,4 @@
-package com.hccake.ballcat.codegen.config;
+package com.hccake.ballcat.codegen.datasource;
 
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import org.aopalliance.intercept.MethodInvocation;
