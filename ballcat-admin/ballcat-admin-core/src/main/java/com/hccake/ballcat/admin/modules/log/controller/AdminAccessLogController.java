@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.log.controller;
 
 import com.hccake.ballcat.admin.modules.log.model.qo.AdminAccessLogQO;
-import com.hccake.ballcat.admin.modules.log.model.vo.AdminAccessLogVO;
+import com.hccake.ballcat.admin.modules.log.model.vo.AdminAccessLogPageVO;
 import com.hccake.ballcat.admin.modules.log.service.AdminAccessLogService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -37,7 +37,8 @@ public class AdminAccessLogController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('log:adminaccesslog:read')")
-	public R<PageResult<AdminAccessLogVO>> getAccessLogApiPage(PageParam pageParam, AdminAccessLogQO adminAccessLogQO) {
+	public R<PageResult<AdminAccessLogPageVO>> getAccessLogApiPage(PageParam pageParam,
+			AdminAccessLogQO adminAccessLogQO) {
 		return R.ok(adminAccessLogService.queryPage(pageParam, adminAccessLogQO));
 	}
 

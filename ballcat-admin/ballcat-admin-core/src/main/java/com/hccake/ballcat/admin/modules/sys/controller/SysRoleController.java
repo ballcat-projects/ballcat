@@ -1,14 +1,14 @@
 package com.hccake.ballcat.admin.modules.sys.controller;
 
 import com.hccake.ballcat.admin.constants.SysRoleConst;
-import com.hccake.ballcat.admin.modules.sys.model.converter.SysRoleConverter;
+import com.hccake.ballcat.admin.modules.sys.converter.SysRoleConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysRoleUpdateDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.qo.RoleBindUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.RoleBindUserVO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysRoleVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysRolePageVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRoleService;
@@ -55,7 +55,7 @@ public class SysRoleController {
 	 */
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:sysrole:read')")
-	public R<PageResult<SysRoleVO>> getRolePage(PageParam pageParam, SysRoleQO sysRoleQo) {
+	public R<PageResult<SysRolePageVO>> getRolePage(PageParam pageParam, SysRoleQO sysRoleQo) {
 		return R.ok(sysRoleService.queryPage(pageParam, sysRoleQo));
 	}
 

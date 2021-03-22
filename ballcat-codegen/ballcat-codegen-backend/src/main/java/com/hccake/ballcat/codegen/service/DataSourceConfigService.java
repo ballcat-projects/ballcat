@@ -3,7 +3,7 @@ package com.hccake.ballcat.codegen.service;
 import com.hccake.ballcat.codegen.model.dto.DataSourceConfigDTO;
 import com.hccake.ballcat.codegen.model.entity.DataSourceConfig;
 import com.hccake.ballcat.codegen.model.qo.DataSourceConfigQO;
-import com.hccake.ballcat.codegen.model.vo.DataSourceConfigVO;
+import com.hccake.ballcat.codegen.model.vo.DataSourceConfigPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
@@ -25,7 +25,7 @@ public interface DataSourceConfigService extends ExtendService<DataSourceConfig>
 	 * @param qo 查询参数对象
 	 * @return 分页数据
 	 */
-	PageResult<DataSourceConfigVO> queryPage(PageParam pageParam, DataSourceConfigQO qo);
+	PageResult<DataSourceConfigPageVO> queryPage(PageParam pageParam, DataSourceConfigQO qo);
 
 	/**
 	 * 获取 SelectData 集合

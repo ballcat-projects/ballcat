@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.admin.modules.sys.converter.SysDictItemConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
@@ -26,12 +27,13 @@ public interface SysDictItemMapper extends ExtendMapper<SysDictItem> {
 	 * @param dictCode 字典标识
 	 * @return PageResult<SysRoleVO>
 	 */
-	default PageResult<SysDictItemVO> queryPage(PageParam pageParam, String dictCode) {
-		IPage<SysDictItemVO> page = this.prodPage(pageParam);
+	default PageResult<SysDictItemPageVO> queryPage(PageParam pageParam, String dictCode) {
+		IPage<SysDictItem> page = this.prodPage(pageParam);
 		LambdaQueryWrapper<SysDictItem> wrapper = Wrappers.lambdaQuery(SysDictItem.class).eq(SysDictItem::getDictCode,
 				dictCode);
-		this.selectByPage(page, wrapper);
-		return new PageResult<>(page.getRecords(), page.getTotal());
+		this.selectPage(page, wrapper);
+		IPage<SysDictItemPageVO> voPage = page.convert(SysDictItemConverter.INSTANCE::poToPageVo);
+		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
 
 	/**

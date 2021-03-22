@@ -1,9 +1,10 @@
 package com.hccake.ballcat.codegen.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.hccake.ballcat.codegen.converter.TemplateModelConverter;
 import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
-import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
+import com.hccake.ballcat.codegen.model.vo.TemplateGroupPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
@@ -27,12 +28,13 @@ public interface TemplateGroupMapper extends ExtendMapper<TemplateGroup> {
 	 * @param qo 查询条件
 	 * @return PageResult<TemplateGroupVO> 分页数据
 	 */
-	default PageResult<TemplateGroupVO> queryPage(PageParam pageParam, TemplateGroupQO qo) {
-		IPage<TemplateGroupVO> page = this.prodPage(pageParam);
+	default PageResult<TemplateGroupPageVO> queryPage(PageParam pageParam, TemplateGroupQO qo) {
+		IPage<TemplateGroup> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<TemplateGroup> wrapperX = WrappersX.lambdaQueryX(TemplateGroup.class)
 				.eqIfPresent(TemplateGroup::getId, qo.getId());
-		this.selectByPage(page, wrapperX);
-		return new PageResult<>(page.getRecords(), page.getTotal());
+		this.selectPage(page, wrapperX);
+		IPage<TemplateGroupPageVO> voPage = page.convert(TemplateModelConverter.INSTANCE::groupPoToPageVo);
+		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
 
 	/**

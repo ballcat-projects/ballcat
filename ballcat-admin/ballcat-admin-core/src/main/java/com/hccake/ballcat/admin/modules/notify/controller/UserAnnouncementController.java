@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.notify.controller;
 
 import com.hccake.ballcat.admin.modules.notify.model.qo.UserAnnouncementQO;
-import com.hccake.ballcat.admin.modules.notify.model.vo.UserAnnouncementVO;
+import com.hccake.ballcat.admin.modules.notify.model.vo.UserAnnouncementPageVO;
 import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.model.domain.PageParam;
@@ -35,7 +35,7 @@ public class UserAnnouncementController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('notify:userannouncement:read')")
-	public R<PageResult<UserAnnouncementVO>> getUserAnnouncementPage(PageParam pageParam,
+	public R<PageResult<UserAnnouncementPageVO>> getUserAnnouncementPage(PageParam pageParam,
 			UserAnnouncementQO userAnnouncementQO) {
 		return R.ok(userAnnouncementService.queryPage(pageParam, userAnnouncementQO));
 	}

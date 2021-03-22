@@ -2,7 +2,7 @@ package com.hccake.ballcat.codegen.controller;
 
 import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
-import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
+import com.hccake.ballcat.codegen.model.vo.TemplateGroupPageVO;
 import com.hccake.ballcat.codegen.service.TemplateGroupService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -39,7 +39,8 @@ public class TemplateGroupController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	// @PreAuthorize("@per.hasPermission('codegen:templategroup:read')" )
-	public R<PageResult<TemplateGroupVO>> getTemplateGroupPage(PageParam pageParam, TemplateGroupQO templateGroupQO) {
+	public R<PageResult<TemplateGroupPageVO>> getTemplateGroupPage(PageParam pageParam,
+			TemplateGroupQO templateGroupQO) {
 		return R.ok(templateGroupService.queryPage(pageParam, templateGroupQO));
 	}
 

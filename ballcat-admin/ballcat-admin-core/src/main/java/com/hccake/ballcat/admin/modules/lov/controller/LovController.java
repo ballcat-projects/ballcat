@@ -1,11 +1,11 @@
 package com.hccake.ballcat.admin.modules.lov.controller;
 
-import com.hccake.ballcat.admin.modules.lov.model.converter.LovConverter;
+import com.hccake.ballcat.admin.modules.lov.converter.LovConverter;
 import com.hccake.ballcat.admin.modules.lov.model.dto.LovDTO;
 import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
 import com.hccake.ballcat.admin.modules.lov.model.vo.LovInfoVO;
-import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
+import com.hccake.ballcat.admin.modules.lov.model.vo.LovPageVO;
 import com.hccake.ballcat.admin.modules.lov.service.LovBodyService;
 import com.hccake.ballcat.admin.modules.lov.service.LovSearchService;
 import com.hccake.ballcat.admin.modules.lov.service.LovService;
@@ -46,7 +46,7 @@ public class LovController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:lov:read')")
-	public R<PageResult<LovVO>> getLovPage(PageParam pageParam, LovQO qo) {
+	public R<PageResult<LovPageVO>> getLovPage(PageParam pageParam, LovQO qo) {
 		return R.ok(lovService.queryPage(pageParam, qo));
 	}
 

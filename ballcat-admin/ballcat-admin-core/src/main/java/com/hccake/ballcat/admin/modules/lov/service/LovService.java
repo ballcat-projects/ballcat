@@ -4,7 +4,7 @@ import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovBody;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovSearch;
 import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
-import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
+import com.hccake.ballcat.admin.modules.lov.model.vo.LovPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
@@ -22,7 +22,7 @@ public interface LovService extends ExtendService<Lov> {
 	 * @param qo 查询参数对象
 	 * @return PageResult<LoginLogVO> 分页数据
 	 */
-	PageResult<LovVO> queryPage(PageParam pageParam, LovQO qo);
+	PageResult<LovPageVO> queryPage(PageParam pageParam, LovQO qo);
 
 	/**
 	 * 更新实体类

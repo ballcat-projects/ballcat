@@ -7,7 +7,7 @@ import com.hccake.ballcat.codegen.constant.DirectoryEntryRemoveModeEnum;
 import com.hccake.ballcat.codegen.constant.DirectoryEntryTypeEnum;
 import com.hccake.ballcat.codegen.mapper.TemplateDirectoryEntryMapper;
 import com.hccake.ballcat.codegen.model.bo.TemplateFile;
-import com.hccake.ballcat.codegen.model.converter.TemplateModelConverter;
+import com.hccake.ballcat.codegen.converter.TemplateModelConverter;
 import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
 import com.hccake.ballcat.codegen.model.dto.TemplateInfoDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;

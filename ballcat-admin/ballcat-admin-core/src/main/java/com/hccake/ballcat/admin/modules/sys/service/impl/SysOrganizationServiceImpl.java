@@ -3,7 +3,7 @@ package com.hccake.ballcat.admin.modules.sys.service.impl;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysOrganizationMapper;
-import com.hccake.ballcat.admin.modules.sys.model.converter.SysOrganizationConverter;
+import com.hccake.ballcat.admin.modules.sys.converter.SysOrganizationConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysOrganizationDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysOrganization;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysOrganizationTree;

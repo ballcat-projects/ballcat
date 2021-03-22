@@ -1,9 +1,10 @@
 package com.hccake.ballcat.codegen.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.hccake.ballcat.codegen.converter.DataSourceConfigConverter;
 import com.hccake.ballcat.codegen.model.entity.DataSourceConfig;
 import com.hccake.ballcat.codegen.model.qo.DataSourceConfigQO;
-import com.hccake.ballcat.codegen.model.vo.DataSourceConfigVO;
+import com.hccake.ballcat.codegen.model.vo.DataSourceConfigPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
@@ -27,12 +28,13 @@ public interface DataSourceConfigMapper extends ExtendMapper<DataSourceConfig> {
 	 * @param qo 查询条件
 	 * @return PageResult<DataSourceConfigVO> 分页结果数据
 	 */
-	default PageResult<DataSourceConfigVO> queryPage(PageParam pageParam, DataSourceConfigQO qo) {
-		IPage<DataSourceConfigVO> page = this.prodPage(pageParam);
+	default PageResult<DataSourceConfigPageVO> queryPage(PageParam pageParam, DataSourceConfigQO qo) {
+		IPage<DataSourceConfig> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<DataSourceConfig> wrapperX = WrappersX.lambdaQueryX(DataSourceConfig.class)
 				.eqIfPresent(DataSourceConfig::getId, qo.getId());
-		this.selectByPage(page, wrapperX);
-		return new PageResult<>(page.getRecords(), page.getTotal());
+		this.selectPage(page, wrapperX);
+		IPage<DataSourceConfigPageVO> voPage = page.convert(DataSourceConfigConverter.INSTANCE::poToPageVo);
+		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
 
 	/**

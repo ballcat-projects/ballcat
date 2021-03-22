@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.codegen.mapper.TemplatePropertyMapper;
 import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
-import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
+import com.hccake.ballcat.codegen.model.vo.TemplatePropertyPageVO;
 import com.hccake.ballcat.codegen.service.TemplatePropertyService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -31,7 +31,7 @@ public class TemplatePropertyServiceImpl extends ExtendServiceImpl<TemplatePrope
 	 * @return 分页数据
 	 */
 	@Override
-	public PageResult<TemplatePropertyVO> queryPage(PageParam pageParam, TemplatePropertyQO qo) {
+	public PageResult<TemplatePropertyPageVO> queryPage(PageParam pageParam, TemplatePropertyQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 

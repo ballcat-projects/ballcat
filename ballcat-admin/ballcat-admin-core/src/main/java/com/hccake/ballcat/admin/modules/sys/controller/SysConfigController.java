@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.controller;
 
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysConfig;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysConfigQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysConfigVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysConfigPageVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysConfigService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
@@ -39,7 +39,7 @@ public class SysConfigController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:config:read')")
-	public R<PageResult<SysConfigVO>> getSysConfigPage(PageParam pageParam, SysConfigQO sysConfigQO) {
+	public R<PageResult<SysConfigPageVO>> getSysConfigPage(PageParam pageParam, SysConfigQO sysConfigQO) {
 		return R.ok(sysConfigService.queryPage(pageParam, sysConfigQO));
 	}
 

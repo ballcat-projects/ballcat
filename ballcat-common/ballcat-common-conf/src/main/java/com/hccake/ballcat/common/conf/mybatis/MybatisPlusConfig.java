@@ -8,12 +8,12 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.hccake.extend.mybatis.plus.injector.CustomSqlInjector;
 import com.hccake.extend.mybatis.plus.methods.InsertBatchSomeColumnByCollection;
-import com.hccake.extend.mybatis.plus.methods.SelectByPage;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author hccake
@@ -55,8 +55,6 @@ public class MybatisPlusConfig {
 		List<AbstractMethod> list = new ArrayList<>();
 		// 对于只在更新时进行填充的字段不做插入处理
 		list.add(new InsertBatchSomeColumnByCollection(t -> t.getFieldFill() != FieldFill.UPDATE));
-		// 分页查询 返回 VO 对象
-		list.add(new SelectByPage());
 		return new CustomSqlInjector(list);
 	}
 

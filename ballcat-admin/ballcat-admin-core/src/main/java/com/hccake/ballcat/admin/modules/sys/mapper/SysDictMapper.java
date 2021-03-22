@@ -3,9 +3,10 @@ package com.hccake.ballcat.admin.modules.sys.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.admin.modules.sys.converter.SysDictConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
@@ -28,12 +29,13 @@ public interface SysDictMapper extends ExtendMapper<SysDict> {
 	 * @param qo 查询对象
 	 * @return PageResult<SysRoleVO>
 	 */
-	default PageResult<SysDictVO> queryPage(PageParam pageParam, SysDictQO qo) {
-		IPage<SysDictVO> page = this.prodPage(pageParam);
+	default PageResult<SysDictPageVO> queryPage(PageParam pageParam, SysDictQO qo) {
+		IPage<SysDict> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<SysDict> wrapper = WrappersX.lambdaQueryX(SysDict.class)
 				.likeIfPresent(SysDict::getCode, qo.getCode()).likeIfPresent(SysDict::getTitle, qo.getTitle());
-		this.selectByPage(page, wrapper);
-		return new PageResult<>(page.getRecords(), page.getTotal());
+		this.selectPage(page, wrapper);
+		IPage<SysDictPageVO> voPage = page.convert(SysDictConverter.INSTANCE::poToPageVo);
+		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
 
 	/**

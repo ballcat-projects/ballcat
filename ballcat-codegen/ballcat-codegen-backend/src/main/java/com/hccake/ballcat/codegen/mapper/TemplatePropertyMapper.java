@@ -2,9 +2,10 @@ package com.hccake.ballcat.codegen.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.hccake.ballcat.codegen.converter.TemplatePropertyConverter;
 import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
-import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
+import com.hccake.ballcat.codegen.model.vo.TemplatePropertyPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
@@ -27,13 +28,14 @@ public interface TemplatePropertyMapper extends ExtendMapper<TemplateProperty> {
 	 * @param qo 查询参数
 	 * @return PageResult<TemplatePropertyVO> 分页数据
 	 */
-	default PageResult<TemplatePropertyVO> queryPage(PageParam pageParam, TemplatePropertyQO qo) {
-		IPage<TemplatePropertyVO> page = this.prodPage(pageParam);
+	default PageResult<TemplatePropertyPageVO> queryPage(PageParam pageParam, TemplatePropertyQO qo) {
+		IPage<TemplateProperty> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<TemplateProperty> wrapperX = WrappersX.lambdaQueryX(TemplateProperty.class)
 				.eqIfPresent(TemplateProperty::getId, qo.getId())
 				.eqIfPresent(TemplateProperty::getGroupId, qo.getGroupId());
-		this.selectByPage(page, wrapperX);
-		return new PageResult<>(page.getRecords(), page.getTotal());
+		this.selectPage(page, wrapperX);
+		IPage<TemplatePropertyPageVO> voPage = page.convert(TemplatePropertyConverter.INSTANCE::poToPageVo);
+		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
 
 	/**

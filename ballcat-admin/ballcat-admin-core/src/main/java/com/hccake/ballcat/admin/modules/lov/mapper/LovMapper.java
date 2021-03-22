@@ -2,9 +2,10 @@ package com.hccake.ballcat.admin.modules.lov.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.hccake.ballcat.admin.modules.lov.converter.LovConverter;
 import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
-import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
+import com.hccake.ballcat.admin.modules.lov.model.vo.LovPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
@@ -22,14 +23,15 @@ public interface LovMapper extends ExtendMapper<Lov> {
 	 * @param qo 查询对象
 	 * @return 分页结果数据 PageResult
 	 */
-	default PageResult<LovVO> queryPage(PageParam pageParam, LovQO qo) {
-		IPage<LovVO> page = this.prodPage(pageParam);
+	default PageResult<LovPageVO> queryPage(PageParam pageParam, LovQO qo) {
+		IPage<Lov> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<Lov> wrapperX = WrappersX.lambdaQueryX(Lov.class)
 				.likeIfPresent(Lov::getKeyword, qo.getKeyword()).eqIfPresent(Lov::getMethod, qo.getMethod())
 				.eqIfPresent(Lov::getPosition, qo.getPosition()).likeIfPresent(Lov::getUrl, qo.getUrl())
 				.likeIfPresent(Lov::getTitle, qo.getTitle());
-		this.selectByPage(page, wrapperX);
-		return new PageResult<>(page.getRecords(), page.getTotal());
+		this.selectPage(page, wrapperX);
+		IPage<LovPageVO> voPage = page.convert(LovConverter.INSTANCE::poToPageVo);
+		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
 
 	/**

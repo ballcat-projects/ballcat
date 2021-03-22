@@ -5,7 +5,7 @@ import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
@@ -29,7 +29,7 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param qo 查询参数对象
 	 * @return PageResult<SysUserVO> 分页数据
 	 */
-	PageResult<SysUserVO> queryPage(PageParam pageParam, SysUserQO qo);
+	PageResult<SysUserPageVO> queryPage(PageParam pageParam, SysUserQO qo);
 
 	/**
 	 * 根据用户名查询用户

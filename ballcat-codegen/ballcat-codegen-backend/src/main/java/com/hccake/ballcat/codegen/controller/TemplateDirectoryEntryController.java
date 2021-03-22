@@ -1,6 +1,6 @@
 package com.hccake.ballcat.codegen.controller;
 
-import com.hccake.ballcat.codegen.model.converter.TemplateModelConverter;
+import com.hccake.ballcat.codegen.converter.TemplateModelConverter;
 import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;

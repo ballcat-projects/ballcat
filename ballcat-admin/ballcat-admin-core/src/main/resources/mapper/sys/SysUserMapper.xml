@@ -17,7 +17,7 @@
 		su.update_time
 	</sql>
 
-	<select id="selectByPage" resultType="com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO">
+	<select id="selectByPage" resultType="com.hccake.ballcat.admin.modules.sys.model.vo.SysUserPageVO">
 		SELECT
 		<include refid="Base_Alias_Column_List"/>
 		,so.name as organization_name

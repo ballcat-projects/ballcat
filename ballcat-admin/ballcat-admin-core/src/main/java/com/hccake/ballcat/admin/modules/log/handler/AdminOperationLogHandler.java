@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.modules.log.handler;
 
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminOperationLog;
 import com.hccake.ballcat.admin.modules.log.service.OperationLogAdminService;
-import com.hccake.ballcat.admin.modules.sys.model.converter.OperationLogConverter;
+import com.hccake.ballcat.admin.modules.sys.converter.OperationLogConverter;
 import com.hccake.ballcat.commom.log.operation.model.OperationLogDTO;
 import com.hccake.ballcat.commom.log.operation.service.OperationLogHandler;
 import lombok.RequiredArgsConstructor;

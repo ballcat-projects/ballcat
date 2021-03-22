@@ -3,7 +3,7 @@ package com.hccake.ballcat.codegen.controller;
 import com.hccake.ballcat.codegen.model.dto.DataSourceConfigDTO;
 import com.hccake.ballcat.codegen.model.entity.DataSourceConfig;
 import com.hccake.ballcat.codegen.model.qo.DataSourceConfigQO;
-import com.hccake.ballcat.codegen.model.vo.DataSourceConfigVO;
+import com.hccake.ballcat.codegen.model.vo.DataSourceConfigPageVO;
 import com.hccake.ballcat.codegen.service.DataSourceConfigService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -40,7 +40,7 @@ public class DataSourceConfigController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	// @PreAuthorize("@per.hasPermission('gen:datasourceconfig:read')" )
-	public R<PageResult<DataSourceConfigVO>> getDataSourceConfigPage(PageParam pageParam,
+	public R<PageResult<DataSourceConfigPageVO>> getDataSourceConfigPage(PageParam pageParam,
 			DataSourceConfigQO dataSourceConfigQO) {
 		return R.ok(dataSourceConfigService.queryPage(pageParam, dataSourceConfigQO));
 	}

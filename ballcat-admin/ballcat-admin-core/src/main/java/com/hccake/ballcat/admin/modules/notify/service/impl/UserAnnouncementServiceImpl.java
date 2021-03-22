@@ -4,7 +4,7 @@ import com.hccake.ballcat.admin.constants.UserAnnouncementStateEnum;
 import com.hccake.ballcat.admin.modules.notify.mapper.UserAnnouncementMapper;
 import com.hccake.ballcat.admin.modules.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.UserAnnouncementQO;
-import com.hccake.ballcat.admin.modules.notify.model.vo.UserAnnouncementVO;
+import com.hccake.ballcat.admin.modules.notify.model.vo.UserAnnouncementPageVO;
 import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -29,7 +29,7 @@ public class UserAnnouncementServiceImpl extends ExtendServiceImpl<UserAnnouncem
 	 * @return PageResult<UserAnnouncementVO> 分页数据
 	 */
 	@Override
-	public PageResult<UserAnnouncementVO> queryPage(PageParam pageParam, UserAnnouncementQO qo) {
+	public PageResult<UserAnnouncementPageVO> queryPage(PageParam pageParam, UserAnnouncementQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 

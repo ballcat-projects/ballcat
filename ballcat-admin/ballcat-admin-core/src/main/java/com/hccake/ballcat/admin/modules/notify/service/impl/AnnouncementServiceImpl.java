@@ -8,13 +8,13 @@ import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
 import com.hccake.ballcat.admin.modules.notify.event.AnnouncementCloseEvent;
 import com.hccake.ballcat.admin.modules.notify.event.NotifyPublishEvent;
 import com.hccake.ballcat.admin.modules.notify.mapper.AnnouncementMapper;
-import com.hccake.ballcat.admin.modules.notify.model.converter.AnnouncementConverter;
-import com.hccake.ballcat.admin.modules.notify.model.converter.NotifyInfoConverter;
+import com.hccake.ballcat.admin.modules.notify.converter.AnnouncementConverter;
+import com.hccake.ballcat.admin.modules.notify.converter.NotifyInfoConverter;
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
-import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
+import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementPageVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
 import com.hccake.ballcat.admin.modules.sys.service.FileService;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
@@ -60,7 +60,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 	 * @return PageResult<AnnouncementVO> 分页数据
 	 */
 	@Override
-	public PageResult<AnnouncementVO> queryPage(PageParam pageParam, AnnouncementQO qo) {
+	public PageResult<AnnouncementPageVO> queryPage(PageParam pageParam, AnnouncementQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 

@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.modules.notify.service;
 
 import com.hccake.ballcat.admin.modules.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.UserAnnouncementQO;
-import com.hccake.ballcat.admin.modules.notify.model.vo.UserAnnouncementVO;
+import com.hccake.ballcat.admin.modules.notify.model.vo.UserAnnouncementPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
@@ -20,7 +20,7 @@ public interface UserAnnouncementService extends ExtendService<UserAnnouncement>
 	 * @param qo 查询参数对象
 	 * @return PageResult<AnnouncementVO> 分页数据
 	 */
-	PageResult<UserAnnouncementVO> queryPage(PageParam pageParam, UserAnnouncementQO qo);
+	PageResult<UserAnnouncementPageVO> queryPage(PageParam pageParam, UserAnnouncementQO qo);
 
 	/**
 	 * 根据用户ID和公告id初始化一个新的用户公告关联对象

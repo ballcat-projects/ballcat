@@ -2,7 +2,7 @@ package com.hccake.ballcat.codegen.service;
 
 import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
-import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
+import com.hccake.ballcat.codegen.model.vo.TemplatePropertyPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
@@ -23,7 +23,7 @@ public interface TemplatePropertyService extends ExtendService<TemplateProperty>
 	 * @param qo 查询参数对象
 	 * @return 分页数据
 	 */
-	PageResult<TemplatePropertyVO> queryPage(PageParam pageParam, TemplatePropertyQO qo);
+	PageResult<TemplatePropertyPageVO> queryPage(PageParam pageParam, TemplatePropertyQO qo);
 
 	/**
 	 * 获取模板组的所有配置

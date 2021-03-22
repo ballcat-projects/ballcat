@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.modules.log.service;
 
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminAccessLog;
 import com.hccake.ballcat.admin.modules.log.model.qo.AdminAccessLogQO;
-import com.hccake.ballcat.admin.modules.log.model.vo.AdminAccessLogVO;
+import com.hccake.ballcat.admin.modules.log.model.vo.AdminAccessLogPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
@@ -21,6 +21,6 @@ public interface AdminAccessLogService extends ExtendService<AdminAccessLog> {
 	 * @param qo 查询参数对象
 	 * @return PageResult<LoginLogVO> 分页数据
 	 */
-	PageResult<AdminAccessLogVO> queryPage(PageParam page, AdminAccessLogQO qo);
+	PageResult<AdminAccessLogPageVO> queryPage(PageParam page, AdminAccessLogQO qo);
 
 }

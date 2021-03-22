@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
+import com.hccake.ballcat.admin.modules.notify.converter.AnnouncementConverter;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
-import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
+import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
@@ -29,14 +30,15 @@ public interface AnnouncementMapper extends ExtendMapper<Announcement> {
 	 * @param qo 查询对象
 	 * @return 分页结果数据 PageResult
 	 */
-	default PageResult<AnnouncementVO> queryPage(PageParam pageParam, AnnouncementQO qo) {
-		IPage<AnnouncementVO> page = this.prodPage(pageParam);
+	default PageResult<AnnouncementPageVO> queryPage(PageParam pageParam, AnnouncementQO qo) {
+		IPage<Announcement> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<Announcement> wrapperX = WrappersX.lambdaAliasQueryX(Announcement.class)
 				.likeIfPresent(Announcement::getTitle, qo.getTitle())
 				.inIfPresent(Announcement::getStatus, (Object[]) qo.getStatus())
 				.eqIfPresent(Announcement::getRecipientFilterType, qo.getRecipientFilterType());
-		this.selectByPage(page, wrapperX);
-		return new PageResult<>(page.getRecords(), page.getTotal());
+		IPage<AnnouncementPageVO> voPage = this.selectPage(page, wrapperX)
+				.convert(AnnouncementConverter.INSTANCE::poToPageVo);
+		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
 
 	/**

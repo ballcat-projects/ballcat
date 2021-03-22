@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysRoleMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysRoleVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysRolePageVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRoleService;
 import com.hccake.ballcat.common.model.domain.PageParam;
@@ -39,7 +39,7 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	 * @return 分页对象
 	 */
 	@Override
-	public PageResult<SysRoleVO> queryPage(PageParam pageParam, SysRoleQO qo) {
+	public PageResult<SysRolePageVO> queryPage(PageParam pageParam, SysRoleQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 

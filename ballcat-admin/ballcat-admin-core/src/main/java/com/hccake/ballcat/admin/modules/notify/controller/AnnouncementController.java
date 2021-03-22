@@ -3,7 +3,7 @@ package com.hccake.ballcat.admin.modules.notify.controller;
 import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
-import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementVO;
+import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementPageVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
@@ -45,7 +45,7 @@ public class AnnouncementController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('notify:announcement:read')")
-	public R<PageResult<AnnouncementVO>> getAnnouncementPage(PageParam pageParam, AnnouncementQO announcementQO) {
+	public R<PageResult<AnnouncementPageVO>> getAnnouncementPage(PageParam pageParam, AnnouncementQO announcementQO) {
 		return R.ok(announcementService.queryPage(pageParam, announcementQO));
 	}
 

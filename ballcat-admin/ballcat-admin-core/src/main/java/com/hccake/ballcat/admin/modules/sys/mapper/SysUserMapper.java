@@ -1,12 +1,14 @@
 package com.hccake.ballcat.admin.modules.sys.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserPageVO;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -31,8 +33,8 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param qo 查询对象
 	 * @return PageResult<SysUserVO>
 	 */
-	default PageResult<SysUserVO> queryPage(PageParam pageParam, SysUserQO qo) {
-		IPage<SysUserVO> page = this.prodPage(pageParam);
+	default PageResult<SysUserPageVO> queryPage(PageParam pageParam, SysUserQO qo) {
+		IPage<SysUserPageVO> page = this.prodPage(pageParam);
 		LambdaAliasQueryWrapperX<SysUser> wrapperX = WrappersX.lambdaAliasQueryX(SysUser.class);
 		wrapperX.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 				.likeIfPresent(SysUser::getUsername, qo.getUsername()).likeIfPresent(SysUser::getEmail, qo.getEmail())
@@ -46,6 +48,14 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		this.selectByPage(page, wrapperX);
 		return new PageResult<>(page.getRecords(), page.getTotal());
 	}
+
+	/**
+	 * 分页查询用户
+	 * @param page 分页封装对象
+	 * @param wrapper 条件构造器
+	 * @return 分页封装对象
+	 */
+	IPage<SysUserPageVO> selectByPage(IPage<SysUserPageVO> page, @Param(Constants.WRAPPER) Wrapper<SysUser> wrapper);
 
 	/**
 	 * 批量更新用户状态

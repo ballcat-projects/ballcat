@@ -3,10 +3,10 @@ package com.hccake.ballcat.admin.modules.sys.controller;
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.admin.constants.SysPermissionConst;
 import com.hccake.ballcat.admin.constants.UserResourceConstant;
-import com.hccake.ballcat.admin.modules.sys.model.converter.SysPermissionConverter;
+import com.hccake.ballcat.admin.modules.sys.converter.SysPermissionConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysPermission;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.Router;
+import com.hccake.ballcat.admin.modules.sys.model.vo.RouterVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.oauth.SysUserDetails;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
@@ -42,7 +42,7 @@ public class SysPermissionController {
 	 */
 	@ApiOperation(value = "动态路由", notes = "动态路由")
 	@GetMapping("/router")
-	public R<List<Router>> getUserPermission() {
+	public R<List<RouterVO>> getUserPermission() {
 
 		// 获取角色Code
 		SysUserDetails sysUserDetails = SecurityUtils.getSysUserDetails();
@@ -57,13 +57,13 @@ public class SysPermissionController {
 		roleCodes.forEach(roleCode -> all.addAll(sysPermissionService.listVOByRoleCode(roleCode)));
 
 		// 筛选出菜单
-		List<Router> routerList = all.stream()
+		List<RouterVO> routerVOList = all.stream()
 				.filter(menuVo -> SysPermissionConst.Type.MENU.getValue() == menuVo.getType()
 						|| SysPermissionConst.Type.DIRECTORY.getValue() == menuVo.getType())
 				.sorted(Comparator.comparingInt(PermissionVO::getSort)).map(SysPermissionConverter.INSTANCE::toRouter)
 				.collect(Collectors.toList());
 
-		return R.ok(routerList);
+		return R.ok(routerVOList);
 	}
 
 	/**

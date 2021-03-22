@@ -1,9 +1,9 @@
 package com.hccake.ballcat.codegen.controller;
 
-import com.hccake.ballcat.codegen.model.converter.TemplatePropertyConverter;
+import com.hccake.ballcat.codegen.converter.TemplatePropertyConverter;
 import com.hccake.ballcat.codegen.model.entity.TemplateProperty;
 import com.hccake.ballcat.codegen.model.qo.TemplatePropertyQO;
-import com.hccake.ballcat.codegen.model.vo.TemplatePropertyVO;
+import com.hccake.ballcat.codegen.model.vo.TemplatePropertyPageVO;
 import com.hccake.ballcat.codegen.service.TemplatePropertyService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -38,10 +38,10 @@ public class TemplatePropertyController {
 	 */
 	@ApiOperation(value = "模板组属性", notes = "模板组属性")
 	@GetMapping("/list/{groupId}")
-	public R<List<TemplatePropertyVO>> getTemplatePropertyList(@PathVariable("groupId") Integer templateGroupId) {
+	public R<List<TemplatePropertyPageVO>> getTemplatePropertyList(@PathVariable("groupId") Integer templateGroupId) {
 		List<TemplateProperty> templateProperties = templatePropertyService.listByTemplateGroupId(templateGroupId);
-		List<TemplatePropertyVO> vos = templateProperties.stream().map(TemplatePropertyConverter.INSTANCE::poToVo)
-				.collect(Collectors.toList());
+		List<TemplatePropertyPageVO> vos = templateProperties.stream()
+				.map(TemplatePropertyConverter.INSTANCE::poToPageVo).collect(Collectors.toList());
 		return R.ok(vos);
 	}
 
@@ -54,7 +54,7 @@ public class TemplatePropertyController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	// @PreAuthorize("@per.hasPermission('codegen:templateproperty:read')" )
-	public R<PageResult<TemplatePropertyVO>> getTemplatePropertyPage(PageParam pageParam,
+	public R<PageResult<TemplatePropertyPageVO>> getTemplatePropertyPage(PageParam pageParam,
 			TemplatePropertyQO templatePropertyQO) {
 		return R.ok(templatePropertyService.queryPage(pageParam, templatePropertyQO));
 	}

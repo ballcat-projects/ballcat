@@ -1,9 +1,10 @@
 package com.hccake.ballcat.admin.modules.log.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.hccake.ballcat.admin.modules.log.converter.AdminOperationLogConverter;
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminOperationLog;
 import com.hccake.ballcat.admin.modules.log.model.qo.AdminOperationLogQO;
-import com.hccake.ballcat.admin.modules.log.model.vo.AdminOperationLogVO;
+import com.hccake.ballcat.admin.modules.log.model.vo.AdminOperationLogPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
@@ -24,8 +25,8 @@ public interface AdminOperationLogMapper extends ExtendMapper<AdminOperationLog>
 	 * @param qo 查询对象
 	 * @return 分页结果数据 PageResult
 	 */
-	default PageResult<AdminOperationLogVO> queryPage(PageParam pageParam, AdminOperationLogQO qo) {
-		IPage<AdminOperationLogVO> page = this.prodPage(pageParam);
+	default PageResult<AdminOperationLogPageVO> queryPage(PageParam pageParam, AdminOperationLogQO qo) {
+		IPage<AdminOperationLog> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<AdminOperationLog> wrapperX = WrappersX.lambdaQueryX(AdminOperationLog.class)
 				.eqIfPresent(AdminOperationLog::getOperator, qo.getUserId())
 				.eqIfPresent(AdminOperationLog::getTraceId, qo.getTraceId())
@@ -34,8 +35,9 @@ public interface AdminOperationLogMapper extends ExtendMapper<AdminOperationLog>
 				.eqIfPresent(AdminOperationLog::getType, qo.getType())
 				.gtIfPresent(AdminOperationLog::getCreateTime, qo.getStartTime())
 				.ltIfPresent(AdminOperationLog::getCreateTime, qo.getEndTime());
-		this.selectByPage(page, wrapperX);
-		return new PageResult<>(page.getRecords(), page.getTotal());
+		this.selectPage(page, wrapperX);
+		IPage<AdminOperationLogPageVO> voPage = page.convert(AdminOperationLogConverter.INSTANCE::poToPageVo);
+		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
 
 }

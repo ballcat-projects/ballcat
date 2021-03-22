@@ -4,9 +4,10 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.hccake.ballcat.admin.modules.sys.converter.SysRoleConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysRoleVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysRolePageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
@@ -30,15 +31,16 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 	 * @param qo 查询对象
 	 * @return PageResult<SysRoleVO>
 	 */
-	default PageResult<SysRoleVO> queryPage(PageParam pageParam, SysRoleQO qo) {
-		IPage<SysRoleVO> page = this.prodPage(pageParam);
+	default PageResult<SysRolePageVO> queryPage(PageParam pageParam, SysRoleQO qo) {
+		IPage<SysRole> page = this.prodPage(pageParam);
 		LambdaQueryWrapper<SysRole> wrapper = Wrappers.<SysRole>lambdaQuery()
 				.like(StrUtil.isNotBlank(qo.getName()), SysRole::getName, qo.getName())
 				.like(StrUtil.isNotBlank(qo.getCode()), SysRole::getCode, qo.getCode())
 				.between(StrUtil.isNotBlank(qo.getStartTime()) && StrUtil.isNotBlank(qo.getEndTime()),
 						SysRole::getCreateTime, qo.getStartTime(), qo.getEndTime());
-		this.selectByPage(page, wrapper);
-		return new PageResult<>(page.getRecords(), page.getTotal());
+		this.selectPage(page, wrapper);
+		IPage<SysRolePageVO> voPage = page.convert(SysRoleConverter.INSTANCE::poToPageVo);
+		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
 
 	/**

@@ -8,7 +8,7 @@ import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserPageVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
@@ -69,7 +69,7 @@ public class SysUserController {
 	 */
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('sys:sysuser:read')")
-	public R<PageResult<SysUserVO>> getUserPage(PageParam pageParam, SysUserQO qo) {
+	public R<PageResult<SysUserPageVO>> getUserPage(PageParam pageParam, SysUserQO qo) {
 		return R.ok(sysUserService.queryPage(pageParam, qo));
 	}
 

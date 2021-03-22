@@ -1,9 +1,7 @@
 package com.hccake.extend.mybatis.plus.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.extend.mybatis.plus.toolkit.PageUtil;
@@ -35,13 +33,5 @@ public interface ExtendMapper<T> extends BaseMapper<T> {
 	 * @author lingting 2020-08-26 22:11
 	 */
 	int insertBatchSomeColumn(@Param("collection") Collection<T> list);
-
-	/**
-	 * 根据 entity 条件，查询全部记录（并翻页）
-	 * @param page 分页查询条件（可以为 RowBounds.DEFAULT）
-	 * @param queryWrapper 实体对象封装操作类（可以为 null）
-	 * @return 分页参数
-	 */
-	<V> IPage<V> selectByPage(IPage<V> page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
 }

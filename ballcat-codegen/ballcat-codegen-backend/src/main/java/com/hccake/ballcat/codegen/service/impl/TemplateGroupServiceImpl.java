@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.codegen.mapper.TemplateGroupMapper;
 import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
-import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
+import com.hccake.ballcat.codegen.model.vo.TemplateGroupPageVO;
 import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
 import com.hccake.ballcat.codegen.service.TemplateGroupService;
 import com.hccake.ballcat.codegen.service.TemplatePropertyService;
@@ -41,7 +41,7 @@ public class TemplateGroupServiceImpl extends ExtendServiceImpl<TemplateGroupMap
 	 * @return 分页数据
 	 */
 	@Override
-	public PageResult<TemplateGroupVO> queryPage(PageParam pageParam, TemplateGroupQO qo) {
+	public PageResult<TemplateGroupPageVO> queryPage(PageParam pageParam, TemplateGroupQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 

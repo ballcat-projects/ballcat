@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.service;
 
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
@@ -23,7 +23,7 @@ public interface SysDictService extends ExtendService<SysDict> {
 	 * @param qo 查询参数对象
 	 * @return PageResult<SysDictVO> 分页数据
 	 */
-	PageResult<SysDictVO> queryPage(PageParam pageParam, SysDictQO qo);
+	PageResult<SysDictPageVO> queryPage(PageParam pageParam, SysDictQO qo);
 
 	/**
 	 * 根据字典标识查询

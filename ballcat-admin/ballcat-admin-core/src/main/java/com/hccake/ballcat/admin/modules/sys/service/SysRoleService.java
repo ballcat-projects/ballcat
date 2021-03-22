@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.service;
 
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysRoleVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysRolePageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
@@ -26,7 +26,7 @@ public interface SysRoleService extends ExtendService<SysRole> {
 	 * @param qo 查询参数
 	 * @return 分页对象
 	 */
-	PageResult<SysRoleVO> queryPage(PageParam pageParam, SysRoleQO qo);
+	PageResult<SysRolePageVO> queryPage(PageParam pageParam, SysRoleQO qo);
 
 	/**
 	 * 角色的选择数据

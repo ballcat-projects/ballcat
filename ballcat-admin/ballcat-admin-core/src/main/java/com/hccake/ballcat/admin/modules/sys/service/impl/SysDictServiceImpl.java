@@ -4,7 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysDictMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictPageVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -30,7 +30,7 @@ public class SysDictServiceImpl extends ExtendServiceImpl<SysDictMapper, SysDict
 	 * @return PageResult<SysDictVO> 分页数据
 	 */
 	@Override
-	public PageResult<SysDictVO> queryPage(PageParam pageParam, SysDictQO qo) {
+	public PageResult<SysDictPageVO> queryPage(PageParam pageParam, SysDictQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 

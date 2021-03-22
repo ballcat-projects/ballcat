@@ -2,21 +2,21 @@ package com.hccake.ballcat.admin.modules.sys.manager;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
+import com.hccake.ballcat.admin.modules.sys.converter.SysDictItemConverter;
 import com.hccake.ballcat.admin.modules.sys.event.DictChangeEvent;
-import com.hccake.ballcat.admin.modules.sys.model.converter.SysDictConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDict;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysDictQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.DictDataVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.DictItemVO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemVO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemPageVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictPageVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictService;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
+import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
-import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -50,7 +50,7 @@ public class SysDictManager {
 	 * @param sysDictQO 查询参数
 	 * @return 字典表分页数据
 	 */
-	public PageResult<SysDictVO> dictPage(PageParam pageParam, SysDictQO sysDictQO) {
+	public PageResult<SysDictPageVO> dictPage(PageParam pageParam, SysDictQO sysDictQO) {
 		return sysDictService.queryPage(pageParam, sysDictQO);
 	}
 
@@ -110,7 +110,7 @@ public class SysDictManager {
 	 * @param dictCode 字典标识
 	 * @return 字典项分页数据
 	 */
-	public PageResult<SysDictItemVO> dictItemPage(PageParam pageParam, String dictCode) {
+	public PageResult<SysDictItemPageVO> dictItemPage(PageParam pageParam, String dictCode) {
 		return sysDictItemService.queryPage(pageParam, dictCode);
 	}
 
@@ -197,7 +197,7 @@ public class SysDictManager {
 				List<SysDictItem> dictItems = sysDictItemService.listByDictCode(sysDict.getCode());
 				// 排序并转换为VO
 				List<DictItemVO> setDictItems = dictItems.stream().sorted(Comparator.comparingInt(SysDictItem::getSort))
-						.map(SysDictConverter.INSTANCE::itemPoToVo).collect(Collectors.toList());
+						.map(SysDictItemConverter.INSTANCE::poToItemVo).collect(Collectors.toList());
 				// 组装DataVO
 				DictDataVO dictDataVO = new DictDataVO();
 				dictDataVO.setValueType(sysDict.getValueType());

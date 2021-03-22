@@ -2,7 +2,7 @@ package com.hccake.ballcat.codegen.service;
 
 import com.hccake.ballcat.codegen.model.entity.TemplateGroup;
 import com.hccake.ballcat.codegen.model.qo.TemplateGroupQO;
-import com.hccake.ballcat.codegen.model.vo.TemplateGroupVO;
+import com.hccake.ballcat.codegen.model.vo.TemplateGroupPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
@@ -24,7 +24,7 @@ public interface TemplateGroupService extends ExtendService<TemplateGroup> {
 	 * @param qo 查询参数对象
 	 * @return 分页数据
 	 */
-	PageResult<TemplateGroupVO> queryPage(PageParam pageParam, TemplateGroupQO qo);
+	PageResult<TemplateGroupPageVO> queryPage(PageParam pageParam, TemplateGroupQO qo);
 
 	/**
 	 * 获取SelectData数据

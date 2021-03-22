@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import com.hccake.ballcat.admin.modules.sys.mapper.SysDictItemMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysDictItem;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysDictItemPageVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysDictItemService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -28,7 +28,7 @@ public class SysDictItemServiceImpl extends ExtendServiceImpl<SysDictItemMapper,
 	 * @return 分页数据
 	 */
 	@Override
-	public PageResult<SysDictItemVO> queryPage(PageParam pageParam, String dictCode) {
+	public PageResult<SysDictItemPageVO> queryPage(PageParam pageParam, String dictCode) {
 		return baseMapper.queryPage(pageParam, dictCode);
 	}
 

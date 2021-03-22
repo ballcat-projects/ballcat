@@ -9,7 +9,7 @@ import com.hccake.ballcat.admin.constants.SysUserConst;
 import com.hccake.ballcat.admin.modules.sys.checker.AdminUserChecker;
 import com.hccake.ballcat.admin.modules.sys.event.UserChangeEvent;
 import com.hccake.ballcat.admin.modules.sys.mapper.SysUserMapper;
-import com.hccake.ballcat.admin.modules.sys.model.converter.SysUserConverter;
+import com.hccake.ballcat.admin.modules.sys.converter.SysUserConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
@@ -17,7 +17,7 @@ import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserVO;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserPageVO;
 import com.hccake.ballcat.admin.modules.sys.service.*;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -66,7 +66,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return PageResult<SysUserVO> 分页数据
 	 */
 	@Override
-	public PageResult<SysUserVO> queryPage(PageParam pageParam, SysUserQO qo) {
+	public PageResult<SysUserPageVO> queryPage(PageParam pageParam, SysUserQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 

@@ -6,7 +6,7 @@ import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovBody;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovSearch;
 import com.hccake.ballcat.admin.modules.lov.model.qo.LovQO;
-import com.hccake.ballcat.admin.modules.lov.model.vo.LovVO;
+import com.hccake.ballcat.admin.modules.lov.model.vo.LovPageVO;
 import com.hccake.ballcat.admin.modules.lov.service.LovBodyService;
 import com.hccake.ballcat.admin.modules.lov.service.LovSearchService;
 import com.hccake.ballcat.admin.modules.lov.service.LovService;
@@ -33,7 +33,7 @@ public class LovServiceImpl extends ExtendServiceImpl<LovMapper, Lov> implements
 	private final LovSearchService searchService;
 
 	@Override
-	public PageResult<LovVO> queryPage(PageParam pageParam, LovQO qo) {
+	public PageResult<LovPageVO> queryPage(PageParam pageParam, LovQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 

@@ -3,7 +3,7 @@ package com.hccake.ballcat.admin.modules.log.service.impl;
 import com.hccake.ballcat.admin.modules.log.mapper.AdminAccessLogMapper;
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminAccessLog;
 import com.hccake.ballcat.admin.modules.log.model.qo.AdminAccessLogQO;
-import com.hccake.ballcat.admin.modules.log.model.vo.AdminAccessLogVO;
+import com.hccake.ballcat.admin.modules.log.model.vo.AdminAccessLogPageVO;
 import com.hccake.ballcat.admin.modules.log.service.AdminAccessLogService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -29,7 +29,7 @@ public class AdminAccessLogServiceImpl extends ExtendServiceImpl<AdminAccessLogM
 	 * @return IPage<LoginLogVO> 分页数据
 	 */
 	@Override
-	public PageResult<AdminAccessLogVO> queryPage(PageParam pageParam, AdminAccessLogQO qo) {
+	public PageResult<AdminAccessLogPageVO> queryPage(PageParam pageParam, AdminAccessLogQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 

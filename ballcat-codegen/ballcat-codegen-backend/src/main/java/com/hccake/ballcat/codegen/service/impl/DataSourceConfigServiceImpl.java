@@ -6,11 +6,11 @@ import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourcePrope
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.codegen.datasource.DynamicDataSourceHelper;
 import com.hccake.ballcat.codegen.mapper.DataSourceConfigMapper;
-import com.hccake.ballcat.codegen.model.converter.DataSourceConfigConverter;
+import com.hccake.ballcat.codegen.converter.DataSourceConfigConverter;
 import com.hccake.ballcat.codegen.model.dto.DataSourceConfigDTO;
 import com.hccake.ballcat.codegen.model.entity.DataSourceConfig;
 import com.hccake.ballcat.codegen.model.qo.DataSourceConfigQO;
-import com.hccake.ballcat.codegen.model.vo.DataSourceConfigVO;
+import com.hccake.ballcat.codegen.model.vo.DataSourceConfigPageVO;
 import com.hccake.ballcat.codegen.service.DataSourceConfigService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -44,7 +44,7 @@ public class DataSourceConfigServiceImpl extends ExtendServiceImpl<DataSourceCon
 	 * @return 分页数据
 	 */
 	@Override
-	public PageResult<DataSourceConfigVO> queryPage(PageParam pageParam, DataSourceConfigQO qo) {
+	public PageResult<DataSourceConfigPageVO> queryPage(PageParam pageParam, DataSourceConfigQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
 	}
 
