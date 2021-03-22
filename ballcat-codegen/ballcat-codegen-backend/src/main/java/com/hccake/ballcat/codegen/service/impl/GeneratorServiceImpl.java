@@ -54,6 +54,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 				GenUtils.generatorCode(generatorOptionDTO.getTablePrefix(), generatorOptionDTO.getGenProperties(),
 						tableInfo, columnInfoList, zip, templateFiles);
 			}
+			// 手动结束 zip，防止文件末端未被写入
+			zip.finish();
 			return outputStream.toByteArray();
 		}
 	}

@@ -71,8 +71,6 @@ public class GenUtils {
 			IoUtil.close(sw);
 			zip.closeEntry();
 		}
-		// 手动结束 zip，防止文件末端未被写入
-		zip.finish();
 	}
 
 	/**

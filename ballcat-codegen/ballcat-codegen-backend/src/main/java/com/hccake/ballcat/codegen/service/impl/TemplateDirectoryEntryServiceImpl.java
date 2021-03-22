@@ -319,6 +319,7 @@ public class TemplateDirectoryEntryServiceImpl
 			TemplateInfoDTO templateInfoDTO = entryDTO.getTemplateInfoDTO();
 			TemplateInfo templateInfo = TemplateModelConverter.INSTANCE.infoDtoToPo(templateInfoDTO);
 			templateInfo.setDirectoryEntryId(entity.getId());
+			templateInfo.setGroupId(entryDTO.getGroupId());
 			templateInfoService.save(templateInfo);
 		}
 		return true;
