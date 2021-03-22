@@ -432,7 +432,7 @@ export default {
             this.$message.success('移动成功！')
             this.treeLoad()
           } else {
-            this.$message.error(res.msg)
+            this.$message.error(res.message)
           }
         })
         .catch(error => {

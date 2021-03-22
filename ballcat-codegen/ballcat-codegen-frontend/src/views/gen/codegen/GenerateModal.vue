@@ -5,20 +5,20 @@
     cancel-text="取消"
     :visible="visible"
     :confirm-loading="submitLoading"
+    :width="900"
     @ok="handleOk"
     @cancel="handleClose"
-    width="60%"
   >
     <a-form :form="form" @submit="handleOk">
-      <a-row :gutter="16">
-        <a-col :span="8">
+      <a-row :gutter="6">
+        <a-col :span="10">
           <a-form-item :label-col="labelCol" :wrapper-col="wrapperCol" label="模板组">
             <a-select
               @change="onTemplateGroupChange"
               v-decorator="[
                 'templateGroupId',
                 {
-                  initialValue: defaultTemplateGroupId,
+                  initialValue: templateGroupIdInitValue,
                   rules: [{ required: true, message: '必须选择一个模板组' }]
                 }
               ]"
@@ -51,7 +51,7 @@
             </a-checkbox-group>
           </a-form-item>
         </a-col>
-        <a-col :span="16">
+        <a-col :span="14">
           <a-divider orientation="left">
             系统属性
           </a-divider>
@@ -104,9 +104,10 @@ export default {
         sm: { span: 24 },
         lg: { span: 18 }
       },
-      defaultTemplateGroupId: 1,
       tableNames: [],
       templateGroupSelectData: [],
+      templateGroupIdInitValue: null,
+
       properties: [],
 
       templateFiles: [],
@@ -118,9 +119,12 @@ export default {
   },
   mounted() {
     getSelectData().then(res => {
+      const data = res.data
       this.templateGroupSelectData = res.data
+      if (data && data.length > 0) {
+        this.templateGroupIdInitValue = Number(data[0].value)
+      }
     })
-    this.onTemplateGroupChange(this.defaultTemplateGroupId)
   },
   methods: {
     show(tableNames) {

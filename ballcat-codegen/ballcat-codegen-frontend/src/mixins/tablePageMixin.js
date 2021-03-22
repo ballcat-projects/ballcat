@@ -126,6 +126,7 @@ export default {
      * 分页查询成功回调
      * @param page
      */
+    /* eslint-disable no-unused-vars */
     onPageLoadSuccess(page) {},
     /**
      * 分页、排序、筛选变化时进行数据更新
@@ -169,10 +170,10 @@ export default {
     handleDel(record) {
       this.delObj(record[this.rowKey]).then(res => {
         if (res.code === 200) {
-          this.$message.success(res.msg)
+          this.$message.success(res.message)
           this.reloadTable()
         } else {
-          this.$message.error(res.msg)
+          this.$message.error(res.message)
         }
       })
     },

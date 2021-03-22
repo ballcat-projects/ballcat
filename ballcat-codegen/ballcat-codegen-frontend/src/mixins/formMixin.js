@@ -113,7 +113,7 @@ export default {
           reqFunction(this.submitDataProcess(values))
             .then(res => {
               if (res.code === 200) {
-                this.$message.success(res.msg)
+                this.$message.success(res.message)
                 this.submitSuccess(res)
               } else {
                 this.submitError(res)
@@ -161,7 +161,7 @@ export default {
      * @param res 服务端返回值
      */
     submitError(res) {
-      this.$message.error(res.msg)
+      this.$message.error(res.message)
     }
   }
 }
