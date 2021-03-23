@@ -4,11 +4,11 @@
       :min-percent="minPercent"
       :default-percent="defaultPercent"
       split="vertical"
-      :style="splitPane"
+      :style="splitPaneStyle"
       @resize="resize"
     >
       <template slot="paneL">
-        <div class="treesetting-row" @contextmenu.prevent="onRightClickBox" :style="treesettingRow">
+        <div class="left-pane" @contextmenu.prevent="onRightClickBox" :style="leftPaneStyle">
           <h1 align="center">右键即可创建文件或文件夹</h1>
           <a-directory-tree
             :style="directoryTreeStyle"
@@ -51,8 +51,8 @@
         </div>
       </template>
       <template slot="paneR" style="padding:0;">
-        <div class="treesetting-row-leftbtn" @click="moveLeft">{{ leftHtml }}</div>
-        <div class="treesetting-paneR">
+        <div class="left-pane-leftbtn" @click="moveLeft">{{ leftHtml }}</div>
+        <div ref="paneR" class="right-pane">
           <div v-show="showTips">
             <a-descriptions title="使用说明">
               <a-descriptions-item label="文件名占位" :span="3">
@@ -261,13 +261,13 @@ export default {
       },
 
       // ========== split样式 ==============
-      splitPane: {
-        height: 0
+      splitPaneStyle: {
+        height: '800px'
       },
       leftbtnStyle: {
         left: '0'
       },
-      treesettingRow: {
+      leftPaneStyle: {
         padding: '10px'
       },
       directoryTreeStyle: {
@@ -317,13 +317,16 @@ export default {
   watch: {
     templateGroupId() {
       this.initPage()
+    },
+    properties() {
+      // 当自定义属性北更新时，需要同步更新高度
+      this.$nextTick(function() {
+        this.splitPaneStyle.height = this.$refs.paneR.offsetHeight + 'px'
+      })
     }
   },
   created() {
     this.initPage()
-    this.heightClient = document.documentElement.clientHeight || document.body.clientHeight
-    this.heightClient = this.heightClient - 210
-    this.splitPane.height = this.heightClient + 'px'
   },
   methods: {
     /**
@@ -529,11 +532,11 @@ export default {
       if (this.defaultPercent !== 0) {
         this.minPercent = 0
         this.defaultPercent = 0
-        this.treesettingRow.padding = 0
+        this.leftPaneStyle.padding = 0
         this.leftHtml = '>'
       } else {
         this.leftHtml = '<'
-        this.treesettingRow.padding = '10px'
+        this.leftPaneStyle.padding = '10px'
         this.minPercent = 15
         this.defaultPercent = 30
       }
@@ -545,7 +548,7 @@ export default {
 .ant-form-item {
   margin-bottom: 8px;
 }
-.treesetting-paneR {
+.right-pane {
   overflow-y: auto;
   height: 100%;
   border: none;
@@ -553,7 +556,7 @@ export default {
   box-sizing: border-box;
   padding: 2%;
 }
-.treesetting-row {
+.left-pane {
   overflow: auto;
   height: 100%;
   border: none;
@@ -561,7 +564,7 @@ export default {
   box-sizing: border-box;
 }
 
-.treesetting-row-leftbtn {
+.left-pane-leftbtn {
   position: absolute;
   left: 0;
   cursor: pointer;
@@ -576,40 +579,22 @@ export default {
   z-index: 1;
 }
 
-.treesetting-row-leftbtn:hover {
+.left-pane-leftbtn:hover {
   background: #1da57a;
 }
 
-.treesetting-row::-webkit-scrollbar {
+.left-pane::-webkit-scrollbar {
   /*滚动条整体样式*/
   width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
   height: 5px;
 }
-.treesetting-paneR::-webkit-scrollbar {
-  /*滚动条整体样式*/
-  width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
-  height: 6px;
-}
-.treesetting-paneR::-webkit-scrollbar-thumb {
+.left-pane::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 8px;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: #969696;
 }
-.treesetting-paneR::-webkit-scrollbar-track {
-  /*滚动条里面轨道*/
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  background: #ededed;
-}
-.treesetting-row::-webkit-scrollbar-thumb {
-  /*滚动条里面小方块*/
-  border-radius: 8px;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: #969696;
-}
-
-.treesetting-row::-webkit-scrollbar-track {
+.left-pane::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -618,16 +603,14 @@ export default {
 .splitter-pane.vertical.splitter-paneR {
   padding: 0 !important;
 }
+.splitter-paneL {
+  padding-right: 0 !important;
+}
 .template-form-title {
   color: rgba(0, 0, 0, 0.85);
   font-weight: 600;
   font-size: 18px;
   line-height: 32px;
   text-align: center;
-}
-</style>
-<style>
-.splitter-paneL {
-  padding-right: 0 !important;
 }
 </style>

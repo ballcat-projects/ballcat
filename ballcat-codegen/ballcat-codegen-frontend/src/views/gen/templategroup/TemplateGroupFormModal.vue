@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import { FormModalMixin } from '@/mixins'
+import { PopUpFormMixin } from '@/mixins'
 import { addObj, putObj, copyObj } from '@/api/gen/templategroup'
 
 export default {
-  mixins: [FormModalMixin],
+  mixins: [PopUpFormMixin],
   data() {
     return {
       reqFunctions: {

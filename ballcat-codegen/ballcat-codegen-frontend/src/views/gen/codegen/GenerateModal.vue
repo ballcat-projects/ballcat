@@ -80,15 +80,15 @@
 </template>
 
 <script>
-import { FormModalMixin } from '@/mixins'
+import { PopUpFormMixin } from '@/mixins'
 import { getSelectData } from '@/api/gen/templategroup'
 import { getProperties } from '@/api/gen/templateproperty'
 import { getList as getTemplateFiles } from '@/api/gen/templateinfo'
 import { generate } from '@/api/gen/generate'
 
 export default {
-  name: 'GenerateModal',
-  mixins: [FormModalMixin],
+  name: 'GenerateModalForm',
+  mixins: [PopUpFormMixin],
   props: {
     dsName: String
   },
@@ -127,12 +127,6 @@ export default {
     })
   },
   methods: {
-    show(tableNames) {
-      this.visible = true
-      this.submitLoading = false
-
-      this.tableNames = tableNames
-    },
     onTemplateGroupChange(templateGroupId) {
       getProperties(templateGroupId).then(res => {
         this.properties = res.data

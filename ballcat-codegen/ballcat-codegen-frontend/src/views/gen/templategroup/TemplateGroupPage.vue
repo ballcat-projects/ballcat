@@ -145,13 +145,13 @@ export default {
   },
   methods: {
     handleAdd() {
-      this.$refs.formModal.add('新建模板组')
+      this.$refs.formModal.add({ title: '新建模板组' })
     },
     handleEdit(record) {
-      this.$refs.formModal.update(record, '编辑模板组')
+      this.$refs.formModal.update(record, { title: '编辑模板组' })
     },
     handleCopy(record) {
-      this.$refs.formModal.copy(record, '复制模板组')
+      this.$refs.formModal.copy(record, { title: '复制模板组' })
     },
     editEntry(record, title) {
       this.switchPage()

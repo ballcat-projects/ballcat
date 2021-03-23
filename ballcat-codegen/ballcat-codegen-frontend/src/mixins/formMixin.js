@@ -34,13 +34,13 @@ export default {
   methods: {
     /**
      * 构建新建型表单
-     * @param argument 额外参数，用于透传到表单构建完成的回调函数中
+     * @param attributes 额外参数，用于透传到表单构建完成的回调函数中
      */
-    buildCreatedForm(argument) {
+    buildCreatedForm(attributes) {
       this.form.resetFields()
       this.formAction = this.FORM_ACTION.CREATE
       // 钩子函数 处理某些页面定制需求
-      this.createdFormCallback(argument)
+      this.createdFormCallback(attributes)
     },
 
     /**
@@ -48,7 +48,7 @@ export default {
      * 默认无行为，组件可复写此方法 完成添加之前的事件
      */
     /*eslint-disable*/
-    createdFormCallback(argument) {},
+    createdFormCallback(attributes) {},
 
     /**
      * 表单数据回填
@@ -72,14 +72,14 @@ export default {
     /**
      * 构建 => 修改型表单
      * @param record 回显数据
-     * @param argument 额外参数，用于透传到表单构建完成的回调函数中
+     * @param attributes 额外参数，用于透传到表单构建完成的回调函数中
      */
-    buildUpdatedForm(record, argument) {
+    buildUpdatedForm(record, attributes) {
       let that = this
       that.formAction = that.FORM_ACTION.UPDATE
       that.echoDataProcess(record)
       this.fillFormData(record, true)
-      this.updatedFormCallback(argument)
+      this.updatedFormCallback(attributes)
     },
 
     /**
@@ -91,7 +91,7 @@ export default {
     echoDataProcess(data) {},
 
     /*eslint-disable*/
-    updatedFormCallback(argument) {
+    updatedFormCallback(attributes) {
       // 组件复写此方法 完成修改之后的事件
     },
 
@@ -101,9 +101,11 @@ export default {
      */
     handleSubmit(e) {
       // 阻止 submit 事件的默认行为
-      e.preventDefault()
-      // 表单提交前事件
-      this.beforeStartSubmit()
+      e && e.preventDefault()
+      // 表单提交前事件，返回 false 时停止提交
+      if (this.beforeStartSubmit() === false) {
+        return
+      }
       // 根据表单行为，获取对应的请求方法
       const reqFunction = this.reqFunctions[this.formAction]
       // 表单校验，成功则进行提交
@@ -120,7 +122,7 @@ export default {
               }
             })
             .catch(error => {
-              this.$message.error(error.response.data.msg)
+              this.$message.error(error.response.data.message)
             })
             .finally(() => {
               this.submitLoading = false
