@@ -14,7 +14,7 @@ export function preview(dsName, genConfig) {
     url: '/preview',
     method: 'post',
     data: genConfig,
-    headers: { dsName: dsName },
+    headers: { dsName: dsName }
   })
 }
 

@@ -18,7 +18,7 @@
         确认
       </a-button>
     </template>
-    <a-modal :title="preview.title" width="50%" :visible="preview.open" :footer="null" @cancel="closePreviewCode">
+    <a-modal :title="preview.title" :width="1200" :visible="preview.open" :footer="null" @cancel="closePreviewCode">
       <a-tabs default-active-key="1" tab-position="left">
         <a-tab-pane v-for="(value, key) in preview.data" :key="key" :tab="key">
           <pre><code class="hljs" v-html="highlightedCode(value,key)"></code></pre>

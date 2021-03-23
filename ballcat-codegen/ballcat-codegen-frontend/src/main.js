@@ -23,7 +23,7 @@ import {
   Descriptions,
   Checkbox,
   Tooltip,
-    Tabs
+  Tabs
 } from 'ant-design-vue'
 import App from './App.vue'
 import router from './router'
