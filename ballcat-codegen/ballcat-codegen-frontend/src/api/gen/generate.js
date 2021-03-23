@@ -9,6 +9,15 @@ export function getTableInfoPage(dsName, query) {
   })
 }
 
+export function preview(dsName, genConfig) {
+  return axios({
+    url: '/preview',
+    method: 'post',
+    data: genConfig,
+    headers: { dsName: dsName },
+  })
+}
+
 export function generate(dsName, genConfig) {
   return axios({
     url: '/generate',

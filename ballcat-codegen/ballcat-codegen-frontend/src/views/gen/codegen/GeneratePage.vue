@@ -142,12 +142,12 @@ export default {
   },
   methods: {
     singleGenerate(record) {
-      this.$refs.generateModal.show([record.tableName])
+      this.$refs.generateModal.show([record.tableName],"single")
     },
     multiGenerate() {
       const tableNames = this.selectedRowKeys
       if (tableNames && tableNames.length > 0) {
-        this.$refs.generateModal.show(tableNames)
+        this.$refs.generateModal.show(tableNames,"multipart-single")
       } else {
         this.$message.warning('至少选中一张表')
       }
