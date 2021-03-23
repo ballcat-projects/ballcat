@@ -1,14 +1,31 @@
 <template>
   <a-modal
     title="属性配置"
-    ok-text="确认"
     cancel-text="取消"
     :visible="visible"
     :confirm-loading="submitLoading"
     :width="900"
-    @ok="handleOk"
     @cancel="handleClose"
   >
+    <template slot="footer">
+      <a-button @click="handleClose">
+        取消
+      </a-button>
+      <a-button @click="previewCode" v-if="'single' === this.type">
+        预览
+      </a-button>
+      <a-button type="primary" @click="handleOk">
+        确认
+      </a-button>
+    </template>
+    <a-modal :title="preview.title" :width="1200" :visible="preview.open" :footer="null" @cancel="closePreviewCode">
+      <a-tabs default-active-key="1" tab-position="left">
+        <a-tab-pane v-for="(value, key) in preview.data" :key="key" :tab="key">
+          <pre><code class="hljs" v-html="highlightedCode(value,key)"></code></pre>
+        </a-tab-pane>
+      </a-tabs>
+    </a-modal>
+
     <a-form :form="form" @submit="handleOk">
       <a-row :gutter="6">
         <a-col :span="10">
@@ -84,7 +101,17 @@ import { PopUpFormMixin } from '@/mixins'
 import { getSelectData } from '@/api/gen/templategroup'
 import { getProperties } from '@/api/gen/templateproperty'
 import { getList as getTemplateFiles } from '@/api/gen/templateinfo'
-import { generate } from '@/api/gen/generate'
+import { preview, generate } from '@/api/gen/generate'
+
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github-gist.css'
+
+hljs.registerLanguage('java', require('highlight.js/lib/languages/java'))
+hljs.registerLanguage('xml', require('highlight.js/lib/languages/xml'))
+hljs.registerLanguage('html', require('highlight.js/lib/languages/xml'))
+hljs.registerLanguage('vue', require('highlight.js/lib/languages/xml'))
+hljs.registerLanguage('javascript', require('highlight.js/lib/languages/javascript'))
+hljs.registerLanguage('sql', require('highlight.js/lib/languages/sql'))
 
 export default {
   name: 'GenerateModalForm',
@@ -114,7 +141,14 @@ export default {
       templateFileIds: [],
       checkedList: [],
       indeterminate: false,
-      checkAll: true
+      checkAll: true,
+      // 预览参数
+      preview: {
+        open: false,
+        title: '代码预览',
+        data: {}
+      },
+      type: ''
     }
   },
   mounted() {
@@ -127,6 +161,12 @@ export default {
     })
   },
   methods: {
+    show(tableNames, type) {
+      this.visible = true
+      this.submitLoading = false
+      this.type = type
+      this.tableNames = tableNames
+    },
     onTemplateGroupChange(templateGroupId) {
       getProperties(templateGroupId).then(res => {
         this.properties = res.data
@@ -135,6 +175,35 @@ export default {
         this.templateFiles = res.data
         this.templateFileIds = this.templateFiles.map(x => x.directoryEntryId)
       })
+    },
+    /** 高亮显示 */
+    highlightedCode(code, key) {
+      var language = key.substring(key.lastIndexOf('.') + 1)
+      const result = hljs.highlight(language, code || '', true)
+      return result.value || '&nbsp;'
+    },
+
+    previewCode() {
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          this.submitLoading = true
+          preview(this.dsName, this.submitDataProcess(values))
+            .then(res => {
+              this.preview.data = res.data
+              this.preview.open = true
+            })
+            .catch(() => {
+              this.$message.error('代码生成异常')
+            })
+            .finally(() => {
+              this.submitLoading = false
+            })
+        }
+      })
+    },
+    closePreviewCode() {
+      this.preview.open = false
+      this.preview.data = {}
     },
     handleOk() {
       // 钩子函数 处理提交之前处理的事件

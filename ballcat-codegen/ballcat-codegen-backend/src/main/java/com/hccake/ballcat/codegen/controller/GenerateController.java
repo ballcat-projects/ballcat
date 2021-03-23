@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * 代码生成器
@@ -58,6 +59,16 @@ public class GenerateController {
 		response.setContentType("application/octet-stream; charset=UTF-8");
 
 		IoUtil.write(response.getOutputStream(), Boolean.TRUE, data);
+	}
+
+	/**
+	 * 生成预览代码
+	 * @param preGenerateOptionDTO
+	 * @return
+	 */
+	@PostMapping("/preview")
+	public R<Map<String, String>> previewCode(@RequestBody GeneratorOptionDTO preGenerateOptionDTO) {
+		return R.ok(generatorService.previewCode(preGenerateOptionDTO));
 	}
 
 }

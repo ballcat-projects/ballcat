@@ -42,6 +42,7 @@ export default {
     handleClose(e) {
       this.visible = false
       this.submitLoading = false
+      this.form.resetFields()
     }
   }
 }

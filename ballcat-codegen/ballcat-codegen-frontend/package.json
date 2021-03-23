@@ -13,6 +13,7 @@
     "axios": "^0.19.2",
     "babel-plugin-import": "^1.13.0",
     "core-js": "^3.6.5",
+    "highlight.js": "^10.7.1",
     "lodash.pick": "^4.4.0",
     "moment": "^2.26.0",
     "nprogress": "^0.2.0",

@@ -3,6 +3,7 @@ package com.hccake.ballcat.codegen.service;
 import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author hccake
@@ -16,5 +17,12 @@ public interface GeneratorService {
 	 * @return 已生成的代码数据
 	 */
 	byte[] generatorCode(GeneratorOptionDTO generatorOptionDTO) throws IOException;
+
+	/**
+	 * 预览代码
+	 * @param preGenerateOptionDTO {@code preGenerateOptionDTO}
+	 * @return {@code Map<String, String>}
+	 */
+	Map<String, String> previewCode(GeneratorOptionDTO preGenerateOptionDTO);
 
 }
