@@ -1,6 +1,7 @@
 package com.hccake.ballcat.codegen.service.impl;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ArrayUtil;
 import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.dto.GeneratorOptionDTO;
 import com.hccake.ballcat.codegen.model.vo.ColumnInfo;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -58,6 +60,26 @@ public class GeneratorServiceImpl implements GeneratorService {
 			zip.finish();
 			return outputStream.toByteArray();
 		}
+	}
+
+	@Override
+	public Map<String, String> previewCode(GeneratorOptionDTO preGenerateOptionDTO) {
+		// 根据tableName 查询最新的表单配置
+		List<TemplateFile> templateFiles = templateDirectoryEntryService.listTemplateFiles(
+				preGenerateOptionDTO.getTemplateGroupId(), preGenerateOptionDTO.getTemplateFileIds());
+		Assert.notEmpty(templateFiles, "模板组中模板文件为空！");
+		String[] tableNames = preGenerateOptionDTO.getTableNames();
+		Assert.isTrue(ArrayUtil.isNotEmpty(tableNames) && tableNames.length == 1, "预览仅支持单表");
+		// 获取表名
+		String tableName = tableNames[0];
+		// 查询表信息
+		TableInfo tableInfo = tableInfoService.queryTableInfo(tableName);
+		// 查询列信息
+		List<ColumnInfo> columnInfoList = tableInfoService.listColumnInfo(tableName);
+		// 生成代码
+		return GenUtils.previewCode(preGenerateOptionDTO.getTablePrefix(), preGenerateOptionDTO.getGenProperties(),
+				tableInfo, columnInfoList, templateFiles);
+
 	}
 
 }
