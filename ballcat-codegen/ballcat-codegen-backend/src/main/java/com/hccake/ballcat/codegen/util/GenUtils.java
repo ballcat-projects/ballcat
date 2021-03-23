@@ -74,6 +74,32 @@ public class GenUtils {
 	}
 
 	/**
+	 * 预览代码
+	 */
+	@SneakyThrows
+	public Map<String, String> previewCode(String tablePrefix, Map<String, String> customProperties,
+			TableInfo tableInfo, List<ColumnInfo> columnInfos, List<TemplateFile> templateFiles) {
+		// 预览结果存放
+		Map<String, String> previewData = new HashMap<>();
+		// 根据表信息和字段信息获取对应的配置属性
+		GenerateProperties generateProperties = getGenerateProperties(tableInfo, columnInfos, tablePrefix);
+		// 转换generateProperties为map，模板数据
+		Map<String, Object> map = BeanUtil.beanToMap(generateProperties);
+		// 追加用户自定义属性
+		map.putAll(customProperties);
+		// 模板渲染
+		VelocityContext context = new VelocityContext(map);
+		for (TemplateFile templateFile : templateFiles) {
+			StringWriter sw = new StringWriter();
+			Velocity.evaluate(context, sw, tableInfo.getTableName() + templateFile.getFilePath(),
+					templateFile.getContent());
+			// 模板内容填充
+			previewData.put(StrUtil.format(templateFile.getFileName(), map), sw.toString());
+		}
+		return previewData;
+	}
+
+	/**
 	 * 根据表信息和字段信息获取对应的配置属性
 	 * @param tableInfo 表信息
 	 * @param columnInfos 字段信息
