@@ -9,6 +9,7 @@ import com.hccake.ballcat.codegen.mapper.TemplateDirectoryEntryMapper;
 import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.converter.TemplateModelConverter;
 import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
+import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryUpdateDTO;
 import com.hccake.ballcat.codegen.model.dto.TemplateInfoDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
 import com.hccake.ballcat.codegen.model.entity.TemplateInfo;
@@ -105,26 +106,6 @@ public class TemplateDirectoryEntryServiceImpl
 	@Override
 	public boolean exists(Integer entryId) {
 		return baseMapper.existEntryId(entryId);
-	}
-
-	/**
-	 * 重命名目录项
-	 * @param entryId 目录项ID
-	 * @param name 名称
-	 * @return boolean 成功：true
-	 */
-	@Override
-	public boolean rename(Integer entryId, String name) {
-		// 目录项必须存在
-		TemplateDirectoryEntry entry = baseMapper.selectById(entryId);
-		Assert.notNull(entry, "This is a nonexistent directory entry!");
-		// 重名校验
-		this.duplicateNameCheck(entry.getParentId(), name);
-		// 更新
-		TemplateDirectoryEntry entity = new TemplateDirectoryEntry();
-		entity.setId(entryId);
-		entity.setFileName(name);
-		return SqlHelper.retBool(baseMapper.updateById(entity));
 	}
 
 	/**
@@ -299,11 +280,11 @@ public class TemplateDirectoryEntryServiceImpl
 	/**
 	 * 新建一个目录项
 	 * @param entryDTO 目录项新建传输对象
-	 * @return boolean 成功：true
+	 * @return entryId
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean createEntry(TemplateDirectoryCreateDTO entryDTO) {
+	public Integer createEntry(TemplateDirectoryCreateDTO entryDTO) {
 		// 若父节点不是根，则校验父级节点是否有效
 		Integer parentId = entryDTO.getParentId();
 		Assert.isTrue(GlobalConstants.TREE_ROOT_ID.equals(parentId) || this.exists(parentId),
@@ -314,13 +295,51 @@ public class TemplateDirectoryEntryServiceImpl
 		TemplateDirectoryEntry entity = TemplateModelConverter.INSTANCE.entryCreateDtoToPo(entryDTO);
 		// 落库
 		baseMapper.insert(entity);
+		Integer entityId = entity.getId();
 		// 如果是文件，需要同步存储info
 		if (DirectoryEntryTypeEnum.FILE.getType().equals(entity.getType())) {
-			TemplateInfoDTO templateInfoDTO = entryDTO.getTemplateInfoDTO();
+			TemplateInfoDTO templateInfoDTO = entryDTO.getTemplateInfo();
 			TemplateInfo templateInfo = TemplateModelConverter.INSTANCE.infoDtoToPo(templateInfoDTO);
-			templateInfo.setDirectoryEntryId(entity.getId());
+			templateInfo.setDirectoryEntryId(entityId);
 			templateInfo.setGroupId(entryDTO.getGroupId());
 			templateInfoService.save(templateInfo);
+		}
+		return entityId;
+	}
+
+	/**
+	 * 更新目录项
+	 * @param entryDTO 目录项修改传输对象
+	 * @return success:true
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean updateEntry(TemplateDirectoryUpdateDTO entryDTO) {
+		Integer entryId = entryDTO.getId();
+		String fileName = entryDTO.getFileName();
+		// 目录项必须存在
+		TemplateDirectoryEntry oldEntry = baseMapper.selectById(entryId);
+		Assert.notNull(oldEntry, "This is a nonexistent directory entry!");
+		// 如果更新了文件名，则进行重名校验
+		if (!fileName.equals(oldEntry.getFileName())) {
+			this.duplicateNameCheck(oldEntry.getParentId(), fileName);
+		}
+		// 更新 entry
+		TemplateDirectoryEntry entry = new TemplateDirectoryEntry();
+		entry.setId(entryId);
+		entry.setFileName(fileName);
+		int i = baseMapper.updateById(entry);
+		if (!SqlHelper.retBool(i)) {
+			return false;
+		}
+		// 更新 info
+		if (DirectoryEntryTypeEnum.FILE.getType().equals(entryDTO.getType())) {
+			TemplateInfoDTO templateInfoDTO = entryDTO.getTemplateInfo();
+			TemplateInfo templateInfo = TemplateModelConverter.INSTANCE.infoDtoToPo(templateInfoDTO);
+			templateInfo.setDirectoryEntryId(entryId);
+			// 在这里是不更新 content 的
+			templateInfo.setContent(null);
+			return templateInfoService.save(templateInfo);
 		}
 		return true;
 	}

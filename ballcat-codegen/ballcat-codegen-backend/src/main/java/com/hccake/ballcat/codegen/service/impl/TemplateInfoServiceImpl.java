@@ -1,6 +1,7 @@
 package com.hccake.ballcat.codegen.service.impl;
 
 import com.hccake.ballcat.codegen.mapper.TemplateInfoMapper;
+import com.hccake.ballcat.codegen.model.dto.TemplateFileContentDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateInfo;
 import com.hccake.ballcat.codegen.service.TemplateInfoService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
@@ -35,6 +36,19 @@ public class TemplateInfoServiceImpl extends ExtendServiceImpl<TemplateInfoMappe
 	@Override
 	public void removeByGroupId(Integer groupId) {
 		baseMapper.deleteByGroupId(groupId);
+	}
+
+	/**
+	 * 更新模板文件内容主题
+	 * @param templateFileContentDTO 模板文件内容DTO
+	 * @return 成功：true
+	 */
+	@Override
+	public boolean updateContent(TemplateFileContentDTO templateFileContentDTO) {
+		TemplateInfo templateInfo = new TemplateInfo();
+		templateInfo.setDirectoryEntryId(templateFileContentDTO.getDirectoryEntryId());
+		templateInfo.setContent(templateFileContentDTO.getContent());
+		return this.updateById(templateInfo);
 	}
 
 }

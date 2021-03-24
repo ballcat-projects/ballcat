@@ -1,5 +1,6 @@
 package com.hccake.ballcat.codegen.service;
 
+import com.hccake.ballcat.codegen.model.dto.TemplateFileContentDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateInfo;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
@@ -25,5 +26,12 @@ public interface TemplateInfoService extends ExtendService<TemplateInfo> {
 	 * @param groupId 模板组ID
 	 */
 	void removeByGroupId(Integer groupId);
+
+	/**
+	 * 更新模板文件内容主题
+	 * @param templateFileContentDTO 模板文件内容DTO
+	 * @return 成功：true
+	 */
+	boolean updateContent(TemplateFileContentDTO templateFileContentDTO);
 
 }
