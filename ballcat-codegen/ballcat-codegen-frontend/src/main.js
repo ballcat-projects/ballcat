@@ -23,7 +23,8 @@ import {
   Descriptions,
   Checkbox,
   Tooltip,
-  Tabs
+  Tabs,
+  Badge
 } from 'ant-design-vue'
 import App from './App.vue'
 import router from './router'
@@ -54,6 +55,7 @@ Vue.use(Checkbox)
 Vue.use(Descriptions)
 Vue.use(Tooltip)
 Vue.use(Tabs)
+Vue.use(Badge)
 Vue.prototype.$message = message
 
 Vue.prototype.FORM_ACTION = {

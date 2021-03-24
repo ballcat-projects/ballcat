@@ -72,7 +72,7 @@
     <!--表单页面-->
     <a-card v-if="formInited" size="small" :bodyStyle="{ padding: '0px' }" v-show="!tableShow">
       <slot slot="title">
-        <div style="position:relative;height:45px;line-height:45px;padding:0 1%">
+        <div style="position:relative;height:32px;line-height:32px;padding:0 1%">
           {{ cardTitle }}
           <div style="position:absolute;right:1%;top:0"><a-button @click="backToPage">返回上级</a-button></div>
         </div>

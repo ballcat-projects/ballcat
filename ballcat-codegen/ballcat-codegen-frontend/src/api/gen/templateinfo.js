@@ -21,3 +21,11 @@ export function putObj(obj) {
     data: obj
   })
 }
+
+export function updateContent(obj) {
+  return axios({
+    url: '/gen/template/info/content',
+    method: 'patch',
+    data: obj
+  })
+}

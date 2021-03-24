@@ -28,9 +28,9 @@
           </a-directory-tree>
           <a-menu :style="menuStyle" v-if="menuVisible">
             <template v-if="this.selectedNode">
-              <a-menu-item key="1" :style="menuItemStyle" @click="renameModel">
+              <a-menu-item key="1" :style="menuItemStyle" @click="updateEntry">
                 <a-icon type="edit" />
-                重命名
+                编辑
               </a-menu-item>
               <a-menu-item key="2" :style="menuItemStyle" @click="removeEntry">
                 <a-icon type="delete" />
@@ -49,180 +49,71 @@
             </template>
           </a-menu>
         </div>
+        <div class="left-pane-leftbtn" @click="moveLeft">{{ leftHtml }}</div>
       </template>
       <template slot="paneR" style="padding:0;">
-        <div class="left-pane-leftbtn" @click="moveLeft">{{ leftHtml }}</div>
         <div ref="paneR" class="right-pane">
-          <div v-show="showTips">
-            <a-descriptions title="使用说明">
-              <a-descriptions-item label="文件名占位" :span="3">
-                使用 {} 占位，使用时会替换为实际属性
-              </a-descriptions-item>
-              <a-descriptions-item label="文件夹合并" :span="3">
-                多级文件夹可以合并为一个目录项, 使用 / 或者. 作为分隔符，例如 com.test
-              </a-descriptions-item>
-              <a-descriptions-item label="模板引擎" :span="3">
-                目前只支持 Velocity，具体语法请参看其官网
-              </a-descriptions-item>
-            </a-descriptions>
-            <a-descriptions title="系统提供属性">
-              <a-descriptions-item label="currentTime">
-                当前系统时间
-              </a-descriptions-item>
-              <a-descriptions-item label="tableName">
-                当前表名
-              </a-descriptions-item>
-              <a-descriptions-item label="comments">
-                当前表备注
-              </a-descriptions-item>
-              <a-descriptions-item label="classname">
-                类名，小驼峰形式，首字母小写
-              </a-descriptions-item>
-              <a-descriptions-item label="className">
-                类名，大驼峰形式，首字母大写
-              </a-descriptions-item>
-              <a-descriptions-item label="pathName">
-                类名，全字母小写
-              </a-descriptions-item>
-              <a-descriptions-item label="tableAlias">
-                表别名，类名各单词首字母小写组合
-              </a-descriptions-item>
-              <a-descriptions-item label="pk">
-                主键的列属性
-              </a-descriptions-item>
-              <a-descriptions-item label="columns">
-                列属性的 List 集合
-              </a-descriptions-item>
-            </a-descriptions>
-            <a-descriptions title="列属性详情">
-              <a-descriptions-item label="columnName">
-                列名
-              </a-descriptions-item>
-              <a-descriptions-item label="comments">
-                列备注
-              </a-descriptions-item>
-              <a-descriptions-item label="dataType">
-                列数据类型
-              </a-descriptions-item>
-              <a-descriptions-item label="columnType">
-                列类型(数据类型+长度等信息)
-              </a-descriptions-item>
-              <a-descriptions-item label="attrName">
-                列对应属性名，首字母小写
-              </a-descriptions-item>
-              <a-descriptions-item label="capitalizedAttrName">
-                列对应属性名，首字母大写
-              </a-descriptions-item>
-              <a-descriptions-item label="attrType">
-                列对应Java类型
-              </a-descriptions-item>
-              <a-descriptions-item label="extra">
-                列的额外属性，如自增
-              </a-descriptions-item>
-            </a-descriptions>
-            <a-descriptions title="用户填写属性">
-              <a-descriptions-item label="tablePrefix">
-                表前缀，代码生成时截取此前缀后再生成类名
-              </a-descriptions-item>
-            </a-descriptions>
-            <a-descriptions title="用户自定义属性">
-              <template v-for="item in this.properties">
-                <a-descriptions-item :label="item.propKey">
-                  {{ item.remarks ? item.title + '，' + item.remarks : item.title }}
-                </a-descriptions-item>
-              </template>
-            </a-descriptions>
-          </div>
-          <a-form v-show="!showTips" @submit="handleSubmit" :form="form">
-            <div class="template-form-title">{{ formInfo.formTitle }}</div>
-            <template v-if="!formInfo.updateFlag">
-              <a-form-item style="display: none">
-                <a-input v-decorator="['groupId']" />
-              </a-form-item>
-              <a-form-item style="display: none">
-                <a-input v-decorator="['parentId']" />
-              </a-form-item>
-              <a-form-item style="display: none">
-                <a-input v-decorator="['type']" />
-              </a-form-item>
-            </template>
-
-            <a-form-item label="父目录:" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <span> {{ formInfo.parentFileName }}</span>
-            </a-form-item>
-            <a-form-item label="文件名" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input v-if="!formInfo.updateFlag" placeholder="请输入文件名" v-decorator="['fileName']" />
-              <span v-else>{{ formInfo.fileName }}</span>
-            </a-form-item>
-            <template v-if="formInfo.fileType === 2">
-              <a-form-item v-if="formInfo.updateFlag" style="display: none">
-                <a-input v-decorator="['directoryEntryId']" />
-              </a-form-item>
-              <a-form-item label="标题" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <a-input placeholder="标题" v-decorator="formInfo.updateFlag ? ['title'] : ['templateInfoDTO.title']" />
-              </a-form-item>
-              <a-form-item label="引擎" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <a-select
-                  v-decorator="[formInfo.updateFlag ? 'engineType' : 'templateInfoDTO.engineType', { initialValue: 1 }]"
-                >
-                  <a-select-option :value="1">velocity</a-select-option>
-                </a-select>
-              </a-form-item>
-              <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <a-textarea
-                  placeholder="备注"
-                  v-decorator="formInfo.updateFlag ? ['remarks'] : ['templateInfoDTO.remarks']"
-                />
-              </a-form-item>
-              <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol">
-                <span slot="label">
-                  模板
-                  <a-tooltip title="选中编辑框后按F11和Esc控制全屏">
-                    <a-icon type="question-circle-o" />
-                  </a-tooltip>
+          <code-gen-tips v-show="showTips" :template-group-id="this.templateGroupId" />
+          <div v-show="!showTips">
+            <a-tabs
+              v-model="activeKey"
+              default-active-key="1"
+              :tabBarStyle="{ margin: 0 }"
+              type="editable-card"
+              hide-add
+              @change="handlePaneChange"
+              @edit="handlePaneEdit"
+            >
+              <a-tab-pane v-for="([key, info], index) in templateInfoMap" :key="key" :closable="info.closable">
+                <span slot="tab">
+                  <a-badge status="default" v-if="info.createData" />
+                  {{ info.title }}
                 </span>
-                <codemirror v-model="formInfo.content" :options="cmOptions" style="line-height: 1.5"></codemirror>
-              </a-form-item>
-            </template>
-            <a-form-item :wrapperCol="{ span: 24 }" style="text-align: center">
-              <a-button htmlType="submit" type="primary" :loading="submitLoading">提交</a-button>
-              <a-button style="margin-left: 8px" @click="() => (this.showTips = true)">取消</a-button>
-            </a-form-item>
-          </a-form>
+              </a-tab-pane>
+            </a-tabs>
+            <codemirror v-model="content" :options="cmOptions" style="line-height: 1.5"></codemirror>
+          </div>
         </div>
       </template>
     </split-pane>
-    <rename-model ref="renameModel"></rename-model>
     <remove-model ref="removeModel"></remove-model>
+    <template-folder-modal-form ref="folderModalForm" @reload-page-table="treeLoad" />
+    <template-file-modal-form ref="fileModalForm" @reload-page-table="treeLoad" @create-entry-file="createEntryFile" />
   </div>
 </template>
 
 <script>
 import splitPane from 'vue-splitpane'
-import { getList, delObj, move } from '@/api/gen/templatedirectoryentry'
+import { getList, move } from '@/api/gen/templatedirectoryentry'
 import { listToTree } from '@/utils/treeUtil'
-import { FormMixin } from '@/mixins'
-import { putObj, getObj } from '@/api/gen/templateinfo'
+import { getObj, updateContent } from '@/api/gen/templateinfo'
+import CodeGenTips from '@/views/gen/templategroup/CodeGenTips'
 import { addObj } from '@/api/gen/templatedirectoryentry'
-import { getProperties } from '@/api/gen/templateproperty'
 
-// codemirror
+// codemirror`
 import { codemirror } from 'vue-codemirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/dracula.css'
 import 'codemirror/mode/velocity/velocity.js'
+
 // 全屏插件
 import 'codemirror/addon/display/fullscreen.js'
 import 'codemirror/addon/display/fullscreen.css'
 
-//import { TablePageMixin } from '@/mixins'
-import renameModel from './TemplateEntryRenameModal.vue'
 import removeModel from './TemplateEntryRemoveModal.vue'
+import TemplateFolderModalForm from '@/views/gen/templategroup/TemplateFolderModalForm'
+import TemplateFileModalForm from '@/views/gen/templategroup/TemplateFileModalForm'
 
 export default {
   name: 'TemplateDirectoryEntryPage',
-  mixins: [FormMixin],
-  components: { codemirror, renameModel, removeModel, splitPane },
+  components: {
+    TemplateFolderModalForm,
+    TemplateFileModalForm,
+    splitPane,
+    codemirror,
+    removeModel,
+    CodeGenTips
+  },
   props: {
     templateGroupId: Number
   },
@@ -230,7 +121,6 @@ export default {
     return {
       // 属性
       showTips: true,
-      properties: [],
 
       // tree
       treeData: [],
@@ -239,6 +129,10 @@ export default {
       checkedKeys: [],
       selectedKeys: [],
       selectedNode: null,
+
+      // 文件列表
+      templateInfoMap: new Map(),
+      activeKey: null,
 
       // ========== 右键菜单样式 ==============
       menuVisible: false,
@@ -279,22 +173,7 @@ export default {
       leftHtml: '<',
 
       // ==================form===================
-      reqFunctions: {
-        create: addObj,
-        update: putObj
-      },
-      delObj: delObj,
-      formInfo: {
-        formTitle: '',
-        fileType: 0,
-        fileName: '',
-        parentFileName: '',
-        content: '',
-        updateFlag: true
-      },
-      labelCol: { lg: { span: 3 }, sm: { span: 3 } },
-      wrapperCol: { lg: { span: 20 }, sm: { span: 20 } },
-      decoratorOptions: {},
+      content: '',
       cmOptions: {
         // codemirror options
         tabSize: 4,
@@ -303,11 +182,13 @@ export default {
         lineNumbers: true,
         line: true,
         extraKeys: {
+          // 全屏
           F11: function(cm) {
             cm.setOption('fullScreen', !cm.getOption('fullScreen'))
           },
-          Esc: function(cm) {
-            if (cm.getOption('fullScreen')) cm.setOption('fullScreen', false)
+          // 保存
+          'Ctrl-S': () => {
+            this.saveTemplateContent()
           }
         }
         // more codemirror options, 更多 codemirror 的高级配置...
@@ -317,18 +198,89 @@ export default {
   watch: {
     templateGroupId() {
       this.initPage()
-    },
-    properties() {
-      // 当自定义属性北更新时，需要同步更新高度
-      this.$nextTick(function() {
-        this.splitPaneStyle.height = this.$refs.paneR.offsetHeight + 'px'
-      })
     }
   },
   created() {
     this.initPage()
   },
   methods: {
+    handlePaneChange(activeKey) {
+      const data = this.templateInfoMap.get(activeKey)
+      data && (this.content = data.content)
+    },
+    handlePaneEdit(targetKey, action) {
+      this[action](targetKey)
+    },
+    remove(targetKey) {
+      // 获取关闭标签的前一个标签
+      let preKey = null
+      for (let key of this.templateInfoMap.keys()) {
+        if (key !== targetKey) {
+          preKey = key
+        } else {
+          break
+        }
+      }
+      // 删除标签
+      this.templateInfoMap.delete(targetKey)
+      // 当全部标签删除时，显示提示
+      if (this.templateInfoMap.size === 0) {
+        this.showTips = true
+        this.activeKey = null
+      } else {
+        // 当关闭标签为第一个的时候，默认打开现在的第一个标签
+        this.activeKey = preKey ? preKey : this.templateInfoMap.keys().next().value
+      }
+      // Vue2 Map 双向绑定有点问题，需要强制刷新
+      this.$forceUpdate()
+    },
+    saveTemplateContent() {
+      const createData = this.templateInfoMap.get(this.activeKey).createData
+      // 新建模板信息
+      if (createData) {
+        createData.templateInfo.content = this.content
+        addObj(createData).then(res => {
+          if (res.code === 200) {
+            this.$message.success(res.message)
+            this.templateInfoMap.delete(this.activeKey)
+            const entryId = res.data
+            this.templateInfoMap.set(entryId, {
+              content: this.content,
+              title: createData.fileName
+            })
+            this.activeKey = entryId
+            this.treeLoad()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        // 修改模板文件内容
+        const formData = { directoryEntryId: this.activeKey, content: this.content }
+        updateContent(formData).then(res => {
+          if (res.code === 200) {
+            this.templateInfoMap.get(this.activeKey).content = this.content
+            this.$message.success(res.message)
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      }
+    },
+    // 创建文件目录项
+    createEntryFile(data) {
+      this.showTips = false
+      const content = ''
+      this.content = content
+      const key = new Date().getTime()
+      this.activeKey = key
+      this.templateInfoMap.set(key, {
+        content: content,
+        title: data.fileName,
+        createData: data
+      })
+    },
+
     /**
      * 页面初始化
      * 1. 更新 Entry Tree
@@ -336,9 +288,15 @@ export default {
      */
     initPage() {
       this.treeLoad(true)
-      getProperties(this.templateGroupId).then(res => {
-        this.properties = res.data
-      })
+      this.showTips = true
+      // 代码编辑模块置空
+      this.templateInfoMap = new Map()
+      this.content = ''
+      this.activeKey = null
+      // 页面高度
+      this.heightClient = document.documentElement.clientHeight || document.body.clientHeight
+      this.heightClient = this.heightClient - 165
+      this.splitPaneStyle.height = this.heightClient + 'px'
     },
     /**
      * 加载 Entry Tree
@@ -388,20 +346,24 @@ export default {
       // 非文件类型不加载
       const entry = node.dataRef
       if (entry.type === 2) {
+        const targetKey = entry.id
         // 显示表单
         this.showTips = false
-        // 修改表单信息
-        this.formInfo.formTitle = '修改模板文件'
-        this.formInfo.updateFlag = true
-        this.formInfo.fileType = entry.type
-        this.formInfo.fileName = entry.fileName
-        const parentDataRef = node.$parent.dataRef
-        this.formInfo.parentFileName = parentDataRef ? parentDataRef.fileName : '/'
+        this.activeKey = targetKey
+        if (this.templateInfoMap.has(targetKey)) {
+          this.content = this.templateInfoMap.get(targetKey).content
+          return
+        }
+
         // 远程加载模板文件详情信息
-        getObj(entry.id).then(res => {
+        getObj(targetKey).then(res => {
           const templateInfo = res.data
-          this.formInfo.content = templateInfo.content || ''
-          this.buildUpdatedForm(templateInfo)
+          const content = templateInfo.content || ''
+          this.templateInfoMap.set(targetKey, {
+            content: content,
+            title: entry.fileName
+          })
+          this.content = content
         })
       }
     },
@@ -442,40 +404,7 @@ export default {
           this.$message.error(error.message)
         })
     },
-    /**
-     * 表单提交前更新formAction，用于切换请求方法
-     */
-    beforeStartSubmit() {
-      this.formAction = this.formInfo.updateFlag ? this.FORM_ACTION.UPDATE : this.FORM_ACTION.CREATE
-    },
-    /**
-     * 表单提交时的数据处理
-     */
-    submitDataProcess(data) {
-      if (this.formInfo.updateFlag) {
-        data.content = this.formInfo.content
-      } else if (data.type === 2) {
-        data.templateInfoDTO.content = this.formInfo.content
-      }
-      return data
-    },
-    /**
-     * 表单提交后进行重新load（不更新展开的文件）
-     */
-    submitSuccess() {
-      this.showTips = true
-      this.treeLoad()
-    },
-    /**
-     * 重命名
-     */
-    renameModel() {
-      if (this.selectedNode && this.selectedNode.dataRef) {
-        this.$refs.renameModel.show(this.selectedNode.dataRef)
-      } else {
-        this.$message.warning('请选择一个目录项')
-      }
-    },
+
     /**
      * 删除
      */
@@ -488,31 +417,51 @@ export default {
     },
     /**
      * 新建
-     * @param fileType 文件类型
+     * @param entryType 文件类型
      */
-    createdEntry(fileType) {
-      // 显示表单
-      this.showTips = false
-
+    createdEntry(entryType) {
       let parentId = 0
-      let parentFileName = '/'
+      let parentFileName = '根目录'
       if (this.selectedNode && this.selectedNode.dataRef) {
         const dataRef = this.selectedNode.dataRef
         parentFileName = dataRef.fileName
         parentId = dataRef.id
       }
 
-      this.formInfo.formTitle = fileType === 1 ? '新建文件夹' : '新建模板文件'
-      this.formInfo.content = ''
-      this.formInfo.updateFlag = false
-      this.formInfo.fileType = fileType
-      this.formInfo.parentFileName = parentFileName
-
-      this.fillFormData({
+      const defaultFormData = {
         groupId: this.templateGroupId,
         parentId: parentId,
-        type: fileType
-      })
+        type: entryType
+      }
+
+      if (entryType === 1) {
+        this.$refs.folderModalForm.add({
+          title: '新建文件夹',
+          parentFileName: parentFileName,
+          formData: defaultFormData
+        })
+      } else {
+        this.$refs.fileModalForm.add({
+          title: '新建模板文件',
+          parentFileName: parentFileName,
+          formData: defaultFormData
+        })
+      }
+    },
+    /* 更新目录项 */
+    updateEntry() {
+      if (this.selectedNode && this.selectedNode.dataRef) {
+        const entry = this.selectedNode.dataRef
+        // 文件夹类型
+        if (entry.type === 1) {
+          this.$refs.folderModalForm.update(entry, { title: '编辑文件夹信息' })
+        } else {
+          // 文件类型
+          this.$refs.fileModalForm.update(entry, { title: '编辑文件信息' })
+        }
+      } else {
+        this.$message.warning('请选择一个目录项')
+      }
     },
     resize(val) {
       if (val < 24) {
@@ -548,14 +497,15 @@ export default {
 .ant-form-item {
   margin-bottom: 8px;
 }
+
 .right-pane {
   overflow-y: auto;
   height: 100%;
   border: none;
   position: relative;
   box-sizing: border-box;
-  padding: 2%;
 }
+
 .left-pane {
   overflow: auto;
   height: 100%;
@@ -588,29 +538,41 @@ export default {
   width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
   height: 5px;
 }
+
 .left-pane::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 8px;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: #969696;
 }
+
 .left-pane::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   background: #ededed;
 }
+
 .splitter-pane.vertical.splitter-paneR {
   padding: 0 !important;
 }
+
 .splitter-paneL {
   padding-right: 0 !important;
 }
+
 .template-form-title {
   color: rgba(0, 0, 0, 0.85);
   font-weight: 600;
   font-size: 18px;
   line-height: 32px;
   text-align: center;
+}
+</style>
+
+<style>
+/* 这里不全局设置就不生效 */
+.CodeMirror {
+  height: 100% !important;
 }
 </style>
