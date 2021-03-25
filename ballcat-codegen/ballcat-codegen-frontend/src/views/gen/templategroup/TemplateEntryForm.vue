@@ -61,6 +61,7 @@
               :tabBarStyle="{ margin: 0 }"
               type="editable-card"
               hide-add
+              class="file-editor-tab"
               @change="handlePaneChange"
               @edit="handlePaneEdit"
             >
@@ -214,13 +215,17 @@ export default {
       this[action](targetKey)
     },
     remove(targetKey) {
+      // 是否关闭当前标签
+      const closeCurrent = this.activeKey === targetKey
       // 获取关闭标签的前一个标签
       let preKey = null
-      for (let key of this.templateInfoMap.keys()) {
-        if (key !== targetKey) {
-          preKey = key
-        } else {
-          break
+      if (closeCurrent) {
+        for (let key of this.templateInfoMap.keys()) {
+          if (key !== targetKey) {
+            preKey = key
+          } else {
+            break
+          }
         }
       }
       // 删除标签
@@ -229,7 +234,7 @@ export default {
       if (this.templateInfoMap.size === 0) {
         this.showTips = true
         this.activeKey = null
-      } else {
+      } else if (closeCurrent) {
         // 当关闭标签为第一个的时候，默认打开现在的第一个标签
         this.activeKey = preKey ? preKey : this.templateInfoMap.keys().next().value
       }
@@ -569,5 +574,18 @@ export default {
 }
 #codeEditor >>> .CodeMirror-scroll {
   min-height: 500px !important;
+}
+
+.file-editor-tab >>> .ant-tabs-tab {
+  height: 32px !important;
+  line-height: 32px !important;
+  padding: 0 12px !important;
+}
+.file-editor-tab >>> .ant-tabs-nav-container {
+  height: 32px !important;
+}
+.file-editor-tab >>> .ant-tabs-tab-active {
+  height: 32px !important;
+  line-height: 30px !important;
 }
 </style>

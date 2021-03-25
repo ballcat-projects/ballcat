@@ -73,11 +73,9 @@
       </a-descriptions-item>
     </a-descriptions>
     <a-descriptions title="用户自定义属性">
-      <template v-for="item in this.properties">
-        <a-descriptions-item :label="item.propKey">
-          {{ item.remarks ? item.title + '，' + item.remarks : item.title }}
-        </a-descriptions-item>
-      </template>
+      <a-descriptions-item v-for="item in this.properties" :label="item.propKey" :key="item.id">
+        {{ item.remarks ? item.title + '，' + item.remarks : item.title }}
+      </a-descriptions-item>
     </a-descriptions>
   </div>
 </template>

@@ -86,7 +86,7 @@
     </div>
 
     <!--模板组表单弹窗-->
-    <template-group-form-modal ref="formModal" @reloadPageTable="reloadTable"></template-group-form-modal>
+    <template-group-form-modal ref="formModal" @reload-page-table="reloadTable"></template-group-form-modal>
   </div>
 </template>
 

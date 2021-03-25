@@ -1,6 +1,6 @@
 <template>
-  <a-modal :title="title" :visible="visible" :confirm-loading="submitLoading" @ok="handleOk" @cancel="handleClose">
-    <a-form :form="form" @submit="handleOk">
+  <a-modal :title="title" :visible="visible" :confirm-loading="submitLoading" @ok="handleSubmit" @cancel="handleClose">
+    <a-form :form="form">
       <a-form-item v-if="formAction === this.FORM_ACTION.UPDATE" style="display: none">
         <a-input v-decorator="['id']" />
       </a-form-item>
@@ -39,9 +39,6 @@ export default {
     }
   },
   methods: {
-    handleOk(e) {
-      this.handleSubmit(e)
-    },
     copy(record, title) {
       this.form.resetFields()
       this.formAction = 'copy'
