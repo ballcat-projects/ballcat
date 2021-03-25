@@ -2,12 +2,13 @@ package com.hccake.ballcat.admin.oauth;
 
 import com.hccake.ballcat.admin.constants.SysUserConst;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.oauth.domain.UserAttributes;
+import com.hccake.ballcat.admin.oauth.domain.UserResources;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * @author Hccake
@@ -21,20 +22,19 @@ public class SysUserDetails implements UserDetails {
 	private final Collection<? extends GrantedAuthority> authorities;
 
 	/**
-	 * 用户所有的资源Map <br/>
-	 * key: resource标识 value: resourceItem <br/>
-	 * 以角色为例 => role: roleCodeList
+	 * 用户所有的资源 <br/>
+	 * 默认有用户角色和权限的标识集合，用户可自己扩展
 	 */
-	private final Map<String, Collection<?>> userResources;
+	private final UserResources userResources;
 
 	/**
 	 * 用户属性 <br/>
 	 * 对于不同类型的用户，可能在业务上需要获取到不同的用户属性
 	 */
-	private final Map<String, Object> userAttributes;
+	private final UserAttributes userAttributes;
 
 	public SysUserDetails(SysUser sysUser, Collection<? extends GrantedAuthority> authorities,
-			Map<String, Collection<?>> userResources, Map<String, Object> userAttributes) {
+			UserResources userResources, UserAttributes userAttributes) {
 		this.sysUser = sysUser;
 		this.authorities = authorities;
 		this.userResources = userResources;
@@ -80,11 +80,11 @@ public class SysUserDetails implements UserDetails {
 		return sysUser;
 	}
 
-	public Map<String, Collection<?>> getUserResources() {
+	public UserResources getUserResources() {
 		return userResources;
 	}
 
-	public Map<String, Object> getUserAttributes() {
+	public UserAttributes getUserAttributes() {
 		return userAttributes;
 	}
 

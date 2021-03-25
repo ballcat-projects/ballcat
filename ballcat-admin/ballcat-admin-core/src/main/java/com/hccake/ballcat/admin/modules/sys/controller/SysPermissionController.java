@@ -2,13 +2,13 @@ package com.hccake.ballcat.admin.modules.sys.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.admin.constants.SysPermissionConst;
-import com.hccake.ballcat.admin.constants.UserResourceConstant;
 import com.hccake.ballcat.admin.modules.sys.converter.SysPermissionConverter;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysPermission;
 import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.RouterVO;
 import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
 import com.hccake.ballcat.admin.oauth.SysUserDetails;
+import com.hccake.ballcat.admin.oauth.domain.UserResources;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
@@ -46,8 +46,8 @@ public class SysPermissionController {
 
 		// 获取角色Code
 		SysUserDetails sysUserDetails = SecurityUtils.getSysUserDetails();
-		Map<String, Collection<?>> userResources = sysUserDetails.getUserResources();
-		Collection<String> roleCodes = (Collection<String>) userResources.get(UserResourceConstant.RESOURCE_ROLE);
+		UserResources userResources = sysUserDetails.getUserResources();
+		Collection<String> roleCodes = userResources.getRoles();
 		if (CollectionUtil.isEmpty(roleCodes)) {
 			return R.ok(new ArrayList<>());
 		}
