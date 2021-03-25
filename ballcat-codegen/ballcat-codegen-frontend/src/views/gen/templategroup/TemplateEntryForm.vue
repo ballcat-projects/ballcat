@@ -71,7 +71,9 @@
                 </span>
               </a-tab-pane>
             </a-tabs>
-            <codemirror v-model="content" :options="cmOptions" style="line-height: 1.5"></codemirror>
+            <div id="codeEditor">
+              <codemirror v-model="content" :options="cmOptions" style="line-height: 1.5"></codemirror>
+            </div>
           </div>
         </div>
       </template>
@@ -561,18 +563,11 @@ export default {
   padding-right: 0 !important;
 }
 
-.template-form-title {
-  color: rgba(0, 0, 0, 0.85);
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 32px;
-  text-align: center;
-}
-</style>
-
-<style>
-/* 这里不全局设置就不生效 */
-.CodeMirror {
+#codeEditor >>> .CodeMirror {
+  min-height: 500px !important;
   height: 100% !important;
+}
+#codeEditor >>> .CodeMirror-scroll {
+  min-height: 500px !important;
 }
 </style>
