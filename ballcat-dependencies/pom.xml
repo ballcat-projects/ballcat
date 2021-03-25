@@ -55,7 +55,7 @@
 		<mybatis-plus.version>3.4.2</mybatis-plus.version>
 		<dynamic-datasource.version>3.3.1</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
-		<spring-boot-admin.version>2.4.0</spring-boot-admin.version>
+		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
 		<oss.aliyun.version>3.11.3</oss.aliyun.version>
 		<easyexcel.version>2.2.6</easyexcel.version>
 		<jasypt.version>3.0.3</jasypt.version>
