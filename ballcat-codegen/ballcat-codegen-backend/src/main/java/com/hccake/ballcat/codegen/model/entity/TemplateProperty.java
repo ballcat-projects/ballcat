@@ -65,6 +65,14 @@ public class TemplateProperty {
 	private String remarks;
 
 	/**
+	 * 逻辑删除
+	 */
+	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "逻辑删除")
+	private Long deleted;
+
+	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)
