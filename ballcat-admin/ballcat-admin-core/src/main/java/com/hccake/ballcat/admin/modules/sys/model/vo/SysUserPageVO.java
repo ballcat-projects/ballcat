@@ -67,7 +67,7 @@ public class SysUserPageVO implements Serializable {
 	@ApiModelProperty(value = "状态(1-正常, 0-冻结)")
 	private Integer status;
 
-	@ApiModelProperty(value = "1:系统用户， 2：客户用户")
+	@ApiModelProperty(value = "用户类型：1-系统用户，2-客户用户")
 	private Integer type;
 
 	/**
