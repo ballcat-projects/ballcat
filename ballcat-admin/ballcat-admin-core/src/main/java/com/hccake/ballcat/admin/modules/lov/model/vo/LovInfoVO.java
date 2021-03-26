@@ -7,12 +7,12 @@ import com.hccake.ballcat.admin.modules.lov.model.entity.LovBody;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovSearch;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.experimental.Accessors;
-
+import java.time.LocalDateTime;
+import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.List;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * @author lingting 2020-08-12 21:35
@@ -56,6 +56,9 @@ public class LovInfoVO {
 
 	@ApiModelProperty("返回数据的字段")
 	private String retField;
+
+	@ApiModelProperty("更新时间")
+	private LocalDateTime updateTime;
 
 	private List<LovBody> bodyList;
 

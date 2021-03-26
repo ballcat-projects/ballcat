@@ -1,6 +1,8 @@
 package com.hccake.ballcat.admin.modules.lov.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
+import com.hccake.ballcat.admin.modules.lov.event.LovChangeEvent;
 import com.hccake.ballcat.admin.modules.lov.mapper.LovMapper;
 import com.hccake.ballcat.admin.modules.lov.model.entity.Lov;
 import com.hccake.ballcat.admin.modules.lov.model.entity.LovBody;
@@ -10,16 +12,18 @@ import com.hccake.ballcat.admin.modules.lov.model.vo.LovPageVO;
 import com.hccake.ballcat.admin.modules.lov.service.LovBodyService;
 import com.hccake.ballcat.admin.modules.lov.service.LovSearchService;
 import com.hccake.ballcat.admin.modules.lov.service.LovService;
+import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
-import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * @author lingting 2020-08-10 17:21
@@ -31,6 +35,8 @@ public class LovServiceImpl extends ExtendServiceImpl<LovMapper, Lov> implements
 	private final LovBodyService bodyService;
 
 	private final LovSearchService searchService;
+
+	private final ApplicationEventPublisher eventPublisher;
 
 	@Override
 	public PageResult<LovPageVO> queryPage(PageParam pageParam, LovQO qo) {
@@ -54,6 +60,7 @@ public class LovServiceImpl extends ExtendServiceImpl<LovMapper, Lov> implements
 		searchList.forEach((body -> body.setKeyword(keyword)));
 		searchService.saveBatchSomeColumn(searchList);
 
+		eventPublisher.publishEvent(LovChangeEvent.of(keyword));
 		return true;
 	}
 
@@ -108,6 +115,30 @@ public class LovServiceImpl extends ExtendServiceImpl<LovMapper, Lov> implements
 	@Override
 	public Lov getByKeyword(String keyword) {
 		return baseMapper.selectByKeyword(keyword);
+	}
+
+	@Override
+	public List<String> check(List<Lov> list) {
+		if (list == null || list.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		List<String> res = new ArrayList<>(list.size());
+		for (Lov lov : list) {
+			if (StrUtil.isBlank(lov.getKeyword())) {
+				continue;
+			}
+
+			if (
+			// 更新时间为空
+			lov.getUpdateTime() == null
+					// 时间不等
+					|| lov.getUpdateTime().compareTo(getByKeyword(lov.getKeyword()).getUpdateTime()) != 0) {
+				res.add(lov.getKeyword());
+			}
+		}
+
+		return res;
 	}
 
 }

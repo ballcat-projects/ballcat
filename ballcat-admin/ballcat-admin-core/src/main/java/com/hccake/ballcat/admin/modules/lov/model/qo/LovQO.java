@@ -4,6 +4,7 @@ import com.hccake.ballcat.admin.modules.lov.enums.HttpMethod;
 import com.hccake.ballcat.admin.modules.lov.enums.HttpParamsPosition;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
@@ -27,5 +28,8 @@ public class LovQO {
 
 	@ApiModelProperty("http请求参数位置")
 	private HttpParamsPosition position;
+
+	@ApiModelProperty("更新时间")
+	private LocalDateTime updateTime;
 
 }
