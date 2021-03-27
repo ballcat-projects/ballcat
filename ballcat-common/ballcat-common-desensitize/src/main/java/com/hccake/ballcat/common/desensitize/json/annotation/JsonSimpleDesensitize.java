@@ -1,8 +1,5 @@
 package com.hccake.ballcat.common.desensitize.json.annotation;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializer;
 import com.hccake.ballcat.common.desensitize.handler.SimpleDesensitizationHandler;
 
 import java.lang.annotation.*;
@@ -16,8 +13,6 @@ import java.lang.annotation.*;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@JacksonAnnotationsInside
-@JsonSerialize(using = JsonDesensitizeSerializer.class)
 public @interface JsonSimpleDesensitize {
 
 	/**

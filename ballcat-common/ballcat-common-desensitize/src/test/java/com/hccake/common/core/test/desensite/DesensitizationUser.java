@@ -45,4 +45,7 @@ public class DesensitizationUser {
 	@JsonSimpleDesensitize(handler = TestDesensitizationHandler.class)
 	private String testField;
 
+	@CustomerDesensitize(handler = TestDesensitizationHandler.class)
+	private String customDesensitize;
+
 }
