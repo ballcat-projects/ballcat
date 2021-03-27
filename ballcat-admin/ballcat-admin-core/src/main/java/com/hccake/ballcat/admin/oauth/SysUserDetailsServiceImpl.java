@@ -1,10 +1,11 @@
 package com.hccake.ballcat.admin.oauth;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hccake.ballcat.admin.constants.UserResourceConstant;
 import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
+import com.hccake.ballcat.admin.oauth.domain.UserAttributes;
+import com.hccake.ballcat.admin.oauth.domain.UserResources;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -64,14 +65,10 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
 		// 用户资源，角色和权限
-		Map<String, Collection<?>> userResources = new HashMap<>();
-		userResources.put(UserResourceConstant.RESOURCE_ROLE, roles);
-		userResources.put(UserResourceConstant.RESOURCE_PERMISSION, permissions);
-		userResources = userInfoCoordinator.coordinateResource(userResources, sysUser);
-
+		UserResources userResources = userInfoCoordinator.coordinateResource(sysUser, new HashSet<>(roles),
+				new HashSet<>(permissions));
 		// 用户额外属性
-		Map<String, Object> userAttributes = new HashMap<>();
-		userAttributes = userInfoCoordinator.coordinateAttribute(userAttributes, sysUser);
+		UserAttributes userAttributes = userInfoCoordinator.coordinateAttribute(sysUser);
 
 		return new SysUserDetails(sysUser, authorities, userResources, userAttributes);
 	}

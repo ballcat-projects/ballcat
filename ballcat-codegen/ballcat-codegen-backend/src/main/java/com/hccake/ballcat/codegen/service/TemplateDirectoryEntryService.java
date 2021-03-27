@@ -2,6 +2,7 @@ package com.hccake.ballcat.codegen.service;
 
 import com.hccake.ballcat.codegen.model.bo.TemplateFile;
 import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
+import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryUpdateDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
@@ -47,19 +48,18 @@ public interface TemplateDirectoryEntryService extends ExtendService<TemplateDir
 	boolean exists(Integer entryId);
 
 	/**
-	 * 重命名目录项
-	 * @param entryId 目录项ID
-	 * @param name 名称
-	 * @return boolean 成功：true
-	 */
-	boolean rename(Integer entryId, String name);
-
-	/**
 	 * 新建一个目录项
 	 * @param templateDirectoryCreateDTO 目录项新建传输对象
-	 * @return boolean 成功：true
+	 * @return entryId
 	 */
-	boolean createEntry(TemplateDirectoryCreateDTO templateDirectoryCreateDTO);
+	Integer createEntry(TemplateDirectoryCreateDTO templateDirectoryCreateDTO);
+
+	/**
+	 * 更新目录项
+	 * @param templateDirectoryUpdateDTO 目录项修改传输对象
+	 * @return success:true
+	 */
+	boolean updateEntry(TemplateDirectoryUpdateDTO templateDirectoryUpdateDTO);
 
 	/**
 	 * 删除目录项

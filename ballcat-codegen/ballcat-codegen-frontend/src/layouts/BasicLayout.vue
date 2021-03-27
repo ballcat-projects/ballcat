@@ -13,7 +13,7 @@
         <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="collapsed = !collapsed" />
         <Header />
       </a-layout-header>
-      <a-layout-content style="margin: 16px">
+      <a-layout-content style="margin: 16px 16px 6px">
         <router-view />
       </a-layout-content>
       <a-layout-footer>

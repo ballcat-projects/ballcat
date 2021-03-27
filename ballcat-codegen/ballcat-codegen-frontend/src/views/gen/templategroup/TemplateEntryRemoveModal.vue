@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import { FormModalMixin } from '@/mixins'
+import { PopUpFormMixin } from '@/mixins'
 import { delObj } from '@/api/gen/templatedirectoryentry'
 export default {
   name: 'TemplatePropertyPage',
-  mixins: [FormModalMixin],
+  mixins: [PopUpFormMixin],
   data() {
     return {
       id: '',

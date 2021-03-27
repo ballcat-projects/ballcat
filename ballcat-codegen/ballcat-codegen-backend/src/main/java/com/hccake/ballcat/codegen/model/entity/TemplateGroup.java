@@ -1,9 +1,6 @@
 package com.hccake.ballcat.codegen.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,6 +38,14 @@ public class TemplateGroup {
 	 */
 	@ApiModelProperty(value = "备注")
 	private String remarks;
+
+	/**
+	 * 逻辑删除
+	 */
+	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "逻辑删除")
+	private Long deleted;
 
 	/**
 	 * 创建时间

@@ -7,6 +7,7 @@
 			name, id as value
 		from
 			gen_template_group tg
+		where deleted = 0
 	</select>
 
 </mapper>

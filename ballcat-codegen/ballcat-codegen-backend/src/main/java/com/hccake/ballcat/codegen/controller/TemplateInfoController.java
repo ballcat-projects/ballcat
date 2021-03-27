@@ -1,5 +1,6 @@
 package com.hccake.ballcat.codegen.controller;
 
+import com.hccake.ballcat.codegen.model.dto.TemplateFileContentDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateInfo;
 import com.hccake.ballcat.codegen.service.TemplateInfoService;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
@@ -60,6 +61,15 @@ public class TemplateInfoController {
 	public R updateById(@RequestBody TemplateInfo genTemplateInfo) {
 		return templateInfoService.updateById(genTemplateInfo) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改模板信息失败");
+	}
+
+	@ApiOperation(value = "修改模板内容", notes = "修改模板内容")
+	// @UpdateOperationLogging(msg = "修改模板信息" )
+	@PatchMapping("/content")
+	// @PreAuthorize("@per.hasPermission('gen:template:edit')" )
+	public R<?> updateContent(@RequestBody TemplateFileContentDTO templateFileContentDTO) {
+		return templateInfoService.updateContent(templateFileContentDTO) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改模板内容失败");
 	}
 
 }

@@ -2,6 +2,7 @@ package com.hccake.ballcat.codegen.controller;
 
 import com.hccake.ballcat.codegen.converter.TemplateModelConverter;
 import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryCreateDTO;
+import com.hccake.ballcat.codegen.model.dto.TemplateDirectoryUpdateDTO;
 import com.hccake.ballcat.codegen.model.entity.TemplateDirectoryEntry;
 import com.hccake.ballcat.codegen.model.vo.TemplateDirectoryEntryVO;
 import com.hccake.ballcat.codegen.service.TemplateDirectoryEntryService;
@@ -60,30 +61,29 @@ public class TemplateDirectoryEntryController {
 	}
 
 	/**
-	 * 重命名目录项
-	 * @param entryId 目录项ID
-	 * @param name 名称
+	 * 新增模板目录项
+	 * @param templateDirectoryCreateDTO 模板目录项
 	 * @return R
 	 */
-	@ApiOperation(value = "重命名目录项", notes = "重命名目录项")
-	@PatchMapping("/{entryId}/name")
-	public R<?> rename(@PathVariable Integer entryId, @RequestParam String name) {
-		return templateDirectoryEntryService.rename(entryId, name) ? R.ok()
-				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "重命名目录项");
-	}
-
-	/**
-	 * 新增模板文件目录项
-	 * @param templateDirectoryCreateDTO 模板文件目录项
-	 * @return R
-	 */
-	@ApiOperation(value = "新增模板文件目录项", notes = "新增模板文件目录项")
+	@ApiOperation(value = "新增模板目录项", notes = "新增模板目录项")
 	// @CreateOperationLogging(msg = "新增模板文件目录项" )
 	@PostMapping
 	// @PreAuthorize("@per.hasPermission('codegen:templatedirectoryentry:add')" )
 	public R<?> save(@RequestBody TemplateDirectoryCreateDTO templateDirectoryCreateDTO) {
-		return templateDirectoryEntryService.createEntry(templateDirectoryCreateDTO) ? R.ok()
-				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增模板文件目录项失败");
+		Integer entryId = templateDirectoryEntryService.createEntry(templateDirectoryCreateDTO);
+		return entryId != null ? R.ok(entryId) : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增模板目录项失败");
+	}
+
+	/**
+	 * 修改目录项
+	 * @param templateDirectoryUpdateDTO 模板目录项
+	 * @return R
+	 */
+	@ApiOperation(value = "修改目录项", notes = "修改目录项")
+	@PutMapping
+	public R<?> updateEntry(@RequestBody TemplateDirectoryUpdateDTO templateDirectoryUpdateDTO) {
+		return templateDirectoryEntryService.updateEntry(templateDirectoryUpdateDTO) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "重命名目录项");
 	}
 
 	/**

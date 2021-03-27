@@ -2,6 +2,7 @@ package com.hccake.ballcat.admin.modules.sys.converter;
 
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserInfo;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserPageVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -31,5 +32,12 @@ public interface SysUserConverter {
 	 * @return SysUserPageVO 系统用户PageVO
 	 */
 	SysUserPageVO poToPageVo(SysUser sysUser);
+
+	/**
+	 * PO 转 Info
+	 * @param sysUser 系统用户
+	 * @return SysUserInfo 用户信息
+	 */
+	SysUserInfo poToInfo(SysUser sysUser);
 
 }

@@ -4,6 +4,7 @@ export default {
   mixins: [FormMixin],
   data() {
     return {
+      // 标题
       title: '',
       visible: false,
       labelCol: {
@@ -19,23 +20,22 @@ export default {
     }
   },
   methods: {
-    show(title) {
+    show(attributes) {
+      this.title = attributes.title
       this.visible = true
       this.submitLoading = false
-
-      this.title = title
     },
-    add(title) {
+    add(attributes) {
       this.buildCreatedForm()
-      this.show(title)
+      this.show(attributes)
     },
-    update(record, title) {
-      this.buildUpdatedForm(record)
-      this.show(title)
+    update(record, attributes) {
+      this.buildUpdatedForm(record, attributes)
+      this.show(attributes)
     },
     /*eslint-disable*/
     submitSuccess(res) {
-      this.$emit('reloadPageTable', false)
+      this.$emit('reload-page-table', false)
       this.handleClose()
     },
     /*eslint-disable*/
