@@ -8,7 +8,6 @@ import com.hccake.ballcat.admin.modules.lov.model.vo.LovPageVO;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
-
 import java.util.List;
 
 /**
@@ -58,5 +57,13 @@ public interface LovService extends ExtendService<Lov> {
 	 * @return Lov
 	 */
 	Lov getByKeyword(String keyword);
+
+	/**
+	 * 检查指定的lov是否已过期
+	 * @param list 数据集
+	 * @return java.util.List<java.lang.String>
+	 * @author lingting 2021-03-26 10:02
+	 */
+	List<String> check(List<Lov> list);
 
 }

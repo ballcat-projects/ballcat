@@ -18,9 +18,20 @@ import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author lingting 2020-08-10 16:40
@@ -64,6 +75,14 @@ public class LovController {
 		lovInfoVO.setSearchList(searchService.listByKeyword(keyword));
 
 		return R.ok(lovInfoVO);
+	}
+
+	@PostMapping("/check")
+	@ApiOperation("检查本地缓存中指定keyword的lov是否已过期")
+	public R<List<String>> check(@RequestBody Map<String, LocalDateTime> map) {
+		List<Lov> list = new ArrayList<>(map.size());
+		map.forEach((keyword, updateTime) -> list.add(new Lov().setKeyword(keyword).setUpdateTime(updateTime)));
+		return R.ok(lovService.check(list));
 	}
 
 	/**

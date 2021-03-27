@@ -1,6 +1,5 @@
 package com.hccake.ballcat.admin.modules.lov.model.dto;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.hccake.ballcat.admin.modules.lov.enums.HttpMethod;
 import com.hccake.ballcat.admin.modules.lov.enums.HttpParamsPosition;
@@ -14,7 +13,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -65,18 +63,14 @@ public class LovDTO {
 	@ApiModelProperty("返回字段数据类型 1 String 2 Number")
 	private Integer retFieldDataType;
 
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty("创建时间")
-	private LocalDateTime createTime;
-
 	private List<LovBody> bodyList;
 
 	private List<LovSearch> searchList;
 
 	public Lov toLov() {
-		return new Lov().setCreateTime(getCreateTime()).setFixedParams(getFixedParams()).setId(getId()).setKey(getKey())
-				.setKeyword(getKeyword()).setMethod(getMethod()).setMultiple(getMultiple()).setPosition(getPosition())
-				.setRet(getRet()).setRetField(getRetField()).setTitle(getTitle()).setUrl(getUrl());
+		return new Lov().setFixedParams(getFixedParams()).setId(getId()).setKey(getKey()).setKeyword(getKeyword())
+				.setMethod(getMethod()).setMultiple(getMultiple()).setPosition(getPosition()).setRet(getRet())
+				.setRetField(getRetField()).setTitle(getTitle()).setUrl(getUrl());
 	}
 
 }
