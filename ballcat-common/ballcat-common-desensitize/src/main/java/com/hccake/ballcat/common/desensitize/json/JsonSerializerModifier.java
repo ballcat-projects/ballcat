@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.hccake.ballcat.common.desensitize.AnnotationHandlerHolder;
 
-
 import java.lang.annotation.Annotation;
 
 import java.util.List;

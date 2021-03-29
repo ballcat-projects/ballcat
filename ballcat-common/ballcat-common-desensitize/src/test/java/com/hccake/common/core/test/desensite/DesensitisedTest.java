@@ -39,6 +39,4 @@ class DesensitisedTest {
 		log.info("脱敏后的数据：{}", value);
 	}
 
-
-
 }
