@@ -5,6 +5,7 @@ import com.hccake.ballcat.common.desensitize.json.annotation.JsonSimpleDesensiti
 import com.hccake.ballcat.common.desensitize.json.annotation.JsonSlideDesensitize;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.desensitize.enums.SlideDesensitizationTypeEnum;
+import com.hccake.common.core.test.desensite.custom.CustomerDesensitize;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -44,5 +45,8 @@ public class DesensitizationUser {
 	 */
 	@JsonSimpleDesensitize(handler = TestDesensitizationHandler.class)
 	private String testField;
+
+	@CustomerDesensitize(type = "自定义注解")
+	private String customDesensitize;
 
 }
