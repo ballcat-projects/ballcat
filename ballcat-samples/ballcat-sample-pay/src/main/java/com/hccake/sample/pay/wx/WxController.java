@@ -2,10 +2,10 @@ package com.hccake.sample.pay.wx;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
-import com.hccake.starte.pay.wx.WxPay;
-import com.hccake.starte.pay.wx.response.WxPayCallback;
-import com.hccake.starte.pay.wx.response.WxPayOrderQueryResponse;
-import com.hccake.starte.pay.wx.utils.WxPayUtil;
+import com.hccake.extend.pay.wx.WxPay;
+import com.hccake.extend.pay.wx.response.WxPayCallback;
+import com.hccake.extend.pay.wx.response.WxPayOrderQueryResponse;
+import com.hccake.extend.pay.wx.utils.WxPayUtil;
 import java.math.BigDecimal;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

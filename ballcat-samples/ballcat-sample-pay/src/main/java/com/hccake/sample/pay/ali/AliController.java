@@ -2,8 +2,8 @@ package com.hccake.sample.pay.ali;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
-import com.hccake.starte.pay.ali.AliPay;
-import com.hccake.starte.pay.ali.domain.AliPayCallback;
+import com.hccake.extend.pay.ali.AliPay;
+import com.hccake.extend.pay.ali.domain.AliPayCallback;
 import java.math.BigDecimal;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;

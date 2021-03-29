@@ -18,12 +18,12 @@ public class WxPayProperties {
 	/**
 	 * 线上环境配置
 	 */
-	public Config prod;
+	private Config prod;
 
 	/**
 	 * 沙箱配置.
 	 */
-	public Config dev;
+	private Config dev;
 
 	@Data
 	public static class Config {

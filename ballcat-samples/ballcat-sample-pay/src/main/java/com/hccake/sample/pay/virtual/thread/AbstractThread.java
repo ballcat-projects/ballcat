@@ -4,7 +4,7 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.sample.pay.virtual.domain.Result;
 import com.hccake.sample.pay.virtual.entity.Order;
 import com.hccake.sample.pay.virtual.enums.Contract;
-import com.hccake.starter.pay.viratual.AbstractVerifyThread;
+import com.hccake.extend.pay.viratual.AbstractVerifyThread;
 import java.lang.reflect.Type;
 import java.time.Duration;
 import java.time.LocalDateTime;
