@@ -2,7 +2,7 @@ package com.hccake.sample.pay.virtual.entity;
 
 import com.hccake.sample.pay.virtual.enums.Contract;
 import com.hccake.sample.pay.virtual.enums.Status;
-import com.hccake.starter.pay.viratual.VerifyObj;
+import com.hccake.extend.pay.viratual.VerifyObj;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.hccake.starter.pay.ali;
 
-import com.hccake.starte.pay.ali.AliPay;
-import com.hccake.starte.pay.ali.constants.AliPayConstant;
+import com.hccake.extend.pay.ali.AliPay;
+import com.hccake.extend.pay.ali.constants.AliPayConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,13 +22,14 @@ public class AliPayAutoConfiguration {
 	@ConditionalOnMissingBean(AliPay.class)
 	public AliPay aliPay(AliPayProperties properties) {
 		// 获取配置
-		AliPayProperties.Config config = properties.getSandbox() ? properties.getDev() : properties.getProd();
+		boolean sandbox = properties.getSandbox();
+		AliPayProperties.Config config = sandbox ? properties.getDev() : properties.getProd();
 
 		AliPay aliPay = new AliPay(
 				// 沙箱和线上使用不同的url
-				properties.getSandbox() ? AliPayConstant.SERVER_URL_DEV : AliPayConstant.SERVER_URL_PROD,
-				config.getAppId(), config.getPrivateKey(), config.getFormat(), config.getCharset(),
-				config.getAlipayPublicKey(), config.getSignType());
+				sandbox ? AliPayConstant.SERVER_URL_DEV : AliPayConstant.SERVER_URL_PROD, config.getAppId(),
+				config.getPrivateKey(), config.getFormat(), config.getCharset(), config.getAlipayPublicKey(),
+				config.getSignType());
 
 		aliPay.setReturnUrl(config.getReturnUrl());
 		aliPay.setNotifyUrl(config.getNotifyUrl());

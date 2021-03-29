@@ -19,8 +19,7 @@ import live.lingting.virtual.currency.tronscan.TronscanServiceImpl;
 @Slf4j
 @RequiredArgsConstructor
 @ConditionalOnClass(Contract.class)
-@EnableConfigurationProperties({ BitcoinProperties.class, EtherscanProperties.class,
-		com.hccake.starter.pay.virtual.TronscanProperties.class })
+@EnableConfigurationProperties({ BitcoinProperties.class, EtherscanProperties.class, TronscanProperties.class })
 public class VirtualPayAutoConfiguration {
 
 	/*

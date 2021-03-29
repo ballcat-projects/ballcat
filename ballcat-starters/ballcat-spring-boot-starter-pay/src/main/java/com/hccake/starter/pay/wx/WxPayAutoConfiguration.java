@@ -1,6 +1,6 @@
 package com.hccake.starter.pay.wx;
 
-import com.hccake.starte.pay.wx.WxPay;
+import com.hccake.extend.pay.wx.WxPay;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
