@@ -9,7 +9,6 @@
 	<modules>
 		<module>ballcat-admin</module>
 		<module>ballcat-common</module>
-		<module>ballcat-codegen</module>
 		<module>ballcat-starters</module>
 		<module>ballcat-samples</module>
 		<module>ballcat-dependencies</module>
