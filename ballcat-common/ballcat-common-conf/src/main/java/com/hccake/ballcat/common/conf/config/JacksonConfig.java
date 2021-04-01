@@ -1,5 +1,7 @@
 package com.hccake.ballcat.common.conf.config;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.core.jackson.JavaTimeModule;
@@ -37,6 +39,8 @@ public class JacksonConfig {
 				objectMapper.getSerializerFactory().withSerializerModifier(new NullSerializerModifier()));
 		// 时间解析器
 		objectMapper.registerModule(new JavaTimeModule());
+		// 有特殊需要转义字符, 不报错
+		objectMapper.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature());
 
 		// 更新 JsonUtils 中的 ObjectMapper，保持容器和工具类中的 ObjectMapper 对象一致
 		JacksonJsonToolAdapter.setMapper(objectMapper);

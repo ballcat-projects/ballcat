@@ -1,6 +1,8 @@
 package com.hccake.ballcat.common.websocket.handler;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.websocket.holder.JsonMessageHandlerHolder;
@@ -17,6 +19,13 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  */
 @Slf4j
 public class CustomWebSocketHandler extends TextWebSocketHandler {
+
+	private static final ObjectMapper MAPPER = new ObjectMapper();
+
+	static {
+		// 有特殊需要转义字符, 不报错
+		MAPPER.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature());
+	}
 
 	private PlanTextMessageHandler planTextMessageHandler;
 
@@ -35,9 +44,8 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 		}
 
 		// 消息类型必有一属性type，先解析，获取该属性
-		ObjectMapper objectMapper = new ObjectMapper();
 		String payload = message.getPayload();
-		JsonNode jsonNode = objectMapper.readTree(payload);
+		JsonNode jsonNode = MAPPER.readTree(payload);
 		JsonNode typeNode = jsonNode.get(AbstractJsonWebSocketMessage.TYPE_FIELD);
 
 		if (typeNode == null) {
@@ -58,7 +66,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 			}
 			// 消息处理
 			Class<? extends JsonWebSocketMessage> messageClass = jsonMessageHandler.getMessageClass();
-			JsonWebSocketMessage websocketMessageJson = objectMapper.treeToValue(jsonNode, messageClass);
+			JsonWebSocketMessage websocketMessageJson = MAPPER.treeToValue(jsonNode, messageClass);
 			jsonMessageHandler.handle(session, websocketMessageJson);
 		}
 	}

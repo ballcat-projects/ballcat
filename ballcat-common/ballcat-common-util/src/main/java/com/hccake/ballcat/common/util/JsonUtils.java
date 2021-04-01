@@ -1,10 +1,14 @@
 package com.hccake.ballcat.common.util;
 
-import com.hccake.ballcat.common.util.json.*;
+import com.hccake.ballcat.common.util.json.FastjsonJsonToolAdapter;
+import com.hccake.ballcat.common.util.json.GsonJsonToolAdapter;
+import com.hccake.ballcat.common.util.json.HuToolJsonToolAdapter;
+import com.hccake.ballcat.common.util.json.JacksonJsonToolAdapter;
+import com.hccake.ballcat.common.util.json.JsonTool;
+import com.hccake.ballcat.common.util.json.TypeReference;
+import java.lang.reflect.Type;
 import lombok.Getter;
 import lombok.SneakyThrows;
-
-import java.lang.reflect.Type;
 
 /**
  * @author lingting 2021/2/25 20:38
@@ -54,6 +58,32 @@ public final class JsonUtils {
 
 	@SneakyThrows
 	public static <T> T toObj(String json, Type t) {
+		// 防止误传入其他类型的 typeReference 走这个方法然后转换出错
+		if (t instanceof cn.hutool.core.lang.TypeReference) {
+			return toObj(json, new TypeReference<T>() {
+				@Override
+				public Type getType() {
+					return ((cn.hutool.core.lang.TypeReference<?>) t).getType();
+				}
+			});
+		}
+		else if (t instanceof com.alibaba.fastjson.TypeReference) {
+			return toObj(json, new TypeReference<T>() {
+				@Override
+				public Type getType() {
+					return ((com.alibaba.fastjson.TypeReference<?>) t).getType();
+				}
+			});
+		}
+		else if (t instanceof com.fasterxml.jackson.core.type.TypeReference) {
+			return toObj(json, new TypeReference<T>() {
+				@Override
+				public Type getType() {
+					return ((com.fasterxml.jackson.core.type.TypeReference<?>) t).getType();
+				}
+			});
+		}
+
 		return jsonTool.toObj(json, t);
 	}
 
