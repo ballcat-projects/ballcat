@@ -39,8 +39,6 @@ public class JacksonConfig {
 				objectMapper.getSerializerFactory().withSerializerModifier(new NullSerializerModifier()));
 		// 时间解析器
 		objectMapper.registerModule(new JavaTimeModule());
-		// 允许前台发送的内容使用 单引号
-		objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
 		// 有特殊需要转义字符, 不报错
 		objectMapper.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature());
 

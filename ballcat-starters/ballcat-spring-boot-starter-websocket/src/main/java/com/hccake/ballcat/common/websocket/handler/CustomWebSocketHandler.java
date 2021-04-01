@@ -23,8 +23,6 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	static {
-		// 允许前台发送的内容使用 单引号
-		MAPPER.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
 		// 有特殊需要转义字符, 不报错
 		MAPPER.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature());
 	}
