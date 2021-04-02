@@ -134,6 +134,10 @@ public class OperationLogAspect {
 		Map<String, Object> paramsMap = new HashMap<>();
 		for (int i = 0; i < parameterNames.length; i++) {
 			Object arg = args[i];
+			if (arg == null) {
+				paramsMap.put(parameterNames[i], null);
+				continue;
+			}
 			Class<?> argClass = arg.getClass();
 			// 忽略部分类型的参数记录
 			for (Class<?> ignoredParamClass : ignoredParamClasses) {
