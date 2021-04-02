@@ -15,6 +15,16 @@ import lombok.SneakyThrows;
  */
 public final class JsonUtils {
 
+	private static final String JACKSON_CLASS = "com.fasterxml.jackson.databind.ObjectMapper";
+
+	private static final String GSON_CLASS = "com.google.gson.Gson";
+
+	private static final String HUTOOL_JSON_CLASS = "cn.hutool.json.JSONConfig";
+
+	private static final String HUTOOL_JSON_TYPE_REFERENCE_CLASS = "cn.hutool.core.lang.TypeReference";
+
+	private static final String FAST_JSON_CLASS = "com.alibaba.fastjson.JSON";
+
 	private JsonUtils() {
 	}
 
@@ -22,17 +32,16 @@ public final class JsonUtils {
 	private static JsonTool jsonTool;
 
 	static {
-		ClassLoader classLoader = JsonUtils.class.getClassLoader();
-		if (ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper", classLoader)) {
+		if (classIsPresent(JACKSON_CLASS)) {
 			jsonTool = new JacksonJsonToolAdapter();
 		}
-		else if (ClassUtils.isPresent("com.google.gson.Gson", classLoader)) {
+		else if (classIsPresent(GSON_CLASS)) {
 			jsonTool = new GsonJsonToolAdapter();
 		}
-		else if (ClassUtils.isPresent("cn.hutool.json.JSONConfig", classLoader)) {
+		else if (classIsPresent(HUTOOL_JSON_CLASS)) {
 			jsonTool = new HuToolJsonToolAdapter();
 		}
-		else if (ClassUtils.isPresent("com.alibaba.fastjson.JSON", classLoader)) {
+		else if (classIsPresent(FAST_JSON_CLASS)) {
 			jsonTool = new FastjsonJsonToolAdapter();
 		}
 	}
@@ -59,7 +68,7 @@ public final class JsonUtils {
 	@SneakyThrows
 	public static <T> T toObj(String json, Type t) {
 		// 防止误传入其他类型的 typeReference 走这个方法然后转换出错
-		if (t instanceof cn.hutool.core.lang.TypeReference) {
+		if (classIsPresent(HUTOOL_JSON_TYPE_REFERENCE_CLASS) && t instanceof cn.hutool.core.lang.TypeReference) {
 			return toObj(json, new TypeReference<T>() {
 				@Override
 				public Type getType() {
@@ -67,7 +76,7 @@ public final class JsonUtils {
 				}
 			});
 		}
-		else if (t instanceof com.alibaba.fastjson.TypeReference) {
+		else if (classIsPresent(FAST_JSON_CLASS) && t instanceof com.alibaba.fastjson.TypeReference) {
 			return toObj(json, new TypeReference<T>() {
 				@Override
 				public Type getType() {
@@ -75,7 +84,7 @@ public final class JsonUtils {
 				}
 			});
 		}
-		else if (t instanceof com.fasterxml.jackson.core.type.TypeReference) {
+		else if (classIsPresent(JACKSON_CLASS) && t instanceof com.fasterxml.jackson.core.type.TypeReference) {
 			return toObj(json, new TypeReference<T>() {
 				@Override
 				public Type getType() {
@@ -90,6 +99,10 @@ public final class JsonUtils {
 	@SneakyThrows
 	public static <T> T toObj(String json, TypeReference<T> t) {
 		return jsonTool.toObj(json, t);
+	}
+
+	private static boolean classIsPresent(String className) {
+		return ClassUtils.isPresent(className, JsonUtils.class.getClassLoader());
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.hccake.extend.pay.wx;
 
+import static com.hccake.extend.pay.wx.constants.WxPayConstant.HUNDRED;
+
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.hccake.extend.pay.wx.constants.WxPayConstant;
@@ -12,15 +14,12 @@ import com.hccake.extend.pay.wx.response.WxPayCallback;
 import com.hccake.extend.pay.wx.response.WxPayOrderQueryResponse;
 import com.hccake.extend.pay.wx.response.WxPayResponse;
 import com.hccake.extend.pay.wx.utils.WxPayUtil;
-import lombok.Data;
-import lombok.SneakyThrows;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.hccake.extend.pay.wx.constants.WxPayConstant.HUNDRED;
+import lombok.Data;
+import lombok.SneakyThrows;
 
 /**
  * @author lingting 2021/1/26 15:54
@@ -206,6 +205,11 @@ public class WxPay {
 	 * @author lingting 2021-02-25 16:01
 	 */
 	public boolean checkSign(WxPayCallback callback) {
+		// 原签名不存在时, 直接失败
+		if (StrUtil.isBlank(callback.getSign())) {
+			return false;
+		}
+
 		Map<String, String> params = new HashMap<>(callback.getRaw());
 
 		// 存在签名类型, 直接验签
