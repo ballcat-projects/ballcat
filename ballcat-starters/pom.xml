@@ -27,6 +27,7 @@
         <module>ballcat-spring-boot-starter-websocket</module>
         <module>ballcat-spring-boot-starter-pay</module>
         <module>ballcat-spring-boot-starter-xss</module>
+		<module>ballcat-spring-boot-starter-i18n</module>
     </modules>
 
 </project>
