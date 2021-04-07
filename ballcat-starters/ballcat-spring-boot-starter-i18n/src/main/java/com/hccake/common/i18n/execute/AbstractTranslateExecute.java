@@ -53,7 +53,7 @@ public abstract class AbstractTranslateExecute implements TranslateExecute {
 
 	/**
 	 * 处理对象 不带参数的
-	 * @param object  处理数据对象
+	 * @param object 处理数据对象
 	 * @param language 语言环境
 	 */
 	public abstract void processObject(Object object, String language);

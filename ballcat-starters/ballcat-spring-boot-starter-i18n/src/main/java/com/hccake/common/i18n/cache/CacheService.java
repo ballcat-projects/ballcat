@@ -2,6 +2,7 @@ package com.hccake.common.i18n.cache;
 
 /**
  * 缓存服务 规范国际化的缓存
+ *
  * @author Yakir
  */
 public interface CacheService {

@@ -18,7 +18,7 @@ public @interface I18nField {
 	String businessCode();
 
 	/**
-	 * 范围值  若指定 则对此范围内的值进行国际化 不在范围的则使用默认值
+	 * 范围值 若指定 则对此范围内的值进行国际化 不在范围的则使用默认值
 	 * @return 范围值
 	 */
 	String[] rangeValue() default {};

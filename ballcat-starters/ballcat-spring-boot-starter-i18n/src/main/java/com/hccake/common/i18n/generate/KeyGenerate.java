@@ -2,6 +2,7 @@ package com.hccake.common.i18n.generate;
 
 /**
  * 缓存key生成器
+ *
  * @author Yakir
  */
 public interface KeyGenerate {

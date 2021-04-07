@@ -35,7 +35,7 @@ public class TranslateHandlerHolder {
 	/**
 	 * 得到处理器
 	 * @param clazz TranslateHandler的Class
-	 * @return  @{code TranslateHandler实现}
+	 * @return @{code TranslateHandler实现}
 	 */
 	public static TranslateHandler getTranslateHandler(Class<? extends TranslateHandler> clazz) {
 		return HANDLER_MAP.get(clazz);

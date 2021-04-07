@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * i18n properties
+ *
  * @author Yakir
  */
 @Data
@@ -15,7 +16,6 @@ public class I18nProperties {
 	 * 系统名称
 	 */
 	private String systemName = "test-item";
-
 
 	/**
 	 * 缓存空值标记

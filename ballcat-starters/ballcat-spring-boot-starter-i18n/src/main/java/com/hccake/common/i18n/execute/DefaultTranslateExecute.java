@@ -65,7 +65,6 @@ public class DefaultTranslateExecute extends AbstractTranslateExecute {
 		return StrUtil.isNotEmpty(resultValue) ? resultValue : defaultValue;
 	}
 
-
 	@Override
 	public <T extends Collection> void processObjects(T sources, String language, Map<String, String> params) {
 		if (CollectionUtil.isEmpty(sources)) {

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * 默认key生成
+ *
  * @author Yakir
  */
 @RequiredArgsConstructor
