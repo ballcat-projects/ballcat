@@ -19,5 +19,6 @@
         <module>ballcat-extend-pay-virtual</module>
         <module>ballcat-extend-pay-ali</module>
         <module>ballcat-extend-pay-wx</module>
+        <module>ballcat-extend-i18n</module>
     </modules>
 </project>

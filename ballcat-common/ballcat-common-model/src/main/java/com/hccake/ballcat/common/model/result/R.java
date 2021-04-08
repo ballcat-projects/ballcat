@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.model.result;
 
+import com.hccake.common.i18n.annotation.I18nField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
