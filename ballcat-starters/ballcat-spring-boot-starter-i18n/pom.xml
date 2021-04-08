@@ -16,13 +16,10 @@
 
 
     <dependencies>
+
 		<dependency>
 			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-common-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-spring-boot-starter-redis</artifactId>
+			<artifactId>ballcat-extend-i18n-core</artifactId>
 		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
