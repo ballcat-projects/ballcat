@@ -3,14 +3,14 @@ package com.hccake.ballcat.admin.modules.sys.controller;
 import com.hccake.ballcat.admin.constants.SysRoleConst;
 import com.hccake.ballcat.admin.modules.sys.converter.SysRoleConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysRoleUpdateDTO;
+import com.hccake.ballcat.admin.modules.sys.model.entity.SysMenu;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.qo.RoleBindUserQO;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.RoleBindUserVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysRolePageVO;
-import com.hccake.ballcat.admin.modules.sys.service.SysPermissionService;
-import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
+import com.hccake.ballcat.admin.modules.sys.service.SysMenuService;
+import com.hccake.ballcat.admin.modules.sys.service.SysRoleMenuService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRoleService;
 import com.hccake.ballcat.admin.modules.sys.service.SysUserRoleService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
@@ -42,11 +42,11 @@ public class SysRoleController {
 
 	private final SysRoleService sysRoleService;
 
-	private final SysPermissionService sysPermissionService;
+	private final SysMenuService sysMenuService;
 
 	private final SysUserRoleService sysUserRoleService;
 
-	private final SysRolePermissionService sysRolePermissionService;
+	private final SysRoleMenuService sysRoleMenuService;
 
 	/**
 	 * 分页查询角色信息
@@ -134,7 +134,7 @@ public class SysRoleController {
 	@UpdateOperationLogging(msg = "更新角色权限")
 	@PreAuthorize("@per.hasPermission('sys:sysrole:grant')")
 	public R<Boolean> savePermissionIds(@PathVariable String roleCode, @RequestBody Integer[] permissionIds) {
-		return R.ok(sysRolePermissionService.saveRolePermissions(roleCode, permissionIds));
+		return R.ok(sysRoleMenuService.saveRoleMenus(roleCode, permissionIds));
 	}
 
 	/**
@@ -144,8 +144,9 @@ public class SysRoleController {
 	 */
 	@GetMapping("/permission/code/{roleCode}")
 	public R<List<Integer>> getPermissionIds(@PathVariable String roleCode) {
-		return R.ok(sysPermissionService.listVOByRoleCode(roleCode).stream().map(PermissionVO::getId)
-				.collect(Collectors.toList()));
+		List<SysMenu> sysMenus = sysMenuService.listByRoleCode(roleCode);
+		List<Integer> menuIds = sysMenus.stream().map(SysMenu::getId).collect(Collectors.toList());
+		return R.ok(menuIds);
 	}
 
 	/**

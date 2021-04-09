@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.sys.mapper;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysRolePermission;
+import com.hccake.ballcat.admin.modules.sys.model.entity.SysRoleMenu;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 
 import java.io.Serializable;
@@ -14,14 +14,14 @@ import java.io.Serializable;
  * @author hccake
  * @since 2017-10-29
  */
-public interface SysRolePermissionMapper extends ExtendMapper<SysRolePermission> {
+public interface SysRoleMenuMapper extends ExtendMapper<SysRoleMenu> {
 
 	/**
 	 * 根据权限ID删除角色权限关联关系
-	 * @param permissionId 权限ID
+	 * @param menuId 权限ID
 	 */
-	default void deleteByPermissionId(Serializable permissionId) {
-		this.delete(Wrappers.<SysRolePermission>query().lambda().eq(SysRolePermission::getPermissionId, permissionId));
+	default void deleteByMenuId(Serializable menuId) {
+		this.delete(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getMenuId, menuId));
 	}
 
 	/**
@@ -29,7 +29,7 @@ public interface SysRolePermissionMapper extends ExtendMapper<SysRolePermission>
 	 * @param roleCode 角色标识
 	 */
 	default void deleteByRoleCode(String roleCode) {
-		this.delete(Wrappers.<SysRolePermission>query().lambda().eq(SysRolePermission::getRoleCode, roleCode));
+		this.delete(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getRoleCode, roleCode));
 	}
 
 }

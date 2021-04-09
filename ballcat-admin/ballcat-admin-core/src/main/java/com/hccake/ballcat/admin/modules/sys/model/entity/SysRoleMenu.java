@@ -14,18 +14,18 @@ import lombok.Data;
  * @date 2019-10-14 17:42:23
  */
 @Data
-@TableName("sys_role_permission")
+@TableName("sys_role_menu")
 @ApiModel(value = "角色菜单")
-public class SysRolePermission {
+public class SysRoleMenu {
 
 	private static final long serialVersionUID = 1L;
 
-	public SysRolePermission() {
+	public SysRoleMenu() {
 	}
 
-	public SysRolePermission(String roleCode, Integer permissionId) {
+	public SysRoleMenu(String roleCode, Integer menuId) {
 		this.roleCode = roleCode;
-		this.permissionId = permissionId;
+		this.menuId = menuId;
 	}
 
 	@TableId(type = IdType.AUTO)
@@ -41,6 +41,6 @@ public class SysRolePermission {
 	 * 权限ID
 	 */
 	@ApiModelProperty(value = "菜单id")
-	private Integer permissionId;
+	private Integer menuId;
 
 }

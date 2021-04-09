@@ -2,9 +2,9 @@
 package com.hccake.ballcat.admin.modules.sys.service.impl;
 
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.hccake.ballcat.admin.modules.sys.mapper.SysRolePermissionMapper;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysRolePermission;
-import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
+import com.hccake.ballcat.admin.modules.sys.mapper.SysRoleMenuMapper;
+import com.hccake.ballcat.admin.modules.sys.model.entity.SysRoleMenu;
+import com.hccake.ballcat.admin.modules.sys.service.SysRoleMenuService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,25 +22,25 @@ import java.util.stream.Collectors;
  * @author hccake
  */
 @Service
-public class SysRolePermissionServiceImpl extends ExtendServiceImpl<SysRolePermissionMapper, SysRolePermission>
-		implements SysRolePermissionService {
+public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper, SysRoleMenu>
+		implements SysRoleMenuService {
 
 	/**
 	 * @param roleCode 角色
-	 * @param permissionIds 权限ID集合
+	 * @param menuIds 权限ID集合
 	 * @return boolean
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean saveRolePermissions(String roleCode, Integer[] permissionIds) {
+	public Boolean saveRoleMenus(String roleCode, Integer[] menuIds) {
 		// 1、先删除旧数据
 		baseMapper.deleteByRoleCode(roleCode);
-		if (permissionIds == null || permissionIds.length == 0) {
+		if (menuIds == null || menuIds.length == 0) {
 			return Boolean.TRUE;
 		}
 
 		// 2、再批量插入新数据
-		List<SysRolePermission> list = Arrays.stream(permissionIds).map(id -> new SysRolePermission(roleCode, id))
+		List<SysRoleMenu> list = Arrays.stream(menuIds).map(menuId -> new SysRoleMenu(roleCode, menuId))
 				.collect(Collectors.toList());
 		int i = baseMapper.insertBatchSomeColumn(list);
 		return SqlHelper.retBool(i);
@@ -48,11 +48,11 @@ public class SysRolePermissionServiceImpl extends ExtendServiceImpl<SysRolePermi
 
 	/**
 	 * 根据权限ID删除角色权限关联数据
-	 * @param permissionId 权限ID
+	 * @param menuId 权限ID
 	 */
 	@Override
-	public void deleteByPermissionId(Serializable permissionId) {
-		baseMapper.deleteByPermissionId(permissionId);
+	public void deleteByMenuId(Serializable menuId) {
+		baseMapper.deleteByMenuId(menuId);
 	}
 
 	/**

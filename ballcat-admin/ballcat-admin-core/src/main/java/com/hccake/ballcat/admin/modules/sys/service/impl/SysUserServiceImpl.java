@@ -13,10 +13,10 @@ import com.hccake.ballcat.admin.modules.sys.converter.SysUserConverter;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.sys.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
+import com.hccake.ballcat.admin.modules.sys.model.entity.SysMenu;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysUserQO;
-import com.hccake.ballcat.admin.modules.sys.model.vo.PermissionVO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserPageVO;
 import com.hccake.ballcat.admin.modules.sys.service.*;
 import com.hccake.ballcat.common.model.domain.PageParam;
@@ -49,7 +49,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 	private final FileService fileService;
 
-	private final SysPermissionService sysPermissionService;
+	private final SysMenuService sysMenuService;
 
 	private final SysUserRoleService sysUserRoleService;
 
@@ -112,11 +112,11 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 		// 设置权限列表（permission）
 		Set<String> permissions = new HashSet<>();
-		roles.forEach(code -> {
-			List<String> permissionList = sysPermissionService.listVOByRoleCode(code).stream()
-					.map(PermissionVO::getCode).filter(StrUtil::isNotEmpty).collect(Collectors.toList());
+		for (String roleCode : roles) {
+			List<String> permissionList = sysMenuService.listByRoleCode(roleCode).stream().map(SysMenu::getPermission)
+					.filter(StrUtil::isNotEmpty).collect(Collectors.toList());
 			permissions.addAll(permissionList);
-		});
+		}
 		userInfoDTO.setPermissions(new ArrayList<>(permissions));
 		return userInfoDTO;
 	}

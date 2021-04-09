@@ -5,7 +5,7 @@ import com.hccake.ballcat.admin.modules.sys.mapper.SysRoleMapper;
 import com.hccake.ballcat.admin.modules.sys.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.sys.model.qo.SysRoleQO;
 import com.hccake.ballcat.admin.modules.sys.model.vo.SysRolePageVO;
-import com.hccake.ballcat.admin.modules.sys.service.SysRolePermissionService;
+import com.hccake.ballcat.admin.modules.sys.service.SysRoleMenuService;
 import com.hccake.ballcat.admin.modules.sys.service.SysRoleService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -30,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
-	private final SysRolePermissionService sysRolePermissionService;
+	private final SysRoleMenuService sysRoleMenuService;
 
 	/**
 	 * 查询系统角色列表
@@ -52,7 +52,7 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeById(Serializable id) {
 		SysRole role = getById(id);
-		sysRolePermissionService.deleteByRoleCode(role.getCode());
+		sysRoleMenuService.deleteByRoleCode(role.getCode());
 		return SqlHelper.retBool(baseMapper.deleteById(id));
 	}
 
