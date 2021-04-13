@@ -3,7 +3,7 @@ package com.hccake.ballcat.admin.modules.notify.push;
 import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.admin.constants.NotifyChannel;
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import com.hccake.ballcat.common.mail.model.MailDetails;
 import com.hccake.ballcat.common.mail.sender.MailSender;
 import lombok.RequiredArgsConstructor;

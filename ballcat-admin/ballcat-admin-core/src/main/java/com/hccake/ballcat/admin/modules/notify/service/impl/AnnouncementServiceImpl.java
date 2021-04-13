@@ -16,7 +16,7 @@ import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementPageVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
-import com.hccake.ballcat.admin.modules.sys.service.FileService;
+import com.hccake.ballcat.admin.modules.system.service.FileService;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;

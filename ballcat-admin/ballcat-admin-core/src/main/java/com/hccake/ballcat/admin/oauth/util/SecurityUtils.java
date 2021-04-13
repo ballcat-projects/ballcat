@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.oauth.util;
 
 import com.hccake.ballcat.admin.constants.SecurityConst;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import com.hccake.ballcat.admin.oauth.SysUserDetails;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;

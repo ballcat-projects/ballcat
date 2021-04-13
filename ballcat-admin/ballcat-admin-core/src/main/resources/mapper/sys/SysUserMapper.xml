@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hccake.ballcat.admin.modules.sys.mapper.SysUserMapper">
+<mapper namespace="com.hccake.ballcat.admin.modules.system.mapper.SysUserMapper">
 
 	<sql id="Base_Alias_Column_List">
 		su.user_id,
@@ -17,7 +17,7 @@
 		su.update_time
 	</sql>
 
-	<select id="selectByPage" resultType="com.hccake.ballcat.admin.modules.sys.model.vo.SysUserPageVO">
+	<select id="selectByPage" resultType="com.hccake.ballcat.admin.modules.system.model.vo.SysUserPageVO">
 		SELECT
 		<include refid="Base_Alias_Column_List"/>
 		,so.name as organization_name
@@ -29,7 +29,7 @@
 	</select>
 
 	<!-- 通过用户ID查询其关联的角色ID-->
-	<select id="listByRoleCodes" resultType="com.hccake.ballcat.admin.modules.sys.model.entity.SysUser">
+	<select id="listByRoleCodes" resultType="com.hccake.ballcat.admin.modules.system.model.entity.SysUser">
 		SELECT
 		<include refid="Base_Alias_Column_List"/>
 		FROM
