@@ -43,16 +43,23 @@ INSERT INTO `sys_menu` (
         `title`,
         `icon`,
         `code` AS `permission`,
-        SUBSTRING_INDEX( `path`, '/', - 1 ),
+        CASE
+            `type`
+            WHEN 0 THEN
+                LOWER(`router_name`)
+            WHEN 1 THEN
+                IF(LEFT(`path`, 4) = 'http', LOWER(`router_name`),
+                IF(LOCATE('/', `path`) > 0, SUBSTRING_INDEX( `path`, '/', - 1 ), `path`)) ELSE NULL
+            END AS `path`,
         CASE
             `target`
             WHEN '_blank' THEN
-                2 ELSE 1
+                3 ELSE 1
             END AS `target_type`,
         CASE
             `type`
             WHEN 1 THEN
-                `component` ELSE NULL
+                IF(LEFT ( `PATH`, 4 ) = 'http', `PATH`, `component` ) ELSE NULL
             END AS `uri`,
         `sort`,
         `keep_alive`,
@@ -63,12 +70,66 @@ INSERT INTO `sys_menu` (
         `update_time`
     FROM
         sys_permission
-)
+);
+
+-- 删除无用的权限数据
+DELETE FROM `sys_menu` WHERE `id` = 10029;
+DELETE FROM `sys_menu` WHERE `id` = 10033;
+
+
+-- 更新权限标识
+update sys_menu set permission = REPLACE(permission,'sys:sys','system:');
+update sys_menu set permission = REPLACE(permission,'sys:','system:');
+
+-- 修改菜单URI
+UPDATE sys_menu
+SET uri = REPLACE ( uri, 'sys/sys', 'sys/' )
+WHERE
+  type = 1
+  AND target_type = 1
+  AND LEFT ( uri, 3 ) = 'sys';
+
+UPDATE sys_menu
+SET uri = CONCAT(
+        REVERSE( SUBSTR( REVERSE( uri ), INSTR( REVERSE( uri ), '/' ) + 1 ) ),
+        '/Sys',
+        REVERSE( LEFT ( REVERSE( uri ), LOCATE( '/', REVERSE( uri ) ) - 1 ) )
+    )
+WHERE
+  type = 1
+  AND target_type = 1
+  AND LEFT ( REVERSE( LEFT ( REVERSE( uri ), LOCATE( '/', REVERSE( uri ) ) - 1 ) ), 3 ) != 'Sys'
+  AND LEFT ( uri, 3 ) = 'sys';
+
+UPDATE sys_menu
+SET uri =  CONCAT('system', SUBSTRING(uri, 4, LENGTH(uri)) )
+WHERE
+  type = 1
+  AND target_type = 1
+  AND LEFT ( uri, 3 ) = 'sys';
+
+-- 更新菜单 Path
+update sys_menu set path = 'system' where id = 100000;
+update sys_menu set path = 'user' where id = 100100;
+
+-- 修改菜单名称
+UPDATE `sys_menu` SET `title` = '弹出选择器', uri = 'system/lov/SysLovPage' WHERE `id` = 100600;
+
+-- 删除原来的权限菜单
+DELETE FROM `sys_menu` WHERE id in (100300, 100301, 100302, 100303, 100304);
+-- 插入为现在的菜单管理
+INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100300, 100000, '菜单权限', NULL, NULL, 'menu', 1, 'system/menu/SysMenuPage', 3, 0, 0, 1, NULL, 0, now(), NULL);
+INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100301, 100800, '菜单权限查询', NULL, 'system:menu:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, now(), NULL);
+INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100302, 100800, '菜单权限新增', NULL, 'system:menu:add', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, now(), NULL);
+INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100303, 100800, '菜单权限修改', NULL, 'system:menu:edit', NULL, 1, NULL, 2, 0, 0, 2, NULL, 0, now(), NULL);
+INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100304, 100800, '菜单权限删除', NULL, 'system:menu:del', NULL, 1, NULL, 3, 0, 0, 2, NULL, 0, now(), NULL);
+
 
 -- 角色权限关联表修改
 RENAME TABLE `sys_role_permission` TO `sys_role_menu`;
 ALTER TABLE `sys_role_menu`
     CHANGE COLUMN `permission_id` `menu_id` int(11) NOT NULL COMMENT '菜单ID' AFTER `role_code`;
+
 
 -- 删除权限表
 DROP TABLE `sys_permission`;

@@ -34,7 +34,7 @@
 	</licenses>
 
 	<properties>
-		<revision>0.0.9-SNAPSHOT</revision>
+		<revision>0.1.0-SNAPSHOT</revision>
 
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
