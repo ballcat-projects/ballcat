@@ -8,6 +8,52 @@
 
 - OSS starter 修改使用 AWS S3
 
+## [0.0.9]
+
+### Warning
+
+- 由于用户属性和用户资源类的抽象，更新版本后，需要删除原来缓存的用户数据，否则会造成反序列化移除
+- ExtendService#selectByPage 方法移除，原本使用此方法的分页查询，需要更改为使用 baseMapper#selectPage
+- 部分类路径有修改，注意迁移
+- 代码生成器独立到新的仓库：https://github.com/ballcat-projects/ballcat-codegen
+- 示例使用迁移到新的仓库：https://github.com/ballcat-projects/ballcat-samples
+
+### Added
+
+- feat: RedisHelper 工具类新增 list 的 rightPush 和 leftPop 方法
+- feat: 新增了一个基于 Redis 的线程队列
+- feat: 新增解绑用户角色关联关系的功能
+- feat: `ExtendService#saveBatchSomeColumn` 现在支持分批批量插入了
+- feat: admin-websocket 新增了 Lov 弹窗选择器修改时的 websocket 推送
+
+### Changed
+
+- refactor: 用户属性和用户资源抽象出接口，不再使用 Map 存储，具体使用类交由使用方进行构造，类似于` UserDetails`
+- refactor: common-desensitize 优化，支持自定义注解脱敏
+
+- refactor: 抽象 `AbstractThread` 类. 让下级自定义 poll 和 put 方法.
+- refactor: `AbstractQueueThread` 添加程序关闭时的处理方法，防止停机时的数据丢失问题
+- refactor: 简化了支付宝和微信的回调类，并添加了验签方法
+- refactor: 使用 `Jackson2ObjectMapperBuilder` 构造 `ObjectMapper`，保留使用配置文件配置 jackson 属性的能力，以及方便用户增加自定义配置
+- refactor: xss 防注入重构，抽取成一个 starter，限制基于 jsoup 的白名单过滤，可自定义排除路径和请求类型的配置，admin-core 包现在默认集成此 starter
+- refactor: 工具类添加 finnal 关键字和私有构造
+- refactor:  修改 extends 下的三个支付模块的类路径, 把 starter 修改为 extend
+- refactor:  优化 JsonUtils 的类型转换
+- fix: 修复 `LambdaQueryWrapperX#inIfPresent` 参数错误处理成流，导致的 sql 拼接异常
+- fix: 修复当没有字典项时，无法正常删除字典的 bug
+- fix: 修复几次版本更新导致的代码生成器的各种 bug，如目录项拖动，以及zip 文件流末端损坏等
+- fix: 操作日志记录时，参数为 null 导致的空指针问题
+
+### Removed
+
+- 移除新酷卡短信组件
+- 移除 mybatis-plus-extend 中的 selectByPage 方法，因为其无法真正修改返回类型，现在使用 `page.convert` 进行 数据转换
+
+### Dependency
+
+- Bump virtual-currency  from 0.3.2  to  0.4.1
+- Bump  spring-boot-admin from 2.4.0 to 2.3.1
+
 
 
 ## [0.0.8]
