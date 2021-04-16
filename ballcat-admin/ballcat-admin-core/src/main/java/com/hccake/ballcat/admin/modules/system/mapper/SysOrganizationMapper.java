@@ -1,8 +1,12 @@
 package com.hccake.ballcat.admin.modules.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.admin.modules.system.model.entity.SysOrganization;
+import com.hccake.ballcat.admin.modules.system.model.qo.SysOrganizationQO;
+import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
+import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,14 +18,21 @@ import java.util.List;
  */
 public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 
+	default List<SysOrganization> selectList(SysOrganizationQO sysOrganizationQO) {
+		LambdaQueryWrapperX<SysOrganization> wrapper = WrappersX.lambdaQueryX(SysOrganization.class)
+				.eqIfPresent(SysOrganization::getName, sysOrganizationQO.getName());
+		return this.selectList(wrapper);
+	}
+
 	/**
 	 * 根据组织ID 查询除该组织下的所有儿子组织
 	 * @param organizationId 组织机构ID
 	 * @return List<SysOrganization> 该组织的儿子组织
 	 */
 	default List<SysOrganization> listSubOrganization(Integer organizationId) {
-		return this
-				.selectList(Wrappers.<SysOrganization>lambdaQuery().eq(SysOrganization::getParentId, organizationId));
+		LambdaQueryWrapper<SysOrganization> wrapper = Wrappers.<SysOrganization>lambdaQuery()
+				.eq(SysOrganization::getParentId, organizationId);
+		return this.selectList(wrapper);
 	}
 
 	/**

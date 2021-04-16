@@ -16,9 +16,9 @@ public class SysOrganizationQO {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * ID
+	 * 组织名称
 	 */
-	@ApiModelProperty(value = "ID")
-	private Integer id;
+	@ApiModelProperty(value = "组织名称")
+	private String name;
 
 }

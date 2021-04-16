@@ -2,6 +2,7 @@ package com.hccake.ballcat.admin.modules.system.service;
 
 import com.hccake.ballcat.admin.modules.system.model.dto.SysOrganizationDTO;
 import com.hccake.ballcat.admin.modules.system.model.entity.SysOrganization;
+import com.hccake.ballcat.admin.modules.system.model.qo.SysOrganizationQO;
 import com.hccake.ballcat.admin.modules.system.model.vo.SysOrganizationTree;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
@@ -16,9 +17,10 @@ public interface SysOrganizationService extends ExtendService<SysOrganization> {
 
 	/**
 	 * 返回组织架构的树形结构
+	 * @param sysOrganizationQO 组织机构查询条件
 	 * @return OrganizationTree
 	 */
-	List<SysOrganizationTree> listTree();
+	List<SysOrganizationTree> listTree(SysOrganizationQO sysOrganizationQO);
 
 	/**
 	 * 创建一个新的组织机构

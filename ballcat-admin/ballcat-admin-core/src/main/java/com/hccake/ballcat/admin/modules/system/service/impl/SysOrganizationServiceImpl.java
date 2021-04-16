@@ -1,18 +1,25 @@
 package com.hccake.ballcat.admin.modules.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.hccake.ballcat.admin.modules.system.mapper.SysOrganizationMapper;
 import com.hccake.ballcat.admin.modules.system.converter.SysOrganizationConverter;
+import com.hccake.ballcat.admin.modules.system.mapper.SysOrganizationMapper;
 import com.hccake.ballcat.admin.modules.system.model.dto.SysOrganizationDTO;
 import com.hccake.ballcat.admin.modules.system.model.entity.SysOrganization;
+import com.hccake.ballcat.admin.modules.system.model.qo.SysOrganizationQO;
 import com.hccake.ballcat.admin.modules.system.model.vo.SysOrganizationTree;
 import com.hccake.ballcat.admin.modules.system.service.SysOrganizationService;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
+import com.hccake.ballcat.common.core.exception.BusinessException;
+import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.util.TreeUtils;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -26,11 +33,12 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 
 	/**
 	 * 返回组织架构的树形结构
+	 * @param sysOrganizationQO 组织机构查询条件
 	 * @return OrganizationTree
 	 */
 	@Override
-	public List<SysOrganizationTree> listTree() {
-		List<SysOrganization> list = baseMapper.selectList(null);
+	public List<SysOrganizationTree> listTree(SysOrganizationQO sysOrganizationQO) {
+		List<SysOrganization> list = baseMapper.selectList(sysOrganizationQO);
 		return TreeUtils.buildTree(list, 0, SysOrganizationConverter.INSTANCE::poToTree);
 	}
 
@@ -58,10 +66,12 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	 * @return boolean 更新成功/失败
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean update(SysOrganizationDTO sysOrganizationDTO) {
-
+		// TODO 防止并发问题
 		SysOrganization sysOrganization = SysOrganizationConverter.INSTANCE.dtoToPo(sysOrganizationDTO);
-		SysOrganization originSysOrganization = baseMapper.selectById(sysOrganization.getId());
+		Integer organizationId = sysOrganization.getId();
+		SysOrganization originSysOrganization = baseMapper.selectById(organizationId);
 
 		// 如果没有移动父节点，则直接更新
 		Integer targetParentId = sysOrganizationDTO.getParentId();
@@ -70,7 +80,16 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 		}
 
 		// 移动了父节点，先判断不是选择自己作为父节点
-		Assert.isFalse(targetParentId.equals(sysOrganization.getId()), "父节点不能是自己！");
+		Assert.isFalse(targetParentId.equals(organizationId), "父节点不能是自己！");
+		// 再判断是否是自己的子节点，根节点跳过判断
+		if (!GlobalConstants.TREE_ROOT_ID.equals(targetParentId)) {
+			SysOrganization targetParentOrganization = baseMapper.selectById(targetParentId);
+			String[] targetParentHierarchy = targetParentOrganization.getHierarchy().split("-");
+			if (ArrayUtil.contains(targetParentHierarchy, String.valueOf(organizationId))) {
+				throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "父节点不能是自己的子节点！");
+			}
+		}
+
 		// 填充目标层级和深度
 		fillDepthAndHierarchy(sysOrganization, targetParentId);
 		// 原来的层级和深度
@@ -102,6 +121,20 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	@Override
 	public List<SysOrganization> listChildOrganization(Integer organizationId) {
 		return baseMapper.listChildOrganization(organizationId);
+	}
+
+	/**
+	 * 根据组织ID 删除组织机构
+	 * @param organizationId 组织机构ID
+	 * @return 删除成功: true
+	 */
+	@Override
+	public boolean removeById(Serializable organizationId) {
+		List<SysOrganization> children = baseMapper.listChildOrganization((Integer) organizationId);
+		if (CollectionUtil.isNotEmpty(children)) {
+			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该组织机构拥有下级组织，不能删除！");
+		}
+		return SqlHelper.retBool(baseMapper.deleteById(organizationId));
 	}
 
 	/**
