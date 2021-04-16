@@ -1,18 +1,19 @@
 package com.hccake.ballcat.admin.modules.system.model.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.hccake.ballcat.admin.modules.system.enums.HttpMethod;
-import com.hccake.ballcat.admin.modules.system.enums.HttpParamsPosition;
-import com.hccake.ballcat.admin.modules.system.model.entity.LovBody;
-import com.hccake.ballcat.admin.modules.system.model.entity.LovSearch;
+import com.hccake.ballcat.admin.modules.system.enums.HttpMethodEnum;
+import com.hccake.ballcat.admin.modules.system.enums.HttpParamsPositionEnum;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysLovBody;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysLovSearch;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.time.LocalDateTime;
-import java.util.List;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author lingting 2020-08-12 21:35
@@ -34,11 +35,11 @@ public class LovInfoVO {
 
 	@NotBlank
 	@ApiModelProperty("http请求方式")
-	private HttpMethod method;
+	private HttpMethodEnum method;
 
 	@NotBlank
 	@ApiModelProperty("http请求参数位置")
-	private HttpParamsPosition position;
+	private HttpParamsPositionEnum position;
 
 	@TableField("`key`")
 	@ApiModelProperty("数据的key")
@@ -60,8 +61,8 @@ public class LovInfoVO {
 	@ApiModelProperty("更新时间")
 	private LocalDateTime updateTime;
 
-	private List<LovBody> bodyList;
+	private List<SysLovBody> bodyList;
 
-	private List<LovSearch> searchList;
+	private List<SysLovSearch> searchList;
 
 }

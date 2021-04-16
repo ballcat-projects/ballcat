@@ -1,11 +1,11 @@
-package com.hccake.ballcat.admin.modules.system.model.dto;
+package com.hccake.ballcat.admin.modules.system.model.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.hccake.ballcat.admin.modules.system.enums.HttpMethod;
-import com.hccake.ballcat.admin.modules.system.enums.HttpParamsPosition;
-import com.hccake.ballcat.admin.modules.system.model.entity.Lov;
-import com.hccake.ballcat.admin.modules.system.model.entity.LovBody;
-import com.hccake.ballcat.admin.modules.system.model.entity.LovSearch;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.hccake.ballcat.admin.modules.system.enums.HttpMethodEnum;
+import com.hccake.ballcat.admin.modules.system.enums.HttpParamsPositionEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,16 +13,21 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
- * @author lingting 2020-08-17 09:48
+ * list of value 值列表，又名弹窗选择器
+ *
+ * @author lingting 2020/7/5 16:04
  */
 @Data
+@TableName("sys_lov")
 @Accessors(chain = true)
-@ApiModel(value = "lov dto")
-public class LovDTO {
+@ApiModel(value = "弹窗选择器")
+public class SysLov {
 
+	@TableId
+	@ApiModelProperty("编号")
 	private Long id;
 
 	@ApiModelProperty("标题")
@@ -37,11 +42,11 @@ public class LovDTO {
 
 	@NotBlank
 	@ApiModelProperty("http请求方式")
-	private HttpMethod method;
+	private HttpMethodEnum method;
 
 	@NotBlank
 	@ApiModelProperty("http请求参数位置")
-	private HttpParamsPosition position;
+	private HttpParamsPositionEnum position;
 
 	@TableField("`key`")
 	@ApiModelProperty("数据的key")
@@ -60,17 +65,15 @@ public class LovDTO {
 	@ApiModelProperty("返回数据的字段")
 	private String retField;
 
-	@ApiModelProperty("返回字段数据类型 1 String 2 Number")
-	private Integer retFieldDataType;
+	/**
+	 * 更新时间
+	 */
+	@ApiModelProperty(value = "更新时间")
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private LocalDateTime updateTime;
 
-	private List<LovBody> bodyList;
-
-	private List<LovSearch> searchList;
-
-	public Lov toLov() {
-		return new Lov().setFixedParams(getFixedParams()).setId(getId()).setKey(getKey()).setKeyword(getKeyword())
-				.setMethod(getMethod()).setMultiple(getMultiple()).setPosition(getPosition()).setRet(getRet())
-				.setRetField(getRetField()).setTitle(getTitle()).setUrl(getUrl());
-	}
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty("创建时间")
+	private LocalDateTime createTime;
 
 }

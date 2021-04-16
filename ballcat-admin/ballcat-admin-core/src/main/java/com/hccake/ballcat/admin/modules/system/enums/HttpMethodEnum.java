@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum HttpMethod {
+public enum HttpMethodEnum {
 
 	/**
 	 * http 请求方式

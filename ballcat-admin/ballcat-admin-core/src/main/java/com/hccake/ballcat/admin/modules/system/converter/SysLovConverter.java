@@ -1,8 +1,8 @@
 package com.hccake.ballcat.admin.modules.system.converter;
 
-import com.hccake.ballcat.admin.modules.system.model.entity.Lov;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysLov;
 import com.hccake.ballcat.admin.modules.system.model.vo.LovInfoVO;
-import com.hccake.ballcat.admin.modules.system.model.vo.LovPageVO;
+import com.hccake.ballcat.admin.modules.system.model.vo.SysLovPageVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -12,24 +12,24 @@ import org.mapstruct.factory.Mappers;
  * @version 1.0
  */
 @Mapper
-public interface LovConverter {
+public interface SysLovConverter {
 
-	LovConverter INSTANCE = Mappers.getMapper(LovConverter.class);
+	SysLovConverter INSTANCE = Mappers.getMapper(SysLovConverter.class);
 
 	/**
 	 * Lov 实体转换为 LovInfoVo 对象
-	 * @param lov Lov实体
+	 * @param sysLov Lov实体
 	 * @return LovVO
 	 */
 	@Mapping(target = "searchList", ignore = true)
 	@Mapping(target = "bodyList", ignore = true)
-	LovInfoVO poToInfoVO(Lov lov);
+	LovInfoVO poToInfoVO(SysLov sysLov);
 
 	/**
 	 * PO 转 PageVO
-	 * @param lov lov
+	 * @param sysLov lov
 	 * @return LovPageVO lovPageVO
 	 */
-	LovPageVO poToPageVo(Lov lov);
+	SysLovPageVO poToPageVo(SysLov sysLov);
 
 }

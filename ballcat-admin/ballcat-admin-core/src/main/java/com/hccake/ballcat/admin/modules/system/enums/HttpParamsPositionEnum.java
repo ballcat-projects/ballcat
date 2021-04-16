@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum HttpParamsPosition {
+public enum HttpParamsPositionEnum {
 
 	/**
 	 * 定义http请求时 参数设置的位置

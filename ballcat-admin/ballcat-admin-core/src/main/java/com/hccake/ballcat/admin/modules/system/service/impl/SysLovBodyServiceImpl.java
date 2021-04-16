@@ -1,8 +1,8 @@
 package com.hccake.ballcat.admin.modules.system.service.impl;
 
-import com.hccake.ballcat.admin.modules.system.mapper.LovSearchMapper;
-import com.hccake.ballcat.admin.modules.system.model.entity.LovSearch;
-import com.hccake.ballcat.admin.modules.system.service.LovSearchService;
+import com.hccake.ballcat.admin.modules.system.mapper.SysLovBodyMapper;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysLovBody;
+import com.hccake.ballcat.admin.modules.system.service.SysLovBodyService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -12,20 +12,21 @@ import java.util.List;
  * @author lingting 2020-08-10 17:21
  */
 @Service
-public class LovSearchServiceImpl extends ExtendServiceImpl<LovSearchMapper, LovSearch> implements LovSearchService {
+public class SysLovBodyServiceImpl extends ExtendServiceImpl<SysLovBodyMapper, SysLovBody>
+		implements SysLovBodyService {
 
 	/**
-	 * 根据 lov keyword 查询对应 search
+	 * 根据 lov keyword 查询对应 body
 	 * @param keyword lov标识
-	 * @return List<LovSearch>
+	 * @return List<LovBody>
 	 */
 	@Override
-	public List<LovSearch> listByKeyword(String keyword) {
+	public List<SysLovBody> listByKeyword(String keyword) {
 		return baseMapper.listByKeyword(keyword);
 	}
 
 	/**
-	 * 根据 lov keyword 删除对应 search
+	 * 根据 lov keyword 删除对应 body
 	 * @param keyword lov标识
 	 * @return 是否删除成功
 	 */

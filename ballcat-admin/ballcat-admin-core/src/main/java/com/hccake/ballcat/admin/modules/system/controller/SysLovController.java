@@ -1,14 +1,14 @@
 package com.hccake.ballcat.admin.modules.system.controller;
 
-import com.hccake.ballcat.admin.modules.system.converter.LovConverter;
-import com.hccake.ballcat.admin.modules.system.model.dto.LovDTO;
-import com.hccake.ballcat.admin.modules.system.model.entity.Lov;
-import com.hccake.ballcat.admin.modules.system.model.qo.LovQO;
+import com.hccake.ballcat.admin.modules.system.converter.SysLovConverter;
+import com.hccake.ballcat.admin.modules.system.model.dto.SysLovDTO;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysLov;
+import com.hccake.ballcat.admin.modules.system.model.qo.SysLovQO;
 import com.hccake.ballcat.admin.modules.system.model.vo.LovInfoVO;
-import com.hccake.ballcat.admin.modules.system.model.vo.LovPageVO;
-import com.hccake.ballcat.admin.modules.system.service.LovBodyService;
-import com.hccake.ballcat.admin.modules.system.service.LovSearchService;
-import com.hccake.ballcat.admin.modules.system.service.LovService;
+import com.hccake.ballcat.admin.modules.system.model.vo.SysLovPageVO;
+import com.hccake.ballcat.admin.modules.system.service.SysLovBodyService;
+import com.hccake.ballcat.admin.modules.system.service.SysLovSearchService;
+import com.hccake.ballcat.admin.modules.system.service.SysLovService;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
@@ -41,13 +41,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/system/lov")
 @Api(value = "system-lov", tags = "弹窗选择器")
-public class LovController {
+public class SysLovController {
 
-	private final LovService lovService;
+	private final SysLovService sysLovService;
 
-	private final LovBodyService bodyService;
+	private final SysLovBodyService bodyService;
 
-	private final LovSearchService searchService;
+	private final SysLovSearchService searchService;
 
 	/**
 	 * 分页查询
@@ -58,20 +58,20 @@ public class LovController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('system:lov:read')")
-	public R<PageResult<LovPageVO>> getLovPage(PageParam pageParam, LovQO qo) {
-		return R.ok(lovService.queryPage(pageParam, qo));
+	public R<PageResult<SysLovPageVO>> getLovPage(PageParam pageParam, SysLovQO qo) {
+		return R.ok(sysLovService.queryPage(pageParam, qo));
 	}
 
 	@ApiOperation("根据keyword获取lov数据")
 	@GetMapping("/data/{keyword}")
 	public R<LovInfoVO> getDataByKeyword(@PathVariable("keyword") String keyword) {
 
-		Lov lov = lovService.getByKeyword(keyword);
-		if (lov == null) {
+		SysLov sysLov = sysLovService.getByKeyword(keyword);
+		if (sysLov == null) {
 			return R.failed(BaseResultCode.UNKNOWN_ERROR, "获取失败!");
 		}
 		// 封装VO
-		LovInfoVO lovInfoVO = LovConverter.INSTANCE.poToInfoVO(lov);
+		LovInfoVO lovInfoVO = SysLovConverter.INSTANCE.poToInfoVO(sysLov);
 		lovInfoVO.setBodyList(bodyService.listByKeyword(keyword));
 		lovInfoVO.setSearchList(searchService.listByKeyword(keyword));
 
@@ -81,9 +81,9 @@ public class LovController {
 	@PostMapping("/check")
 	@ApiOperation("检查本地缓存中指定keyword的lov是否已过期")
 	public R<List<String>> check(@RequestBody Map<String, LocalDateTime> map) {
-		List<Lov> list = new ArrayList<>(map.size());
-		map.forEach((keyword, updateTime) -> list.add(new Lov().setKeyword(keyword).setUpdateTime(updateTime)));
-		return R.ok(lovService.check(list));
+		List<SysLov> list = new ArrayList<>(map.size());
+		map.forEach((keyword, updateTime) -> list.add(new SysLov().setKeyword(keyword).setUpdateTime(updateTime)));
+		return R.ok(sysLovService.check(list));
 	}
 
 	/**
@@ -95,8 +95,8 @@ public class LovController {
 	@CreateOperationLogging(msg = "新增lov")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:lov:add')")
-	public R<?> save(@RequestBody LovDTO dto) {
-		return lovService.save(dto.toLov(), dto.getBodyList(), dto.getSearchList()) ? R.ok()
+	public R<?> save(@RequestBody SysLovDTO dto) {
+		return sysLovService.save(dto.toLov(), dto.getBodyList(), dto.getSearchList()) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增lov失败!");
 	}
 
@@ -109,8 +109,8 @@ public class LovController {
 	@UpdateOperationLogging(msg = "修改lov")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:lov:edit')")
-	public R<?> updateById(@RequestBody LovDTO dto) {
-		return lovService.update(dto.toLov(), dto.getBodyList(), dto.getSearchList()) ? R.ok()
+	public R<?> updateById(@RequestBody SysLovDTO dto) {
+		return sysLovService.update(dto.toLov(), dto.getBodyList(), dto.getSearchList()) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改lov失败");
 	}
 
@@ -124,7 +124,7 @@ public class LovController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:lov:del')")
 	public R<?> removeById(@PathVariable Integer id) {
-		return lovService.remove(id) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除lov失败");
+		return sysLovService.remove(id) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除lov失败");
 	}
 
 }

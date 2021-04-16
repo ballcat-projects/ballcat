@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum Tag {
+public enum TagEnum {
 
 	/**
 	 * 标签类型

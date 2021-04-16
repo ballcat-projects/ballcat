@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.hccake.ballcat.admin.modules.system.enums.Tag;
+import com.hccake.ballcat.admin.modules.system.enums.TagEnum;
 import com.hccake.ballcat.admin.modules.system.typehandler.ListLovSelectOptionTypeHandler;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,7 +22,7 @@ import java.util.List;
 @TableName(value = "sys_lov_search", autoResultMap = true)
 @Accessors(chain = true)
 @ApiModel(value = "lov搜索模块")
-public class LovSearch {
+public class SysLovSearch {
 
 	@TableId
 	@ApiModelProperty("编号")
@@ -43,7 +43,7 @@ public class LovSearch {
 	private String placeholder;
 
 	@ApiModelProperty("html 标签")
-	private Tag tag;
+	private TagEnum tag;
 
 	@TableField(typeHandler = ListLovSelectOptionTypeHandler.class)
 	@ApiModelProperty("tag=SELECT时的选项")

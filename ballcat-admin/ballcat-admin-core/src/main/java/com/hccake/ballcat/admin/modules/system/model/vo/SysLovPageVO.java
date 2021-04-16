@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.system.model.vo;
 
-import com.hccake.ballcat.admin.modules.system.enums.HttpMethod;
-import com.hccake.ballcat.admin.modules.system.enums.HttpParamsPosition;
+import com.hccake.ballcat.admin.modules.system.enums.HttpMethodEnum;
+import com.hccake.ballcat.admin.modules.system.enums.HttpParamsPositionEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @ApiModel(value = "lov vo")
-public class LovPageVO {
+public class SysLovPageVO {
 
 	@ApiModelProperty("编号")
 	private Long id;
@@ -33,11 +33,11 @@ public class LovPageVO {
 
 	@NotBlank
 	@ApiModelProperty("http请求方式")
-	private HttpMethod method;
+	private HttpMethodEnum method;
 
 	@NotBlank
 	@ApiModelProperty("http请求参数位置")
-	private HttpParamsPosition position;
+	private HttpParamsPositionEnum position;
 
 	@ApiModelProperty("数据的key")
 	private String key;

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @TableName("sys_lov_body")
 @Accessors(chain = true)
 @ApiModel(value = "lov主体模块")
-public class LovBody {
+public class SysLovBody {
 
 	@TableId
 	@ApiModelProperty("编号")

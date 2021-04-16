@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.modules.system.service;
 
-import com.hccake.ballcat.admin.modules.system.model.entity.LovBody;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysLovSearch;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 import java.util.List;
@@ -8,17 +8,17 @@ import java.util.List;
 /**
  * @author lingting 2020-08-10 17:20
  */
-public interface LovBodyService extends ExtendService<LovBody> {
+public interface SysLovSearchService extends ExtendService<SysLovSearch> {
 
 	/**
-	 * 根据 lov keyword 查询对应 body
+	 * 根据 lov keyword 查询对应 search
 	 * @param keyword lov标识
-	 * @return List<LovBody>
+	 * @return List<LovSearch>
 	 */
-	List<LovBody> listByKeyword(String keyword);
+	List<SysLovSearch> listByKeyword(String keyword);
 
 	/**
-	 * 根据 lov keyword 删除对应 body
+	 * 根据 lov keyword 删除对应 search
 	 * @param keyword lov标识
 	 * @return 是否删除成功
 	 */
