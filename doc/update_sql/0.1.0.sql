@@ -133,3 +133,14 @@ ALTER TABLE `sys_role_menu`
 
 -- 删除权限表
 DROP TABLE `sys_permission`;
+
+
+
+-- 新增字典
+INSERT INTO `sys_dict`(`code`, `title`, `remarks`, `editable`, `value_type`, `hash_code`, `deleted`, `create_time`, `update_time`) VALUES ('menu_type', '菜单类型', '系统菜单的类型', 0, 1, '977ab81907404dcb8b2392b98738f95f', 0, '2021-04-06 21:39:45', NULL);
+INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `attributes`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('menu_type', '0', '目录', '{}', 1, NULL, 0, '2021-04-06 21:41:34', NULL);
+INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `attributes`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('menu_type', '1', '菜单', '{}', 2, NULL, 0, '2021-04-06 21:41:45', NULL);
+INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `attributes`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('menu_type', '2', '按钮', '{}', 3, NULL, 0, '2021-04-06 21:41:56', NULL);
+
+-- lov 修改用户请求地址
+UPDATE `sys_lov` SET `url` = '/system/user/page', update_time = now() WHERE `keyword` = 'lov_user'
