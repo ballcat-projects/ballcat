@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.config;
 
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.conf.mybatis.FillMetaObjectHandle;
 import lombok.extern.slf4j.Slf4j;

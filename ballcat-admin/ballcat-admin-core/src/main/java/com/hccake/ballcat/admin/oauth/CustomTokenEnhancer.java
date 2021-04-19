@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.oauth;
 
-import com.hccake.ballcat.admin.modules.sys.converter.SysUserConverter;
-import com.hccake.ballcat.admin.modules.sys.model.vo.SysUserInfo;
+import com.hccake.ballcat.admin.modules.system.converter.SysUserConverter;
+import com.hccake.ballcat.admin.modules.system.model.vo.SysUserInfo;
 import com.hccake.ballcat.admin.oauth.domain.UserResources;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

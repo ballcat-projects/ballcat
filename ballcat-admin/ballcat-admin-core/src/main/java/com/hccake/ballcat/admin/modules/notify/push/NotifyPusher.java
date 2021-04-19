@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.notify.push;
 
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 
 import java.util.List;
 

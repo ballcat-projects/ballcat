@@ -3,7 +3,7 @@ package com.hccake.ballcat.admin.modules.notify.push;
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.notify.recipient.RecipientHandler;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

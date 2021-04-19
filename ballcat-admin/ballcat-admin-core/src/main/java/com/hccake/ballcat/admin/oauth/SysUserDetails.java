@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.oauth;
 
 import com.hccake.ballcat.admin.constants.SysUserConst;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import com.hccake.ballcat.admin.oauth.domain.UserAttributes;
 import com.hccake.ballcat.admin.oauth.domain.UserResources;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hccake.ballcat.admin.modules.sys.mapper.SysOrganizationMapper">
+<mapper namespace="com.hccake.ballcat.admin.modules.system.mapper.SysOrganizationMapper">
 
 	<sql id="Base_Column_List">
 		id,
@@ -26,7 +26,7 @@
 		hierarchy like CONCAT(#{originHierarchy}, "-%")
 	</update>
 
-	<select id="listChildOrganization" resultType="com.hccake.ballcat.admin.modules.sys.model.entity.SysOrganization">
+	<select id="listChildOrganization" resultType="com.hccake.ballcat.admin.modules.system.model.entity.SysOrganization">
 		SELECT
 		<include refid="Base_Column_List"/>
 		FROM

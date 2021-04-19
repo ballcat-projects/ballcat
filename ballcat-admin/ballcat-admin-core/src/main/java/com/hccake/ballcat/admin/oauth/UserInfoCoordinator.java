@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.oauth;
 
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import com.hccake.ballcat.admin.oauth.domain.DefaultUserAttributes;
 import com.hccake.ballcat.admin.oauth.domain.DefaultUserResources;
 import com.hccake.ballcat.admin.oauth.domain.UserAttributes;

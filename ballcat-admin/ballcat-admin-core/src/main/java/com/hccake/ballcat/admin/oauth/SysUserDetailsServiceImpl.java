@@ -1,9 +1,9 @@
 package com.hccake.ballcat.admin.oauth;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hccake.ballcat.admin.modules.sys.model.dto.UserInfoDTO;
-import com.hccake.ballcat.admin.modules.sys.model.entity.SysUser;
-import com.hccake.ballcat.admin.modules.sys.service.SysUserService;
+import com.hccake.ballcat.admin.modules.system.model.dto.UserInfoDTO;
+import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
+import com.hccake.ballcat.admin.modules.system.service.SysUserService;
 import com.hccake.ballcat.admin.oauth.domain.UserAttributes;
 import com.hccake.ballcat.admin.oauth.domain.UserResources;
 import lombok.RequiredArgsConstructor;

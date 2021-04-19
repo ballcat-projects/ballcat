@@ -3,7 +3,7 @@ package com.hccake.ballcat.admin;
 import com.anji.captcha.service.CaptchaService;
 import com.hccake.ballcat.admin.constants.SecurityConst;
 import com.hccake.ballcat.admin.modules.notify.push.MailNotifyPusher;
-import com.hccake.ballcat.admin.modules.sys.checker.AdminRuleProperties;
+import com.hccake.ballcat.admin.modules.system.checker.AdminRuleProperties;
 import com.hccake.ballcat.admin.oauth.UserInfoCoordinator;
 import com.hccake.ballcat.admin.oauth.filter.LoginCaptchaFilter;
 import com.hccake.ballcat.common.mail.MailAutoConfiguration;
