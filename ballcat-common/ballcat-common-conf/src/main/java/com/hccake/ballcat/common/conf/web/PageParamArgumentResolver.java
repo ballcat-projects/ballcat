@@ -1,19 +1,18 @@
 package com.hccake.ballcat.common.conf.web;
 
 import cn.hutool.core.util.StrUtil;
-import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.core.exception.SqlCheckedException;
+import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author lengleng
@@ -39,7 +38,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(PageParam.class);
+		return PageParam.class.isAssignableFrom(parameter.getParameterType());
 	}
 
 	/**
@@ -62,7 +61,14 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 		String sortFields = request.getParameter("sortFields");
 		String sortOrders = request.getParameter("sortOrders");
 
-		PageParam pageParam = new PageParam();
+		PageParam pageParam;
+		try {
+			pageParam = (PageParam) parameter.getParameterType().newInstance();
+		}
+		catch (InstantiationException | IllegalAccessException e) {
+			pageParam = new PageParam();
+		}
+
 		if (StrUtil.isNotBlank(current)) {
 			pageParam.setCurrent(Long.parseLong(current));
 		}
