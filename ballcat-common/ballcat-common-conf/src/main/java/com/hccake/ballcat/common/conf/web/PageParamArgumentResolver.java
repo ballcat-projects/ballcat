@@ -39,7 +39,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(PageParam.class);
+		return parameter.getParameterType().isAssignableFrom(PageParam.class);
 	}
 
 	/**
