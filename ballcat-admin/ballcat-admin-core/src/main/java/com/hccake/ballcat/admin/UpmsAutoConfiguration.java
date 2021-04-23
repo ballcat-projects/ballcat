@@ -1,9 +1,9 @@
 package com.hccake.ballcat.admin;
 
 import com.anji.captcha.service.CaptchaService;
+import com.hccake.ballcat.admin.config.UpmsProperties;
 import com.hccake.ballcat.admin.constants.SecurityConst;
 import com.hccake.ballcat.admin.modules.notify.push.MailNotifyPusher;
-import com.hccake.ballcat.admin.modules.system.checker.AdminRuleProperties;
 import com.hccake.ballcat.admin.oauth.UserInfoCoordinator;
 import com.hccake.ballcat.admin.oauth.filter.LoginCaptchaFilter;
 import com.hccake.ballcat.common.mail.MailAutoConfiguration;
@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
 @ServletComponentScan("com.hccake.ballcat.admin.oauth.filter")
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(MailAutoConfiguration.class)
-@EnableConfigurationProperties(AdminRuleProperties.class)
+@EnableConfigurationProperties(UpmsProperties.class)
 public class UpmsAutoConfiguration {
 
 	@Bean
@@ -46,7 +46,7 @@ public class UpmsAutoConfiguration {
 	}
 
 	@Bean
-	@ConditionalOnProperty(prefix = "ballcat.login.captcha", name = "enabled", havingValue = "true",
+	@ConditionalOnProperty(prefix = "ballcat.upms", name = "loginCaptchaEnabled", havingValue = "true",
 			matchIfMissing = true)
 	public FilterRegistrationBean<LoginCaptchaFilter> filterRegistrationBean(CaptchaService captchaService) {
 		FilterRegistrationBean<LoginCaptchaFilter> bean = new FilterRegistrationBean<>();

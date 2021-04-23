@@ -1,6 +1,7 @@
 package com.hccake.ballcat.admin.oauth.filter;
 
 import com.hccake.ballcat.admin.constants.SecurityConst;
+import com.hccake.ballcat.admin.oauth.config.SecurityProperties;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.model.result.R;
@@ -9,7 +10,6 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,8 +35,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
-	@Value("${ballcat.password.secret-key}")
-	private String secretKey;
+	private final SecurityProperties securityProperties;
 
 	private static final String PASSWORD = "password";
 
@@ -56,7 +55,8 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		Map<String, String[]> parameterMap = new HashMap<>(request.getParameterMap());
 		try {
 			if (request.getParameter(GRANT_TYPE).equals(PASSWORD)) {
-				String password = PasswordUtils.decodeAES(request.getParameter(PASSWORD), secretKey);
+				String password = PasswordUtils.decodeAES(request.getParameter(PASSWORD),
+						securityProperties.getPasswordSecretKey());
 				parameterMap.put(PASSWORD, new String[] { password });
 			}
 		}

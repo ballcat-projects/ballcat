@@ -11,6 +11,7 @@ import com.hccake.ballcat.admin.modules.system.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.system.model.vo.SysUserPageVO;
 import com.hccake.ballcat.admin.modules.system.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.system.service.SysUserService;
+import com.hccake.ballcat.admin.oauth.config.SecurityProperties;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
@@ -25,10 +26,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -56,11 +64,7 @@ public class SysUserController {
 
 	private final SysUserRoleService sysUserRoleService;
 
-	/**
-	 * TODO 封装为实体对象，方便归档系统参数
-	 */
-	@Value("${ballcat.password.secret-key}")
-	private String passwordSecretKey;
+	private final SecurityProperties securityProperties;
 
 	/**
 	 * 分页查询用户
@@ -99,7 +103,7 @@ public class SysUserController {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "用户名已存在");
 		}
 		// 明文密码
-		String password = PasswordUtils.decodeAES(sysUserDTO.getPass(), passwordSecretKey);
+		String password = PasswordUtils.decodeAES(sysUserDTO.getPass(), securityProperties.getPasswordSecretKey());
 		sysUserDTO.setPassword(password);
 		return sysUserService.addSysUser(sysUserDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增系统用户失败");
@@ -180,7 +184,7 @@ public class SysUserController {
 		}
 
 		// 明文密码
-		String password = PasswordUtils.decodeAES(pass, passwordSecretKey);
+		String password = PasswordUtils.decodeAES(pass, securityProperties.getPasswordSecretKey());
 		return sysUserService.updatePassword(userId, password) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改用户密码失败！");
 	}

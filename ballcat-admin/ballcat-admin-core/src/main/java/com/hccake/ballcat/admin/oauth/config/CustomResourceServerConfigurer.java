@@ -2,6 +2,7 @@ package com.hccake.ballcat.admin.oauth.config;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,11 +21,12 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
+@EnableConfigurationProperties(SecurityProperties.class)
 public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdapter {
 
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
-	private final PermitAllUrlProperties permitAllUrlProperties;
+	private final SecurityProperties securityProperties;
 
 	/**
 	 * Add resource-server specific properties (like a resource id). The defaults should
@@ -49,7 +51,7 @@ public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdap
 		httpSecurity
 				// 拦截 url 配置
 				.authorizeRequests()
-				.antMatchers(ArrayUtil.toArray(permitAllUrlProperties.getIgnoreUrls(), String.class))
+				.antMatchers(ArrayUtil.toArray(securityProperties.getIgnoreUrls(), String.class))
 				.permitAll()
 				.anyRequest().authenticated()
 
@@ -61,7 +63,7 @@ public class CustomResourceServerConfigurer extends ResourceServerConfigurerAdap
 		// @formatter:on
 
 		// 允许嵌入iframe
-		if (!permitAllUrlProperties.isIframeDeny()) {
+		if (!securityProperties.isIframeDeny()) {
 			httpSecurity.headers().frameOptions().disable();
 		}
 	}

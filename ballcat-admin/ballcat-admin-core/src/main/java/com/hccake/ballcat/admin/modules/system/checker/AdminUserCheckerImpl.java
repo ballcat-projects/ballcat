@@ -1,6 +1,7 @@
 package com.hccake.ballcat.admin.modules.system.checker;
 
 import cn.hutool.core.util.StrUtil;
+import com.hccake.ballcat.admin.config.UpmsProperties;
 import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -15,15 +16,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AdminUserCheckerImpl implements AdminUserChecker {
 
-	private final AdminRuleProperties adminRuleProperties;
+	private final UpmsProperties upmsProperties;
 
 	@Override
 	public boolean isAdminUser(SysUser user) {
-		if (adminRuleProperties.getUserId() == user.getUserId()) {
+		UpmsProperties.Administrator administrator = upmsProperties.getAdministrator();
+		if (administrator.getUserId() == user.getUserId()) {
 			return true;
 		}
-		return StrUtil.isNotEmpty(adminRuleProperties.getUsername())
-				&& adminRuleProperties.getUsername().equals(user.getUsername());
+		return StrUtil.isNotEmpty(administrator.getUsername())
+				&& administrator.getUsername().equals(user.getUsername());
 	}
 
 	@Override
