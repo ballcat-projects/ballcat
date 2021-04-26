@@ -66,7 +66,7 @@ public class SysRoleController {
 	 */
 	@GetMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:role:read')")
-	public R<SysRole> getById(@PathVariable Integer id) {
+	public R<SysRole> getById(@PathVariable("id") Integer id) {
 		return R.ok(sysRoleService.getById(id));
 	}
 
@@ -106,7 +106,7 @@ public class SysRoleController {
 	@ApiOperation(value = "通过id删除系统角色", notes = "通过id删除系统角色")
 	@DeleteOperationLogging(msg = "通过id删除系统角色")
 	@PreAuthorize("@per.hasPermission('system:role:del')")
-	public R<Boolean> removeById(@PathVariable Integer id) {
+	public R<Boolean> removeById(@PathVariable("id") Integer id) {
 		SysRole oldRole = sysRoleService.getById(id);
 		if (SysRoleConst.Type.SYSTEM.getValue().equals(oldRole.getType())) {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "系统角色不允许被删除!");
@@ -133,7 +133,8 @@ public class SysRoleController {
 	@ApiOperation(value = "更新角色权限", notes = "更新角色权限")
 	@UpdateOperationLogging(msg = "更新角色权限")
 	@PreAuthorize("@per.hasPermission('system:role:grant')")
-	public R<Boolean> savePermissionIds(@PathVariable String roleCode, @RequestBody Integer[] permissionIds) {
+	public R<Boolean> savePermissionIds(@PathVariable("roleCode") String roleCode,
+			@RequestBody Integer[] permissionIds) {
 		return R.ok(sysRoleMenuService.saveRoleMenus(roleCode, permissionIds));
 	}
 
@@ -143,7 +144,7 @@ public class SysRoleController {
 	 * @return 属性集合
 	 */
 	@GetMapping("/permission/code/{roleCode}")
-	public R<List<Integer>> getPermissionIds(@PathVariable String roleCode) {
+	public R<List<Integer>> getPermissionIds(@PathVariable("roleCode") String roleCode) {
 		List<SysMenu> sysMenus = sysMenuService.listByRoleCode(roleCode);
 		List<Integer> menuIds = sysMenus.stream().map(SysMenu::getId).collect(Collectors.toList());
 		return R.ok(menuIds);
@@ -178,7 +179,8 @@ public class SysRoleController {
 	@DeleteMapping("/user")
 	@ApiOperation(value = "解绑与用户绑定关系", notes = "解绑与用户绑定关系")
 	@PreAuthorize("@per.hasPermission('system:role:grant')")
-	public R<Boolean> unbindRoleUser(@RequestParam Integer userId, @RequestParam String roleCode) {
+	public R<Boolean> unbindRoleUser(@RequestParam("userId") Integer userId,
+			@RequestParam("roleCode") String roleCode) {
 		return R.ok(sysUserRoleService.unbindRoleUser(userId, roleCode));
 	}
 

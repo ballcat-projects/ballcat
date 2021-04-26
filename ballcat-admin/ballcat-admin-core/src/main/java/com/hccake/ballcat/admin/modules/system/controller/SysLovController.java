@@ -123,7 +123,7 @@ public class SysLovController {
 	@DeleteOperationLogging(msg = "通过id删除lov")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:lov:del')")
-	public R<?> removeById(@PathVariable Integer id) {
+	public R<?> removeById(@PathVariable("id") Integer id) {
 		return sysLovService.remove(id) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除lov失败");
 	}
 

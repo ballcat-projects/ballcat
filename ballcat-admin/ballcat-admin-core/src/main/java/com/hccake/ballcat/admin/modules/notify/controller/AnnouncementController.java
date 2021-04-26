@@ -86,7 +86,7 @@ public class AnnouncementController {
 	@DeleteOperationLogging(msg = "通过id删除公告信息")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('notify:announcement:del')")
-	public R<?> removeById(@PathVariable Long id) {
+	public R<?> removeById(@PathVariable("id") Long id) {
 		return announcementService.removeById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除公告信息失败");
 	}
@@ -99,7 +99,7 @@ public class AnnouncementController {
 	@UpdateOperationLogging(msg = "发布公告信息")
 	@PatchMapping("/publish/{announcementId}")
 	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
-	public R<?> enableAnnouncement(@PathVariable Long announcementId) {
+	public R<?> enableAnnouncement(@PathVariable("announcementId") Long announcementId) {
 		return announcementService.publish(announcementId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "发布公告信息失败");
 	}
@@ -112,7 +112,7 @@ public class AnnouncementController {
 	@UpdateOperationLogging(msg = "关闭公告信息")
 	@PatchMapping("/close/{announcementId}")
 	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
-	public R<?> disableAnnouncement(@PathVariable Long announcementId) {
+	public R<?> disableAnnouncement(@PathVariable("announcementId") Long announcementId) {
 		return announcementService.close(announcementId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "关闭公告信息失败");
 	}

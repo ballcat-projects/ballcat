@@ -43,7 +43,7 @@ public class UserAnnouncementController {
 	@ApiOperation(value = "用户公告已读上报", notes = "用户公告已读上报")
 	@PatchMapping("/read/{announcementId}")
 	@PreAuthorize("@per.hasPermission('notify:userannouncement:read')")
-	public R<?> readAnnouncement(@PathVariable Long announcementId) {
+	public R<?> readAnnouncement(@PathVariable("announcementId") Long announcementId) {
 		Integer userId = SecurityUtils.getSysUser().getUserId();
 		userAnnouncementService.readAnnouncement(userId, announcementId);
 		return R.ok();

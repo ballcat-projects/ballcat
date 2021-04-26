@@ -106,7 +106,7 @@ public class SysDictController {
 	@DeleteOperationLogging(msg = "通过id删除字典表")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
-	public R<?> removeById(@PathVariable Integer id) {
+	public R<?> removeById(@PathVariable("id") Integer id) {
 		return sysDictManager.removeDictById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典表失败");
 	}
@@ -162,7 +162,7 @@ public class SysDictController {
 	@DeleteOperationLogging(msg = "通过id删除字典项")
 	@DeleteMapping("/item/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
-	public R<?> removeItemById(@PathVariable Integer id) {
+	public R<?> removeItemById(@PathVariable("id") Integer id) {
 		return sysDictManager.removeDictItemById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典项失败");
 	}

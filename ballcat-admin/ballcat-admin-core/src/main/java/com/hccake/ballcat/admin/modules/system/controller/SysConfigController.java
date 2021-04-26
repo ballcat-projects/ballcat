@@ -90,7 +90,7 @@ public class SysConfigController {
 	@DeleteOperationLogging(msg = "通过id删除系统配置表")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:config:del')")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable("id") Integer id) {
 		return R.ok(sysConfigService.removeById(id));
 	}
 

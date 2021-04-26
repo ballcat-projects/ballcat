@@ -130,7 +130,7 @@ public class SysUserController {
 	@ApiOperation(value = "通过id删除系统用户", notes = "通过id删除系统用户")
 	@DeleteOperationLogging(msg = "通过id删除系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:del')")
-	public R<?> deleteByUserId(@PathVariable Integer userId) {
+	public R<?> deleteByUserId(@PathVariable("userId") Integer userId) {
 		return sysUserService.deleteByUserId(userId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "删除系统用户失败");
 	}
@@ -141,7 +141,7 @@ public class SysUserController {
 	 */
 	@GetMapping("/scope/{userId}")
 	@PreAuthorize("@per.hasPermission('system:user:grant')")
-	public R<SysUserScope> getUserRoleIds(@PathVariable Integer userId) {
+	public R<SysUserScope> getUserRoleIds(@PathVariable("userId") Integer userId) {
 
 		List<SysRole> roleList = sysUserRoleService.listRoles(userId);
 
@@ -165,7 +165,7 @@ public class SysUserController {
 	@ApiOperation(value = "系统用户授权", notes = "系统用户授权")
 	@UpdateOperationLogging(msg = "系统用户授权")
 	@PreAuthorize("@per.hasPermission('system:user:grant')")
-	public R<?> updateUserScope(@PathVariable Integer userId, @RequestBody SysUserScope sysUserScope) {
+	public R<?> updateUserScope(@PathVariable("userId") Integer userId, @RequestBody SysUserScope sysUserScope) {
 		return sysUserService.updateUserScope(userId, sysUserScope) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "系统用户授权失败");
 	}
@@ -177,7 +177,7 @@ public class SysUserController {
 	@ApiOperation(value = "修改系统用户密码", notes = "修改系统用户密码")
 	@UpdateOperationLogging(msg = "修改系统用户密码")
 	@PreAuthorize("@per.hasPermission('system:user:pass')")
-	public R<?> updateUserPass(@PathVariable Integer userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
+	public R<?> updateUserPass(@PathVariable("userId") Integer userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
 		String pass = sysUserPassDTO.getPass();
 		if (!pass.equals(sysUserPassDTO.getConfirmPass())) {
 			return R.failed(SystemResultCode.BAD_REQUEST, "错误的密码!");
@@ -197,7 +197,7 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "批量修改用户状态")
 	@PreAuthorize("@per.hasPermission('system:user:edit')")
 	public R<?> updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
-			@NotNull(message = "用户状态不能为空") @RequestParam Integer status) {
+			@NotNull(message = "用户状态不能为空") @RequestParam("status") Integer status) {
 
 		if (!SysUserConst.Status.NORMAL.getValue().equals(status)
 				&& !SysUserConst.Status.LOCKED.getValue().equals(status)) {
