@@ -101,15 +101,14 @@ public class WxPay {
 	 * native 支付
 	 * @param sn 订单号
 	 * @param amount 支付金额, 单位 元
-	 * @param ip 客户端ip
 	 * @param body 商品描述
 	 */
-	public WxPayResponse nativePay(String sn, BigDecimal amount, String ip, String body) {
-		return nativePay(sn, amount, ip, body, notifyUrl);
+	public WxPayResponse nativePay(String sn, BigDecimal amount, String body) {
+		return nativePay(sn, amount, body, notifyUrl);
 	}
 
-	public WxPayResponse nativePay(String sn, BigDecimal amount, String ip, String body, String notifyUrl) {
-		return WxPayResponse.of(pay(sn, amount, ip, body, notifyUrl, TradeType.NATIVE));
+	public WxPayResponse nativePay(String sn, BigDecimal amount, String body, String notifyUrl) {
+		return WxPayResponse.of(pay(sn, amount, null, body, notifyUrl, TradeType.NATIVE));
 	}
 
 	/**
