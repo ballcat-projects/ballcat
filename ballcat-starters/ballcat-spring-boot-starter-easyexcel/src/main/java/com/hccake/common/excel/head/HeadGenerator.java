@@ -19,6 +19,6 @@ public interface HeadGenerator {
 	 * @param clazz 当前sheet的数据类型
 	 * @return List<List<String>> Head头信息
 	 */
-	List<List<String>> head(Class<?> clazz);
+	HeadMeta head(Class<?> clazz);
 
 }
