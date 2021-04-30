@@ -6,6 +6,10 @@ import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.system.service.SysUserService;
 import com.hccake.ballcat.admin.oauth.domain.UserAttributes;
 import com.hccake.ballcat.admin.oauth.domain.UserResources;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,8 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 /**
  * @author Hccake
@@ -47,7 +49,7 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 	 * @param userInfoDTO 用户信息DTO
 	 * @return UserDetails
 	 */
-	private UserDetails getUserDetailsByUserInfo(UserInfoDTO userInfoDTO) {
+	public UserDetails getUserDetailsByUserInfo(UserInfoDTO userInfoDTO) {
 
 		SysUser sysUser = userInfoDTO.getSysUser();
 		List<String> roles = userInfoDTO.getRoles();
