@@ -58,14 +58,12 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 	}
 
 	/**
-	 * 获取目标对象的type , 即 E 的实际类型.
+	 * 获取目标对象的type , 即 E 的实际类型. 如果获取失败, 请重写此方法
 	 * @return java.lang.reflect.Type
 	 * @author lingting 2021-03-02 21:41
 	 */
 	protected Type getObjType() {
-		Type superClass = getClass().getGenericSuperclass();
-		superClass = ((Class<?>) superClass).getGenericSuperclass();
-		return ((ParameterizedType) superClass).getActualTypeArguments()[0];
+		return ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	/**
