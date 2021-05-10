@@ -15,26 +15,26 @@ import org.springframework.util.Assert;
 public interface FileStorageClient {
 
 	/**
-	 * 文件上传, 本方法会读一遍流, 计算流大小, 推荐使用 upload(stream, filePath, size) 方法
-	 * @param filePath 存储对象名称
+	 * 文件上传, 本方法会读一遍流, 计算流大小, 推荐使用 upload(stream, absolutePath, size) 方法
+	 * @param absolutePath 文件相对 getRoot() 的路径
 	 * @param stream 文件输入流
-	 * @return 文件相对路径
+	 * @return 文件绝对路径
 	 * @throws IOException 流操作时异常
 	 */
-	default String upload(InputStream stream, String filePath) throws IOException {
+	default String upload(InputStream stream, String absolutePath) throws IOException {
 		final StreamTemp temp = getSize(stream);
-		return upload(temp.getStream(), filePath, temp.getSize());
+		return upload(temp.getStream(), absolutePath, temp.getSize());
 	}
 
 	/**
 	 * 上传文件
 	 * @param stream 文件流
-	 * @param filePath 文件路径
+	 * @param absolutePath 文件相对 getRoot() 的路径
 	 * @param size 输入流大小(仅在使用亚马逊云时有效)
-	 * @return 文件路径
+	 * @return 文件绝对路径
 	 * @author lingting 2021-04-16 15:20
 	 */
-	String upload(InputStream stream, String filePath, Long size);
+	String upload(InputStream stream, String absolutePath, Long size);
 
 	/**
 	 * 删除路径
@@ -45,18 +45,18 @@ public interface FileStorageClient {
 
 	/**
 	 * 复制文件
-	 * @param source 原对象名
-	 * @param target 目标对象名
+	 * @param absoluteSource 相对 getRoot() 的 源文件 路径
+	 * @param absoluteTarget 相对 getRoot() 的 目标文件 路径
 	 */
-	void copy(String source, String target);
+	void copy(String absoluteSource, String absoluteTarget);
 
 	/**
 	 * 获取下载路径
-	 * @param filePath 文件路径
+	 * @param absolutePath 文件相对 getRoot() 的路径
 	 * @return java.lang.String
 	 * @author lingting 2021-04-16 15:33
 	 */
-	String getDownloadUrl(String filePath);
+	String getDownloadUrl(String absolutePath);
 
 	/**
 	 * 获取文件操作根路径
@@ -78,23 +78,18 @@ public interface FileStorageClient {
 
 	/**
 	 * 获取真实文件路径
-	 * @param path 相对 root 的文件路径
-	 * @return java.lang.String
+	 * @param absolutePath 文件相对 getRoot() 的路径
+	 * @return 文件绝对路径
 	 * @author lingting 2021-05-10 15:58
 	 */
-	default String getPath(String path) {
-		Assert.hasText(path, "path must not be empty");
+	default String getPath(String absolutePath) {
+		Assert.hasText(absolutePath, "path must not be empty");
 
-		// 路径以 root 开头, 表示已经是真实路径了
-		if (path.startsWith(getRoot())) {
-			return path;
+		if (absolutePath.startsWith(PATH_FLAG)) {
+			absolutePath = absolutePath.substring(1);
 		}
 
-		if (path.startsWith(PATH_FLAG)) {
-			path = path.substring(1);
-		}
-
-		return getRoot() + path;
+		return getRoot() + absolutePath;
 	}
 
 }

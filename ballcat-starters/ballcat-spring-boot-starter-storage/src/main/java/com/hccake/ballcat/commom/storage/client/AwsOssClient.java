@@ -48,8 +48,8 @@ public class AwsOssClient implements FileStorageClient, DisposableBean {
 	}
 
 	@Override
-	public String upload(InputStream stream, String filePath, Long size) {
-		final String path = getPath(filePath);
+	public String upload(InputStream stream, String absolutePath, Long size) {
+		final String path = getPath(absolutePath);
 		client.putObject(builder -> builder.bucket(bucketName).key(path), RequestBody.fromInputStream(stream, size));
 		return path;
 	}
@@ -61,15 +61,15 @@ public class AwsOssClient implements FileStorageClient, DisposableBean {
 
 	@SneakyThrows
 	@Override
-	public void copy(String source, String target) {
-		String s = getCopyUrl(source);
+	public void copy(String absoluteSource, String absoluteTarget) {
+		String s = getCopyUrl(absoluteSource);
 		client.copyObject(
-				builder -> builder.copySource(s).destinationBucket(bucketName).destinationKey(getPath(target)));
+				builder -> builder.copySource(s).destinationBucket(bucketName).destinationKey(getPath(absoluteTarget)));
 	}
 
 	@Override
-	public String getDownloadUrl(String filePath) {
-		return String.format("https://%s.%s/%s", bucketName, endpoint, getPath(filePath));
+	public String getDownloadUrl(String absolutePath) {
+		return String.format("https://%s.%s/%s", bucketName, endpoint, getPath(absolutePath));
 	}
 
 	protected String getCopyUrl(String path) throws UnsupportedEncodingException {

@@ -1,7 +1,5 @@
 package com.hccake.ballcat.commom.storage;
 
-import com.aliyun.oss.OSS;
-import com.hccake.ballcat.commom.storage.client.AliyunOssClient;
 import com.hccake.ballcat.commom.storage.client.AwsOssClient;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -20,14 +18,6 @@ import software.amazon.awssdk.services.s3.S3Client;
 public class FileStorageAutoConfiguration {
 
 	private final FileStorageProperties properties;
-
-	@Bean
-	@ConditionalOnMissingBean(FileStorageClient.class)
-	@ConditionalOnClass(OSS.class)
-	public FileStorageClient aliyunOssClient() {
-		return new AliyunOssClient(properties.getEndpoint(), properties.getAccessKey(), properties.getAccessSecret(),
-				properties.getBucketName(), properties.getRootPath());
-	}
 
 	@Bean
 	@ConditionalOnClass(S3Client.class)
