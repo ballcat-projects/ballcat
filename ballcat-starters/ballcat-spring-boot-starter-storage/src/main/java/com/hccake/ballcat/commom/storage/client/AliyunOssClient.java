@@ -1,20 +1,21 @@
-package com.hccake.ballcat.commom.storage.aliyun;
+package com.hccake.ballcat.commom.storage.client;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.hccake.ballcat.commom.storage.FileStorageClient;
+import java.io.InputStream;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
-
-import java.io.InputStream;
 
 /**
  * @author Hccake
  * @version 1.0
  * @date 2019/7/16 15:45
  */
+@Getter
 @RequiredArgsConstructor
 public class AliyunOssClient implements FileStorageClient, InitializingBean, DisposableBean {
 
@@ -26,39 +27,33 @@ public class AliyunOssClient implements FileStorageClient, InitializingBean, Dis
 
 	private final String bucketName;
 
+	private final String root;
+
 	private OSS client;
 
-	/**
-	 * 文件上传
-	 * @param objectName 存储对象名称
-	 * @param inputStream 文件输入流
-	 * @return
-	 */
 	@Override
-	public String putObject(String objectName, InputStream inputStream) {
-		client.putObject(bucketName, objectName, inputStream);
-		return objectName;
+	public String upload(InputStream stream, String filePath, Long size) {
+		final String path = getPath(filePath);
+		client.putObject(bucketName, path, stream);
+		return path;
 	}
 
-	/**
-	 * 文件删除
-	 * @param objectName 存储对象名称
-	 */
 	@Override
-	public void deleteObject(String objectName) {
-		if (client.doesObjectExist(bucketName, objectName)) {
-			client.deleteObject(bucketName, objectName);
+	public void delete(String path) {
+		path = getPath(path);
+		if (client.doesObjectExist(bucketName, path)) {
+			client.deleteObject(bucketName, path);
 		}
 	}
 
-	/**
-	 * 复制文件
-	 * @param sourceObjectName 原对象名
-	 * @param targetObjectName 目标对象名
-	 */
 	@Override
-	public void copyObject(String sourceObjectName, String targetObjectName) {
-		client.copyObject(bucketName, sourceObjectName, bucketName, targetObjectName);
+	public void copy(String source, String target) {
+		client.copyObject(bucketName, getPath(source), bucketName, getPath(target));
+	}
+
+	@Override
+	public String getDownloadUrl(String filePath) {
+		return String.format("https://%s.%s/%s", bucketName, endpoint, getPath(filePath));
 	}
 
 	@Override

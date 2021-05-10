@@ -17,15 +17,17 @@ public interface FileService {
 	 * @param file 文件对象
 	 * @param objectName 文件对象名
 	 * @throws IOException IO异常
+	 * @return 文件相对路径
 	 */
-	void uploadFile(MultipartFile file, String objectName) throws IOException;
+	String uploadFile(MultipartFile file, String objectName) throws IOException;
 
 	/**
 	 * 文件上传
 	 * @param inputStream 文件流
 	 * @param objectName 文件对象名
+	 * @return 文件相对路径
 	 *
 	 */
-	void uploadFile(InputStream inputStream, String objectName);
+	String uploadFile(InputStream inputStream, String objectName);
 
 }

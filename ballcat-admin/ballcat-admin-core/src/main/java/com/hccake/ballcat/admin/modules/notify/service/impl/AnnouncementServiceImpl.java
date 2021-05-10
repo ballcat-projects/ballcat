@@ -5,11 +5,11 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
+import com.hccake.ballcat.admin.modules.notify.converter.AnnouncementConverter;
+import com.hccake.ballcat.admin.modules.notify.converter.NotifyInfoConverter;
 import com.hccake.ballcat.admin.modules.notify.event.AnnouncementCloseEvent;
 import com.hccake.ballcat.admin.modules.notify.event.NotifyPublishEvent;
 import com.hccake.ballcat.admin.modules.notify.mapper.AnnouncementMapper;
-import com.hccake.ballcat.admin.modules.notify.converter.AnnouncementConverter;
-import com.hccake.ballcat.admin.modules.notify.converter.NotifyInfoConverter;
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.admin.modules.notify.model.dto.AnnouncementDTO;
 import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
@@ -18,25 +18,24 @@ import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementPageVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
 import com.hccake.ballcat.admin.modules.system.service.FileService;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
+import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
-import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 公告信息
@@ -172,7 +171,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 					+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT
 					+ FileUtil.extName(file.getOriginalFilename());
 			try {
-				fileService.uploadFile(file, objectName);
+				objectName = fileService.uploadFile(file, objectName);
 				objectNames.add(objectName);
 			}
 			catch (IOException e) {

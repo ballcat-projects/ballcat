@@ -2,12 +2,12 @@ package com.hccake.ballcat.admin.modules.system.service.impl;
 
 import com.hccake.ballcat.admin.modules.system.service.FileService;
 import com.hccake.ballcat.commom.storage.FileStorageClient;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.io.InputStream;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author Hccake
@@ -18,7 +18,7 @@ import java.io.InputStream;
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
 
-	private final FileStorageClient fileStorageClient;
+	private final FileStorageClient client;
 
 	/**
 	 * 文件上传
@@ -27,8 +27,8 @@ public class FileServiceImpl implements FileService {
 	 *
 	 */
 	@Override
-	public void uploadFile(MultipartFile file, String objectName) throws IOException {
-		fileStorageClient.putObject(objectName, file.getInputStream());
+	public String uploadFile(MultipartFile file, String objectName) throws IOException {
+		return client.upload(file.getInputStream(), objectName, file.getSize());
 	}
 
 	/**
@@ -37,9 +37,10 @@ public class FileServiceImpl implements FileService {
 	 * @param objectName 文件对象名
 	 *
 	 */
+	@SneakyThrows
 	@Override
-	public void uploadFile(InputStream inputStream, String objectName) {
-		fileStorageClient.putObject(objectName, inputStream);
+	public String uploadFile(InputStream inputStream, String objectName) {
+		return client.upload(inputStream, objectName);
 	}
 
 }
