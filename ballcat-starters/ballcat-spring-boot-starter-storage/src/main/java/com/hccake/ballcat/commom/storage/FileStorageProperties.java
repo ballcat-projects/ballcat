@@ -1,7 +1,10 @@
 package com.hccake.ballcat.commom.storage;
 
+import static com.hccake.ballcat.commom.storage.constant.StorageConstants.PATH_FLAG;
+
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Hccake
@@ -9,13 +12,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date 2019/7/16 15:34
  */
 @Data
-@ConfigurationProperties(prefix = "file.storage")
+@ConfigurationProperties(prefix = "ballcat.file.storage")
 public class FileStorageProperties {
-
-	/**
-	 * 使用的文件存储服务类型
-	 */
-	private FileStorageTypeEnum type;
 
 	/**
 	 * endpoint 服务地址 eg. http://oss-cn-qingdao.aliyuncs.com
@@ -36,5 +34,28 @@ public class FileStorageProperties {
 	 * bucketName
 	 */
 	private String bucketName;
+
+	/**
+	 * 所有文件相关操作都在此路径下进行操作
+	 */
+	private String rootPath = PATH_FLAG;
+
+	public String getRootPath() {
+		if (!StringUtils.hasText(rootPath)) {
+			rootPath = PATH_FLAG;
+		}
+
+		// 保证 root path 以 / 结尾
+		if (!rootPath.endsWith(PATH_FLAG)) {
+			rootPath = rootPath + PATH_FLAG;
+		}
+
+		// 保证 root path 以 / 开头
+		if (!rootPath.startsWith(PATH_FLAG)) {
+			rootPath = PATH_FLAG + rootPath;
+		}
+
+		return rootPath;
+	}
 
 }

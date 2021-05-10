@@ -61,6 +61,7 @@
 		<anji-captcha.version>1.2.8</anji-captcha.version>
 		<virtual-currency.version>0.4.1</virtual-currency.version>
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
+		<software.amazon.awssdk.version>2.16.59</software.amazon.awssdk.version>
 	</properties>
 
 	<dependencyManagement>
@@ -69,6 +70,14 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- 亚马逊云 Java sdk -->
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>bom</artifactId>
+				<version>${software.amazon.awssdk.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
