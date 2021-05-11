@@ -49,7 +49,7 @@
 |   |-- ballcat-spring-boot-starter-pay	       -- 虚拟货币支付
 |   |-- ballcat-spring-boot-starter-redis      -- 提供注解使用redis, 分布式锁，防击穿，全局key前缀等功能
 |   |-- ballcat-spring-boot-starter-sms        -- 短信接入 starter
-|   |-- ballcat-spring-boot-starter-storage    -- 文件存储（暂时只集成了aliyunOss）
+|   |-- ballcat-spring-boot-starter-oss        -- 对象存储（目前仅支持 S3）
 |   |-- ballcat-spring-boot-starter-swagger    -- swagger文档配置（提供无注册中心的文档聚合方案）
 |   `-- ballcat-spring-boot-starter-websocket  -- websocket 集成
 `-- doc        -- 初始化数据库脚本

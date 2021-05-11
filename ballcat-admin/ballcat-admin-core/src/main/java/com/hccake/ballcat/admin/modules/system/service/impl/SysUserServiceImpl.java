@@ -18,11 +18,11 @@ import com.hccake.ballcat.admin.modules.system.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.system.model.qo.SysUserQO;
 import com.hccake.ballcat.admin.modules.system.model.vo.SysUserPageVO;
-import com.hccake.ballcat.admin.modules.system.service.FileService;
 import com.hccake.ballcat.admin.modules.system.service.SysMenuService;
 import com.hccake.ballcat.admin.modules.system.service.SysRoleService;
 import com.hccake.ballcat.admin.modules.system.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.system.service.SysUserService;
+import com.hccake.ballcat.commom.oss.OssClient;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
@@ -55,7 +55,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
-	private final FileService fileService;
+	private final OssClient ossClient;
 
 	private final SysMenuService sysMenuService;
 
@@ -230,7 +230,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		// 获取系统用户头像的文件名
 		String objectName = "sysuser/" + userId + "/avatar/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
 				+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
-		objectName = fileService.uploadFile(file, objectName);
+		objectName = ossClient.upload(file.getInputStream(), objectName, file.getSize());
 
 		SysUser sysUser = new SysUser();
 		sysUser.setUserId(userId);

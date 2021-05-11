@@ -1,6 +1,6 @@
-package com.hccake.ballcat.commom.storage;
+package com.hccake.ballcat.commom.oss;
 
-import static com.hccake.ballcat.commom.storage.constant.StorageConstants.PATH_FLAG;
+import static com.hccake.ballcat.commom.oss.OssConstants.PATH_FLAG;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
  */
 @Data
 @ConfigurationProperties(prefix = "ballcat.file.storage")
-public class FileStorageProperties {
+public class OssProperties {
 
 	/**
 	 * endpoint 服务地址 eg. http://oss-cn-qingdao.aliyuncs.com
