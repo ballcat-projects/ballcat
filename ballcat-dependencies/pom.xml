@@ -184,7 +184,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-storage</artifactId>
+				<artifactId>ballcat-spring-boot-starter-oss</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>

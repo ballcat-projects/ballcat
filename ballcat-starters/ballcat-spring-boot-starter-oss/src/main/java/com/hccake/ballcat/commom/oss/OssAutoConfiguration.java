@@ -1,6 +1,5 @@
-package com.hccake.ballcat.commom.storage;
+package com.hccake.ballcat.commom.oss;
 
-import com.hccake.ballcat.commom.storage.client.AwsOssClient;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -14,16 +13,16 @@ import software.amazon.awssdk.services.s3.S3Client;
  * @author Hccake
  */
 @AllArgsConstructor
-@EnableConfigurationProperties(FileStorageProperties.class)
-public class FileStorageAutoConfiguration {
+@EnableConfigurationProperties(OssProperties.class)
+public class OssAutoConfiguration {
 
-	private final FileStorageProperties properties;
+	private final OssProperties properties;
 
 	@Bean
 	@ConditionalOnClass(S3Client.class)
-	@ConditionalOnMissingBean(FileStorageClient.class)
-	public FileStorageClient awsOssClient() {
-		return new AwsOssClient(properties.getEndpoint(), properties.getAccessKey(), properties.getAccessSecret(),
+	@ConditionalOnMissingBean(OssClient.class)
+	public OssClient ossClient() {
+		return new OssClient(properties.getEndpoint(), properties.getAccessKey(), properties.getAccessSecret(),
 				properties.getBucketName(), properties.getRootPath());
 	}
 

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.commom.storage.domain;
+package com.hccake.ballcat.commom.oss.domain;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
