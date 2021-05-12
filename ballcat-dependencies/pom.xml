@@ -60,7 +60,7 @@
 		<anji-captcha.version>1.2.8</anji-captcha.version>
 		<virtual-currency.version>0.4.2</virtual-currency.version>
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-		<software.amazon.awssdk.version>2.16.59</software.amazon.awssdk.version>
+		<software.amazon.awssdk.version>2.16.61</software.amazon.awssdk.version>
 	</properties>
 
 	<dependencyManagement>
