@@ -1,91 +1,96 @@
 # BallCat
 
+BallCat 组织旨在为项目快速开发提供一系列的基础能力，方便用户根据项目需求快速进行功能拓展。
+
 ## 前言
 
-`BallCat` 致力于简化开发流程，开箱即用，只需专注于业务开发，避免重复劳作
+以前在使用其他后台管理脚手架进行开发时，经常会遇到因为项目业务原因需要进行二开的情况，在长期的开发后，一旦源项目进行迭代升级，很难进行同步更新。
 
-喜欢的朋友动动小手点个 star 哈，感谢~~
-另外有任何问题欢迎提 issues，或者邮件沟通，也接受通用的功能请求
+所以 BallCat 推荐开发项目时，以依赖的方式引入 BallCat 中提供的所有功能，这样后续跟随 BallCat 版本升级时只需要修改对应的依赖版本号即可完成同步。
+
+BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升级提供 SQL 改动文件。
+
+> 如果在使用中遇到了必须通过二开修改源码才能解决的问题或功能时，欢迎提 issues，如果功能具有通用性，我们会为 BallCat 添加此能力，也欢迎直接 PR 你的改动。
 
 
-## 简介
+## 相关仓库
 
-基于`SpringBoot` + `Ant Design Vue`的前后端分离应用。  
-目前支持代码生成，前后台用户分离，权限控制，定时任务，访问日志，操作日志，异常日志，统一异常处理，XSS过滤，SQL防注入等功能
+| 项目            | 简介                                 | github 地址                                         |
+| --------------- | ------------------------------------ | --------------------------------------------------- |
+| ballcat         | 核心项目组件                         | https://github.com/ballcat-projects/ballcat         |
+| ballcat-ui-vue  | 管理后台前端                         | https://github.com/ballcat-projects/ballcat-ui-vue  |
+| ballcat-codegen | 代码生成器                           | https://github.com/ballcat-projects/ballcat-codegen |
+| ballcat-samples | 使用示例                             | https://github.com/ballcat-projects/ballcat-samples |
 
-- 前端ui git地址： https://github.com/Hccake/ballcat-ui-vue
-- 预览地址： http://preview.ballcat.cn
 
-## 结构
 
-- 后端：
+## 地址链接
+
+**管理后台预览**：http://preview.ballcat.cn
+
+**代码生成器预览**：http://codegen.ballcat.cn/
+
+**文档地址**：http://www.ballcat.cn/ （目前文档只有少量内容，会陆续填坑）
+
+
+
+# ballcat
+
+本仓库存放了 BallCat 提供的所有的基础 Jar 包。
+
+如 `ballcat-admin-core` 依赖，用户引入此依赖并配合核心 sql，即可获得用户管理，OAuth2，权限控制，字典等等后台管理相关的基础功能。
+
+`ballcat-admin-websocket` 依赖，用户引入后，后台管理即可获得 websocket 能力，对公告、字典、弹出选择框的修改可以及时通知到前端
+
+`ballcat-spring-boot-starter-datascope` 依赖，用户引入后，根据自己的业务进行定制，即可获得数据权限控制的能力
+
+······ 等等
+
+
+## 项目结构
 
 ```
 .
 |-- ballcat-admin
-|   |-- ballcat-admin-core          -- 后台管理核心模块（权限控制，字典，Oauth2等）
-|   `-- ballcat-admin-websocket     -- 后台管理 websocket 支持插件（公告和字典等同步）
-|-- ballcat-codegen             -- 代码生成器
+|   |-- ballcat-admin-core         			 -- 后台管理核心模块（权限控制，字典，Oauth2等）
+|   |-- ballcat-admin-i18n         			 -- 国际化使用方案
+|   `-- ballcat-admin-websocket     		 -- 后台管理 websocket 支持插件（公告和字典等同步）
 |-- ballcat-common			   
-|   |-- ballcat-common-conf		        -- web公用配置
-|   |-- ballcat-common-core             -- 核心组件
-|   |-- ballcat-common-model            -- 公用的一些模型
-|   |-- ballcat-common-util             -- 公用的工具类
-|   `-- ballcat-common-desensitize		-- 脱敏工具类
-|-- ballcat-dependencies        -- ballcat项目本身各子模块的依赖管理，以及第三方模块的依赖管理
-|-- ballcat-samples				
-|   |-- ballcat-sample-admin-application  -- 集成admin的项目示例（swagger聚合者）
-|   |-- ballcat-sample-monitor			  -- SpringBootAdmin监控server端集成示例
-|   |-- ballcat-sample-pay			      -- 虚拟货币支付示例
-|   `-- ballcat-sample-swagger-provider	  -- 无注册中心的swagger-provider提供示例	
+|   |-- ballcat-common-conf		        	 -- web公用配置
+|   |-- ballcat-common-core            		 -- 核心组件
+|   |-- ballcat-common-model            	 -- 公用的一些模型
+|   |-- ballcat-common-util             	 -- 公用的工具类
+|   `-- ballcat-common-desensitize			 -- 脱敏工具类
+|-- ballcat-dependencies       -- ballcat项目本身各子模块的依赖管理，以及第三方模块的依赖管理
+|-- ballcat-extends					
+|   |-- ballcat-extends-dingtalk		       -- 钉钉的一些操作封装
+|   |-- ballcat-extends-i18n   				   -- 国际化的一些使用方案
+|   |-- ballcat-extends-kafka  				   -- kafka 的一些操作扩展
+|   |-- ballcat-extends-kafka-stream  	   	   -- kafka 流处理的一些操作扩展
+|   |-- ballcat-extends-mybatis-plus  	   	   -- 基于 mybatis-plus 相关的一些扩展
+|   |-- ballcat-extends-pay-ali  	   		   -- 针对支付宝支付的一些操作封装
+|   |-- ballcat-extends-pay-virtual  		   -- 针对虚拟货币支付的一些操作封装
+|   `-- ballcat-extends-pay-wx  			   -- 针对微信支付的一些操作封装
 |-- ballcat-starters
 |   |-- ballcat-spring-boot-starter-datascope  -- 数据权限控制
 |   |-- ballcat-spring-boot-starter-dingtalk   -- 钉钉集成工具
 |   |-- ballcat-spring-boot-starter-easyexcel  -- 通过注解快速导出excle（easyexcel）
+|   |-- ballcat-spring-boot-starter-i18n  	   -- 国际化方案
 |   |-- ballcat-spring-boot-starter-job        -- 定时任务集成（目前仅xxl-job）
 |   |-- ballcat-spring-boot-starter-kafka      -- 消息队列 kafka 集成
 |   |-- ballcat-spring-boot-starter-log		   -- 访问日志，操作日志，TraceId注入
 |   |-- ballcat-spring-boot-starter-mail	   -- 邮件发送
-|   |-- ballcat-spring-boot-starter-pay	       -- 虚拟货币支付
+|   |-- ballcat-spring-boot-starter-pay	       -- 支付相关
 |   |-- ballcat-spring-boot-starter-redis      -- 提供注解使用redis, 分布式锁，防击穿，全局key前缀等功能
 |   |-- ballcat-spring-boot-starter-sms        -- 短信接入 starter
-|   |-- ballcat-spring-boot-starter-oss        -- 对象存储（目前仅支持 S3）
+|   |-- ballcat-spring-boot-starter-oss        -- 对象存储（所有支持 AWS S3 协议的云存储，如阿里云，七牛云，腾讯云）
 |   |-- ballcat-spring-boot-starter-swagger    -- swagger文档配置（提供无注册中心的文档聚合方案）
-|   `-- ballcat-spring-boot-starter-websocket  -- websocket 集成
+|   |-- ballcat-spring-boot-starter-websocket  -- websocket 集成
+|   `-- ballcat-spring-boot-starter-xss  	   -- xss 防注入相关
 `-- doc        -- 初始化数据库脚本
-
 ```
 
-
-
-- 前端：
-
-```
-.
-|-- public   -- 依赖的静态资源存放
-`-- src           
-    |-- api      -- 和服务端交互的请求方法
-    |-- assets   --  本地静态资源
-    |-- ballcat   --  项目定制css和常量
-    |-- components  -- 通用组件
-    |-- config     -- 框架配置
-    |-- core       -- 项目引导, 全局配置初始化，依赖包引入等
-    |-- layouts    -- 布局
-    |-- locales    -- 国际化
-    |-- mixins     -- 增删改查页面的抽取模板
-    |-- router     -- 路由相关
-    |-- store      -- 数据存储相关
-    |-- utils      -- 工具类
-    |-- views      -- 页面
-    |-- App.Vue    -- Vue 模板入口
-    |-- main.js    -- Vue 入口js
-    `-- permission.js   -- 路由守卫 权限控制
-    
-```
-
-## 依赖
-
-- 后端
+## 核心依赖
 
 | 依赖                   | 版本          | 官网                                             |
 | ---------------------- | ------------- | ------------------------------------------------ |
@@ -96,134 +101,6 @@
 | Hutool                 | 5.5.8         | https://www.hutool.cn/                           |
 
 
-- 前端
+## 快速搭建后台管理
 
-| 依赖               | 版本   | 官网                   |
-| ------------------ | ------ | ---------------------- |
-| Vue                | 2.6.12 | https://cn.vuejs.org/  |
-| Ant Design Vue     | 1.7.2  | https://www.antdv.com  |
-| Ant Design Vue Pro | 2.0.2  | https://pro.loacg.com/ |
-
-
-# 快速开始
-
-开始之前，请先确保您已经配置好以下环境
-
-| 名称  | 版本    |      |
-| ----- | ------- | ---- |
-| JDK   | 1.8     |      |
-| MySQL | 5.7.8 + |      |
-| Redis | 3.2 +   |      |
-| node  | 10.0 +  |      |
-| npm   | 6.0 +   |      |
-
-**另：请在您的开发工具中安装好 `Lombok` 插件** 
-
-## 代码下载
-
-- 后端：
-
-> git clone https://github.com/Hccake/ballcat.git
-
-
-- 前端：
-
-> git clone https://github.com/Hccake/ballcat-ui-vue.git
-
-
-## 数据库配置
-
-版本： mysql5.7.8+  
-默认字符集：utf8mb4  
-默认排序规则：utf8mb4_general_ci  
-
-- 按下面顺序依次执行/docs目录下的数据库脚本
-
-```sql
-# 建库语句
-scheme.sql   
-# 核心库
-ballcat.sql  
-```
-
-**默认 oauth_client_details 脚本中有一个 test client，该 client 只能用于开发及测试环境，其登陆时会跳过图形验证码以及密码解密过程，生产环境请删除该client**
-
-## 配置本地hosts
-
-建议使用 switchHost 软件管理hosts配置!  
-
-也可直接修改本地host文件:  
-windows系统下host文件位于
-`C:\Windows\System32\drivers\etc\hosts`
-
-
-**新增如下host:**
-
-```
-127.0.0.1 ballcat-mysql
-127.0.0.1 ballcat-redis
-127.0.0.1 ballcat-job
-127.0.0.1 ballcat-admin
-```
-
-其中`127.0.0.1`按需替换成开发环境ip
-
-## 项目配置修改
-
-- `ballcat-sample-admin-application`项目下的`src\main\resources\application-dev.yml`
-
-  修改数据库账号密码，以及redis密码，若未配置redis密码，则直接留空
-
-  ```yaml
-  spring:
-    datasource:
-      url: jdbc:mysql://ballcat-mysql:3306/ballcat?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-      username: root
-      password: '123456'
-    redis:
-      host: ballcat-redis
-      password: ''
-      port: 6379
-  ```
-
-**请尽量使用host域名形式来配置链接地址，而非直接使用ip**
-
-## 启动项目
-
-- 后端
-
-直接执行`ballcat-sample-admin-application`项目下的`AdminApplication`类的main函数即可。  
-更多启动项目的方法，请自行查阅spring-boot的多种启动方式
-
-- 前端
-
-打开命令行进入项目根目录
-或 在ide提供的命令行工具中执行如下语句
-
-```
-# 安装依赖
-yarn install
-# 启动服务
-yarn run serve
-```
-
-or
-
-```
-# 安装依赖
-npm install
-# 启动服务
-npm run serve
-```
-
-## 访问项目
-
-默认前端项目路径：[http://localhost:8000/](http://localhost:8000/)
-
-默认用户名密码：admin/a123456
-
-
-# 感谢
-
-BallCat中不少地方都学习了pigx的设计思想，在此感谢 lengleng 大大
-[pigx微服务开发平台](https://www.pig4cloud.com/)
+参看官方文档 http://www.ballcat.cn/guide/quick-start.html
