@@ -1,24 +1,11 @@
 package com.hccake.ballcat.commom.oss;
 
-import com.hccake.ballcat.commom.oss.domain.StreamTemp;
-import lombok.Getter;
-import lombok.SneakyThrows;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.util.Assert;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.core.interceptor.Context;
-import software.amazon.awssdk.core.interceptor.ExecutionAttributes;
-import software.amazon.awssdk.core.interceptor.ExecutionInterceptor;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.http.SdkHttpRequest;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.S3ClientBuilder;
-import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
-import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import static com.hccake.ballcat.commom.oss.OssConstants.AWS_INTERNATIONAL;
+import static com.hccake.ballcat.commom.oss.OssConstants.DOT;
+import static com.hccake.ballcat.commom.oss.OssConstants.SLASH;
 
+import com.hccake.ballcat.commom.oss.domain.StreamTemp;
+import com.hccake.ballcat.commom.oss.interceptor.BallcatExecutionInterceptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -26,8 +13,19 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
-import static com.hccake.ballcat.commom.oss.OssConstants.*;
+import lombok.Getter;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.util.Assert;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3ClientBuilder;
+import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 /**
  * @author lingting 2021/5/11 9:59
@@ -114,23 +112,23 @@ public class OssClient implements DisposableBean {
 	}
 
 	/**
-	 * 文件上传, 本方法会读一遍流, 计算流大小, 推荐使用 upload(stream, absolutePath, size) 方法
-	 * @param absolutePath 文件相对 getRoot() 的路径
+	 * 文件上传, 本方法会读一遍流, 计算流大小, 推荐使用 upload(stream, relativePath, size) 方法
+	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @param stream 文件输入流
 	 * @return 文件绝对路径
 	 * @throws IOException 流操作时异常
 	 */
-	public String upload(InputStream stream, String absolutePath) throws IOException {
+	public String upload(InputStream stream, String relativePath) throws IOException {
 		final StreamTemp temp = getSize(stream);
-		return upload(temp.getStream(), absolutePath, temp.getSize());
+		return upload(temp.getStream(), relativePath, temp.getSize());
 	}
 
-	public String upload(InputStream stream, String absolutePath, Long size) {
-		return upload(stream, absolutePath, size, acl);
+	public String upload(InputStream stream, String relativePath, Long size) {
+		return upload(stream, relativePath, size, acl);
 	}
 
-	public String upload(InputStream stream, String absolutePath, Long size, ObjectCannedACL acl) {
-		final String path = getPath(absolutePath);
+	public String upload(InputStream stream, String relativePath, Long size, ObjectCannedACL acl) {
+		final String path = getPath(relativePath);
 		final PutObjectRequest.Builder builder = PutObjectRequest.builder().bucket(bucket).key(path);
 
 		if (acl != null) {
@@ -154,8 +152,20 @@ public class OssClient implements DisposableBean {
 		client.copyObject(request);
 	}
 
-	public String getDownloadUrl(String absolutePath) {
-		return String.format("%s/%s", downloadPrefix, getPath(absolutePath));
+	/**
+	 * 获取 相对路径 的下载url
+	 * @author lingting 2021-05-12 18:50
+	 */
+	public String getDownloadUrl(String relativePath) {
+		return getDownloadUrlByAbsolute(getPath(relativePath));
+	}
+
+	/**
+	 * 获取 绝对路径 的下载url
+	 * @author lingting 2021-05-12 18:50
+	 */
+	public String getDownloadUrlByAbsolute(String path) {
+		return String.format("%s/%s", downloadPrefix, path);
 	}
 
 	protected String getCopyUrl(String path) throws UnsupportedEncodingException {
@@ -180,18 +190,18 @@ public class OssClient implements DisposableBean {
 
 	/**
 	 * 获取真实文件路径
-	 * @param absolutePath 文件相对 getRoot() 的路径
+	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return 文件绝对路径
 	 * @author lingting 2021-05-10 15:58
 	 */
-	public String getPath(String absolutePath) {
-		Assert.hasText(absolutePath, "path must not be empty");
+	public String getPath(String relativePath) {
+		Assert.hasText(relativePath, "path must not be empty");
 
-		if (absolutePath.startsWith(SLASH)) {
-			absolutePath = absolutePath.substring(1);
+		if (relativePath.startsWith(SLASH)) {
+			relativePath = relativePath.substring(1);
 		}
 
-		return getRoot() + absolutePath;
+		return getRoot() + relativePath;
 	}
 
 }
