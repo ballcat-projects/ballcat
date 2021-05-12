@@ -1,11 +1,11 @@
 package com.hccake.ballcat.commom.oss;
 
-import static com.hccake.ballcat.commom.oss.OssConstants.PATH_FLAG;
-
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.StringUtils;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
+
+import static com.hccake.ballcat.commom.oss.OssConstants.SLASH;
 
 /**
  * @author Hccake
@@ -13,7 +13,7 @@ import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
  * @date 2019/7/16 15:34
  */
 @Data
-@ConfigurationProperties(prefix = "ballcat.file.storage")
+@ConfigurationProperties(prefix = "ballcat.oss")
 public class OssProperties {
 
 	/**
@@ -39,7 +39,7 @@ public class OssProperties {
 	/**
 	 * 所有文件相关操作都在此路径下进行操作
 	 */
-	private String rootPath = PATH_FLAG;
+	private String rootPath = SLASH;
 
 	/**
 	 * 上传时为文件配置acl, 为null 不配置
@@ -48,16 +48,16 @@ public class OssProperties {
 
 	public String getRootPath() {
 		if (!StringUtils.hasText(rootPath)) {
-			rootPath = PATH_FLAG;
+			rootPath = SLASH;
 		}
 
 		// 保证 root path 以 / 结尾
-		if (!rootPath.endsWith(PATH_FLAG)) {
-			rootPath = rootPath + PATH_FLAG;
+		if (!rootPath.endsWith(SLASH)) {
+			rootPath = rootPath + SLASH;
 		}
 
 		// 保证 root path 不以 / 开头
-		if (rootPath.startsWith(PATH_FLAG)) {
+		if (rootPath.startsWith(SLASH)) {
 			rootPath = rootPath.substring(1);
 		}
 

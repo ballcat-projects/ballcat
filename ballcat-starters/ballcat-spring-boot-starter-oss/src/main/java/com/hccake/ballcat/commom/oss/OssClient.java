@@ -1,17 +1,6 @@
 package com.hccake.ballcat.commom.oss;
 
-import static com.hccake.ballcat.commom.oss.OssConstants.AWS_INTERNATIONAL;
-import static com.hccake.ballcat.commom.oss.OssConstants.DOT;
-import static com.hccake.ballcat.commom.oss.OssConstants.PATH_FLAG;
-
 import com.hccake.ballcat.commom.oss.domain.StreamTemp;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.DisposableBean;
@@ -29,6 +18,16 @@ import software.amazon.awssdk.services.s3.S3ClientBuilder;
 import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+import static com.hccake.ballcat.commom.oss.OssConstants.*;
 
 /**
  * @author lingting 2021/5/11 9:59
@@ -66,7 +65,7 @@ public class OssClient implements DisposableBean {
 		region(endpoint, bucket, builder);
 
 		// 不以 / 结尾
-		if (downloadPrefix.endsWith(PATH_FLAG)) {
+		if (downloadPrefix.endsWith(SLASH)) {
 			downloadPrefix = downloadPrefix.substring(0, downloadPrefix.length() - 1);
 		}
 
@@ -111,8 +110,8 @@ public class OssClient implements DisposableBean {
 				}
 
 				// host 修改后, 需要移除 path 前的 bucket 声明
-				if (request.encodedPath().startsWith(PATH_FLAG + bucket)) {
-					rb.encodedPath(request.encodedPath().substring((PATH_FLAG + bucket).length()));
+				if (request.encodedPath().startsWith(SLASH + bucket)) {
+					rb.encodedPath(request.encodedPath().substring((SLASH + bucket).length()));
 				}
 				else {
 					rb.encodedPath(request.encodedPath());
@@ -230,7 +229,7 @@ public class OssClient implements DisposableBean {
 	public String getPath(String absolutePath) {
 		Assert.hasText(absolutePath, "path must not be empty");
 
-		if (absolutePath.startsWith(PATH_FLAG)) {
+		if (absolutePath.startsWith(SLASH)) {
 			absolutePath = absolutePath.substring(1);
 		}
 
