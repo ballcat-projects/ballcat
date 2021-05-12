@@ -15,6 +15,17 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @param origin 原文
 	 * @param leftPlainTextLen 处理完后左边的明文数
 	 * @param rightPlainTextLen 处理完后右边的明文数
+	 * @return 脱敏后的字符串
+	 */
+	public String handle(String origin, int leftPlainTextLen, int rightPlainTextLen) {
+		return this.handle(origin, leftPlainTextLen, rightPlainTextLen, "*");
+	}
+
+	/**
+	 * 滑动脱敏
+	 * @param origin 原文
+	 * @param leftPlainTextLen 处理完后左边的明文数
+	 * @param rightPlainTextLen 处理完后右边的明文数
 	 * @param maskString 原文窗口内每个字符被替换后的字符串
 	 * @return 脱敏后的字符串
 	 */

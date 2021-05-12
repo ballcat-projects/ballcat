@@ -41,10 +41,10 @@ class CustomDesensitisedTest {
 				.setPassword("admina123456").setPhoneNumber("15800000000").setTestField("这是测试属性")
 				.setCustomDesensitize("自定义属性");
 		String value = objectMapper.writeValueAsString(user);
+		log.info("脱敏后的数据：{}", value);
 		Assert.isTrue(
 				"{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"customer rule自定义属性\"}"
 						.equals(value));
-		log.info("脱敏后的数据：{}", value);
 	}
 
 }

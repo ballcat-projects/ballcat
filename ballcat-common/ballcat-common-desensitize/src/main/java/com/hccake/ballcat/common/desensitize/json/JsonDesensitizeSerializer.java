@@ -20,12 +20,12 @@ public class JsonDesensitizeSerializer<T> extends JsonSerializer<T> {
 	/**
 	 * json 脱敏处理注解
 	 */
-	private Annotation jsonDesensitizeAnnotation;
+	private final Annotation jsonDesensitizeAnnotation;
 
 	/**
 	 * 脱敏注解条件工具类
 	 */
-	private DesensitizeStrategy desensitizeStrategy;
+	private final DesensitizeStrategy desensitizeStrategy;
 
 	public JsonDesensitizeSerializer(Annotation jsonDesensitizeAnnotation, DesensitizeStrategy desensitizeStrategy) {
 		this.jsonDesensitizeAnnotation = jsonDesensitizeAnnotation;

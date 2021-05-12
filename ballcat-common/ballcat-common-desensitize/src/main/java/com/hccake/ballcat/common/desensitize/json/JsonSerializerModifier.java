@@ -41,7 +41,7 @@ public class JsonSerializerModifier extends BeanSerializerModifier {
 
 	/**
 	 * 得到脱敏注解
-	 * @param beanProperty
+	 * @param beanProperty BeanPropertyWriter
 	 * @return 返回第一个获取的脱敏注解
 	 */
 	private Annotation getDesensitizeAnnotation(BeanPropertyWriter beanProperty) {
