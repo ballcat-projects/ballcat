@@ -35,10 +35,4 @@ public class UserInfoDTO implements Serializable {
 	@ApiModelProperty(value = "角色标识集合")
 	private List<String> roles;
 
-	/**
-	 * 角色ID集合
-	 */
-	@ApiModelProperty(value = "角色Id集合")
-	private List<Integer> roleIds;
-
 }

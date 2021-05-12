@@ -28,22 +28,18 @@ import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.ballcat.common.util.PasswordUtils;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 系统用户表
@@ -97,26 +93,22 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	public UserInfoDTO findUserInfo(SysUser sysUser) {
 		UserInfoDTO userInfoDTO = new UserInfoDTO();
 		userInfoDTO.setSysUser(sysUser);
-		// 设置角色列表 （ID）
-		List<SysRole> roleList;
 
+		// 超级管理员拥有所有角色
+		List<SysRole> roleList;
 		if (adminUserChecker.isAdminUser(sysUser)) {
-			// 超级管理员拥有所有角色
 			roleList = sysRoleService.list();
 		}
 		else {
 			roleList = sysUserRoleService.listRoles(sysUser.getUserId());
 		}
 
-		List<Integer> roleIds = new ArrayList<>();
+		// 设置角色标识
 		List<String> roles = new ArrayList<>();
 		for (SysRole role : roleList) {
-			roleIds.add(role.getId());
 			roles.add(role.getCode());
 		}
-
 		userInfoDTO.setRoles(roles);
-		userInfoDTO.setRoleIds(roleIds);
 
 		// 设置权限列表（permission）
 		Set<String> permissions = new HashSet<>();
@@ -126,6 +118,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 			permissions.addAll(permissionList);
 		}
 		userInfoDTO.setPermissions(new ArrayList<>(permissions));
+
 		return userInfoDTO;
 	}
 
