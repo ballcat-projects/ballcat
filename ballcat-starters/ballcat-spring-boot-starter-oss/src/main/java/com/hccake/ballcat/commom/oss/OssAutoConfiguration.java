@@ -23,7 +23,7 @@ public class OssAutoConfiguration {
 	@ConditionalOnMissingBean(OssClient.class)
 	public OssClient ossClient() {
 		return new OssClient(properties.getEndpoint(), properties.getAccessKey(), properties.getAccessSecret(),
-				properties.getBucketName(), properties.getRootPath());
+				properties.getBucket(), properties.getRootPath(), properties.getAcl());
 	}
 
 }

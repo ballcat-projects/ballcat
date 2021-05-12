@@ -5,6 +5,7 @@ import static com.hccake.ballcat.commom.oss.OssConstants.PATH_FLAG;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.StringUtils;
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 
 /**
  * @author Hccake
@@ -33,12 +34,17 @@ public class OssProperties {
 	/**
 	 * bucketName
 	 */
-	private String bucketName;
+	private String bucket;
 
 	/**
 	 * 所有文件相关操作都在此路径下进行操作
 	 */
 	private String rootPath = PATH_FLAG;
+
+	/**
+	 * 上传时为文件配置acl, 为null 不配置
+	 */
+	private ObjectCannedACL acl;
 
 	public String getRootPath() {
 		if (!StringUtils.hasText(rootPath)) {
@@ -50,9 +56,9 @@ public class OssProperties {
 			rootPath = rootPath + PATH_FLAG;
 		}
 
-		// 保证 root path 以 / 开头
-		if (!rootPath.startsWith(PATH_FLAG)) {
-			rootPath = PATH_FLAG + rootPath;
+		// 保证 root path 不以 / 开头
+		if (rootPath.startsWith(PATH_FLAG)) {
+			rootPath = rootPath.substring(1);
 		}
 
 		return rootPath;
