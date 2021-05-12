@@ -70,56 +70,14 @@ public class OssClient implements DisposableBean {
 		}
 
 		// 配置
-		configuration(bucket, builder);
+		builder.overrideConfiguration(cb -> cb.addExecutionInterceptor(
+				new BallcatExecutionInterceptor(endpoint, accessKey, accessSecret, bucket, root)));
 
 		client = builder
 				// key secret
 				.credentialsProvider(
 						StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, accessSecret)))
 				.build();
-	}
-
-	private void configuration(String bucket, S3ClientBuilder builder) {
-		builder.overrideConfiguration(cb -> cb.addExecutionInterceptor(new ExecutionInterceptor() {
-			@SneakyThrows
-			@Override
-			public SdkHttpRequest modifyHttpRequest(Context.ModifyHttpRequest context,
-					ExecutionAttributes executionAttributes) {
-
-				SdkHttpRequest request = context.httpRequest();
-				final SdkHttpRequest.Builder rb = SdkHttpRequest.builder()
-
-						.protocol(request.protocol())
-
-						.port(request.port())
-
-						.headers(request.headers())
-
-						.method(request.method())
-
-						.rawQueryParameters(request.rawQueryParameters());
-
-				// 根据文档
-				// https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/VirtualHosting.html
-				// 把 host 改为 bucket.region... 形式
-				if (!request.host().startsWith(bucket)) {
-					rb.host(bucket + DOT + request.host());
-				}
-				else {
-					rb.host(request.host());
-				}
-
-				// host 修改后, 需要移除 path 前的 bucket 声明
-				if (request.encodedPath().startsWith(SLASH + bucket)) {
-					rb.encodedPath(request.encodedPath().substring((SLASH + bucket).length()));
-				}
-				else {
-					rb.encodedPath(request.encodedPath());
-				}
-
-				return rb.build();
-			}
-		}));
 	}
 
 	private void region(String endpoint, String bucket, S3ClientBuilder builder) throws URISyntaxException {
