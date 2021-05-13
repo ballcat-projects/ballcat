@@ -6,7 +6,58 @@
 
 - 全局数据校验支持
 
-- OSS starter 修改使用 AWS S3
+
+
+## [0.1.0]
+
+### Warning
+
+- 此版本重构了前端路由部分，服务端权限表 sys_permission 改为 sys_menu，改动较大，迁移时建议先备份原始数据，执行增量 sql 后若出现问题，再进行比对处理
+
+- 调整了模块名，sys => system，后续包名也都尽量不再使用缩写，注意修改对应类的引用包路径
+
+- 项目部分配置添加 ballcat. 前缀
+
+  - 文件存储现在修改为了对象存储（OssProperties.java），配置前缀为 ballcat.oss
+
+  - 登录验证码开关和超级管理员指定的配置（UpmsProperties.java），前缀为 ballcat.upms
+
+  - 登录密码的 AES 加解密密钥，忽略鉴权的 url 列表，iframe 嵌入配置开关等安全相关的配置 （SecurityProperties.java），前缀为 ballcat.security
+
+
+
+### Added
+
+- feat: 新增了国际化插件 i18n extend 和 i18n starter
+- feat: BusinessException 的错误消息支持占位符了
+- feat: PageParam 分页查询参数对象，支持用户自定义其子类以便做额外的功能处理
+
+
+
+### Changed
+
+- refactor: SysPermission 移除，新增 SysMenu 类，相关关联类同步修改，减少了大部分的配置属性，转交由前端处理
+
+- refactor: Lov 实体修改为 SysLov
+- refactor: 移除 AdminRuleProperties.java，adminRule 相关配置与登陆验证码开关控制一并合入 UpmsProperties, 密码加密密钥配置并入 SecurityProperties，并将其配置前缀统一添加 ballcat.
+- refactor: SysUserDetailsServiceImpl.getUserDetailsByUserInfo 方法调整为 public 级别, 便于以api方式登录的请求注入用户信息
+- refactor: 重构了 excel 自定义头生成器的使用方式
+- refactor: 修改 AbstractRedisThread.getObjType 默认实现, 使其更符合大多数情况(获取失败的情况下子类重写此方法)
+- refactor: 文件存储 starter-storage 重构，修改为对象存储，使用 S3 协议和云端交互，所有支持 S3 协议的云存储都可以使用，如亚马逊、阿里云、腾讯云、七牛云
+- refactor: 移除 userInfoDTO 中的 roleIds 属性
+- pref: 根据 mapstruct 官方文档，调整了 lombok 和 mapstruct 的依赖引入方式
+- pref: 所有 @RequestParam 和 @PathVariable 注解，指定 value 值，避免因环境问题，编译未保存参数名称，导致的参数绑定异常
+- pref: 简化微信原生支付方法
+- fix: 禁止删除有子节点的组织，以及不能修改父组织为自己的子组织
+
+
+
+### Dependency
+
+- Bump  spring-boot-admin from 2.4.1 to 2.4.1
+- Bump virtual-currency  from 0.4.1  to  0.4.2
+
+
 
 ## [0.0.9]
 
