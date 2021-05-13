@@ -1,28 +1,19 @@
 package com.hccake.ballcat.commom.oss;
 
-import static com.hccake.ballcat.commom.oss.OssConstants.AWS_INTERNATIONAL;
-import static com.hccake.ballcat.commom.oss.OssConstants.DOT;
 import static com.hccake.ballcat.commom.oss.OssConstants.SLASH;
 
 import com.hccake.ballcat.commom.oss.domain.StreamTemp;
-import com.hccake.ballcat.commom.oss.interceptor.BallcatExecutionInterceptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.util.Assert;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.S3ClientBuilder;
 import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -35,11 +26,15 @@ public class OssClient implements DisposableBean {
 
 	private final String endpoint;
 
+	private final String region;
+
 	private final String accessKey;
 
 	private final String accessSecret;
 
 	private final String bucket;
+
+	private final String domain;
 
 	private final String root;
 
@@ -49,66 +44,31 @@ public class OssClient implements DisposableBean {
 
 	private String downloadPrefix;
 
-	@SneakyThrows
-	public OssClient(String endpoint, String accessKey, String accessSecret, String bucket, String root,
-			ObjectCannedACL acl) {
-		this.endpoint = endpoint;
-		this.accessKey = accessKey;
-		this.accessSecret = accessSecret;
-		this.bucket = bucket;
-		this.root = root;
-		this.acl = acl;
-		final S3ClientBuilder builder = S3Client.builder();
-		// 地区
-		region(endpoint, bucket, builder);
-
+	public OssClient(OssProperties properties) {
+		this.endpoint = properties.getEndpoint();
+		this.region = properties.getRegion();
+		this.accessKey = properties.getAccessKey();
+		this.accessSecret = properties.getAccessSecret();
+		this.bucket = properties.getBucket();
+		this.domain = properties.getDomain();
+		this.root = properties.getRootPath();
+		this.acl = properties.getAcl();
+		final ClientBuilder builder = createBuilder();
+		client = builder.build();
+		downloadPrefix = builder.downloadPrefix();
 		// 不以 / 结尾
 		if (downloadPrefix.endsWith(SLASH)) {
 			downloadPrefix = downloadPrefix.substring(0, downloadPrefix.length() - 1);
 		}
-
-		// 配置
-		builder.overrideConfiguration(cb -> cb.addExecutionInterceptor(
-				new BallcatExecutionInterceptor(endpoint, accessKey, accessSecret, bucket, root)));
-
-		client = builder
-				// key secret
-				.credentialsProvider(
-						StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, accessSecret)))
-				.build();
 	}
 
-	private void region(String endpoint, String bucket, S3ClientBuilder builder) throws URISyntaxException {
-		// 判断传入的是 地区还是节点
-		if (endpoint.contains(DOT)) {
-			// 节点
-
-			if (endpoint.startsWith(OssConstants.S3)) {
-				// 以 s3. 开头
-				endpoint = endpoint.substring(OssConstants.S3.length());
-			}
-
-			// 从节点中获取地址
-			builder.region(Region.of(endpoint.substring(0, endpoint.indexOf(DOT))));
-
-			if (!endpoint.contains(AWS_INTERNATIONAL)) {
-				// 非亚马逊节点
-				URI uri = new URI(String.format("https://%s.%s", bucket, endpoint));
-				// 覆盖节点
-				builder.endpointOverride(uri);
-				downloadPrefix = uri.toString();
-			}
-			else {
-				// 亚马逊节点
-				downloadPrefix = String.format("https://%s.s3.%s", bucket, endpoint);
-			}
-		}
-		else {
-			// 地区
-			builder.region(Region.of(endpoint));
-			// 默认国际版下载地址
-			downloadPrefix = String.format("https://%s.s3.%s.%s", bucket, endpoint, AWS_INTERNATIONAL);
-		}
+	/**
+	 * 生成 builder . 便于子类重写
+	 * @author lingting 2021-05-13 14:43
+	 */
+	protected ClientBuilder createBuilder() {
+		return ClientBuilder.builder().accessKey(accessKey).accessSecret(accessSecret).bucket(bucket).domain(domain)
+				.endpoint(endpoint).region(region);
 	}
 
 	/**

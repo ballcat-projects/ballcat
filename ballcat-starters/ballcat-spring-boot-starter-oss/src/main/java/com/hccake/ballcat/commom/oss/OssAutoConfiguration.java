@@ -16,14 +16,11 @@ import software.amazon.awssdk.services.s3.S3Client;
 @EnableConfigurationProperties(OssProperties.class)
 public class OssAutoConfiguration {
 
-	private final OssProperties properties;
-
 	@Bean
 	@ConditionalOnClass(S3Client.class)
 	@ConditionalOnMissingBean(OssClient.class)
-	public OssClient ossClient() {
-		return new OssClient(properties.getEndpoint(), properties.getAccessKey(), properties.getAccessSecret(),
-				properties.getBucket(), properties.getRootPath(), properties.getAcl());
+	public OssClient ossClient(OssProperties properties) {
+		return new OssClient(properties);
 	}
 
 }
