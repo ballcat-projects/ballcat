@@ -211,6 +211,13 @@
 							<artifactId>lombok-mapstruct-binding</artifactId>
 							<version>${lombok-mapstruct-binding.version}</version>
 						</path>
+
+						<!-- spring-boot 配置处理 -->
+						<path>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-configuration-processor</artifactId>
+							<version>${spring-boot.version}</version>
+						</path>>
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
