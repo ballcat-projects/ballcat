@@ -45,6 +45,14 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
+		// 未配置密码密钥时，直接跳过
+		String passwordSecretKey = securityProperties.getPasswordSecretKey();
+		if (passwordSecretKey == null) {
+			log.warn("passwordSecretKey not configured, skip password decoder");
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		// 测试客户端 跳过密码解密（swagger 或 postman测试时使用）
 		if (SecurityUtils.isTestClient()) {
 			filterChain.doFilter(request, response);
@@ -53,17 +61,20 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
 		// 解密前台加密后的密码
 		Map<String, String[]> parameterMap = new HashMap<>(request.getParameterMap());
+		String passwordAes = request.getParameter(PASSWORD);
+
 		try {
 			if (request.getParameter(GRANT_TYPE).equals(PASSWORD)) {
-				String password = PasswordUtils.decodeAES(request.getParameter(PASSWORD),
-						securityProperties.getPasswordSecretKey());
+				String password = PasswordUtils.decodeAES(passwordAes, passwordSecretKey);
 				parameterMap.put(PASSWORD, new String[] { password });
 			}
 		}
 		catch (Exception e) {
-			response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage());
+			log.error("[doFilterInternal] password decode aes error，passwordAes: {}，passwordSecretKey: {}", passwordAes,
+					passwordSecretKey, e);
+			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8.toString());
+			response.setStatus(HttpStatus.BAD_REQUEST.value());
+			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED, "用户名或密码错误！");
 			response.getWriter().write(JsonUtils.toJson(r));
 			return;
 		}
