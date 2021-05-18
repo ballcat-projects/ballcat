@@ -58,6 +58,8 @@ INSERT INTO `sys_menu` (
             END AS `target_type`,
         CASE
             `type`
+            WHEN 0 THEN
+                NULL
             WHEN 1 THEN
                 IF(LEFT ( `PATH`, 4 ) = 'http', `PATH`, `component` ) ELSE NULL
             END AS `uri`,
