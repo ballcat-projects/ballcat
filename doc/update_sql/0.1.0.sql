@@ -1,6 +1,6 @@
 -- 新建菜单表
 CREATE TABLE `sys_menu` (
-        `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+        `id` int(11) NOT NULL COMMENT '菜单ID',
         `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父级ID',
         `title` varchar(32) DEFAULT NULL COMMENT '菜单名称',
         `icon` varchar(32) DEFAULT NULL COMMENT '菜单图标',

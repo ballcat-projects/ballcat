@@ -6,6 +6,7 @@ import com.hccake.ballcat.admin.modules.system.model.entity.SysMenu;
 import com.hccake.ballcat.admin.modules.system.model.qo.SysMenuQO;
 import com.hccake.ballcat.admin.modules.system.service.SysMenuService;
 import com.hccake.ballcat.admin.modules.system.service.SysRoleMenuService;
+import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
@@ -26,6 +27,17 @@ import java.util.List;
 public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
 	private final SysRoleMenuService sysRoleMenuService;
+
+	/**
+	 * 插入一条记录（选择字段，策略插入）
+	 * @param sysMenu 实体对象
+	 */
+	@Override
+	public boolean save(SysMenu sysMenu) {
+		// 逻辑删除初始值
+		sysMenu.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
+		return SqlHelper.retBool(baseMapper.insert(sysMenu));
+	}
 
 	/**
 	 * 查询权限集合，并按sort排序（升序）

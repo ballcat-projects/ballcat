@@ -22,7 +22,7 @@ public class SysMenu {
 	/**
 	 * 菜单ID
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	@ApiModelProperty(value = "菜单ID")
 	private Integer id;
 
