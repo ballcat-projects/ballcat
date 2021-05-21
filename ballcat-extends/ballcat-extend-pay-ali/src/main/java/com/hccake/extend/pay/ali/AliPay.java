@@ -4,6 +4,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradePayModel;
+import com.alipay.api.domain.AlipayTradePrecreateModel;
 import com.alipay.api.domain.AlipayTradeQueryModel;
 import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.internal.util.AlipaySignature;
@@ -11,6 +12,7 @@ import com.alipay.api.request.*;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.alipay.api.response.AlipayTradePayResponse;
+import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.hccake.extend.pay.ali.constants.AliPayConstant;
@@ -274,6 +276,56 @@ public class AliPay {
 		request.setBizModel(model);
 		// 付款码场景固定
 		model.setScene("bar_code");
+		request.setNotifyUrl(notifyUrl);
+		return client.execute(request);
+	}
+
+	/**
+	 * 二维码付款-简易支付
+	 * @param sn 平台订单号
+	 * @param amount 用户支付金额(单位: 元)
+	 * @param subject 商品标题
+	 * @return com.alipay.api.response.AlipayTradePrecreateResponse
+	 * @author lingting 2021-05-21 17:22
+	 */
+	public AlipayTradePrecreateResponse qrPay(String sn, BigDecimal amount, String subject) throws AlipayApiException {
+		return qrPay(sn, amount, subject, notifyUrl);
+	}
+
+	/**
+	 * 二维码付款-简易支付
+	 * @param sn 平台订单号
+	 * @param amount 用户支付金额(单位: 元)
+	 * @param subject 商品标题
+	 * @return com.alipay.api.response.AlipayTradePrecreateResponse
+	 * @author lingting 2021-05-21 17:22
+	 */
+	public AlipayTradePrecreateResponse qrPay(String sn, BigDecimal amount, String subject, String notifyUrl)
+			throws AlipayApiException {
+		AlipayTradePrecreateModel model = new AlipayTradePrecreateModel();
+		model.setOutTradeNo(sn);
+		// 单位为 元 金额需要转为 分
+		model.setTotalAmount(amount.toPlainString());
+		model.setSubject(subject);
+		return qrPay(model, notifyUrl);
+	}
+
+	/**
+	 * 二维码付款-复杂支付
+	 * @author lingting 2021-01-25 09:56
+	 */
+	public AlipayTradePrecreateResponse qrPay(AlipayTradePrecreateModel model) throws AlipayApiException {
+		return qrPay(model, notifyUrl);
+	}
+
+	/**
+	 * 二维码付款-复杂支付
+	 * @author lingting 2021-01-25 09:56
+	 */
+	public AlipayTradePrecreateResponse qrPay(AlipayTradePrecreateModel model, String notifyUrl)
+			throws AlipayApiException {
+		AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
+		request.setBizModel(model);
 		request.setNotifyUrl(notifyUrl);
 		return client.execute(request);
 	}
