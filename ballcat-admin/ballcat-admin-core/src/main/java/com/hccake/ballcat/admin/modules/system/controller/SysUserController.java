@@ -2,12 +2,14 @@ package com.hccake.ballcat.admin.modules.system.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.admin.constants.SysUserConst;
+import com.hccake.ballcat.admin.modules.system.converter.SysUserConverter;
 import com.hccake.ballcat.admin.modules.system.model.dto.SysUserDTO;
 import com.hccake.ballcat.admin.modules.system.model.dto.SysUserPassDTO;
 import com.hccake.ballcat.admin.modules.system.model.dto.SysUserScope;
 import com.hccake.ballcat.admin.modules.system.model.entity.SysRole;
 import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
 import com.hccake.ballcat.admin.modules.system.model.qo.SysUserQO;
+import com.hccake.ballcat.admin.modules.system.model.vo.SysUserInfo;
 import com.hccake.ballcat.admin.modules.system.model.vo.SysUserPageVO;
 import com.hccake.ballcat.admin.modules.system.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.system.service.SysUserService;
@@ -28,15 +30,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -71,6 +65,7 @@ public class SysUserController {
 	 * @param pageParam 参数集
 	 * @return 用户集合
 	 */
+	@ApiOperation(value = "分页查询系统用户")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('system:user:read')")
 	public R<PageResult<SysUserPageVO>> getUserPage(PageParam pageParam, SysUserQO qo) {
@@ -81,11 +76,29 @@ public class SysUserController {
 	 * 获取用户Select
 	 * @return 用户SelectData
 	 */
+	@ApiOperation(value = "获取用户下拉列表数据")
 	@GetMapping("/select")
 	@PreAuthorize("@per.hasPermission('system:user:read')")
 	public R<List<SelectData<?>>> listSelectData(
 			@RequestParam(value = "userTypes", required = false) List<Integer> userTypes) {
 		return R.ok(sysUserService.listSelectData(userTypes));
+	}
+
+	/**
+	 * 获取指定用户的基本信息
+	 * @param userId 用户ID
+	 * @return SysUserInfo
+	 */
+	@ApiOperation(value = "获取指定用户的基本信息")
+	@GetMapping("/{userId}")
+	@PreAuthorize("@per.hasPermission('system:user:read')")
+	public R<SysUserInfo> getSysUserInfo(@PathVariable("userId") Integer userId) {
+		SysUser sysUser = sysUserService.getById(userId);
+		if (sysUser == null) {
+			return R.ok();
+		}
+		SysUserInfo sysUserInfo = SysUserConverter.INSTANCE.poToInfo(sysUser);
+		return R.ok(sysUserInfo);
 	}
 
 	/**
