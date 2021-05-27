@@ -5,6 +5,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.admin.client.FileClient;
 import com.hccake.ballcat.admin.constants.SysUserConst;
 import com.hccake.ballcat.admin.modules.system.checker.AdminUserChecker;
 import com.hccake.ballcat.admin.modules.system.converter.SysUserConverter;
@@ -22,24 +23,27 @@ import com.hccake.ballcat.admin.modules.system.service.SysMenuService;
 import com.hccake.ballcat.admin.modules.system.service.SysRoleService;
 import com.hccake.ballcat.admin.modules.system.service.SysUserRoleService;
 import com.hccake.ballcat.admin.modules.system.service.SysUserService;
-import com.hccake.ballcat.commom.oss.OssClient;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.ballcat.common.util.PasswordUtils;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * 系统用户表
@@ -51,7 +55,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
-	private final OssClient ossClient;
+	private final FileClient fileClient;
 
 	private final SysMenuService sysMenuService;
 
@@ -223,7 +227,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		// 获取系统用户头像的文件名
 		String objectName = "sysuser/" + userId + "/avatar/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
 				+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
-		objectName = ossClient.upload(file.getInputStream(), objectName, file.getSize());
+		objectName = fileClient.upload(file.getInputStream(), objectName, file.getSize());
 
 		SysUser sysUser = new SysUser();
 		sysUser.setUserId(userId);
