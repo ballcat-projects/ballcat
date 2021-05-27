@@ -3,6 +3,7 @@ package com.hccake.ballcat.commom.oss;
 import static com.hccake.ballcat.commom.oss.OssConstants.SLASH;
 
 import com.hccake.ballcat.commom.oss.domain.StreamTemp;
+import com.hccake.ballcat.commom.oss.exception.OssDisabledException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -12,6 +13,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
@@ -44,6 +46,8 @@ public class OssClient implements DisposableBean {
 
 	private String downloadPrefix;
 
+	private boolean enable = true;
+
 	public OssClient(OssProperties properties) {
 		this.endpoint = properties.getEndpoint();
 		this.region = properties.getRegion();
@@ -53,12 +57,21 @@ public class OssClient implements DisposableBean {
 		this.domain = properties.getDomain();
 		this.root = properties.getRootPath();
 		this.acl = properties.getAcl();
-		final ClientBuilder builder = createBuilder();
-		client = builder.build();
-		downloadPrefix = builder.downloadPrefix();
-		// 不以 / 结尾
-		if (downloadPrefix.endsWith(SLASH)) {
-			downloadPrefix = downloadPrefix.substring(0, downloadPrefix.length() - 1);
+
+		final boolean isEnable = !StringUtils.hasText(accessKey) || !StringUtils.hasText(accessSecret)
+				|| (!StringUtils.hasText(endpoint) && !StringUtils.hasText(domain));
+		if (isEnable) {
+			this.enable = false;
+			client = null;
+		}
+		else {
+			final ClientBuilder builder = createBuilder();
+			client = builder.build();
+			downloadPrefix = builder.downloadPrefix();
+			// 不以 / 结尾
+			if (downloadPrefix.endsWith(SLASH)) {
+				downloadPrefix = downloadPrefix.substring(0, downloadPrefix.length() - 1);
+			}
 		}
 	}
 
@@ -96,12 +109,12 @@ public class OssClient implements DisposableBean {
 			builder.acl(acl);
 		}
 
-		client.putObject(builder.build(), RequestBody.fromInputStream(stream, size));
+		getClient().putObject(builder.build(), RequestBody.fromInputStream(stream, size));
 		return path;
 	}
 
 	public void delete(String path) {
-		client.deleteObject(builder -> builder.bucket(bucket).key(getPath(path)));
+		getClient().deleteObject(builder -> builder.bucket(bucket).key(getPath(path)));
 	}
 
 	@SneakyThrows
@@ -109,7 +122,7 @@ public class OssClient implements DisposableBean {
 		String s = getCopyUrl(absoluteSource);
 		final CopyObjectRequest request = CopyObjectRequest.builder().copySource(s).destinationBucket(bucket)
 				.destinationKey(getPath(absoluteTarget)).build();
-		client.copyObject(request);
+		getClient().copyObject(request);
 	}
 
 	/**
@@ -132,9 +145,27 @@ public class OssClient implements DisposableBean {
 		return URLEncoder.encode(bucket + getPath(path), StandardCharsets.UTF_8.toString());
 	}
 
+	/**
+	 * 检查oss是否启用
+	 * @author lingting 2021-05-27 10:45
+	 */
+	public boolean enabled() {
+		return enable;
+	}
+
+	@SneakyThrows
+	protected S3Client getClient() {
+		if (client == null) {
+			throw new OssDisabledException();
+		}
+		return client;
+	}
+
 	@Override
 	public void destroy() throws Exception {
-		client.close();
+		if (client != null) {
+			client.close();
+		}
 	}
 
 	/**
