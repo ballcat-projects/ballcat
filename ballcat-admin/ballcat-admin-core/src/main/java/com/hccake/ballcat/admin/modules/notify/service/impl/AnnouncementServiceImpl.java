@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.admin.client.FileClient;
 import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
 import com.hccake.ballcat.admin.modules.notify.converter.AnnouncementConverter;
 import com.hccake.ballcat.admin.modules.notify.converter.NotifyInfoConverter;
@@ -16,7 +17,6 @@ import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementPageVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
-import com.hccake.ballcat.commom.oss.OssClient;
 import com.hccake.ballcat.common.core.constant.enums.BooleanEnum;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.domain.PageParam;
@@ -50,7 +50,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 
 	private final ApplicationEventPublisher publisher;
 
-	private final OssClient ossClient;
+	private final FileClient fileClient;
 
 	/**
 	 * 根据QueryObject查询分页数据
@@ -171,7 +171,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 					+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT
 					+ FileUtil.extName(file.getOriginalFilename());
 			try {
-				objectName = ossClient.upload(file.getInputStream(), objectName, file.getSize());
+				objectName = fileClient.upload(file.getInputStream(), objectName, file.getSize());
 				objectNames.add(objectName);
 			}
 			catch (IOException e) {
