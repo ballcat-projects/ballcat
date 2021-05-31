@@ -17,7 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 系统配置表
+ * 系统配置
  *
  * @author ballcat code generator
  * @date 2019-10-14 17:42:23
@@ -33,7 +33,7 @@ public class SysConfigController {
 	/**
 	 * 分页查询
 	 * @param pageParam 分页参数
-	 * @param sysConfigQO 系统配置表
+	 * @param sysConfigQO 系统配置
 	 * @return R<PageResult<SysConfigVO>>
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
@@ -44,24 +44,12 @@ public class SysConfigController {
 	}
 
 	/**
-	 * 通过id查询系统配置表
-	 * @param id id
+	 * 新增系统配置
+	 * @param sysConfig 系统配置
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id查询", notes = "通过id查询")
-	@GetMapping("/{id}")
-	@PreAuthorize("@per.hasPermission('system:config:read')")
-	public R<SysConfig> getById(@PathVariable("id") Integer id) {
-		return R.ok(sysConfigService.getById(id));
-	}
-
-	/**
-	 * 新增系统配置表
-	 * @param sysConfig 系统配置表
-	 * @return R
-	 */
-	@ApiOperation(value = "新增系统配置表", notes = "新增系统配置表")
-	@CreateOperationLogging(msg = "新增系统配置表")
+	@ApiOperation(value = "新增系统配置", notes = "新增系统配置")
+	@CreateOperationLogging(msg = "新增系统配置")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:config:add')")
 	public R save(@RequestBody SysConfig sysConfig) {
@@ -69,29 +57,29 @@ public class SysConfigController {
 	}
 
 	/**
-	 * 修改系统配置表
-	 * @param sysConfig 系统配置表
+	 * 修改系统配置
+	 * @param sysConfig 系统配置
 	 * @return R
 	 */
-	@ApiOperation(value = "修改系统配置表", notes = "修改系统配置表")
-	@UpdateOperationLogging(msg = "修改系统配置表")
+	@ApiOperation(value = "修改系统配置")
+	@UpdateOperationLogging(msg = "修改系统配置")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:config:edit')")
 	public R updateById(@RequestBody SysConfig sysConfig) {
-		return R.ok(sysConfigService.updateById(sysConfig));
+		return R.ok(sysConfigService.updateByKey(sysConfig));
 	}
 
 	/**
-	 * 通过id删除系统配置表
-	 * @param id id
+	 * 删除系统配置
+	 * @param confKey confKey
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id删除系统配置表", notes = "通过id删除系统配置表")
-	@DeleteOperationLogging(msg = "通过id删除系统配置表")
-	@DeleteMapping("/{id}")
+	@ApiOperation(value = "删除系统配置")
+	@DeleteOperationLogging(msg = "删除系统配置")
+	@DeleteMapping
 	@PreAuthorize("@per.hasPermission('system:config:del')")
-	public R removeById(@PathVariable("id") Integer id) {
-		return R.ok(sysConfigService.removeById(id));
+	public R removeById(@RequestParam("confKey") String confKey) {
+		return R.ok(sysConfigService.removeByKey(confKey));
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.hccake.ballcat.admin.modules.system.service.impl;
 
+import com.hccake.ballcat.admin.constants.RedisKeyConstants;
 import com.hccake.ballcat.admin.modules.system.mapper.SysConfigMapper;
 import com.hccake.ballcat.admin.modules.system.model.entity.SysConfig;
 import com.hccake.ballcat.admin.modules.system.model.qo.SysConfigQO;
@@ -7,6 +8,8 @@ import com.hccake.ballcat.admin.modules.system.model.vo.SysConfigPageVO;
 import com.hccake.ballcat.admin.modules.system.service.SysConfigService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
+import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
+import com.hccake.ballcat.common.redis.core.annotation.Cached;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -19,26 +22,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysConfigServiceImpl extends ExtendServiceImpl<SysConfigMapper, SysConfig> implements SysConfigService {
 
-	/**
-	 * 根据QueryObject查询分页数据
-	 * @param pageParam 分页参数
-	 * @param sysConfigQO 查询参数对象
-	 * @return 分页数据
-	 */
 	@Override
 	public PageResult<SysConfigPageVO> queryPage(PageParam pageParam, SysConfigQO sysConfigQO) {
 		return baseMapper.queryPage(pageParam, sysConfigQO);
 	}
 
-	/**
-	 * 根据配置key获取对应value
-	 * @param confKey 缓存对应key
-	 * @return confValue
-	 */
+	@Cached(key = RedisKeyConstants.SYSTEM_CONFIG_PREFIX, keyJoint = "#confKey")
 	@Override
 	public String getConfValueByKey(String confKey) {
 		SysConfig sysConfig = baseMapper.selectByKey(confKey);
-		return sysConfig == null ? "" : sysConfig.getConfValue();
+		return sysConfig == null ? null : sysConfig.getConfValue();
+	}
+
+	@CacheDel(key = RedisKeyConstants.SYSTEM_CONFIG_PREFIX, keyJoint = "#sysConfig.confKey")
+	@Override
+	public boolean updateByKey(SysConfig sysConfig) {
+		return baseMapper.updateByKey(sysConfig);
+	}
+
+	@CacheDel(key = RedisKeyConstants.SYSTEM_CONFIG_PREFIX, keyJoint = "#confKey")
+	@Override
+	public boolean removeByKey(String confKey) {
+		return baseMapper.deleteByKey(confKey);
 	}
 
 }
