@@ -104,3 +104,8 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 ## 快速搭建后台管理
 
 参看官方文档 http://www.ballcat.cn/guide/quick-start.html
+
+
+## 交流群
+
+<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group.png" alt="微信" width="35%"/>

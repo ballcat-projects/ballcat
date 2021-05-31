@@ -121,10 +121,10 @@ UPDATE `sys_menu` SET `title` = '弹出选择器', uri = 'system/lov/SysLovPage'
 DELETE FROM `sys_menu` WHERE id in (100300, 100301, 100302, 100303, 100304);
 -- 插入为现在的菜单管理
 INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100300, 100000, '菜单权限', NULL, NULL, 'menu', 1, 'system/menu/SysMenuPage', 3, 0, 0, 1, NULL, 0, now(), NULL);
-INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100301, 100800, '菜单权限查询', NULL, 'system:menu:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, now(), NULL);
-INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100302, 100800, '菜单权限新增', NULL, 'system:menu:add', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, now(), NULL);
-INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100303, 100800, '菜单权限修改', NULL, 'system:menu:edit', NULL, 1, NULL, 2, 0, 0, 2, NULL, 0, now(), NULL);
-INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100304, 100800, '菜单权限删除', NULL, 'system:menu:del', NULL, 1, NULL, 3, 0, 0, 2, NULL, 0, now(), NULL);
+INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100301, 100300, '菜单权限查询', NULL, 'system:menu:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, now(), NULL);
+INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100302, 100300, '菜单权限新增', NULL, 'system:menu:add', NULL, 1, NULL, 1, 0, 0, 2, NULL, 0, now(), NULL);
+INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100303, 100300, '菜单权限修改', NULL, 'system:menu:edit', NULL, 1, NULL, 2, 0, 0, 2, NULL, 0, now(), NULL);
+INSERT INTO `sys_menu`(`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100304, 100300, '菜单权限删除', NULL, 'system:menu:del', NULL, 1, NULL, 3, 0, 0, 2, NULL, 0, now(), NULL);
 
 
 -- 角色权限关联表修改
@@ -146,3 +146,9 @@ INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `attributes`, `sort`, 
 
 -- lov 修改用户请求地址
 UPDATE `sys_lov` SET `url` = '/system/user/page', update_time = now() WHERE `keyword` = 'lov_user'
+
+
+-- 配置表 conf_key 非 null
+ALTER TABLE `sys_config`
+    MODIFY COLUMN `conf_key` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置键' AFTER `name`,
+    MODIFY COLUMN `deleted` bigint(20) NOT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `description`;
