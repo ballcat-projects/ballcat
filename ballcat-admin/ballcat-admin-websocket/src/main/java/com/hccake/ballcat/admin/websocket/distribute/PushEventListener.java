@@ -1,11 +1,11 @@
 package com.hccake.ballcat.admin.websocket.distribute;
 
-import com.hccake.ballcat.admin.modules.notify.event.AnnouncementCloseEvent;
-import com.hccake.ballcat.admin.modules.notify.event.StationNotifyPushEvent;
-import com.hccake.ballcat.admin.modules.notify.model.domain.AnnouncementNotifyInfo;
-import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
-import com.hccake.ballcat.admin.modules.notify.model.entity.UserAnnouncement;
-import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
+import com.hccake.ballcat.notify.event.AnnouncementCloseEvent;
+import com.hccake.ballcat.notify.event.StationNotifyPushEvent;
+import com.hccake.ballcat.notify.model.domain.AnnouncementNotifyInfo;
+import com.hccake.ballcat.notify.model.domain.NotifyInfo;
+import com.hccake.ballcat.notify.model.entity.UserAnnouncement;
+import com.hccake.ballcat.notify.service.UserAnnouncementService;
 import com.hccake.ballcat.admin.websocket.message.AnnouncementCloseMessage;
 import com.hccake.ballcat.admin.websocket.message.AnnouncementPushMessage;
 import com.hccake.ballcat.admin.websocket.message.DictChangeMessage;

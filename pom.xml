@@ -14,7 +14,8 @@
 		<module>ballcat-extends</module>
         <module>ballcat-system</module>
 		<module>ballcat-oauth</module>
-    </modules>
+		<module>ballcat-notify</module>
+	</modules>
 	<name>ballcat</name>
 	<description>项目基本脚手架</description>
 	<url>https://github.com/hccake/ballcat</url>

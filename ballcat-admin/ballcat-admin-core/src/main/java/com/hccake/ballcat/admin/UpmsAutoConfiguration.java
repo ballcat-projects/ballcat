@@ -1,9 +1,9 @@
 package com.hccake.ballcat.admin;
 
 import com.anji.captcha.service.CaptchaService;
-import com.hccake.ballcat.admin.modules.notify.push.MailNotifyPusher;
 import com.hccake.ballcat.common.mail.MailAutoConfiguration;
 import com.hccake.ballcat.common.mail.sender.MailSender;
+import com.hccake.ballcat.notify.push.MailNotifyPusher;
 import com.hccake.ballcat.oauth.UserInfoCoordinator;
 import com.hccake.ballcat.oauth.constant.SecurityConst;
 import com.hccake.ballcat.oauth.filter.LoginCaptchaFilter;
