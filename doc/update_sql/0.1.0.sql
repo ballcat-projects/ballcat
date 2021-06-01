@@ -152,3 +152,21 @@ UPDATE `sys_lov` SET `url` = '/system/user/page', update_time = now() WHERE `key
 ALTER TABLE `sys_config`
     MODIFY COLUMN `conf_key` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '配置键' AFTER `name`,
     MODIFY COLUMN `deleted` bigint(20) NOT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `description`;
+
+
+-- 日志模块拆分相关修改
+UPDATE `sys_menu` SET `path` = 'operation-log' WHERE `id` = 110100;
+UPDATE `sys_menu` SET `path` = 'login-log' WHERE `id` = 110200;
+UPDATE `sys_menu` SET `path` = 'access-log' WHERE `id` = 110300;
+UPDATE `sys_menu` SET `uri` = 'log/operation-log/OperationLogPage' WHERE `id` = 110100;
+UPDATE `sys_menu` SET `uri` = 'log/login-log/LoginLogPage' WHERE `id` = 110200;
+UPDATE `sys_menu` SET `uri` = 'log/access-log/AccessLogPage' WHERE `id` = 110300;
+UPDATE `sys_menu` SET `permission` = 'log:operation-log:read' WHERE `id` = 110100;
+UPDATE `sys_menu` SET `permission` = 'log:login-log:read' WHERE `id` = 110200;
+UPDATE `sys_menu` SET `permission` = 'log:access-log:read' WHERE `id` = 110300;
+UPDATE `sys_menu` SET `title` = '访问日志' WHERE `id` = 110300;
+UPDATE `sys_menu` SET `title` = '访问日志查询' WHERE `id` = 110301;
+
+RENAME TABLE `admin_access_log` TO `log_access_log`;
+RENAME TABLE `admin_operation_log` TO `log_operation_log`;
+RENAME TABLE `admin_login_log` TO `log_login_log`;

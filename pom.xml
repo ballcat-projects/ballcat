@@ -15,6 +15,7 @@
         <module>ballcat-system</module>
 		<module>ballcat-oauth</module>
 		<module>ballcat-notify</module>
+		<module>ballcat-log</module>
 	</modules>
 	<name>ballcat</name>
 	<description>项目基本脚手架</description>
