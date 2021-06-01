@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.websocket.user;
 
-import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
-import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
+import com.hccake.ballcat.system.model.entity.SysUser;
+import com.hccake.ballcat.oauth.util.SecurityUtils;
 import com.hccake.ballcat.admin.websocket.constant.AdminWebSocketConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.server.ServerHttpRequest;

@@ -61,5 +61,15 @@
 			<groupId>com.anji-plus</groupId>
 			<artifactId>spring-boot-starter-captcha</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.hccake</groupId>
+            <artifactId>ballcat-oauth-controller</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-system-controller</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
+		</dependency>
     </dependencies>
 </project>

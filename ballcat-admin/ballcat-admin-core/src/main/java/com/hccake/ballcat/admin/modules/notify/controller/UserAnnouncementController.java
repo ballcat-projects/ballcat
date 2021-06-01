@@ -3,7 +3,7 @@ package com.hccake.ballcat.admin.modules.notify.controller;
 import com.hccake.ballcat.admin.modules.notify.model.qo.UserAnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.UserAnnouncementPageVO;
 import com.hccake.ballcat.admin.modules.notify.service.UserAnnouncementService;
-import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
+import com.hccake.ballcat.oauth.util.SecurityUtils;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.result.R;

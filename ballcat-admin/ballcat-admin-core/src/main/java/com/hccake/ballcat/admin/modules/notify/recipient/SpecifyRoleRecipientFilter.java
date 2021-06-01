@@ -2,8 +2,8 @@ package com.hccake.ballcat.admin.modules.notify.recipient;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.admin.constants.NotifyRecipientFilterType;
-import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
-import com.hccake.ballcat.admin.modules.system.service.SysUserService;
+import com.hccake.ballcat.system.model.entity.SysUser;
+import com.hccake.ballcat.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

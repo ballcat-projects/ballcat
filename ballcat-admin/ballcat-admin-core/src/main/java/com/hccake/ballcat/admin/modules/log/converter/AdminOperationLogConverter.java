@@ -2,6 +2,7 @@ package com.hccake.ballcat.admin.modules.log.converter;
 
 import com.hccake.ballcat.admin.modules.log.model.entity.AdminOperationLog;
 import com.hccake.ballcat.admin.modules.log.model.vo.AdminOperationLogPageVO;
+import com.hccake.ballcat.commom.log.operation.model.OperationLogDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,5 +22,12 @@ public interface AdminOperationLogConverter {
 	 * @return AdminOperationLogPageVO 操作日志PageVO
 	 */
 	AdminOperationLogPageVO poToPageVo(AdminOperationLog adminOperationLog);
+
+	/**
+	 * 转换OperationLog 为 OperationLogAdmin
+	 * @param operationLogDTO 操作日志DTO
+	 * @return AdminOperationLog
+	 */
+	AdminOperationLog dtoToPo(OperationLogDTO operationLogDTO);
 
 }

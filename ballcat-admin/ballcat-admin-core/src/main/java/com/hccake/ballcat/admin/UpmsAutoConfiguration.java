@@ -1,13 +1,13 @@
 package com.hccake.ballcat.admin;
 
 import com.anji.captcha.service.CaptchaService;
-import com.hccake.ballcat.admin.config.UpmsProperties;
-import com.hccake.ballcat.admin.constants.SecurityConst;
 import com.hccake.ballcat.admin.modules.notify.push.MailNotifyPusher;
-import com.hccake.ballcat.admin.oauth.UserInfoCoordinator;
-import com.hccake.ballcat.admin.oauth.filter.LoginCaptchaFilter;
 import com.hccake.ballcat.common.mail.MailAutoConfiguration;
 import com.hccake.ballcat.common.mail.sender.MailSender;
+import com.hccake.ballcat.oauth.UserInfoCoordinator;
+import com.hccake.ballcat.oauth.constant.SecurityConst;
+import com.hccake.ballcat.oauth.filter.LoginCaptchaFilter;
+import com.hccake.ballcat.system.properties.UpmsProperties;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -26,8 +26,8 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/5/25 21:01
  */
 @MapperScan("com.hccake.ballcat.**.mapper")
-@ComponentScan
-@ServletComponentScan("com.hccake.ballcat.admin.oauth.filter")
+@ComponentScan("com.hccake.ballcat")
+@ServletComponentScan("com.hccake.ballcat.oauth.filter")
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(MailAutoConfiguration.class)
 @EnableConfigurationProperties(UpmsProperties.class)

@@ -1,1 +1,1 @@
-com.hccake.ballcat.admin.oauth.CaptchaCacheServiceRedisImpl
+com.hccake.ballcat.oauth.CaptchaCacheServiceRedisImpl

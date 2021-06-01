@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hccake.ballcat.system.mapper.SysUserMapper">
+
+	<sql id="Base_Alias_Column_List">
+		su.user_id,
+		su.username,
+		su.nickname,
+		su.avatar,
+		su.sex,
+		su.email,
+		su.phone,
+		su.status,
+		su.type,
+		su.organization_id,
+		su.create_time,
+		su.update_time
+	</sql>
+
+	<select id="selectByPage" resultType="com.hccake.ballcat.system.model.vo.SysUserPageVO">
+		SELECT
+		<include refid="Base_Alias_Column_List"/>
+		,so.name as organization_name
+		FROM sys_user su
+		LEFT JOIN
+		sys_organization so
+		ON su.organization_id = so.id
+		${ew.customSqlSegment}
+	</select>
+
+	<!-- 通过用户ID查询其关联的角色ID-->
+	<select id="listByRoleCodes" resultType="com.hccake.ballcat.system.model.entity.SysUser">
+		SELECT
+		<include refid="Base_Alias_Column_List"/>
+		FROM
+		sys_user su
+		WHERE
+		EXISTS (
+		    SELECT 1 from sys_user_role ur
+		    where
+			ur.`role_code`
+			in
+			<foreach collection="roleCodes" item="roleCode" separator="," open="(" close=")">
+				#{roleCode}
+			</foreach>
+			 and ur.user_id = su.user_id
+		)
+		AND su.deleted = 0
+	</select>
+
+	<select id="listSelectData" resultType="com.hccake.ballcat.common.model.domain.SelectData">
+		select
+		username as name , user_id as value
+		from
+		sys_user
+		where
+		deleted = 0
+		<if test="userTypes != null and userTypes.size() > 0">
+			and type in
+			<foreach collection="userTypes" open="(" separator="," close=")" item="type">
+				#{type}
+			</foreach>
+		</if>
+	</select>
+</mapper>

@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.modules.notify.event;
 
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
-import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
+import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

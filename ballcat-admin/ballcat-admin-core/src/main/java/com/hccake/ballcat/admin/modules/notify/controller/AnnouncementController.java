@@ -5,7 +5,7 @@ import com.hccake.ballcat.admin.modules.notify.model.entity.Announcement;
 import com.hccake.ballcat.admin.modules.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.admin.modules.notify.model.vo.AnnouncementPageVO;
 import com.hccake.ballcat.admin.modules.notify.service.AnnouncementService;
-import com.hccake.ballcat.admin.oauth.util.SecurityUtils;
+import com.hccake.ballcat.oauth.util.SecurityUtils;
 import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;

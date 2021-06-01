@@ -263,6 +263,39 @@
 				<artifactId>ballcat-extend-pay-wx</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<!-- system 模块 -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-system-controller</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-system-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-system-model</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<!-- oauth 模块 -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-oauth-controller</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-oauth-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-oauth-model</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
 
 
 			<!--swagger注解-->
@@ -317,7 +350,11 @@
 				<artifactId>mybatis-plus-core</artifactId>
 				<version>${mybatis-plus.version}</version>
 			</dependency>
-			<!--mybatis-->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-annotation</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-boot-starter</artifactId>
@@ -416,6 +453,11 @@
 				<version>${virtual-currency.version}</version>
 			</dependency>
 			<!-- 图形验证码 -->
+			<dependency>
+				<groupId>com.anji-plus</groupId>
+				<artifactId>captcha</artifactId>
+				<version>${anji-captcha.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.anji-plus</groupId>
 				<artifactId>spring-boot-starter-captcha</artifactId>

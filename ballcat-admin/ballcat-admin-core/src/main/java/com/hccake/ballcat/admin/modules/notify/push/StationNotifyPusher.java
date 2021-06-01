@@ -3,7 +3,7 @@ package com.hccake.ballcat.admin.modules.notify.push;
 import com.hccake.ballcat.admin.constants.NotifyChannel;
 import com.hccake.ballcat.admin.modules.notify.event.StationNotifyPushEvent;
 import com.hccake.ballcat.admin.modules.notify.model.domain.NotifyInfo;
-import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
+import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

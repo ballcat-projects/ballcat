@@ -4,7 +4,6 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.hccake.ballcat.admin.client.FileClient;
 import com.hccake.ballcat.admin.constants.AnnouncementStatusEnum;
 import com.hccake.ballcat.admin.modules.notify.converter.AnnouncementConverter;
 import com.hccake.ballcat.admin.modules.notify.converter.NotifyInfoConverter;
@@ -23,19 +22,21 @@ import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.file.service.FileService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 公告信息
@@ -50,7 +51,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 
 	private final ApplicationEventPublisher publisher;
 
-	private final FileClient fileClient;
+	private final FileService fileService;
 
 	/**
 	 * 根据QueryObject查询分页数据
@@ -171,7 +172,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 					+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT
 					+ FileUtil.extName(file.getOriginalFilename());
 			try {
-				objectName = fileClient.upload(file.getInputStream(), objectName, file.getSize());
+				objectName = fileService.upload(file.getInputStream(), objectName, file.getSize());
 				objectNames.add(objectName);
 			}
 			catch (IOException e) {

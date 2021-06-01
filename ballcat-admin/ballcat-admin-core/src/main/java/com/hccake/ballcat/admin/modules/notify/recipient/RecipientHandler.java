@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.modules.notify.recipient;
 
-import com.hccake.ballcat.admin.modules.system.model.entity.SysUser;
+import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
