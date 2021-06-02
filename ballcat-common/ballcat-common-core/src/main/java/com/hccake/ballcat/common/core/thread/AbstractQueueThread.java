@@ -1,14 +1,15 @@
 package com.hccake.ballcat.common.core.thread;
 
 import com.hccake.ballcat.common.util.JsonUtils;
-import java.util.ArrayList;
-import java.util.List;
-import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.lang.Nullable;
+
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 顶级队列线程类
@@ -181,7 +182,9 @@ public abstract class AbstractQueueThread<E> extends Thread
 	public void afterPropertiesSet() throws Exception {
 		// 默认配置线程名. 用来方便查询
 		setName(this.getClass().getSimpleName());
-		start();
+		if (!this.isAlive()) {
+			this.start();
+		}
 	}
 
 	@Override

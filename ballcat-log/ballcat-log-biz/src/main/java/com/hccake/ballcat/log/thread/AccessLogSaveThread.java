@@ -1,11 +1,10 @@
 package com.hccake.ballcat.log.thread;
 
+import com.hccake.ballcat.common.core.thread.AbstractBlockingQueueThread;
 import com.hccake.ballcat.log.model.entity.AccessLog;
 import com.hccake.ballcat.log.service.AccessLogService;
-import com.hccake.ballcat.common.core.thread.AbstractBlockingQueueThread;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
  * @date 2019/10/16 15:30
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class AccessLogSaveThread extends AbstractBlockingQueueThread<AccessLog> {
 

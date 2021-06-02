@@ -12,7 +12,6 @@ import com.hccake.ballcat.log.model.entity.AccessLog;
 import com.hccake.ballcat.log.thread.AccessLogSaveThread;
 import com.hccake.ballcat.oauth.SysUserDetails;
 import com.hccake.ballcat.oauth.util.SecurityUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerMapping;
@@ -32,12 +31,18 @@ import java.util.Optional;
  * @date 2019-10-16 16:09:25
  */
 @Slf4j
-@RequiredArgsConstructor
 public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 
 	private static final String APPLICATION_JSON = "application/json";
 
 	private final AccessLogSaveThread accessLogSaveThread;
+
+	public CustomAccessLogHandler(AccessLogSaveThread accessLogSaveThread) {
+		if (!accessLogSaveThread.isAlive()) {
+			accessLogSaveThread.start();
+		}
+		this.accessLogSaveThread = accessLogSaveThread;
+	}
 
 	/**
 	 * 需要脱敏记录的参数
