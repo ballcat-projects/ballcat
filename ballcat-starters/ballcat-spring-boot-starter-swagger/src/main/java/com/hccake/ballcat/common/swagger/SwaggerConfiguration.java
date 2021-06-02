@@ -3,6 +3,7 @@ package com.hccake.ballcat.common.swagger;
 import com.hccake.ballcat.common.swagger.constant.SwaggerConstants;
 import com.hccake.ballcat.common.swagger.property.SwaggerProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,7 @@ public class SwaggerConfiguration {
 	private final SwaggerProperties swaggerProperties;
 
 	@Bean
+	@ConditionalOnMissingBean
 	public Docket api() {
 		// @formatter:off
 		// 1. 文档信息构建
@@ -53,7 +55,6 @@ public class SwaggerConfiguration {
 
 		return docket;
 		// @formatter:on
-
 	}
 
 	private Predicate<String> paths() {
