@@ -1,16 +1,11 @@
 package com.hccake.ballcat.admin;
 
 import com.anji.captcha.service.CaptchaService;
-import com.hccake.ballcat.common.mail.MailAutoConfiguration;
-import com.hccake.ballcat.common.mail.sender.MailSender;
-import com.hccake.ballcat.notify.push.MailNotifyPusher;
 import com.hccake.ballcat.oauth.UserInfoCoordinator;
 import com.hccake.ballcat.oauth.constant.SecurityConst;
 import com.hccake.ballcat.oauth.filter.LoginCaptchaFilter;
 import com.hccake.ballcat.system.properties.UpmsProperties;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -29,7 +24,6 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("com.hccake.ballcat")
 @ServletComponentScan("com.hccake.ballcat.oauth.filter")
 @Configuration(proxyBeanMethods = false)
-@AutoConfigureAfter(MailAutoConfiguration.class)
 @EnableConfigurationProperties(UpmsProperties.class)
 public class UpmsAutoConfiguration {
 
@@ -37,12 +31,6 @@ public class UpmsAutoConfiguration {
 	@ConditionalOnMissingBean
 	public UserInfoCoordinator userInfoCoordinator() {
 		return new UserInfoCoordinator();
-	}
-
-	@Bean
-	@ConditionalOnBean(MailSender.class)
-	public MailNotifyPusher mailNotifyPusher(MailSender mailSender) {
-		return new MailNotifyPusher(mailSender);
 	}
 
 	@Bean
