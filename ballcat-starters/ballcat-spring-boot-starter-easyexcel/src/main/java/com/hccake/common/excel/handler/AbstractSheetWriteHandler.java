@@ -104,7 +104,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 
 		if (responseExcel.exclude().length != 0) {
-			writerBuilder.excludeColumnFiledNames(Arrays.asList(responseExcel.include()));
+			writerBuilder.excludeColumnFiledNames(Arrays.asList(responseExcel.exclude()));
 		}
 
 		if (responseExcel.writeHandler().length != 0) {
@@ -148,24 +148,31 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	 * @param sheet sheet annotation info
 	 * @param dataClass 数据类型
 	 * @param template 模板
-	 * @param headEnhancerClass 自定义头处理器
+	 * @param bookHeadEnhancerClass 自定义头处理器
 	 * @return WriteSheet
 	 */
 	public WriteSheet sheet(Sheet sheet, Class<?> dataClass, String template,
-			Class<? extends HeadGenerator> headEnhancerClass) {
+			Class<? extends HeadGenerator> bookHeadEnhancerClass) {
+
+		// Sheet 编号和名称
+		Integer sheetNo = sheet.sheetNo() >= 0 ? sheet.sheetNo() : null;
+		String sheetName = sheet.sheetName();
 
 		// 是否模板写入
-		Integer sheetNo = sheet.sheetNo() >= 0 ? sheet.sheetNo() : null;
 		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? EasyExcel.writerSheet(sheetNo)
-				: EasyExcel.writerSheet(sheetNo, sheet.sheetName());
+				: EasyExcel.writerSheet(sheetNo, sheetName);
 
-		Class<? extends HeadGenerator> headGenerateClass = sheet.headGenerateClass();
-		// 头信息增强
-		if (isNotInterface(headGenerateClass)) {
-			fillCustomHeadInfo(dataClass, headGenerateClass, writerSheetBuilder);
+		// 头信息增强 1. 优先使用 sheet 指定的头信息增强 2. 其次使用 @ResponseExcel 中定义的全局头信息增强
+		Class<? extends HeadGenerator> headGenerateClass = null;
+		if (isNotInterface(sheet.headGenerateClass())) {
+			headGenerateClass = sheet.headGenerateClass();
 		}
-		else if (isNotInterface(headEnhancerClass)) {
-			fillCustomHeadInfo(dataClass, headEnhancerClass, writerSheetBuilder);
+		else if (isNotInterface(bookHeadEnhancerClass)) {
+			headGenerateClass = bookHeadEnhancerClass;
+		}
+		// 定义头信息增强则使用其生成头信息，否则使用 dataClass 来自动获取
+		if (headGenerateClass != null) {
+			fillCustomHeadInfo(dataClass, bookHeadEnhancerClass, writerSheetBuilder);
 		}
 		else if (dataClass != null) {
 			writerSheetBuilder.head(dataClass);
@@ -178,8 +185,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 
 		// sheetBuilder 增强
-		writerSheetBuilder = excelWriterBuilderEnhance.enhanceSheet(writerSheetBuilder, sheetNo, sheet.sheetName(),
-				dataClass, template, headEnhancerClass);
+		writerSheetBuilder = excelWriterBuilderEnhance.enhanceSheet(writerSheetBuilder, sheetNo, sheetName, dataClass,
+				template, headGenerateClass);
 
 		return writerSheetBuilder.build();
 	}

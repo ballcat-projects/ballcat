@@ -1,6 +1,7 @@
 package com.hccake.common.excel;
 
 import com.hccake.common.excel.aop.DynamicNameAspect;
+import com.hccake.common.excel.aop.RequestExcelArgumentResolver;
 import com.hccake.common.excel.aop.ResponseExcelReturnValueHandler;
 import com.hccake.common.excel.config.ExcelConfigProperties;
 import com.hccake.common.excel.processor.NameProcessor;
@@ -11,6 +12,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
@@ -30,7 +32,7 @@ import java.util.List;
 @EnableConfigurationProperties(ExcelConfigProperties.class)
 public class ResponseExcelAutoConfiguration {
 
-	private final RequestMappingHandlerAdapter handlerAdapter;
+	private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
 	private final ResponseExcelReturnValueHandler responseExcelReturnValueHandler;
 
@@ -60,13 +62,26 @@ public class ResponseExcelAutoConfiguration {
 	 */
 	@PostConstruct
 	public void setReturnValueHandlers() {
-		List<HandlerMethodReturnValueHandler> returnValueHandlers = handlerAdapter.getReturnValueHandlers();
+		List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
+				.getReturnValueHandlers();
 
 		List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>();
 		newHandlers.add(responseExcelReturnValueHandler);
 		assert returnValueHandlers != null;
 		newHandlers.addAll(returnValueHandlers);
-		handlerAdapter.setReturnValueHandlers(newHandlers);
+		requestMappingHandlerAdapter.setReturnValueHandlers(newHandlers);
+	}
+
+	/**
+	 * 追加 Excel 请求处理器 到 springmvc 中
+	 */
+	@PostConstruct
+	public void setRequestExcelArgumentResolver() {
+		List<HandlerMethodArgumentResolver> argumentResolvers = requestMappingHandlerAdapter.getArgumentResolvers();
+		List<HandlerMethodArgumentResolver> resolverList = new ArrayList<>();
+		resolverList.add(new RequestExcelArgumentResolver());
+		resolverList.addAll(argumentResolvers);
+		requestMappingHandlerAdapter.setArgumentResolvers(resolverList);
 	}
 
 }
