@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.hccake.ballcat.commom.log.mdc.TraceIdAutoConfiguration
+    com.hccake.ballcat.common.log.mdc.TraceIdAutoConfiguration

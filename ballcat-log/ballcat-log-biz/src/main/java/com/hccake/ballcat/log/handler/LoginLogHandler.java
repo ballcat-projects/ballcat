@@ -2,9 +2,9 @@ package com.hccake.ballcat.log.handler;
 
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.hccake.ballcat.commom.log.constant.LogConstant;
-import com.hccake.ballcat.commom.log.operation.enums.LogStatusEnum;
-import com.hccake.ballcat.commom.log.util.LogUtils;
+import com.hccake.ballcat.common.log.constant.LogConstant;
+import com.hccake.ballcat.common.log.operation.enums.LogStatusEnum;
+import com.hccake.ballcat.common.log.util.LogUtils;
 import com.hccake.ballcat.common.util.IpUtils;
 import com.hccake.ballcat.log.enums.LoginEventTypeEnum;
 import com.hccake.ballcat.log.model.entity.LoginLog;

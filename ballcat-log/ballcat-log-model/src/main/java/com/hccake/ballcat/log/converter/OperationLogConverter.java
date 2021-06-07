@@ -1,6 +1,6 @@
 package com.hccake.ballcat.log.converter;
 
-import com.hccake.ballcat.commom.log.operation.model.OperationLogDTO;
+import com.hccake.ballcat.common.log.operation.model.OperationLogDTO;
 import com.hccake.ballcat.log.model.entity.OperationLog;
 import com.hccake.ballcat.log.model.vo.OperationLogPageVO;
 import org.mapstruct.Mapper;

@@ -1,9 +1,9 @@
 package com.hccake.ballcat.log.handler;
 
 import cn.hutool.core.util.URLUtil;
-import com.hccake.ballcat.commom.log.access.handler.AccessLogHandler;
-import com.hccake.ballcat.commom.log.constant.LogConstant;
-import com.hccake.ballcat.commom.log.util.LogUtils;
+import com.hccake.ballcat.common.log.access.handler.AccessLogHandler;
+import com.hccake.ballcat.common.log.constant.LogConstant;
+import com.hccake.ballcat.common.log.util.LogUtils;
 import com.hccake.ballcat.common.desensitize.DesensitizationHandlerHolder;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.util.IpUtils;

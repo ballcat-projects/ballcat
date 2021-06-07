@@ -1,8 +1,8 @@
 package com.hccake.ballcat.system.controller;
 
-import com.hccake.ballcat.commom.log.operation.annotation.CreateOperationLogging;
-import com.hccake.ballcat.commom.log.operation.annotation.DeleteOperationLogging;
-import com.hccake.ballcat.commom.log.operation.annotation.UpdateOperationLogging;
+import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
+import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging;
+import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
