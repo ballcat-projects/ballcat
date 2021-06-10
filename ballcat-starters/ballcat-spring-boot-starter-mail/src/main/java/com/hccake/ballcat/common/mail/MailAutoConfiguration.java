@@ -3,7 +3,6 @@ package com.hccake.ballcat.common.mail;
 import com.hccake.ballcat.common.mail.sender.MailSender;
 import com.hccake.ballcat.common.mail.sender.MailSenderImpl;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.context.ApplicationEventPublisher;
@@ -20,7 +19,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 public class MailAutoConfiguration {
 
 	@Bean
-	@ConditionalOnBean(JavaMailSender.class)
 	@ConditionalOnMissingBean(MailSender.class)
 	public MailSender mailSenderImpl(JavaMailSender javaMailSender,
 			ApplicationEventPublisher applicationEventPublisher) {
