@@ -54,7 +54,8 @@
 		<dynamic-datasource.version>3.3.1</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
 		<spring-boot-admin.version>2.4.1</spring-boot-admin.version>
-		<easyexcel.version>2.2.6</easyexcel.version>
+		<easyexcel.version>2.2.10</easyexcel.version>
+		<poi.version>4.1.2</poi.version>
 		<jasypt.version>3.0.3</jasypt.version>
 		<jsoup.version>1.13.1</jsoup.version>
 		<anji-captcha.version>1.2.8</anji-captcha.version>
@@ -401,6 +402,12 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>easyexcel</artifactId>
 				<version>${easyexcel.version}</version>
+			</dependency>
+			<!--poi 依赖 处理-->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi.version}</version>
 			</dependency>
 			<!--监控server端-->
 			<dependency>
