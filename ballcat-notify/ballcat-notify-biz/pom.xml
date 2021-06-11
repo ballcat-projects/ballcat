@@ -23,6 +23,7 @@
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-boot-starter-mail</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
