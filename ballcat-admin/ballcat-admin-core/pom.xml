@@ -42,10 +42,6 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-boot-starter-xss</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-spring-boot-starter-mail</artifactId>
-		</dependency>
         <!--mybatis plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
