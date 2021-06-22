@@ -13,27 +13,16 @@
 ### Warning
 
 - 此版本重构了前端路由部分，服务端权限表 sys_permission 改为 sys_menu，改动较大，迁移时建议先备份原始数据，执行增量 sql 后若出现问题，再进行比对处理
-
 - 调整了模块名，sys => system，后续包名也都尽量不再使用缩写，注意修改对应类的引用包路径
-
 - 项目部分配置添加 ballcat. 前缀
-
   - 文件存储现在修改为了对象存储（OssProperties.java），配置前缀为 ballcat.oss
-
   - 登录验证码开关和超级管理员指定的配置（UpmsProperties.java），前缀为 ballcat.upms
-
   - 登录密码的 AES 加解密密钥，忽略鉴权的 url 列表，iframe 嵌入配置开关等安全相关的配置 （SecurityProperties.java），前缀为 ballcat.security
-
 - 模块拆分重构，原 `admin.modules` 下的 `log`、`system`、`notify` 相关代码，全部独立模块。目前拆分为 `model`，`biz`，`controller` 三层，方便按需引入。`ballcat-admin-core` 依然默认集成所有模块
-
   - log 模块涉及的表名以及类名修改，原 AdminXXXLog 类，全部去除 Admin 开头。表名前缀由 `admin_` 修改为 `log_`
-
   - log 中的登录日志也不再默认开启，需要登录日志，可手动注册 `LoginLogHandler` 类，代码示例可参考 `ballcat-sample-admin` 项目中的  `LogHandlerConfig`。
-
   - 同样访问日志和操作日志也需对应注册 handler，且在启动类上添加 @EnableXXXLog 注解
-
   - mapper.xml 文件移动，由于模块拆分，目前各模块的 mapper.xml 直接放置在了 mapper 文件夹下，对应的文件扫描配置 `mybatis-plus.mapper-locations` 需要修改为 `classpath*:/mapper/**/*Mapper.xml`
-
     ```yml
     mybatis-plus:
       mapper-locations: classpath*:/mapper/**/*Mapper.xml
@@ -49,6 +38,9 @@
 - feat: TreeUtils 现在构建树时，支持传入 Comprator，进行自定义排序
 - feat: 新增 SmsUtils，以及 GSMCharst 类，用于短信长度计算
 - feat: 新增了一个根据用户id查询 UserInfo 的接口
+- feat: ballcat-extend-mybatis-plus 模块中添加普通枚举类型处理. 根据 name() 返回值判断枚举值
+- feat: ballcat-spring-boot-starter-easyexcel 新增 @RequestExcel 注解，方便导入 excel 直接解析为实体对象
+- feat: 新增了一个接口用于组织机构树形层级和深度的错误数据校正
 
 
 
@@ -69,7 +61,10 @@
 - pref: 前后端交互密码解密异常时的错误日志以及响应信息优化
 - fix: 禁止删除有子节点的组织，以及不能修改父组织为自己的子组织
 - fix: 修复由于 mapstruct 的引入方式修改，导致 yml 中配置信息不提示的问题
-
+- fix: 修复 easyexcel 添加 password 后会导致 excel 文件打开异常的问题
+- pref: starter-log 和 starter-oss 模块包名拼写错误修复，commom -> common
+- refactor: AccessLogSaveThread 不再默认启动，AbstractQueueThread 中对非活动状态的线程进行启动，避免重复启动异常
+- fix: 修复组织架构移动到子层级时，导致其他节点的层级和深度被错误修改的问题（之前的错误数据可用此版本新增的校正功能修复）
 
 
 ### Dependency
