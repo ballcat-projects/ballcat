@@ -1,7 +1,9 @@
 package com.hccake.ballcat.system.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.hccake.ballcat.system.model.dto.OrganizationMoveChildParam;
 import com.hccake.ballcat.system.model.entity.SysOrganization;
 import com.hccake.ballcat.system.model.qo.SysOrganizationQO;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
@@ -37,12 +39,9 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 
 	/**
 	 * 跟随父节点移动子节点
-	 * @param originHierarchy 原始父级层级
-	 * @param targetHierarchy 移动后的父级层级
-	 * @param depthDiff 移动的深度差
+	 * @param param OrganizationMoveChildParam 跟随移动子节点的参数对象
 	 */
-	void followMoveChildNode(@Param("originHierarchy") String originHierarchy,
-			@Param("targetHierarchy") String targetHierarchy, @Param("depthDiff") int depthDiff);
+	void followMoveChildNode(@Param("param") OrganizationMoveChildParam param);
 
 	/**
 	 * 根据组织机构Id，查询该组织下的所有子部门
@@ -50,5 +49,19 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 	 * @return 子部门集合
 	 */
 	List<SysOrganization> listChildOrganization(@Param("organizationId") Integer organizationId);
+
+	/**
+	 * 批量更新节点层级和深度
+	 * @param depth 深度
+	 * @param hierarchy 层级
+	 * @param organizationIds 组织id集合
+	 */
+	default void updateHierarchyAndPathBatch(int depth, String hierarchy, List<Integer> organizationIds) {
+		LambdaUpdateWrapper<SysOrganization> wrapper = Wrappers.lambdaUpdate(SysOrganization.class)
+				.set(SysOrganization::getDepth, depth).set(SysOrganization::getHierarchy, hierarchy)
+				.in(SysOrganization::getId, organizationIds);
+		this.update(null, wrapper);
+
+	}
 
 }

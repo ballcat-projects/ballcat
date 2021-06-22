@@ -170,3 +170,6 @@ UPDATE `sys_menu` SET `title` = '访问日志查询' WHERE `id` = 110301;
 RENAME TABLE `admin_access_log` TO `log_access_log`;
 RENAME TABLE `admin_operation_log` TO `log_operation_log`;
 RENAME TABLE `admin_login_log` TO `log_login_log`;
+
+-- 添加组织机构校正功能
+INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (100705, 100700, '组织机构校正', NULL, 'system:organization:revised', NULL, 1, '', 5, 0, 0, 2, '校正组织机构层级和深度', 0, '2021-06-22 21:54:19', NULL);

@@ -50,4 +50,10 @@ public interface SysOrganizationService extends ExtendService<SysOrganization> {
 	 */
 	List<SysOrganization> listChildOrganization(Integer organizationId);
 
+	/**
+	 * 校正组织机构层级和深度
+	 * @return 校正是否成功
+	 */
+	boolean revisedHierarchyAndPath();
+
 }

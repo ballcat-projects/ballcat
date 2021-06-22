@@ -3,24 +3,29 @@ package com.hccake.ballcat.system.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.common.core.constant.GlobalConstants;
+import com.hccake.ballcat.common.core.exception.BusinessException;
+import com.hccake.ballcat.common.model.result.BaseResultCode;
+import com.hccake.ballcat.common.util.TreeUtils;
 import com.hccake.ballcat.system.converter.SysOrganizationConverter;
 import com.hccake.ballcat.system.mapper.SysOrganizationMapper;
+import com.hccake.ballcat.system.model.dto.OrganizationMoveChildParam;
 import com.hccake.ballcat.system.model.dto.SysOrganizationDTO;
 import com.hccake.ballcat.system.model.entity.SysOrganization;
 import com.hccake.ballcat.system.model.qo.SysOrganizationQO;
 import com.hccake.ballcat.system.model.vo.SysOrganizationTree;
 import com.hccake.ballcat.system.service.SysOrganizationService;
-import com.hccake.ballcat.common.core.constant.GlobalConstants;
-import com.hccake.ballcat.common.core.exception.BusinessException;
-import com.hccake.ballcat.common.model.result.BaseResultCode;
-import com.hccake.ballcat.common.util.TreeUtils;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 组织架构
@@ -69,14 +74,14 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	@Transactional(rollbackFor = Exception.class)
 	public boolean update(SysOrganizationDTO sysOrganizationDTO) {
 		// TODO 防止并发问题
-		SysOrganization sysOrganization = SysOrganizationConverter.INSTANCE.dtoToPo(sysOrganizationDTO);
-		Integer organizationId = sysOrganization.getId();
+		SysOrganization newSysOrganization = SysOrganizationConverter.INSTANCE.dtoToPo(sysOrganizationDTO);
+		Integer organizationId = newSysOrganization.getId();
 		SysOrganization originSysOrganization = baseMapper.selectById(organizationId);
 
 		// 如果没有移动父节点，则直接更新
 		Integer targetParentId = sysOrganizationDTO.getParentId();
 		if (originSysOrganization.getParentId().equals(targetParentId)) {
-			return SqlHelper.retBool(baseMapper.updateById(sysOrganization));
+			return SqlHelper.retBool(baseMapper.updateById(newSysOrganization));
 		}
 
 		// 移动了父节点，先判断不是选择自己作为父节点
@@ -91,16 +96,33 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 		}
 
 		// 填充目标层级和深度
-		fillDepthAndHierarchy(sysOrganization, targetParentId);
-		// 原来的层级和深度
-		String originHierarchy = originSysOrganization.getHierarchy();
-		int originDepth = originSysOrganization.getDepth();
-		// 计算出更换父节点后的层级和深度
-		int depthDiff = originDepth - sysOrganization.getDepth();
+		fillDepthAndHierarchy(newSysOrganization, targetParentId);
 		// 更新其子节点的数据
-		baseMapper.followMoveChildNode(originHierarchy, sysOrganization.getHierarchy(), depthDiff);
+		OrganizationMoveChildParam param = getOrganizationMoveChildParam(newSysOrganization, originSysOrganization);
+		baseMapper.followMoveChildNode(param);
+		// 更新组织节点信息
+		return SqlHelper.retBool(baseMapper.updateById(newSysOrganization));
+	}
 
-		return SqlHelper.retBool(baseMapper.updateById(sysOrganization));
+	private OrganizationMoveChildParam getOrganizationMoveChildParam(SysOrganization newSysOrganization,
+			SysOrganization originSysOrganization) {
+		// 父组织 id
+		Integer parentId = newSysOrganization.getId();
+		// 父节点原来的层级
+		String originParentHierarchy = originSysOrganization.getHierarchy();
+		// 修改后的父节点层级
+		String targetParentHierarchy = newSysOrganization.getHierarchy();
+		// 父节点移动后的深度差
+		int depthDiff = originSysOrganization.getDepth() - newSysOrganization.getDepth();
+
+		OrganizationMoveChildParam param = new OrganizationMoveChildParam();
+		param.setParentId(parentId);
+		param.setOriginParentHierarchy(originParentHierarchy);
+		param.setOriginParentHierarchyLengthPlusOne(originParentHierarchy.length() + 1);
+		param.setTargetParentHierarchy(targetParentHierarchy);
+		param.setDepthDiff(depthDiff);
+		param.setGrandsonConditionalStatement(originParentHierarchy + "-" + parentId + "-%");
+		return param;
 	}
 
 	/**
@@ -121,6 +143,43 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	@Override
 	public List<SysOrganization> listChildOrganization(Integer organizationId) {
 		return baseMapper.listChildOrganization(organizationId);
+	}
+
+	/**
+	 * 校正组织机构层级和深度
+	 * @return 校正是否成功
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean revisedHierarchyAndPath() {
+		// 组织机构一般数据量不多，一次性查询出来缓存到内存中，减少查询开销
+		List<SysOrganization> sysOrganizations = baseMapper.selectList(Wrappers.emptyWrapper());
+		Map<Integer, List<SysOrganization>> map = sysOrganizations.stream()
+				.collect(Collectors.groupingBy(SysOrganization::getParentId));
+		// 默认的父节点为根节点，
+		Integer parentId = GlobalConstants.TREE_ROOT_ID;
+		int depth = 1;
+		String hierarchy = "0";
+		updateChildHierarchyAndPath(map, parentId, depth, hierarchy);
+
+		return true;
+	}
+
+	private void updateChildHierarchyAndPath(Map<Integer, List<SysOrganization>> map, Integer parentId, int depth,
+			String hierarchy) {
+		// 获取对应 parentId 下的所有子节点
+		List<SysOrganization> sysOrganizations = map.get(parentId);
+		if (CollectionUtil.isEmpty(sysOrganizations)) {
+			return;
+		}
+		// 递归更新子节点数据
+		List<Integer> childrenIds = new ArrayList<>();
+		for (SysOrganization sysOrganization : sysOrganizations) {
+			Integer organizationId = sysOrganization.getId();
+			updateChildHierarchyAndPath(map, organizationId, depth + 1, hierarchy + "-" + organizationId);
+			childrenIds.add(organizationId);
+		}
+		baseMapper.updateHierarchyAndPathBatch(depth, hierarchy, childrenIds);
 	}
 
 	/**

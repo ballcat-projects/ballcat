@@ -13,14 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,7 +35,7 @@ public class SysOrganizationController {
 	 * @param qo 组织机构查询条件
 	 * @return R 通用返回体
 	 */
-	@ApiOperation(value = "组织架构树查询", notes = "组织架构树查询")
+	@ApiOperation(value = "组织架构树查询")
 	@GetMapping("/tree")
 	@PreAuthorize("@per.hasPermission('system:organization:read')")
 	public R<List<SysOrganizationTree>> getOrganizationTree(SysOrganizationQO qo) {
@@ -54,7 +47,7 @@ public class SysOrganizationController {
 	 * @param sysOrganizationDTO 组织机构DTO
 	 * @return R 通用返回体
 	 */
-	@ApiOperation(value = "新增组织架构", notes = "新增组织架构")
+	@ApiOperation(value = "新增组织架构")
 	@CreateOperationLogging(msg = "新增组织架构")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:organization:add')")
@@ -68,7 +61,7 @@ public class SysOrganizationController {
 	 * @param sysOrganizationDTO 组织机构DTO
 	 * @return R 通用返回体
 	 */
-	@ApiOperation(value = "修改组织架构", notes = "修改组织架构")
+	@ApiOperation(value = "修改组织架构")
 	@UpdateOperationLogging(msg = "修改组织架构")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:organization:edit')")
@@ -82,13 +75,26 @@ public class SysOrganizationController {
 	 * @param id id
 	 * @return R 通用返回体
 	 */
-	@ApiOperation(value = "通过id删除组织架构", notes = "通过id删除组织架构")
+	@ApiOperation(value = "通过id删除组织架构")
 	@DeleteOperationLogging(msg = "通过id删除组织架构")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:organization:del')")
 	public R<?> removeById(@PathVariable("id") Integer id) {
 		return sysOrganizationService.removeById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除组织架构失败");
+	}
+
+	/**
+	 * 校正组织机构层级和深度
+	 * @return R 通用返回体
+	 */
+	@ApiOperation(value = "校正组织机构层级和深度")
+	@UpdateOperationLogging(msg = "校正组织机构层级和深度")
+	@PatchMapping("/revised")
+	@PreAuthorize("@per.hasPermission('system:organization:revised')")
+	public R<?> revisedHierarchyAndPath() {
+		return sysOrganizationService.revisedHierarchyAndPath() ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "校正组织机构层级和深度失败");
 	}
 
 }

@@ -16,14 +16,16 @@
 		update_time
 	</sql>
 
+<!--	这里为了兼容 shardingsphare 4.x 暂时使用 ${} 传参-->
 	<update id="followMoveChildNode">
 		UPDATE
 		sys_organization
-		SET hierarchy =
-		CONCAT(#{targetHierarchy}, SUBSTR(hierarchy, LENGTH(#{originHierarchy}) + 1)),
-		depth = depth - #{depthDiff}
+		SET hierarchy = CONCAT(#{param.targetParentHierarchy}, SUBSTR(hierarchy, ${param.originParentHierarchyLengthPlusOne})),
+		depth = depth - #{param.depthDiff}
 		WHERE
-		hierarchy like CONCAT(#{originHierarchy}, "-%")
+			parent_id = #{param.parentId}  -- 儿子节点
+			or
+			hierarchy like #{param.grandsonConditionalStatement} -- 孙子节点
 	</update>
 
 	<select id="listChildOrganization" resultType="com.hccake.ballcat.system.model.entity.SysOrganization">
