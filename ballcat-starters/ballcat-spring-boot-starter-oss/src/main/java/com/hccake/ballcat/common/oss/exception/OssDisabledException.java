@@ -1,4 +1,4 @@
-package com.hccake.ballcat.commom.oss.exception;
+package com.hccake.ballcat.common.oss.exception;
 
 /**
  * @author lingting 2021/5/27 10:44

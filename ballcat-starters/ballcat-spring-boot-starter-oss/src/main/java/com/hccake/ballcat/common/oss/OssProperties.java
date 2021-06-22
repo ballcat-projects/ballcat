@@ -1,6 +1,4 @@
-package com.hccake.ballcat.commom.oss;
-
-import static com.hccake.ballcat.commom.oss.OssConstants.SLASH;
+package com.hccake.ballcat.common.oss;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -82,7 +80,7 @@ public class OssProperties {
 	/**
 	 * 所有文件相关操作都在此路径下进行操作
 	 */
-	private String rootPath = SLASH;
+	private String rootPath = OssConstants.SLASH;
 
 	/**
 	 * 上传时为文件配置acl, 为null 不配置
@@ -91,16 +89,16 @@ public class OssProperties {
 
 	public String getRootPath() {
 		if (!StringUtils.hasText(rootPath)) {
-			rootPath = SLASH;
+			rootPath = OssConstants.SLASH;
 		}
 
 		// 保证 root path 以 / 结尾
-		if (!rootPath.endsWith(SLASH)) {
-			rootPath = rootPath + SLASH;
+		if (!rootPath.endsWith(OssConstants.SLASH)) {
+			rootPath = rootPath + OssConstants.SLASH;
 		}
 
 		// 保证 root path 不以 / 开头
-		if (rootPath.startsWith(SLASH)) {
+		if (rootPath.startsWith(OssConstants.SLASH)) {
 			rootPath = rootPath.substring(1);
 		}
 

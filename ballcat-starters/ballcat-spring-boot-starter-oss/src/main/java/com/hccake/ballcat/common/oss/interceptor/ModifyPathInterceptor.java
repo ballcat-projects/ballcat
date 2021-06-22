@@ -1,6 +1,6 @@
-package com.hccake.ballcat.commom.oss.interceptor;
+package com.hccake.ballcat.common.oss.interceptor;
 
-import static com.hccake.ballcat.commom.oss.OssConstants.SLASH;
+import static com.hccake.ballcat.common.oss.OssConstants.SLASH;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

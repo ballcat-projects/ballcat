@@ -1,4 +1,4 @@
-package com.hccake.ballcat.commom.oss;
+package com.hccake.ballcat.common.oss;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

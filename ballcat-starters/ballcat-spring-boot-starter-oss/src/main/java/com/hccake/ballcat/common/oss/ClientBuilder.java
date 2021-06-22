@@ -1,8 +1,9 @@
-package com.hccake.ballcat.commom.oss;
+package com.hccake.ballcat.common.oss;
 
-import com.hccake.ballcat.commom.oss.interceptor.ModifyPathInterceptor;
+import com.hccake.ballcat.common.oss.interceptor.ModifyPathInterceptor;
 import java.net.URI;
 import java.util.function.Consumer;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;

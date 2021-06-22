@@ -1,14 +1,13 @@
-package com.hccake.ballcat.commom.oss;
+package com.hccake.ballcat.common.oss;
 
-import static com.hccake.ballcat.commom.oss.OssConstants.SLASH;
-
-import com.hccake.ballcat.commom.oss.domain.StreamTemp;
-import com.hccake.ballcat.commom.oss.exception.OssDisabledException;
+import com.hccake.ballcat.common.oss.domain.StreamTemp;
+import com.hccake.ballcat.common.oss.exception.OssDisabledException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.DisposableBean;
@@ -69,7 +68,7 @@ public class OssClient implements DisposableBean {
 			client = builder.build();
 			downloadPrefix = builder.downloadPrefix();
 			// 不以 / 结尾
-			if (downloadPrefix.endsWith(SLASH)) {
+			if (downloadPrefix.endsWith(OssConstants.SLASH)) {
 				downloadPrefix = downloadPrefix.substring(0, downloadPrefix.length() - 1);
 			}
 		}
@@ -188,7 +187,7 @@ public class OssClient implements DisposableBean {
 	public String getPath(String relativePath) {
 		Assert.hasText(relativePath, "path must not be empty");
 
-		if (relativePath.startsWith(SLASH)) {
+		if (relativePath.startsWith(OssConstants.SLASH)) {
 			relativePath = relativePath.substring(1);
 		}
 

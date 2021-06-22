@@ -1,6 +1,6 @@
 package com.hccake.ballcat.file.service;
 
-import com.hccake.ballcat.commom.oss.OssClient;
+import com.hccake.ballcat.common.oss.OssClient;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import lombok.RequiredArgsConstructor;

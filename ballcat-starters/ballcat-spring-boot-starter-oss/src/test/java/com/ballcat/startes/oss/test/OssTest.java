@@ -1,7 +1,7 @@
 package com.ballcat.startes.oss.test;
 
-import com.hccake.ballcat.commom.oss.OssClient;
-import com.hccake.ballcat.commom.oss.OssProperties;
+import com.hccake.ballcat.common.oss.OssClient;
+import com.hccake.ballcat.common.oss.OssProperties;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;

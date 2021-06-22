@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.hccake.ballcat.commom.oss.OssAutoConfiguration
+  com.hccake.ballcat.common.oss.OssAutoConfiguration
