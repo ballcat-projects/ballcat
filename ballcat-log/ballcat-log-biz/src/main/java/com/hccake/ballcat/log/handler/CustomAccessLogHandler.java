@@ -83,7 +83,7 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 
 		// 非文件上传请求，记录body，用户改密时不记录body
 		// TODO 使用注解控制此次请求是否记录body，更方便个性化定制
-		if (!LogUtils.isMultipartContent(request) && "/sysuser/pass/{userId}".equals(uri)) {
+		if (!LogUtils.isMultipartContent(request) && !"/system/user/pass/{userId}".equals(matchingPattern)) {
 			accessLog.setReqBody(LogUtils.getRequestBody(request));
 		}
 
