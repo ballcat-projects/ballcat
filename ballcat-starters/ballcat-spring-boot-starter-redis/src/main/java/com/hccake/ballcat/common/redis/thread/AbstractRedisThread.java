@@ -81,7 +81,7 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 	}
 
 	@Override
-	public void put(@NotNull E e) {
+	public void put(E e) {
 		// 不插入空值
 		if (e != null) {
 			try {

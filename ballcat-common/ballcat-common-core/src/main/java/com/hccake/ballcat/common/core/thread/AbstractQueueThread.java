@@ -1,15 +1,15 @@
 package com.hccake.ballcat.common.core.thread;
 
 import com.hccake.ballcat.common.util.JsonUtils;
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.lang.Nullable;
-
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 顶级队列线程类
@@ -130,32 +130,7 @@ public abstract class AbstractQueueThread<E> extends Thread
 
 			try {
 				preProcess();
-				long timestamp = 0;
-				int count = 0;
-
-				while (count < getBatchSize()) {
-					E e = null;
-					try {
-						e = poll(getPollTimeoutMs());
-					}
-					catch (InterruptedException interruptedException) {
-						log.error("{} 类的线程被中断!id: {}", getClass().getSimpleName(), getId());
-					}
-
-					if (e != null) {
-						// 第一次插入数据
-						if (count++ == 0) {
-							// 记录时间
-							timestamp = System.currentTimeMillis();
-						}
-						receiveProcess(list, e);
-					}
-
-					// 已有数据 已超过设定的等待时间
-					if (list.size() > 0 && System.currentTimeMillis() - timestamp >= getBatchTimeout()) {
-						break;
-					}
-				}
+				fillList(list);
 
 				if (!isRun()) {
 					shutdownHandler(list);
@@ -168,6 +143,43 @@ public abstract class AbstractQueueThread<E> extends Thread
 				error(e, list);
 			}
 		}
+	}
+
+	protected void fillList(List<E> list) {
+		long timestamp = 0;
+		int count = 0;
+
+		while (count < getBatchSize()) {
+			E e = get();
+
+			if (e != null) {
+				// 第一次插入数据
+				if (count++ == 0) {
+					// 记录时间
+					timestamp = System.currentTimeMillis();
+				}
+				receiveProcess(list, e);
+			}
+
+			// 无法继续运行 或 已有数据且超过设定的等待时间
+			final boolean isBreak = !isRun()
+					|| (!CollectionUtils.isEmpty(list) && System.currentTimeMillis() - timestamp >= getBatchTimeout());
+			if (isBreak) {
+				break;
+			}
+		}
+	}
+
+	private E get() {
+		E e = null;
+		try {
+			e = poll(getPollTimeoutMs());
+		}
+		catch (InterruptedException ex) {
+			interrupt();
+			log.error("{} 类的poll线程被中断!id: {}", getClass().getSimpleName(), getId());
+		}
+		return e;
 	}
 
 	/**
