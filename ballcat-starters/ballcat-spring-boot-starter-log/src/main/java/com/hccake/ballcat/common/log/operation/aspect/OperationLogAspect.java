@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.log.operation.aspect;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
 import com.hccake.ballcat.common.log.constant.LogConstant;
@@ -44,8 +45,8 @@ public class OperationLogAspect {
 
 	private final ApplicationEventPublisher publisher;
 
-	private final List<Class<?>> ignoredParamClasses = Arrays.asList(ServletRequest.class, ServletResponse.class,
-			MultipartFile.class);
+	private final List<Class<?>> ignoredParamClasses = CollectionUtil.newArrayList(ServletRequest.class,
+			ServletResponse.class, MultipartFile.class);
 
 	/**
 	 * 添加忽略记录的参数类型
