@@ -65,7 +65,7 @@
 - pref: starter-log 和 starter-oss 模块包名拼写错误修复，commom -> common
 - refactor: AccessLogSaveThread 不再默认启动，AbstractQueueThread 中对非活动状态的线程进行启动，避免重复启动异常
 - fix: 修复组织架构移动到子层级时，导致其他节点的层级和深度被错误修改的问题（之前的错误数据可用此版本新增的校正功能修复）
-
+- fix: 修复操作日志添加参数忽略类型的异常问题
 
 ### Dependency
 

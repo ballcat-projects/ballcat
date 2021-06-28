@@ -125,4 +125,4 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 
 ## 交流群
 
-<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_20210622115147.png" alt="微信" width="35%"/>
+<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_202106281044.png" alt="微信" width="35%"/>
