@@ -69,7 +69,8 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 |   |-- ballcat-extend-mybatis-plus		-- 基于 mybatis-plus 相关的一些扩展
 |   |-- ballcat-extend-pay-ali			-- 针对支付宝支付的一些操作封装
 |   |-- ballcat-extend-pay-virtual		-- 针对虚拟货币支付的一些操作封装
-|   `-- ballcat-extend-pay-wx			-- 针对微信支付的一些操作封装
+|   |-- ballcat-extend-pay-wx			-- 针对微信支付的一些操作封装
+|   `-- ballcat-extend-redis-module		-- redis module 的扩展功能（暂时只有布隆过滤器）
 |-- ballcat-log				-- 日志模块（业务），封装了基本的操作日志、访问日志、登录日志的保存查询等处理
 |   |-- ballcat-log-biz
 |   |-- ballcat-log-controller
