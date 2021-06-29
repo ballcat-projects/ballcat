@@ -44,7 +44,7 @@
 
 
 	<properties>
-		<revision>0.1.0</revision>
+		<revision>0.2.0-SNAPSHOT</revision>
 
 		<java.version>1.8</java.version>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -290,6 +290,7 @@
 						<configuration>
 							<serverId>ossrh</serverId>
 							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<stagingProgressTimeoutMinutes>20</stagingProgressTimeoutMinutes>
 							<!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
 						</configuration>
 					</plugin>
