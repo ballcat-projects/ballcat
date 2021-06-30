@@ -57,6 +57,7 @@ public class DataPermissionInterceptor implements Interceptor {
 			mpBs.sql(dataScopeSqlProcessor.parserMulti(mpBs.sql(), dataScopes));
 		}
 
+		// 执行 sql
 		return invocation.proceed();
 	}
 

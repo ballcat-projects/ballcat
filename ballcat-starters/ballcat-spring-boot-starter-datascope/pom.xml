@@ -12,22 +12,18 @@
 	<artifactId>ballcat-spring-boot-starter-datascope</artifactId>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.github.jsqlparser</groupId>
-			<artifactId>jsqlparser</artifactId>
-			<version>3.2</version>
-		</dependency>
-
 		<!-- slf4j日志 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.github.jsqlparser</groupId>
+			<artifactId>jsqlparser</artifactId>
+		</dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.5.5</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
