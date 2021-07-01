@@ -62,7 +62,7 @@
 		<maven-source-plugin.version>3.1.0</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
 
-		<spring-boot.version>2.4.3</spring-boot.version>
+		<spring-boot.version>2.4.8</spring-boot.version>
 
 		<!-- mapstruct 和 lombok 等注解处理器 -->
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>

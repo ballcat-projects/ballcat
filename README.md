@@ -112,11 +112,11 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 
 | 依赖                   | 版本          | 官网                                             |
 | ---------------------- | ------------- | ------------------------------------------------ |
-| Spring Boot            | 2.4.3         | https://spring.io/projects/spring-boot#learn     |
+| Spring Boot            | 2.4.8         | https://spring.io/projects/spring-boot#learn     |
 | Spring Security OAuth2 | 2.3.8.RELEASE | https://spring.io/projects/spring-security-oauth |
-| Mybatis Plus           | 3.4.3         | https://mp.baomidou.com/                         |
+| Mybatis Plus           | 3.4.2         | https://mp.baomidou.com/                         |
 | XXL-JOB                | 2.3.0         | http://www.xuxueli.com/xxl-job                   |
-| Hutool                 | 5.5.8         | https://www.hutool.cn/                           |
+| Hutool                 | 5.7.3         | https://www.hutool.cn/                           |
 
 
 ## 快速搭建后台管理
