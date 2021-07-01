@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.websocket.distribute;
+package com.hccake.ballcat.common.websocket.distribute;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.websocket.WebSocketMessageSender;

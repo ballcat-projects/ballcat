@@ -1,8 +1,8 @@
 package com.hccake.ballcat.admin.websocket;
 
-import com.hccake.ballcat.admin.websocket.distribute.MessageDistributor;
-import com.hccake.ballcat.admin.websocket.distribute.RedisMessageDistributor;
-import com.hccake.ballcat.admin.websocket.distribute.RedisWebsocketMessageListener;
+import com.hccake.ballcat.common.websocket.distribute.MessageDistributor;
+import com.hccake.ballcat.common.websocket.distribute.RedisMessageDistributor;
+import com.hccake.ballcat.common.websocket.distribute.RedisWebsocketMessageListener;
 import com.hccake.ballcat.admin.websocket.user.UserAttributeHandshakeInterceptor;
 import com.hccake.ballcat.admin.websocket.user.UserSessionKeyGenerator;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.listener.PatternTopic;
@@ -20,9 +21,10 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
  * @author Hccake 2021/1/5
  * @version 1.0
  */
+@Import({ SystemWebsocketEventListenerConfiguration.class, NotifyWebsocketEventListenerConfiguration.class })
 @Configuration
 @RequiredArgsConstructor
-public class AdminWebSocketConfiguration {
+public class AdminWebSocketAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(UserAttributeHandshakeInterceptor.class)

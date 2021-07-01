@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.websocket.config;
+package com.hccake.ballcat.autoconfigure.websocket;
 
 import com.hccake.ballcat.common.websocket.handler.CustomWebSocketHandler;
 import com.hccake.ballcat.common.websocket.handler.PingJsonMessageHandler;

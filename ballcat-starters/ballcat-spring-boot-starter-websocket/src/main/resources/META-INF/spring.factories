@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.hccake.ballcat.common.websocket.config.WebSocketAutoConfiguration,\
-  com.hccake.ballcat.common.websocket.config.WebSocketHandlerConfig
+  com.hccake.ballcat.autoconfigure.websocket.WebSocketAutoConfiguration

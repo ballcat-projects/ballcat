@@ -1,6 +1,5 @@
-package com.hccake.ballcat.admin.websocket.message;
+package com.hccake.ballcat.system.model.dto;
 
-import com.hccake.ballcat.admin.websocket.constant.MessageTypeConstants;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.websocket.message.AbstractJsonWebSocketMessage;
 import lombok.Getter;
@@ -16,7 +15,7 @@ public class LovChangeMessage extends AbstractJsonWebSocketMessage {
 	private String keyword;
 
 	public LovChangeMessage(String keyword) {
-		super(MessageTypeConstants.LOV_CHANGE);
+		super("lov_change");
 		this.keyword = keyword;
 	}
 

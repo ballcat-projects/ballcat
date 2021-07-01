@@ -1,8 +1,9 @@
-package com.hccake.ballcat.admin.websocket.distribute;
+package com.hccake.ballcat.common.websocket.distribute;
 
-import java.util.List;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * @author Hccake 2021/1/12

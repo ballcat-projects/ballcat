@@ -18,6 +18,7 @@
 		<module>ballcat-common-desensitize</module>
         <module>ballcat-common-util</module>
         <module>ballcat-common-model</module>
+        <module>ballcat-common-websocket</module>
     </modules>
 
 

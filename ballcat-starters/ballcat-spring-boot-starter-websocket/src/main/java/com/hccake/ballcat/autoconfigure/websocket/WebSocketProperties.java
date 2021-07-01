@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.websocket.config;
+package com.hccake.ballcat.autoconfigure.websocket;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -1,10 +1,11 @@
-package com.hccake.ballcat.common.websocket.config;
+package com.hccake.ballcat.autoconfigure.websocket;
 
 import com.hccake.ballcat.common.websocket.handler.JsonMessageHandler;
 import com.hccake.ballcat.common.websocket.holder.JsonMessageHandlerHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -18,6 +19,7 @@ import java.util.List;
  *
  * @author Yakir
  */
+@Import(WebSocketHandlerConfig.class)
 @EnableWebSocket
 @RequiredArgsConstructor
 public class WebSocketAutoConfiguration {

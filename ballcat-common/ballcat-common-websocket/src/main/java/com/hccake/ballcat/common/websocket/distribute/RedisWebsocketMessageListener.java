@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.websocket.distribute;
+package com.hccake.ballcat.common.websocket.distribute;
 
 import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;

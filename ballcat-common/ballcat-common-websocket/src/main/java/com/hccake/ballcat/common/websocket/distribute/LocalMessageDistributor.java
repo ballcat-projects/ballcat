@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.websocket.distribute;
+package com.hccake.ballcat.common.websocket.distribute;
 
 /**
  * 本地消息分发，直接进行发送

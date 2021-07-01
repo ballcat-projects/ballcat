@@ -1,24 +1,21 @@
-package com.hccake.ballcat.admin.websocket.distribute;
+package com.hccake.ballcat.notify.websocket;
 
+import com.hccake.ballcat.common.util.JsonUtils;
+import com.hccake.ballcat.common.websocket.distribute.MessageDO;
+import com.hccake.ballcat.common.websocket.distribute.MessageDistributor;
 import com.hccake.ballcat.notify.event.AnnouncementCloseEvent;
 import com.hccake.ballcat.notify.event.StationNotifyPushEvent;
 import com.hccake.ballcat.notify.model.domain.AnnouncementNotifyInfo;
 import com.hccake.ballcat.notify.model.domain.NotifyInfo;
+import com.hccake.ballcat.notify.model.dto.AnnouncementCloseMessage;
+import com.hccake.ballcat.notify.model.dto.AnnouncementPushMessage;
 import com.hccake.ballcat.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.notify.service.UserAnnouncementService;
-import com.hccake.ballcat.admin.websocket.message.AnnouncementCloseMessage;
-import com.hccake.ballcat.admin.websocket.message.AnnouncementPushMessage;
-import com.hccake.ballcat.admin.websocket.message.DictChangeMessage;
-import com.hccake.ballcat.admin.websocket.message.LovChangeMessage;
-import com.hccake.ballcat.common.util.JsonUtils;
-import com.hccake.ballcat.system.event.DictChangeEvent;
-import com.hccake.ballcat.system.event.LovChangeEvent;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,37 +25,12 @@ import java.util.List;
  * @version 1.0
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
-public class PushEventListener {
+public class NotifyWebsocketEventListener {
 
 	private final UserAnnouncementService userAnnouncementService;
 
 	private final MessageDistributor messageDistributor;
-
-	@Async
-	@EventListener(LovChangeEvent.class)
-	public void onLovChangeEvent(LovChangeEvent event) {
-		LovChangeMessage message = LovChangeMessage.of(event.getKeyword());
-		messageDistributor.distribute(MessageDO.broadcastMessage(message.toString()));
-	}
-
-	/**
-	 * 字典修改事件监听
-	 * @param event the `DictChangeEvent`
-	 */
-	@Async
-	@EventListener(DictChangeEvent.class)
-	public void onDictChangeEvent(DictChangeEvent event) {
-		// 构建字典修改的消息体
-		DictChangeMessage dictChangeMessage = new DictChangeMessage();
-		dictChangeMessage.setDictCode(event.getDictCode());
-		String msg = JsonUtils.toJson(dictChangeMessage);
-
-		// 广播修改信息
-		MessageDO messageDO = new MessageDO().setMessageText(msg).setNeedBroadcast(true);
-		messageDistributor.distribute(messageDO);
-	}
 
 	/**
 	 * 公告关闭事件监听

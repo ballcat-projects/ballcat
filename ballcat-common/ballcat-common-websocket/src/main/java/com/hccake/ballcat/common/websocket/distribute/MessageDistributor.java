@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.websocket.distribute;
+package com.hccake.ballcat.common.websocket.distribute;
 
 /**
  * 消息分发器

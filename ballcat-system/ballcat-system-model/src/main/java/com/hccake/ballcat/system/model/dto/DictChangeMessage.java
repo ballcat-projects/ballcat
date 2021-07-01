@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.websocket.message;
+package com.hccake.ballcat.system.model.dto;
 
 import com.hccake.ballcat.common.websocket.message.AbstractJsonWebSocketMessage;
 import lombok.Getter;
