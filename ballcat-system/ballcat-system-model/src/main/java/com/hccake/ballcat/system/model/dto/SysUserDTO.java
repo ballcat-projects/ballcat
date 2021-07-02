@@ -6,6 +6,8 @@ import com.hccake.ballcat.common.desensitize.json.annotation.JsonRegexDesensitiz
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 系统用户表
  *
@@ -79,7 +81,13 @@ public class SysUserDTO {
 	/**
 	 * 组织机构ID
 	 */
-	@ApiModelProperty(value = "organizationId")
+	@ApiModelProperty(value = "组织机构ID")
 	private Integer organizationId;
+
+	/**
+	 * 角色标识列表
+	 */
+	@ApiModelProperty(value = "角色标识列表")
+	private List<String> roleCodes;
 
 }

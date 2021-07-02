@@ -1,13 +1,16 @@
 package com.hccake.ballcat.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
+import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.util.PasswordUtils;
 import com.hccake.ballcat.file.service.FileService;
 import com.hccake.ballcat.system.checker.AdminUserChecker;
@@ -29,6 +32,7 @@ import com.hccake.ballcat.system.service.SysUserRoleService;
 import com.hccake.ballcat.system.service.SysUserService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +51,7 @@ import java.util.stream.Collectors;
  * @author ballcat code generator
  * @date 2019-09-12 20:39:31
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser> implements SysUserService {
@@ -128,6 +133,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 添加成功：true , 失败：false
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean addSysUser(SysUserDTO sysUserDto) {
 		SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
 		sysUser.setStatus(SysUserConst.Status.NORMAL.getValue());
@@ -136,11 +142,28 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		String password = sysUserDto.getPassword();
 		String bCryptPassword = PasswordUtils.encodeBCrypt(password);
 		sysUser.setPassword(bCryptPassword);
-		boolean result = SqlHelper.retBool(baseMapper.insert(sysUser));
-		if (result) {
-			publisher.publishEvent(new UserChangeEvent(sysUser));
+
+		// 保存用户
+		boolean insertSuccess = SqlHelper.retBool(baseMapper.insert(sysUser));
+		Assert.isTrue(insertSuccess, () -> {
+			log.error("[addSysUser] 数据插入系统用户表失败，user：{}", sysUserDto);
+			return new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "数据插入系统用户表失败");
+		});
+
+		// 新增用户角色关联
+		List<String> roleCodes = sysUserDto.getRoleCodes();
+		if (CollectionUtil.isNotEmpty(roleCodes)) {
+			boolean addUserRoleSuccess = sysUserRoleService.addUserRoles(sysUser.getUserId(), roleCodes);
+			Assert.isTrue(addUserRoleSuccess, () -> {
+				log.error("[addSysUser] 更新用户角色信息失败，user：{}， roleCodes: {}", sysUserDto, roleCodes);
+				return new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "更新用户角色信息失败");
+			});
 		}
-		return result;
+
+		// 发布用户更新事件
+		publisher.publishEvent(new UserChangeEvent(sysUser));
+
+		return true;
 	}
 
 	/**

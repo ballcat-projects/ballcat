@@ -43,18 +43,45 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	}
 
 	/**
+	 * 更新用户关联关系
+	 * @param userId 用户ID
+	 * @param roleCodes 角色标识集合
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean updateUserRoles(@NonNull Integer userId, @NonNull List<String> roleCodes) {
+		// 是否存在用户角色绑定关系，存在则先清空
+		boolean existsRoleBind = baseMapper.existsRoleBind(userId, null);
+		if (existsRoleBind) {
+			boolean deleteSuccess = baseMapper.deleteByUserId(userId);
+			Assert.isTrue(deleteSuccess, () -> {
+				log.error("[updateUserRoles] 删除用户角色关联关系失败，userId：{}，roleCodes：{}", userId, roleCodes);
+				return new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "删除用户角色关联关系失败");
+			});
+		}
+
+		// 没有的新授权的角色直接返回
+		if (CollectionUtil.isNotEmpty(roleCodes)) {
+			return true;
+		}
+
+		// 保存新的用户角色关联关系
+		return addUserRoles(userId, roleCodes);
+	}
+
+	/**
 	 * 插入用户角色关联关系
 	 * @param userId 用户ID
 	 * @param roleCodes 角色标识集合
 	 * @return boolean
 	 */
 	@Override
-	public boolean insertUserRoles(@NonNull Integer userId, @NonNull List<String> roleCodes) {
+	public boolean addUserRoles(@NonNull Integer userId, @NonNull List<String> roleCodes) {
 		List<SysUserRole> list = prodSysUserRoles(userId, roleCodes);
 		// 批量插入
 		boolean insertSuccess = SqlHelper.retBool(baseMapper.insertBatchSomeColumn(list));
 		Assert.isTrue(insertSuccess, () -> {
-			log.error("[insertUserRoles] 插入用户角色关联关系失败，userId：{}，roleCodes：{}", userId, roleCodes);
+			log.error("[addUserRoles] 插入用户角色关联关系失败，userId：{}，roleCodes：{}", userId, roleCodes);
 			return new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "插入用户角色关联关系失败");
 		});
 		return insertSuccess;
@@ -76,39 +103,6 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 			list.add(sysUserRole);
 		}
 		return list;
-	}
-
-	/**
-	 * 更新用户关联关系
-	 * @param userId 用户ID
-	 * @param roleCodes 角色标识集合
-	 */
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public boolean updateUserRoles(@NonNull Integer userId, @NonNull List<String> roleCodes) {
-		// 是否存在用户角色绑定关系，存在则先清空
-		boolean existsRoleBind = baseMapper.existsRoleBind(userId, null);
-		if (existsRoleBind) {
-			boolean deleteSuccess = baseMapper.deleteByUserId(userId);
-			Assert.isTrue(deleteSuccess, () -> {
-				log.error("[updateUserRoles] 删除用户角色关联关系失败，userId：{}，roleCodes：{}", userId, roleCodes);
-				return new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "删除用户角色关联关系失败");
-			});
-		}
-
-		// 没有的新授权的角色直接返回
-		if (CollectionUtil.isEmpty(roleCodes)) {
-			return true;
-		}
-		// 转换为 SysUserRole 实体集合
-		List<SysUserRole> list = prodSysUserRoles(userId, roleCodes);
-		// 批量插入
-		boolean insertSuccess = SqlHelper.retBool(baseMapper.insertBatchSomeColumn(list));
-		Assert.isTrue(insertSuccess, () -> {
-			log.error("[updateUserRoles] 插入用户角色关联关系失败，userId：{}，roleCodes：{}", userId, roleCodes);
-			return new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "插入用户角色关联关系失败");
-		});
-		return insertSuccess;
 	}
 
 	/**

@@ -25,20 +25,20 @@ public interface SysUserRoleService extends ExtendService<SysUserRole> {
 	boolean deleteByUserId(Integer userId);
 
 	/**
-	 * 插入用户角色关联关系
-	 * @param userId 用户ID
-	 * @param roleCodes 角色标识集合
-	 * @return 插入是否成功
-	 */
-	boolean insertUserRoles(Integer userId, List<String> roleCodes);
-
-	/**
 	 * 更新用户关联关系
 	 * @param userId 用户ID
 	 * @param roleCodes 角色标识集合
 	 * @return boolean
 	 */
 	boolean updateUserRoles(Integer userId, List<String> roleCodes);
+
+	/**
+	 * 添加用户角色关联关系
+	 * @param userId 用户ID
+	 * @param roleCodes 角色标识集合
+	 * @return 插入是否成功
+	 */
+	boolean addUserRoles(Integer userId, List<String> roleCodes);
 
 	/**
 	 * 通过用户ID，查询角色列表
