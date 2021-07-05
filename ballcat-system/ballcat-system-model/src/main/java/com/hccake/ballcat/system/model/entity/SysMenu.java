@@ -102,6 +102,7 @@ public class SysMenu {
 	 * 逻辑删除标识，未删除为 0，已删除为删除时间
 	 */
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "逻辑删除标识，未删除为 0，已删除为删除时间")
 	private Long deleted;
 

@@ -2,6 +2,8 @@ package com.hccake.ballcat.system.service.impl;
 
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.common.core.exception.BusinessException;
+import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.system.converter.SysMenuConverter;
 import com.hccake.ballcat.system.mapper.SysMenuMapper;
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
@@ -9,9 +11,6 @@ import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.qo.SysMenuQO;
 import com.hccake.ballcat.system.service.SysMenuService;
 import com.hccake.ballcat.system.service.SysRoleMenuService;
-import com.hccake.ballcat.common.core.constant.GlobalConstants;
-import com.hccake.ballcat.common.core.exception.BusinessException;
-import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +38,12 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 	 */
 	@Override
 	public boolean save(SysMenu sysMenu) {
-		// 逻辑删除初始值
-		sysMenu.setDeleted(GlobalConstants.NOT_DELETED_FLAG);
+		Integer menuId = sysMenu.getId();
+		SysMenu existingMenu = baseMapper.selectById(menuId);
+		if (existingMenu != null) {
+			String errorMessage = String.format("ID [%s] 已被菜单 [%s] 使用，请更换其他菜单ID", menuId, existingMenu.getTitle());
+			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), errorMessage);
+		}
 		return SqlHelper.retBool(baseMapper.insert(sysMenu));
 	}
 
