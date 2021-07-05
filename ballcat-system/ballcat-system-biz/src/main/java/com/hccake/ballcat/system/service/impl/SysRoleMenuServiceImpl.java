@@ -64,4 +64,15 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 		baseMapper.deleteByRoleCode(roleCode);
 	}
 
+	/**
+	 * 更新某个菜单的 id
+	 * @param originalId 原菜单ID
+	 * @param menuId 修改后的菜单Id
+	 * @return 被更新的菜单数
+	 */
+	@Override
+	public int updateMenuId(Integer originalId, Integer menuId) {
+		return baseMapper.updateMenuId(originalId, menuId);
+	}
+
 }

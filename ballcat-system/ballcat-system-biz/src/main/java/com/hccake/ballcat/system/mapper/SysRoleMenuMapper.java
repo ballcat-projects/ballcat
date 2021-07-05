@@ -1,5 +1,6 @@
 package com.hccake.ballcat.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.hccake.ballcat.system.model.entity.SysRoleMenu;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
@@ -30,6 +31,22 @@ public interface SysRoleMenuMapper extends ExtendMapper<SysRoleMenu> {
 	 */
 	default void deleteByRoleCode(String roleCode) {
 		this.delete(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getRoleCode, roleCode));
+	}
+
+	/**
+	 * 更新某个菜单的 id
+	 * @param originalId 原菜单ID
+	 * @param menuId 修改后的菜单Id
+	 * @return 被更新的条数
+	 */
+	default int updateMenuId(Integer originalId, Integer menuId) {
+		// @formatter:off
+		LambdaUpdateWrapper<SysRoleMenu> wrapper = Wrappers.lambdaUpdate(SysRoleMenu.class)
+				.set(SysRoleMenu::getMenuId, menuId)
+				.eq(SysRoleMenu::getMenuId, originalId);
+		// @formatter:on
+
+		return this.update(null, wrapper);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.hccake.ballcat.system.converter;
 
+import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.vo.SysMenuRouterVO;
 import com.hccake.ballcat.system.model.vo.SysMenuPageVO;
@@ -29,5 +30,12 @@ public interface SysMenuConverter {
 	 * @return SysMenuVO
 	 */
 	SysMenuRouterVO poToRouterVo(SysMenu sysMenu);
+
+	/**
+	 * updateDto 转 Po
+	 * @param sysMenuUpdateDTO 菜单修改对象
+	 * @return SysMenu 菜单权限的持久化对象
+	 */
+	SysMenu updateDtoToPo(SysMenuUpdateDTO sysMenuUpdateDTO);
 
 }

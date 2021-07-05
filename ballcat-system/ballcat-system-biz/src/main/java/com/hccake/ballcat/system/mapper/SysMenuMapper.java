@@ -1,6 +1,8 @@
 package com.hccake.ballcat.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.qo.SysMenuQO;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
@@ -45,6 +47,22 @@ public interface SysMenuMapper extends ExtendMapper<SysMenu> {
 	 */
 	default Integer countSubMenu(Serializable id) {
 		return this.selectCount(Wrappers.<SysMenu>query().lambda().eq(SysMenu::getParentId, id));
+	}
+
+	/**
+	 * 根据指定的 id 更新 菜单权限（便于修改其 id）
+	 * @param sysMenu 系统菜单
+	 * @param originalId 原菜单ID
+	 * @return 更新成功返回 true
+	 */
+	default boolean updateMenuAndId(Integer originalId, SysMenu sysMenu) {
+		// @formatter:off
+		LambdaUpdateWrapper<SysMenu> wrapper = Wrappers.lambdaUpdate(SysMenu.class)
+				.set(SysMenu::getId, sysMenu.getId())
+				.eq(SysMenu::getId, originalId);
+		// @formatter:on
+		int flag = this.update(sysMenu, wrapper);
+		return SqlHelper.retBool(flag);
 	}
 
 }

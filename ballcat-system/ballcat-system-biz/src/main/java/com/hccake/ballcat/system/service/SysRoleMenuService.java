@@ -35,4 +35,12 @@ public interface SysRoleMenuService extends ExtendService<SysRoleMenu> {
 	 */
 	void deleteByRoleCode(String roleCode);
 
+	/**
+	 * 更新某个菜单的 id
+	 * @param originalId 原菜单ID
+	 * @param menuId 修改后的菜单Id
+	 * @return 被更新的菜单数
+	 */
+	int updateMenuId(Integer originalId, Integer menuId);
+
 }

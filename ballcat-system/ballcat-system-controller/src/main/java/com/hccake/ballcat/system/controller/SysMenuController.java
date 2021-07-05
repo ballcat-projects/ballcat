@@ -11,6 +11,7 @@ import com.hccake.ballcat.oauth.domain.UserResources;
 import com.hccake.ballcat.oauth.util.SecurityUtils;
 import com.hccake.ballcat.system.constant.SysPermissionConst;
 import com.hccake.ballcat.system.converter.SysMenuConverter;
+import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.qo.SysMenuQO;
 import com.hccake.ballcat.system.model.vo.SysMenuRouterVO;
@@ -93,15 +94,16 @@ public class SysMenuController {
 
 	/**
 	 * 修改菜单权限
-	 * @param sysMenu 菜单权限
+	 * @param sysMenuUpdateDTO 菜单权限修改DTO
 	 * @return R 通用返回体
 	 */
 	@ApiOperation(value = "修改菜单权限", notes = "修改菜单权限")
 	@UpdateOperationLogging(msg = "修改菜单权限")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:menu:edit')")
-	public R<String> updateById(@RequestBody SysMenu sysMenu) {
-		return sysMenuService.updateById(sysMenu) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改菜单权限失败");
+	public R<String> updateById(@RequestBody SysMenuUpdateDTO sysMenuUpdateDTO) {
+		sysMenuService.update(sysMenuUpdateDTO);
+		return R.ok();
 	}
 
 	/**
