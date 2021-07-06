@@ -1,10 +1,10 @@
 package com.hccake.ballcat.oauth;
 
+import com.hccake.ballcat.common.security.userdetails.DefaultUserAttributes;
+import com.hccake.ballcat.common.security.userdetails.DefaultUserResources;
+import com.hccake.ballcat.common.security.userdetails.UserAttributes;
+import com.hccake.ballcat.common.security.userdetails.UserResources;
 import com.hccake.ballcat.system.model.entity.SysUser;
-import com.hccake.ballcat.oauth.domain.DefaultUserAttributes;
-import com.hccake.ballcat.oauth.domain.DefaultUserResources;
-import com.hccake.ballcat.oauth.domain.UserAttributes;
-import com.hccake.ballcat.oauth.domain.UserResources;
 
 import java.util.Set;
 

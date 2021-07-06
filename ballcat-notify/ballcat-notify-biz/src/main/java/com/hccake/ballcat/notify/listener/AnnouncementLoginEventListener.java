@@ -6,7 +6,7 @@ import com.hccake.ballcat.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.notify.recipient.RecipientHandler;
 import com.hccake.ballcat.notify.service.AnnouncementService;
 import com.hccake.ballcat.notify.service.UserAnnouncementService;
-import com.hccake.ballcat.oauth.SysUserDetails;
+import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

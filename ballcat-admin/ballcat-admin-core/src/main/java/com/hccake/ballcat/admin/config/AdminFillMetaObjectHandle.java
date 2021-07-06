@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.config;
 
 import com.hccake.ballcat.system.model.entity.SysUser;
-import com.hccake.ballcat.oauth.util.SecurityUtils;
+import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.conf.mybatis.FillMetaObjectHandle;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;

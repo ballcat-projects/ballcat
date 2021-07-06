@@ -7,7 +7,7 @@ import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.util.PasswordUtils;
 import com.hccake.ballcat.oauth.properties.SecurityProperties;
-import com.hccake.ballcat.oauth.util.SecurityUtils;
+import com.hccake.ballcat.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;

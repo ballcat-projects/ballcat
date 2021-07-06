@@ -1,8 +1,9 @@
 package com.hccake.ballcat.oauth;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hccake.ballcat.oauth.domain.UserAttributes;
-import com.hccake.ballcat.oauth.domain.UserResources;
+import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
+import com.hccake.ballcat.common.security.userdetails.UserAttributes;
+import com.hccake.ballcat.common.security.userdetails.UserResources;
 import com.hccake.ballcat.system.model.dto.UserInfoDTO;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import com.hccake.ballcat.system.service.SysUserService;

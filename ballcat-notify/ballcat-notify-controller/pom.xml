@@ -18,10 +18,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-oauth-model</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-boot-starter-log</artifactId>
 		</dependency>
 	</dependencies>

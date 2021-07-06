@@ -1,7 +1,7 @@
 package com.hccake.ballcat.system.checker;
 
 import cn.hutool.core.util.StrUtil;
-import com.hccake.ballcat.oauth.util.SecurityUtils;
+import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import com.hccake.ballcat.system.properties.UpmsProperties;
 import lombok.RequiredArgsConstructor;

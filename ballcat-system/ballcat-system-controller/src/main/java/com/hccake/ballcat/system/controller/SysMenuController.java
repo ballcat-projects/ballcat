@@ -6,9 +6,9 @@ import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
-import com.hccake.ballcat.oauth.SysUserDetails;
-import com.hccake.ballcat.oauth.domain.UserResources;
-import com.hccake.ballcat.oauth.util.SecurityUtils;
+import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
+import com.hccake.ballcat.common.security.userdetails.UserResources;
+import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.system.constant.SysPermissionConst;
 import com.hccake.ballcat.system.converter.SysMenuConverter;
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;

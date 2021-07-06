@@ -6,7 +6,7 @@ import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.notify.model.qo.UserAnnouncementQO;
 import com.hccake.ballcat.notify.model.vo.UserAnnouncementPageVO;
 import com.hccake.ballcat.notify.service.UserAnnouncementService;
-import com.hccake.ballcat.oauth.util.SecurityUtils;
+import com.hccake.ballcat.common.security.util.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
