@@ -6,7 +6,7 @@ import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
-import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
+import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.userdetails.UserResources;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.system.constant.SysPermissionConst;
@@ -47,8 +47,8 @@ public class SysMenuController {
 	public R<List<SysMenuRouterVO>> getUserPermission() {
 
 		// 获取角色Code
-		SysUserDetails sysUserDetails = SecurityUtils.getSysUserDetails();
-		UserResources userResources = sysUserDetails.getUserResources();
+		User user = SecurityUtils.getUser();
+		UserResources userResources = user.getUserResources();
 		Collection<String> roleCodes = userResources.getRoles();
 		if (CollectionUtil.isEmpty(roleCodes)) {
 			return R.ok(new ArrayList<>());

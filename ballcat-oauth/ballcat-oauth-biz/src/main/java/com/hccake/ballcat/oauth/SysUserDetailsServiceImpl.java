@@ -1,7 +1,7 @@
 package com.hccake.ballcat.oauth;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
+import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.userdetails.UserAttributes;
 import com.hccake.ballcat.common.security.userdetails.UserResources;
 import com.hccake.ballcat.system.model.dto.UserInfoDTO;
@@ -74,7 +74,9 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		// 用户额外属性
 		UserAttributes userAttributes = userInfoCoordinator.coordinateAttribute(sysUser);
 
-		return new SysUserDetails(sysUser, authorities, userResources, userAttributes);
+		return new User(sysUser.getUserId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(),
+				sysUser.getAvatar(), sysUser.getStatus(), sysUser.getOrganizationId(), sysUser.getType(), authorities,
+				userResources, userAttributes);
 	}
 
 }

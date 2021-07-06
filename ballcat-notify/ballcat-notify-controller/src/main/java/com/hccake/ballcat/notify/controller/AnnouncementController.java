@@ -132,7 +132,7 @@ public class AnnouncementController {
 	@GetMapping("/user")
 	@PreAuthorize("@per.hasPermission('notify:userannouncement:read')")
 	public R<List<Announcement>> getUserAnnouncements() {
-		Integer userId = SecurityUtils.getSysUser().getUserId();
+		Integer userId = SecurityUtils.getUser().getUserId();
 		return R.ok(announcementService.listActiveAnnouncements(userId));
 	}
 

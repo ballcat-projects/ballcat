@@ -1,8 +1,7 @@
 package com.hccake.ballcat.oauth;
 
-import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
+import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.userdetails.UserResources;
-import com.hccake.ballcat.system.converter.SysUserConverter;
 import com.hccake.ballcat.system.model.vo.SysUserInfo;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -30,10 +29,9 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 		final Map<String, Object> additionalInfo = new HashMap<>(8);
 		Object principal = authentication.getUserAuthentication().getPrincipal();
 
-		SysUserDetails sysUserDetails = (SysUserDetails) principal;
-		SysUserInfo sysUserInfo = SysUserConverter.INSTANCE.poToInfo(sysUserDetails.getSysUser());
-
-		UserResources userResources = sysUserDetails.getUserResources();
+		User user = (User) principal;
+		SysUserInfo sysUserInfo = getSysUserInfo(user);
+		UserResources userResources = user.getUserResources();
 
 		additionalInfo.put("info", sysUserInfo);
 		additionalInfo.put("roles", userResources.getRoles());
@@ -42,6 +40,22 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 
 		return accessToken;
+	}
+
+	/**
+	 * 根据 User 对象获取 SysUserInfo
+	 * @param user User
+	 * @return SysUserInfo
+	 */
+	public SysUserInfo getSysUserInfo(User user) {
+		SysUserInfo sysUserInfo = new SysUserInfo();
+		sysUserInfo.setUserId(user.getUserId());
+		sysUserInfo.setUsername(user.getUsername());
+		sysUserInfo.setNickname(user.getNickname());
+		sysUserInfo.setAvatar(user.getAvatar());
+		sysUserInfo.setOrganizationId(user.getOrganizationId());
+		sysUserInfo.setType(user.getType());
+		return sysUserInfo;
 	}
 
 }

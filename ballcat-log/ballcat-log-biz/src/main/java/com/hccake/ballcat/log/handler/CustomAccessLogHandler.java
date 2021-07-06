@@ -6,7 +6,6 @@ import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.log.access.handler.AccessLogHandler;
 import com.hccake.ballcat.common.log.constant.LogConstant;
 import com.hccake.ballcat.common.log.util.LogUtils;
-import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.util.IpUtils;
 import com.hccake.ballcat.common.util.JsonUtils;
@@ -95,7 +94,7 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 		}
 
 		// 如果登陆用户 则记录用户名和用户id
-		Optional.ofNullable(SecurityUtils.getSysUserDetails()).map(SysUserDetails::getSysUser).ifPresent(x -> {
+		Optional.ofNullable(SecurityUtils.getUser()).ifPresent(x -> {
 			accessLog.setUserId(x.getUserId());
 			accessLog.setUsername(x.getUsername());
 		});

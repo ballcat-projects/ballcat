@@ -1,8 +1,8 @@
 package com.hccake.ballcat.admin.config;
 
-import com.hccake.ballcat.system.model.entity.SysUser;
-import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.conf.mybatis.FillMetaObjectHandle;
+import com.hccake.ballcat.common.security.userdetails.User;
+import com.hccake.ballcat.common.security.util.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -18,9 +18,9 @@ public class AdminFillMetaObjectHandle extends FillMetaObjectHandle {
 	public void insertFill(MetaObject metaObject) {
 		super.insertFill(metaObject);
 
-		SysUser sysUser = SecurityUtils.getSysUser();
-		if (sysUser != null) {
-			this.strictInsertFill(metaObject, "createBy", Integer.class, sysUser.getUserId());
+		User user = SecurityUtils.getUser();
+		if (user != null) {
+			this.strictInsertFill(metaObject, "createBy", Integer.class, user.getUserId());
 		}
 	}
 
@@ -28,9 +28,9 @@ public class AdminFillMetaObjectHandle extends FillMetaObjectHandle {
 	public void updateFill(MetaObject metaObject) {
 		super.updateFill(metaObject);
 
-		SysUser sysUser = SecurityUtils.getSysUser();
-		if (sysUser != null) {
-			this.strictUpdateFill(metaObject, "updateBy", Integer.class, sysUser.getUserId());
+		User user = SecurityUtils.getUser();
+		if (user != null) {
+			this.strictUpdateFill(metaObject, "updateBy", Integer.class, user.getUserId());
 		}
 	}
 

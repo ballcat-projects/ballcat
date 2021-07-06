@@ -6,7 +6,7 @@ import com.hccake.ballcat.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.notify.recipient.RecipientHandler;
 import com.hccake.ballcat.notify.service.AnnouncementService;
 import com.hccake.ballcat.notify.service.UserAnnouncementService;
-import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
+import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,8 +49,9 @@ public class AnnouncementLoginEventListener {
 		}
 		// https://github.com/spring-projects-experimental/spring-authorization-server
 		if ("password".equals(((HashMap) details).get("grant_type"))) {
-			SysUserDetails sysUserDetails = (SysUserDetails) source.getPrincipal();
-			SysUser sysUser = sysUserDetails.getSysUser();
+			User user = (User) source.getPrincipal();
+			SysUser sysUser = getSysUser(user);
+
 			// 获取当前用户未拉取过的公告信息
 			Integer userId = sysUser.getUserId();
 			List<Announcement> announcements = announcementService.listUnPulled(userId);
@@ -68,6 +69,17 @@ public class AnnouncementLoginEventListener {
 				log.error("用户公告保存失败：[{}]", userAnnouncements, exception);
 			}
 		}
+	}
+
+	private SysUser getSysUser(User user) {
+		SysUser sysUser = new SysUser();
+		sysUser.setUserId(user.getUserId());
+		sysUser.setUsername(user.getUsername());
+		sysUser.setNickname(user.getNickname());
+		sysUser.setAvatar(user.getAvatar());
+		sysUser.setOrganizationId(user.getOrganizationId());
+		sysUser.setType(user.getType());
+		return sysUser;
 	}
 
 	private boolean filterMatched(Announcement announ, Map<Integer, Object> filterAttrs) {

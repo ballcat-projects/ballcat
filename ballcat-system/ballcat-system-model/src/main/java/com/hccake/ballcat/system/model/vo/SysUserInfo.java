@@ -43,6 +43,12 @@ public class SysUserInfo implements Serializable {
 	private String avatar;
 
 	/**
+	 * 组织机构ID
+	 */
+	@ApiModelProperty(value = "组织机构ID")
+	private Integer organizationId;
+
+	/**
 	 * 用户类型
 	 */
 	@ApiModelProperty(value = "用户类型：1-系统用户，2-客户用户")

@@ -1,8 +1,7 @@
 package com.hccake.ballcat.common.security.userdetails;
 
-import com.hccake.ballcat.common.core.constant.GlobalConstants;
-import com.hccake.ballcat.system.constant.SysUserConst;
-import com.hccake.ballcat.system.model.entity.SysUser;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,10 +12,53 @@ import java.util.Collection;
  * @version 1.0
  * @date 2019/9/25 21:03
  */
-public class SysUserDetails implements UserDetails {
+@ToString
+@Getter
+public class User implements UserDetails {
 
-	private final SysUser sysUser;
+	/**
+	 * 用户ID
+	 */
+	private final Integer userId;
 
+	/**
+	 * 登录账号
+	 */
+	private final String username;
+
+	/**
+	 * 密码
+	 */
+	private final String password;
+
+	/**
+	 * 昵称
+	 */
+	private final String nickname;
+
+	/**
+	 * 头像
+	 */
+	private final String avatar;
+
+	/**
+	 * 状态(1-正常,0-冻结)
+	 */
+	private final Integer status;
+
+	/**
+	 * 组织机构ID
+	 */
+	private final Integer organizationId;
+
+	/**
+	 * 用户类型
+	 */
+	private final Integer type;
+
+	/**
+	 * 权限信息列表
+	 */
 	private final Collection<? extends GrantedAuthority> authorities;
 
 	/**
@@ -31,27 +73,20 @@ public class SysUserDetails implements UserDetails {
 	 */
 	private final UserAttributes userAttributes;
 
-	public SysUserDetails(SysUser sysUser, Collection<? extends GrantedAuthority> authorities,
+	public User(Integer userId, String username, String password, String nickname, String avatar, Integer status,
+			Integer organizationId, Integer type, Collection<? extends GrantedAuthority> authorities,
 			UserResources userResources, UserAttributes userAttributes) {
-		this.sysUser = sysUser;
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.nickname = nickname;
+		this.avatar = avatar;
+		this.status = status;
+		this.organizationId = organizationId;
+		this.type = type;
 		this.authorities = authorities;
 		this.userResources = userResources;
 		this.userAttributes = userAttributes;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
-	}
-
-	@Override
-	public String getPassword() {
-		return sysUser.getPassword();
-	}
-
-	@Override
-	public String getUsername() {
-		return sysUser.getUsername();
 	}
 
 	@Override
@@ -61,7 +96,7 @@ public class SysUserDetails implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return GlobalConstants.NOT_DELETED_FLAG.equals(sysUser.getDeleted());
+		return true;
 	}
 
 	@Override
@@ -71,19 +106,7 @@ public class SysUserDetails implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return SysUserConst.Status.NORMAL.getValue().equals(sysUser.getStatus());
-	}
-
-	public SysUser getSysUser() {
-		return sysUser;
-	}
-
-	public UserResources getUserResources() {
-		return userResources;
-	}
-
-	public UserAttributes getUserAttributes() {
-		return userAttributes;
+		return this.status != null && this.status == 1;
 	}
 
 }

@@ -1,8 +1,8 @@
 package com.hccake.ballcat.admin.websocket.user;
 
 import com.hccake.ballcat.admin.websocket.constant.AdminWebSocketConstants;
+import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
-import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -42,9 +42,9 @@ public class UserAttributeHandshakeInterceptor implements HandshakeInterceptor {
 			accessToken = serverRequest.getServletRequest().getParameter(AdminWebSocketConstants.TOKEN_ATTR_NAME);
 		}
 		// 由于 WebSocket 握手是由 http 升级的，携带 token 已经被 Security 拦截验证了，所以可以直接获取到用户
-		SysUser sysUser = SecurityUtils.getSysUser();
+		User user = SecurityUtils.getUser();
 		attributes.put(AdminWebSocketConstants.TOKEN_ATTR_NAME, accessToken);
-		attributes.put(AdminWebSocketConstants.USER_KEY_ATTR_NAME, sysUser.getUserId());
+		attributes.put(AdminWebSocketConstants.USER_KEY_ATTR_NAME, user.getUserId());
 		return true;
 	}
 

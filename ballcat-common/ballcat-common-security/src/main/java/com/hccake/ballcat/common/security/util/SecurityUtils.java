@@ -1,12 +1,10 @@
 package com.hccake.ballcat.common.security.util;
 
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
-import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
-import com.hccake.ballcat.system.model.entity.SysUser;
+import com.hccake.ballcat.common.security.userdetails.User;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.Optional;
 
@@ -28,16 +26,16 @@ public class SecurityUtils {
 	/**
 	 * 获取系统用户Details
 	 * @param authentication 令牌
-	 * @return SysUser
+	 * @return User
 	 * <p>
 	 */
-	public SysUserDetails getSysUserDetails(Authentication authentication) {
+	public User getUser(Authentication authentication) {
 		if (authentication == null) {
 			return null;
 		}
 		Object principal = authentication.getPrincipal();
-		if (principal instanceof SysUserDetails) {
-			return (SysUserDetails) principal;
+		if (principal instanceof User) {
+			return (User) principal;
 		}
 		return null;
 	}
@@ -45,17 +43,9 @@ public class SecurityUtils {
 	/**
 	 * 获取用户详情
 	 */
-	public SysUserDetails getSysUserDetails() {
+	public User getUser() {
 		Authentication authentication = getAuthentication();
-		return getSysUserDetails(authentication);
-	}
-
-	/**
-	 * 获取系统用户
-	 */
-	public SysUser getSysUser() {
-		SysUserDetails sysUserDetails = getSysUserDetails();
-		return sysUserDetails == null ? null : sysUserDetails.getSysUser();
+		return getUser(authentication);
 	}
 
 	/**
@@ -65,7 +55,8 @@ public class SecurityUtils {
 	public boolean isTestClient() {
 		// 测试客户端 跳过密码解密（swagger 或 postman测试时使用）
 		Authentication authentication = SecurityUtils.getAuthentication();
-		User user = (User) Optional.ofNullable(authentication).map(Authentication::getPrincipal).orElse(null);
+		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) Optional
+				.ofNullable(authentication).map(Authentication::getPrincipal).orElse(null);
 		return user != null && SecurityConstants.TEST_CLIENT_ID.equals(user.getUsername());
 	}
 

@@ -44,7 +44,7 @@ public class UserAnnouncementController {
 	@PatchMapping("/read/{announcementId}")
 	@PreAuthorize("@per.hasPermission('notify:userannouncement:read')")
 	public R<?> readAnnouncement(@PathVariable("announcementId") Long announcementId) {
-		Integer userId = SecurityUtils.getSysUser().getUserId();
+		Integer userId = SecurityUtils.getUser().getUserId();
 		userAnnouncementService.readAnnouncement(userId, announcementId);
 		return R.ok();
 	}
