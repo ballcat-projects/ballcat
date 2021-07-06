@@ -61,7 +61,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 		}
 
 		// 没有的新授权的角色直接返回
-		if (CollectionUtil.isNotEmpty(roleCodes)) {
+		if (CollectionUtil.isEmpty(roleCodes)) {
 			return true;
 		}
 
