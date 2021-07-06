@@ -1,4 +1,4 @@
-package com.hccake.ballcat.oauth;
+package com.hccake.ballcat.common.security.component;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;

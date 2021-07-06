@@ -51,6 +51,12 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.hccake</groupId>
+            <artifactId>ballcat-common-security</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 </project>

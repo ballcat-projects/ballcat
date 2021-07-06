@@ -14,7 +14,6 @@
 
 	<modules>
 		<module>ballcat-oauth-biz</module>
-		<module>ballcat-oauth-model</module>
 		<module>ballcat-oauth-controller</module>
 	</modules>
 

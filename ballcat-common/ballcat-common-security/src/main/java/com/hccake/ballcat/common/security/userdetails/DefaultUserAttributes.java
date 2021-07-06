@@ -1,4 +1,4 @@
-package com.hccake.ballcat.oauth.domain;
+package com.hccake.ballcat.common.security.userdetails;
 
 /**
  * 默认的用户属性实现类，没有任何属性

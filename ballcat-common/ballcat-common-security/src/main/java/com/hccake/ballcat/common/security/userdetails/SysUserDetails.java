@@ -1,8 +1,6 @@
-package com.hccake.ballcat.oauth;
+package com.hccake.ballcat.common.security.userdetails;
 
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
-import com.hccake.ballcat.oauth.domain.UserAttributes;
-import com.hccake.ballcat.oauth.domain.UserResources;
 import com.hccake.ballcat.system.constant.SysUserConst;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import org.springframework.security.core.GrantedAuthority;

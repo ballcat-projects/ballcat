@@ -1,4 +1,4 @@
-package com.hccake.ballcat.oauth.domain;
+package com.hccake.ballcat.common.security.userdetails;
 
 import lombok.*;
 

@@ -3,9 +3,9 @@ package com.hccake.ballcat.oauth.filter;
 import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.util.PasswordUtils;
-import com.hccake.ballcat.oauth.constant.SecurityConst;
 import com.hccake.ballcat.oauth.properties.SecurityProperties;
 import com.hccake.ballcat.oauth.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @Slf4j
 @Order(0)
-@WebFilter(urlPatterns = { SecurityConst.LOGIN_URL })
+@WebFilter(urlPatterns = { SecurityConstants.LOGIN_URL })
 @RequiredArgsConstructor
 public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 

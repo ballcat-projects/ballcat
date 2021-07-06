@@ -1,7 +1,7 @@
-package com.hccake.ballcat.oauth.util;
+package com.hccake.ballcat.common.security.util;
 
-import com.hccake.ballcat.oauth.SysUserDetails;
-import com.hccake.ballcat.oauth.constant.SecurityConst;
+import com.hccake.ballcat.common.security.constant.SecurityConstants;
+import com.hccake.ballcat.common.security.userdetails.SysUserDetails;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
@@ -66,7 +66,7 @@ public class SecurityUtils {
 		// 测试客户端 跳过密码解密（swagger 或 postman测试时使用）
 		Authentication authentication = SecurityUtils.getAuthentication();
 		User user = (User) Optional.ofNullable(authentication).map(Authentication::getPrincipal).orElse(null);
-		return user != null && SecurityConst.TEST_CLIENT_ID.equals(user.getUsername());
+		return user != null && SecurityConstants.TEST_CLIENT_ID.equals(user.getUsername());
 	}
 
 }

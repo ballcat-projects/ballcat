@@ -19,6 +19,7 @@
         <module>ballcat-common-util</module>
         <module>ballcat-common-model</module>
         <module>ballcat-common-websocket</module>
+        <module>ballcat-common-security</module>
     </modules>
 
 

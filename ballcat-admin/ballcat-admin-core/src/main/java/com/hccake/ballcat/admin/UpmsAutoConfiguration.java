@@ -1,8 +1,8 @@
 package com.hccake.ballcat.admin;
 
 import com.anji.captcha.service.CaptchaService;
+import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.oauth.UserInfoCoordinator;
-import com.hccake.ballcat.oauth.constant.SecurityConst;
 import com.hccake.ballcat.oauth.filter.LoginCaptchaFilter;
 import com.hccake.ballcat.system.properties.UpmsProperties;
 import org.mybatis.spring.annotation.MapperScan;
@@ -42,7 +42,7 @@ public class UpmsAutoConfiguration {
 		bean.setFilter(filter);
 		// 比密码解密早一步
 		bean.setOrder(-1);
-		bean.addUrlPatterns(SecurityConst.LOGIN_URL);
+		bean.addUrlPatterns(SecurityConstants.LOGIN_URL);
 		return bean;
 	}
 

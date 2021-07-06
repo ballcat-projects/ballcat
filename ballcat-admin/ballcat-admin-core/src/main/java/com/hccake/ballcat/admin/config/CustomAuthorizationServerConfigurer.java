@@ -1,9 +1,9 @@
 package com.hccake.ballcat.admin.config;
 
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
+import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.oauth.CustomTokenEnhancer;
 import com.hccake.ballcat.oauth.SysUserDetailsServiceImpl;
-import com.hccake.ballcat.oauth.constant.SecurityConst;
 import com.hccake.ballcat.oauth.exception.CustomWebResponseExceptionTranslator;
 import com.hccake.ballcat.oauth.mobile.MobileTokenGranter;
 import lombok.RequiredArgsConstructor;
@@ -108,7 +108,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	@ConditionalOnMissingBean
 	public TokenStore tokenStore() {
 		RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-		tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + SecurityConst.OAUTH_PREFIX);
+		tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + SecurityConstants.OAUTH_PREFIX);
 		return tokenStore;
 	}
 

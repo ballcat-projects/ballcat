@@ -1,11 +1,11 @@
-package com.hccake.ballcat.oauth.constant;
+package com.hccake.ballcat.common.security.constant;
 
 /**
  * @author Hccake
  */
-public final class SecurityConst {
+public final class SecurityConstants {
 
-	private SecurityConst() {
+	private SecurityConstants() {
 	}
 
 	/**
