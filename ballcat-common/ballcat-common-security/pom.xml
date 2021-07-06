@@ -20,6 +20,10 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-system-model</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

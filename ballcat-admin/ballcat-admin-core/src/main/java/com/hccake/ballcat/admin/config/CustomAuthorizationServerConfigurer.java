@@ -1,6 +1,7 @@
 package com.hccake.ballcat.admin.config;
 
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
+import com.hccake.ballcat.common.security.component.CustomRedisTokenStore;
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.oauth.CustomTokenEnhancer;
 import com.hccake.ballcat.oauth.SysUserDetailsServiceImpl;
@@ -22,7 +23,6 @@ import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
@@ -107,7 +107,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	@DependsOn("cachePropertiesHolder")
 	@ConditionalOnMissingBean
 	public TokenStore tokenStore() {
-		RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
+		CustomRedisTokenStore tokenStore = new CustomRedisTokenStore(redisConnectionFactory);
 		tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + SecurityConstants.OAUTH_PREFIX);
 		return tokenStore;
 	}
