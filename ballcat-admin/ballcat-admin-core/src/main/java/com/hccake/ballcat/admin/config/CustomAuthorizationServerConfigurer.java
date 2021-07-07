@@ -5,7 +5,7 @@ import com.hccake.ballcat.common.security.component.CustomRedisTokenStore;
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.oauth.CustomTokenEnhancer;
 import com.hccake.ballcat.oauth.SysUserDetailsServiceImpl;
-import com.hccake.ballcat.oauth.exception.CustomWebResponseExceptionTranslator;
+import com.hccake.ballcat.common.security.exception.CustomWebResponseExceptionTranslator;
 import com.hccake.ballcat.oauth.mobile.MobileTokenGranter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

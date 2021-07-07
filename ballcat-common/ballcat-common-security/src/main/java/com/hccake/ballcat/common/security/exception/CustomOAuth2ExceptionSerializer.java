@@ -1,4 +1,4 @@
-package com.hccake.ballcat.oauth.exception;
+package com.hccake.ballcat.common.security.exception;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

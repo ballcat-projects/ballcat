@@ -13,6 +13,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-util</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-core</artifactId>
 		</dependency>

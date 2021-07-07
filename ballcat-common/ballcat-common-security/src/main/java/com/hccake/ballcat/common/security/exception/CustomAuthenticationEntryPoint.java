@@ -1,4 +1,4 @@
-package com.hccake.ballcat.oauth;
+package com.hccake.ballcat.common.security.exception;
 
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;

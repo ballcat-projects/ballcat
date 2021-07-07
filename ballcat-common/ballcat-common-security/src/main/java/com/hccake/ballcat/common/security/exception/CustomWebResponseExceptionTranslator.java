@@ -1,4 +1,4 @@
-package com.hccake.ballcat.oauth.exception;
+package com.hccake.ballcat.common.security.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
