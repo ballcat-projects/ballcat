@@ -28,7 +28,11 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-extend-mybatis-plus</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.hccake</groupId>
+            <artifactId>ballcat-common-desensitize</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>
