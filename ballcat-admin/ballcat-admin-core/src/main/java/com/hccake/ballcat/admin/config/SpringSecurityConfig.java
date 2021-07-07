@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.config;
 
 import com.hccake.ballcat.common.security.CustomSecurityConfiguration;
-import com.hccake.ballcat.common.util.PasswordUtils;
+import com.hccake.ballcat.common.security.util.PasswordUtils;
 import com.hccake.ballcat.oauth.CustomAuthenticationEntryPoint;
 import com.hccake.ballcat.oauth.mobile.MobileAuthenticationProvider;
 import lombok.RequiredArgsConstructor;

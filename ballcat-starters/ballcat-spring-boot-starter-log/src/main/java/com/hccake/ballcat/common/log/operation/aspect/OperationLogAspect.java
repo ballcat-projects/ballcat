@@ -103,7 +103,8 @@ public class OperationLogAspect {
 				.setCreateTime(LocalDateTime.now())
 				.setIp(IpUtils.getIpAddr(request))
 				.setMethod(request.getMethod())
-				.setOperator(Objects.requireNonNull(LogUtils.getUsername()))
+				// TODO 操作日志类的生产，交由使用方实现
+				// .setOperator(Objects.requireNonNull(LogUtils.getUsername()))
 				.setStatus(LogStatusEnum.SUCCESS.getValue())
 				.setUserAgent(request.getHeader("user-agent"))
 				.setUri(URLUtil.getPath(request.getRequestURI()))

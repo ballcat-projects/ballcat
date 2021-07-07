@@ -5,7 +5,7 @@ import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.common.util.JsonUtils;
-import com.hccake.ballcat.common.util.PasswordUtils;
+import com.hccake.ballcat.common.security.util.PasswordUtils;
 import com.hccake.ballcat.oauth.properties.SecurityProperties;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;

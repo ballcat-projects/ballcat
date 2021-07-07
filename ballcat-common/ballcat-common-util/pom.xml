@@ -47,17 +47,7 @@
 		<!-- Hutool 工具 -->
 		<dependency>
 			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-crypto</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-extra</artifactId>
-		</dependency>
-
-		<!-- security -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
 		</dependency>
 
 		<dependency>

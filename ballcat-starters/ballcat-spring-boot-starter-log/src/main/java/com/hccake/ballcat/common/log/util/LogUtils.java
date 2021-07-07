@@ -3,8 +3,6 @@ package com.hccake.ballcat.common.log.util;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -24,18 +22,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @UtilityClass
 public class LogUtils {
-
-	/**
-	 * 获取当前登陆用户名
-	 * @return current login user name
-	 */
-	public String getUsername() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null) {
-			return null;
-		}
-		return authentication.getName();
-	}
 
 	/**
 	 * 获取请求体

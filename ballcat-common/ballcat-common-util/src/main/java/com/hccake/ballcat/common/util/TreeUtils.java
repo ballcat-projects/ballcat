@@ -3,7 +3,6 @@ package com.hccake.ballcat.common.util;
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.model.tree.TreeNode;
 import lombok.experimental.UtilityClass;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.function.Function;
@@ -130,7 +129,7 @@ public class TreeUtils {
 	public <T extends TreeNode> void fillLeaf(T parent, List<T> leafs) {
 		List<T> children = parent.getChildren();
 		// 如果节点没有子节点则说明为叶子节点
-		if (CollectionUtils.isEmpty(children)) {
+		if (CollectionUtil.isEmpty(children)) {
 			leafs.add(parent);
 			return;
 		}
@@ -162,7 +161,7 @@ public class TreeUtils {
 	 */
 	public <T extends TreeNode<I>, I> void fillTreeNodeIds(List<I> ids, List<T> treeList) {
 		// 如果节点没有子节点则说明为叶子节点
-		if (CollectionUtils.isEmpty(treeList)) {
+		if (CollectionUtil.isEmpty(treeList)) {
 			return;
 		}
 		for (T treeNode : treeList) {

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.util;
+package com.hccake.ballcat.common.security.util;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.crypto.Mode;
