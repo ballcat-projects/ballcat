@@ -1,9 +1,9 @@
 package com.hccake.ballcat.common.conf.config;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.hccake.ballcat.common.core.jackson.JavaTimeModule;
 import com.hccake.ballcat.common.core.jackson.NullSerializerModifier;
 import com.hccake.ballcat.common.util.json.JacksonJsonToolAdapter;
@@ -32,6 +32,8 @@ public class JacksonConfig {
 		// org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration.JacksonObjectMapperConfiguration
 		ObjectMapper objectMapper = builder.createXmlMapper(false).build();
 
+		// 对于空对象的序列化不抛异常
+		objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 		// 序列化时忽略未知属性
 		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		// NULL值修改

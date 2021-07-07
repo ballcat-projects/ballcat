@@ -34,7 +34,8 @@ public class SwaggerProviderAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(SwaggerProviderProperties.class)
-	public FilterRegistrationBean<CorsFilter> corsFilter(SwaggerProviderProperties swaggerProviderProperties) {
+	public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean(
+			SwaggerProviderProperties swaggerProviderProperties) {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		String aggregatorOrigin = swaggerProviderProperties.getAggregatorOrigin();

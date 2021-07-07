@@ -11,7 +11,7 @@ import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
-import com.hccake.ballcat.oauth.properties.SecurityProperties;
+import com.hccake.ballcat.common.security.properties.SecurityProperties;
 import com.hccake.ballcat.system.constant.SysUserConst;
 import com.hccake.ballcat.system.converter.SysUserConverter;
 import com.hccake.ballcat.system.model.dto.SysUserDTO;

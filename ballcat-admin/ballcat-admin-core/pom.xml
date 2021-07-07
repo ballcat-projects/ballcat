@@ -73,5 +73,5 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-log-controller</artifactId>
 		</dependency>
-	</dependencies>
+    </dependencies>
 </project>

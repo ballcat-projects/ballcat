@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.common.exceptions.InsufficientScopeEx
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;
-import org.springframework.stereotype.Component;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 /**
@@ -20,7 +19,6 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  * @version 1.0
  * @date 2019/9/29 10:43 覆盖默认的DefaultWebResponseExceptionTranslator的方法
  */
-@Component
 public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
 	private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.oauth.properties;
+package com.hccake.ballcat.common.security.properties;
 
 import lombok.Getter;
 import lombok.Setter;

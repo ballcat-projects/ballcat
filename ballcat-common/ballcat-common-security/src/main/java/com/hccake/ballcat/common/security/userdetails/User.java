@@ -4,8 +4,11 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Hccake
@@ -14,7 +17,7 @@ import java.util.Collection;
  */
 @ToString
 @Getter
-public class User implements UserDetails {
+public class User implements UserDetails, OAuth2User {
 
 	/**
 	 * 用户ID
@@ -73,6 +76,11 @@ public class User implements UserDetails {
 	 */
 	private final UserAttributes userAttributes;
 
+	/**
+	 * OAuth2User 必须有属性字段
+	 */
+	private final Map<String, Object> attributes = new HashMap<>();
+
 	public User(Integer userId, String username, String password, String nickname, String avatar, Integer status,
 			Integer organizationId, Integer type, Collection<? extends GrantedAuthority> authorities,
 			UserResources userResources, UserAttributes userAttributes) {
@@ -107,6 +115,16 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return this.status != null && this.status == 1;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return this.attributes;
+	}
+
+	@Override
+	public String getName() {
+		return this.username;
 	}
 
 }
