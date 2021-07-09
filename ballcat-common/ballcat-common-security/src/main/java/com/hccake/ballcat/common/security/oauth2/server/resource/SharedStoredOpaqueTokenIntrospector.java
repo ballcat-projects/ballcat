@@ -2,9 +2,11 @@ package com.hccake.ballcat.common.security.oauth2.server.resource;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.server.resource.introspection.BadOpaqueTokenException;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
@@ -23,14 +25,29 @@ public class SharedStoredOpaqueTokenIntrospector implements OpaqueTokenIntrospec
 
 	private final TokenStore tokenStore;
 
+	/**
+	 * @see DefaultTokenServices#loadAuthentication(java.lang.String)
+	 * @param accessTokenValue token
+	 * @return OAuth2User
+	 */
 	@Override
-	public OAuth2AuthenticatedPrincipal introspect(String token) {
-		OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(token);
-		if (oAuth2Authentication == null) {
-			log.trace("Could not be retrieved from the token store");
-			throw new BadOpaqueTokenException("Provided token isn't active");
+	public OAuth2AuthenticatedPrincipal introspect(String accessTokenValue) {
+		OAuth2AccessToken accessToken = tokenStore.readAccessToken(accessTokenValue);
+		if (accessToken == null) {
+			throw new BadOpaqueTokenException("Invalid access token: " + accessTokenValue);
 		}
-		return (OAuth2User) oAuth2Authentication.getPrincipal();
+		else if (accessToken.isExpired()) {
+			tokenStore.removeAccessToken(accessToken);
+			throw new BadOpaqueTokenException("Access token expired: " + accessTokenValue);
+		}
+
+		OAuth2Authentication result = tokenStore.readAuthentication(accessToken);
+		if (result == null) {
+			// in case of race condition
+			throw new BadOpaqueTokenException("Invalid access token: " + accessTokenValue);
+		}
+
+		return (OAuth2User) result.getPrincipal();
 	}
 
 }

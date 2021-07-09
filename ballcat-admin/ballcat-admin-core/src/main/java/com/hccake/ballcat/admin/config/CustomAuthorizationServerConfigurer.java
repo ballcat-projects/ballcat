@@ -1,17 +1,11 @@
 package com.hccake.ballcat.admin.config;
 
-import com.hccake.ballcat.common.security.exception.CustomWebResponseExceptionTranslator;
-import com.hccake.ballcat.common.security.properties.SecurityProperties;
-import com.hccake.ballcat.oauth.CustomTokenEnhancer;
+import com.hccake.ballcat.oauth.CustomAccessTokenConverter;
 import com.hccake.ballcat.oauth.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.oauth.mobile.MobileTokenGranter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -34,11 +28,12 @@ import java.util.List;
  * @version 1.0
  * @date 2019/9/27 16:14 OAuth2 授权服务器配置
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableAuthorizationServer
 @RequiredArgsConstructor
-@EnableConfigurationProperties(SecurityProperties.class)
 public class CustomAuthorizationServerConfigurer implements AuthorizationServerConfigurer {
+
+	private final AuthenticationManager authenticationManager;
 
 	private final DataSource dataSource;
 
@@ -46,7 +41,9 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 
 	private final SysUserDetailsServiceImpl sysUserDetailsService;
 
-	private final AuthenticationManager authenticationManager;
+	private final TokenEnhancer tokenEnhancer;
+
+	private final WebResponseExceptionTranslator webResponseExceptionTranslator;
 
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
@@ -87,42 +84,24 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 		endpoints.tokenStore(tokenStore).userDetailsService(sysUserDetailsService)
 				.authenticationManager(authenticationManager)
 				// 自定义token
-				.tokenEnhancer(tokenEnhancer())
+				.tokenEnhancer(tokenEnhancer)
 				// 强制刷新token时，重新生成refreshToken
 				.reuseRefreshTokens(false)
 				// 自定义的认证时异常转换
-				.exceptionTranslator(customWebResponseExceptionTranslator())
+				.exceptionTranslator(webResponseExceptionTranslator)
 				// 自定义tokenGranter
 				.tokenGranter(tokenGranter(endpoints));
 		// @formatter:on
 	}
 
 	private TokenGranter tokenGranter(final AuthorizationServerEndpointsConfigurer endpoints) {
+		// 使用自定义的 TokenConverter，方便在 checkToken 时，返回更多的信息
+		endpoints.accessTokenConverter(new CustomAccessTokenConverter());
 		// 获取默认的granter集合
 		List<TokenGranter> granters = new ArrayList<>(Collections.singletonList(endpoints.getTokenGranter()));
 		granters.add(new MobileTokenGranter(authenticationManager, endpoints.getTokenServices(),
 				endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory()));
 		return new CompositeTokenGranter(granters);
-	}
-
-	/**
-	 * token 增强，追加一些自定义信息
-	 * @return TokenEnhancer Token增强处理器
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public TokenEnhancer tokenEnhancer() {
-		return new CustomTokenEnhancer();
-	}
-
-	/**
-	 * 自定义的认证时异常转换
-	 * @return WebResponseExceptionTranslator
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public WebResponseExceptionTranslator<OAuth2Exception> customWebResponseExceptionTranslator() {
-		return new CustomWebResponseExceptionTranslator();
 	}
 
 }

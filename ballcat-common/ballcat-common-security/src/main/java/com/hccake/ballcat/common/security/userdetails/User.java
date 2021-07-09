@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.security.userdetails;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,6 +17,7 @@ import java.util.Map;
  */
 @ToString
 @Getter
+@Builder
 public class User implements UserDetails, OAuth2User {
 
 	/**
@@ -65,25 +66,13 @@ public class User implements UserDetails, OAuth2User {
 	private final Collection<? extends GrantedAuthority> authorities;
 
 	/**
-	 * 用户所有的资源 <br/>
-	 * 默认有用户角色和权限的标识集合，用户可自己扩展
-	 */
-	private final UserResources userResources;
-
-	/**
-	 * 用户属性 <br/>
-	 * 对于不同类型的用户，可能在业务上需要获取到不同的用户属性
-	 */
-	private final UserAttributes userAttributes;
-
-	/**
 	 * OAuth2User 必须有属性字段
 	 */
-	private final Map<String, Object> attributes = new HashMap<>();
+	private final Map<String, Object> attributes;
 
 	public User(Integer userId, String username, String password, String nickname, String avatar, Integer status,
 			Integer organizationId, Integer type, Collection<? extends GrantedAuthority> authorities,
-			UserResources userResources, UserAttributes userAttributes) {
+			Map<String, Object> attributes) {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
@@ -93,8 +82,7 @@ public class User implements UserDetails, OAuth2User {
 		this.organizationId = organizationId;
 		this.type = type;
 		this.authorities = authorities;
-		this.userResources = userResources;
-		this.userAttributes = userAttributes;
+		this.attributes = attributes;
 	}
 
 	@Override

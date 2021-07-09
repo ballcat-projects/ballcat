@@ -1,9 +1,8 @@
 package com.hccake.ballcat.oauth;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
 import com.hccake.ballcat.common.security.userdetails.User;
-import com.hccake.ballcat.common.security.userdetails.UserAttributes;
-import com.hccake.ballcat.common.security.userdetails.UserResources;
 import com.hccake.ballcat.system.model.dto.UserInfoDTO;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import com.hccake.ballcat.system.service.SysUserService;
@@ -16,10 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Hccake
@@ -68,15 +64,17 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
 				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
-		// 用户资源，角色和权限
-		UserResources userResources = userInfoCoordinator.coordinateResource(sysUser, new HashSet<>(roles),
-				new HashSet<>(permissions));
+		// 默认将角色和权限放入属性中
+		HashMap<String, Object> attributes = new HashMap<>(8);
+		attributes.put(TokenAttributeNameConstants.ROLES, new HashSet<>(roles));
+		attributes.put(TokenAttributeNameConstants.PERMISSIONS, new HashSet<>(permissions));
+
 		// 用户额外属性
-		UserAttributes userAttributes = userInfoCoordinator.coordinateAttribute(sysUser);
+		userInfoCoordinator.coordinateAttribute(sysUser, attributes);
 
 		return new User(sysUser.getUserId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(),
 				sysUser.getAvatar(), sysUser.getStatus(), sysUser.getOrganizationId(), sysUser.getType(), authorities,
-				userResources, userAttributes);
+				attributes);
 	}
 
 }

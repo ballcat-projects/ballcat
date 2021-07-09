@@ -6,8 +6,8 @@ import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
+import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
 import com.hccake.ballcat.common.security.userdetails.User;
-import com.hccake.ballcat.common.security.userdetails.UserResources;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.system.constant.SysPermissionConst;
 import com.hccake.ballcat.system.converter.SysMenuConverter;
@@ -45,11 +45,17 @@ public class SysMenuController {
 	@ApiOperation(value = "动态路由", notes = "动态路由")
 	@GetMapping("/router")
 	public R<List<SysMenuRouterVO>> getUserPermission() {
-
 		// 获取角色Code
 		User user = SecurityUtils.getUser();
-		UserResources userResources = user.getUserResources();
-		Collection<String> roleCodes = userResources.getRoles();
+		Map<String, Object> attributes = user.getAttributes();
+
+		Object rolesObject = attributes.get(TokenAttributeNameConstants.ROLES);
+		if (!(rolesObject instanceof Collection)) {
+			return R.ok(new ArrayList<>());
+		}
+
+		@SuppressWarnings("unchecked")
+		Collection<String> roleCodes = (Collection<String>) rolesObject;
 		if (CollectionUtil.isEmpty(roleCodes)) {
 			return R.ok(new ArrayList<>());
 		}

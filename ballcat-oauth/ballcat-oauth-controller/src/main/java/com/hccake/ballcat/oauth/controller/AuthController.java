@@ -46,9 +46,7 @@ public class AuthController {
 			return R.failed(SystemResultCode.FORBIDDEN, "退出失败，token 无效");
 		}
 
-		// TODO 清空用户缓存信息
 		OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(accessToken);
-		String username = auth2Authentication.getName();
 
 		// 清空access token
 		tokenStore.removeAccessToken(accessToken);
