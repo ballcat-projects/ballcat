@@ -138,10 +138,10 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
 		sysUser.setStatus(SysUserConst.Status.NORMAL.getValue());
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
-		// 对密码进行 BCrypt 加密
-		String password = sysUserDto.getPassword();
-		String bCryptPassword = PasswordUtils.encodeBCrypt(password);
-		sysUser.setPassword(bCryptPassword);
+		// 对密码进行加密
+		String rawPassword = sysUserDto.getPassword();
+		String encodedPassword = PasswordUtils.encode(rawPassword);
+		sysUser.setPassword(encodedPassword);
 
 		// 保存用户
 		boolean insertSuccess = SqlHelper.retBool(baseMapper.insert(sysUser));
@@ -208,15 +208,15 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	/**
 	 * 修改用户密码
 	 * @param userId 用户ID
-	 * @param password 明文密码
+	 * @param rawPassword 明文密码
 	 * @return 更新成功：true
 	 */
 	@Override
-	public boolean updatePassword(Integer userId, String password) {
+	public boolean updatePassword(Integer userId, String rawPassword) {
 		Assert.isTrue(adminUserChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
-		// BCrypt 加密
-		String bCryptPassword = PasswordUtils.encodeBCrypt(password);
-		return baseMapper.updatePassword(userId, bCryptPassword);
+		// 密码加密加密
+		String encodedPassword = PasswordUtils.encode(rawPassword);
+		return baseMapper.updatePassword(userId, encodedPassword);
 	}
 
 	/**
