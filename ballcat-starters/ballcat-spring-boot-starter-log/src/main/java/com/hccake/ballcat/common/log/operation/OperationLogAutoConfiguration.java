@@ -2,7 +2,7 @@ package com.hccake.ballcat.common.log.operation;
 
 import com.hccake.ballcat.common.log.operation.aspect.OperationLogAspect;
 import com.hccake.ballcat.common.log.operation.event.OperationLogListener;
-import com.hccake.ballcat.common.log.operation.service.OperationLogHandler;
+import com.hccake.ballcat.common.log.operation.handler.OperationLogHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +30,9 @@ public class OperationLogAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(OperationLogHandler.class)
-	public OperationLogAspect operationLogAspect(ApplicationEventPublisher publisher) {
-		return new OperationLogAspect(publisher);
+	public OperationLogAspect operationLogAspect(ApplicationEventPublisher publisher,
+			OperationLogHandler operationLogHandler) {
+		return new OperationLogAspect(publisher, operationLogHandler);
 	}
 
 }

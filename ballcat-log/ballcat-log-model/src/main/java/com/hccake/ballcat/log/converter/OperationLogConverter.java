@@ -1,6 +1,5 @@
 package com.hccake.ballcat.log.converter;
 
-import com.hccake.ballcat.common.log.operation.model.OperationLogDTO;
 import com.hccake.ballcat.log.model.entity.OperationLog;
 import com.hccake.ballcat.log.model.vo.OperationLogPageVO;
 import org.mapstruct.Mapper;
@@ -22,12 +21,5 @@ public interface OperationLogConverter {
 	 * @return AdminOperationLogPageVO 操作日志PageVO
 	 */
 	OperationLogPageVO poToPageVo(OperationLog operationLog);
-
-	/**
-	 * 转换OperationLog 为 OperationLogAdmin
-	 * @param operationLogDTO 操作日志DTO
-	 * @return AdminOperationLog
-	 */
-	OperationLog dtoToPo(OperationLogDTO operationLogDTO);
 
 }

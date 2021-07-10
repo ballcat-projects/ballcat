@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.log.operation.event;
 
-import com.hccake.ballcat.common.log.operation.service.OperationLogHandler;
+import com.hccake.ballcat.common.log.operation.handler.OperationLogHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -20,7 +20,7 @@ public class OperationLogListener {
 	@Order
 	@EventListener(OperationLogEvent.class)
 	public void saveSysLog(OperationLogEvent event) {
-		operationLogHandler.saveLog(event.getOperationLogDTO());
+		operationLogHandler.saveLog(event.getOperationLogInfo());
 	}
 
 }
