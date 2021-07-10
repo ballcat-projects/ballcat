@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.OpaqueTokenAuthenticationProvider;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
  * 资源服务器的配置
@@ -28,6 +29,8 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 	private final SecurityProperties securityProperties;
 
 	private final OpaqueTokenAuthenticationProvider opaqueTokenAuthenticationProvider;
+
+	private final AuthenticationEntryPoint authenticationEntryPoint;
 
 	@Autowired(required = false)
 	private UserDetailsService userDetailsService;
@@ -59,9 +62,14 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 			// 关闭 csrf 跨站攻击防护
 			.and().csrf().disable()
 
-			// 开启 OAuth2 资源服务
+			// 添加不透明令牌的 provider
 			.authenticationProvider(opaqueTokenAuthenticationProvider)
-			.oauth2ResourceServer().opaqueToken()
+
+			// 开启 OAuth2 资源服务
+			.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint)
+			// 不透明令牌，
+			.opaqueToken()
+			// 鉴权管理器
 			.authenticationManager(authenticationManagerBean());
 		// @formatter:on
 
