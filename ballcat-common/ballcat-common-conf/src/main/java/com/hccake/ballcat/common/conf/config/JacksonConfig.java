@@ -4,11 +4,14 @@ import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.hccake.ballcat.common.core.jackson.JavaTimeModule;
 import com.hccake.ballcat.common.core.jackson.NullSerializerModifier;
+import com.hccake.ballcat.common.desensitize.json.JsonSerializerModifier;
 import com.hccake.ballcat.common.util.json.JacksonJsonToolAdapter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -48,6 +51,17 @@ public class JacksonConfig {
 		JacksonJsonToolAdapter.setMapper(objectMapper);
 
 		return objectMapper;
+	}
+
+	/**
+	 * 注册 Jackson 的脱敏序列化器
+	 * @return Jackson2ObjectMapperBuilderCustomizer
+	 */
+	@Bean
+	public Jackson2ObjectMapperBuilderCustomizer desensitizeCustomizer() {
+		SimpleModule simpleModule = new SimpleModule();
+		simpleModule.setSerializerModifier(new JsonSerializerModifier());
+		return builder -> builder.modules(simpleModule);
 	}
 
 }
