@@ -8,6 +8,62 @@
 
 
 
+## [0.2.0]
+
+### Added
+
+- feat: 新增 ballcat-extend-redis-module 模块，提供对布隆过滤器的操作
+
+- feat: 新建用户时可以直接绑定用户角色，而不必分两次操作了
+
+- feat: 支持修改菜单ID，方便转移菜单位置时，保持菜单 ID 规则
+
+- feat: **新增 ballcat-common-security 模块**
+
+  - 新增 CustomRedisTokenStore 用于在序列化异常时，直接清除缓存。避免每次修改 UserDetails 时都需要用户手动去删除所有缓存信息
+
+  - 迁移 PasswordUtils 从 common-util 到 common-security，且 PasswordEncoder 使用 DelegatingPasswordEncoder, 方便未来切换密码加密算法
+
+  - 迁移 OAuth 相关的异常处理，从 ballcat-oauth-controller 到 common-secutiy
+
+  - 新增 ResourceServer 相关配置以及基础组件，基于 SpringSecurity 5.X
+
+  -  SysUserDetails rename to User, sysUser 中的相关属性，现在直接写在 User 类中，同时删除了 userResource 和 userAttributes 属性，新增了 attributes 属性。
+
+
+
+### Changed
+
+- refactor: 数据权限 dataScopes 通过 ThreadLocal 进行方法间传递
+
+- refactor: 拆分 admin-websocket 模块，方便用户剔除不需要的组件.
+- refactor: ballcat-spring-boot-starter-websocket 模块中 websocket 相关的封装代码抽取到 **ballcat-commo-websocket** 模块，starter 仅保留自动配置相关代码
+- pref: 菜单的逻辑删除属性使用 mybatis-plus 的自动填充功能，且当菜单 ID 已使用时提示详情
+- pref: 精简了一些 common 模块中不需要的依赖
+- refactor: OAuth2 ResourceServer 底层从 spring-security-oauth2 依赖迁移至 SpringSecurity 5.x
+- pref: common-conf 中现在默认注册 jackson 的脱敏序列化器了
+- refactor: ballcat-spring-boot-starter-log 和业务解耦，操作日志的生产和存储全部交由业务项目自己处理，ballcat-log-biz 模块中提供了默认的操作日志实体类，以及 OperationLogHandler 的默认实现
+
+
+
+### Removed
+
+- 移除 ballcat-oauth-model，相关代码迁入 ballcat-common-security
+
+
+
+### Dependency
+
+- Bump spring-boot from 2.4.3 to 2.4.8
+- knife4j from 2.0.8 to 2.0.9
+- hutool from 5.5.8 to 5.7.3
+- fastjson from 1.2.75 to 1.2.76
+- dynamic-datasource from 3.3.1 to 3.3.2
+- spring-boot-admin from 2.4.1 to 2.4.2
+- anji-captcha from 1.2.8 to 1.2.9
+
+
+
 ## [0.1.0]
 
 ### Warning

@@ -59,7 +59,9 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 |   |-- ballcat-common-core									-- 核心组件
 |   |-- ballcat-common-desensitize							-- 脱敏工具类
 |   |-- ballcat-common-model								-- 公用的一些模型
-|   `-- ballcat-common-util									-- 公用的工具类
+|   |-- ballcat-common-security								-- 安全相关，以及资源服务器配置
+|   |-- ballcat-common-util									-- 公用的工具类
+|   `-- ballcat-common-websocket							-- 对于 spring websocket 的一些抽象封装
 |-- ballcat-dependencies	-- ballcat项目本身各子模块的依赖管理，以及第三方模块的依赖管理
 |-- ballcat-extends			-- 扩展模块，大多是对于一些第三方组件的扩展处理
 |   |-- ballcat-extend-dingtalk			-- 钉钉的一些操作封装
@@ -81,12 +83,11 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 |   `-- ballcat-notify-model
 |-- ballcat-oauth			-- oauth2 登录相关模块（业务），继承了登录图像验证码，登录AES密码解密过滤器等相关功能
 |   |-- ballcat-oauth-biz
-|   |-- ballcat-oauth-controller
-|   `-- ballcat-oauth-model
+|   `-- ballcat-oauth-controller
 |-- ballcat-starters        -- 对于各种能力的增强 starter, 这些 starter 与业务无关，非 ballcat 项目都可引入使用
-|   |-- ballcat-spring-boot-starter-datascope	-- 数据权限控制
-|   |-- ballcat-spring-boot-starter-dingtalk	-- 钉钉集成工具
-|   |-- ballcat-spring-boot-starter-easyexcel	-- 通过注解快速导入导出excle（easyexcel）
+|   |-- ballcat-spring-boot-starter-datascope	            -- 数据权限控制
+|   |-- ballcat-spring-boot-starter-dingtalk	            -- 钉钉集成工具
+|   |-- ballcat-spring-boot-starter-easyexcel	            -- 通过注解快速导入导出excle（easyexcel）
 |   |-- ballcat-spring-boot-starter-i18n		-- 国际化方案
 |   |-- ballcat-spring-boot-starter-job			-- 定时任务集成（目前仅xxl-job）
 |   |-- ballcat-spring-boot-starter-kafka		-- 消息队列 kafka 集成
@@ -97,7 +98,7 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 |   |-- ballcat-spring-boot-starter-redis		-- 提供注解使用redis, 分布式锁，防击穿，全局key前缀等功能
 |   |-- ballcat-spring-boot-starter-sms			-- 短信接入 starter
 |   |-- ballcat-spring-boot-starter-swagger		-- swagger文档配置（提供无注册中心的文档聚合方案）
-|   |-- ballcat-spring-boot-starter-websocket	-- websocket 集成
+|   |-- ballcat-spring-boot-starter-websocket	-- 基于 common-websocket 的自动配置
 |   `-- ballcat-spring-boot-starter-xss			-- xss 防注入相关
 |-- ballcat-system		-- 系统模块（业务），封装了 RBAC 权限控制相关功能，以及组织机构功能
 |   |-- ballcat-system-biz
@@ -126,4 +127,8 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 
 ## 交流群
 
-<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_202106281044.png" alt="微信" width="35%"/>
+如果群二维码失效，可以扫右边我的个人微信二维码，或者添加我的微信号 `Hccake_`，我再邀请你入群
+
+<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_20210713.png.jpg" alt="微信" width="35%"/>
+
+<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/wechat-hccake.jpg" alt="微信" width="35%"/>
