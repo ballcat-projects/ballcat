@@ -113,4 +113,5 @@ public final class PasswordUtils {
 	public static boolean upgradeEncoding(String encodedPassword) {
 		return ENCODER.upgradeEncoding(encodedPassword);
 	}
+
 }
