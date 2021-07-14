@@ -5,7 +5,11 @@ import com.hccake.ballcat.oauth.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.oauth.mobile.MobileTokenGranter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -30,6 +34,8 @@ import java.util.List;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableAuthorizationServer
+// @Import({ AuthorizationServerEndpointsConfiguration.class,
+// AuthorizationServerSecurityConfiguration.class })
 @RequiredArgsConstructor
 public class CustomAuthorizationServerConfigurer implements AuthorizationServerConfigurer {
 
@@ -102,6 +108,35 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 		granters.add(new MobileTokenGranter(authenticationManager, endpoints.getTokenServices(),
 				endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory()));
 		return new CompositeTokenGranter(granters);
+	}
+
+	/**
+	 * authorize_code 模式支持
+	 */
+	@Order(1)
+	@Configuration(proxyBeanMethods = false)
+	private class AuthorizeServerConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+		private static final String AUTHORIZE_ENDPOINT_PATH = "/oauth/authorize";
+
+		@Override
+		public void configure(HttpSecurity http) throws Exception {
+			// @formatter:off
+				http
+					.formLogin()
+					.and()
+						.requestMatchers()
+						.antMatchers(AUTHORIZE_ENDPOINT_PATH)
+					.and()
+						.authorizeRequests().antMatchers(AUTHORIZE_ENDPOINT_PATH).authenticated();
+				// @formatter:on
+		}
+
+		@Override
+		public void configure(AuthenticationManagerBuilder builder) {
+			builder.parentAuthenticationManager(authenticationManager);
+		}
+
 	}
 
 }

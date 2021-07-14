@@ -29,12 +29,23 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 
 	private static final String CAPTCHA_VERIFICATION_PARAM = "captchaVerification";
 
+	private static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
+
+	private static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
 		// 测试客户端 跳过验证码（swagger 或 postman测试时使用）
 		if (SecurityUtils.isTestClient()) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
+		// 如果是授权码模式或者刷新token请求则，直接放行
+		String grantType = request.getParameter("grant_type");
+		if (GRANT_TYPE_AUTHORIZATION_CODE.equals(grantType) || GRANT_TYPE_REFRESH_TOKEN.equals(grantType)) {
 			filterChain.doFilter(request, response);
 			return;
 		}

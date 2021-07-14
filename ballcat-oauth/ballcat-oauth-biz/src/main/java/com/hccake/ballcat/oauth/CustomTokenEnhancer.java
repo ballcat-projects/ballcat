@@ -26,24 +26,27 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 	 */
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-		final Map<String, Object> additionalInfo = new HashMap<>(8);
 		Object principal = authentication.getUserAuthentication().getPrincipal();
 
-		User user = (User) principal;
+		if (principal instanceof User) {
+			User user = (User) principal;
+			// token 附属信息
+			Map<String, Object> additionalInfo = new HashMap<>(8);
 
-		// 用户基本信息
-		SysUserInfo sysUserInfo = getSysUserInfo(user);
-		additionalInfo.put(TokenAttributeNameConstants.INFO, sysUserInfo);
+			// 用户基本信息
+			SysUserInfo sysUserInfo = getSysUserInfo(user);
+			additionalInfo.put(TokenAttributeNameConstants.INFO, sysUserInfo);
 
-		// 默认在登陆时只把角色和权限的信息返回
-		Map<String, Object> resultAttributes = new HashMap<>(2);
-		Map<String, Object> attributes = user.getAttributes();
-		resultAttributes.put(TokenAttributeNameConstants.ROLES, attributes.get(TokenAttributeNameConstants.ROLES));
-		resultAttributes.put(TokenAttributeNameConstants.PERMISSIONS,
-				attributes.get(TokenAttributeNameConstants.PERMISSIONS));
-		additionalInfo.put(TokenAttributeNameConstants.ATTRIBUTES, resultAttributes);
+			// 默认在登陆时只把角色和权限的信息返回
+			Map<String, Object> resultAttributes = new HashMap<>(2);
+			Map<String, Object> attributes = user.getAttributes();
+			resultAttributes.put(TokenAttributeNameConstants.ROLES, attributes.get(TokenAttributeNameConstants.ROLES));
+			resultAttributes.put(TokenAttributeNameConstants.PERMISSIONS,
+					attributes.get(TokenAttributeNameConstants.PERMISSIONS));
+			additionalInfo.put(TokenAttributeNameConstants.ATTRIBUTES, resultAttributes);
 
-		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+		}
 
 		return accessToken;
 	}
