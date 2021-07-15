@@ -35,7 +35,6 @@
 ### Changed
 
 - refactor: 数据权限 dataScopes 通过 ThreadLocal 进行方法间传递
-
 - refactor: 拆分 admin-websocket 模块，方便用户剔除不需要的组件.
 - refactor: ballcat-spring-boot-starter-websocket 模块中 websocket 相关的封装代码抽取到 **ballcat-commo-websocket** 模块，starter 仅保留自动配置相关代码
 - pref: 菜单的逻辑删除属性使用 mybatis-plus 的自动填充功能，且当菜单 ID 已使用时提示详情
@@ -43,6 +42,11 @@
 - refactor: OAuth2 ResourceServer 底层从 spring-security-oauth2 依赖迁移至 SpringSecurity 5.x
 - pref: common-conf 中现在默认注册 jackson 的脱敏序列化器了
 - refactor: ballcat-spring-boot-starter-log 和业务解耦，操作日志的生产和存储全部交由业务项目自己处理，ballcat-log-biz 模块中提供了默认的操作日志实体类，以及 OperationLogHandler 的默认实现
+- refactor: 由于 common-security 的抽取， ballcat-oauth 模块只剩下了授权相关，故更名为 ballcat-auth，同时做了一些结构上的调整，方便后续独立部署授权服务器。
+  - 配置 `ballcat.upms.loginCaptchaEnabled` 现在调整为 `ballcat.security.oauth2.authorizationserver.loginCaptchaEnabled` ，用以控制登录验证码的开关
+  - 配置 `ballcat.security.ignoreUrls` 现在调整为 `ballcat.security.oauth2.resourceserver.ignoreUrls` 用以控制资源服务器对部分 url 的鉴权忽略
+  - 配置 `ballcat.security.iframeDeny` 现在调整为  `ballcat.security.oauth2.resourceserver.iframeDeny` 用于开启资源服务器的嵌入 iframe 允许
+  - 新增 `@EnableOauth2AuthorizationServer` 注解，用以开启授权服务器 (ballcat-admin-core 模块中默认开启）
 
 
 

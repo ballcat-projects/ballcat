@@ -51,9 +51,9 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 ```
 .
 |-- ballcat-admin			-- 管理后台相关项目
-|   |-- ballcat-admin-core                                  -- 后台管理核心模块（权限控制，字典，Oauth2等）
-|   |-- ballcat-admin-i18n									-- 国际化使用方案
-|   `-- ballcat-admin-websocket								-- 后台管理 websocket 支持插件（公告和字典等同步）
+|   |-- ballcat-admin-core                         -- 后台管理核心模块（权限控制，字典，Oauth2等）
+|   |-- ballcat-admin-i18n						   -- 国际化使用方案
+|   `-- ballcat-admin-websocket					   -- 后台管理 websocket 支持插件（公告和字典等同步）
 |-- ballcat-common			-- 基础公用组件
 |   |-- ballcat-common-conf									-- web公用配置
 |   |-- ballcat-common-core									-- 核心组件
@@ -81,9 +81,9 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 |   |-- ballcat-notify-biz
 |   |-- ballcat-notify-controller
 |   `-- ballcat-notify-model
-|-- ballcat-oauth			-- oauth2 登录相关模块（业务），继承了登录图像验证码，登录AES密码解密过滤器等相关功能
-|   |-- ballcat-oauth-biz
-|   `-- ballcat-oauth-controller
+|-- ballcat-auth			-- auth 授权模块（业务），用于支撑 OAuth2 的授权服务器，集成了登录图像验证码，登录AES密码解密过滤器等相关功能
+|   |-- ballcat-auth-biz
+|   `-- ballcat-auth-controller
 |-- ballcat-starters        -- 对于各种能力的增强 starter, 这些 starter 与业务无关，非 ballcat 项目都可引入使用
 |   |-- ballcat-spring-boot-starter-datascope	            -- 数据权限控制
 |   |-- ballcat-spring-boot-starter-dingtalk	            -- 钉钉集成工具
