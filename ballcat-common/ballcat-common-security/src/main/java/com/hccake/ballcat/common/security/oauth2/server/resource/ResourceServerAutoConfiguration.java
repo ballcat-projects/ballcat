@@ -3,7 +3,6 @@ package com.hccake.ballcat.common.security.oauth2.server.resource;
 import com.hccake.ballcat.common.security.component.CustomPermissionEvaluator;
 import com.hccake.ballcat.common.security.exception.CustomAuthenticationEntryPoint;
 import com.hccake.ballcat.common.security.properties.OAuth2ResourceServerProperties;
-import com.hccake.ballcat.common.security.properties.SecurityProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -25,7 +24,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableConfigurationProperties({ SecurityProperties.class, OAuth2ResourceServerProperties.class })
+@EnableConfigurationProperties(OAuth2ResourceServerProperties.class)
 @Import(ResourceServerWebSecurityConfigurerAdapter.class)
 public class ResourceServerAutoConfiguration {
 

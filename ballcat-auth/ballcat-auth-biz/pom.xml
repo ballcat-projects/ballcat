@@ -3,23 +3,29 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>ballcat-system</artifactId>
+		<artifactId>ballcat-auth</artifactId>
 		<groupId>com.hccake</groupId>
 		<version>${revision}</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>ballcat-system-controller</artifactId>
-
+	<artifactId>ballcat-auth-biz</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-system-biz</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-spring-boot-starter-log</artifactId>
+			<groupId>com.anji-plus</groupId>
+			<artifactId>captcha</artifactId>
 		</dependency>
-    </dependencies>
-
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+		</dependency>
+	</dependencies>
 </project>

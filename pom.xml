@@ -13,7 +13,7 @@
 		<module>ballcat-dependencies</module>
 		<module>ballcat-extends</module>
         <module>ballcat-system</module>
-		<module>ballcat-oauth</module>
+		<module>ballcat-auth</module>
 		<module>ballcat-notify</module>
 		<module>ballcat-log</module>
 	</modules>

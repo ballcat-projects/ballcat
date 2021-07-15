@@ -16,11 +16,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class UpmsProperties {
 
 	/**
-	 * 登陆验证码开关
-	 */
-	private boolean loginCaptchaEnabled = true;
-
-	/**
 	 * 超级管理员的配置
 	 */
 	private Administrator administrator = new Administrator();

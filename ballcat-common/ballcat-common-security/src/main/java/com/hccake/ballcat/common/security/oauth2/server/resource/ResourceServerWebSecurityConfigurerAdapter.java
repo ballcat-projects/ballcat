@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.security.oauth2.server.resource;
 
 import cn.hutool.core.util.ArrayUtil;
-import com.hccake.ballcat.common.security.properties.SecurityProperties;
+import com.hccake.ballcat.common.security.properties.OAuth2ResourceServerProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +26,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @RequiredArgsConstructor
 public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-	private final SecurityProperties securityProperties;
+	private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
 
 	private final OpaqueTokenAuthenticationProvider opaqueTokenAuthenticationProvider;
 
@@ -55,7 +55,7 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 			// 拦截 url 配置
 			.and()
 				.authorizeRequests()
-				.antMatchers(ArrayUtil.toArray(securityProperties.getIgnoreUrls(), String.class))
+				.antMatchers(ArrayUtil.toArray(oAuth2ResourceServerProperties.getIgnoreUrls(), String.class))
 				.permitAll()
 				.anyRequest().authenticated()
 
@@ -74,7 +74,7 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 		// @formatter:on
 
 		// 允许嵌入iframe
-		if (!securityProperties.isIframeDeny()) {
+		if (!oAuth2ResourceServerProperties.isIframeDeny()) {
 			http.headers().frameOptions().disable();
 		}
 	}

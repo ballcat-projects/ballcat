@@ -292,15 +292,15 @@
 				<artifactId>ballcat-system-model</artifactId>
 				<version>${revision}</version>
 			</dependency>
-			<!-- oauth 授权模块 -->
+			<!-- auth 授权模块 -->
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-oauth-controller</artifactId>
+				<artifactId>ballcat-auth-controller</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-oauth-biz</artifactId>
+				<artifactId>ballcat-auth-biz</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<!-- notify 通知模块 -->
