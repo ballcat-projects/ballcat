@@ -5,6 +5,7 @@ import com.hccake.ballcat.common.security.userdetails.User;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
@@ -55,9 +56,9 @@ public class SecurityUtils {
 	public boolean isTestClient() {
 		// 测试客户端 跳过密码解密（swagger 或 postman测试时使用）
 		Authentication authentication = SecurityUtils.getAuthentication();
-		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) Optional
-				.ofNullable(authentication).map(Authentication::getPrincipal).orElse(null);
-		return user != null && SecurityConstants.TEST_CLIENT_ID.equals(user.getUsername());
+		UserDetails userDetails = (UserDetails) Optional.ofNullable(authentication).map(Authentication::getPrincipal)
+				.orElse(null);
+		return userDetails != null && SecurityConstants.TEST_CLIENT_ID.equals(userDetails.getUsername());
 	}
 
 }
