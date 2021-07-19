@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.OpaqueTokenAuthenticationProvider;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
@@ -31,6 +32,8 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 	private final OpaqueTokenAuthenticationProvider opaqueTokenAuthenticationProvider;
 
 	private final AuthenticationEntryPoint authenticationEntryPoint;
+
+	private final BearerTokenResolver bearerTokenResolver;
 
 	@Autowired(required = false)
 	private UserDetailsService userDetailsService;
@@ -67,6 +70,8 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 
 			// 开启 OAuth2 资源服务
 			.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint)
+			// bearToken 解析器
+			.bearerTokenResolver(bearerTokenResolver)
 			// 不透明令牌，
 			.opaqueToken()
 			// 鉴权管理器

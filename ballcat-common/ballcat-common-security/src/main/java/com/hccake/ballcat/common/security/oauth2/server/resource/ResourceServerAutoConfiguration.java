@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.server.resource.authentication.OpaqueTokenAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
@@ -85,6 +87,18 @@ public class ResourceServerAutoConfiguration {
 	@ConditionalOnMissingBean
 	public AuthenticationEntryPoint authenticationEntryPoint() {
 		return new CustomAuthenticationEntryPoint();
+	}
+
+	/**
+	 * BearTokenResolve 允许使用 url 传参，方便 ws 连接 ps: 使用 url 传参不安全，待改进
+	 * @return DefaultBearerTokenResolver
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public BearerTokenResolver bearerTokenResolver() {
+		DefaultBearerTokenResolver defaultBearerTokenResolver = new DefaultBearerTokenResolver();
+		defaultBearerTokenResolver.setAllowUriQueryParameter(true);
+		return defaultBearerTokenResolver;
 	}
 
 }
