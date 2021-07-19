@@ -1,4 +1,4 @@
-package com.hccake.ballcat.auth;
+package com.hccake.ballcat.auth.userdetails;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
@@ -13,7 +13,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -23,7 +22,6 @@ import java.util.*;
  * @date 2019/9/25 20:44
  */
 @Slf4j
-@Service
 @RequiredArgsConstructor
 public class SysUserDetailsServiceImpl implements UserDetailsService {
 

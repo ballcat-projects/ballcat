@@ -1,4 +1,4 @@
-package com.hccake.ballcat.auth;
+package com.hccake.ballcat.auth.userdetails;
 
 import com.hccake.ballcat.system.model.entity.SysUser;
 

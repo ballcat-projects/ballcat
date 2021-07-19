@@ -1,7 +1,6 @@
-package com.hccake.ballcat.auth.confogurer;
+package com.hccake.ballcat.auth.configurer;
 
 import com.hccake.ballcat.auth.CustomAccessTokenConverter;
-import com.hccake.ballcat.auth.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.auth.mobile.MobileTokenGranter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
@@ -40,7 +40,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 
 	private final TokenStore tokenStore;
 
-	private final SysUserDetailsServiceImpl sysUserDetailsService;
+	private final UserDetailsService userDetailsService;
 
 	private final TokenEnhancer tokenEnhancer;
 
@@ -82,7 +82,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		// @formatter:off
-		endpoints.tokenStore(tokenStore).userDetailsService(sysUserDetailsService)
+		endpoints.tokenStore(tokenStore).userDetailsService(userDetailsService)
 				.authenticationManager(authenticationManager)
 				// 自定义token
 				.tokenEnhancer(tokenEnhancer)
