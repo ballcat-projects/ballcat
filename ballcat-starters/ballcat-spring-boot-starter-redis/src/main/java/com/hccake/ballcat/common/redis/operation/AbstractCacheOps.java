@@ -10,7 +10,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
  */
 public abstract class AbstractCacheOps {
 
-	public AbstractCacheOps(ProceedingJoinPoint joinPoint) {
+	protected AbstractCacheOps(ProceedingJoinPoint joinPoint) {
 		this.joinPoint = joinPoint;
 	}
 

@@ -10,7 +10,7 @@ public abstract class AbstractJsonWebSocketMessage implements JsonWebSocketMessa
 
 	private final String type;
 
-	public AbstractJsonWebSocketMessage(String type) {
+	protected AbstractJsonWebSocketMessage(String type) {
 		this.type = type;
 	}
 

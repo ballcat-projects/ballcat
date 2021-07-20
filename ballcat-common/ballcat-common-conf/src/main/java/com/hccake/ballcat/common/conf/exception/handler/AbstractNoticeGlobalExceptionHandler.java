@@ -53,7 +53,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 
 	private final String applicationName;
 
-	public AbstractNoticeGlobalExceptionHandler(ExceptionHandleConfig config, String applicationName) {
+	protected AbstractNoticeGlobalExceptionHandler(ExceptionHandleConfig config, String applicationName) {
 		this.config = config;
 		messages = new ConcurrentHashMap<>(config.getMax() * 2);
 		this.applicationName = applicationName;

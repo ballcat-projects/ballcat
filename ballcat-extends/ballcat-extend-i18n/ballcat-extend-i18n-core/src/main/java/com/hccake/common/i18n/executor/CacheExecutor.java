@@ -10,6 +10,7 @@ import com.hccake.common.i18n.generate.KeyGenerate;
 import com.hccake.common.i18n.model.I18nItem;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +55,7 @@ public class CacheExecutor implements Executor {
 		String cacheValue = cacheService.get(key);
 		// 若为空值标记 则直接返回
 		if (i18nProperties.isNullValue(cacheValue)) {
-			return null;
+			return new ArrayList<>();
 		}
 
 		if (StrUtil.isNotEmpty(cacheValue)) {

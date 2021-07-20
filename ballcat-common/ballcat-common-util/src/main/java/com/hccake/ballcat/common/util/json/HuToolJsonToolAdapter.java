@@ -15,10 +15,6 @@ public class HuToolJsonToolAdapter implements JsonTool {
 	@Getter
 	static JSONConfig jsonConfig = JSONConfig.create();
 
-	static {
-
-	}
-
 	public void config(Consumer<JSONConfig> consumer) {
 		consumer.accept(jsonConfig);
 	}

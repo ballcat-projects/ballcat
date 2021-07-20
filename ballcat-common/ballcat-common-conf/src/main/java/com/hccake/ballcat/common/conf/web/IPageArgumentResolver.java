@@ -16,8 +16,8 @@ import java.util.List;
 
 /**
  * 为了兼容处理，当用户直接使用 IPage 类型作为分页参数接收时的 sql 防注入处理 <br/>
- * 现在推荐使用 PageParam 接收分页参数，使用 PageParamArgumentResolver 作为sql过滤处理
  *
+ * @deprecated 现在推荐使用 PageParam 接收分页参数，使用 PageParamArgumentResolver 作为sql过滤处理
  * @see com.hccake.ballcat.common.model.domain.PageParam
  * @see PageParamArgumentResolver
  * @author Hccake 2021/1/22
