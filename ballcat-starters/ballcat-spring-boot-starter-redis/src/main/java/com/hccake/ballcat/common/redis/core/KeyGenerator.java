@@ -1,14 +1,13 @@
 package com.hccake.ballcat.common.redis.core;
 
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
+import com.hccake.ballcat.common.util.SpelUtils;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,89 +20,50 @@ public class KeyGenerator {
 	/**
 	 * SpEL 上下文
 	 */
-	StandardEvaluationContext spElContext;
+	StandardEvaluationContext spelContext;
 
 	public KeyGenerator(Object target, Method method, Object[] arguments) {
-		this.spElContext = SpELUtil.getSpElContext(target, method, arguments);
+		this.spelContext = SpelUtils.getSpelContext(target, method, arguments);
 	}
 
-	public String getKey(String key, String spELExpressions) {
-		// 根据keyJoint 判断是否需要拼接
-		if (spELExpressions == null || spELExpressions.length() == 0) {
-			return key;
+	/**
+	 * 根据 keyPrefix 和 keyJoint 获取完整的 key 信息
+	 * @param keyPrefix key 前缀
+	 * @param keyJoint key 拼接元素，值为 spel 表达式，可为空
+	 * @return 拼接完成的 key
+	 */
+	public String getKey(String keyPrefix, String keyJoint) {
+		// 根据 keyJoint 判断是否需要拼接
+		if (keyJoint == null || keyJoint.length() == 0) {
+			return keyPrefix;
 		}
-
 		// 获取所有需要拼接的元素, 组装进集合中
-		String joint = SpELUtil.parseValueToString(spElContext, spELExpressions);
+		String joint = SpelUtils.parseValueToString(spelContext, keyJoint);
 		Assert.notNull(joint, "Key joint cannot be null!");
 
-		if (!StringUtils.hasText(key)) {
+		if (!StringUtils.hasText(keyPrefix)) {
 			return joint;
 		}
 		// 拼接后返回
-		return jointKey(key, joint);
-	}
-
-	public List<String> getKeys(String key, String keyJoint, Collection<String> multiByItem) {
-		String keyPrefix = getKey(key, keyJoint);
-
-		List<String> list = new ArrayList<>();
-		for (String item : multiByItem) {
-			list.add(jointKey(keyPrefix, item));
-		}
-
-		return list;
-	}
-
-	/**
-	 * @param key
-	 * @param spELExpressions
-	 * @return
-	 */
-	public String getKeys(String key, String[] spELExpressions) {
-		// 根据keyJoint 判断是否需要拼接
-		if (spELExpressions == null || spELExpressions.length == 0) {
-			return key;
-		}
-
-		// 获取所有需要拼接的元素, 组装进集合中
-		List<String> list = new ArrayList<>(spELExpressions.length + 1);
-		list.add(key);
-		for (String joint : spELExpressions) {
-			String s = parseSpEL(joint);
-			Assert.notNull(s, "Key joint cannot be null!");
-			list.add(s);
-		}
-
-		// 拼接后返回
-		return jointKey(list);
-	}
-
-	/**
-	 * 解析SPEL
-	 * @param field
-	 * @return
-	 */
-	public String parseSpEL(String field) {
-		return SpELUtil.parseValueToString(spElContext, field);
+		return jointKey(keyPrefix, joint);
 	}
 
 	/**
 	 * 拼接key, 默认使用 ：作为分隔符
-	 * @param list
-	 * @return
+	 * @param keyItems 用于拼接 key 的元素列表
+	 * @return 拼接完成的 key
 	 */
-	public String jointKey(List<String> list) {
-		return String.join(CachePropertiesHolder.delimiter(), list);
+	public String jointKey(List<String> keyItems) {
+		return String.join(CachePropertiesHolder.delimiter(), keyItems);
 	}
 
 	/**
 	 * 拼接key, 默认使用 ：作为分隔符
-	 * @param items
-	 * @return
+	 * @param keyItems 用于拼接 key 的元素列表
+	 * @return 拼接完成的 key
 	 */
-	public String jointKey(String... items) {
-		return jointKey(Arrays.asList(items));
+	public String jointKey(String... keyItems) {
+		return jointKey(Arrays.asList(keyItems));
 	}
 
 }
