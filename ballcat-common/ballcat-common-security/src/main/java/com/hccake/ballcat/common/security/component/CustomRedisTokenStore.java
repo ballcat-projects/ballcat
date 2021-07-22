@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.security.component;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.Cursor;
@@ -25,6 +26,7 @@ import java.util.*;
  *
  * @author hccake
  */
+@Slf4j
 public class CustomRedisTokenStore implements TokenStore {
 
 	private static final String ACCESS = "access:";
@@ -166,6 +168,7 @@ public class CustomRedisTokenStore implements TokenStore {
 			auth = deserializeAuthentication(bytes);
 		}
 		catch (SerializationException e) {
+			log.warn("[readAuthentication] OAuth2Authentication 序列化异常, token: [{}]", token, e);
 			removeAccessToken(token);
 		}
 
