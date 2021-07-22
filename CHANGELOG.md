@@ -40,7 +40,7 @@
 - pref: 菜单的逻辑删除属性使用 mybatis-plus 的自动填充功能，且当菜单 ID 已使用时提示详情
 - pref: 精简了一些 common 模块中不需要的依赖
 - refactor: OAuth2 ResourceServer 底层从 spring-security-oauth2 依赖迁移至 SpringSecurity 5.x
-- pref: common-conf 中现在默认注册 jackson 的脱敏序列化器了
+- pref: common-conf 中现在默认注册 jackson 的脱敏序列化器了，用户可以通过注册 name 为 ”desensitizeCustomizer“ 的 Jackson2ObjectMapperBuilderCustomizer bean，覆盖默认配置
 - refactor: ballcat-spring-boot-starter-log 和业务解耦，操作日志的生产和存储全部交由业务项目自己处理，ballcat-log-biz 模块中提供了默认的操作日志实体类，以及 OperationLogHandler 的默认实现
 - refactor: 由于 common-security 的抽取， ballcat-oauth 模块只剩下了授权相关，故更名为 ballcat-auth，同时做了一些结构上的调整，方便后续独立部署授权服务器。
   - 配置 `ballcat.upms.loginCaptchaEnabled` 现在调整为 `ballcat.security.oauth2.authorizationserver.loginCaptchaEnabled` ，用以控制登录验证码的开关

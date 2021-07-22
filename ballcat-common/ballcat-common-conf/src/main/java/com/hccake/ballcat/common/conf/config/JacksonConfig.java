@@ -58,6 +58,7 @@ public class JacksonConfig {
 	 * @return Jackson2ObjectMapperBuilderCustomizer
 	 */
 	@Bean
+	@ConditionalOnMissingBean(name = "desensitizeCustomizer")
 	public Jackson2ObjectMapperBuilderCustomizer desensitizeCustomizer() {
 		SimpleModule simpleModule = new SimpleModule();
 		simpleModule.setSerializerModifier(new JsonSerializerModifier());
