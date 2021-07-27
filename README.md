@@ -129,6 +129,6 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 
 如果群二维码失效，可以扫右边我的个人微信二维码，或者添加我的微信号 `Hccake_`，我再邀请你入群
 
-<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_20210713.png.jpg" alt="微信" width="35%"/>
+<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_20210727.png" alt="微信" width="35%"/>
 
 <img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/wechat-hccake.jpg" alt="微信" width="35%"/>
