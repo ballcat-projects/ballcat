@@ -129,7 +129,17 @@ public class CustomRedisTokenStore implements TokenStore {
 		finally {
 			conn.close();
 		}
-		OAuth2AccessToken accessToken = deserializeAccessToken(bytes);
+
+		// ==== 当序列化异常时，删除缓存 key ====
+		OAuth2AccessToken accessToken = null;
+		try {
+			accessToken = deserializeAccessToken(bytes);
+		}
+		catch (SerializationException e) {
+			log.warn("[getAccessToken] OAuth2AccessToken 序列化异常, key: [{}]", key, e);
+			conn.del(bytes);
+		}
+
 		if (accessToken != null) {
 			OAuth2Authentication storedAuthentication = readAuthentication(accessToken.getValue());
 			if ((storedAuthentication == null
@@ -295,7 +305,17 @@ public class CustomRedisTokenStore implements TokenStore {
 		finally {
 			conn.close();
 		}
-		OAuth2AccessToken accessToken = deserializeAccessToken(bytes);
+
+		// ==== 当序列化异常时，删除缓存 key ====
+		OAuth2AccessToken accessToken = null;
+		try {
+			accessToken = deserializeAccessToken(bytes);
+		}
+		catch (SerializationException e) {
+			log.warn("[readAccessToken] OAuth2AccessToken 序列化异常, token: [{}]", tokenValue, e);
+			removeAccessToken(tokenValue);
+		}
+
 		return accessToken;
 	}
 
@@ -316,7 +336,15 @@ public class CustomRedisTokenStore implements TokenStore {
 			byte[] access = (byte[]) results.get(0);
 			byte[] auth = (byte[]) results.get(1);
 
-			OAuth2Authentication authentication = deserializeAuthentication(auth);
+			// ==== 当序列化异常时，删除缓存 key ====
+			OAuth2Authentication authentication = null;
+			try {
+				authentication = deserializeAuthentication(auth);
+			}
+			catch (SerializationException e) {
+				log.warn("[removeAccessToken] OAuth2Authentication 序列化异常", e);
+			}
+
 			if (authentication != null) {
 				String key = authenticationKeyGenerator.extractKey(authentication);
 				byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + key);
