@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.conf.holder;
+package com.hccake.ballcat.common.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -12,13 +12,13 @@ import java.util.Map;
  * @author lingting 2020/6/12 16:36
  */
 @Component
-public class ApplicationContextHolder implements ApplicationContextAware {
+public class SpringUtils implements ApplicationContextAware {
 
 	private static ApplicationContext context;
 
 	@Override
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
-		ApplicationContextHolder.context = context;
+		SpringUtils.context = context;
 	}
 
 	@SuppressWarnings("unchecked")
