@@ -14,7 +14,6 @@
 
     <modules>
         <module>ballcat-common-core</module>
-		<module>ballcat-common-conf</module>
 		<module>ballcat-common-desensitize</module>
         <module>ballcat-common-util</module>
         <module>ballcat-common-model</module>

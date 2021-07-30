@@ -1,10 +1,7 @@
 package com.hccake.ballcat.admin.i18n.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.hccake.ballcat.common.conf.exception.GlobalExceptionHandlerResolver;
-import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
@@ -12,7 +9,6 @@ import org.springframework.web.servlet.LocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.MessageFormat;
 import java.util.Locale;
 
 /**

@@ -12,11 +12,7 @@
 
     <artifactId>ballcat-spring-boot-starter-i18n</artifactId>
 
-
-
-
     <dependencies>
-
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-extend-i18n-core</artifactId>
