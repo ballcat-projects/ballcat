@@ -1,5 +1,6 @@
-package com.hccake.ballcat.common.log.access;
+package com.hccake.ballcat.autoconfigure.log;
 
+import com.hccake.ballcat.autoconfigure.log.properties.AccessLogProperties;
 import com.hccake.ballcat.common.log.access.filter.AccessLogFilter;
 import com.hccake.ballcat.common.log.access.handler.AccessLogHandler;
 import lombok.RequiredArgsConstructor;

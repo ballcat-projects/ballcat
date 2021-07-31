@@ -1,6 +1,6 @@
-package com.hccake.ballcat.common.log.access.annotation;
+package com.hccake.ballcat.autoconfigure.log.annotation;
 
-import com.hccake.ballcat.common.log.access.AccessLogAutoConfiguration;
+import com.hccake.ballcat.autoconfigure.log.AccessLogAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

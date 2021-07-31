@@ -5,7 +5,7 @@ import com.hccake.ballcat.common.log.constant.LogConstant;
 import com.hccake.ballcat.common.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.common.log.operation.enums.LogStatusEnum;
 import com.hccake.ballcat.common.log.operation.handler.AbstractOperationLogHandler;
-import com.hccake.ballcat.common.log.operation.model.OperationLogInfo;
+import com.hccake.ballcat.common.log.operation.handler.OperationLogHandler;
 import com.hccake.ballcat.common.log.util.LogUtils;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
@@ -25,18 +25,23 @@ import java.time.LocalDateTime;
  * @date 2020/5/25 20:38
  */
 @RequiredArgsConstructor
-public class CustomOperationLogHandler extends AbstractOperationLogHandler {
+public class CustomOperationLogHandler extends AbstractOperationLogHandler<OperationLog> {
 
 	private final OperationLogService operationLogService;
 
+	/**
+	 * 保存操作日志
+	 * @param operationLog 操作日志
+	 */
 	@Override
-	public void saveLog(OperationLogInfo operationLog) {
-		operationLogService.save((OperationLog) operationLog);
+	public void saveLog(OperationLog operationLog) {
+		// 异步保存
+		operationLogService.saveAsync(operationLog);
 	}
 
 	@Override
-	public OperationLogInfo createOperationLog(OperationLogging operationLogging, ProceedingJoinPoint joinPoint,
-			long executionTime, Throwable throwable) {
+	public OperationLog buildLog(OperationLogging operationLogging, ProceedingJoinPoint joinPoint, long executionTime,
+			Throwable throwable) {
 		// 获取 Request
 		HttpServletRequest request = LogUtils.getHttpServletRequest();
 

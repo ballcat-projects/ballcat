@@ -1,9 +1,7 @@
 package com.hccake.ballcat.common.log.operation.aspect;
 
 import com.hccake.ballcat.common.log.operation.annotation.OperationLogging;
-import com.hccake.ballcat.common.log.operation.event.OperationLogEvent;
 import com.hccake.ballcat.common.log.operation.handler.OperationLogHandler;
-import com.hccake.ballcat.common.log.operation.model.OperationLogInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -24,13 +22,10 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 @Aspect
-@Order(0)
 @RequiredArgsConstructor
 public class OperationLogAspect {
 
-	private final ApplicationEventPublisher publisher;
-
-	private final OperationLogHandler operationLogHandler;
+	private final OperationLogHandler<?> operationLogHandler;
 
 	@Around("execution(@(@com.hccake.ballcat.common.log.operation.annotation.OperationLogging *) * *(..)) "
 			+ "|| @annotation(com.hccake.ballcat.common.log.operation.annotation.OperationLogging)")
@@ -60,12 +55,8 @@ public class OperationLogAspect {
 			// 结束时间
 			long executionTime = System.currentTimeMillis() - startTime;
 
-			// 构造 Info 对象
-			OperationLogInfo operationLogInfo = operationLogHandler.createOperationLog(operationLogging, joinPoint,
-					executionTime, throwable);
-
-			// 发布事件
-			publisher.publishEvent(new OperationLogEvent(operationLogInfo));
+			// 处理操作日志
+			operationLogHandler.handleLog(operationLogging, joinPoint, executionTime, throwable);
 		}
 	}
 

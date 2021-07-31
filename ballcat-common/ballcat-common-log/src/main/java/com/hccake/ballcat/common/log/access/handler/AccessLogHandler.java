@@ -17,9 +17,9 @@ public interface AccessLogHandler<T> {
 	 * @param executionTime 执行时长
 	 * @param throwable 异常
 	 */
-	default void logRecord(HttpServletRequest request, HttpServletResponse response, Long executionTime,
+	default void handleLog(HttpServletRequest request, HttpServletResponse response, Long executionTime,
 			Throwable throwable) {
-		T log = prodLog(request, response, executionTime, throwable);
+		T log = buildLog(request, response, executionTime, throwable);
 		saveLog(log);
 	}
 
@@ -31,7 +31,7 @@ public interface AccessLogHandler<T> {
 	 * @param executionTime 执行时长
 	 * @param throwable 异常
 	 */
-	T prodLog(HttpServletRequest request, HttpServletResponse response, Long executionTime, Throwable throwable);
+	T buildLog(HttpServletRequest request, HttpServletResponse response, Long executionTime, Throwable throwable);
 
 	/**
 	 * 保存日志 落库/或输出到文件等

@@ -19,7 +19,7 @@ import java.util.Map;
  * @author hccake
  */
 @Slf4j
-public abstract class AbstractOperationLogHandler implements OperationLogHandler {
+public abstract class AbstractOperationLogHandler<T> implements OperationLogHandler<T> {
 
 	private final List<Class<?>> ignoredParamClasses = ListUtil.toList(ServletRequest.class, ServletResponse.class,
 			MultipartFile.class);

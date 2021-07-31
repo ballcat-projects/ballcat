@@ -20,7 +20,8 @@
         <module>ballcat-common-websocket</module>
         <module>ballcat-common-security</module>
         <module>ballcat-common-idempotent</module>
-    </modules>
+		<module>ballcat-common-log</module>
+	</modules>
 
 
 

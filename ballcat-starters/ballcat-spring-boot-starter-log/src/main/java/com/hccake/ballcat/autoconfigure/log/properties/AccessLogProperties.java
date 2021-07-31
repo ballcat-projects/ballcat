@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.log.access;
+package com.hccake.ballcat.autoconfigure.log.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

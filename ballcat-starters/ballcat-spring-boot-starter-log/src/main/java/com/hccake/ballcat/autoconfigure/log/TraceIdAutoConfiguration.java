@@ -1,5 +1,6 @@
-package com.hccake.ballcat.common.log.mdc;
+package com.hccake.ballcat.autoconfigure.log;
 
+import com.hccake.ballcat.common.log.mdc.TraceIdFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

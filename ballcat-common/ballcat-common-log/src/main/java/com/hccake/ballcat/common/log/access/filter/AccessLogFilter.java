@@ -91,7 +91,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
 			}
 			// 生产一个日志并记录
 			try {
-				accessLogService.logRecord(requestWrapper, responseWrapper, executionTime, myThrowable);
+				accessLogService.handleLog(requestWrapper, responseWrapper, executionTime, myThrowable);
 			}
 			catch (Exception e) {
 				logger.error("logging access_log error!", e);

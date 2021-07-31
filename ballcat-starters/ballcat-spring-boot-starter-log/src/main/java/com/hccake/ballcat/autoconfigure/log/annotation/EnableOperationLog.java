@@ -1,6 +1,6 @@
-package com.hccake.ballcat.common.log.operation.annotation;
+package com.hccake.ballcat.autoconfigure.log.annotation;
 
-import com.hccake.ballcat.common.log.operation.OperationLogAutoConfiguration;
+import com.hccake.ballcat.autoconfigure.log.OperationLogAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

@@ -23,4 +23,10 @@ public interface OperationLogService extends ExtendService<OperationLog> {
 	 */
 	PageResult<OperationLogPageVO> queryPage(PageParam pageParam, OperationLogQO qo);
 
+	/**
+	 * 异步保存操作日志
+	 * @param operationLog 操作日志
+	 */
+	void saveAsync(OperationLog operationLog);
+
 }

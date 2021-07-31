@@ -2,7 +2,6 @@ package com.hccake.ballcat.log.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.hccake.ballcat.common.log.operation.model.OperationLogInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,7 +19,7 @@ import java.time.LocalDateTime;
 @TableName("log_operation_log")
 @ApiModel(value = "操作日志")
 @Accessors(chain = true)
-public class OperationLog implements OperationLogInfo {
+public class OperationLog {
 
 	private static final long serialVersionUID = 1L;
 
