@@ -1,14 +1,17 @@
 package com.hccake.ballcat.common.security.exception;
 
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;
@@ -21,16 +24,22 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  */
 public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
-	private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
+	private final ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
+
+	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
 	@Override
 	public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
 		// Try to extract a SpringSecurityException from the stacktrace
 		Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);
-		Exception ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
 
+		Exception ase = (InvalidGrantException) throwableAnalyzer.getFirstThrowableOfType(InvalidGrantException.class,
+				causeChain);
 		if (ase != null) {
-			return handleOAuth2Exception((OAuth2Exception) ase);
+			String message = messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials",
+					ase.getMessage());
+			CustomInvalidGrantException customInvalidGrantException = new CustomInvalidGrantException(message);
+			return handleOAuth2Exception(customInvalidGrantException);
 		}
 
 		ase = (AuthenticationException) throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class,
@@ -51,6 +60,12 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 				.getFirstThrowableOfType(HttpRequestMethodNotSupportedException.class, causeChain);
 		if (ase != null) {
 			return handleOAuth2Exception(new MethodNotAllowed(ase.getMessage(), ase));
+		}
+
+		// 放到最后，OAuth2 项目没有异常消息没有国际化
+		ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
+		if (ase != null) {
+			return handleOAuth2Exception((OAuth2Exception) ase);
 		}
 
 		return handleOAuth2Exception(new ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
@@ -144,6 +159,24 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 		@Override
 		public int getHttpErrorCode() {
 			return 405;
+		}
+
+	}
+
+	@SuppressWarnings("serial")
+	private class CustomInvalidGrantException extends CustomOAuth2Exception {
+
+		public CustomInvalidGrantException(String msg, Throwable t) {
+			super(msg, t);
+		}
+
+		public CustomInvalidGrantException(String msg) {
+			super(msg);
+		}
+
+		@Override
+		public String getOAuth2ErrorCode() {
+			return "invalid_grant";
 		}
 
 	}
