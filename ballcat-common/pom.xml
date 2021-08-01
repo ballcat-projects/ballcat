@@ -21,6 +21,7 @@
         <module>ballcat-common-security</module>
         <module>ballcat-common-idempotent</module>
 		<module>ballcat-common-log</module>
+		<module>ballcat-common-redis</module>
 	</modules>
 
 

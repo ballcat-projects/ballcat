@@ -14,6 +14,26 @@ import java.util.function.Supplier;
 public class CachedOps extends AbstractCacheOps {
 
 	/**
+	 * 数据类型
+	 */
+	private final Type returnType;
+
+	/**
+	 * 缓存分布式锁的key
+	 */
+	private final String lockKey;
+
+	/**
+	 * 从Redis中获取缓存数据的操作
+	 */
+	private final Supplier<String> cacheQuery;
+
+	/**
+	 * 向缓存写入数据
+	 */
+	private final Consumer<Object> cachePut;
+
+	/**
 	 * 基本构造函数
 	 * @param joinPoint 织入方法
 	 * @param lockKey 分布式锁key
@@ -29,29 +49,6 @@ public class CachedOps extends AbstractCacheOps {
 		this.cachePut = cachePut;
 		this.returnType = returnType;
 	}
-
-	/**
-	 * 数据类型
-	 */
-	private Type returnType;
-
-	/**
-	 * 缓存分布式锁的key
-	 * @return String
-	 */
-	private String lockKey;
-
-	/**
-	 * 从Redis中获取缓存数据的操作
-	 * @return Supplier
-	 */
-	private Supplier<String> cacheQuery;
-
-	/**
-	 * 向缓存写入数据
-	 * @return Consumer
-	 */
-	private Consumer<Object> cachePut;
 
 	public Supplier<String> cacheQuery() {
 		return cacheQuery;

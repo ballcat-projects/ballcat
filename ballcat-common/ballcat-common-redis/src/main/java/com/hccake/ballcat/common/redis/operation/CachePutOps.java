@@ -11,16 +11,15 @@ import java.util.function.Consumer;
  */
 public class CachePutOps extends AbstractCacheOps {
 
+	/**
+	 * 向缓存写入数据
+	 */
+	private final Consumer<Object> cachePut;
+
 	public CachePutOps(ProceedingJoinPoint joinPoint, Consumer<Object> cachePut) {
 		super(joinPoint);
 		this.cachePut = cachePut;
 	}
-
-	/**
-	 * 向缓存写入数据
-	 * @return Consumer
-	 */
-	private Consumer<Object> cachePut;
 
 	public Consumer<Object> cachePut() {
 		return cachePut;

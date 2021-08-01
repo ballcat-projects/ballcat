@@ -26,8 +26,8 @@ public abstract class AbstractCacheOps {
 
 	/**
 	 * 检查缓存数据是否是空值
-	 * @param cacheData
-	 * @return
+	 * @param cacheData 缓存数据
+	 * @return true: 是空值
 	 */
 	public boolean nullValue(Object cacheData) {
 		return CachePropertiesHolder.nullValue().equals(cacheData);

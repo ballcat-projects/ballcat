@@ -16,27 +16,27 @@ public interface CacheSerializer {
 
 	/**
 	 * 序列化方法
-	 * @param cacheData
-	 * @return
-	 * @throws IOException
+	 * @param cacheData 缓存数据
+	 * @return String 序列化后的字符串
+	 * @throws IOException 序列化异常
 	 */
 	String serialize(Object cacheData) throws IOException;
 
 	/**
 	 * 反序列化方法
-	 * @param cacheData
-	 * @param type
-	 * @return
-	 * @throws IOException
+	 * @param cacheData 缓存数据
+	 * @param type Java 对象类型
+	 * @return java 对象实例
+	 * @throws IOException 序列化异常
 	 */
 	Object deserialize(String cacheData, Type type) throws IOException;
 
 	/**
 	 * Type转JavaType
-	 * @param type
-	 * @return
+	 * @param type Java 对象类型
+	 * @return jackson 中的对象类型抽象
 	 */
-	public static JavaType getJavaType(Type type) {
+	static JavaType getJavaType(Type type) {
 		// 判断是否带有泛型
 		if (type instanceof ParameterizedType) {
 			Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();

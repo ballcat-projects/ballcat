@@ -12,12 +12,16 @@
 	<artifactId>ballcat-spring-boot-starter-redis</artifactId>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-redis</artifactId>
+		</dependency>
+
 		<!--Aop功能依赖-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-
 		<!--spring data redis 依赖 common-pool2-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -38,16 +42,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-autoconfigure</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-common-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-common-util</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -10,7 +10,7 @@ public interface ResultMethod<T> {
 
 	/**
 	 * 执行并返回一个结果
-	 * @return
+	 * @return result
 	 */
 	T run();
 

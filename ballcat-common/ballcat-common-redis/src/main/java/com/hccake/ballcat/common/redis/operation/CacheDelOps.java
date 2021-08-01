@@ -12,9 +12,8 @@ public class CacheDelOps extends AbstractCacheOps {
 
 	/**
 	 * 删除缓存数据
-	 * @return VoidMethod
 	 */
-	private VoidMethod cacheDel;
+	private final VoidMethod cacheDel;
 
 	public CacheDelOps(ProceedingJoinPoint joinPoint, VoidMethod cacheDel) {
 		super(joinPoint);

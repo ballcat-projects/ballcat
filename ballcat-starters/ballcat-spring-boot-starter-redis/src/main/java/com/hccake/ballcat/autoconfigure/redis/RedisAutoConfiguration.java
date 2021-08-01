@@ -1,6 +1,8 @@
-package com.hccake.ballcat.common.redis.config;
+package com.hccake.ballcat.autoconfigure.redis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hccake.ballcat.common.redis.config.CacheProperties;
+import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.redis.core.CacheLock;
 import com.hccake.ballcat.common.redis.core.CacheStringAspect;
 import com.hccake.ballcat.common.redis.serialize.CacheSerializer;
@@ -98,9 +100,9 @@ public class RedisAutoConfiguration {
 		return template;
 	}
 
-	@Bean(name = "com.hccake.ballcat.common.redis.RedisHelpers")
+	@Bean
 	@ConditionalOnMissingBean(RedisHelper.class)
-	public RedisHelper redis(StringRedisTemplate template) {
+	public RedisHelper redisHelper(StringRedisTemplate template) {
 		RedisHelper.setTemplate(template);
 		return new RedisHelper();
 	}
