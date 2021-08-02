@@ -1,6 +1,6 @@
 package com.hccake.ballcat.admin.i18n.config;
 
-import com.hccake.ballcat.autoconfigure.web.exception.GlobalExceptionHandlerResolver;
+import com.hccake.ballcat.autoconfigure.web.exception.resolver.GlobalHandlerExceptionResolver;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
@@ -10,8 +10,6 @@ import com.hccake.common.i18n.execute.TranslateExecuteWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -33,11 +31,11 @@ import java.util.Map;
  */
 @Slf4j
 @RestControllerAdvice
-public class I18nGlobalException extends GlobalExceptionHandlerResolver {
+public class I18NGlobalException extends GlobalHandlerExceptionResolver {
 
 	private final GlobalExceptionHandler globalExceptionHandler;
 
-	public I18nGlobalException(GlobalExceptionHandler globalExceptionHandler) {
+	public I18NGlobalException(GlobalExceptionHandler globalExceptionHandler) {
 		super(globalExceptionHandler);
 		this.globalExceptionHandler = globalExceptionHandler;
 
@@ -131,16 +129,8 @@ public class I18nGlobalException extends GlobalExceptionHandlerResolver {
 	@Override
 	@ExceptionHandler({ MethodArgumentNotValidException.class, BindException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R<String> handleBodyValidException(Exception exception) {
-		BindingResult bindingResult;
-
-		if (exception instanceof BindException) {
-			bindingResult = ((BindException) exception).getBindingResult();
-		}
-		else {
-			bindingResult = ((MethodArgumentNotValidException) exception).getBindingResult();
-		}
-
+	public R<String> handleBodyValidException(BindException exception) {
+		BindingResult bindingResult = exception.getBindingResult();
 		String errorMsg = bindingResult.getErrorCount() > 0 ? bindingResult.getAllErrors().get(0).getDefaultMessage()
 				: "未获取到错误信息!";
 
@@ -159,30 +149,12 @@ public class I18nGlobalException extends GlobalExceptionHandlerResolver {
 	@Override
 	@ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R<String> handleValidationException(Exception e) {
+	public R<String> handleValidationException(ValidationException e) {
 		log.error("参数绑定异常 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
 		String exceptionMsg = executeTranslate("valid.exception", SystemResultCode.BAD_REQUEST.getCode(),
 				e.getLocalizedMessage());
 		return R.failed(SystemResultCode.BAD_REQUEST, exceptionMsg);
-	}
-
-	/**
-	 * AccessDeniedException
-	 * @param e the e
-	 * @return R
-	 */
-	@Override
-	@ExceptionHandler(AccessDeniedException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public R<String> handleAccessDeniedException(AccessDeniedException e) {
-		String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
-				e.getMessage());
-		log.error("拒绝授权异常信息 ex={}", msg);
-		globalExceptionHandler.handle(e);
-		String exceptionMsg = executeTranslate("access.denied.exception", SystemResultCode.FORBIDDEN.getCode(),
-				e.getLocalizedMessage());
-		return R.failed(SystemResultCode.FORBIDDEN, exceptionMsg);
 	}
 
 	/**

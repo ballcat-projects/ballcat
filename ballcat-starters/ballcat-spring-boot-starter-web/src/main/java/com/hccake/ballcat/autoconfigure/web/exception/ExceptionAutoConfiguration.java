@@ -3,16 +3,21 @@ package com.hccake.ballcat.autoconfigure.web.exception;
 import com.hccake.ballcat.autoconfigure.web.exception.handler.DefaultGlobalExceptionHandler;
 import com.hccake.ballcat.autoconfigure.web.exception.handler.DingTalkGlobalExceptionHandler;
 import com.hccake.ballcat.autoconfigure.web.exception.handler.MailGlobalExceptionHandler;
+import com.hccake.ballcat.autoconfigure.web.exception.resolver.GlobalHandlerExceptionResolver;
+import com.hccake.ballcat.autoconfigure.web.exception.resolver.SecurityHandlerExceptionResolver;
 import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import com.hccake.ballcat.common.mail.sender.MailSender;
 import com.hccake.extend.dingtalk.DingTalkSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 
 /**
  * @author Hccake
@@ -21,7 +26,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-public class ExceptionHandleAutoConfiguration {
+@EnableConfigurationProperties(ExceptionHandleProperties.class)
+public class ExceptionAutoConfiguration {
 
 	@Value("${spring.application.name}")
 	private String applicationName;
@@ -66,14 +72,26 @@ public class ExceptionHandleAutoConfiguration {
 	}
 
 	/**
-	 * 默认的日志处理器
-	 * @return DefaultExceptionHandler
+	 * 默认的异常处理器
+	 * @return GlobalHandlerExceptionResolver
 	 */
 	@Bean
-	@ConditionalOnMissingBean(GlobalExceptionHandlerResolver.class)
-	public GlobalExceptionHandlerResolver globalExceptionHandlerResolver(
+	@ConditionalOnMissingBean(GlobalHandlerExceptionResolver.class)
+	public GlobalHandlerExceptionResolver globalExceptionHandlerResolver(
 			GlobalExceptionHandler globalExceptionHandler) {
-		return new GlobalExceptionHandlerResolver(globalExceptionHandler);
+		return new GlobalHandlerExceptionResolver(globalExceptionHandler);
+	}
+
+	/**
+	 * security 相关的异常处理
+	 * @return SecurityHandlerExceptionResolver
+	 */
+	@Bean
+	@ConditionalOnClass(AccessDeniedException.class)
+	@ConditionalOnMissingBean(SecurityHandlerExceptionResolver.class)
+	public SecurityHandlerExceptionResolver securityHandlerExceptionResolver(
+			GlobalExceptionHandler globalExceptionHandler) {
+		return new SecurityHandlerExceptionResolver(globalExceptionHandler);
 	}
 
 }

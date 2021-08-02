@@ -1,4 +1,4 @@
-package com.hccake.ballcat.autoconfigure.web.exception;
+package com.hccake.ballcat.autoconfigure.web.exception.resolver;
 
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.exception.BusinessException;
@@ -8,14 +8,12 @@ import com.hccake.ballcat.common.model.result.SystemResultCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,10 +26,11 @@ import javax.validation.ValidationException;
  *
  * @author Hccake
  */
+@Order
 @Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class GlobalExceptionHandlerResolver {
+public class GlobalHandlerExceptionResolver {
 
 	private final GlobalExceptionHandler globalExceptionHandler;
 
@@ -53,9 +52,23 @@ public class GlobalExceptionHandlerResolver {
 		log.error("全局异常信息 ex={}", e.getMessage(), e);
 		globalExceptionHandler.handle(e);
 		// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
-		String errorMsg = GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG
-				: (e instanceof NullPointerException ? NLP_MSG : e.getLocalizedMessage());
-		return R.failed(SystemResultCode.SERVER_ERROR, errorMsg);
+		String errorMessage = GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getLocalizedMessage();
+		return R.failed(SystemResultCode.SERVER_ERROR, errorMessage);
+	}
+
+	/**
+	 * 空指针异常捕获
+	 * @param e the e
+	 * @return R
+	 */
+	@ExceptionHandler(NullPointerException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public R<String> handleNullPointerException(NullPointerException e) {
+		log.error("空指针异常 ex={}", e.getMessage(), e);
+		globalExceptionHandler.handle(e);
+		// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
+		String errorMessage = GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : NLP_MSG;
+		return R.failed(SystemResultCode.SERVER_ERROR, errorMessage);
 	}
 
 	/**
@@ -68,8 +81,9 @@ public class GlobalExceptionHandlerResolver {
 	public R<String> handleMethodArgumentTypeMismatchException(Exception e) {
 		log.error("请求入参异常 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.BAD_REQUEST,
-				GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getMessage());
+
+		String errorMessage = GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getMessage();
+		return R.failed(SystemResultCode.BAD_REQUEST, errorMessage);
 	}
 
 	/**
@@ -101,18 +115,10 @@ public class GlobalExceptionHandlerResolver {
 	 * @param exception e
 	 * @return R
 	 */
-	@ExceptionHandler({ MethodArgumentNotValidException.class, BindException.class })
+	@ExceptionHandler(BindException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R<String> handleBodyValidException(Exception exception) {
-		BindingResult bindingResult;
-
-		if (exception instanceof BindException) {
-			bindingResult = ((BindException) exception).getBindingResult();
-		}
-		else {
-			bindingResult = ((MethodArgumentNotValidException) exception).getBindingResult();
-		}
-
+	public R<String> handleBodyValidException(BindException exception) {
+		BindingResult bindingResult = exception.getBindingResult();
 		String errorMsg = bindingResult.getErrorCount() > 0 ? bindingResult.getAllErrors().get(0).getDefaultMessage()
 				: "未获取到错误信息!";
 
@@ -128,25 +134,10 @@ public class GlobalExceptionHandlerResolver {
 	 */
 	@ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R<String> handleValidationException(Exception e) {
-		log.error("参数绑定异常 ex={}", e.getMessage());
+	public R<String> handleValidationException(ValidationException e) {
+		log.error("参数校验异常 ex={}", e.getMessage());
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
-	}
-
-	/**
-	 * AccessDeniedException
-	 * @param e the e
-	 * @return R
-	 */
-	@ExceptionHandler(AccessDeniedException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public R<String> handleAccessDeniedException(AccessDeniedException e) {
-		String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
-				e.getMessage());
-		log.error("拒绝授权异常信息 ex={}", msg);
-		globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
 	}
 
 	/**
