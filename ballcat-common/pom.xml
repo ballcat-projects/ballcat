@@ -22,7 +22,8 @@
         <module>ballcat-common-idempotent</module>
 		<module>ballcat-common-log</module>
 		<module>ballcat-common-redis</module>
-	</modules>
+        <module>ballcat-common-i18n</module>
+    </modules>
 
 
 

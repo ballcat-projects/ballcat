@@ -126,6 +126,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-i18n</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-common-idempotent</artifactId>
 				<version>${revision}</version>
 			</dependency>
@@ -237,21 +242,6 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-i18n-annotation</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-i18n-core</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-i18n</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-admin-i18n</artifactId>
 				<version>${revision}</version>
 			</dependency>
@@ -348,6 +338,22 @@
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-log-model</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<!-- i18n 国际化模块 -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-i18n-controller</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-i18n-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-i18n-model</artifactId>
 				<version>${revision}</version>
 			</dependency>
 

@@ -16,7 +16,8 @@
 		<module>ballcat-auth</module>
 		<module>ballcat-notify</module>
 		<module>ballcat-log</module>
-	</modules>
+        <module>ballcat-i18n</module>
+    </modules>
 	<name>ballcat</name>
 	<description>项目基本脚手架</description>
 	<url>https://github.com/hccake/ballcat</url>

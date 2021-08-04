@@ -3,26 +3,30 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>ballcat-admin</artifactId>
+		<artifactId>ballcat-i18n</artifactId>
 		<groupId>com.hccake</groupId>
 		<version>${revision}</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>ballcat-admin-i18n</artifactId>
+	<artifactId>ballcat-i18n-controller</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-common-core</artifactId>
+			<artifactId>ballcat-i18n-biz</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-spring-boot-starter-web</artifactId>
+			<artifactId>ballcat-common-log</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
+			<artifactId>spring-web</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.model.result;
 
-import com.hccake.common.i18n.annotation.I18nField;
+import com.hccake.ballcat.common.i18n.I18nClass;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -14,6 +14,7 @@ import java.io.Serializable;
  * @param <T>
  * @author Hccake
  */
+@I18nClass
 @Getter
 @Setter
 @ToString

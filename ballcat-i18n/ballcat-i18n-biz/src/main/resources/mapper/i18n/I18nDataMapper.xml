@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hccake.ballcat.i18n.mapper.I18nDataMapper">
+
+	<resultMap id="i18nDataMap" type="com.hccake.ballcat.i18n.model.entity.I18nData">
+  		<id property="id" column="id"/>
+    		<result property="business" column="business"/>
+    		<result property="messageKey" column="message_key"/>
+    		<result property="code" column="code"/>
+    		<result property="message" column="message"/>
+    		<result property="languageTag" column="language_tag"/>
+    		<result property="remark" column="remark"/>
+    		<result property="createTime" column="create_time"/>
+    		<result property="updateTime" column="update_time"/>
+      </resultMap>
+
+	<sql id="Base_Column_List">
+		id,        
+		business,        
+		message_key,        
+		code,        
+		message,        
+		language_tag,        
+		remark,        
+		create_time,        
+		update_time        
+	</sql>
+
+	<sql id="Base_Alias_Column_List">
+		id.id,        
+		id.business,        
+		id.message_key,        
+		id.code,        
+		id.message,        
+		id.language_tag,        
+		id.remark,        
+		id.create_time,        
+		id.update_time        
+	</sql>
+</mapper>
