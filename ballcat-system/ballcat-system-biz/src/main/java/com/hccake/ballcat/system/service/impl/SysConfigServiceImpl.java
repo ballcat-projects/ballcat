@@ -1,5 +1,6 @@
 package com.hccake.ballcat.system.service.impl;
 
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
@@ -32,6 +33,12 @@ public class SysConfigServiceImpl extends ExtendServiceImpl<SysConfigMapper, Sys
 	public String getConfValueByKey(String confKey) {
 		SysConfig sysConfig = baseMapper.selectByKey(confKey);
 		return sysConfig == null ? null : sysConfig.getConfValue();
+	}
+
+	@CacheDel(key = SystemRedisKeyConstants.SYSTEM_CONFIG_PREFIX, keyJoint = "#p0.confKey")
+	@Override
+	public boolean save(SysConfig entity) {
+		return SqlHelper.retBool(getBaseMapper().insert(entity));
 	}
 
 	@CacheDel(key = SystemRedisKeyConstants.SYSTEM_CONFIG_PREFIX, keyJoint = "#sysConfig.confKey")
