@@ -14,6 +14,7 @@ import com.hccake.ballcat.system.converter.SysMenuConverter;
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.qo.SysMenuQO;
+import com.hccake.ballcat.system.model.vo.SysMenuPageVO;
 import com.hccake.ballcat.system.model.vo.SysMenuRouterVO;
 import com.hccake.ballcat.system.service.SysMenuService;
 import io.swagger.annotations.Api;
@@ -81,8 +82,14 @@ public class SysMenuController {
 	@ApiOperation(value = "查询菜单列表", notes = "查询菜单列表")
 	@GetMapping("/list")
 	@PreAuthorize("@per.hasPermission('system:menu:read')")
-	public R<List<SysMenu>> getSysMenuPage(SysMenuQO sysMenuQO) {
-		return R.ok(sysMenuService.listOrderBySort(sysMenuQO));
+	public R<List<SysMenuPageVO>> getSysMenuPage(SysMenuQO sysMenuQO) {
+		List<SysMenu> sysMenus = sysMenuService.listOrderBySort(sysMenuQO);
+		if (CollectionUtil.isEmpty(sysMenus)) {
+			R.ok(new ArrayList<>());
+		}
+		List<SysMenuPageVO> voList = sysMenus.stream().map(SysMenuConverter.INSTANCE::poToPageVo)
+				.collect(Collectors.toList());
+		return R.ok(voList);
 	}
 
 	/**

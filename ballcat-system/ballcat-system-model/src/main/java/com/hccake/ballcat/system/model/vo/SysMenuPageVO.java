@@ -1,7 +1,5 @@
 package com.hccake.ballcat.system.model.vo;
 
-import com.hccake.ballcat.common.i18n.I18nClass;
-import com.hccake.ballcat.common.i18n.I18nField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,7 +11,6 @@ import java.time.LocalDateTime;
  *
  * @author hccake 2021-04-06 17:59:51
  */
-@I18nClass
 @Data
 @ApiModel(value = "菜单权限分页视图对象")
 public class SysMenuPageVO {
@@ -35,8 +32,6 @@ public class SysMenuPageVO {
 	/**
 	 * 菜单名称
 	 */
-	// TODO 原始 title 也返回，方便前端回显和修改
-	@I18nField
 	@ApiModelProperty(value = "菜单名称")
 	private String title;
 
