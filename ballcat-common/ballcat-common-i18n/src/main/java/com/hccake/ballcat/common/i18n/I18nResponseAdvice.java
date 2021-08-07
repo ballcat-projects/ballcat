@@ -93,14 +93,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 				}
 				// 把当前 field 的值更新为国际化后的属性
 				Locale locale = LocaleContextHolder.getLocale();
-				String message;
-				try {
-					message = messageSource.getMessage(code, null, locale);
-				}
-				catch (NoSuchMessageException e) {
-					log.warn("[switchLanguage]未找到对应的国际化配置，code: {}, local: {}.切换到默认的语言：{}", code, locale, defaultLocal);
-					message = messageSource.getMessage(code, null, defaultLocal);
-				}
+				String message = codeToMessage(code, locale, defaultLocal);
 				ReflectUtil.setFieldValue(source, field, message);
 			}
 			else if (fieldValue instanceof Collection) {
@@ -129,6 +122,38 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 				switchLanguage(fieldValue);
 			}
 		}
+	}
+
+	/**
+	 * 转换 code 为对应的国家的语言文本
+	 * @param code 国际化唯一标识
+	 * @param locale 当前地区
+	 * @param defaultLocal 默认地区，可为 null
+	 * @return 国际化 text，或者 code 本身
+	 */
+	private String codeToMessage(String code, Locale locale, Locale defaultLocal) {
+		String message;
+		try {
+			message = messageSource.getMessage(code, null, locale);
+			return message;
+		}
+		catch (NoSuchMessageException e) {
+			log.warn("[switchLanguage]未找到对应的国际化配置，code: {}, local: {}.切换到默认的语言：{}", code, locale, defaultLocal);
+		}
+
+		// 当配置了默认语言时，尝试切换到默认语言
+		if (defaultLocal != null && locale != defaultLocal) {
+			try {
+				message = messageSource.getMessage(code, null, defaultLocal);
+				return message;
+			}
+			catch (NoSuchMessageException e) {
+				log.warn("[switchLanguage]未找到默认语言的国际化配置，code: {}, local: {}.切换到默认的语言：{}", code, locale, defaultLocal);
+			}
+		}
+
+		// 都没有找到，则直接返回 code
+		return code;
 	}
 
 }

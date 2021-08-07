@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 /**
  * 国际化信息分页视图对象
  *
- * @author hccake 2021-08-04 11:31:49
+ * @author hccake 2021-08-06 10:48:25
  */
 @Data
 @ApiModel(value = "国际化信息分页视图对象")
@@ -24,16 +24,10 @@ public class I18nDataPageVO {
 	private Integer id;
 
 	/**
-	 * 业务
+	 * 语言标识
 	 */
-	@ApiModelProperty(value = "业务")
-	private String business;
-
-	/**
-	 * 关键词
-	 */
-	@ApiModelProperty(value = "关键词")
-	private String messageKey;
+	@ApiModelProperty(value = "语言标识")
+	private String languageTag;
 
 	/**
 	 * 唯一标识 = 业务:关键词
@@ -46,12 +40,6 @@ public class I18nDataPageVO {
 	 */
 	@ApiModelProperty(value = "文本值，可以使用 { } 加角标，作为占位符")
 	private String message;
-
-	/**
-	 * 语言标识
-	 */
-	@ApiModelProperty(value = "语言标识")
-	private String languageTag;
 
 	/**
 	 * 备注

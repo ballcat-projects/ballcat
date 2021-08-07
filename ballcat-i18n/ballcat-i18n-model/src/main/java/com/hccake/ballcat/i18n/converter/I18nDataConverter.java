@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 /**
  * 国际化信息模型转换器
  *
- * @author hccake 2021-08-04 11:31:49
+ * @author hccake 2021-08-06 10:48:25
  */
 @Mapper
 public interface I18nDataConverter {

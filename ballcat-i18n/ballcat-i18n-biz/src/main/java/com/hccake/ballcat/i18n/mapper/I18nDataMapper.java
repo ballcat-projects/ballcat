@@ -3,6 +3,7 @@ package com.hccake.ballcat.i18n.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.i18n.converter.I18nDataConverter;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
 import com.hccake.ballcat.i18n.model.qo.I18nDataQO;
@@ -16,7 +17,7 @@ import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
 /**
  * 国际化信息
  *
- * @author hccake 2021-08-04 11:31:49
+ * @author hccake 2021-08-06 10:48:25
  */
 public interface I18nDataMapper extends ExtendMapper<I18nData> {
 
@@ -29,6 +30,8 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 	default PageResult<I18nDataPageVO> queryPage(PageParam pageParam, I18nDataQO qo) {
 		IPage<I18nData> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<I18nData> wrapper = WrappersX.lambdaQueryX(I18nData.class);
+		wrapper.likeIfPresent(I18nData::getCode, qo.getCode()).likeIfPresent(I18nData::getMessage, qo.getMessage())
+				.eqIfPresent(I18nData::getLanguageTag, qo.getLanguageTag());
 		this.selectPage(page, wrapper);
 		IPage<I18nDataPageVO> voPage = page.convert(I18nDataConverter.INSTANCE::poToPageVo);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
@@ -44,6 +47,18 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 		LambdaQueryWrapper<I18nData> wrapper = Wrappers.lambdaQuery(I18nData.class).eq(I18nData::getCode, code)
 				.eq(I18nData::getLanguageTag, languageTag);
 		return this.selectOne(wrapper);
+	}
+
+	/**
+	 * 根据 code 和 languageTag 删除指定的 I18nData
+	 * @param code 唯一标识
+	 * @param languageTag 语言标识
+	 * @return I18nData
+	 */
+	default boolean deleteByCodeAndLanguageTag(String code, String languageTag) {
+		LambdaQueryWrapper<I18nData> wrapper = Wrappers.lambdaQuery(I18nData.class).eq(I18nData::getCode, code)
+				.eq(I18nData::getLanguageTag, languageTag);
+		return SqlHelper.retBool(this.delete(wrapper));
 	}
 
 }

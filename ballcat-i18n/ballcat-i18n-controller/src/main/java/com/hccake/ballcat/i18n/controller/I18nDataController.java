@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 国际化信息
  *
- * @author hccake 2021-08-04 11:31:49
+ * @author hccake 2021-08-06 10:48:25
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/i18n/data")
+@RequestMapping("/i18n/i18n-data")
 @Api(value = "i18n-data", tags = "国际化信息管理")
 public class I18nDataController {
 
@@ -38,7 +38,7 @@ public class I18nDataController {
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
-	@PreAuthorize("@per.hasPermission('i18n:data:read')")
+	@PreAuthorize("@per.hasPermission('i18n:i18n-data:read')")
 	public R<PageResult<I18nDataPageVO>> getI18nDataPage(PageParam pageParam, I18nDataQO i18nDataQO) {
 		return R.ok(i18nDataService.queryPage(pageParam, i18nDataQO));
 	}
@@ -51,7 +51,7 @@ public class I18nDataController {
 	@ApiOperation(value = "新增国际化信息", notes = "新增国际化信息")
 	@CreateOperationLogging(msg = "新增国际化信息")
 	@PostMapping
-	@PreAuthorize("@per.hasPermission('i18n:data:add')")
+	@PreAuthorize("@per.hasPermission('i18n:i18n-data:add')")
 	public R save(@RequestBody I18nData i18nData) {
 		return i18nDataService.save(i18nData) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增国际化信息失败");
 	}
@@ -64,7 +64,7 @@ public class I18nDataController {
 	@ApiOperation(value = "修改国际化信息", notes = "修改国际化信息")
 	@UpdateOperationLogging(msg = "修改国际化信息")
 	@PutMapping
-	@PreAuthorize("@per.hasPermission('i18n:data:edit')")
+	@PreAuthorize("@per.hasPermission('i18n:i18n-data:edit')")
 	public R updateById(@RequestBody I18nData i18nData) {
 		return i18nDataService.updateById(i18nData) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改国际化信息失败");
@@ -72,15 +72,16 @@ public class I18nDataController {
 
 	/**
 	 * 通过id删除国际化信息
-	 * @param id id
+	 * @param code code 唯一标识
+	 * @param languageTag 语言标签
 	 * @return R 通用返回体
 	 */
 	@ApiOperation(value = "通过id删除国际化信息", notes = "通过id删除国际化信息")
 	@DeleteOperationLogging(msg = "通过id删除国际化信息")
-	@DeleteMapping("/{id}")
-	@PreAuthorize("@per.hasPermission('i18n:data:del')")
-	public R removeById(@PathVariable("id") Integer id) {
-		return i18nDataService.removeById(id) ? R.ok()
+	@DeleteMapping
+	@PreAuthorize("@per.hasPermission('i18n:i18n-data:del')")
+	public R removeById(@RequestParam("code") String code, @RequestParam("languageTag") String languageTag) {
+		return i18nDataService.removeByCodeAndLanguageTag(code, languageTag) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除国际化信息失败");
 	}
 

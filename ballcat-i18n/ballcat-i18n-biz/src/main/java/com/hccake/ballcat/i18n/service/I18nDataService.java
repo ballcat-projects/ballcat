@@ -10,7 +10,7 @@ import com.hccake.extend.mybatis.plus.service.ExtendService;
 /**
  * 国际化信息
  *
- * @author hccake 2021-08-04 11:31:49
+ * @author hccake 2021-08-06 10:48:25
  */
 public interface I18nDataService extends ExtendService<I18nData> {
 
@@ -25,9 +25,17 @@ public interface I18nDataService extends ExtendService<I18nData> {
 	/**
 	 * 根据 code 和 languageTag 查询指定的 I18nData
 	 * @param code 唯一标识
-	 * @param languageTag 语言标识
+	 * @param languageTag 语言标签
 	 * @return I18nData
 	 */
 	I18nData getByCodeAndLanguageTag(String code, String languageTag);
+
+	/**
+	 * 根据 code 和 languageTag 删除指定的 I18nData
+	 * @param code 唯一标识
+	 * @param languageTag 语言标签
+	 * @return delete true or false
+	 */
+	boolean removeByCodeAndLanguageTag(String code, String languageTag);
 
 }
