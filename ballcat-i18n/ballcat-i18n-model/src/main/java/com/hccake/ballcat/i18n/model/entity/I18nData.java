@@ -30,15 +30,15 @@ public class I18nData {
 	private Integer id;
 
 	/**
-	 * 语言标识
+	 * 语言标签
 	 */
-	@ApiModelProperty(value = "语言标识")
+	@ApiModelProperty(value = "语言标签")
 	private String languageTag;
 
 	/**
-	 * 唯一标识 = 业务:关键词
+	 * 国际化标识
 	 */
-	@ApiModelProperty(value = "唯一标识 = 业务:关键词")
+	@ApiModelProperty(value = "国际化标识")
 	private String code;
 
 	/**

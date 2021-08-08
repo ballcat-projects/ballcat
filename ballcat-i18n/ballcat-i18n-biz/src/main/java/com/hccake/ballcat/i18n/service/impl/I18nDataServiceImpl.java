@@ -1,20 +1,23 @@
 package com.hccake.ballcat.i18n.service.impl;
 
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
-import com.hccake.ballcat.common.redis.core.annotation.Cached;
-import com.hccake.ballcat.i18n.constant.I18nRedisKeyConstants;
-import com.hccake.ballcat.i18n.model.entity.I18nData;
-import com.hccake.ballcat.i18n.model.vo.I18nDataPageVO;
-import com.hccake.ballcat.i18n.model.qo.I18nDataQO;
-import com.hccake.ballcat.i18n.mapper.I18nDataMapper;
-import com.hccake.ballcat.i18n.service.I18nDataService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
+import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
+import com.hccake.ballcat.common.redis.core.annotation.Cached;
+import com.hccake.ballcat.common.util.JsonUtils;
+import com.hccake.ballcat.i18n.constant.I18nRedisKeyConstants;
+import com.hccake.ballcat.i18n.mapper.I18nDataMapper;
+import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
+import com.hccake.ballcat.i18n.model.dto.I18nDataUnique;
+import com.hccake.ballcat.i18n.model.entity.I18nData;
+import com.hccake.ballcat.i18n.model.qo.I18nDataQO;
+import com.hccake.ballcat.i18n.model.vo.I18nDataPageVO;
+import com.hccake.ballcat.i18n.service.I18nDataService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.io.Serializable;
 
 /**
  * 国际化信息
@@ -22,7 +25,10 @@ import java.io.Serializable;
  * @author hccake 2021-08-06 10:48:25
  */
 @Service
+@RequiredArgsConstructor
 public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nData> implements I18nDataService {
+
+	private final StringRedisTemplate stringRedisTemplate;
 
 	/**
 	 * 根据QueryObeject查询分页数据
@@ -38,7 +44,7 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 	/**
 	 * 根据 code 和 languageTag 查询指定的 I18nData
 	 * @param code 唯一标识
-	 * @param languageTag 语言标识
+	 * @param languageTag 语言标签
 	 * @return I18nData
 	 */
 	@Override
@@ -58,22 +64,46 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 		return SqlHelper.retBool(getBaseMapper().insert(entity));
 	}
 
+	/**
+	 * 根据 code 和 languageTag 修改指定的 I18nData
+	 * @param i18nDataDTO i18nData 实体对象
+	 * @return updated true or false
+	 */
 	@Override
 	@CacheDel(key = I18nRedisKeyConstants.I18N_DATA_PREFIX, keyJoint = "#p0.code + ':' + #p0.languageTag")
-	public boolean updateById(I18nData entity) {
-		return SqlHelper.retBool(getBaseMapper().updateById(entity));
+	public boolean updateByCodeAndLanguageTag(I18nDataDTO i18nDataDTO) {
+		boolean updateSuccess = baseMapper.deleteByCodeAndLanguageTag(i18nDataDTO);
+		if (updateSuccess) {
+			pushUpdateMessage(i18nDataDTO.getCode(), i18nDataDTO.getLanguageTag());
+		}
+		return updateSuccess;
 	}
 
 	/**
 	 * 根据 code 和 languageTag 删除指定的 I18nData
-	 * @param code 唯一标识
+	 * @param code 国际化标识
 	 * @param languageTag 语言标签
 	 * @return delete true or false
 	 */
 	@Override
 	@CacheDel(key = I18nRedisKeyConstants.I18N_DATA_PREFIX, keyJoint = "#code + ':' + #languageTag")
 	public boolean removeByCodeAndLanguageTag(String code, String languageTag) {
-		return baseMapper.deleteByCodeAndLanguageTag(code, languageTag);
+		boolean deleteSuccess = baseMapper.deleteByCodeAndLanguageTag(code, languageTag);
+		if (deleteSuccess) {
+			pushUpdateMessage(code, languageTag);
+		}
+		return deleteSuccess;
+	}
+
+	/**
+	 * 通过 redis 推送 i18nData 变更消息
+	 * @param code 国际化标识
+	 * @param languageTag 语言标签
+	 */
+	private void pushUpdateMessage(String code, String languageTag) {
+		I18nDataUnique channelBody = new I18nDataUnique(code, languageTag);
+		String str = JsonUtils.toJson(channelBody);
+		stringRedisTemplate.convertAndSend(I18nRedisKeyConstants.CHANNEL_I18N_DATA_UPDATED, str);
 	}
 
 }

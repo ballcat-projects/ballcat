@@ -7,6 +7,7 @@ import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
+import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
 import com.hccake.ballcat.i18n.model.qo.I18nDataQO;
 import com.hccake.ballcat.i18n.model.vo.I18nDataPageVO;
@@ -58,15 +59,15 @@ public class I18nDataController {
 
 	/**
 	 * 修改国际化信息
-	 * @param i18nData 国际化信息
+	 * @param i18nDataDTO 国际化信息
 	 * @return R 通用返回体
 	 */
 	@ApiOperation(value = "修改国际化信息", notes = "修改国际化信息")
 	@UpdateOperationLogging(msg = "修改国际化信息")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:edit')")
-	public R updateById(@RequestBody I18nData i18nData) {
-		return i18nDataService.updateById(i18nData) ? R.ok()
+	public R updateById(@RequestBody I18nDataDTO i18nDataDTO) {
+		return i18nDataService.updateByCodeAndLanguageTag(i18nDataDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改国际化信息失败");
 	}
 

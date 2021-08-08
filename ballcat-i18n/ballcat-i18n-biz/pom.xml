@@ -24,6 +24,11 @@
             <groupId>com.hccake</groupId>
             <artifactId>ballcat-common-redis</artifactId>
         </dependency>
+
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-cache</artifactId>
+		</dependency>
     </dependencies>
 
 </project>

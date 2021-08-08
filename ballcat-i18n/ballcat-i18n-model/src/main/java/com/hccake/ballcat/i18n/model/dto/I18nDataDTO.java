@@ -15,10 +15,28 @@ public class I18nDataDTO {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "国际化标识")
+	/**
+	 * 语言标签
+	 */
+	@ApiModelProperty(value = "语言标签")
+	private String languageTag;
+
+	/**
+	 * 唯一标识 = 业务:关键词
+	 */
+	@ApiModelProperty(value = "唯一标识 = 业务:关键词")
 	private String code;
 
-	@ApiModelProperty(value = "国际化标识")
-	private String languageTag;
+	/**
+	 * 文本值，可以使用 { } 加角标，作为占位符
+	 */
+	@ApiModelProperty(value = "文本值，可以使用 { } 加角标，作为占位符")
+	private String message;
+
+	/**
+	 * 备注
+	 */
+	@ApiModelProperty(value = "备注")
+	private String remark;
 
 }

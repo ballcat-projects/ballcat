@@ -1,10 +1,12 @@
 package com.hccake.ballcat.i18n.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.i18n.converter.I18nDataConverter;
+import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
 import com.hccake.ballcat.i18n.model.qo.I18nDataQO;
 import com.hccake.ballcat.i18n.model.vo.I18nDataPageVO;
@@ -39,8 +41,8 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 
 	/**
 	 * 根据 code 和 languageTag 查询指定的 I18nData
-	 * @param code 唯一标识
-	 * @param languageTag 语言标识
+	 * @param code 国际化标识
+	 * @param languageTag 语言标签
 	 * @return I18nData
 	 */
 	default I18nData selectByCodeAndLanguageTag(String code, String languageTag) {
@@ -50,9 +52,26 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 	}
 
 	/**
+	 * 根据 code 和 languageTag 修改指定的 I18nData
+	 * @param i18nDataDTO i18nDataDTO
+	 * @return updated true or false
+	 */
+	default boolean deleteByCodeAndLanguageTag(I18nDataDTO i18nDataDTO) {
+		LambdaUpdateWrapper<I18nData> wrapper = Wrappers.lambdaUpdate(I18nData.class)
+				.eq(I18nData::getCode, i18nDataDTO.getCode())
+				.eq(I18nData::getLanguageTag, i18nDataDTO.getLanguageTag());
+
+		I18nData entity = new I18nData();
+		entity.setMessage(i18nDataDTO.getMessage());
+		entity.setRemark(i18nDataDTO.getRemark());
+
+		return SqlHelper.retBool(this.update(entity, wrapper));
+	}
+
+	/**
 	 * 根据 code 和 languageTag 删除指定的 I18nData
-	 * @param code 唯一标识
-	 * @param languageTag 语言标识
+	 * @param code 国际化标识
+	 * @param languageTag 语言标签
 	 * @return I18nData
 	 */
 	default boolean deleteByCodeAndLanguageTag(String code, String languageTag) {
