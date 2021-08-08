@@ -5,12 +5,14 @@ import com.hccake.ballcat.common.redis.config.CacheProperties;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.redis.core.CacheLock;
 import com.hccake.ballcat.common.redis.core.CacheStringAspect;
+import com.hccake.ballcat.common.redis.listener.MessageEventListener;
 import com.hccake.ballcat.common.redis.serialize.CacheSerializer;
 import com.hccake.ballcat.common.redis.serialize.JacksonSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixJdkRedisSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixStringRedisSerializer;
 import com.hccake.ballcat.common.redis.RedisHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,6 +21,9 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+
+import java.util.List;
 
 /**
  * @author Hccake
@@ -105,6 +110,20 @@ public class RedisAutoConfiguration {
 	public RedisHelper redisHelper(StringRedisTemplate template) {
 		RedisHelper.setTemplate(template);
 		return new RedisHelper();
+	}
+
+	@Bean
+	@ConditionalOnBean(MessageEventListener.class)
+	@ConditionalOnMissingBean(RedisMessageListenerContainer.class)
+	public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
+			List<MessageEventListener> listenerList) {
+		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory);
+		// 注册监听器
+		for (MessageEventListener messageEventListener : listenerList) {
+			container.addMessageListener(messageEventListener, messageEventListener.topic());
+		}
+		return container;
 	}
 
 }
