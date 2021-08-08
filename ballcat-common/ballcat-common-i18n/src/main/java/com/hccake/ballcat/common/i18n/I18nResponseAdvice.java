@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.i18n;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +30,26 @@ import java.util.Locale;
  */
 @Slf4j
 @RestControllerAdvice
-@RequiredArgsConstructor
 public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 
 	private final MessageSource messageSource;
 
-	// todo 配置文件
-	private Locale defaultLocal = Locale.SIMPLIFIED_CHINESE;
+	private final boolean useCodeAsDefaultMessage;
+
+	private Locale fallbackLocale = null;
+
+	public I18nResponseAdvice(MessageSource messageSource, I18nOptions i18nOptions) {
+		this.messageSource = messageSource;
+
+		String fallbackLanguageTag = i18nOptions.getFallbackLanguageTag();
+		if (fallbackLanguageTag != null) {
+			String[] arr = fallbackLanguageTag.split("-");
+			Assert.isTrue(arr.length == 2, "error fallbackLanguageTag!");
+			fallbackLocale = new Locale(arr[0], arr[1]);
+		}
+
+		this.useCodeAsDefaultMessage = i18nOptions.isUseCodeAsDefaultMessage();
+	}
 
 	/**
 	 * supports all type
@@ -93,7 +107,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 				}
 				// 把当前 field 的值更新为国际化后的属性
 				Locale locale = LocaleContextHolder.getLocale();
-				String message = codeToMessage(code, locale, defaultLocal);
+				String message = codeToMessage(code, locale, fallbackLocale);
 				ReflectUtil.setFieldValue(source, field, message);
 			}
 			else if (fieldValue instanceof Collection) {
@@ -128,32 +142,40 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 	 * 转换 code 为对应的国家的语言文本
 	 * @param code 国际化唯一标识
 	 * @param locale 当前地区
-	 * @param defaultLocal 默认地区，可为 null
+	 * @param fallbackLocale 回退语言
 	 * @return 国际化 text，或者 code 本身
 	 */
-	private String codeToMessage(String code, Locale locale, Locale defaultLocal) {
+	private String codeToMessage(String code, Locale locale, Locale fallbackLocale) {
 		String message;
+
+		NoSuchMessageException noSuchMessageException;
 		try {
 			message = messageSource.getMessage(code, null, locale);
 			return message;
 		}
 		catch (NoSuchMessageException e) {
-			log.warn("[switchLanguage]未找到对应的国际化配置，code: {}, local: {}.切换到默认的语言：{}", code, locale, defaultLocal);
+			noSuchMessageException = e;
+			log.warn("[codeToMessage]未找到对应的国际化配置，code: {}, local: {}", code, locale);
 		}
 
-		// 当配置了默认语言时，尝试切换到默认语言
-		if (defaultLocal != null && locale != defaultLocal) {
+		// 当配置了回退语言时，尝试回退
+		if (fallbackLocale != null && locale != fallbackLocale) {
 			try {
-				message = messageSource.getMessage(code, null, defaultLocal);
+				message = messageSource.getMessage(code, null, fallbackLocale);
 				return message;
 			}
 			catch (NoSuchMessageException e) {
-				log.warn("[switchLanguage]未找到默认语言的国际化配置，code: {}, local: {}.切换到默认的语言：{}", code, locale, defaultLocal);
+				log.warn("[codeToMessage]期望语言和回退语言中皆未找到对应的国际化配置，code: {}, local: {}, fallbackLocale：{}", code, locale,
+						fallbackLocale);
 			}
 		}
 
-		// 都没有找到，则直接返回 code
-		return code;
+		if (useCodeAsDefaultMessage) {
+			return code;
+		}
+		else {
+			throw noSuchMessageException;
+		}
 	}
 
 }
