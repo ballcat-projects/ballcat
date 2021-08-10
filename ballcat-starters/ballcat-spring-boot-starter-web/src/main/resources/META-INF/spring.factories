@@ -2,6 +2,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.hccake.ballcat.autoconfigure.web.actuate.ActuatorSecurityAutoConfiguration,\
     com.hccake.ballcat.autoconfigure.web.jackson.JacksonAutoConfiguration,\
     com.hccake.ballcat.autoconfigure.web.exception.ExceptionAutoConfiguration,\
-    com.hccake.ballcat.autoconfigure.web.servlet.WebMvcConfig
+    com.hccake.ballcat.autoconfigure.web.servlet.WebMvcConfig,\
+    com.hccake.ballcat.autoconfigure.web.validation.ValidationAutoConfiguration
 
 

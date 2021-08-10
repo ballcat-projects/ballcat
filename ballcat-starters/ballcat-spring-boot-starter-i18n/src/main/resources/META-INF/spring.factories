@@ -1,5 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.hccake.ballcat.autoconfigure.i18n.I18nAutoConfiguration,\
-    com.hccake.ballcat.autoconfigure.i18n.I18nMessageSourceConfiguration
+    com.hccake.ballcat.autoconfigure.i18n.I18nMessageSourceConfiguration,\
+    com.hccake.ballcat.autoconfigure.i18n.I18nValidationConfiguration
 
 

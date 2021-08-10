@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @author hccake
  */
-@ConfigurationProperties(prefix = "ballcat.redis")
+@ConfigurationProperties(prefix = "ballcat.i18n")
 public class I18nProperties extends I18nOptions {
 
 }

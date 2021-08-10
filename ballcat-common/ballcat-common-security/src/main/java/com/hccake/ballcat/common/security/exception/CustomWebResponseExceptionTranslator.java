@@ -164,7 +164,7 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 	}
 
 	@SuppressWarnings("serial")
-	private class CustomInvalidGrantException extends CustomOAuth2Exception {
+	private static class CustomInvalidGrantException extends CustomOAuth2Exception {
 
 		public CustomInvalidGrantException(String msg, Throwable t) {
 			super(msg, t);

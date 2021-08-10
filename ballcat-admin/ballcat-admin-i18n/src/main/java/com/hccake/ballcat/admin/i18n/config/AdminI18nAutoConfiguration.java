@@ -1,10 +1,8 @@
 package com.hccake.ballcat.admin.i18n.config;
 
-import com.hccake.ballcat.common.i18n.I18nMessage;
 import com.hccake.ballcat.common.i18n.I18nMessageProvider;
 import com.hccake.ballcat.i18n.provider.CustomI18nMessageProvider;
 import com.hccake.ballcat.i18n.service.I18nDataService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
