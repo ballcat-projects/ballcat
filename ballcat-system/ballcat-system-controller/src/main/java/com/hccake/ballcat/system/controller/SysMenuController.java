@@ -14,6 +14,7 @@ import com.hccake.ballcat.system.converter.SysMenuConverter;
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.qo.SysMenuQO;
+import com.hccake.ballcat.system.model.vo.SysMenuGrantVO;
 import com.hccake.ballcat.system.model.vo.SysMenuPageVO;
 import com.hccake.ballcat.system.model.vo.SysMenuRouterVO;
 import com.hccake.ballcat.system.service.SysMenuService;
@@ -88,6 +89,23 @@ public class SysMenuController {
 			R.ok(new ArrayList<>());
 		}
 		List<SysMenuPageVO> voList = sysMenus.stream().map(SysMenuConverter.INSTANCE::poToPageVo)
+				.collect(Collectors.toList());
+		return R.ok(voList);
+	}
+
+	/**
+	 * 查询授权菜单列表
+	 * @return R 通用返回体
+	 */
+	@ApiOperation(value = "查询授权菜单列表", notes = "查询授权菜单列表")
+	@GetMapping("/grant-list")
+	@PreAuthorize("@per.hasPermission('system:menu:read')")
+	public R<List<SysMenuGrantVO>> getSysMenuGrantList() {
+		List<SysMenu> sysMenus = sysMenuService.list();
+		if (CollectionUtil.isEmpty(sysMenus)) {
+			R.ok(new ArrayList<>());
+		}
+		List<SysMenuGrantVO> voList = sysMenus.stream().map(SysMenuConverter.INSTANCE::poToGrantVo)
 				.collect(Collectors.toList());
 		return R.ok(voList);
 	}
