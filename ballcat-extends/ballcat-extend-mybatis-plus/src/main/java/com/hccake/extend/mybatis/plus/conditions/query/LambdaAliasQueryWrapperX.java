@@ -49,6 +49,11 @@ public class LambdaAliasQueryWrapperX<T> extends LambdaQueryWrapperX<T> {
 	 */
 	@Override
 	protected String columnToString(SFunction<T, ?> column) {
+		if (column instanceof OtherTableColumnAliasFunction) {
+			@SuppressWarnings("unchecked")
+			OtherTableColumnAliasFunction<T> otherTableColumnAlias = (OtherTableColumnAliasFunction<T>) column;
+			return otherTableColumnAlias.apply(null);
+		}
 		String columnName = super.columnToString(column, true);
 		return tableAlias == null ? columnName : tableAlias + "." + columnName;
 	}
