@@ -17,12 +17,14 @@ import com.hccake.common.excel.converters.LocalDateTimeStringConverter;
 import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.head.HeadGenerator;
 import com.hccake.common.excel.head.HeadMeta;
+import com.hccake.common.excel.head.I18nHeaderCellWriteHandler;
 import com.hccake.common.excel.kit.ExcelException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ClassPathResource;
@@ -58,6 +60,9 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	private final WriterBuilderEnhancer excelWriterBuilderEnhance;
 
 	private ApplicationContext applicationContext;
+
+	@Autowired(required = false)
+	private I18nHeaderCellWriteHandler i18nHeaderCellWriteHandler;
 
 	@Override
 	public void check(ResponseExcel responseExcel) {
@@ -116,6 +121,11 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 			for (Class<? extends WriteHandler> clazz : responseExcel.writeHandler()) {
 				writerBuilder.registerWriteHandler(BeanUtils.instantiateClass(clazz));
 			}
+		}
+
+		// 开启国际化头信息处理
+		if (responseExcel.i18nHeader()) {
+			writerBuilder.registerWriteHandler(i18nHeaderCellWriteHandler);
 		}
 
 		// 自定义注入的转换器

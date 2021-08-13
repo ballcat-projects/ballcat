@@ -8,9 +8,12 @@ import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.handler.ManySheetWriteHandler;
 import com.hccake.common.excel.handler.SheetWriteHandler;
 import com.hccake.common.excel.handler.SingleSheetWriteHandler;
+import com.hccake.common.excel.head.I18nHeaderCellWriteHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -66,6 +69,17 @@ public class ExcelHandlerConfiguration {
 	public ResponseExcelReturnValueHandler responseExcelReturnValueHandler(
 			List<SheetWriteHandler> sheetWriteHandlerList) {
 		return new ResponseExcelReturnValueHandler(sheetWriteHandlerList);
+	}
+
+	/**
+	 * excel 头的国际化处理器
+	 * @param messageSource 国际化源
+	 */
+	@Bean
+	@ConditionalOnBean(MessageSource.class)
+	@ConditionalOnMissingBean
+	public I18nHeaderCellWriteHandler i18nHeaderCellWriteHandler(MessageSource messageSource) {
+		return new I18nHeaderCellWriteHandler(messageSource);
 	}
 
 }
