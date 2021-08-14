@@ -6,16 +6,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * 国际化信息
  *
  * @author hccake 2021-08-06 10:48:25
  */
-@Data
+@Getter
+@Setter
+@ToString
 @TableName("i18n_data")
 @ApiModel(value = "国际化信息")
 public class I18nData {
@@ -66,5 +71,23 @@ public class I18nData {
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	@ApiModelProperty(value = "修改时间")
 	private LocalDateTime updateTime;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		I18nData i18nData = (I18nData) o;
+		return languageTag.equals(i18nData.languageTag) && code.equals(i18nData.code);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(languageTag, code);
+	}
 
 }

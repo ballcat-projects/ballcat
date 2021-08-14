@@ -1,5 +1,7 @@
 package com.hccake.ballcat.i18n.controller;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.hccake.ballcat.common.core.constant.enums.ImportActionEnum;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
@@ -7,16 +9,24 @@ import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
+import com.hccake.ballcat.i18n.converter.I18nDataConverter;
 import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
 import com.hccake.ballcat.i18n.model.qo.I18nDataQO;
+import com.hccake.ballcat.i18n.model.vo.I18nDataExcelVO;
 import com.hccake.ballcat.i18n.model.vo.I18nDataPageVO;
 import com.hccake.ballcat.i18n.service.I18nDataService;
+import com.hccake.common.excel.annotation.RequestExcel;
+import com.hccake.common.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 国际化信息
@@ -84,6 +94,70 @@ public class I18nDataController {
 	public R removeById(@RequestParam("code") String code, @RequestParam("languageTag") String languageTag) {
 		return i18nDataService.removeByCodeAndLanguageTag(code, languageTag) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除国际化信息失败");
+	}
+
+	/**
+	 * 导入国际化信息
+	 * @return R 通用返回体
+	 */
+	@ApiOperation(value = "导入国际化信息", notes = "导入国际化信息")
+	@PostMapping("/import")
+	@PreAuthorize("@per.hasPermission('i18n:i18n-data:import')")
+	public R<?> importI18nData(@RequestExcel List<I18nDataExcelVO> excelVos,
+			@RequestParam("importAction") ImportActionEnum importActionEnum) {
+
+		if (CollectionUtil.isEmpty(excelVos)) {
+			return R.ok();
+		}
+
+		// 转换结构
+		List<I18nData> list = excelVos.stream().map(I18nDataConverter.INSTANCE::excelVoToPo)
+				.collect(Collectors.toList());
+
+		// 跳过已有数据，返回已有数据列表
+		if (importActionEnum == ImportActionEnum.SKIP_EXISTING) {
+			List<I18nData> existsList = i18nDataService.saveWhenNotExist(list);
+			return R.ok(existsList);
+		}
+
+		// 覆盖已有数据
+		if (importActionEnum == ImportActionEnum.OVERWRITE_EXISTING) {
+			i18nDataService.saveOrUpdate(list);
+		}
+
+		return R.ok();
+	}
+
+	/**
+	 * 导出国际化信息
+	 * @param i18nDataQO 国际化信息查询对象
+	 * @return List<I18nDataExcelVO>
+	 */
+	@ResponseExcel(name = "国际化信息", i18nHeader = true)
+	@ApiOperation(value = "导出国际化信息", notes = "导出国际化信息")
+	@GetMapping("/export")
+	@PreAuthorize("@per.hasPermission('i18n:i18n-data:export')")
+	public List<I18nDataExcelVO> exportI18nData(I18nDataQO i18nDataQO) {
+		List<I18nData> list = i18nDataService.query(i18nDataQO);
+		if (CollectionUtil.isEmpty(list)) {
+			return new ArrayList<>();
+		}
+		// 转换为 excel vo 对象
+		return list.stream().map(I18nDataConverter.INSTANCE::poToExcelVo).collect(Collectors.toList());
+	}
+
+	/**
+	 * 国际化 excel 模板
+	 * @return List<I18nDataExcelVO>
+	 */
+	@ResponseExcel(name = "国际化信息模板", i18nHeader = true)
+	@ApiOperation(value = "国际化信息 Excel 模板", notes = "国际化信息 Excel 模板")
+	@GetMapping("/excel-template")
+	@PreAuthorize("@per.hasPermission('i18n:i18n-data:import')")
+	public List<I18nDataExcelVO> excelTemplate() {
+		List<I18nDataExcelVO> list = new ArrayList<>();
+		list.add(new I18nDataExcelVO());
+		return list;
 	}
 
 }

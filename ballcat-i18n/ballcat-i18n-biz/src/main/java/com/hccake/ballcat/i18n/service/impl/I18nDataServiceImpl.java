@@ -1,12 +1,15 @@
 package com.hccake.ballcat.i18n.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
+import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
 import com.hccake.ballcat.common.redis.core.annotation.Cached;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.i18n.constant.I18nRedisKeyConstants;
+import com.hccake.ballcat.i18n.converter.I18nDataConverter;
 import com.hccake.ballcat.i18n.mapper.I18nDataMapper;
 import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
 import com.hccake.ballcat.i18n.model.dto.I18nDataUnique;
@@ -15,9 +18,16 @@ import com.hccake.ballcat.i18n.model.qo.I18nDataQO;
 import com.hccake.ballcat.i18n.model.vo.I18nDataPageVO;
 import com.hccake.ballcat.i18n.service.I18nDataService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * 国际化信息
@@ -30,6 +40,8 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 
 	private final StringRedisTemplate stringRedisTemplate;
 
+	private final I18nDataTxSupport i18NDataTxSupport;
+
 	/**
 	 * 根据QueryObeject查询分页数据
 	 * @param pageParam 分页参数
@@ -39,6 +51,16 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 	@Override
 	public PageResult<I18nDataPageVO> queryPage(PageParam pageParam, I18nDataQO qo) {
 		return baseMapper.queryPage(pageParam, qo);
+	}
+
+	/**
+	 * 查询 i18nData 数据
+	 * @param i18nDataQO 查询条件
+	 * @return list
+	 */
+	@Override
+	public List<I18nData> query(I18nDataQO i18nDataQO) {
+		return baseMapper.query(i18nDataQO);
 	}
 
 	/**
@@ -72,7 +94,7 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 	@Override
 	@CacheDel(key = I18nRedisKeyConstants.I18N_DATA_PREFIX, keyJoint = "#p0.code + ':' + #p0.languageTag")
 	public boolean updateByCodeAndLanguageTag(I18nDataDTO i18nDataDTO) {
-		boolean updateSuccess = baseMapper.deleteByCodeAndLanguageTag(i18nDataDTO);
+		boolean updateSuccess = baseMapper.updateByCodeAndLanguageTag(i18nDataDTO);
 		if (updateSuccess) {
 			pushUpdateMessage(i18nDataDTO.getCode(), i18nDataDTO.getLanguageTag());
 		}
@@ -95,6 +117,50 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 		return deleteSuccess;
 	}
 
+	@Override
+	public List<I18nData> saveWhenNotExist(List<I18nData> list) {
+		// 查询已存在的数据
+		List<I18nData> existsI18nData = baseMapper.exists(list);
+		// 删除已存在的数据
+		list.removeAll(existsI18nData);
+		// 落库
+		if (CollectionUtil.isNotEmpty(list)) {
+			baseMapper.insertBatchSomeColumn(list);
+		}
+		return existsI18nData;
+	}
+
+	@Override
+	public void saveOrUpdate(List<I18nData> list) {
+		// 查询已存在的数据
+		List<I18nData> existsI18nData = baseMapper.exists(list);
+		HashSet<I18nData> existsSet = new HashSet<>(existsI18nData);
+
+		// 获取对应插入和更新的列表
+		List<I18nDataDTO> updateList = new ArrayList<>();
+		List<I18nData> insertList = new ArrayList<>();
+		for (I18nData i18nData : list) {
+			if (existsSet.contains(i18nData)) {
+				updateList.add(I18nDataConverter.INSTANCE.poToDto(i18nData));
+			}
+			else {
+				insertList.add(i18nData);
+			}
+		}
+		// 小范围事务处理，另外不影响缓存更新
+		i18NDataTxSupport.saveAndUpdate(insertList, updateList);
+
+		// 缓存更新
+		String delimiter = CachePropertiesHolder.delimiter();
+		for (I18nDataDTO i18nDataDTO : updateList) {
+			String code = i18nDataDTO.getCode();
+			String languageTag = i18nDataDTO.getLanguageTag();
+			String key = String.join(delimiter, I18nRedisKeyConstants.I18N_DATA_PREFIX, code + ":" + languageTag);
+			stringRedisTemplate.delete(key);
+			this.pushUpdateMessage(code, languageTag);
+		}
+	}
+
 	/**
 	 * 通过 redis 推送 i18nData 变更消息
 	 * @param code 国际化标识
@@ -104,6 +170,26 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 		I18nDataUnique channelBody = new I18nDataUnique(code, languageTag);
 		String str = JsonUtils.toJson(channelBody);
 		stringRedisTemplate.convertAndSend(I18nRedisKeyConstants.CHANNEL_I18N_DATA_UPDATED, str);
+	}
+
+	@Component
+	@AllArgsConstructor
+	static class I18nDataTxSupport {
+
+		private final I18nDataMapper i18nDataMapper;
+
+		@Transactional(rollbackFor = Exception.class)
+		public void saveAndUpdate(List<I18nData> insertList, List<I18nDataDTO> updateList) {
+			// 插入不存的数据
+			if (CollectionUtil.isNotEmpty(insertList)) {
+				i18nDataMapper.insertBatchSomeColumn(insertList);
+			}
+			// 更新已有数据
+			for (I18nDataDTO i18nDataDTO : updateList) {
+				i18nDataMapper.updateByCodeAndLanguageTag(i18nDataDTO);
+			}
+		}
+
 	}
 
 }

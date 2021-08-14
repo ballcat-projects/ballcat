@@ -28,6 +28,10 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-spring-boot-starter-easyexcel</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

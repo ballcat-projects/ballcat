@@ -8,6 +8,8 @@ import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
+import java.util.List;
+
 /**
  * 国际化信息
  *
@@ -22,6 +24,13 @@ public interface I18nDataService extends ExtendService<I18nData> {
 	 * @return PageResult&lt;I18nDataPageVO&gt; 分页数据
 	 */
 	PageResult<I18nDataPageVO> queryPage(PageParam pageParam, I18nDataQO qo);
+
+	/**
+	 * 查询 i18nData 数据
+	 * @param i18nDataQO 查询条件
+	 * @return list
+	 */
+	List<I18nData> query(I18nDataQO i18nDataQO);
 
 	/**
 	 * 根据 code 和 languageTag 查询指定的 I18nData
@@ -45,5 +54,18 @@ public interface I18nDataService extends ExtendService<I18nData> {
 	 * @return delete true or false
 	 */
 	boolean removeByCodeAndLanguageTag(String code, String languageTag);
+
+	/**
+	 * 保存时跳过已存在的数据
+	 * @param list 待保存的 I18nDataList
+	 * @return List<I18nData> 已存在的数据
+	 */
+	List<I18nData> saveWhenNotExist(List<I18nData> list);
+
+	/**
+	 * 保存时,若数据已存在，则进行更新
+	 * @param list 待保存的 I18nDataList
+	 */
+	void saveOrUpdate(List<I18nData> list);
 
 }
