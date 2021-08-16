@@ -6,6 +6,61 @@
 
 - 全局数据校验支持
 
+## [0.3.0]
+
+### Warning
+
+- 多个模块包名调整，注意重新 import 对应路径
+
+- 国际化重构，改动较大，注意对应代码调整。国际化使用文档参看：http://www.ballcat.cn/guide/feature/i18n.html
+
+- 由于 **ballcat-common-conf** 的删除，非 admin 服务中的 mybatis-plus 的相关配置，如分页插件，批量插入方法的注入，需要按需添加。
+
+
+
+### Added
+
+- feat: 国际化功能的默认支持，新增 **ballcat-i18n** 相关模块，以便提供默认的业务国际化实现方式
+- feat: 登录用户名密码错误时的错误消息国际化处理
+- feat: **ballcat-common-redis** 针对 PUB/SUB 新增 `MessageEventListener` 接口，**ballcat-spring-boot-starter-web**  中会自动注册所有实现 `MessageEventListener` 接口的监听器
+- feat: 新增 **ballcat-common-idempotent** 幂等模块
+- feat: 针对 hibernate-validation 校验的提示消息，支持使用 {}，占位替代 defaultMessage
+- feat:  **ballcat-common-core** 中默认新增了 `CreateGroup` 和 `UpdateGroup` 接口，方便分组校验使用
+- feat:  新增 **ballcat-spring-boot-starter-web** 模块，该模块基于 `spring-boot-starter-web`, 并使用 undertow 作为默认的嵌入式容器，且将 **ballcat-common-conf** 中对 web 应用的配置增强，如全局异常管理，以及 Sql 防注入处理，jackson 的默认配置等配置移动到此项目中
+- feat: **ballcat-extend-mybatis-plus** 模块中，为了支持连表查询的条件构建，新增 `OtherTableColumnAliasFunction` ，方便使用  `LambdaAliasQueryWrapperX` 进行关联表查询条件的构建
+- feat: **ballcat-spring-boot-starter-easyexcel** 支持导出时进行 Excel 头信息的国际化处理，使用 `{}` 进行占位表示，使用示例可参看 I18nData 的导出使用
+
+
+
+### Changed
+
+- refactor: **ballcat-common-conf** 内原先对于 mybati-plus 的自动填充、分页插件、以及批量插入方法注入的配置移动到 **ballcat-admin-core** 中
+
+- refactor:  `SpELUtils` 改名为 `SpelUtils`，并移动到 **ballcat-common-util** 模块中
+
+- refactor:  `ApplicationContextHolder` 改名为 `SpringUtils`，并移动到 **ballcat-common-util** 模块中
+
+- refactor: **ballcat-spring-boot-starter-log** 中拆分出 **ballcat-common-log** 模块，解决在 log-biz 模块中需要引入 starter 的问题，部分代码的包名有变更
+
+- refactor: **ballcat-spring-boot-starter-redis** 中拆分出 **ballcat-common-redis** 模块
+
+- refactor: 重构原先的国际化 i18n 功能，新增 **ballcat-common-i18n** 模块，移除原先的 **ballcat-extend-i18n** 模块
+
+- pref: 取消 **ballcat-spring-boot-starter-web** 中 **spring-security-core** 的传递依赖
+
+- fix: 修复当查询一个不存在的系统配置后，由于缓存空值，导致添加配置后依然查询不到的问题
+
+- pref: 菜单查询的返回类型修改为 SysMenuPageVO
+
+- fix: 修复 excel 导出的 content-type 和实际文件类型不匹配的问题
+
+
+
+
+### Removed
+
+- 移除 **ballcat-common-conf**，相关代码拆分入 **ballcat-spring-boot-starter-web** 和 **ballcat-admin-core**
+
 
 
 ## [0.2.0]
@@ -13,21 +68,13 @@
 ### Added
 
 - feat: 新增 ballcat-extend-redis-module 模块，提供对布隆过滤器的操作
-
 - feat: 新建用户时可以直接绑定用户角色，而不必分两次操作了
-
 - feat: 支持修改菜单ID，方便转移菜单位置时，保持菜单 ID 规则
-
 - feat: **新增 ballcat-common-security 模块**
-
   - 新增 CustomRedisTokenStore 用于在序列化异常时，直接清除缓存。避免每次修改 UserDetails 时都需要用户手动去删除所有缓存信息
-
   - 迁移 PasswordUtils 从 common-util 到 common-security，且 PasswordEncoder 使用 DelegatingPasswordEncoder, 方便未来切换密码加密算法
-
   - 迁移 OAuth 相关的异常处理，从 ballcat-oauth-controller 到 common-secutiy
-
   - 新增 ResourceServer 相关配置以及基础组件，基于 SpringSecurity 5.X
-
   -  SysUserDetails rename to User, sysUser 中的相关属性，现在直接写在 User 类中，同时删除了 userResource 和 userAttributes 属性，新增了 attributes 属性。
 
 
@@ -49,11 +96,9 @@
   - 新增 `@EnableOauth2AuthorizationServer` 注解，用以开启授权服务器 (ballcat-admin-core 模块中默认开启）
 
 
-
 ### Removed
 
 - 移除 ballcat-oauth-model，相关代码迁入 ballcat-common-security
-
 
 
 ### Dependency
