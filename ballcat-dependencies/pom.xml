@@ -34,7 +34,7 @@
 	</licenses>
 
 	<properties>
-		<revision>0.2.0</revision>
+		<revision>0.3.0-SNAPSHOT</revision>
 
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
@@ -116,11 +116,6 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-common-conf</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-common-core</artifactId>
 				<version>${revision}</version>
 			</dependency>
@@ -131,7 +126,27 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-i18n</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-idempotent</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-log</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-common-model</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-common-redis</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -152,6 +167,11 @@
 			<!-- ballcat-stater -->
 			<dependency>
 				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-web</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-boot-starter-datascope</artifactId>
 				<version>${revision}</version>
 			</dependency>
@@ -163,6 +183,11 @@
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-boot-starter-easyexcel</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-i18n</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -218,21 +243,6 @@
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-boot-starter-xss</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-i18n-annotation</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-i18n-core</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-i18n</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -333,6 +343,22 @@
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-log-model</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<!-- i18n 国际化模块 -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-i18n-controller</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-i18n-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-i18n-model</artifactId>
 				<version>${revision}</version>
 			</dependency>
 
@@ -459,6 +485,11 @@
 			<dependency>
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-extra</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-cache</artifactId>
 				<version>${hutool.version}</version>
 			</dependency>
 			<dependency>

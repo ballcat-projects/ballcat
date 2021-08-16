@@ -16,7 +16,8 @@
 		<module>ballcat-auth</module>
 		<module>ballcat-notify</module>
 		<module>ballcat-log</module>
-	</modules>
+        <module>ballcat-i18n</module>
+    </modules>
 	<name>ballcat</name>
 	<description>项目基本脚手架</description>
 	<url>https://github.com/hccake/ballcat</url>
@@ -44,7 +45,7 @@
 
 
 	<properties>
-		<revision>0.2.0</revision>
+		<revision>0.3.0-SNAPSHOT</revision>
 
 		<java.version>1.8</java.version>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -190,6 +191,7 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.verison}</version>
 				<configuration>

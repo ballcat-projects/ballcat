@@ -2,6 +2,7 @@ package com.hccake.ballcat.system.converter;
 
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
+import com.hccake.ballcat.system.model.vo.SysMenuGrantVO;
 import com.hccake.ballcat.system.model.vo.SysMenuRouterVO;
 import com.hccake.ballcat.system.model.vo.SysMenuPageVO;
 import org.mapstruct.Mapper;
@@ -23,6 +24,13 @@ public interface SysMenuConverter {
 	 * @return SysMenuPageVO 菜单权限PageVO
 	 */
 	SysMenuPageVO poToPageVo(SysMenu sysMenu);
+
+	/**
+	 * PO 转 GrantVo
+	 * @param sysMenu 菜单权限实体
+	 * @return SysMenuPageVO 菜单权限GrantVO
+	 */
+	SysMenuGrantVO poToGrantVo(SysMenu sysMenu);
 
 	/**
 	 * PO 转 VO

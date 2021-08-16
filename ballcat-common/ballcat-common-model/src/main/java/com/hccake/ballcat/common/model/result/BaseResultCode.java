@@ -33,6 +33,11 @@ public enum BaseResultCode implements ResultCode {
 	FILE_UPLOAD_ERROR(90006, "File Upload Error"),
 
 	/**
+	 * 重复执行
+	 */
+	REPEATED_EXECUTE(90007, "Repeated execute"),
+
+	/**
 	 * 未知异常
 	 */
 	UNKNOWN_ERROR(99999, "Unknown Error");

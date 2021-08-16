@@ -17,16 +17,22 @@ import com.hccake.common.excel.converters.LocalDateTimeStringConverter;
 import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.head.HeadGenerator;
 import com.hccake.common.excel.head.HeadMeta;
+import com.hccake.common.excel.head.I18nHeaderCellWriteHandler;
 import com.hccake.common.excel.kit.ExcelException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
@@ -57,6 +63,11 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 	private ApplicationContext applicationContext;
 
+	@Getter
+	@Setter
+	@Autowired(required = false)
+	private I18nHeaderCellWriteHandler i18nHeaderCellWriteHandler;
+
 	@Override
 	public void check(ResponseExcel responseExcel) {
 		if (!StringUtils.hasText(responseExcel.name())) {
@@ -76,7 +87,10 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		String name = (String) Objects.requireNonNull(requestAttributes).getAttribute(DynamicNameAspect.EXCEL_NAME_KEY,
 				RequestAttributes.SCOPE_REQUEST);
 		String fileName = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue());
-		response.setContentType("application/vnd.ms-excel");
+		// 根据实际的文件类型找到对应的 contentType
+		String contentType = MediaTypeFactory.getMediaType(fileName).map(MediaType::toString)
+				.orElse("application/vnd.ms-excel");
+		response.setContentType(contentType);
 		response.setCharacterEncoding("utf-8");
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileName);
 		write(o, response, responseExcel);
@@ -111,6 +125,11 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 			for (Class<? extends WriteHandler> clazz : responseExcel.writeHandler()) {
 				writerBuilder.registerWriteHandler(BeanUtils.instantiateClass(clazz));
 			}
+		}
+
+		// 开启国际化头信息处理
+		if (responseExcel.i18nHeader() && i18nHeaderCellWriteHandler != null) {
+			writerBuilder.registerWriteHandler(i18nHeaderCellWriteHandler);
 		}
 
 		// 自定义注入的转换器

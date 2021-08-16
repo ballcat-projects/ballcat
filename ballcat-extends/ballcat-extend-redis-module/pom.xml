@@ -22,7 +22,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-spring-boot-starter-redis</artifactId>
+			<artifactId>ballcat-common-redis</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

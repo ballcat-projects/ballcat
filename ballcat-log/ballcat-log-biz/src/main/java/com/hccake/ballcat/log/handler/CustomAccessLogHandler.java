@@ -57,7 +57,7 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 	 * @param myThrowable 异常信息
 	 */
 	@Override
-	public AccessLog prodLog(HttpServletRequest request, HttpServletResponse response, Long time,
+	public AccessLog buildLog(HttpServletRequest request, HttpServletResponse response, Long time,
 			Throwable myThrowable) {
 		Object matchingPatternAttr = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
 		String matchingPattern = matchingPatternAttr == null ? "" : String.valueOf(matchingPatternAttr);

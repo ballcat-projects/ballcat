@@ -14,12 +14,15 @@
 
     <modules>
         <module>ballcat-common-core</module>
-		<module>ballcat-common-conf</module>
 		<module>ballcat-common-desensitize</module>
         <module>ballcat-common-util</module>
         <module>ballcat-common-model</module>
         <module>ballcat-common-websocket</module>
         <module>ballcat-common-security</module>
+        <module>ballcat-common-idempotent</module>
+		<module>ballcat-common-log</module>
+		<module>ballcat-common-redis</module>
+        <module>ballcat-common-i18n</module>
     </modules>
 
 

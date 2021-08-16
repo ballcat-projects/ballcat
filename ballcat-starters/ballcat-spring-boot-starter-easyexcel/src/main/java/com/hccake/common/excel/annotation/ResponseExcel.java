@@ -83,4 +83,10 @@ public @interface ResponseExcel {
 	 */
 	Class<? extends HeadGenerator> headGenerator() default HeadGenerator.class;
 
+	/**
+	 * excel 头信息国际化
+	 * @return boolean
+	 */
+	boolean i18nHeader() default false;
+
 }
