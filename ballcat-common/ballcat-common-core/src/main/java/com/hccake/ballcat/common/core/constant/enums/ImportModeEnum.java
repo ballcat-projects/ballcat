@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum ImportActionEnum {
+public enum ImportModeEnum {
 
 	/**
 	 * 跳过已存在的数据

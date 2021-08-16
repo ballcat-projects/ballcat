@@ -1,7 +1,7 @@
 package com.hccake.ballcat.i18n.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hccake.ballcat.common.core.constant.enums.ImportActionEnum;
+import com.hccake.ballcat.common.core.constant.enums.ImportModeEnum;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
@@ -104,7 +104,7 @@ public class I18nDataController {
 	@PostMapping("/import")
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:import')")
 	public R<?> importI18nData(@RequestExcel List<I18nDataExcelVO> excelVos,
-			@RequestParam("importAction") ImportActionEnum importActionEnum) {
+			@RequestParam("importMode") ImportModeEnum importModeEnum) {
 
 		if (CollectionUtil.isEmpty(excelVos)) {
 			return R.ok();
@@ -115,13 +115,13 @@ public class I18nDataController {
 				.collect(Collectors.toList());
 
 		// 跳过已有数据，返回已有数据列表
-		if (importActionEnum == ImportActionEnum.SKIP_EXISTING) {
+		if (importModeEnum == ImportModeEnum.SKIP_EXISTING) {
 			List<I18nData> existsList = i18nDataService.saveWhenNotExist(list);
 			return R.ok(existsList);
 		}
 
 		// 覆盖已有数据
-		if (importActionEnum == ImportActionEnum.OVERWRITE_EXISTING) {
+		if (importModeEnum == ImportModeEnum.OVERWRITE_EXISTING) {
 			i18nDataService.saveOrUpdate(list);
 		}
 

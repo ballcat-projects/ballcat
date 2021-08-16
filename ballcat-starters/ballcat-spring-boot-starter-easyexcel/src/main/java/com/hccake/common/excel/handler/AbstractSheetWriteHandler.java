@@ -19,7 +19,9 @@ import com.hccake.common.excel.head.HeadGenerator;
 import com.hccake.common.excel.head.HeadMeta;
 import com.hccake.common.excel.head.I18nHeaderCellWriteHandler;
 import com.hccake.common.excel.kit.ExcelException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
@@ -61,6 +63,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 	private ApplicationContext applicationContext;
 
+	@Getter
+	@Setter
 	@Autowired(required = false)
 	private I18nHeaderCellWriteHandler i18nHeaderCellWriteHandler;
 
@@ -124,7 +128,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 
 		// 开启国际化头信息处理
-		if (responseExcel.i18nHeader()) {
+		if (responseExcel.i18nHeader() && i18nHeaderCellWriteHandler != null) {
 			writerBuilder.registerWriteHandler(i18nHeaderCellWriteHandler);
 		}
 
