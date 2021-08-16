@@ -22,7 +22,7 @@
 
 - feat: 国际化功能的默认支持，新增 **ballcat-i18n** 相关模块，以便提供默认的业务国际化实现方式
 - feat: 登录用户名密码错误时的错误消息国际化处理
-- feat: **ballcat-common-redis** 针对 PUB/SUB 新增 `MessageEventListener` 接口，**ballcat-spring-boot-starter-web**  中会自动注册所有实现 `MessageEventListener` 接口的监听器
+- feat: **ballcat-common-redis** 针对 PUB/SUB 新增 `MessageEventListener` 接口，**ballcat-spring-boot-starter-redis**  中会自动注册所有实现 `MessageEventListener` 接口的监听器
 - feat: 新增 **ballcat-common-idempotent** 幂等模块
 - feat: 针对 hibernate-validation 校验的提示消息，支持使用 {}，占位替代 defaultMessage
 - feat:  **ballcat-common-core** 中默认新增了 `CreateGroup` 和 `UpdateGroup` 接口，方便分组校验使用
