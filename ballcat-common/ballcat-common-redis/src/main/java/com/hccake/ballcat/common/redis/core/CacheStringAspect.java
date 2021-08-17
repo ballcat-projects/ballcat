@@ -16,7 +16,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -29,11 +31,14 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
+ * 为保证缓存更新无异常，该切面优先级必须高于事务切面
+ *
  * @author Hccake
  * @date 2019/8/31 18:01
  * @version 1.0
  */
 @Aspect
+@Order(Ordered.LOWEST_PRECEDENCE - 1)
 public class CacheStringAspect {
 
 	Logger log = LoggerFactory.getLogger(CacheStringAspect.class);
