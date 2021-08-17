@@ -190,21 +190,21 @@ CREATE TABLE `sys_dict`  (
 -- Records of sys_dict
 -- ----------------------------
 INSERT INTO `sys_dict` VALUES (1, 'dict_property', '字典属性', '只读、可写', 1, 1, '0226999fa7a64f8c9c36309ab68889bd', 0, '2020-03-27 01:05:29', '2020-07-03 14:30:03');
-INSERT INTO `sys_dict` VALUES (2, 'log_status', '日志状态', '正常、异常', 1, 1, 'd63783be5ae845a9905fc5c69e796837', 0, '2020-03-27 01:05:29', '2020-03-27 11:06:44');
-INSERT INTO `sys_dict` VALUES (3, 'gender', '性别', '用户性别', 1, 1, 'aca1caf123123e4872be29c8cc448', 0, '2020-03-27 01:05:29', '2020-03-27 00:55:28');
+INSERT INTO `sys_dict` VALUES (2, 'log_status', '日志状态', '正常、异常', 1, 1, 'b3b0d5919e4a46ffa6dd17d9d7799c58', 0, '2020-03-27 01:05:29', '2020-03-27 11:06:44');
+INSERT INTO `sys_dict` VALUES (3, 'gender', '性别', '用户性别', 1, 1, 'ae18a6a3e6744f10bd35dc71867edf8d', 0, '2020-03-27 01:05:29', '2020-03-27 00:55:28');
 INSERT INTO `sys_dict` VALUES (4, 'grant_types', '授权类型', 'OAuth授权类型', 1, 1, 'e5316daadb490e9ca7e1ac5c5607a4', 0, '2020-03-27 01:05:29', '2020-03-27 00:30:16');
-INSERT INTO `sys_dict` VALUES (5, 'operation_type', '操作类型', '操作日志的操作类型', 0, 1, '360bb77640dd4b109d58c094163c60b8', 0, '2020-07-14 20:28:54', NULL);
-INSERT INTO `sys_dict` VALUES (6, 'role_type', '角色类型', '系统角色、业务角色', 0, 1, '53f3fb8c715149fe8793be4c25127ce9', 0, '2020-07-14 21:16:45', NULL);
+INSERT INTO `sys_dict` VALUES (5, 'operation_type', '操作类型', '操作日志的操作类型', 1, 1, '6b375bba88f649caa38e95d8e5c5c5c9', 0, '2020-07-14 20:28:54', NULL);
+INSERT INTO `sys_dict` VALUES (6, 'role_type', '角色类型', '角色类型，系统保留角色不允许删除', 1, 1, '90875dc38a154b9d810e8556f8972d9b', 0, '2020-07-14 21:16:45', '2021-08-09 00:26:30');
 INSERT INTO `sys_dict` VALUES (7, 'dict_value_type', '字典数据类型', 'Number、String、Boolean', 1, 1, '886c8965bdaa4c1e91ffcd5fb20ea84f', 0, '2020-08-14 17:16:47', NULL);
-INSERT INTO `sys_dict` VALUES (8, 'login_event_type', '登陆事件类型', '1：登陆  2：登出', 0, 1, '6fe465274208421eb0619a516875e270', 0, '2020-09-17 14:44:00', NULL);
-INSERT INTO `sys_dict` VALUES (9, 'tf', '是否', NULL, 1, 1, '44235d3736354eeeb9985b24eec3b4d6', 0, '2020-12-16 14:36:28', '2021-01-12 18:21:35');
-INSERT INTO `sys_dict` VALUES (10, 'lov_http_method', 'lov模块请求方式', NULL, 1, 2, '794c8a10b8ee4cff9254ad7bfd02bc29', 0, '2020-12-16 14:36:28', '2021-01-07 15:09:57');
+INSERT INTO `sys_dict` VALUES (8, 'login_event_type', '登陆事件类型', '1：登陆  2：登出', 1, 1, '56f191fa64ad42b5948e9dcb331cded9', 0, '2020-09-17 14:44:00', NULL);
+INSERT INTO `sys_dict` VALUES (9, 'yes_or_no', '是否', NULL, 1, 1, 'aa22893ca4d243cb8eb198e0f7d66824', 0, '2021-08-16 16:16:43', NULL);
+INSERT INTO `sys_dict` VALUES (10, 'lov_http_method', 'lov模块请求方式', NULL, 1, 2, 'fcc52ecf4b3744c696826091486c8baa', 0, '2020-12-16 14:36:28', '2021-01-07 15:09:57');
 INSERT INTO `sys_dict` VALUES (11, 'lov_http_params_position', 'lov模块请求参数位置', NULL, 1, 2, 'dbdb2812b0fe4a75a7a73f5d19be1abe', 0, '2020-12-16 14:36:28', '2021-01-12 18:21:41');
 INSERT INTO `sys_dict` VALUES (12, 'lov_search_tag', 'lov模块搜索组件标签', 'lov模块搜索组件标签', 1, 2, 'c13b7a74b8eb4adcbfaf6f1ad1203379', 0, '2020-12-16 14:36:28', '2021-03-11 21:14:56');
-INSERT INTO `sys_dict` VALUES (13, 'user_type', '用户类型', '用户类型', 1, 1, 'f57cc71c62e4404cbd8560190a61f64c', 0, '2020-12-16 13:44:37', '2021-04-12 10:54:01');
-INSERT INTO `sys_dict` VALUES (14, 'recipient_filter_type', '消息接收人筛选方式', '接收人筛选方式', 1, 1, '0a10518de9b14a26afa7bfc51032363d', 0, '2020-12-15 17:36:24', '2021-04-12 10:53:37');
-INSERT INTO `sys_dict` VALUES (15, 'notify_channel', '通知渠道', '通知渠道', 1, 1, 'c085cfaa747649c288ac155fd6eba3eb', 0, '2020-12-16 15:37:36', '2021-03-26 15:31:57');
-INSERT INTO `sys_dict` VALUES (16, 'menu_type', '菜单类型', '系统菜单的类型', 0, 1, '977ab81907404dcb8b2392b98738f95f', 0, '2021-04-06 21:39:45', NULL);
+INSERT INTO `sys_dict` VALUES (13, 'user_type', '用户类型', '用户类型', 1, 1, 'a2730f33f24045578ebe7786282e1955', 0, '2020-12-16 13:44:37', '2021-04-12 10:54:01');
+INSERT INTO `sys_dict` VALUES (14, 'recipient_filter_type', '消息接收人筛选方式', '接收人筛选方式', 1, 1, '54f95affca9e4c53aa679bca2855351f', 0, '2020-12-15 17:36:24', '2021-07-01 16:27:05');
+INSERT INTO `sys_dict` VALUES (15, 'notify_channel', '通知渠道', '通知渠道', 1, 1, 'b1d33b2d410b4214920f67c01af80f2f', 0, '2020-12-16 15:37:36', '2021-07-01 17:17:16');
+INSERT INTO `sys_dict` VALUES (16, 'menu_type', '菜单类型', '系统菜单的类型', 1, 1, '88b77280a299482a8e58fbc5fcc065a3', 0, '2021-04-06 21:39:45', NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_item
@@ -222,7 +222,8 @@ CREATE TABLE `sys_dict_item`  (
                                   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
                                   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                                   PRIMARY KEY (`id`) USING BTREE,
-                                  INDEX `idx_dict_code`(`dict_code`) USING BTREE
+                                  UNIQUE KEY `uqx_value_dict_code` (`value`,`dict_code`,`deleted`),
+                                  KEY `idx_dict_code` (`dict_code`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典项' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -230,65 +231,61 @@ CREATE TABLE `sys_dict_item`  (
 -- ----------------------------
 INSERT INTO `sys_dict_item` VALUES (1, 'dict_property', '0', '只读', '{\"tagColor\": \"orange\"}', 0, '只读字典，不可编辑', 0, '2020-03-27 01:05:52', '2020-09-16 15:31:24');
 INSERT INTO `sys_dict_item` VALUES (2, 'dict_property', '1', '可写', '{\"tagColor\": \"green\"}', 1, '该字典可以编辑', 0, '2020-03-27 01:05:52', '2020-09-16 15:31:51');
-INSERT INTO `sys_dict_item` VALUES (3, 'log_status', '1', '正常', '{\"textColor\": \"#34890A\"}', 0, '', 0, '2020-03-27 01:05:52', '2020-09-17 14:41:13');
-INSERT INTO `sys_dict_item` VALUES (4, 'log_status', '0', '异常', '{\"textColor\": \"red\"}', 1, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
-INSERT INTO `sys_dict_item` VALUES (5, 'gender', '1', '男', '{}', 0, '', 0, '2020-03-27 01:05:52', '2019-03-27 13:45:13');
-INSERT INTO `sys_dict_item` VALUES (6, 'gender', '2', '女', '{}', 1, '', 0, '2020-03-27 01:05:52', '2019-03-27 13:45:34');
-INSERT INTO `sys_dict_item` VALUES (7, 'gender', '3', '未知', NULL, 2, '', 0, '2020-03-27 01:05:52', '2019-03-27 13:45:57');
-INSERT INTO `sys_dict_item` VALUES (8, 'grant_types', 'password', '密码模式', NULL, 0, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:35:28');
-INSERT INTO `sys_dict_item` VALUES (9, 'grant_types', 'authorization_code', '授权码模式', NULL, 1, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:07');
-INSERT INTO `sys_dict_item` VALUES (10, 'grant_types', 'client_credentials', '客户端模式', NULL, 2, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:30');
-INSERT INTO `sys_dict_item` VALUES (11, 'grant_types', 'refresh_token', '刷新模式', NULL, 3, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:54');
-INSERT INTO `sys_dict_item` VALUES (12, 'grant_types', 'implicit', '简化模式', NULL, 4, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:39:32');
-INSERT INTO `sys_dict_item` VALUES (13, 'login_event_type', '1', '登陆', '{\"tagColor\": \"cyan\"}', 0, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:18');
-INSERT INTO `sys_dict_item` VALUES (14, 'login_event_type', '2', '登出', '{\"tagColor\": \"pink\"}', 1, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
-INSERT INTO `sys_dict_item` VALUES (15, 'operation_type', '3', '查看', '{\"tagColor\": \"purple\"}', 2, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
-INSERT INTO `sys_dict_item` VALUES (16, 'operation_type', '4', '新建', '{\"tagColor\": \"cyan\"}', 3, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
-INSERT INTO `sys_dict_item` VALUES (17, 'operation_type', '5', '修改', '{\"tagColor\": \"orange\"}', 4, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
-INSERT INTO `sys_dict_item` VALUES (18, 'operation_type', '6', '删除', '{\"tagColor\": \"pink\"}', 5, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
-INSERT INTO `sys_dict_item` VALUES (19, 'role_type', '1', '系统', '{\"tagColor\": \"orange\"}', 1, '系统角色不能删除', 0, '2020-07-14 21:17:07', NULL);
-INSERT INTO `sys_dict_item` VALUES (20, 'role_type', '2', '业务', '{\"tagColor\": \"green\"}', 2, '业务角色可读可写', 0, '2020-07-14 21:17:24', NULL);
-INSERT INTO `sys_dict_item` VALUES (21, 'dict_type', '1', 'Number', NULL, 1, NULL, 0, '2020-08-12 16:10:22', '2020-08-12 16:12:33');
-INSERT INTO `sys_dict_item` VALUES (22, 'dict_type', '2', 'String', NULL, 1, NULL, 0, '2020-08-12 16:10:31', '2020-08-12 16:12:27');
-INSERT INTO `sys_dict_item` VALUES (23, 'dict_type', '3', 'Boolean', NULL, 1, NULL, 0, '2020-08-12 16:10:38', '2020-08-12 16:12:23');
-INSERT INTO `sys_dict_item` VALUES (24, 'dict_value_type', '1', 'Number', NULL, 1, NULL, 0, '2020-08-12 16:10:22', '2020-08-12 16:12:33');
-INSERT INTO `sys_dict_item` VALUES (25, 'dict_value_type', '2', 'String', NULL, 1, NULL, 0, '2020-08-12 16:10:31', '2020-08-12 16:12:27');
+INSERT INTO `sys_dict_item` VALUES (3, 'log_status', '1', '正常', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Normal \", \"zh-CN\": \"正常\"}, \"textColor\": \"#34890A\"}', 0, '', 0, '2020-03-27 01:05:52', '2021-08-09 00:30:06');
+INSERT INTO `sys_dict_item` VALUES (4, 'log_status', '0', '异常', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Error\", \"zh-CN\": \"异常\"}, \"textColor\": \"#FF0000\"}', 1, '', 0, '2020-03-27 01:05:52', '2021-08-09 00:31:30');
+INSERT INTO `sys_dict_item` VALUES (5, 'gender', '1', '男', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Male\", \"zh-CN\": \"男\"}, \"textColor\": \"\"}', 0, '', 0, '2020-03-27 01:05:52', '2021-08-16 17:16:33');
+INSERT INTO `sys_dict_item` VALUES (6, 'gender', '2', '女', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Female\", \"zh-CN\": \"女\"}, \"textColor\": \"\"}', 1, '', 0, '2020-03-27 01:05:52', '2021-08-16 17:16:51');
+INSERT INTO `sys_dict_item` VALUES (7, 'gender', '3', '未知', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Unknown\", \"zh-CN\": \"未知\"}, \"textColor\": \"\"}', 2, '', 0, '2020-03-27 01:05:52', '2021-08-16 17:17:10');
+INSERT INTO `sys_dict_item` VALUES (8, 'grant_types', 'password', '密码模式', '{}', 0, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:35:28');
+INSERT INTO `sys_dict_item` VALUES (9, 'grant_types', 'authorization_code', '授权码模式', '{}', 1, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:07');
+INSERT INTO `sys_dict_item` VALUES (10, 'grant_types', 'client_credentials', '客户端模式', '{}', 2, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:30');
+INSERT INTO `sys_dict_item` VALUES (11, 'grant_types', 'refresh_token', '刷新模式', '{}', 3, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:36:54');
+INSERT INTO `sys_dict_item` VALUES (12, 'grant_types', 'implicit', '简化模式', '{}', 4, NULL, 0, '2020-03-27 01:05:52', '2019-08-13 07:39:32');
+INSERT INTO `sys_dict_item` VALUES (13, 'login_event_type', '1', '登陆', '{\"tagColor\": \"cyan\", \"languages\": {\"en-US\": \"Login\", \"zh-CN\": \"登陆\"}, \"textColor\": \"\"}', 0, '', 0, '2020-03-27 01:05:52', '2021-08-16 16:56:13');
+INSERT INTO `sys_dict_item` VALUES (14, 'login_event_type', '2', '登出', '{\"tagColor\": \"pink\", \"languages\": {\"en-US\": \"Logout\", \"zh-CN\": \"登出\"}, \"textColor\": \"\"}', 1, '', 0, '2020-03-27 01:05:52', '2021-08-16 16:56:06');
+INSERT INTO `sys_dict_item` VALUES (15, 'operation_type', '3', '查看', '{\"tagColor\": \"purple\", \"languages\": {\"en-US\": \"Read\", \"zh-CN\": \"查看\"}, \"textColor\": \"\"}', 3, '', 0, '2020-03-27 01:05:52', '2021-08-16 17:13:06');
+INSERT INTO `sys_dict_item` VALUES (16, 'operation_type', '4', '新建', '{\"tagColor\": \"cyan\", \"languages\": {\"en-US\": \"Create\", \"zh-CN\": \"新建\"}, \"textColor\": \"\"}', 4, '', 0, '2020-03-27 01:05:52', '2021-08-16 17:13:13');
+INSERT INTO `sys_dict_item` VALUES (17, 'operation_type', '5', '修改', '{\"tagColor\": \"orange\", \"languages\": {\"en-US\": \"Update\", \"zh-CN\": \"修改\"}, \"textColor\": \"\"}', 5, '', 0, '2020-03-27 01:05:52', '2021-08-16 17:13:22');
+INSERT INTO `sys_dict_item` VALUES (18, 'operation_type', '6', '删除', '{\"tagColor\": \"pink\", \"languages\": {\"en-US\": \"Delete\", \"zh-CN\": \"删除\"}, \"textColor\": \"\"}', 6, '', 0, '2020-03-27 01:05:52', '2021-08-16 17:13:35');
+INSERT INTO `sys_dict_item` VALUES (19, 'role_type', '1', '系统', '{\"tagColor\": \"orange\", \"languages\": {\"en-US\": \"System\", \"zh-CN\": \"系统\"}, \"textColor\": \"\"}', 1, '系统角色不能删除', 0, '2020-07-14 21:17:07', '2021-08-11 21:24:33');
+INSERT INTO `sys_dict_item` VALUES (20, 'role_type', '2', '自定义', '{\"tagColor\": \"green\", \"languages\": {\"en-US\": \"Custom\", \"zh-CN\": \"自定义\"}, \"textColor\": \"\"}', 2, '自定义角色可以删除', 0, '2020-07-14 21:17:24', '2021-08-11 21:24:50');
+INSERT INTO `sys_dict_item` VALUES (21, 'dict_type', '1', 'Number', '{}', 1, NULL, 0, '2020-08-12 16:10:22', '2020-08-12 16:12:33');
+INSERT INTO `sys_dict_item` VALUES (22, 'dict_type', '2', 'String', '{}', 1, NULL, 0, '2020-08-12 16:10:31', '2020-08-12 16:12:27');
+INSERT INTO `sys_dict_item` VALUES (23, 'dict_type', '3', 'Boolean', '{}', 1, NULL, 0, '2020-08-12 16:10:38', '2020-08-12 16:12:23');
+INSERT INTO `sys_dict_item` VALUES (24, 'dict_value_type', '1', 'Number', '{}', 1, NULL, 0, '2020-08-12 16:10:22', '2020-08-12 16:12:33');
+INSERT INTO `sys_dict_item` VALUES (25, 'dict_value_type', '2', 'String', '{}', 1, NULL, 0, '2020-08-12 16:10:31', '2020-08-12 16:12:27');
 INSERT INTO `sys_dict_item` VALUES (26, 'dict_value_type', '3', 'Boolean', '{}', 1, NULL, 0, '2020-08-12 16:10:38', '2020-10-20 15:05:53');
-INSERT INTO `sys_dict_item` VALUES (27, 'tf', '1', '是', NULL, 1, NULL, 0, '2020-07-22 20:03:57', '2020-07-22 20:10:09');
-INSERT INTO `sys_dict_item` VALUES (28, 'tf', '0', '否', NULL, 1, NULL, 0, '2020-07-22 20:04:16', '2020-07-22 20:10:06');
-INSERT INTO `sys_dict_item` VALUES (29, 'lov_http_method', 'GET', 'GET', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (30, 'lov_http_method', 'HEAD', 'HEAD', NULL, 1, NULL, 1, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (31, 'lov_http_method', 'POST', 'POST', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (32, 'lov_http_method', 'PUT', 'PUT', NULL, 1, NULL, 1, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (33, 'lov_http_method', 'PATCH', 'PATCH', NULL, 1, NULL, 1, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (34, 'lov_http_method', 'DELETE', 'DELETE', NULL, 1, NULL, 1, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (35, 'lov_http_method', 'OPTIONS', 'OPTIONS', NULL, 1, NULL, 1, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (36, 'lov_http_method', 'TRACE', 'TRACE', NULL, 1, NULL, 1, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (37, 'lov_http_method', 'HEAD', 'HEAD', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (38, 'lov_http_method', 'PUT', 'PUT', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (39, 'lov_http_method', 'PATCH', 'PATCH', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (40, 'lov_http_method', 'DELETE', 'DELETE', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (41, 'lov_http_method', 'OPTIONS', 'OPTIONS', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (42, 'lov_http_method', 'TRACE', 'TRACE', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (43, 'lov_http_params_position', 'DATA', 'DATA', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (44, 'lov_http_params_position', 'PARAMS', 'PARAMS', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (45, 'lov_search_tag', 'INPUT_TEXT', 'INPUT_TEXT', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (46, 'lov_search_tag', 'INPUT_NUMBER', 'INPUT_NUMBER', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (47, 'lov_search_tag', 'SELECT', 'SELECT', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (48, 'lov_search_tag', 'DICT_SELECT', 'DICT_SELECT', NULL, 1, NULL, 0, '2020-12-16 14:36:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (49, 'user_type', '1', '系统用户', '{}', 1, NULL, 0, '2020-12-16 13:45:19', NULL);
-INSERT INTO `sys_dict_item` VALUES (50, 'recipient_filter_type', '1', '全部', '{}', 1, '不筛选，对全部用户发送', 0, '2020-12-15 17:37:30', NULL);
-INSERT INTO `sys_dict_item` VALUES (51, 'recipient_filter_type', '2', '指定角色', '{}', 2, '筛选拥有指定角色的用户', 0, '2020-12-15 17:38:54', '2020-12-16 13:35:03');
-INSERT INTO `sys_dict_item` VALUES (52, 'recipient_filter_type', '3', '指定组织', '{}', 3, '筛选指定组织的用户', 0, '2020-12-15 17:39:19', '2020-12-16 13:35:09');
-INSERT INTO `sys_dict_item` VALUES (53, 'recipient_filter_type', '4', '指定类型', '{}', 4, '筛选指定用户类型的用户', 0, '2020-12-15 17:39:50', '2020-12-16 13:35:16');
-INSERT INTO `sys_dict_item` VALUES (54, 'recipient_filter_type', '5', '指定用户', '{}', 5, '指定用户发送', 0, '2020-12-15 17:40:06', '2020-12-21 21:52:43');
-INSERT INTO `sys_dict_item` VALUES (55, 'notify_channel', '1', '站内', '{}', 1, NULL, 0, '2020-12-16 15:37:53', '2021-01-05 21:42:52');
-INSERT INTO `sys_dict_item` VALUES (56, 'notify_channel', '2', '短信', '{}', 2, NULL, 0, '2020-12-16 15:38:08', NULL);
-INSERT INTO `sys_dict_item` VALUES (57, 'notify_channel', '3', '邮箱', '{}', 3, NULL, 0, '2020-12-16 15:38:20', NULL);
-INSERT INTO `sys_dict_item` VALUES (58, 'notify_channel', '4', '钉钉', '{}', 4, NULL, 20201221155643, '2020-12-16 15:38:28', NULL);
-INSERT INTO `sys_dict_item` VALUES (59, 'menu_type', '0', '目录', '{}', 1, NULL, 0, '2021-04-06 21:41:34', NULL);
-INSERT INTO `sys_dict_item` VALUES (60, 'menu_type', '1', '菜单', '{}', 2, NULL, 0, '2021-04-06 21:41:45', NULL);
-INSERT INTO `sys_dict_item` VALUES (61, 'menu_type', '2', '按钮', '{}', 3, NULL, 0, '2021-04-06 21:41:56', NULL);
+INSERT INTO `sys_dict_item` VALUES (27, 'yes_or_no', '1', '是', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Yes\", \"zh-CN\": \"是\"}, \"textColor\": \"\"}', 1, NULL, 0, '2021-08-16 16:17:08', NULL);
+INSERT INTO `sys_dict_item` VALUES (28, 'yes_or_no', '0', '否', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"No\", \"zh-CN\": \"否\"}, \"textColor\": \"\"}', 2, NULL, 0, '2021-08-16 16:17:34', NULL);
+INSERT INTO `sys_dict_item` VALUES (29, 'lov_http_method', 'GET', 'GET', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (31, 'lov_http_method', 'POST', 'POST', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (37, 'lov_http_method', 'HEAD', 'HEAD', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (38, 'lov_http_method', 'PUT', 'PUT', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (39, 'lov_http_method', 'PATCH', 'PATCH', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (40, 'lov_http_method', 'DELETE', 'DELETE', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (41, 'lov_http_method', 'OPTIONS', 'OPTIONS', '{}', 1, NULL, 0, '2020-12-16 14:36:28', '2021-08-08 20:20:47');
+INSERT INTO `sys_dict_item` VALUES (42, 'lov_http_method', 'TRACE', 'TRACE', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (43, 'lov_http_params_position', 'DATA', 'DATA', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (44, 'lov_http_params_position', 'PARAMS', 'PARAMS', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (45, 'lov_search_tag', 'INPUT_TEXT', 'INPUT_TEXT', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (46, 'lov_search_tag', 'INPUT_NUMBER', 'INPUT_NUMBER', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (47, 'lov_search_tag', 'SELECT', 'SELECT', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (48, 'lov_search_tag', 'DICT_SELECT', 'DICT_SELECT', '{}', 1, NULL, 0, '2020-12-16 14:36:28', NULL);
+INSERT INTO `sys_dict_item` VALUES (49, 'user_type', '1', '系统用户', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"System User\", \"zh-CN\": \"系统用户\"}, \"textColor\": \"\"}', 1, NULL, 0, '2020-12-16 13:45:19', '2021-08-16 16:55:33');
+INSERT INTO `sys_dict_item` VALUES (50, 'recipient_filter_type', '1', '全部', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"All\", \"zh-CN\": \"全部\"}, \"textColor\": \"\"}', 1, '不筛选，对全部用户发送', 0, '2020-12-15 17:37:30', '2021-08-16 16:50:40');
+INSERT INTO `sys_dict_item` VALUES (51, 'recipient_filter_type', '2', '指定角色', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Specify the role\", \"zh-CN\": \"指定角色\"}, \"textColor\": \"\"}', 2, '筛选拥有指定角色的用户', 0, '2020-12-15 17:38:54', '2021-08-16 16:50:56');
+INSERT INTO `sys_dict_item` VALUES (52, 'recipient_filter_type', '3', '指定组织', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Specify the organization\", \"zh-CN\": \"指定组织\"}, \"textColor\": \"\"}', 3, '筛选指定组织的用户', 0, '2020-12-15 17:39:19', '2021-08-16 16:51:09');
+INSERT INTO `sys_dict_item` VALUES (53, 'recipient_filter_type', '4', '指定类型', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Specify the type\", \"zh-CN\": \"指定类型\"}, \"textColor\": \"\"}', 4, '筛选指定用户类型的用户', 0, '2020-12-15 17:39:50', '2021-08-16 16:51:33');
+INSERT INTO `sys_dict_item` VALUES (54, 'recipient_filter_type', '5', '指定用户', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Specify the user\", \"zh-CN\": \"指定用户\"}, \"textColor\": \"\"}', 5, '指定用户发送', 0, '2020-12-15 17:40:06', '2021-08-16 16:51:49');
+INSERT INTO `sys_dict_item` VALUES (55, 'notify_channel', '1', '站内', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Station\", \"zh-CN\": \"站内\"}, \"textColor\": \"\"}', 1, NULL, 0, '2020-12-16 15:37:53', '2021-08-16 16:50:03');
+INSERT INTO `sys_dict_item` VALUES (56, 'notify_channel', '2', '短信', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"SMS\", \"zh-CN\": \"短信\"}, \"textColor\": \"\"}', 2, NULL, 0, '2020-12-16 15:38:08', '2021-08-16 16:50:12');
+INSERT INTO `sys_dict_item` VALUES (57, 'notify_channel', '3', '邮箱', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Email\", \"zh-CN\": \"邮箱\"}, \"textColor\": \"\"}', 3, NULL, 0, '2020-12-16 15:38:20', '2021-08-16 16:50:20');
+INSERT INTO `sys_dict_item` VALUES (59, 'menu_type', '0', '目录', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Catalog\", \"zh-CN\": \"目录\"}, \"textColor\": \"\"}', 1, NULL, 0, '2021-04-06 21:41:34', '2021-08-16 16:48:56');
+INSERT INTO `sys_dict_item` VALUES (60, 'menu_type', '1', '菜单', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Menu\", \"zh-CN\": \"菜单\"}, \"textColor\": \"\"}', 2, NULL, 0, '2021-04-06 21:41:45', '2021-08-16 16:49:03');
+INSERT INTO `sys_dict_item` VALUES (61, 'menu_type', '2', '按钮', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Button\", \"zh-CN\": \"按钮\"}, \"textColor\": \"\"}', 3, NULL, 0, '2021-04-06 21:41:56', '2021-08-16 16:49:11');
+INSERT INTO `sys_dict_item` VALUES (62, 'operation_type', '0', '其他', '{\"tagColor\": \"\", \"languages\": {\"en-US\": \"Other\", \"zh-CN\": \"其他\"}, \"textColor\": \"\"}', 0, NULL, 0, '2021-08-16 16:59:28', '2021-08-16 17:00:03');
+INSERT INTO `sys_dict_item` VALUES (63, 'operation_type', '1', '导入', '{\"tagColor\": \"green\", \"languages\": {\"en-US\": \"Import\", \"zh-CN\": \"导入\"}, \"textColor\": \"\"}', 1, NULL, 0, '2021-08-16 16:59:52', '2021-08-16 17:14:38');
+INSERT INTO `sys_dict_item` VALUES (64, 'operation_type', '2', '导出', '{\"tagColor\": \"blue\", \"languages\": {\"en-US\": \"Export\", \"zh-CN\": \"导出\"}, \"textColor\": \"\"}', 2, NULL, 0, '2021-08-16 17:02:07', '2021-08-16 17:14:42');
 
 -- ----------------------------
 -- Table structure for sys_lov
@@ -376,7 +373,7 @@ DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`  (
                              `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
                              `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT '父级ID',
-                             `title` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单名称',
+                             `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单名称',
                              `icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
                              `permission` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '授权标识',
                              `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由地址',

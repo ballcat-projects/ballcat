@@ -21,6 +21,9 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 | ballcat-ui-vue  | 管理后台前端 | https://gitee.com/ballcat-projects/ballcat-ui-vue  | https://github.com/ballcat-projects/ballcat-ui-vue  |
 | ballcat-codegen | 代码生成器   | https://gitee.com/ballcat-projects/ballcat-codegen | https://github.com/ballcat-projects/ballcat-codegen |
 | ballcat-samples | 使用示例     | https://gitee.com/ballcat-projects/ballcat-samples | https://github.com/ballcat-projects/ballcat-samples |
+| ballcat-boot    | 单体应用模板项目 | https://gitee.com/ballcat-projects/ballcat-boot    | https://github.com/ballcat-projects/ballcat-boot    |
+
+> 注意 ballcat 是核心组件仓库，如果需要启动后端服务，请使用 ballcat-boot
 
 ## 地址链接
 
@@ -131,7 +134,7 @@ BallCat 已将所有 JAR 包都推送至中央仓库，也会为每个版本升�
 | Hutool                 | 5.7.3         | https://www.hutool.cn/                           |
 
 
-## 快速搭建后台管理
+## 快速搭建
 
 参看官方文档 http://www.ballcat.cn/guide/quick-start.html
 
