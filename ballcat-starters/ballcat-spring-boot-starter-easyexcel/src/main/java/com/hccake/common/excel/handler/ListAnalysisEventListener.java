@@ -1,11 +1,9 @@
 package com.hccake.common.excel.handler;
 
 import com.alibaba.excel.event.AnalysisEventListener;
+import com.hccake.common.excel.vo.ErrorMessage;
 
-import javax.validation.ConstraintViolation;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * list analysis EventListener
@@ -24,6 +22,6 @@ public abstract class ListAnalysisEventListener<T> extends AnalysisEventListener
 	 * 获取异常校验结果
 	 * @return 集合
 	 */
-	public abstract Map<Long, Set<ConstraintViolation<T>>> getErrors();
+	public abstract List<ErrorMessage> getErrors();
 
 }

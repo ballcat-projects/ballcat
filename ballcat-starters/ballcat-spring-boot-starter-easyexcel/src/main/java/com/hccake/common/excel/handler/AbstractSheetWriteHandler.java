@@ -70,10 +70,6 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 	@Override
 	public void check(ResponseExcel responseExcel) {
-		if (!StringUtils.hasText(responseExcel.name())) {
-			throw new ExcelException("@ResponseExcel name 配置不合法");
-		}
-
 		if (responseExcel.sheets().length == 0) {
 			throw new ExcelException("@ResponseExcel sheet 配置不合法");
 		}

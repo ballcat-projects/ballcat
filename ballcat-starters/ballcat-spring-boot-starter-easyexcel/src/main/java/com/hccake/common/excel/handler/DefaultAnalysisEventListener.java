@@ -2,14 +2,14 @@ package com.hccake.common.excel.handler;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.hccake.common.excel.kit.Validators;
+import com.hccake.common.excel.vo.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.ConstraintViolation;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * 默认的 AnalysisEventListener
@@ -23,7 +23,7 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 
 	private final List<Object> list = new ArrayList<>();
 
-	private final Map<Long, Set<ConstraintViolation<Object>>> errors = new ConcurrentHashMap<>();
+	private final List<ErrorMessage> errorMessageList = new ArrayList<>();
 
 	private Long lineNum = 1L;
 
@@ -33,7 +33,9 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 
 		Set<ConstraintViolation<Object>> violations = Validators.validate(o);
 		if (!violations.isEmpty()) {
-			errors.put(lineNum, violations);
+			Set<String> messageSet = violations.stream().map(ConstraintViolation::getMessage)
+					.collect(Collectors.toSet());
+			errorMessageList.add(new ErrorMessage(lineNum, messageSet));
 		}
 		else {
 			list.add(o);
@@ -51,8 +53,8 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 	}
 
 	@Override
-	public Map<Long, Set<ConstraintViolation<Object>>> getErrors() {
-		return errors;
+	public List<ErrorMessage> getErrors() {
+		return errorMessageList;
 	}
 
 }
