@@ -1,5 +1,6 @@
 package com.hccake.ballcat.i18n.service;
 
+import com.hccake.ballcat.i18n.model.dto.I18nDataCreateDTO;
 import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
 import com.hccake.ballcat.i18n.model.vo.I18nDataPageVO;
@@ -67,5 +68,12 @@ public interface I18nDataService extends ExtendService<I18nData> {
 	 * @param list 待保存的 I18nDataList
 	 */
 	void saveOrUpdate(List<I18nData> list);
+
+	/**
+	 * 新建 I18nData
+	 * @param i18nDataCreateDTO 创建传输对象
+	 * @return if create success return true
+	 */
+	boolean create(I18nDataCreateDTO i18nDataCreateDTO);
 
 }

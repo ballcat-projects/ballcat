@@ -11,9 +11,9 @@ INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `icon`, `permission`, `path`
 -- 国际化信息表
 CREATE TABLE `i18n_data` (
                              `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-                             `language_tag` varchar(10) DEFAULT NULL COMMENT '语言标签',
-                             `code` varchar(60) DEFAULT NULL COMMENT '唯一标识 = 业务:关键词',
-                             `message` varchar(255) DEFAULT NULL COMMENT '文本值，可以使用 { } 加角标，作为占位符',
+                             `language_tag` varchar(10) NOT NULL COMMENT '语言标签',
+                             `code` varchar(60) NOT NULL COMMENT '唯一标识 = 业务:关键词',
+                             `message` varchar(255) NOT NULL COMMENT '文本值，可以使用 { } 加角标，作为占位符',
                              `remark` varchar(255) DEFAULT NULL COMMENT '备注',
                              `create_time` datetime DEFAULT NULL COMMENT '创建时间',
                              `update_time` datetime DEFAULT NULL COMMENT '修改时间',

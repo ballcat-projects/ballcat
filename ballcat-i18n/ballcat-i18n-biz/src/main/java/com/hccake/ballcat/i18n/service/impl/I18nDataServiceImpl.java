@@ -11,6 +11,7 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.i18n.constant.I18nRedisKeyConstants;
 import com.hccake.ballcat.i18n.converter.I18nDataConverter;
 import com.hccake.ballcat.i18n.mapper.I18nDataMapper;
+import com.hccake.ballcat.i18n.model.dto.I18nDataCreateDTO;
 import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
 import com.hccake.ballcat.i18n.model.dto.I18nDataUnique;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
@@ -159,6 +160,24 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 			stringRedisTemplate.delete(key);
 			this.pushUpdateMessage(code, languageTag);
 		}
+	}
+
+	@Override
+	public boolean create(I18nDataCreateDTO i18nDataCreateDTO) {
+		// 转换为实体类列表
+		List<I18nData> list = new ArrayList<>();
+		List<I18nDataCreateDTO.LanguageText> languageTexts = i18nDataCreateDTO.getLanguageTexts();
+		for (I18nDataCreateDTO.LanguageText languageText : languageTexts) {
+			I18nData i18nData = new I18nData();
+			i18nData.setCode(i18nDataCreateDTO.getCode());
+			i18nData.setRemark(i18nDataCreateDTO.getRemark());
+			i18nData.setLanguageTag(languageText.getLanguageTag());
+			i18nData.setMessage(languageText.getMessage());
+			list.add(i18nData);
+		}
+		// 落库存储
+		int insertFlag = baseMapper.insertBatchSomeColumn(list);
+		return SqlHelper.retBool(insertFlag);
 	}
 
 	/**

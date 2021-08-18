@@ -10,6 +10,7 @@ import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.i18n.converter.I18nDataConverter;
+import com.hccake.ballcat.i18n.model.dto.I18nDataCreateDTO;
 import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
 import com.hccake.ballcat.i18n.model.qo.I18nDataQO;
@@ -22,8 +23,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +36,7 @@ import java.util.stream.Collectors;
  *
  * @author hccake 2021-08-06 10:48:25
  */
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/i18n/i18n-data")
@@ -56,15 +60,16 @@ public class I18nDataController {
 
 	/**
 	 * 新增国际化信息
-	 * @param i18nData 国际化信息
+	 * @param i18nDataCreateDTO 国际化信息
 	 * @return R 通用返回体
 	 */
 	@ApiOperation(value = "新增国际化信息", notes = "新增国际化信息")
 	@CreateOperationLogging(msg = "新增国际化信息")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:add')")
-	public R save(@RequestBody I18nData i18nData) {
-		return i18nDataService.save(i18nData) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增国际化信息失败");
+	public R save(@Valid @RequestBody I18nDataCreateDTO i18nDataCreateDTO) {
+		return i18nDataService.create(i18nDataCreateDTO) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增国际化信息失败");
 	}
 
 	/**
