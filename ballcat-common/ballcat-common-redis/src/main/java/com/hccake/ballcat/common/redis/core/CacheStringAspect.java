@@ -25,6 +25,8 @@ import org.springframework.data.redis.core.ValueOperations;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -97,9 +99,16 @@ public class CacheStringAspect {
 
 		CacheDel cacheDelAnnotation = AnnotationUtils.getAnnotation(method, CacheDel.class);
 		if (cacheDelAnnotation != null) {
-			// 缓存key
-			String key = keyGenerator.getKey(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
-			VoidMethod cacheDel = () -> redisTemplate.delete(key);
+			VoidMethod cacheDel;
+			if (cacheDelAnnotation.multiDel()) {
+				Collection<String> keys = keyGenerator.getKeys(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
+				cacheDel = () -> redisTemplate.delete(keys);
+			}
+			else {
+				// 缓存key
+				String key = keyGenerator.getKey(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
+				cacheDel = () -> redisTemplate.delete(key);
+			}
 			return cacheDel(new CacheDelOps(point, cacheDel));
 		}
 
