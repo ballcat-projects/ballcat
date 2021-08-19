@@ -17,7 +17,8 @@ import java.util.Locale;
  * @see <a href=
  * "https://stackoverflow.com/questions/3888832/does-spring-messagesource-support-multiple-class-path">Does
  * Spring MessageSource Support Multiple Class Path?</a>
- * @author Nicolás Miranda hccake
+ * @author Nicolás Miranda
+ * @author hccake
  */
 public class WildcardReloadableResourceBundleMessageSource extends ReloadableResourceBundleMessageSource {
 
@@ -27,6 +28,7 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 
 	@Override
 	protected List<String> calculateFilenamesForLocale(String basename, Locale locale) {
+		basename = basename.replace(".", "/");
 		List<String> filenames = super.calculateFilenamesForLocale(basename, locale);
 		List<String> add = new ArrayList<>();
 		for (String filename : filenames) {
