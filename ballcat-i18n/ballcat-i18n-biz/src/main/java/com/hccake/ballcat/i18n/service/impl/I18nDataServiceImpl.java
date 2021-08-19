@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
-import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
 import com.hccake.ballcat.common.redis.core.annotation.Cached;
 import com.hccake.ballcat.common.util.JsonUtils;
@@ -27,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -124,6 +124,8 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 	}
 
 	@Override
+	@CacheDel(key = I18nRedisKeyConstants.I18N_DATA_PREFIX, multiDel = true,
+			keyJoint = "#p0.![#this.code + ':' + #this.languageTag]")
 	public List<I18nData> saveWhenNotExist(List<I18nData> list) {
 		// 查询已存在的数据
 		List<I18nData> existsI18nData = baseMapper.exists(list);
@@ -137,6 +139,8 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 	}
 
 	@Override
+	@CacheDel(key = I18nRedisKeyConstants.I18N_DATA_PREFIX, multiDel = true,
+			keyJoint = "#p0.![#this.code + ':' + #this.languageTag]")
 	public void saveOrUpdate(List<I18nData> list) {
 		// 查询已存在的数据
 		List<I18nData> existsI18nData = baseMapper.exists(list);
@@ -157,32 +161,24 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 		i18NDataTxSupport.saveAndUpdate(insertList, updateList);
 
 		// 缓存更新
-		String delimiter = CachePropertiesHolder.delimiter();
 		for (I18nDataDTO i18nDataDTO : updateList) {
 			String code = i18nDataDTO.getCode();
 			String languageTag = i18nDataDTO.getLanguageTag();
-			String key = String.join(delimiter, I18nRedisKeyConstants.I18N_DATA_PREFIX, code + ":" + languageTag);
-			stringRedisTemplate.delete(key);
 			this.pushUpdateMessage(code, languageTag);
 		}
 	}
 
+	/**
+	 * 批量保存
+	 * @param list 数据列表
+	 * @return 保存成功返回 true
+	 */
 	@Override
-	public boolean create(I18nDataCreateDTO i18nDataCreateDTO) {
-		// 转换为实体类列表
-		List<I18nData> list = new ArrayList<>();
-		List<I18nDataCreateDTO.LanguageText> languageTexts = i18nDataCreateDTO.getLanguageTexts();
-		for (I18nDataCreateDTO.LanguageText languageText : languageTexts) {
-			I18nData i18nData = new I18nData();
-			i18nData.setCode(i18nDataCreateDTO.getCode());
-			i18nData.setRemark(i18nDataCreateDTO.getRemark());
-			i18nData.setLanguageTag(languageText.getLanguageTag());
-			i18nData.setMessage(languageText.getMessage());
-			list.add(i18nData);
-		}
-		// 落库存储
-		int insertFlag = baseMapper.insertBatchSomeColumn(list);
-		return SqlHelper.retBool(insertFlag);
+	@CacheDel(key = I18nRedisKeyConstants.I18N_DATA_PREFIX, multiDel = true,
+			keyJoint = "#p0.![#this.code + ':' + #this.languageTag]")
+	@Transactional(rollbackFor = Exception.class)
+	public boolean saveBatchSomeColumn(Collection<I18nData> list) {
+		return this.saveBatchSomeColumn(list, DEFAULT_INSERT_BATCH_SIZE);
 	}
 
 	/**

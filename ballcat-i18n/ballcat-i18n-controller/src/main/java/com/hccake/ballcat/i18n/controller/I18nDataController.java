@@ -80,7 +80,18 @@ public class I18nDataController {
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:add')")
 	public R save(@Valid @RequestBody I18nDataCreateDTO i18nDataCreateDTO) {
-		return i18nDataService.create(i18nDataCreateDTO) ? R.ok()
+		// 转换为实体类列表
+		List<I18nData> list = new ArrayList<>();
+		List<I18nDataCreateDTO.LanguageText> languageTexts = i18nDataCreateDTO.getLanguageTexts();
+		for (I18nDataCreateDTO.LanguageText languageText : languageTexts) {
+			I18nData i18nData = new I18nData();
+			i18nData.setCode(i18nDataCreateDTO.getCode());
+			i18nData.setRemark(i18nDataCreateDTO.getRemark());
+			i18nData.setLanguageTag(languageText.getLanguageTag());
+			i18nData.setMessage(languageText.getMessage());
+			list.add(i18nData);
+		}
+		return i18nDataService.saveBatchSomeColumn(list) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增国际化信息失败");
 	}
 

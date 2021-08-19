@@ -76,11 +76,4 @@ public interface I18nDataService extends ExtendService<I18nData> {
 	 */
 	void saveOrUpdate(List<I18nData> list);
 
-	/**
-	 * 新建 I18nData
-	 * @param i18nDataCreateDTO 创建传输对象
-	 * @return if create success return true
-	 */
-	boolean create(I18nDataCreateDTO i18nDataCreateDTO);
-
 }
