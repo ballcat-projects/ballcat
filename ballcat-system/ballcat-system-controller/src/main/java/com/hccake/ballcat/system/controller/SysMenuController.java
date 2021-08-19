@@ -11,6 +11,7 @@ import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.system.constant.SysPermissionConst;
 import com.hccake.ballcat.system.converter.SysMenuConverter;
+import com.hccake.ballcat.system.model.dto.SysMenuCreateDTO;
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.qo.SysMenuQO;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -112,15 +114,16 @@ public class SysMenuController {
 
 	/**
 	 * 新增菜单权限
-	 * @param sysMenu 菜单权限
+	 * @param sysMenuCreateDTO 菜单权限
 	 * @return R 通用返回体
 	 */
 	@ApiOperation(value = "新增菜单权限", notes = "新增菜单权限")
 	@CreateOperationLogging(msg = "新增菜单权限")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:menu:add')")
-	public R<String> save(@RequestBody SysMenu sysMenu) {
-		return sysMenuService.save(sysMenu) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增菜单权限失败");
+	public R<String> save(@Valid @RequestBody SysMenuCreateDTO sysMenuCreateDTO) {
+		return sysMenuService.create(sysMenuCreateDTO) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增菜单权限失败");
 	}
 
 	/**

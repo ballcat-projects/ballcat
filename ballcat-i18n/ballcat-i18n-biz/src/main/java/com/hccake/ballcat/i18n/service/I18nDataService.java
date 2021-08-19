@@ -31,7 +31,14 @@ public interface I18nDataService extends ExtendService<I18nData> {
 	 * @param i18nDataQO 查询条件
 	 * @return list
 	 */
-	List<I18nData> query(I18nDataQO i18nDataQO);
+	List<I18nData> queryList(I18nDataQO i18nDataQO);
+
+	/**
+	 * 根据国际化标识查询 i18nData 数据
+	 * @param code 国际化标识
+	 * @return list
+	 */
+	List<I18nData> listByCode(String code);
 
 	/**
 	 * 根据 code 和 languageTag 查询指定的 I18nData

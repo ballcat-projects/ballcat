@@ -1,5 +1,6 @@
 package com.hccake.ballcat.system.service;
 
+import com.hccake.ballcat.system.model.dto.SysMenuCreateDTO;
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.qo.SysMenuQO;
@@ -33,5 +34,12 @@ public interface SysMenuService extends ExtendService<SysMenu> {
 	 * @return List<SysMenu>
 	 */
 	List<SysMenu> listByRoleCode(String roleCode);
+
+	/**
+	 * 新建菜单权限
+	 * @param sysMenuCreateDTO 菜单全新新建传输对象
+	 * @return 新建成功返回 true
+	 */
+	boolean create(SysMenuCreateDTO sysMenuCreateDTO);
 
 }

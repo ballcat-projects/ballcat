@@ -22,21 +22,21 @@ public class I18nDataExcelVO {
 	 * 语言标签
 	 */
 	@ApiModelProperty(value = "语言标签")
-	@ExcelProperty(value = "{i18nData.languageTag}", index = 0)
+	@ExcelProperty(value = "{i18nMessage.languageTag}", index = 0)
 	private String languageTag;
 
 	/**
 	 * 国际化标识
 	 */
 	@ApiModelProperty(value = "国际化标识")
-	@ExcelProperty(value = "{i18nData.code}", index = 1)
+	@ExcelProperty(value = "{i18nMessage.code}", index = 1)
 	private String code;
 
 	/**
 	 * 文本值，可以使用 { } 加角标，作为占位符
 	 */
 	@ApiModelProperty(value = "文本值，可以使用 { } 加角标，作为占位符")
-	@ExcelProperty(value = "{i18nData.message}", index = 2)
+	@ExcelProperty(value = "{i18nMessage.message}", index = 2)
 	private String message;
 
 	/**

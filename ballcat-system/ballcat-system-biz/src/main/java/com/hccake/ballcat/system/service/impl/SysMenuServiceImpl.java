@@ -1,11 +1,15 @@
 package com.hccake.ballcat.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.common.core.exception.BusinessException;
+import com.hccake.ballcat.common.i18n.I18nMessage;
+import com.hccake.ballcat.common.i18n.I18nMessageCreateEvent;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.system.converter.SysMenuConverter;
 import com.hccake.ballcat.system.mapper.SysMenuMapper;
+import com.hccake.ballcat.system.model.dto.SysMenuCreateDTO;
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.qo.SysMenuQO;
@@ -14,6 +18,7 @@ import com.hccake.ballcat.system.service.SysRoleMenuService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +37,8 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 
 	private final SysRoleMenuService sysRoleMenuService;
 
+	private final ApplicationEventPublisher eventPublisher;
+
 	/**
 	 * 插入一条记录（选择字段，策略插入）
 	 * @param sysMenu 实体对象
@@ -45,6 +52,33 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), errorMessage);
 		}
 		return SqlHelper.retBool(baseMapper.insert(sysMenu));
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean create(SysMenuCreateDTO sysMenuCreateDTO) {
+
+		SysMenu sysMenu = SysMenuConverter.INSTANCE.createDtoToPo(sysMenuCreateDTO);
+		Integer menuId = sysMenu.getId();
+		SysMenu existingMenu = baseMapper.selectById(menuId);
+		if (existingMenu != null) {
+			String errorMessage = String.format("ID [%s] 已被菜单 [%s] 使用，请更换其他菜单ID", menuId, existingMenu.getTitle());
+			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), errorMessage);
+		}
+
+		boolean saveSuccess = SqlHelper.retBool(baseMapper.insert(sysMenu));
+		Assert.isTrue(saveSuccess, () -> {
+			log.error("[create] 创建菜单失败，sysMenuCreateDTO: {}", sysMenuCreateDTO);
+			return new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "创建菜单失败");
+		});
+
+		// 多语言保存事件发布
+		List<I18nMessage> i18nMessages = sysMenuCreateDTO.getI18nMessages();
+		if (CollectionUtil.isNotEmpty(i18nMessages)) {
+			eventPublisher.publishEvent(new I18nMessageCreateEvent(i18nMessages));
+		}
+
+		return saveSuccess;
 	}
 
 	@Override

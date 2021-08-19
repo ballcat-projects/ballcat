@@ -59,6 +59,18 @@ public class I18nDataController {
 	}
 
 	/**
+	 * 查询指定国际化标识的所有数据
+	 * @param code 国际化标识
+	 * @return R 通用返回体
+	 */
+	@ApiOperation(value = "查询指定国际化标识的所有数据", notes = "查询指定国际化标识的所有数据")
+	@GetMapping("/list")
+	@PreAuthorize("@per.hasPermission('i18n:i18n-data:read')")
+	public R<List<I18nData>> listByCode(@RequestParam("code") String code) {
+		return R.ok(i18nDataService.listByCode(code));
+	}
+
+	/**
 	 * 新增国际化信息
 	 * @param i18nDataCreateDTO 国际化信息
 	 * @return R 通用返回体
@@ -143,7 +155,7 @@ public class I18nDataController {
 	@GetMapping("/export")
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:export')")
 	public List<I18nDataExcelVO> exportI18nData(I18nDataQO i18nDataQO) {
-		List<I18nData> list = i18nDataService.query(i18nDataQO);
+		List<I18nData> list = i18nDataService.queryList(i18nDataQO);
 		if (CollectionUtil.isEmpty(list)) {
 			return new ArrayList<>();
 		}

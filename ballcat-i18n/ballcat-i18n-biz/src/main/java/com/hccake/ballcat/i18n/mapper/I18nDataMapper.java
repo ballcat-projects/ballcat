@@ -57,8 +57,18 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 	 * @param i18nDataQO 查询条件
 	 * @return List
 	 */
-	default List<I18nData> query(I18nDataQO i18nDataQO) {
+	default List<I18nData> queryList(I18nDataQO i18nDataQO) {
 		Wrapper<I18nData> wrapper = buildQueryWrapper(i18nDataQO);
+		return this.selectList(wrapper);
+	}
+
+	/**
+	 * 查询 i18nData 数据
+	 * @param code 国际化标识
+	 * @return List
+	 */
+	default List<I18nData> listByCode(String code) {
+		Wrapper<I18nData> wrapper = Wrappers.lambdaQuery(I18nData.class).eq(I18nData::getCode, code);
 		return this.selectList(wrapper);
 	}
 

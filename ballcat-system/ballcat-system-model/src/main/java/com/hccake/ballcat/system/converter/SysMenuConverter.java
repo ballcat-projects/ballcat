@@ -1,11 +1,13 @@
 package com.hccake.ballcat.system.converter;
 
+import com.hccake.ballcat.system.model.dto.SysMenuCreateDTO;
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
 import com.hccake.ballcat.system.model.vo.SysMenuGrantVO;
 import com.hccake.ballcat.system.model.vo.SysMenuRouterVO;
 import com.hccake.ballcat.system.model.vo.SysMenuPageVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -23,6 +25,7 @@ public interface SysMenuConverter {
 	 * @param sysMenu 菜单权限实体
 	 * @return SysMenuPageVO 菜单权限PageVO
 	 */
+	@Mapping(target = "i18nTitle", source = "title")
 	SysMenuPageVO poToPageVo(SysMenu sysMenu);
 
 	/**
@@ -38,6 +41,13 @@ public interface SysMenuConverter {
 	 * @return SysMenuVO
 	 */
 	SysMenuRouterVO poToRouterVo(SysMenu sysMenu);
+
+	/**
+	 * createDto 转 Po
+	 * @param sysMenuCreateDTO 菜单新建对象
+	 * @return SysMenu 菜单权限的持久化对象
+	 */
+	SysMenu createDtoToPo(SysMenuCreateDTO sysMenuCreateDTO);
 
 	/**
 	 * updateDto 转 Po

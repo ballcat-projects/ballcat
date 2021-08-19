@@ -60,8 +60,13 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 	 * @return list
 	 */
 	@Override
-	public List<I18nData> query(I18nDataQO i18nDataQO) {
-		return baseMapper.query(i18nDataQO);
+	public List<I18nData> queryList(I18nDataQO i18nDataQO) {
+		return baseMapper.queryList(i18nDataQO);
+	}
+
+	@Override
+	public List<I18nData> listByCode(String code) {
+		return baseMapper.listByCode(code);
 	}
 
 	/**

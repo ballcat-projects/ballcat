@@ -1,5 +1,6 @@
 package com.hccake.ballcat.i18n.converter;
 
+import com.hccake.ballcat.common.i18n.I18nMessage;
 import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
 import com.hccake.ballcat.i18n.model.vo.I18nDataExcelVO;
@@ -16,6 +17,13 @@ import org.mapstruct.factory.Mappers;
 public interface I18nDataConverter {
 
 	I18nDataConverter INSTANCE = Mappers.getMapper(I18nDataConverter.class);
+
+	/**
+	 * i18nMessage 转 I18nData
+	 * @param i18nMessage 国际化消息
+	 * @return I18nData 国际化信息实体
+	 */
+	I18nData messageToPo(I18nMessage i18nMessage);
 
 	/**
 	 * PO 转 PageVO

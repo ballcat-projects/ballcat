@@ -24,7 +24,7 @@ public class I18nDataCreateDTO {
 	/**
 	 * 唯一标识 = 业务:关键词
 	 */
-	@NotEmpty(message = "{i18nData.code}：{}")
+	@NotEmpty(message = "{i18nMessage.code}：{}")
 	@ApiModelProperty(value = "唯一标识 = 业务:关键词")
 	private String code;
 
@@ -53,14 +53,14 @@ public class I18nDataCreateDTO {
 		/**
 		 * 语言标签
 		 */
-		@NotEmpty(message = "{i18nData.languageTag}：{}")
+		@NotEmpty(message = "{i18nMessage.languageTag}：{}")
 		@ApiModelProperty(value = "语言标签")
 		private String languageTag;
 
 		/**
 		 * 文本值，可以使用 { } 加角标，作为占位符
 		 */
-		@NotEmpty(message = "{i18nData.message}：{}")
+		@NotEmpty(message = "{i18nMessage.message}：{}")
 		@ApiModelProperty(value = "文本值，可以使用 { } 加角标，作为占位符")
 		private String message;
 

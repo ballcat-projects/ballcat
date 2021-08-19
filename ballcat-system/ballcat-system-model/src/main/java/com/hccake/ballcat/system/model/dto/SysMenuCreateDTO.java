@@ -1,34 +1,36 @@
-package com.hccake.ballcat.system.model.vo;
+package com.hccake.ballcat.system.model.dto;
 
-import com.hccake.ballcat.common.i18n.I18nClass;
-import com.hccake.ballcat.common.i18n.I18nField;
+import com.hccake.ballcat.common.i18n.I18nMessage;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
- * 菜单权限分页视图对象
+ * 菜单权限新建的DTO
  *
  * @author hccake 2021-04-06 17:59:51
  */
-@I18nClass
 @Data
-@ApiModel(value = "菜单权限分页视图对象")
-public class SysMenuPageVO {
+@ApiModel(value = "菜单权限新建的DTO")
+public class SysMenuCreateDTO {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 菜单ID
 	 */
+	@NotNull(message = "id：{}")
 	@ApiModelProperty(value = "菜单ID")
 	private Integer id;
 
 	/**
 	 * 父级ID
 	 */
+	@NotNull(message = "parentId：{}")
 	@ApiModelProperty(value = "父级ID")
 	private Integer parentId;
 
@@ -37,13 +39,6 @@ public class SysMenuPageVO {
 	 */
 	@ApiModelProperty(value = "菜单名称")
 	private String title;
-
-	/**
-	 * 菜单名称
-	 */
-	@I18nField
-	@ApiModelProperty(value = "菜单名称")
-	private String i18nTitle;
 
 	/**
 	 * 菜单图标
@@ -106,15 +101,10 @@ public class SysMenuPageVO {
 	private String remarks;
 
 	/**
-	 * 创建时间
+	 * 菜单标题对应的国际化信息
 	 */
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@ApiModelProperty(value = "更新时间")
-	private LocalDateTime updateTime;
+	@Valid
+	@ApiModelProperty(value = "菜单标题对应的国际化信息")
+	private List<I18nMessage> i18nMessages;
 
 }
