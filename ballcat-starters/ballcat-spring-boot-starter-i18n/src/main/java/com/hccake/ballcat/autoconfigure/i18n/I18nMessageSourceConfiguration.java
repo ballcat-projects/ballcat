@@ -5,7 +5,6 @@ import com.hccake.ballcat.common.i18n.I18nMessageProvider;
 import com.hccake.ballcat.common.i18n.MessageSourceHierarchicalChanger;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -15,7 +14,7 @@ import org.springframework.context.support.AbstractApplicationContext;
  * @author hccake
  */
 @Configuration(proxyBeanMethods = false)
-@Import(MessageSourceAutoConfiguration.class)
+@Import(CustomMessageSourceAutoConfiguration.class)
 public class I18nMessageSourceConfiguration {
 
 	@Bean(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
