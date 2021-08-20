@@ -26,24 +26,48 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 
 	private final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
+	/**
+	 * Calculate all filenames for the given bundle basename and Locale. Will calculate
+	 * filenames for the given Locale, the system Locale (if applicable), and the default
+	 * file.
+	 * @param basename the basename of the bundle
+	 * @param locale the locale
+	 * @return the List of filenames to check
+	 * @see #setFallbackToSystemLocale
+	 * @see #calculateFilenamesForLocale
+	 */
+	@Override
+	protected List<String> calculateAllFilenames(String basename, Locale locale) {
+		// 父类默认的方法会将 basename 也放入 filenames 列表
+		List<String> filenames = super.calculateAllFilenames(basename, locale);
+		// 当 basename 有匹配符时，从 filenames 中移除，否则扫描文件将抛出 Illegal char <*> 的异常
+		if (basename.contains("*")) {
+			filenames.remove(basename);
+		}
+		return filenames;
+	}
+
 	@Override
 	protected List<String> calculateFilenamesForLocale(String basename, Locale locale) {
+		// 支持 basename 用 . 表示文件层级
 		basename = basename.replace(".", "/");
-		List<String> filenames = super.calculateFilenamesForLocale(basename, locale);
-		List<String> add = new ArrayList<>();
-		for (String filename : filenames) {
+
+		// 资源文件名
+		List<String> fileNames = new ArrayList<>();
+		// 获取到待匹配的国际化信息文件名集合
+		List<String> matchFilenames = super.calculateFilenamesForLocale(basename, locale);
+		for (String matchFilename : matchFilenames) {
 			try {
-				Resource[] resources = resolver.getResources(filename + PROPERTIES_SUFFIX);
+				Resource[] resources = resolver.getResources("classpath*:" + matchFilename + PROPERTIES_SUFFIX);
 				for (Resource resource : resources) {
 					String sourcePath = resource.getURI().toString().replace(PROPERTIES_SUFFIX, "");
-					add.add(sourcePath);
+					fileNames.add(sourcePath);
 				}
 			}
 			catch (IOException ignored) {
 			}
 		}
-		filenames.addAll(add);
-		return filenames;
+		return fileNames;
 	}
 
 }

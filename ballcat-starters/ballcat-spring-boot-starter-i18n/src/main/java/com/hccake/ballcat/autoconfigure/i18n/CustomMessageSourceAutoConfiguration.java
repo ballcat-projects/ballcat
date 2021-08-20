@@ -103,14 +103,8 @@ public class CustomMessageSourceAutoConfiguration {
 		private Resource[] getResources(ClassLoader classLoader, String name) {
 			String target = name.replace('.', '/');
 			try {
-				String locationPattern;
-				if (target.startsWith("classpath")) {
-					locationPattern = target + ".properties";
-				}
-				else {
-					locationPattern = "classpath*:" + target + ".properties";
-				}
-				return new PathMatchingResourcePatternResolver(classLoader).getResources(locationPattern);
+				return new PathMatchingResourcePatternResolver(classLoader)
+						.getResources("classpath*:" + target + ".properties");
 			}
 			catch (Exception ex) {
 				return NO_RESOURCES;
