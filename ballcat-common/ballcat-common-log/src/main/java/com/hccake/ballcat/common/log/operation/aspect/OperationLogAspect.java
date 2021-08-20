@@ -8,9 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.annotation.AnnotatedElementUtils;
-import org.springframework.core.annotation.Order;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
@@ -23,9 +21,9 @@ import java.lang.reflect.Method;
 @Slf4j
 @Aspect
 @RequiredArgsConstructor
-public class OperationLogAspect {
+public class OperationLogAspect<T> {
 
-	private final OperationLogHandler<?> operationLogHandler;
+	private final OperationLogHandler<T> operationLogHandler;
 
 	@Around("execution(@(@com.hccake.ballcat.common.log.operation.annotation.OperationLogging *) * *(..)) "
 			+ "|| @annotation(com.hccake.ballcat.common.log.operation.annotation.OperationLogging)")
@@ -43,6 +41,8 @@ public class OperationLogAspect {
 		// 获取操作日志 DTO
 		Assert.notNull(operationLogging, "operationLogging annotation must not be null!");
 
+		T operationLog = operationLogHandler.buildLog(operationLogging, joinPoint);
+
 		Throwable throwable = null;
 		try {
 			return joinPoint.proceed();
@@ -52,11 +52,22 @@ public class OperationLogAspect {
 			throw e;
 		}
 		finally {
+			// 操作日志记录处理
+			handleLog(joinPoint, startTime, operationLog, throwable);
+		}
+	}
+
+	private void handleLog(ProceedingJoinPoint joinPoint, long startTime, T operationLog, Throwable throwable) {
+		try {
 			// 结束时间
 			long executionTime = System.currentTimeMillis() - startTime;
-
+			// 记录执行信息
+			operationLogHandler.recordExecutionInfo(operationLog, joinPoint, executionTime, throwable);
 			// 处理操作日志
-			operationLogHandler.handleLog(operationLogging, joinPoint, executionTime, throwable);
+			operationLogHandler.handleLog(operationLog);
+		}
+		catch (Exception e) {
+			log.error("记录操作日志异常：{}", operationLog);
 		}
 	}
 

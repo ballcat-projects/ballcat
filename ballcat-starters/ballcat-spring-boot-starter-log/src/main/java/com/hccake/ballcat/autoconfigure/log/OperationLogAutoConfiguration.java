@@ -18,8 +18,8 @@ public class OperationLogAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(OperationLogHandler.class)
-	public OperationLogAspect operationLogAspect(OperationLogHandler<?> operationLogHandler) {
-		return new OperationLogAspect(operationLogHandler);
+	public <T> OperationLogAspect<T> operationLogAspect(OperationLogHandler<T> operationLogHandler) {
+		return new OperationLogAspect<>(operationLogHandler);
 	}
 
 }

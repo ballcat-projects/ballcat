@@ -21,6 +21,12 @@ import java.util.Map;
 @Slf4j
 public abstract class AbstractOperationLogHandler<T> implements OperationLogHandler<T> {
 
+	/**
+	 * <p>
+	 * 忽略记录的参数类型列表
+	 * </p>
+	 * 忽略判断时只针对方法入参类型，如果入参为对象，其某个属性需要忽略的无法处理，可以使用 @JsonIgnore 进行忽略。
+	 */
 	private final List<Class<?>> ignoredParamClasses = ListUtil.toList(ServletRequest.class, ServletResponse.class,
 			MultipartFile.class);
 

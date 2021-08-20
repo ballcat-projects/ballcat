@@ -5,7 +5,6 @@ import com.hccake.ballcat.common.log.constant.LogConstant;
 import com.hccake.ballcat.common.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.common.log.operation.enums.LogStatusEnum;
 import com.hccake.ballcat.common.log.operation.handler.AbstractOperationLogHandler;
-import com.hccake.ballcat.common.log.operation.handler.OperationLogHandler;
 import com.hccake.ballcat.common.log.util.LogUtils;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
@@ -29,19 +28,8 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 
 	private final OperationLogService operationLogService;
 
-	/**
-	 * 保存操作日志
-	 * @param operationLog 操作日志
-	 */
 	@Override
-	public void saveLog(OperationLog operationLog) {
-		// 异步保存
-		operationLogService.saveAsync(operationLog);
-	}
-
-	@Override
-	public OperationLog buildLog(OperationLogging operationLogging, ProceedingJoinPoint joinPoint, long executionTime,
-			Throwable throwable) {
+	public OperationLog buildLog(OperationLogging operationLogging, ProceedingJoinPoint joinPoint) {
 		// 获取 Request
 		HttpServletRequest request = LogUtils.getHttpServletRequest();
 
@@ -64,14 +52,24 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 			operationLog.setOperator(user.getUsername());
 		}
 
+		return operationLog;
+	}
+
+	@Override
+	public OperationLog recordExecutionInfo(OperationLog operationLog, ProceedingJoinPoint joinPoint,
+			long executionTime, Throwable throwable) {
 		// 执行时长
 		operationLog.setTime(executionTime);
-
 		// 执行状态
 		LogStatusEnum logStatusEnum = throwable == null ? LogStatusEnum.SUCCESS : LogStatusEnum.FAIL;
 		operationLog.setStatus(logStatusEnum.getValue());
-
 		return operationLog;
+	}
+
+	@Override
+	public void handleLog(OperationLog operationLog) {
+		// 异步保存
+		operationLogService.saveAsync(operationLog);
 	}
 
 }

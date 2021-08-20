@@ -13,33 +13,27 @@ import org.aspectj.lang.ProceedingJoinPoint;
 public interface OperationLogHandler<T> {
 
 	/**
-	 * 处理日志
-	 * @param operationLogging 操作日志注解
-	 * @param joinPoint 当前执行方法的切点信息
-	 * @param executionTime 方法执行时长
-	 * @param throwable 方法执行的异常，为 null 则表示无异常
-	 */
-	default void handleLog(OperationLogging operationLogging, ProceedingJoinPoint joinPoint, long executionTime,
-			Throwable throwable) {
-		T log = buildLog(operationLogging, joinPoint, executionTime, throwable);
-		saveLog(log);
-	}
-
-	/**
 	 * 创建操作日志
 	 * @param operationLogging 操作日志注解
 	 * @param joinPoint 当前执行方法的切点信息
-	 * @param executionTime 方法执行时长
-	 * @param throwable 方法执行的异常，为 null 则表示无异常
 	 * @return T 操作日志对象
 	 */
-	T buildLog(OperationLogging operationLogging, ProceedingJoinPoint joinPoint, long executionTime,
-			Throwable throwable);
+	T buildLog(OperationLogging operationLogging, ProceedingJoinPoint joinPoint);
 
 	/**
-	 * 保存操作日志
+	 * 目标方法执行完成后进行信息补充记录, 如执行时长，异常信息，还可以通过切点记录返回值，如果需要的话
+	 * @param log 操作日志对象 {@link #buildLog}
+	 * @param joinPoint 当前执行方法的切点信息
+	 * @param executionTime 方法执行时长
+	 * @param throwable 方法执行的异常，为 null 则表示无异常
+	 * @return 操作日志对象
+	 */
+	T recordExecutionInfo(T log, ProceedingJoinPoint joinPoint, long executionTime, Throwable throwable);
+
+	/**
+	 * 处理日志，可以在这里进行存储，或者输出
 	 * @param operationLog 操作日志
 	 */
-	void saveLog(T operationLog);
+	void handleLog(T operationLog);
 
 }
