@@ -41,6 +41,7 @@ public class SysMenu {
 	/**
 	 * 菜单图标
 	 */
+	@TableField(updateStrategy = FieldStrategy.NOT_NULL)
 	@ApiModelProperty(value = "菜单图标")
 	private String icon;
 
