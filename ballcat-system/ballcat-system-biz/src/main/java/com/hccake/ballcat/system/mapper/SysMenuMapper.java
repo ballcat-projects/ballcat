@@ -65,4 +65,20 @@ public interface SysMenuMapper extends ExtendMapper<SysMenu> {
 		return SqlHelper.retBool(flag);
 	}
 
+	/**
+	 * 根据指定的 parentId 找到对应的菜单，更新其 parentId
+	 * @param originalParentId 原 parentId
+	 * @param parentId 现 parentId
+	 * @return 更新条数不为 0 时，返回 true
+	 */
+	default boolean updateParentId(Integer originalParentId, Integer parentId) {
+		// @formatter:off
+		LambdaUpdateWrapper<SysMenu> wrapper = Wrappers.lambdaUpdate(SysMenu.class)
+				.set(SysMenu::getParentId, parentId)
+				.eq(SysMenu::getParentId, originalParentId);
+		// @formatter:on
+		int flag = this.update(null, wrapper);
+		return SqlHelper.retBool(flag);
+	}
+
 }

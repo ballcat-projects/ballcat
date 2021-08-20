@@ -117,6 +117,8 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 
 		// 修改过菜单id，则需要对应修改角色菜单的关联表信息，这里不需要 check，因为可能没有授权过该菜单，所以返回值为 0
 		sysRoleMenuService.updateMenuId(originalId, menuId);
+		// 更新子菜单的 parentId
+		baseMapper.updateParentId(originalId, menuId);
 	}
 
 	/**
