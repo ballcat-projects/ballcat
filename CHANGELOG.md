@@ -11,10 +11,9 @@
 ### Warning
 
 - 多个模块包名调整，注意重新 import 对应路径
-
 - 国际化重构，改动较大，注意对应代码调整。国际化使用文档参看：http://www.ballcat.cn/guide/feature/i18n.html
-
 - 由于 **ballcat-common-conf** 的删除，非 admin 服务中的 mybatis-plus 的相关配置，如分页插件，批量插入方法的注入，需要按需添加。
+- 操作日志优化，修改了 `OperationLogHandler` 的相关方法，如果有自定义 OperationLogHandler ，需要注意同步更新
 
 
 
@@ -23,38 +22,34 @@
 - feat: 国际化功能的默认支持，新增 **ballcat-i18n** 相关模块，以便提供默认的业务国际化实现方式
 - feat: 登录用户名密码错误时的错误消息国际化处理
 - feat: **ballcat-common-redis** 针对 PUB/SUB 新增 `MessageEventListener` 接口，**ballcat-spring-boot-starter-redis**  中会自动注册所有实现 `MessageEventListener` 接口的监听器
+- feat:  **ballcat-common-redis** 中的 `@CacheDel` 注解，新增 multiDel 属性，方便批量删除缓存
 - feat: 新增 **ballcat-common-idempotent** 幂等模块
 - feat: 针对 hibernate-validation 校验的提示消息，支持使用 {}，占位替代 defaultMessage
 - feat:  **ballcat-common-core** 中默认新增了 `CreateGroup` 和 `UpdateGroup` 接口，方便分组校验使用
 - feat:  新增 **ballcat-spring-boot-starter-web** 模块，该模块基于 `spring-boot-starter-web`, 并使用 undertow 作为默认的嵌入式容器，且将 **ballcat-common-conf** 中对 web 应用的配置增强，如全局异常管理，以及 Sql 防注入处理，jackson 的默认配置等配置移动到此项目中
 - feat: **ballcat-extend-mybatis-plus** 模块中，为了支持连表查询的条件构建，新增 `OtherTableColumnAliasFunction` ，方便使用  `LambdaAliasQueryWrapperX` 进行关联表查询条件的构建
 - feat: **ballcat-spring-boot-starter-easyexcel** 支持导出时进行 Excel 头信息的国际化处理，使用 `{}` 进行占位表示，使用示例可参看 I18nData 的导出使用
+- feat: **ballcat-spring-boot-starter-swagger** 配置的扫描路径 `basePackage` ，支持使用 `,`  进行多包名的分割扫描
 
 
 
 ### Changed
 
 - refactor: **ballcat-common-conf** 内原先对于 mybati-plus 的自动填充、分页插件、以及批量插入方法注入的配置移动到 **ballcat-admin-core** 中
-
 - refactor:  `SpELUtils` 改名为 `SpelUtils`，并移动到 **ballcat-common-util** 模块中
-
 - refactor:  `ApplicationContextHolder` 改名为 `SpringUtils`，并移动到 **ballcat-common-util** 模块中
-
 - refactor: **ballcat-spring-boot-starter-log** 中拆分出 **ballcat-common-log** 模块，解决在 log-biz 模块中需要引入 starter 的问题，部分代码的包名有变更
-
 - refactor: **ballcat-spring-boot-starter-redis** 中拆分出 **ballcat-common-redis** 模块
-
 - refactor: 重构原先的国际化 i18n 功能，新增 **ballcat-common-i18n** 模块，移除原先的 **ballcat-extend-i18n** 模块
-
 - pref: 取消 **ballcat-spring-boot-starter-web** 中 **spring-security-core** 的传递依赖
-
 - fix: 修复当查询一个不存在的系统配置后，由于缓存空值，导致添加配置后依然查询不到的问题
-
 - pref: 菜单查询的返回类型修改为 SysMenuPageVO
-
 - fix: 修复 excel 导出的 content-type 和实际文件类型不匹配的问题
-
-
+- fix: 提高缓存切面的 Order，使其在事务提交后执行更新或删除操作，防止并发导致缓存数据错误
+- pref: 菜单支持删除 icon
+- fix: 修复当菜单 id 修改时，未级联修改其子菜单的父级 id 的问题
+- pref: 优化操作日志，改为在方法执行前获取方法参数信息，防止用户在执行方法时将方法入参修改了
+- pref: **ballcat-admin-core** 中默认扩展 springboot 默认的 TaskExecutor 配置，将拒绝策略从抛出异常修改为使用当前线程执行
 
 
 ### Removed

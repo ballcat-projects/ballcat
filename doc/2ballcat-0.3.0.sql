@@ -313,8 +313,7 @@ CREATE TABLE `sys_lov`  (
 -- ----------------------------
 -- Records of sys_lov
 -- ----------------------------
-INSERT INTO `sys_lov` VALUES (1, 'lov_user', '/system/user/page', 'GET', 'PARAMS', 'userId', '{}', b'1', b'1', 'userId', '2020-12-16 14:45:40', '2021-04-16 19:26:06', '用户');
-
+INSERT INTO `sys_lov` (`id`, `keyword`, `url`, `method`, `position`, `key`, `fixed_params`, `multiple`, `ret`, `ret_field`, `create_time`, `update_time`, `title`) VALUES (1, 'lov_user', '/system/user/page', 'GET', 'PARAMS', 'userId', '{}', b'1', b'1', 'userId', '2020-12-16 14:45:40', '2021-06-22 12:02:36', '用户');
 -- ----------------------------
 -- Table structure for sys_lov_body
 -- ----------------------------
