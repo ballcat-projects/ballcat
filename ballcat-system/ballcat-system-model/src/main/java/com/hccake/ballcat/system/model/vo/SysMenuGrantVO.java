@@ -6,8 +6,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 /**
  * 菜单权限授权对象
  *
@@ -35,8 +33,14 @@ public class SysMenuGrantVO {
 	/**
 	 * 菜单名称
 	 */
-	@I18nField
+	@I18nField(condition = "type != 2")
 	@ApiModelProperty(value = "菜单名称")
 	private String title;
+
+	/**
+	 * 菜单类型 （0目录，1菜单，2按钮）
+	 */
+	@ApiModelProperty(value = "菜单类型 （0目录，1菜单，2按钮）")
+	private Integer type;
 
 }

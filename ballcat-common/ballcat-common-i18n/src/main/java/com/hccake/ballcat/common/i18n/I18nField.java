@@ -29,4 +29,10 @@ public @interface I18nField {
 	@AliasFor("value")
 	String code() default "";
 
+	/**
+	 * 是否进行国际化的条件判断语句（SpEL 表达式），默认未 “”，表示永远翻译
+	 * @return 返回 boolean 的 SpEL 表达式
+	 */
+	String condition() default "";
+
 }

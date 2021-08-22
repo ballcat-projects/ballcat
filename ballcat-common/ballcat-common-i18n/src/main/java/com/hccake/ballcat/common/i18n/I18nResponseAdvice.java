@@ -4,13 +4,15 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.MethodParameter;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -20,7 +22,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * 利用 ResponseBodyAdvice 对返回结果进行国际化处理
@@ -37,6 +41,16 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 	private final boolean useCodeAsDefaultMessage;
 
 	private Locale fallbackLocale = null;
+
+	/**
+	 * SpEL 解析器
+	 */
+	private static final ExpressionParser PARSER = new SpelExpressionParser();
+
+	/**
+	 * 表达式缓存
+	 */
+	private static final Map<String, Expression> EXPRESSION_CACHE = new HashMap();
 
 	public I18nResponseAdvice(MessageSource messageSource, I18nOptions i18nOptions) {
 		this.messageSource = messageSource;
@@ -99,6 +113,21 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 				if (i18nField == null) {
 					continue;
 				}
+
+				// 国际化条件判断
+				String conditionExpression = i18nField.condition();
+				if (StrUtil.isNotEmpty(conditionExpression)) {
+					Expression expression = EXPRESSION_CACHE.get(conditionExpression);
+					if (expression == null) {
+						expression = PARSER.parseExpression(conditionExpression);
+						EXPRESSION_CACHE.put(conditionExpression, expression);
+					}
+					Boolean needI18n = expression.getValue(source, Boolean.class);
+					if (needI18n != null && !needI18n) {
+						continue;
+					}
+				}
+
 				// 获取国际化的唯一标识
 				String annotationCode = i18nField.code();
 				String code = StrUtil.isNotEmpty(annotationCode) ? annotationCode : (String) fieldValue;

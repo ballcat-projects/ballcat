@@ -33,7 +33,7 @@ public class SysMenuRouterVO {
 	/**
 	 * 菜单名称
 	 */
-	@I18nField
+	@I18nField(condition = "type != 2")
 	@ApiModelProperty(value = "菜单名称")
 	private String title;
 

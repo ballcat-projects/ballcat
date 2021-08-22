@@ -9,8 +9,8 @@ import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
-import com.hccake.ballcat.system.constant.SysPermissionConst;
 import com.hccake.ballcat.system.converter.SysMenuConverter;
+import com.hccake.ballcat.system.enums.SysMenuType;
 import com.hccake.ballcat.system.model.dto.SysMenuCreateDTO;
 import com.hccake.ballcat.system.model.dto.SysMenuUpdateDTO;
 import com.hccake.ballcat.system.model.entity.SysMenu;
@@ -70,7 +70,7 @@ public class SysMenuController {
 
 		// 筛选出菜单
 		List<SysMenuRouterVO> menuVOList = all.stream()
-				.filter(menuVo -> SysPermissionConst.Type.BUTTON.getValue() != menuVo.getType())
+				.filter(menuVo -> SysMenuType.BUTTON.getValue() != menuVo.getType())
 				.sorted(Comparator.comparingInt(SysMenu::getSort)).map(SysMenuConverter.INSTANCE::poToRouterVo)
 				.collect(Collectors.toList());
 
