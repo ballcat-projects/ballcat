@@ -59,7 +59,7 @@
 		<easyexcel.version>2.2.10</easyexcel.version>
 		<poi.version>4.1.2</poi.version>
 		<jasypt.version>3.0.3</jasypt.version>
-		<jsoup.version>1.13.1</jsoup.version>
+		<jsoup.version>1.14.2</jsoup.version>
 		<anji-captcha.version>1.2.9</anji-captcha.version>
 		<virtual-currency.version>0.4.2</virtual-currency.version>
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
