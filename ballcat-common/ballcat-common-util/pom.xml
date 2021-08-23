@@ -11,17 +11,7 @@
 
     <artifactId>ballcat-common-util</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
     <dependencies>
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-common-model</artifactId>
-		</dependency>
-
 		<!-- json 工具支持, 默认 jackson 按需替换-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -43,16 +33,10 @@
             <optional>true</optional>
         </dependency>
 
-
 		<!-- Hutool 工具 -->
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-extra</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
 
 		<dependency>
@@ -61,10 +45,15 @@
 		</dependency>
 
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<optional>true</optional>
 		</dependency>
-
 	</dependencies>
 </project>

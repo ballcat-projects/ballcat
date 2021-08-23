@@ -14,6 +14,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-common-util</artifactId>
 		</dependency>
 
@@ -58,6 +62,12 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-redis</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

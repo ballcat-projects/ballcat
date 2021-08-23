@@ -1,7 +1,6 @@
-package com.hccake.ballcat.common.util;
+package com.hccake.ballcat.common.util.tree;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.hccake.ballcat.common.model.tree.TreeNode;
 import lombok.experimental.UtilityClass;
 
 import java.util.*;

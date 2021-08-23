@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
-import com.hccake.ballcat.common.util.TreeUtils;
+import com.hccake.ballcat.common.util.tree.TreeUtils;
 import com.hccake.ballcat.system.converter.SysOrganizationConverter;
 import com.hccake.ballcat.system.mapper.SysOrganizationMapper;
 import com.hccake.ballcat.system.model.dto.OrganizationMoveChildParam;

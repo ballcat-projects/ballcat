@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.model.tree;
+package com.hccake.ballcat.common.util.tree;
 
 import java.util.List;
 
