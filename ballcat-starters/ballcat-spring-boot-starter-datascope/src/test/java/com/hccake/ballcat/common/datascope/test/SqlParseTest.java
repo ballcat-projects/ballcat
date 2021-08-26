@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.datascope.test;
 
 import com.hccake.ballcat.common.datascope.DataScope;
-import com.hccake.ballcat.common.datascope.handler.AbstractDataPermissionHandler;
+import com.hccake.ballcat.common.datascope.handler.DefaultDataPermissionHandler;
 import com.hccake.ballcat.common.datascope.handler.DataPermissionHandler;
 import com.hccake.ballcat.common.datascope.processor.DataScopeSqlProcessor;
 import net.sf.jsqlparser.expression.Alias;
@@ -50,7 +50,7 @@ class SqlParseTest {
 		List<DataScope> dataScopes = new ArrayList<>();
 		dataScopes.add(dataScope);
 
-		DataPermissionHandler dataPermissionHandler = new AbstractDataPermissionHandler(dataScopes) {
+		DataPermissionHandler dataPermissionHandler = new DefaultDataPermissionHandler(dataScopes) {
 			@Override
 			public boolean ignorePermissionControl(String mappedStatementId) {
 				return false;
