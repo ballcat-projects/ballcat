@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.xss.core;
 
-import com.hccake.ballcat.common.util.HtmlUtils;
+import com.hccake.ballcat.common.xss.cleaner.XssCleaner;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +16,11 @@ import java.util.Map;
 @Slf4j
 public class XssRequestWrapper extends HttpServletRequestWrapper {
 
-	public XssRequestWrapper(HttpServletRequest request) {
+	private final XssCleaner xssCleaner;
+
+	public XssRequestWrapper(HttpServletRequest request, XssCleaner xssCleaner) {
 		super(request);
+		this.xssCleaner = xssCleaner;
 	}
 
 	@Override
@@ -27,7 +30,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			String[] values = entry.getValue();
 			for (int i = 0; i < values.length; i++) {
-				values[i] = HtmlUtils.cleanUnSafe(values[i]);
+				values[i] = xssCleaner.clean(values[i]);
 			}
 			map.put(entry.getKey(), values);
 		}
@@ -43,7 +46,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		int count = values.length;
 		String[] encodedValues = new String[count];
 		for (int i = 0; i < count; i++) {
-			encodedValues[i] = HtmlUtils.cleanUnSafe(values[i]);
+			encodedValues[i] = xssCleaner.clean(values[i]);
 		}
 		return encodedValues;
 	}
@@ -54,14 +57,14 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		if (value == null) {
 			return null;
 		}
-		return HtmlUtils.cleanUnSafe(value);
+		return xssCleaner.clean(value);
 	}
 
 	@Override
 	public Object getAttribute(String name) {
 		Object value = super.getAttribute(name);
 		if (value instanceof String) {
-			HtmlUtils.cleanUnSafe((String) value);
+			xssCleaner.clean((String) value);
 		}
 		return value;
 	}
@@ -72,7 +75,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		if (value == null) {
 			return null;
 		}
-		return HtmlUtils.cleanUnSafe(value);
+		return xssCleaner.clean(value);
 	}
 
 	@Override
@@ -81,7 +84,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		if (value == null) {
 			return null;
 		}
-		return HtmlUtils.cleanUnSafe(value);
+		return xssCleaner.clean(value);
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.hccake.ballcat.common.xss;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hccake.ballcat.common.xss.cleaner.JsoupXssCleaner;
+import com.hccake.ballcat.common.xss.cleaner.XssCleaner;
 import com.hccake.ballcat.common.xss.config.XssProperties;
 import com.hccake.ballcat.common.xss.core.XssFilter;
 import com.hccake.ballcat.common.xss.core.XssStringJsonDeserializer;
@@ -27,14 +29,25 @@ import org.springframework.context.annotation.Configuration;
 public class XssAutoConfiguration {
 
 	/**
+	 * Xss 清理者
+	 * @return XssCleaner
+	 */
+	@ConditionalOnMissingBean(XssCleaner.class)
+	@Bean
+	public XssCleaner xssCleaner() {
+		return new JsoupXssCleaner();
+	}
+
+	/**
 	 * 主要用于过滤 QueryString, Header 以及 form 中的参数
 	 * @param xssProperties 安全配置类
 	 * @return FilterRegistrationBean
 	 */
 	@Bean
-	public FilterRegistrationBean<XssFilter> xssFilterRegistrationBean(XssProperties xssProperties) {
+	public FilterRegistrationBean<XssFilter> xssFilterRegistrationBean(XssProperties xssProperties,
+			XssCleaner xssCleaner) {
 		log.debug("XSS 过滤已开启====");
-		XssFilter xssFilter = new XssFilter(xssProperties);
+		XssFilter xssFilter = new XssFilter(xssProperties, xssCleaner);
 		FilterRegistrationBean<XssFilter> registrationBean = new FilterRegistrationBean<>(xssFilter);
 		registrationBean.setOrder(-1);
 		return registrationBean;
@@ -47,9 +60,9 @@ public class XssAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(name = "xssJacksonCustomizer")
 	@ConditionalOnBean(ObjectMapper.class)
-	public Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer() {
+	public Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(XssCleaner xssCleaner) {
 		// 在反序列化时进行 xss 过滤，可以替换使用 XssStringJsonSerializer，在序列化时进行处理
-		return builder -> builder.deserializerByType(String.class, new XssStringJsonDeserializer());
+		return builder -> builder.deserializerByType(String.class, new XssStringJsonDeserializer(xssCleaner));
 	}
 
 }

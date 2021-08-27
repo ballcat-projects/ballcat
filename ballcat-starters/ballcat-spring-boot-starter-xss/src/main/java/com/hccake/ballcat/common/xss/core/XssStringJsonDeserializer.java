@@ -3,7 +3,7 @@ package com.hccake.ballcat.common.xss.core;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.hccake.ballcat.common.util.HtmlUtils;
+import com.hccake.ballcat.common.xss.cleaner.XssCleaner;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -16,6 +16,12 @@ import java.io.IOException;
 @Slf4j
 public class XssStringJsonDeserializer extends JsonDeserializer<String> {
 
+	private final XssCleaner xssCleaner;
+
+	public XssStringJsonDeserializer(XssCleaner xssCleaner) {
+		this.xssCleaner = xssCleaner;
+	}
+
 	@Override
 	public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
 		String value = p.getValueAsString();
@@ -23,7 +29,7 @@ public class XssStringJsonDeserializer extends JsonDeserializer<String> {
 		if (!XssStateHolder.enabled()) {
 			return value;
 		}
-		return value != null ? HtmlUtils.cleanUnSafe(value) : null;
+		return value != null ? xssCleaner.clean(value) : null;
 	}
 
 	@Override

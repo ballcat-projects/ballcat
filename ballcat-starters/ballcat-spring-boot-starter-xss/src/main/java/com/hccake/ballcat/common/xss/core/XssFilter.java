@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.xss.core;
 
 import cn.hutool.core.util.StrUtil;
+import com.hccake.ballcat.common.xss.cleaner.XssCleaner;
 import com.hccake.ballcat.common.xss.config.XssProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.AntPathMatcher;
@@ -25,6 +26,8 @@ public class XssFilter extends OncePerRequestFilter {
 	 */
 	private final XssProperties xssProperties;
 
+	private final XssCleaner xssCleaner;
+
 	/**
 	 * AntPath规则匹配器
 	 */
@@ -47,7 +50,7 @@ public class XssFilter extends OncePerRequestFilter {
 		// 开启 Xss 过滤状态
 		XssStateHolder.open();
 		try {
-			filterChain.doFilter(new XssRequestWrapper(request), response);
+			filterChain.doFilter(new XssRequestWrapper(request, xssCleaner), response);
 		}
 		finally {
 			// 必须删除 ThreadLocal 存储的状态
