@@ -1,13 +1,11 @@
 package com.hccake.ballcat.common.security.exception;
 
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
@@ -26,8 +24,6 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 
 	private final ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
-	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
-
 	@Override
 	public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
 		// Try to extract a SpringSecurityException from the stacktrace
@@ -36,9 +32,10 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 		Exception ase = (InvalidGrantException) throwableAnalyzer.getFirstThrowableOfType(InvalidGrantException.class,
 				causeChain);
 		if (ase != null) {
-			String message = messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials",
-					ase.getMessage());
-			CustomInvalidGrantException customInvalidGrantException = new CustomInvalidGrantException(message);
+			// 这里必须配置 messageSource，且指定的 basename 包含
+			// ”org.springframework.security.messages“，否则错误信息没有国际化
+			// {@link https://github.com/spring-projects/spring-security/issues/10227}
+			CustomInvalidGrantException customInvalidGrantException = new CustomInvalidGrantException(ase.getMessage());
 			return handleOAuth2Exception(customInvalidGrantException);
 		}
 
