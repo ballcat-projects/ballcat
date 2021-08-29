@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.util.tree;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import lombok.experimental.UtilityClass;
 
 import java.util.*;
@@ -83,6 +84,8 @@ public class TreeUtils {
 
 		// 根据根节点ID拿到一级节点
 		List<T> treeList = childrenMap.get(rootId);
+		// 异常数据校验
+		Assert.notEmpty(treeList, "错误的数据，找不到根节点的子节点");
 		// 遍历所有一级节点，赋值其子节点
 		treeList.forEach(node -> TreeUtils.setChildren(node, childrenMap));
 		return treeList;
