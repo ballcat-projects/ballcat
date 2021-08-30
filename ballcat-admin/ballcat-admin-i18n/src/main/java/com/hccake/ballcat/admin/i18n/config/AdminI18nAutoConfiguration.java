@@ -3,6 +3,7 @@ package com.hccake.ballcat.admin.i18n.config;
 import com.hccake.ballcat.common.i18n.I18nMessageProvider;
 import com.hccake.ballcat.i18n.provider.CustomI18nMessageProvider;
 import com.hccake.ballcat.i18n.service.I18nDataService;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,8 +15,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  *
  * @author hccake
  */
-@Configuration(proxyBeanMethods = false)
+@MapperScan("com.hccake.ballcat.i18n.mapper")
 @ComponentScan("com.hccake.ballcat.i18n")
+@Configuration(proxyBeanMethods = false)
 public class AdminI18nAutoConfiguration {
 
 	@Bean
