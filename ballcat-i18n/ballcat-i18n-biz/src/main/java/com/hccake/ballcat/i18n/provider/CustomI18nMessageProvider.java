@@ -1,6 +1,5 @@
 package com.hccake.ballcat.i18n.provider;
 
-import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.util.RandomUtil;
 import com.hccake.ballcat.common.i18n.I18nMessage;
@@ -18,6 +17,7 @@ import org.springframework.data.redis.listener.Topic;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 自定义的 I18nMessageProvider，数据存储在数据库中，使用内存缓存提高查询效率
@@ -42,7 +42,7 @@ public class CustomI18nMessageProvider implements I18nMessageProvider, MessageEv
 		this.i18nDataService = i18nDataService;
 		this.stringRedisTemplate = stringRedisTemplate;
 		// 默认过期时间设置为 1 小时
-		this.cache = CacheUtil.newTimedCache(MILLISECONDS_OF_HOUR);
+		this.cache = new TimedCache<>(MILLISECONDS_OF_HOUR, new ConcurrentHashMap<>());
 		// 每秒检查一次过期
 		this.cache.schedulePrune(1000);
 	}
