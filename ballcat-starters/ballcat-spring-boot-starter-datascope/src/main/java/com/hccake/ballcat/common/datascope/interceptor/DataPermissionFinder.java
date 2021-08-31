@@ -31,19 +31,21 @@ public final class DataPermissionFinder {
 	/**
 	 * 缓存的 key 值
 	 * @param method 方法
+	 * @param clazz 类
 	 * @return key
 	 */
-	private static Object getCacheKey(Method method) {
-		return new MethodClassKey(method, method.getDeclaringClass());
+	private static Object getCacheKey(Method method, Class<?> clazz) {
+		return new MethodClassKey(method, clazz);
 	}
 
 	/**
 	 * 从缓存中获取数据权限注解 优先获取方法上的注解，再获取类上的注解
 	 * @param method 当前方法
+	 * @param clazz 当前类
 	 * @return 当前方法有效的数据权限注解
 	 */
-	public static DataPermission findDataPermission(Method method) {
-		Object methodKey = getCacheKey(method);
+	public static DataPermission findDataPermission(Method method, Class<?> clazz) {
+		Object methodKey = getCacheKey(method, clazz);
 
 		if (DATA_PERMISSION_CACHE.containsKey(methodKey)) {
 			DataPermission dataPermission = DATA_PERMISSION_CACHE.get(methodKey);
@@ -54,8 +56,7 @@ public final class DataPermissionFinder {
 		// 先查方法，如果方法上没有，则使用类上
 		DataPermission dataPermission = AnnotatedElementUtils.findMergedAnnotation(method, DataPermission.class);
 		if (dataPermission == null) {
-			dataPermission = AnnotatedElementUtils.findMergedAnnotation(method.getDeclaringClass(),
-					DataPermission.class);
+			dataPermission = AnnotatedElementUtils.findMergedAnnotation(clazz, DataPermission.class);
 		}
 		DATA_PERMISSION_CACHE.put(methodKey, dataPermission == null ? EMPTY_DATA_PERMISSION : dataPermission);
 		return dataPermission;

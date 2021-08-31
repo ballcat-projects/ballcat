@@ -16,9 +16,13 @@ public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
 
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-
+		// 当前方法
 		Method method = methodInvocation.getMethod();
-		DataPermission dataPermission = DataPermissionFinder.findDataPermission(method);
+		// 获取执行类
+		Object invocationThis = methodInvocation.getThis();
+		Class<?> clazz = invocationThis != null ? invocationThis.getClass() : method.getDeclaringClass();
+		// 寻找对应的 DataPermission 注解属性
+		DataPermission dataPermission = DataPermissionFinder.findDataPermission(method, clazz);
 		DataPermissionAnnotationHolder.push(dataPermission);
 		try {
 			return methodInvocation.proceed();
