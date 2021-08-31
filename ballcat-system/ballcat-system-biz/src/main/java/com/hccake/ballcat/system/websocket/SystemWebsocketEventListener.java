@@ -1,4 +1,4 @@
-package com.hccake.ballcat.system.websoket;
+package com.hccake.ballcat.system.websocket;
 
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.websocket.distribute.MessageDO;

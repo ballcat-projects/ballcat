@@ -50,7 +50,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 	/**
 	 * 表达式缓存
 	 */
-	private static final Map<String, Expression> EXPRESSION_CACHE = new HashMap();
+	private static final Map<String, Expression> EXPRESSION_CACHE = new HashMap<>();
 
 	public I18nResponseAdvice(MessageSource messageSource, I18nOptions i18nOptions) {
 		this.messageSource = messageSource;
