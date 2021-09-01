@@ -29,9 +29,7 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 
 	private static final String CAPTCHA_VERIFICATION_PARAM = "captchaVerification";
 
-	private static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
-
-	private static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
+	private static final String GRANT_TYPE_PASSWORD = "password";
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -43,9 +41,9 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		// 如果是授权码模式或者刷新token请求则，直接放行
+		// 只对 password 的 grant_type 进行拦截处理
 		String grantType = request.getParameter("grant_type");
-		if (GRANT_TYPE_AUTHORIZATION_CODE.equals(grantType) || GRANT_TYPE_REFRESH_TOKEN.equals(grantType)) {
+		if (!GRANT_TYPE_PASSWORD.equals(grantType)) {
 			filterChain.doFilter(request, response);
 			return;
 		}

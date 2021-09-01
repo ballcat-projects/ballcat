@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.security.util;
 
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
+import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.userdetails.User;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
@@ -59,6 +60,21 @@ public class SecurityUtils {
 		UserDetails userDetails = (UserDetails) Optional.ofNullable(authentication).map(Authentication::getPrincipal)
 				.orElse(null);
 		return userDetails != null && SecurityConstants.TEST_CLIENT_ID.equals(userDetails.getUsername());
+	}
+
+	/**
+	 * 获取客户端信息
+	 */
+	public ClientPrincipal getClientPrincipal() {
+		Authentication authentication = getAuthentication();
+		if (authentication == null) {
+			return null;
+		}
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof ClientPrincipal) {
+			return (ClientPrincipal) principal;
+		}
+		return null;
 	}
 
 }

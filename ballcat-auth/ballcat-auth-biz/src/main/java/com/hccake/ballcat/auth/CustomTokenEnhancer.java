@@ -3,6 +3,7 @@ package com.hccake.ballcat.auth;
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.system.model.vo.SysUserInfo;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -26,8 +27,12 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 	 */
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-		Object principal = authentication.getUserAuthentication().getPrincipal();
+		Authentication userAuthentication = authentication.getUserAuthentication();
+		if (userAuthentication == null) {
+			return accessToken;
+		}
 
+		Object principal = userAuthentication.getPrincipal();
 		if (principal instanceof User) {
 			User user = (User) principal;
 			// token 附属信息
