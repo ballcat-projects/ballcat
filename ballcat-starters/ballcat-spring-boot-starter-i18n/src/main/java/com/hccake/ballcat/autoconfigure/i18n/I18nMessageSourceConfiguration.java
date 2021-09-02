@@ -17,14 +17,15 @@ import org.springframework.context.support.AbstractApplicationContext;
 @Import(CustomMessageSourceAutoConfiguration.class)
 public class I18nMessageSourceConfiguration {
 
-	@Bean(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
+	@ConditionalOnBean(I18nMessageProvider.class)
 	@ConditionalOnMissingBean(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
+	@Bean(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
 	public DynamicMessageSource messageSource(I18nMessageProvider i18nMessageProvider) {
 		return new DynamicMessageSource(i18nMessageProvider);
 	}
 
+	@ConditionalOnBean(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME, value = I18nMessageProvider.class)
 	@Bean(name = DynamicMessageSource.DYNAMIC_MESSAGE_SOURCE_BEAN_NAME)
-	@ConditionalOnBean(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
 	public DynamicMessageSource dynamicMessageSource(I18nMessageProvider i18nMessageProvider) {
 		return new DynamicMessageSource(i18nMessageProvider);
 	}
