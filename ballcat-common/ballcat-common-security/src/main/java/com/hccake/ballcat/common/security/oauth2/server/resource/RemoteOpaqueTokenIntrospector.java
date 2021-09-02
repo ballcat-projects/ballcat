@@ -159,7 +159,10 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private HTTPResponse adaptToNimbusResponse(ResponseEntity<String> responseEntity) {
 		HTTPResponse response = new HTTPResponse(responseEntity.getStatusCodeValue());
-		response.setHeader(HttpHeaders.CONTENT_TYPE, responseEntity.getHeaders().getContentType().toString());
+		MediaType contentType = responseEntity.getHeaders().getContentType();
+		if (contentType != null) {
+			response.setHeader(HttpHeaders.CONTENT_TYPE, contentType.toString());
+		}
 		response.setContent(responseEntity.getBody());
 		if (response.getStatusCode() != HTTPResponse.SC_OK) {
 			throw new OAuth2IntrospectionException("Introspection endpoint responded with " + response.getStatusCode());

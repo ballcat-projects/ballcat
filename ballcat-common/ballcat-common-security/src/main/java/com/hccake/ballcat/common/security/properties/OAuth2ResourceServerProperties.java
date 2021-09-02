@@ -29,6 +29,16 @@ public class OAuth2ResourceServerProperties {
 	private boolean iframeDeny = true;
 
 	/**
+	 * 开启表单登录
+	 */
+	private boolean enableFormLogin = false;
+
+	/**
+	 * 表单登录地址
+	 */
+	private String formLoginPage = null;
+
+	/**
 	 * 共享存储的token，这种情况下，利用 tokenStore 可以直接获取 token 信息
 	 */
 	private boolean sharedStoredToken = true;
