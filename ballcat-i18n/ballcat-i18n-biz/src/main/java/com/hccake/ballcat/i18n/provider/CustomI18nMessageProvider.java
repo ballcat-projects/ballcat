@@ -88,7 +88,7 @@ public class CustomI18nMessageProvider implements I18nMessageProvider, MessageEv
 		I18nMessage i18nMessage = new I18nMessage();
 		i18nMessage.setMessage(i18nData.getMessage());
 		i18nMessage.setCode(i18nData.getCode());
-		i18nMessage.setLanguageTag(i18nData.getCode());
+		i18nMessage.setLanguageTag(i18nData.getLanguageTag());
 		return i18nMessage;
 	}
 
