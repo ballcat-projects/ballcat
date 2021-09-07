@@ -30,31 +30,62 @@
 - feat: **ballcat-extend-mybatis-plus** 模块中，为了支持连表查询的条件构建，新增 `OtherTableColumnAliasFunction` ，方便使用  `LambdaAliasQueryWrapperX` 进行关联表查询条件的构建
 - feat: **ballcat-spring-boot-starter-easyexcel** 支持导出时进行 Excel 头信息的国际化处理，使用 `{}` 进行占位表示，使用示例可参看 I18nData 的导出使用
 - feat: **ballcat-spring-boot-starter-swagger** 配置的扫描路径 `basePackage` ，支持使用 `,`  进行多包名的分割扫描
+- feat: **ballcat-spring-boot-starter-datascope** 中的数据权限控制注解 @DataPermission 扩展支持在 Mapper 之外使用，且支持方法嵌套调用时使用不同的 @DataPermission 环境
 
 
 
 ### Changed
 
 - refactor: **ballcat-common-conf** 内原先对于 mybati-plus 的自动填充、分页插件、以及批量插入方法注入的配置移动到 **ballcat-admin-core** 中
+
 - refactor:  `SpELUtils` 改名为 `SpelUtils`，并移动到 **ballcat-common-util** 模块中
+
 - refactor:  `ApplicationContextHolder` 改名为 `SpringUtils`，并移动到 **ballcat-common-util** 模块中
+
 - refactor: **ballcat-spring-boot-starter-log** 中拆分出 **ballcat-common-log** 模块，解决在 log-biz 模块中需要引入 starter 的问题，部分代码的包名有变更
+
 - refactor: **ballcat-spring-boot-starter-redis** 中拆分出 **ballcat-common-redis** 模块
+
 - refactor: 重构原先的国际化 i18n 功能，新增 **ballcat-common-i18n** 模块，移除原先的 **ballcat-extend-i18n** 模块
+
 - pref: 取消 **ballcat-spring-boot-starter-web** 中 **spring-security-core** 的传递依赖
+
 - fix: 修复当查询一个不存在的系统配置后，由于缓存空值，导致添加配置后依然查询不到的问题
+
 - pref: 菜单查询的返回类型修改为 SysMenuPageVO
+
 - fix: 修复 excel 导出的 content-type 和实际文件类型不匹配的问题
+
 - fix: 提高缓存切面的 Order，使其在事务提交后执行更新或删除操作，防止并发导致缓存数据错误
+
 - pref: 菜单支持删除 icon
+
 - fix: 修复当菜单 id 修改时，未级联修改其子菜单的父级 id 的问题
+
 - pref: 优化操作日志，改为在方法执行前获取方法参数信息，防止用户在执行方法时将方法入参修改了
+
 - pref: **ballcat-admin-core** 中默认扩展 springboot 默认的 TaskExecutor 配置，将拒绝策略从抛出异常修改为使用当前线程执行
+
+- refactor:  移动 TreeNode 模型到 common-util 包中，以便减少 common-util 包的依赖
+
+- refactor: **ballcat-spring-boot-starter-xss** 抽象出 XssCleaner 角色，用于控制 Xss 文本的清除行为，方便用户自定义
+
+- pref: 用户登陆时的错误信息返回原始的细节信息，而不是全部返回用户名密码错误
+
+- fix:  **ballcat-system-biz** websocket 包名拼写错误修复
+
+
 
 
 ### Removed
 
 - 移除 **ballcat-common-conf**，相关代码拆分入 **ballcat-spring-boot-starter-web** 和 **ballcat-admin-core**
+
+
+
+### Dependency
+
+- Bump jsoup from 1.13.1 to 1.14.2
 
 
 
