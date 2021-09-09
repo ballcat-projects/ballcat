@@ -19,9 +19,17 @@ import java.util.Map;
 public class CustomAccessTokenConverter extends DefaultAccessTokenConverter {
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Map<String, ?> convertAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
-		@SuppressWarnings("unchecked")
 		Map<String, Object> response = (Map<String, Object>) super.convertAccessToken(token, authentication);
+
+		// 根据 OAuth2 自省端点协议，scope 应返回字符串，用空格间隔
+		// https://datatracker.ietf.org/doc/html/rfc7662
+		Object scopeValue = response.get("scope");
+		if (scopeValue instanceof Collection) {
+			Collection<String> scopes = (Collection<String>) scopeValue;
+			response.put("scope", CollectionUtil.join(scopes, " "));
+		}
 
 		// 默认的 CustomTokenEnhancer 在登录获取 token 时只在 attribute 中存放了 ROLE 和 PERMISSION
 		// 如果是自己系统内部认可的远程 资源服务器，在拥有权限的情况下，把所有的属性都返回回去
