@@ -15,7 +15,9 @@
  */
 package com.hccake.ballcat.common.security.oauth2.server.resource;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
+import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.nimbusds.oauth2.sdk.TokenIntrospectionResponse;
 import com.nimbusds.oauth2.sdk.TokenIntrospectionSuccessResponse;
@@ -30,6 +32,7 @@ import org.springframework.http.*;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.server.resource.introspection.*;
 import org.springframework.util.Assert;
@@ -65,7 +68,7 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private RestOperations restOperations;
 
-	private final String authorityPrefix = "SCOPE_";
+	private static final String AUTHORITY_SCOPE_PREFIX = "SCOPE_";
 
 	/**
 	 * Creates a {@code OpaqueTokenAuthenticationProvider} with the provided parameters
@@ -187,16 +190,13 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 	}
 
 	private OAuth2AuthenticatedPrincipal convertClaimsSet(TokenIntrospectionSuccessResponse response) {
-		Map<String, Object> claims = new HashMap<>();
+		Map<String, Object> claims = new HashMap<>(16);
 		if (response.getAudience() != null) {
 			List<String> audiences = new ArrayList<>();
 			for (Audience audience : response.getAudience()) {
 				audiences.add(audience.getValue());
 			}
 			claims.put(OAuth2IntrospectionClaimNames.AUDIENCE, Collections.unmodifiableList(audiences));
-		}
-		if (response.getClientID() != null) {
-			claims.put(OAuth2IntrospectionClaimNames.CLIENT_ID, response.getClientID().getValue());
 		}
 		if (response.getExpirationTime() != null) {
 			Instant exp = response.getExpirationTime().toInstant();
@@ -213,7 +213,42 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 			claims.put(OAuth2IntrospectionClaimNames.NOT_BEFORE, response.getNotBeforeTime().toInstant());
 		}
 
-		return buildUser(response.toJSONObject(), claims);
+		if (response.getScope() != null) {
+			List<String> scopes = Collections.unmodifiableList(response.getScope().toStringList());
+			claims.put(OAuth2IntrospectionClaimNames.SCOPE, scopes);
+		}
+
+		boolean isClient = response.getClientID() != null;
+		if (isClient) {
+			claims.put(OAuth2IntrospectionClaimNames.CLIENT_ID, response.getClientID().getValue());
+			return buildClient(claims);
+		}
+		else {
+			return buildUser(response.toJSONObject(), claims);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private ClientPrincipal buildClient(Map<String, Object> claims) {
+		String clientId = (String) claims.get(OAuth2IntrospectionClaimNames.CLIENT_ID);
+
+		List<String> scopes = null;
+		Object scopeValue = claims.get(OAuth2IntrospectionClaimNames.SCOPE);
+		if (scopeValue instanceof List) {
+			scopes = (List<String>) scopeValue;
+		}
+
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
+		if (CollectionUtil.isNotEmpty(scopes)) {
+			for (String scope : scopes) {
+				authorities.add(new SimpleGrantedAuthority(AUTHORITY_SCOPE_PREFIX + scope));
+			}
+		}
+
+		ClientPrincipal clientPrincipal = new ClientPrincipal(clientId, claims, authorities);
+		clientPrincipal.setScope(scopes);
+
+		return clientPrincipal;
 	}
 
 	/**

@@ -1,8 +1,11 @@
 package com.hccake.ballcat.common.security.oauth2.server.resource;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -13,7 +16,10 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.server.resource.introspection.BadOpaqueTokenException;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * 共享存储的不透明令牌的处理器
@@ -31,6 +37,8 @@ public class SharedStoredOpaqueTokenIntrospector implements OpaqueTokenIntrospec
 
 	private static final String CLIENT_CREDENTIALS = "client_credentials";
 
+	private static final String AUTHORITY_SCOPE_PREFIX = "SCOPE_";
+
 	/**
 	 * @see DefaultTokenServices#loadAuthentication(java.lang.String)
 	 * @param accessTokenValue token
@@ -47,21 +55,38 @@ public class SharedStoredOpaqueTokenIntrospector implements OpaqueTokenIntrospec
 			throw new BadOpaqueTokenException("Access token expired: " + accessTokenValue);
 		}
 
-		OAuth2Authentication result = tokenStore.readAuthentication(accessToken);
-		if (result == null) {
+		OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(accessToken);
+		if (oAuth2Authentication == null) {
 			// in case of race condition
 			throw new BadOpaqueTokenException("Invalid access token: " + accessTokenValue);
 		}
 
-		OAuth2Request oAuth2Request = result.getOAuth2Request();
-		if (oAuth2Request != null && CLIENT_CREDENTIALS.equals(oAuth2Request.getGrantType())) {
-			ClientPrincipal clientPrincipal = new ClientPrincipal(oAuth2Request.getClientId(), new HashMap<>(8),
-					oAuth2Request.getAuthorities());
-			clientPrincipal.setScope(oAuth2Request.getScope());
+		ClientPrincipal clientPrincipal = getClientPrincipal(oAuth2Authentication);
+		if (clientPrincipal != null) {
 			return clientPrincipal;
 		}
 
-		return (OAuth2User) result.getPrincipal();
+		return (OAuth2User) oAuth2Authentication.getPrincipal();
+	}
+
+	private ClientPrincipal getClientPrincipal(OAuth2Authentication oAuth2Authentication) {
+		ClientPrincipal clientPrincipal = null;
+
+		OAuth2Request oAuth2Request = oAuth2Authentication.getOAuth2Request();
+		if (oAuth2Request != null && CLIENT_CREDENTIALS.equals(oAuth2Request.getGrantType())) {
+			Collection<? extends GrantedAuthority> requestAuthorities = oAuth2Request.getAuthorities();
+			Collection<GrantedAuthority> authorities = new ArrayList<>(requestAuthorities);
+			Set<String> scopes = oAuth2Request.getScope();
+			if (CollectionUtil.isNotEmpty(scopes)) {
+				for (String scope : scopes) {
+					authorities.add(new SimpleGrantedAuthority(AUTHORITY_SCOPE_PREFIX + scope));
+				}
+			}
+			clientPrincipal = new ClientPrincipal(oAuth2Request.getClientId(), new HashMap<>(8), authorities);
+			clientPrincipal.setScope(scopes);
+		}
+
+		return clientPrincipal;
 	}
 
 }

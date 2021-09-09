@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.security.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.util.*;
@@ -47,7 +48,8 @@ public class ClientPrincipal implements OAuth2AuthenticatedPrincipal {
 			Collection<? extends GrantedAuthority> authorities) {
 		this.clientId = clientId;
 		this.attributes = attributes;
-		this.authorities = authorities;
+		this.authorities = (authorities != null) ? Collections.unmodifiableCollection(authorities)
+				: AuthorityUtils.NO_AUTHORITIES;
 	}
 
 }
