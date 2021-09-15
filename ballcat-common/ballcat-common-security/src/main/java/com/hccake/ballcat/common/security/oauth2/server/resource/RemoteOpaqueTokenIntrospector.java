@@ -19,22 +19,31 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.userdetails.User;
+import com.nimbusds.oauth2.sdk.ParseException;
 import com.nimbusds.oauth2.sdk.TokenIntrospectionResponse;
 import com.nimbusds.oauth2.sdk.TokenIntrospectionSuccessResponse;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.nimbusds.oauth2.sdk.id.Audience;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-import org.springframework.security.oauth2.server.resource.introspection.*;
+import org.springframework.security.oauth2.server.resource.introspection.BadOpaqueTokenException;
+import org.springframework.security.oauth2.server.resource.introspection.NimbusOpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionClaimNames;
+import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionException;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -44,7 +53,12 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URL;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -62,7 +76,7 @@ import java.util.*;
  */
 public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
-	private final Log logger = LogFactory.getLog(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private Converter<String, RequestEntity<?>> requestEntityConverter;
 
@@ -198,6 +212,9 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 			}
 			claims.put(OAuth2IntrospectionClaimNames.AUDIENCE, Collections.unmodifiableList(audiences));
 		}
+		if (response.getClientID() != null) {
+			claims.put(OAuth2IntrospectionClaimNames.CLIENT_ID, response.getClientID().getValue());
+		}
 		if (response.getExpirationTime() != null) {
 			Instant exp = response.getExpirationTime().toInstant();
 			claims.put(OAuth2IntrospectionClaimNames.EXPIRES_AT, exp);
@@ -218,14 +235,16 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 			claims.put(OAuth2IntrospectionClaimNames.SCOPE, scopes);
 		}
 
-		boolean isClient = response.getClientID() != null;
-		if (isClient) {
-			claims.put(OAuth2IntrospectionClaimNames.CLIENT_ID, response.getClientID().getValue());
-			return buildClient(claims);
+		boolean isClient;
+		try {
+			isClient = response.getBooleanParameter("is_client");
 		}
-		else {
-			return buildUser(response.toJSONObject(), claims);
+		catch (ParseException e) {
+			logger.warn("自定端点返回的 is_client 属性解析异常: {}, 请求信息：[{}]", e.getMessage(), response.toJSONObject());
+			isClient = false;
 		}
+		return isClient ? buildClient(claims) : buildUser(response.toJSONObject(), claims);
+
 	}
 
 	@SuppressWarnings("unchecked")

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.auth.configurer;
 
-import com.hccake.ballcat.auth.mobile.MobileTokenGranter;
+import com.hccake.ballcat.auth.authentication.CustomClientCredentialsTokenGranter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -14,17 +14,24 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenGranter;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.implicit.ImplicitTokenGranter;
+import org.springframework.security.oauth2.provider.password.ResourceOwnerPasswordTokenGranter;
+import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -94,18 +101,32 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 				// 自定义的认证时异常转换
 				.exceptionTranslator(webResponseExceptionTranslator)
 				// 自定义tokenGranter
-				.tokenGranter(tokenGranter(endpoints));
+				.tokenGranter(tokenGranter(endpoints))
+				// 使用自定义的 TokenConverter，方便在 checkToken 时，返回更多的信息
+				.accessTokenConverter(accessTokenConverter);
 		// @formatter:on
 	}
 
 	private TokenGranter tokenGranter(final AuthorizationServerEndpointsConfigurer endpoints) {
-		// 使用自定义的 TokenConverter，方便在 checkToken 时，返回更多的信息
-		endpoints.accessTokenConverter(accessTokenConverter);
-		// 获取默认的granter集合
-		List<TokenGranter> granters = new ArrayList<>(Collections.singletonList(endpoints.getTokenGranter()));
-		granters.add(new MobileTokenGranter(authenticationManager, endpoints.getTokenServices(),
-				endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory()));
-		return new CompositeTokenGranter(granters);
+		// OAuth2 规范的四大授权类型
+		ClientDetailsService clientDetailsService = endpoints.getClientDetailsService();
+		AuthorizationServerTokenServices tokenServices = endpoints.getTokenServices();
+		AuthorizationCodeServices authorizationCodeServices = endpoints.getAuthorizationCodeServices();
+		OAuth2RequestFactory requestFactory = endpoints.getOAuth2RequestFactory();
+
+		List<TokenGranter> tokenGranters = new ArrayList<>();
+		tokenGranters.add(new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices,
+				clientDetailsService, requestFactory));
+		tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetailsService, requestFactory));
+		ImplicitTokenGranter implicit = new ImplicitTokenGranter(tokenServices, clientDetailsService, requestFactory);
+		tokenGranters.add(implicit);
+		tokenGranters.add(new CustomClientCredentialsTokenGranter(tokenServices, clientDetailsService, requestFactory));
+		if (authenticationManager != null) {
+			tokenGranters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager, tokenServices,
+					clientDetailsService, requestFactory));
+		}
+
+		return new CompositeTokenGranter(tokenGranters);
 	}
 
 	/**

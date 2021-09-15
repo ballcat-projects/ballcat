@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -11,7 +12,7 @@ import java.util.*;
  *
  * @author hccake
  */
-public class ClientPrincipal implements OAuth2AuthenticatedPrincipal {
+public class ClientPrincipal implements OAuth2AuthenticatedPrincipal, Serializable {
 
 	private final String clientId;
 
