@@ -23,19 +23,19 @@ public class SelectData<T> {
 	 * 选中获取的属性
 	 */
 	@ApiModelProperty(value = "选中获取的属性", required = true)
-	private String value;
+	private Object value;
 
 	/**
 	 * 是否被选中
 	 */
 	@ApiModelProperty(value = "是否被选中")
-	private String selected;
+	private Boolean selected;
 
 	/**
 	 * 是否禁用
 	 */
 	@ApiModelProperty(value = "是否禁用")
-	private String disabled;
+	private Boolean disabled;
 
 	/**
 	 * 分组标识
