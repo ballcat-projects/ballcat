@@ -1,11 +1,12 @@
 package com.hccake.ballcat.auth.configuration;
 
+import com.hccake.ballcat.auth.CheckEndpointPostProcessor;
 import com.hccake.ballcat.auth.CustomAccessTokenConverter;
 import com.hccake.ballcat.auth.CustomTokenEnhancer;
 import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
+import com.hccake.ballcat.auth.configurer.CustomAuthorizationServerConfigurer;
 import com.hccake.ballcat.auth.userdetails.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.auth.userdetails.UserInfoCoordinator;
-import com.hccake.ballcat.auth.configurer.CustomAuthorizationServerConfigurer;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.security.component.CustomRedisTokenStore;
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
@@ -101,6 +102,16 @@ public class AuthorizationAutoConfiguration {
 	@ConditionalOnMissingBean
 	public AuthenticationEntryPoint authenticationEntryPoint() {
 		return new CustomAuthenticationEntryPoint();
+	}
+
+	/**
+	 * 代理 CheckEndpoint，以便符合 OAuth2 规范
+	 * @return CheckEndpointPostProcessor
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public CheckEndpointPostProcessor checkEndpointPostProcessor() {
+		return new CheckEndpointPostProcessor();
 	}
 
 	/**
