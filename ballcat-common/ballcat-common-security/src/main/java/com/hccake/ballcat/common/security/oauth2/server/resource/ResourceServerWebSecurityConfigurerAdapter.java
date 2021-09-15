@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,9 +16,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.authentication.OpaqueTokenAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;
+
+import java.util.List;
 
 /**
  * 资源服务器的配置
@@ -30,7 +32,7 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 
 	private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
 
-	private final OpaqueTokenAuthenticationProvider opaqueTokenAuthenticationProvider;
+	private final List<AuthenticationProvider> authenticationProviders;
 
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
@@ -61,6 +63,11 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 			}
 		}
 
+		// 添加多种授权模式
+		for (AuthenticationProvider authenticationProvider : authenticationProviders) {
+			http.authenticationProvider(authenticationProvider);
+		}
+
 		// @formatter:off
         http
 			// 记住我
@@ -75,9 +82,6 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 
 			// 关闭 csrf 跨站攻击防护
 			.and().csrf().disable()
-
-			// 添加不透明令牌的 provider
-			.authenticationProvider(opaqueTokenAuthenticationProvider)
 
 			// 开启 OAuth2 资源服务
 			.oauth2ResourceServer().authenticationEntryPoint(authenticationEntryPoint)

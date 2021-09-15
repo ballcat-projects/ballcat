@@ -37,7 +37,7 @@ public class TokenGrantBuilder {
 	 * @param endpoints AuthorizationServerEndpointsConfigurer
 	 * @return List<TokenGranter>
 	 */
-	private List<TokenGranter> defaultTokenGranters(AuthorizationServerEndpointsConfigurer endpoints) {
+	protected List<TokenGranter> defaultTokenGranters(AuthorizationServerEndpointsConfigurer endpoints) {
 		ClientDetailsService clientDetailsService = endpoints.getClientDetailsService();
 		AuthorizationServerTokenServices tokenServices = endpoints.getTokenServices();
 		AuthorizationCodeServices authorizationCodeServices = endpoints.getAuthorizationCodeServices();
