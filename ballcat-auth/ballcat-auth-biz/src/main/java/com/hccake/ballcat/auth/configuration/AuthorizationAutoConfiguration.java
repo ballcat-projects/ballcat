@@ -1,5 +1,6 @@
 package com.hccake.ballcat.auth.configuration;
 
+import com.hccake.ballcat.auth.CustomAccessTokenConverter;
 import com.hccake.ballcat.auth.CustomTokenEnhancer;
 import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
 import com.hccake.ballcat.auth.userdetails.SysUserDetailsServiceImpl;
@@ -25,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -46,6 +48,16 @@ public class AuthorizationAutoConfiguration {
 	@ConditionalOnMissingBean
 	public TokenEnhancer tokenEnhancer() {
 		return new CustomTokenEnhancer();
+	}
+
+	/**
+	 * check_token 端点返回信息的处理类
+	 * @return AccessTokenConverter
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public AccessTokenConverter accessTokenConverter() {
+		return new CustomAccessTokenConverter();
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package com.hccake.ballcat.auth.configurer;
 
-import com.hccake.ballcat.auth.CustomAccessTokenConverter;
 import com.hccake.ballcat.auth.mobile.MobileTokenGranter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -44,7 +45,9 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 
 	private final TokenEnhancer tokenEnhancer;
 
-	private final WebResponseExceptionTranslator webResponseExceptionTranslator;
+	private final AccessTokenConverter accessTokenConverter;
+
+	private final WebResponseExceptionTranslator<OAuth2Exception> webResponseExceptionTranslator;
 
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
@@ -97,7 +100,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 
 	private TokenGranter tokenGranter(final AuthorizationServerEndpointsConfigurer endpoints) {
 		// 使用自定义的 TokenConverter，方便在 checkToken 时，返回更多的信息
-		endpoints.accessTokenConverter(new CustomAccessTokenConverter());
+		endpoints.accessTokenConverter(accessTokenConverter);
 		// 获取默认的granter集合
 		List<TokenGranter> granters = new ArrayList<>(Collections.singletonList(endpoints.getTokenGranter()));
 		granters.add(new MobileTokenGranter(authenticationManager, endpoints.getTokenServices(),
