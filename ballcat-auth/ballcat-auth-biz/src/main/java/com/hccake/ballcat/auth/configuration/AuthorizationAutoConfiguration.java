@@ -4,6 +4,7 @@ import com.hccake.ballcat.auth.CheckEndpointPostProcessor;
 import com.hccake.ballcat.auth.CustomAccessTokenConverter;
 import com.hccake.ballcat.auth.CustomTokenEnhancer;
 import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
+import com.hccake.ballcat.auth.authentication.TokenGrantBuilder;
 import com.hccake.ballcat.auth.configurer.CustomAuthorizationServerConfigurer;
 import com.hccake.ballcat.auth.userdetails.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.auth.userdetails.UserInfoCoordinator;
@@ -23,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
@@ -112,6 +114,17 @@ public class AuthorizationAutoConfiguration {
 	@ConditionalOnMissingBean
 	public CheckEndpointPostProcessor checkEndpointPostProcessor() {
 		return new CheckEndpointPostProcessor();
+	}
+
+	/**
+	 * 授权类型建造者，默认处理了 OAuth2 规范的 5 种授权类型，用户可自定义添加其他授权类型，如手机号登录
+	 * @param authenticationManager 认证管理器
+	 * @return TokenGrantBuilder
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public TokenGrantBuilder tokenGrantBuilder(AuthenticationManager authenticationManager) {
+		return new TokenGrantBuilder(authenticationManager);
 	}
 
 	/**
