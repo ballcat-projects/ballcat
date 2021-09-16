@@ -19,8 +19,10 @@ import net.sf.jsqlparser.statement.insert.Insert;
 import net.sf.jsqlparser.statement.select.*;
 import net.sf.jsqlparser.statement.update.Update;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 数据权限 sql 处理器 参考 mybatis-plus 租户拦截器，解析 sql where 部分，进行查询表达式注入
@@ -65,7 +67,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 		else if (selectBody instanceof WithItem) {
 			WithItem withItem = (WithItem) selectBody;
-			processSelectBody(withItem.getSelectBody());
+			processSelectBody(withItem.getSubSelect().getSelectBody());
 		}
 		else {
 			SetOperationList operationList = (SetOperationList) selectBody;
@@ -274,7 +276,10 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	protected void processJoin(Join join) {
 		if (join.getRightItem() instanceof Table) {
 			Table fromTable = (Table) join.getRightItem();
-			join.setOnExpression(injectExpression(join.getOnExpression(), fromTable));
+			Collection<Expression> originOnExpressions = join.getOnExpressions();
+			List<Expression> onExpressions = originOnExpressions.stream().map(x -> injectExpression(x, fromTable))
+					.collect(Collectors.toList());
+			join.setOnExpressions(onExpressions);
 		}
 	}
 

@@ -2,6 +2,7 @@ package com.hccake.extend.mybatis.plus.injector;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -17,8 +18,8 @@ public class CustomSqlInjector extends DefaultSqlInjector {
 	private final List<AbstractMethod> methods;
 
 	@Override
-	public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
-		List<AbstractMethod> list = super.getMethodList(mapperClass);
+	public List<AbstractMethod> getMethodList(Class<?> mapperClass, TableInfo tableInfo) {
+		List<AbstractMethod> list = super.getMethodList(mapperClass, tableInfo);
 		list.addAll(this.methods);
 		return list;
 	}

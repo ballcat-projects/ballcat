@@ -45,7 +45,7 @@ public interface SysMenuMapper extends ExtendMapper<SysMenu> {
 	 * @param id 权限ID
 	 * @return 下级权限总数
 	 */
-	default Integer countSubMenu(Serializable id) {
+	default Long countSubMenu(Serializable id) {
 		return this.selectCount(Wrappers.<SysMenu>query().lambda().eq(SysMenu::getParentId, id));
 	}
 

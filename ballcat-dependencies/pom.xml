@@ -50,9 +50,9 @@
 		<kafka.version>2.5.0</kafka.version>
 		<hutool.version>5.7.3</hutool.version>
 		<fastjson.version>1.2.76</fastjson.version>
-		<mybatis-plus.version>3.4.2</mybatis-plus.version>
-		<mybatis.version>3.5.6</mybatis.version>
-		<jsqlparser.version>4.0</jsqlparser.version>
+		<mybatis-plus.version>3.4.3.3</mybatis-plus.version>
+		<mybatis.version>3.5.7</mybatis.version>
+		<jsqlparser.version>4.2</jsqlparser.version>
 		<dynamic-datasource.version>3.3.2</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
 		<spring-boot-admin.version>2.4.2</spring-boot-admin.version>

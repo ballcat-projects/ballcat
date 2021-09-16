@@ -24,7 +24,7 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 				modelClass);
 
 		// === mybatis 主键逻辑处理：主键生成策略，以及主键回填=======
-		KeyGenerator keyGenerator = new NoKeyGenerator();
+		KeyGenerator keyGenerator = NoKeyGenerator.INSTANCE;
 		String keyColumn = null;
 		String keyProperty = null;
 		// 如果需要回填主键
@@ -32,7 +32,7 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 			// 表包含主键处理逻辑,如果不包含主键当普通字段处理
 			if (tableInfo.getIdType() == IdType.AUTO) {
 				/* 自增主键 */
-				keyGenerator = new Jdbc3KeyGenerator();
+				keyGenerator = Jdbc3KeyGenerator.INSTANCE;
 				keyProperty = getKeyProperty(tableInfo);
 				keyColumn = tableInfo.getKeyColumn();
 			}

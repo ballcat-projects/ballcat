@@ -53,7 +53,7 @@ public interface SysUserRoleMapper extends ExtendMapper<SysUserRole> {
 	 * @return 存在：true
 	 */
 	default boolean existsRoleBind(Integer userId, String roleCode) {
-		Integer num = this.selectCount(WrappersX.lambdaQueryX(SysUserRole.class).eq(SysUserRole::getUserId, userId)
+		Long num = this.selectCount(WrappersX.lambdaQueryX(SysUserRole.class).eq(SysUserRole::getUserId, userId)
 				.eqIfPresent(SysUserRole::getRoleCode, roleCode));
 		return SqlHelper.retBool(num);
 	}

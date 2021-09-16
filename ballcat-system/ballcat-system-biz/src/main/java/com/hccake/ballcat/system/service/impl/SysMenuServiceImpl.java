@@ -85,7 +85,7 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeById(Serializable id) {
 		// 查询当前权限是否有子权限
-		Integer subMenu = baseMapper.countSubMenu(id);
+		Long subMenu = baseMapper.countSubMenu(id);
 		if (subMenu != null && subMenu > 0) {
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "菜单含有下级不能删除");
 		}
