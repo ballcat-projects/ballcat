@@ -326,6 +326,7 @@
 						<version>${maven-javadoc-plugin.version}</version>
 						<configuration>
 							<doclint>none</doclint>
+							<additionalJOption>-J-Dfile.encoding=UTF-8</additionalJOption>
 						</configuration>
 						<executions>
 							<execution>
