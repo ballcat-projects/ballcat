@@ -6,18 +6,19 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import com.hccake.ballcat.system.model.entity.SysUser;
-import com.hccake.ballcat.system.model.qo.SysUserQO;
-import com.hccake.ballcat.system.model.vo.SysUserPageVO;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
+import com.hccake.ballcat.system.model.entity.SysUser;
+import com.hccake.ballcat.system.model.qo.SysUserQO;
+import com.hccake.ballcat.system.model.vo.SysUserPageVO;
 import com.hccake.extend.mybatis.plus.conditions.query.LambdaAliasQueryWrapperX;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -63,7 +64,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param status 状态
 	 * @return 是否更新成功
 	 */
-	default boolean updateUserStatusBatch(List<Integer> userIds, Integer status) {
+	default boolean updateUserStatusBatch(Collection<Integer> userIds, Integer status) {
 		int i = this.update(null,
 				Wrappers.lambdaUpdate(SysUser.class).set(SysUser::getStatus, status).in(SysUser::getUserId, userIds));
 		return SqlHelper.retBool(i);
@@ -95,7 +96,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param organizationIds 组织机构id集合
 	 * @return 用户集合
 	 */
-	default List<SysUser> listByOrganizationIds(List<Integer> organizationIds) {
+	default List<SysUser> listByOrganizationIds(Collection<Integer> organizationIds) {
 		return this.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getOrganizationId, organizationIds));
 	}
 
@@ -104,7 +105,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param userTypes 用户类型集合
 	 * @return 用户集合
 	 */
-	default List<SysUser> listByUserTypes(List<Integer> userTypes) {
+	default List<SysUser> listByUserTypes(Collection<Integer> userTypes) {
 		return this.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getType, userTypes));
 	}
 
@@ -113,7 +114,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param userIds 用户Id集合
 	 * @return 用户集合
 	 */
-	default List<SysUser> listByUserIds(List<Integer> userIds) {
+	default List<SysUser> listByUserIds(Collection<Integer> userIds) {
 		return this.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userIds));
 	}
 
@@ -122,13 +123,13 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param roleCodes 角色标识
 	 * @return List<SysUser> 该角色标识对应的用户列表
 	 */
-	List<SysUser> listByRoleCodes(@Param("roleCodes") List<String> roleCodes);
+	List<SysUser> listByRoleCodes(@Param("roleCodes") Collection<String> roleCodes);
 
 	/**
 	 * 返回用户的select数据 name=> username value => userId
 	 * @param userTypes 用户类型
 	 * @return List<SelectData>
 	 */
-	List<SelectData<?>> listSelectData(@Param("userTypes") List<Integer> userTypes);
+	List<SelectData<?>> listSelectData(@Param("userTypes") Collection<Integer> userTypes);
 
 }

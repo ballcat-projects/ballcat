@@ -225,7 +225,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 更新成功：true
 	 */
 	@Override
-	public boolean updateUserStatusBatch(List<Integer> userIds, Integer status) {
+	public boolean updateUserStatusBatch(Collection<Integer> userIds, Integer status) {
 
 		List<SysUser> userList = baseMapper.listByUserIds(userIds);
 		Assert.notEmpty(userList, "更新用户状态失败，待更新用户列表为空");
@@ -272,7 +272,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return List<SysUser>
 	 */
 	@Override
-	public List<SysUser> listByRoleCodes(List<String> roleCodes) {
+	public List<SysUser> listByRoleCodes(Collection<String> roleCodes) {
 		return baseMapper.listByRoleCodes(roleCodes);
 	}
 
@@ -282,7 +282,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 用户集合
 	 */
 	@Override
-	public List<SysUser> listByOrganizationIds(List<Integer> organizationIds) {
+	public List<SysUser> listByOrganizationIds(Collection<Integer> organizationIds) {
 		return baseMapper.listByOrganizationIds(organizationIds);
 	}
 
@@ -292,7 +292,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 用户集合
 	 */
 	@Override
-	public List<SysUser> listByUserTypes(List<Integer> userTypes) {
+	public List<SysUser> listByUserTypes(Collection<Integer> userTypes) {
 		return baseMapper.listByUserTypes(userTypes);
 	}
 
@@ -302,7 +302,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 用户集合
 	 */
 	@Override
-	public List<SysUser> listByUserIds(List<Integer> userIds) {
+	public List<SysUser> listByUserIds(Collection<Integer> userIds) {
 		return baseMapper.listByUserIds(userIds);
 
 	}
@@ -313,7 +313,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @param userTypes 用户类型
 	 */
 	@Override
-	public List<SelectData<?>> listSelectData(List<Integer> userTypes) {
+	public List<SelectData<?>> listSelectData(Collection<Integer> userTypes) {
 		return baseMapper.listSelectData(userTypes);
 	}
 

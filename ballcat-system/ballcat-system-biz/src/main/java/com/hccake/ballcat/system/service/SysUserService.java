@@ -13,6 +13,7 @@ import com.hccake.extend.mybatis.plus.service.ExtendService;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -88,7 +89,7 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param status 状态
 	 * @return boolean
 	 */
-	boolean updateUserStatusBatch(List<Integer> userIds, Integer status);
+	boolean updateUserStatusBatch(Collection<Integer> userIds, Integer status);
 
 	/**
 	 * 修改系统用户头像
@@ -111,35 +112,35 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param roleCodes 角色标识集合
 	 * @return List<SysUser> 用户集合
 	 */
-	List<SysUser> listByRoleCodes(List<String> roleCodes);
+	List<SysUser> listByRoleCodes(Collection<String> roleCodes);
 
 	/**
 	 * 根据组织机构ID查询用户
 	 * @param organizationIds 组织机构id集合
 	 * @return 用户集合
 	 */
-	List<SysUser> listByOrganizationIds(List<Integer> organizationIds);
+	List<SysUser> listByOrganizationIds(Collection<Integer> organizationIds);
 
 	/**
 	 * 根据用户类型查询用户
 	 * @param userTypes 用户类型集合
 	 * @return 用户集合
 	 */
-	List<SysUser> listByUserTypes(List<Integer> userTypes);
+	List<SysUser> listByUserTypes(Collection<Integer> userTypes);
 
 	/**
 	 * 根据用户Id集合查询用户
 	 * @param userIds 用户Id集合
 	 * @return 用户集合
 	 */
-	List<SysUser> listByUserIds(List<Integer> userIds);
+	List<SysUser> listByUserIds(Collection<Integer> userIds);
 
 	/**
 	 * 返回用户的select数据
 	 * @param type 为空时返回所有客户为1返回系统客户 name=> username value => userId
 	 * @return List<SelectData>
 	 */
-	List<SelectData<?>> listSelectData(List<Integer> type);
+	List<SelectData<?>> listSelectData(Collection<Integer> type);
 
 	/**
 	 * 获取用户的角色Code集合
