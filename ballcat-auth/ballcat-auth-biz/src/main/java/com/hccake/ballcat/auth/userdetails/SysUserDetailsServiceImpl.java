@@ -66,7 +66,7 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 
 		// 默认将角色和权限放入属性中
 		HashMap<String, Object> attributes = new HashMap<>(8);
-		attributes.put(UserAttributeNameConstants.ROLES, roleCodes);
+		attributes.put(UserAttributeNameConstants.ROLE_CODES, roleCodes);
 		attributes.put(UserAttributeNameConstants.PERMISSIONS, permissions);
 
 		// 用户额外属性

@@ -11,7 +11,7 @@ public final class UserAttributeNameConstants {
 	/**
 	 * 用户角色集合属性
 	 */
-	public static final String ROLES = "roles";
+	public static final String ROLE_CODES = "roleCodes";
 
 	/**
 	 * 用户权限集合属性

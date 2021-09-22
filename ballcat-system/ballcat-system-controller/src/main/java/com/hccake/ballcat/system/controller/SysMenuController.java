@@ -66,7 +66,7 @@ public class SysMenuController {
 		User user = SecurityUtils.getUser();
 		Map<String, Object> attributes = user.getAttributes();
 
-		Object rolesObject = attributes.get(UserAttributeNameConstants.ROLES);
+		Object rolesObject = attributes.get(UserAttributeNameConstants.ROLE_CODES);
 		if (!(rolesObject instanceof Collection)) {
 			return R.ok(new ArrayList<>());
 		}
