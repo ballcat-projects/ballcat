@@ -83,15 +83,22 @@ public class ExceptionAutoConfiguration {
 	}
 
 	/**
-	 * security 相关的异常处理
-	 * @return SecurityHandlerExceptionResolver
+	 * Security 异常处理，隔离出一个配置类
 	 */
-	@Bean
 	@ConditionalOnClass(AccessDeniedException.class)
-	@ConditionalOnMissingBean(SecurityHandlerExceptionResolver.class)
-	public SecurityHandlerExceptionResolver securityHandlerExceptionResolver(
-			GlobalExceptionHandler globalExceptionHandler) {
-		return new SecurityHandlerExceptionResolver(globalExceptionHandler);
+	static class SecurityExceptionConfiguration {
+
+		/**
+		 * security 相关的异常处理
+		 * @return SecurityHandlerExceptionResolver
+		 */
+		@Bean
+		@ConditionalOnMissingBean(SecurityHandlerExceptionResolver.class)
+		public SecurityHandlerExceptionResolver securityHandlerExceptionResolver(
+				GlobalExceptionHandler globalExceptionHandler) {
+			return new SecurityHandlerExceptionResolver(globalExceptionHandler);
+		}
+
 	}
 
 }
