@@ -5,7 +5,11 @@ import com.hccake.ballcat.common.datascope.holder.DataScopeHolder;
 import com.hccake.ballcat.common.datascope.parser.JsqlParserSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.expression.*;
+import net.sf.jsqlparser.expression.BinaryExpression;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.Function;
+import net.sf.jsqlparser.expression.NotExpression;
+import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.ExistsExpression;
@@ -16,13 +20,26 @@ import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.insert.Insert;
-import net.sf.jsqlparser.statement.select.*;
+import net.sf.jsqlparser.statement.select.FromItem;
+import net.sf.jsqlparser.statement.select.Join;
+import net.sf.jsqlparser.statement.select.LateralSubSelect;
+import net.sf.jsqlparser.statement.select.PlainSelect;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.SelectBody;
+import net.sf.jsqlparser.statement.select.SelectExpressionItem;
+import net.sf.jsqlparser.statement.select.SelectItem;
+import net.sf.jsqlparser.statement.select.SetOperationList;
+import net.sf.jsqlparser.statement.select.SubJoin;
+import net.sf.jsqlparser.statement.select.SubSelect;
+import net.sf.jsqlparser.statement.select.ValuesList;
+import net.sf.jsqlparser.statement.select.WithItem;
 import net.sf.jsqlparser.statement.update.Update;
 
 import java.util.Collection;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * 数据权限 sql 处理器 参考 mybatis-plus 租户拦截器，解析 sql where 部分，进行查询表达式注入
@@ -145,10 +162,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 		List<Join> joins = plainSelect.getJoins();
 		if (joins != null && !joins.isEmpty()) {
-			joins.forEach(j -> {
-				processJoin(j);
-				processFromItem(j.getRightItem());
-			});
+			processJoins(joins);
 		}
 	}
 
@@ -244,7 +258,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		if (fromItem instanceof SubJoin) {
 			SubJoin subJoin = (SubJoin) fromItem;
 			if (subJoin.getJoinList() != null) {
-				subJoin.getJoinList().forEach(this::processJoin);
+				processJoins(subJoin.getJoinList());
 			}
 			if (subJoin.getLeft() != null) {
 				processFromItem(subJoin.getLeft());
@@ -271,14 +285,58 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	}
 
 	/**
+	 * 处理 joins
+	 * @param joins join 集合
+	 */
+	private void processJoins(List<Join> joins) {
+		// 对于 on 表达式写在最后的 join，需要记录下前面多个 on 的表名
+		Deque<Table> tables = new LinkedList<>();
+		for (Join join : joins) {
+			// 处理 on 表达式
+			FromItem fromItem = join.getRightItem();
+			if (fromItem instanceof Table) {
+				Table fromTable = (Table) fromItem;
+				// 获取 join 尾缀的 on 表达式列表
+				Collection<Expression> originOnExpressions = join.getOnExpressions();
+				// 正常 join on 表达式只有一个，立刻处理
+				if (originOnExpressions.size() == 1) {
+					processJoin(join);
+					continue;
+				}
+				// 表名压栈
+				tables.push(fromTable);
+				// 尾缀多个 on 表达式的时候统一处理
+				if (originOnExpressions.size() > 1) {
+					Collection<Expression> onExpressions = new LinkedList<>();
+					for (Expression originOnExpression : originOnExpressions) {
+						Table currentTable = tables.poll();
+						if (currentTable == null) {
+							onExpressions.add(originOnExpression);
+						}
+						else {
+							onExpressions.add(injectExpression(originOnExpression, currentTable));
+						}
+					}
+					join.setOnExpressions(onExpressions);
+				}
+			}
+			else {
+				// 处理右边连接的子表达式
+				processFromItem(fromItem);
+			}
+		}
+	}
+
+	/**
 	 * 处理联接语句
 	 */
 	protected void processJoin(Join join) {
 		if (join.getRightItem() instanceof Table) {
 			Table fromTable = (Table) join.getRightItem();
+			// 走到这里说明 on 表达式肯定只有一个
 			Collection<Expression> originOnExpressions = join.getOnExpressions();
-			List<Expression> onExpressions = originOnExpressions.stream().map(x -> injectExpression(x, fromTable))
-					.collect(Collectors.toList());
+			List<Expression> onExpressions = new LinkedList<>();
+			onExpressions.add(injectExpression(originOnExpressions.iterator().next(), fromTable));
 			join.setOnExpressions(onExpressions);
 		}
 	}
