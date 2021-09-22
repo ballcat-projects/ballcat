@@ -6,7 +6,7 @@ import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
-import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
+import com.hccake.ballcat.common.security.constant.UserAttributeNameConstants;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.system.converter.SysMenuConverter;
@@ -23,10 +23,23 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -53,7 +66,7 @@ public class SysMenuController {
 		User user = SecurityUtils.getUser();
 		Map<String, Object> attributes = user.getAttributes();
 
-		Object rolesObject = attributes.get(TokenAttributeNameConstants.ROLES);
+		Object rolesObject = attributes.get(UserAttributeNameConstants.ROLES);
 		if (!(rolesObject instanceof Collection)) {
 			return R.ok(new ArrayList<>());
 		}

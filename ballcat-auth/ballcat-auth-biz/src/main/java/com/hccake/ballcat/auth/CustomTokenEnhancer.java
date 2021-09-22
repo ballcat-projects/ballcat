@@ -1,6 +1,7 @@
 package com.hccake.ballcat.auth;
 
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
+import com.hccake.ballcat.common.security.constant.UserAttributeNameConstants;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.system.model.vo.SysUserInfo;
 import org.springframework.security.core.Authentication;
@@ -45,9 +46,9 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 			// 默认在登陆时只把角色和权限的信息返回
 			Map<String, Object> resultAttributes = new HashMap<>(2);
 			Map<String, Object> attributes = user.getAttributes();
-			resultAttributes.put(TokenAttributeNameConstants.ROLES, attributes.get(TokenAttributeNameConstants.ROLES));
-			resultAttributes.put(TokenAttributeNameConstants.PERMISSIONS,
-					attributes.get(TokenAttributeNameConstants.PERMISSIONS));
+			resultAttributes.put(UserAttributeNameConstants.ROLES, attributes.get(UserAttributeNameConstants.ROLES));
+			resultAttributes.put(UserAttributeNameConstants.PERMISSIONS,
+					attributes.get(UserAttributeNameConstants.PERMISSIONS));
 			additionalInfo.put(TokenAttributeNameConstants.ATTRIBUTES, resultAttributes);
 
 			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);

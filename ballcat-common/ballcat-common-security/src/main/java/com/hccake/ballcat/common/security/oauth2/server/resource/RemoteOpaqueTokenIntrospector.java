@@ -17,6 +17,7 @@ package com.hccake.ballcat.common.security.oauth2.server.resource;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
+import com.hccake.ballcat.common.security.constant.UserInfoFiledNameConstants;
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.nimbusds.oauth2.sdk.ParseException;
@@ -281,24 +282,24 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 		JSONObject info = (JSONObject) responseBody.getOrDefault(TokenAttributeNameConstants.INFO, new JSONObject());
 
-		Number userIdNumber = info.getAsNumber(TokenAttributeNameConstants.INFO_USER_ID);
+		Number userIdNumber = info.getAsNumber(UserInfoFiledNameConstants.USER_ID);
 		if (userIdNumber != null) {
 			builder.userId(userIdNumber.intValue());
 		}
 
-		Number typeNumber = info.getAsNumber(TokenAttributeNameConstants.INFO_TYPE);
+		Number typeNumber = info.getAsNumber(UserInfoFiledNameConstants.TYPE);
 		if (typeNumber != null) {
 			builder.type(typeNumber.intValue());
 		}
 
-		Number organizationIdNumber = info.getAsNumber(TokenAttributeNameConstants.INFO_ORGANIZATION_ID);
+		Number organizationIdNumber = info.getAsNumber(UserInfoFiledNameConstants.ORGANIZATION_ID);
 		if (organizationIdNumber != null) {
 			builder.organizationId(organizationIdNumber.intValue());
 		}
 
-		builder.username(info.getAsString(TokenAttributeNameConstants.INFO_USERNAME))
-				.nickname(info.getAsString(TokenAttributeNameConstants.INFO_NICKNAME))
-				.avatar(info.getAsString(TokenAttributeNameConstants.INFO_AVATAR)).status(1);
+		builder.username(info.getAsString(UserInfoFiledNameConstants.USERNAME))
+				.nickname(info.getAsString(UserInfoFiledNameConstants.NICKNAME))
+				.avatar(info.getAsString(UserInfoFiledNameConstants.AVATAR)).status(1);
 
 		Object authoritiesJSONArray = responseBody.get("authorities");
 		if (authoritiesJSONArray != null) {
@@ -307,7 +308,7 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 			builder.authorities(authorities);
 		}
 
-		Object attribute = responseBody.get("attributes");
+		Object attribute = responseBody.get(TokenAttributeNameConstants.ATTRIBUTES);
 		if (attribute != null) {
 			claims.putAll((JSONObject) attribute);
 		}
