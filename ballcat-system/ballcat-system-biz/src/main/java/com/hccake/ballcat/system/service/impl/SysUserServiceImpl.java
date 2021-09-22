@@ -109,20 +109,25 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		}
 
 		// 设置角色标识
-		List<String> roles = new ArrayList<>();
+		Set<String> roleCodes = new HashSet<>();
 		for (SysRole role : roleList) {
-			roles.add(role.getCode());
+			roleCodes.add(role.getCode());
 		}
-		userInfoDTO.setRoles(roles);
+		userInfoDTO.setRoles(new HashSet<>(roleList));
+		userInfoDTO.setRoleCodes(roleCodes);
 
 		// 设置权限列表（permission）
 		Set<String> permissions = new HashSet<>();
-		for (String roleCode : roles) {
-			List<String> permissionList = sysMenuService.listByRoleCode(roleCode).stream().map(SysMenu::getPermission)
-					.filter(StrUtil::isNotEmpty).collect(Collectors.toList());
+		Set<SysMenu> menus = new HashSet<>();
+		for (String roleCode : roleCodes) {
+			List<SysMenu> sysMenuList = sysMenuService.listByRoleCode(roleCode);
+			menus.addAll(sysMenuList);
+			List<String> permissionList = sysMenuList.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
+					.collect(Collectors.toList());
 			permissions.addAll(permissionList);
 		}
-		userInfoDTO.setPermissions(new ArrayList<>(permissions));
+		userInfoDTO.setMenus(menus);
+		userInfoDTO.setPermissions(permissions);
 
 		return userInfoDTO;
 	}

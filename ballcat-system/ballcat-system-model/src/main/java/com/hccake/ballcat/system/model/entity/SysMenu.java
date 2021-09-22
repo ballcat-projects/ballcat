@@ -1,23 +1,32 @@
 package com.hccake.ballcat.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * 菜单权限
  *
  * @author hccake 2021-04-06 17:59:51
  */
-@Data
+@Getter
+@Setter
+@ToString
 @TableName("sys_menu")
 @ApiModel(value = "菜单权限")
 public class SysMenu {
-
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 菜单ID
@@ -120,5 +129,22 @@ public class SysMenu {
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	@ApiModelProperty(value = "更新时间")
 	private LocalDateTime updateTime;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		SysMenu sysMenu = (SysMenu) o;
+		return id.equals(sysMenu.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 
 }

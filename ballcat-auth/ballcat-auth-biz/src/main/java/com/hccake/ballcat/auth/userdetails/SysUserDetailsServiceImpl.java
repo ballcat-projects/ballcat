@@ -17,8 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author Hccake
@@ -52,13 +50,13 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails getUserDetailsByUserInfo(UserInfoDTO userInfoDTO) {
 
 		SysUser sysUser = userInfoDTO.getSysUser();
-		List<String> roles = userInfoDTO.getRoles();
-		List<String> permissions = userInfoDTO.getPermissions();
+		Collection<String> roleCodes = userInfoDTO.getRoleCodes();
+		Collection<String> permissions = userInfoDTO.getPermissions();
 
-		Set<String> dbAuthsSet = new HashSet<>();
-		if (CollectionUtil.isNotEmpty(roles)) {
+		Collection<String> dbAuthsSet = new HashSet<>();
+		if (CollectionUtil.isNotEmpty(roleCodes)) {
 			// 获取角色
-			dbAuthsSet.addAll(roles);
+			dbAuthsSet.addAll(roleCodes);
 			// 获取资源
 			dbAuthsSet.addAll(permissions);
 
@@ -68,11 +66,11 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 
 		// 默认将角色和权限放入属性中
 		HashMap<String, Object> attributes = new HashMap<>(8);
-		attributes.put(UserAttributeNameConstants.ROLES, new HashSet<>(roles));
-		attributes.put(UserAttributeNameConstants.PERMISSIONS, new HashSet<>(permissions));
+		attributes.put(UserAttributeNameConstants.ROLES, roleCodes);
+		attributes.put(UserAttributeNameConstants.PERMISSIONS, permissions);
 
 		// 用户额外属性
-		userInfoCoordinator.coordinateAttribute(sysUser, attributes);
+		userInfoCoordinator.coordinateAttribute(userInfoDTO, attributes);
 
 		return new User(sysUser.getUserId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(),
 				sysUser.getAvatar(), sysUser.getStatus(), sysUser.getOrganizationId(), sysUser.getType(), authorities,

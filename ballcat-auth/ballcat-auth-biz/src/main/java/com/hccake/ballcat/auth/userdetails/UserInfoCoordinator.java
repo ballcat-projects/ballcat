@@ -1,6 +1,6 @@
 package com.hccake.ballcat.auth.userdetails;
 
-import com.hccake.ballcat.system.model.entity.SysUser;
+import com.hccake.ballcat.system.model.dto.UserInfoDTO;
 
 import java.util.Map;
 
@@ -14,11 +14,11 @@ public class UserInfoCoordinator {
 
 	/**
 	 * 用户附属属性协调 对于不同类型的用户，可能在业务上需要获取到不同的用户属性 子类重写此方法，进行用户属性的增强
-	 * @param sysUser 系统用户
+	 * @param userInfoDTO 系统用户信息
 	 * @param attribute 用户属性，默认添加了 roles 和 permissions 属性
 	 * @return attribute
 	 */
-	public Map<String, Object> coordinateAttribute(SysUser sysUser, Map<String, Object> attribute) {
+	public Map<String, Object> coordinateAttribute(UserInfoDTO userInfoDTO, Map<String, Object> attribute) {
 		return attribute;
 	}
 

@@ -1,12 +1,20 @@
 package com.hccake.ballcat.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * 角色
@@ -14,7 +22,9 @@ import java.time.LocalDateTime;
  * @author ballcat code generator
  * @date 2019-10-14 17:42:23
  */
-@Data
+@Getter
+@Setter
+@ToString
 @TableName("sys_role")
 @ApiModel(value = "角色")
 public class SysRole {
@@ -63,5 +73,22 @@ public class SysRole {
 
 	@ApiModelProperty("数据权限：1全部，2本人，3本人及子部门，4本部门")
 	private Integer scopeType;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		SysRole sysRole = (SysRole) o;
+		return code.equals(sysRole.code);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(code);
+	}
 
 }
