@@ -50,7 +50,7 @@
 		<kafka.version>2.5.0</kafka.version>
 		<hutool.version>5.7.12</hutool.version>
 		<fastjson.version>1.2.76</fastjson.version>
-		<mybatis-plus.version>3.4.3.3</mybatis-plus.version>
+		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<mybatis.version>3.5.7</mybatis.version>
 		<jsqlparser.version>4.2</jsqlparser.version>
 		<dynamic-datasource.version>3.4.1</dynamic-datasource.version>
