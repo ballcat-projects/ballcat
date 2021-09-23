@@ -1,6 +1,7 @@
 package com.hccake.ballcat.system.event;
 
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationEvent;
  * @version 1.0
  */
 @Getter
+@ToString
 public class DictChangeEvent extends ApplicationEvent {
 
 	private final String dictCode;

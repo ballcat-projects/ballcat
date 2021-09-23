@@ -1,6 +1,7 @@
 package com.hccake.ballcat.system.event;
 
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.context.ApplicationEvent;
  * @author lingting 2021/3/25 17:18
  */
 @Getter
+@ToString
 public class LovChangeEvent extends ApplicationEvent {
 
 	private final String keyword;

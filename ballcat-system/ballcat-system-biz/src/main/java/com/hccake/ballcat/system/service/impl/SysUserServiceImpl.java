@@ -16,7 +16,8 @@ import com.hccake.ballcat.file.service.FileService;
 import com.hccake.ballcat.system.checker.AdminUserChecker;
 import com.hccake.ballcat.system.constant.SysUserConst;
 import com.hccake.ballcat.system.converter.SysUserConverter;
-import com.hccake.ballcat.system.event.UserChangeEvent;
+import com.hccake.ballcat.system.event.UserCreatedEvent;
+import com.hccake.ballcat.system.event.UserOrganizationChangeEvent;
 import com.hccake.ballcat.system.mapper.SysUserMapper;
 import com.hccake.ballcat.system.model.dto.SysUserDTO;
 import com.hccake.ballcat.system.model.dto.SysUserScope;
@@ -165,8 +166,8 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 			});
 		}
 
-		// 发布用户更新事件
-		publisher.publishEvent(new UserChangeEvent(sysUser));
+		// 发布用户创建事件
+		publisher.publishEvent(new UserCreatedEvent(sysUser, sysUserDto.getRoleCodes()));
 
 		return true;
 	}
@@ -177,10 +178,34 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 更新成功 true: 更新失败 false
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public boolean updateSysUser(SysUserDTO sysUserDTO) {
 		SysUser entity = SysUserConverter.INSTANCE.dtoToPo(sysUserDTO);
 		Assert.isTrue(adminUserChecker.hasModifyPermission(entity), "当前用户不允许修改!");
-		return SqlHelper.retBool(baseMapper.updateById(entity));
+
+		// 如果不更新组织，直接执行
+		Integer currentOrganizationId = entity.getOrganizationId();
+		if (currentOrganizationId == null) {
+			return SqlHelper.retBool(baseMapper.updateById(entity));
+		}
+
+		// 查询出当前库中用户
+		Integer userId = entity.getUserId();
+		SysUser oldUser = baseMapper.selectById(userId);
+		Assert.notNull(oldUser, "修改用户失败，当前用户不存在：{}", userId);
+
+		// 是否修改了组织
+		Integer originOrganizationId = oldUser.getOrganizationId();
+		boolean organizationIdModified = !currentOrganizationId.equals(originOrganizationId);
+		// 是否更改成功
+		boolean isUpdateSuccess = SqlHelper.retBool(baseMapper.updateById(entity));
+		// 如果修改了组织且修改成功，则发送用户组织更新事件
+		if (isUpdateSuccess && organizationIdModified) {
+			publisher
+					.publishEvent(new UserOrganizationChangeEvent(userId, originOrganizationId, currentOrganizationId));
+		}
+
+		return isUpdateSuccess;
 	}
 
 	/**
@@ -193,9 +218,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	@Transactional(rollbackFor = Exception.class)
 	public boolean updateUserScope(Integer userId, SysUserScope sysUserScope) {
 		// 更新用户角色关联关系
-		// TODO 在这里实现 自己业务 模块的权限控制
 		return sysUserRoleService.updateUserRoles(userId, sysUserScope.getRoleCodes());
-
 	}
 
 	/**
@@ -205,7 +228,6 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 */
 	@Override
 	public boolean deleteByUserId(Integer userId) {
-		// TODO 缓存控制
 		Assert.isFalse(adminUserChecker.isAdminUser(getById(userId)), "管理员不允许删除!");
 		return SqlHelper.retBool(baseMapper.deleteById(userId));
 	}
