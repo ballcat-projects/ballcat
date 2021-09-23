@@ -29,14 +29,17 @@ public class SysRolePageVO {
 	@ApiModelProperty(value = "角色标识")
 	private String code;
 
-	@ApiModelProperty(value = "角色备注")
-	private String note;
-
 	@ApiModelProperty("角色类型，1：系统角色 2：业务角色")
 	private Integer type;
 
-	@ApiModelProperty("数据权限：1全部，2本人，3本人及子部门，4本部门")
+	@ApiModelProperty("数据权限类型")
 	private Integer scopeType;
+
+	@ApiModelProperty("数据范围资源，当数据范围类型为自定义时使用")
+	private String scopeResources;
+
+	@ApiModelProperty(value = "角色备注")
+	private String note;
 
 	@ApiModelProperty(value = "创建时间")
 	private LocalDateTime createTime;

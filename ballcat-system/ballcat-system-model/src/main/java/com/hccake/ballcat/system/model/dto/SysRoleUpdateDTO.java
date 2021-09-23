@@ -32,4 +32,7 @@ public class SysRoleUpdateDTO {
 	@ApiModelProperty(value = "数据权限")
 	private Integer scopeType;
 
+	@ApiModelProperty("数据范围资源，当数据范围类型为自定义时使用")
+	private String scopeResources;
+
 }

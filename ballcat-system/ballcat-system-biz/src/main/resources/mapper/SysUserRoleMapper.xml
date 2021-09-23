@@ -4,7 +4,7 @@
 	<!-- 通过用户ID查询其关联的角色ID-->
 	<select id="listRoleByUserId" resultType="com.hccake.ballcat.system.model.entity.SysRole">
         SELECT
-            r.id, r.name, r.code
+            r.id, r.name, r.code, r.type, r.scope_type, r.scope_resources
         FROM
        		sys_user_role ur
 		left join

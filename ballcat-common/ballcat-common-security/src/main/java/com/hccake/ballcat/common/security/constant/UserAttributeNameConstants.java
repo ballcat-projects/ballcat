@@ -18,4 +18,9 @@ public final class UserAttributeNameConstants {
 	 */
 	public static final String PERMISSIONS = "permissions";
 
+	/**
+	 * 用户数据权限相关信息
+	 */
+	public static final String USER_DATA_SCOPE = "userDataScope";
+
 }
