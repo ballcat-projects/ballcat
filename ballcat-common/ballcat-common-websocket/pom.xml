@@ -16,10 +16,6 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-common-util</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-common-redis</artifactId>
-		</dependency>
 		<!-- slf4j日志 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -29,6 +25,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
 		</dependency>
-    </dependencies>
+		<!-- spring-data-redis 非必选依赖 -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 
 </project>

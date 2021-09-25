@@ -21,8 +21,9 @@
 			<artifactId>ballcat-common-websocket</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-spring-boot-starter-redis</artifactId>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -37,6 +38,6 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <scope>compile</scope>
         </dependency>
-    </dependencies>
+	</dependencies>
 
 </project>

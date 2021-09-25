@@ -41,4 +41,9 @@ public class WebSocketProperties {
 	 */
 	private boolean mapSession = true;
 
+	/**
+	 * 消息分发器：local | redis，默认 local, 如果自定义的话，可以配置为其他任意值
+	 */
+	private String messageDistributor = MessageDistributorTypeConstants.LOCAL;
+
 }

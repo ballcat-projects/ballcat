@@ -1,12 +1,10 @@
 package com.hccake.ballcat.common.websocket.distribute;
 
-import com.hccake.ballcat.common.redis.listener.MessageEventListener;
 import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.listener.ChannelTopic;
-import org.springframework.data.redis.listener.Topic;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
@@ -16,7 +14,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * @version 1.0
  */
 @RequiredArgsConstructor
-public class RedisWebsocketMessageListener implements MessageEventListener, MessageSender {
+public class RedisWebsocketMessageListener implements MessageListener, MessageSender {
 
 	public static final String CHANNEL = "websocket-send";
 
@@ -35,11 +33,6 @@ public class RedisWebsocketMessageListener implements MessageEventListener, Mess
 			MessageDO messageDO = JsonUtils.toObj(body, MessageDO.class);
 			doSend(messageDO);
 		}
-	}
-
-	@Override
-	public Topic topic() {
-		return new ChannelTopic(CHANNEL);
 	}
 
 }
