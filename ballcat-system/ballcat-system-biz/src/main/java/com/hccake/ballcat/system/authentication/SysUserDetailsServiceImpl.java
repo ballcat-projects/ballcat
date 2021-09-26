@@ -1,4 +1,4 @@
-package com.hccake.ballcat.auth.userdetails;
+package com.hccake.ballcat.system.authentication;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.security.constant.UserAttributeNameConstants;

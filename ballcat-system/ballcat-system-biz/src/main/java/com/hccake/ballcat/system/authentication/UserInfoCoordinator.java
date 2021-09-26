@@ -1,4 +1,4 @@
-package com.hccake.ballcat.auth.userdetails;
+package com.hccake.ballcat.system.authentication;
 
 import com.hccake.ballcat.system.model.dto.UserInfoDTO;
 

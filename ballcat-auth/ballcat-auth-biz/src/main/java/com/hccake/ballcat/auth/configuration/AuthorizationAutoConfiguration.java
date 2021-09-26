@@ -2,12 +2,9 @@ package com.hccake.ballcat.auth.configuration;
 
 import com.hccake.ballcat.auth.CheckEndpointPostProcessor;
 import com.hccake.ballcat.auth.CustomAccessTokenConverter;
-import com.hccake.ballcat.auth.CustomTokenEnhancer;
 import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
 import com.hccake.ballcat.auth.authentication.TokenGrantBuilder;
 import com.hccake.ballcat.auth.configurer.CustomAuthorizationServerConfigurer;
-import com.hccake.ballcat.auth.userdetails.SysUserDetailsServiceImpl;
-import com.hccake.ballcat.auth.userdetails.UserInfoCoordinator;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.security.component.CustomRedisTokenStore;
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
@@ -15,22 +12,17 @@ import com.hccake.ballcat.common.security.exception.CustomAuthenticationEntryPoi
 import com.hccake.ballcat.common.security.exception.CustomWebResponseExceptionTranslator;
 import com.hccake.ballcat.common.security.properties.SecurityProperties;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
-import com.hccake.ballcat.system.service.SysUserService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -42,16 +34,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 @Import({ CustomAuthorizationServerConfigurer.class, AuthorizationFilterConfiguration.class })
 @EnableConfigurationProperties({ SecurityProperties.class, OAuth2AuthorizationServerProperties.class })
 public class AuthorizationAutoConfiguration {
-
-	/**
-	 * token 增强，追加一些自定义信息
-	 * @return TokenEnhancer Token增强处理器
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public TokenEnhancer tokenEnhancer() {
-		return new CustomTokenEnhancer();
-	}
 
 	/**
 	 * check_token 端点返回信息的处理类
@@ -125,37 +107,6 @@ public class AuthorizationAutoConfiguration {
 	@ConditionalOnMissingBean
 	public TokenGrantBuilder tokenGrantBuilder(AuthenticationManager authenticationManager) {
 		return new TokenGrantBuilder(authenticationManager);
-	}
-
-	/**
-	 * 用户详情处理类
-	 */
-	@Configuration(proxyBeanMethods = false)
-	@ConditionalOnClass(SysUserService.class)
-	@ConditionalOnMissingBean(UserDetailsService.class)
-	static class UserDetailsServiceConfiguration {
-
-		/**
-		 * 用户详情处理类
-		 * @return SysUserDetailsServiceImpl
-		 */
-		@Bean
-		@ConditionalOnMissingBean
-		public UserDetailsService userDetailsService(SysUserService sysUserService,
-				UserInfoCoordinator userInfoCoordinator) {
-			return new SysUserDetailsServiceImpl(sysUserService, userInfoCoordinator);
-		}
-
-		/**
-		 * 用户信息协调者
-		 * @return UserInfoCoordinator
-		 */
-		@Bean
-		@ConditionalOnMissingBean
-		public UserInfoCoordinator userInfoCoordinator() {
-			return new UserInfoCoordinator();
-		}
-
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.auth;
+package com.hccake.ballcat.system.authentication;
 
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
 import com.hccake.ballcat.common.security.constant.UserAttributeNameConstants;
