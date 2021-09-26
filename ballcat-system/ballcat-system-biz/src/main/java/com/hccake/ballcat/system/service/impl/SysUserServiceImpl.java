@@ -354,4 +354,14 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		return sysUserRoleService.listRoles(userId).stream().map(SysRole::getCode).collect(Collectors.toList());
 	}
 
+	/**
+	 * 是否存在指定组织的用户
+	 * @param organizationId 组织 id
+	 * @return boolean 存在返回 true
+	 */
+	@Override
+	public boolean existsForOrganization(Integer organizationId) {
+		return baseMapper.existsForOrganization(organizationId);
+	}
+
 }

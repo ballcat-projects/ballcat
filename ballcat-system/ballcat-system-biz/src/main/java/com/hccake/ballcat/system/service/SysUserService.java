@@ -149,4 +149,11 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 */
 	List<String> listRoleCodes(Integer userId);
 
+	/**
+	 * 是否存在指定组织的用户
+	 * @param organizationId 组织 id
+	 * @return boolean 存在返回 true
+	 */
+	boolean existsForOrganization(Integer organizationId);
+
 }

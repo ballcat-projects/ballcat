@@ -38,4 +38,17 @@
 			(SELECT CONCAT( hierarchy, '-', #{organizationId} , '%') FROM sys_organization WHERE id = #{organizationId})
 	</select>
 
+
+	<select id="existsChildOrganization" resultType="Boolean">
+		SELECT
+		1
+		FROM
+		sys_organization
+		WHERE
+		hierarchy LIKE
+		(SELECT CONCAT( hierarchy, '-', #{organizationId} , '%') FROM sys_organization WHERE id = #{organizationId})
+		LIMIT 1
+	</select>
+
+
 </mapper>

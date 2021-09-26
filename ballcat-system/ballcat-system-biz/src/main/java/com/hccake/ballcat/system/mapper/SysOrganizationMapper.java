@@ -10,6 +10,7 @@ import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -63,5 +64,13 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 		this.update(null, wrapper);
 
 	}
+
+	/**
+	 * 检查指定机构下是否存在子机构
+	 * @param organizationId 机构id
+	 * @return 存在返回 true
+	 */
+	@Nullable
+	Boolean existsChildOrganization(Integer organizationId);
 
 }

@@ -1,6 +1,7 @@
 package com.hccake.ballcat.system.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -131,5 +132,17 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return List<SelectData>
 	 */
 	List<SelectData<?>> listSelectData(@Param("userTypes") Collection<Integer> userTypes);
+
+	/**
+	 * 是否存在指定组织的用户
+	 * @param organizationId 组织 id
+	 * @return boolean 存在返回 true
+	 */
+	default boolean existsForOrganization(Integer organizationId) {
+		LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getOrganizationId,
+				organizationId);
+		Long count = this.selectCount(wrapper);
+		return SqlHelper.retBool(count);
+	}
 
 }
