@@ -2,6 +2,7 @@ package com.hccake.ballcat.common.datascope.processor;
 
 import com.hccake.ballcat.common.datascope.DataScope;
 import com.hccake.ballcat.common.datascope.holder.DataScopeHolder;
+import com.hccake.ballcat.common.datascope.holder.DataScopeMatchNumHolder;
 import com.hccake.ballcat.common.datascope.parser.JsqlParserSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +35,14 @@ import net.sf.jsqlparser.statement.select.SubSelect;
 import net.sf.jsqlparser.statement.select.ValuesList;
 import net.sf.jsqlparser.statement.select.WithItem;
 import net.sf.jsqlparser.statement.update.Update;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 数据权限 sql 处理器 参考 mybatis-plus 租户拦截器，解析 sql where 部分，进行查询表达式注入
@@ -351,8 +354,18 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		// 获取表名
 		String tableName = getTableName(table.getName());
 
-		List<DataScope> dataScopes = DataScopeHolder.get();
-		Expression dataFilterExpression = dataScopes.stream().filter(x -> x.getTableNames().contains(tableName))
+		// 进行 dataScope 的表名匹配
+		List<DataScope> matchDataScopes = DataScopeHolder.get().stream()
+				.filter(x -> x.getTableNames().contains(tableName)).collect(Collectors.toList());
+		if (CollectionUtils.isEmpty(matchDataScopes)) {
+			return currentExpression;
+		}
+
+		// 匹配则计数
+		DataScopeMatchNumHolder.incrementMatchNum();
+
+		// 获取到数据权限过滤的表达式
+		Expression dataFilterExpression = matchDataScopes.stream()
 				.map(x -> x.getExpression(tableName, table.getAlias())).filter(Objects::nonNull)
 				.reduce(AndExpression::new).orElse(null);
 
