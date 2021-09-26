@@ -2,6 +2,7 @@ package com.hccake.ballcat.auth.configurer;
 
 import com.hccake.ballcat.auth.authentication.TokenGrantBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,8 +21,6 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.sql.DataSource;
-
 /**
  * @author Hccake
  * @version 1.0
@@ -30,15 +29,13 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class CustomAuthorizationServerConfigurer implements AuthorizationServerConfigurer {
 
-	private final AuthenticationManager authenticationManager;
+	private final OAuth2ClientConfigurer clientConfigurer;
 
-	private final DataSource dataSource;
+	private final AuthenticationManager authenticationManager;
 
 	private final TokenStore tokenStore;
 
 	private final UserDetailsService userDetailsService;
-
-	private final TokenEnhancer tokenEnhancer;
 
 	private final AccessTokenConverter accessTokenConverter;
 
@@ -47,6 +44,9 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
 	private final TokenGrantBuilder tokenGrantBuilder;
+
+	@Autowired(required = false)
+	private TokenEnhancer tokenEnhancer;
 
 	/**
 	 * 定义资源权限控制的配置
@@ -70,22 +70,18 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	 */
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		// 启用 jdbc 方式获取客户端配置信息
-		clients.jdbc(dataSource);
+		clientConfigurer.configure(clients);
 	}
 
 	/**
 	 * 授权服务的访问路径相关配置
 	 * @param endpoints AuthorizationServerEndpointsConfigurer
-	 * @throws Exception 异常
 	 */
 	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 		// @formatter:off
 		endpoints.tokenStore(tokenStore).userDetailsService(userDetailsService)
 				.authenticationManager(authenticationManager)
-				// 自定义token
-				.tokenEnhancer(tokenEnhancer)
 				// 强制刷新token时，重新生成refreshToken
 				.reuseRefreshTokens(false)
 				// 自定义的认证时异常转换
@@ -95,6 +91,11 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 				// 使用自定义的 TokenConverter，方便在 checkToken 时，返回更多的信息
 				.accessTokenConverter(accessTokenConverter);
 		// @formatter:on
+
+		// 自定义token
+		if (tokenEnhancer != null) {
+			endpoints.tokenEnhancer(tokenEnhancer);
+		}
 	}
 
 	/**
@@ -102,7 +103,10 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	 */
 	@Order(1)
 	@Configuration(proxyBeanMethods = false)
-	private class AuthorizeServerConfigurerAdapter extends WebSecurityConfigurerAdapter {
+	@RequiredArgsConstructor
+	static class AuthorizeServerConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+		private final AuthenticationManager authenticationManager;
 
 		private static final String AUTHORIZE_ENDPOINT_PATH = "/oauth/authorize";
 

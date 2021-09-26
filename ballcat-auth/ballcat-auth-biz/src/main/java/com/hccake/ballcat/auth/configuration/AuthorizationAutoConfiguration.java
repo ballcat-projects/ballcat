@@ -5,6 +5,8 @@ import com.hccake.ballcat.auth.CustomAccessTokenConverter;
 import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
 import com.hccake.ballcat.auth.authentication.TokenGrantBuilder;
 import com.hccake.ballcat.auth.configurer.CustomAuthorizationServerConfigurer;
+import com.hccake.ballcat.auth.configurer.JdbcOAuth2ClientConfigurer;
+import com.hccake.ballcat.auth.configurer.OAuth2ClientConfigurer;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.security.component.CustomRedisTokenStore;
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
@@ -25,6 +27,8 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
+
+import javax.sql.DataSource;
 
 /**
  * 授权服务器需要的一些 Bean 信息注册
@@ -107,6 +111,17 @@ public class AuthorizationAutoConfiguration {
 	@ConditionalOnMissingBean
 	public TokenGrantBuilder tokenGrantBuilder(AuthenticationManager authenticationManager) {
 		return new TokenGrantBuilder(authenticationManager);
+	}
+
+	/**
+	 * OAuth2 客户端配置类，默认使用 jdbc 从数据库获取 OAuth2 Client 信息
+	 * @param dataSource 数据源
+	 * @return JdbcOAuth2ClientConfigurer
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public OAuth2ClientConfigurer oAuth2ClientConfigurer(DataSource dataSource) {
+		return new JdbcOAuth2ClientConfigurer(dataSource);
 	}
 
 }
