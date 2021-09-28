@@ -207,8 +207,14 @@ ballcat-i18n.sql
 
 #### 代码下载
 
-```
+下载模板仓库 ballcat-boot 的代码，或者示例仓库 ballcat-sample 的代码
+
+```git
 git clone https://github.com/ballcat-projects/ballcat-boot.git
+```
+或者
+```
+git clone https://github.com/ballcat-projects/ballcat-samples.git
 ```
 
 #### 项目启动
