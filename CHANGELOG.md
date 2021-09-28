@@ -6,6 +6,79 @@
 
 - 全局数据校验支持
 
+
+
+## [0.4.0]
+
+### Warning
+
+- mybatis-plus 升级，其对应一些 count 方法，返回值修改为了 Long 类型，项目中有使用的地方需要对应修改
+- 默认登录时返回的 token 属性有所变更，原 roles 修改为 roleCodes，前端注意对应升级
+- websocket 默认使用 local 进行分发，这将导致集群状态下的数据推送异常，如需集群部署，请修改对应配置
+
+### Added
+
+- feat：**ballcat-auth** 授权服务器定制增强：
+  - 允许用户自定义 `AccessTokenConverter`，修改自省端点 `/check_token` 的返回值
+  - 允许用户定制授权处理器或者新增授权处理器，用户可以通过覆盖 `TokenGrantBuilder` 实现
+  - 允许用户添加自己的 `AuthenticationProvider` 方便处理自定义的 grant_type
+  - 添加 OAuth2ClientConfigurer 抽象接口，方便用户替换 ClientDetailsService 的配置方式
+  - 和 **ballcat-system** 模块解耦，方便复用 **ballcat-auth** 快速搭建一个授权服务器，例如 C 端用户 和 后台用户分离登陆系统，各搭建一套基于 OAuth2 的登录。
+  - 根据 OAuth2 规范，调整 check_token 端点响应，在 token 不正确时响应 200，响应体为 `{ active: false }`，而不是返回 400
+- feat：数据权限对于 jsqlparse 4.2 后，连表使用尾缀多个 OnExpression 方式的 SQL 解析支持
+- feat：角色添加 scopeResource 属性，以便支持自定义数据权限设置一些信息
+- feat：默认的 jackson 时间序列化添加了 `Instant` 类型支持，防止在使用时出现异常 InvalidDefinitionException: Java 8 date/time type `java.time.Instant` not supported by default
+
+
+
+### Changed
+
+- refactor：资源服务器对于客户端凭证生产的token 解析支持，对应的 userdetails 为 `ClientPrincipal`
+- refactor：授权服务器自省端点的 scope 属性响应调整，根据 OAuth2 自省端点协议，scope 应返回字符串，用空格间隔
+- bug：修复数据权限在表名使用 `` 转义字符时失效的问题
+- refactor：数据权限性能优化：对于无需数据权限控制的 sql 在解析一次后进行记录，后续不再进行解析处理
+- refactor：SelectData 试图对象中的 value 修改为 Object 类型，selected 和 disabled 修改为 Boolean 类型
+- refactor：系统用户相关的 service 和 mapper 层，修改使用 Collection 接收参数，方便使用
+- refactor：TokenAttributeNameConstants 常量类拆分
+- refactor：UserInfoDTO 属性调整，新增了 menus 用于存储用户拥有的菜单对象集合，修改 roles 属性用于存储用户拥有的角色对象集合，原 roles 属性修改为 roleCodes 存储角色标识集合
+- refactor：为避免歧义，登录和自省端点返回信息中的属性名称 roles 修改为 roleCodes
+- bug：修复使用 **ballcat-spring-boot-starter-web** 时，若没有引入 security 依赖则启动异常的问题
+- refactor： system 相关事件优化调整
+  1. 用户组织变动时发布 UserOrganizationChangeEvent 事件
+  2. 用户新建的事件由 UserChangeEvent 修改为 UserCreatedEvent
+  3. system 的 event 类从 biz 迁移到 model 模块中
+
+- refactor：**ballcat-spring-boot-starter-websocket** 与redis 解耦，将默认注册的消息分发器由 redis 改为 local，基于内存分发。可通过 ballcat.websocket.message-distributor 属性修改为 redis 或者 custom，值为 custom 表示，用户自己定制 MessageDistributor（如修改为使用 mq，可用性更高）
+
+  ```yaml
+  ballcat:
+  	websocket:
+  		# 默认为 local 仅支持单节点使用，redis 基于 PUB/SUB 消息订阅支持了集群下的消息推送问题
+  		message-distributor: redis # local | redis | custom
+  ```
+
+- refactor：**ballcat-spring-boot-starter-redis** 调整 AddMessageEventListenerToContainer 的注册方式，防止用户配置包扫描导致的加载顺序异常
+
+- refactor：有用户绑定组织时，不允许删除组织
+
+
+
+### Dependency
+
+- Bump spring-boot from 2.4.8 to 2.5.5
+- Bump lombok from 1.18.16 to 1.18.20
+- Bump mybatis-plus 3.4.4 to 3.4.3.4
+- Bump mybatis  3.5.6 to 3.5.7
+- Bump jsqlparser 4.0 to 4.2
+- Bump flatten-maven-plugin from 1.2.5 to 1.2.7
+- Bump spring-javaformat from 0.0.27 to 0.0.28
+- Bump hutool from 5.7.3 to 5.7.12
+- Bump spring-boot-admin from 2.4.2 to 2.5.1
+- Bump dynamic-datasource-spring-boot-starter from 3.3.2 to 3.4.1
+
+
+
+
 ## [0.3.0]
 
 ### Warning
@@ -14,23 +87,50 @@
 - 国际化重构，改动较大，注意对应代码调整。国际化使用文档参看：http://www.ballcat.cn/guide/feature/i18n.html
 - 由于 **ballcat-common-conf** 的删除，非 admin 服务中的 mybatis-plus 的相关配置，如分页插件，批量插入方法的注入，需要按需添加。
 - 操作日志优化，修改了 `OperationLogHandler` 的相关方法，如果有自定义 OperationLogHandler ，需要注意同步更新
+- 现在资源服务器默认关闭了表单登录功能，可通过配置开启表单登录并指定登录页地址
 
 
 
 ### Added
 
 - feat: 国际化功能的默认支持，新增 **ballcat-i18n** 相关模块，以便提供默认的业务国际化实现方式
+
 - feat: 登录用户名密码错误时的错误消息国际化处理
+
 - feat: **ballcat-common-redis** 针对 PUB/SUB 新增 `MessageEventListener` 接口，**ballcat-spring-boot-starter-redis**  中会自动注册所有实现 `MessageEventListener` 接口的监听器
+
 - feat:  **ballcat-common-redis** 中的 `@CacheDel` 注解，新增 multiDel 属性，方便批量删除缓存
+
 - feat: 新增 **ballcat-common-idempotent** 幂等模块
+
 - feat: 针对 hibernate-validation 校验的提示消息，支持使用 {}，占位替代 defaultMessage
+
 - feat:  **ballcat-common-core** 中默认新增了 `CreateGroup` 和 `UpdateGroup` 接口，方便分组校验使用
+
 - feat:  新增 **ballcat-spring-boot-starter-web** 模块，该模块基于 `spring-boot-starter-web`, 并使用 undertow 作为默认的嵌入式容器，且将 **ballcat-common-conf** 中对 web 应用的配置增强，如全局异常管理，以及 Sql 防注入处理，jackson 的默认配置等配置移动到此项目中
+
 - feat: **ballcat-extend-mybatis-plus** 模块中，为了支持连表查询的条件构建，新增 `OtherTableColumnAliasFunction` ，方便使用  `LambdaAliasQueryWrapperX` 进行关联表查询条件的构建
+
 - feat: **ballcat-spring-boot-starter-easyexcel** 支持导出时进行 Excel 头信息的国际化处理，使用 `{}` 进行占位表示，使用示例可参看 I18nData 的导出使用
+
 - feat: **ballcat-spring-boot-starter-swagger** 配置的扫描路径 `basePackage` ，支持使用 `,`  进行多包名的分割扫描
+
 - feat: **ballcat-spring-boot-starter-datascope** 中的数据权限控制注解 @DataPermission 扩展支持在 Mapper 之外使用，且支持方法嵌套调用时使用不同的 @DataPermission 环境
+
+- feat: **ballcat-common-security** 中资源服务器配置不再默认开启表单登录，新增两个配置属性用于开启并指定登录页地址：
+
+  ```yaml
+  ballcat:
+  	security:
+  		oauth2:
+  			resourceserver:
+  				# 是否开启表单登录，默认 false
+  				enable-form-login: true
+  				# 登录页地址，开启表单登录时生效，不配置则默认为 /login
+  				form-login-page: http://login-domin
+  ```
+
+
 
 
 

@@ -50,12 +50,7 @@ class SqlParseTest {
 		List<DataScope> dataScopes = new ArrayList<>();
 		dataScopes.add(dataScope);
 
-		DataPermissionHandler dataPermissionHandler = new DefaultDataPermissionHandler(dataScopes) {
-			@Override
-			public boolean ignorePermissionControl(String mappedStatementId) {
-				return false;
-			}
-		};
+		DataPermissionHandler dataPermissionHandler = new DefaultDataPermissionHandler(dataScopes);
 
 		DataScopeSqlProcessor dataScopeSqlProcessor = new DataScopeSqlProcessor();
 
