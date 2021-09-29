@@ -362,7 +362,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 
 		// 匹配则计数
-		DataScopeMatchNumHolder.incrementMatchNum();
+		DataScopeMatchNumHolder.incrementMatchNumIfPresent();
 
 		// 获取到数据权限过滤的表达式
 		Expression dataFilterExpression = matchDataScopes.stream()
