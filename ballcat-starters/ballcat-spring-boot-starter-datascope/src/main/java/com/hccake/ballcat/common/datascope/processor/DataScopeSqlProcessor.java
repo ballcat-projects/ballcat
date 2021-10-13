@@ -1,7 +1,6 @@
 package com.hccake.ballcat.common.datascope.processor;
 
 import com.hccake.ballcat.common.datascope.DataScope;
-import com.hccake.ballcat.common.datascope.holder.DataScopeHolder;
 import com.hccake.ballcat.common.datascope.holder.DataScopeMatchNumHolder;
 import com.hccake.ballcat.common.datascope.parser.JsqlParserSupport;
 import lombok.RequiredArgsConstructor;
@@ -408,6 +407,42 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 		columnBuilder.append(column);
 		return new Column(columnBuilder.toString());
+	}
+
+	/**
+	 * DataScope 持有者。 方便解析 SQL 时的参数透传
+	 *
+	 * @author hccake
+	 */
+	private static final class DataScopeHolder {
+
+		private DataScopeHolder() {
+		}
+
+		private static final ThreadLocal<List<DataScope>> DATA_SCOPES = new ThreadLocal<>();
+
+		/**
+		 * get dataScope
+		 * @return dataScopes
+		 */
+		public static List<DataScope> get() {
+			return DATA_SCOPES.get();
+		}
+
+		/**
+		 * 添加 dataScope
+		 */
+		public static void set(List<DataScope> dataScopes) {
+			DATA_SCOPES.set(dataScopes);
+		}
+
+		/**
+		 * 删除 dataScope
+		 */
+		public static void remove() {
+			DATA_SCOPES.remove();
+		}
+
 	}
 
 }
