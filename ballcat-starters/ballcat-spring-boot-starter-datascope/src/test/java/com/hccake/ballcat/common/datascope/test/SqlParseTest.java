@@ -1,8 +1,8 @@
 package com.hccake.ballcat.common.datascope.test;
 
 import com.hccake.ballcat.common.datascope.DataScope;
-import com.hccake.ballcat.common.datascope.handler.DefaultDataPermissionHandler;
 import com.hccake.ballcat.common.datascope.handler.DataPermissionHandler;
+import com.hccake.ballcat.common.datascope.handler.DefaultDataPermissionHandler;
 import com.hccake.ballcat.common.datascope.holder.DataScopeMatchNumHolder;
 import com.hccake.ballcat.common.datascope.processor.DataScopeSqlProcessor;
 import net.sf.jsqlparser.expression.Alias;
@@ -14,7 +14,11 @@ import net.sf.jsqlparser.schema.Column;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Hccake 2020/9/28
@@ -70,7 +74,7 @@ class SqlParseTest {
 				+ "from t_ORDER o left join t_order_info oi on o.order_id = oi.order_id "
 				+ "where oi.order_price > 100";
 
-		DataScopeMatchNumHolder.create();
+		DataScopeMatchNumHolder.initMatchNum();
 		try {
 			String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
 			System.out.println(parseSql);
@@ -90,7 +94,7 @@ class SqlParseTest {
 		String sql = "select o.order_id,o.order_name,oi.order_price "
 				+ "from t_ORDER_1 o left join t_order_info_1 oi on o.order_id = oi.order_id "
 				+ "where oi.order_price > 100";
-		DataScopeMatchNumHolder.create();
+		DataScopeMatchNumHolder.initMatchNum();
 		try {
 			String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
 			System.out.println(parseSql);

@@ -45,19 +45,20 @@ public class DataPermissionInterceptor implements Interceptor {
 		PluginUtils.MPBoundSql mpBs = mpSh.mPBoundSql();
 		String mappedStatementId = ms.getId();
 
-		// 根据用户权限判断是否需要拦截，例如管理员可以查看所有，则直接放行
-		if (dataPermissionHandler.ignorePermissionControl(mappedStatementId)) {
-			return invocation.proceed();
-		}
-
+		// 获取当前需要控制的 dataScope 集合
 		List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(mappedStatementId);
 		if (dataScopes == null || dataScopes.isEmpty()) {
 			return invocation.proceed();
 		}
 
+		// 根据用户权限判断是否需要拦截，例如管理员可以查看所有，则直接放行
+		if (dataPermissionHandler.ignorePermissionControl(dataScopes, mappedStatementId)) {
+			return invocation.proceed();
+		}
+
 		try {
 			// 创建 matchNumTreadLocal
-			DataScopeMatchNumHolder.create();
+			DataScopeMatchNumHolder.initMatchNum();
 			// 根据 DataScopes 进行数据权限的 sql 处理
 			if (sct == SqlCommandType.SELECT) {
 				mpBs.sql(dataScopeSqlProcessor.parserSingle(mpBs.sql(), dataScopes));
@@ -67,7 +68,7 @@ public class DataPermissionInterceptor implements Interceptor {
 			}
 			// 如果解析后发现当前 mappedStatementId 对应的 sql，没有任何数据权限匹配，则记录下来，后续可以直接跳过不解析
 			if (DataScopeMatchNumHolder.getMatchNum() == 0) {
-				MappedStatementIdsWithoutDataScope.addStatementId(mappedStatementId);
+				MappedStatementIdsWithoutDataScope.addToWithoutSet(dataScopes, mappedStatementId);
 			}
 		}
 		finally {

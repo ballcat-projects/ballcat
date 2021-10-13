@@ -74,12 +74,13 @@ public class DefaultDataPermissionHandler implements DataPermissionHandler {
 	 * </p>
 	 * 若当前的 mappedStatementId 存在于 <Code>MappedStatementIdsWithoutDataScope<Code/>
 	 * 中，则表示无需处理
+	 * @param dataScopeList 当前需要控制的 dataScope 集合
 	 * @param mappedStatementId Mapper方法ID
 	 * @return always false
 	 */
 	@Override
-	public boolean ignorePermissionControl(String mappedStatementId) {
-		return MappedStatementIdsWithoutDataScope.contains(mappedStatementId);
+	public boolean ignorePermissionControl(List<DataScope> dataScopeList, String mappedStatementId) {
+		return MappedStatementIdsWithoutDataScope.onAllWithoutSet(dataScopeList, mappedStatementId);
 	}
 
 }

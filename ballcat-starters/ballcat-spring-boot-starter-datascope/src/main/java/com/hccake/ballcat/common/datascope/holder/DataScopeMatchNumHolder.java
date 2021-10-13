@@ -13,13 +13,13 @@ public final class DataScopeMatchNumHolder {
 	private DataScopeMatchNumHolder() {
 	}
 
-	private static ThreadLocal<AtomicInteger> matchNumTreadLocal;
+	private static final ThreadLocal<AtomicInteger> matchNumTreadLocal = new ThreadLocal<>();
 
 	/**
-	 * 创建 SQL 数据权限匹配次数的 TreadLocal，每次 SQL 执行解析前创建
+	 * 每次 SQL 执行解析前初始化匹配次数为 0
 	 */
-	public static void create() {
-		matchNumTreadLocal = ThreadLocal.withInitial(AtomicInteger::new);
+	public static void initMatchNum() {
+		matchNumTreadLocal.set(new AtomicInteger());
 	}
 
 	/**
@@ -27,15 +27,14 @@ public final class DataScopeMatchNumHolder {
 	 * @return int 次数
 	 */
 	public static int getMatchNum() {
-		AtomicInteger matchNum = matchNumTreadLocal.get();
-		return matchNum.get();
+		return matchNumTreadLocal.get().get();
 	}
 
 	/**
 	 * 如果存在计数器，则次数 +1
 	 */
 	public static void incrementMatchNumIfPresent() {
-		Optional.ofNullable(matchNumTreadLocal).map(ThreadLocal::get).ifPresent(AtomicInteger::incrementAndGet);
+		Optional.ofNullable(matchNumTreadLocal.get()).ifPresent(AtomicInteger::incrementAndGet);
 	}
 
 	/**

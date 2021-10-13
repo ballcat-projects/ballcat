@@ -30,6 +30,6 @@ public interface DataPermissionHandler {
 	 * @return boolean true: 忽略，false: 进行权限控制
 	 * @param mappedStatementId Mapper方法ID
 	 */
-	boolean ignorePermissionControl(String mappedStatementId);
+	boolean ignorePermissionControl(List<DataScope> dataScopeList, String mappedStatementId);
 
 }
