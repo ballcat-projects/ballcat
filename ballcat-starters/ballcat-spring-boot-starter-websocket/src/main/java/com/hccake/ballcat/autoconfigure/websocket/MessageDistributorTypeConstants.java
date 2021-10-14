@@ -1,6 +1,8 @@
 package com.hccake.ballcat.autoconfigure.websocket;
 
 /**
+ * websocket 消息分发器类型常量类
+ *
  * @author hccake
  */
 public final class MessageDistributorTypeConstants {

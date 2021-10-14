@@ -6,7 +6,7 @@ package com.hccake.ballcat.common.websocket.distribute;
  * @author Hccake 2021/1/12
  * @version 1.0
  */
-public class LocalMessageDistributor implements MessageDistributor, MessageSender {
+public class LocalMessageDistributor implements MessageDistributor {
 
 	/**
 	 * 消息分发
