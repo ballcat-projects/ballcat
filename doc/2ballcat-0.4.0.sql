@@ -222,8 +222,8 @@ CREATE TABLE `sys_dict_item`  (
                                   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
                                   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                                   PRIMARY KEY (`id`) USING BTREE,
-                                  UNIQUE KEY `uqx_value_dict_code` (`value`,`dict_code`,`deleted`),
-                                  KEY `idx_dict_code` (`dict_code`) USING BTREE
+                                  UNIQUE INDEX `uqx_value_dict_code` (`value`,`dict_code`,`deleted`) USING BTREE,
+                                  INDEX `idx_dict_code` (`dict_code`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '字典项' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -423,7 +423,8 @@ CREATE TABLE `sys_role`  (
                              `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
                              `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
                              `type` tinyint(1) NULL DEFAULT 2 COMMENT '角色类型，1：系统角色 2：业务角色',
-                             `scope_type` tinyint(1) NULL DEFAULT NULL COMMENT '数据权限：1全部，2本人，3本人及子部门，4本部门',
+                             `scope_type` tinyint(1) NULL DEFAULT NULL COMMENT '数据范围类型',
+                             `scope_resources` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '数据范围资源，当数据范围类型为自定义时使用',
                              `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
                              `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间',
                              `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -435,10 +436,10 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, '管理员', 'ROLE_ADMIN', 1, NULL, '管理员', 0, '2017-10-29 15:45:51', '2021-03-11 17:54:44');
-INSERT INTO `sys_role` VALUES (2, '测试工程师', 'ROLE_TEST', 2, NULL, '测试工程师', 0, '2019-09-02 11:34:36', '2020-07-06 12:47:15');
-INSERT INTO `sys_role` VALUES (14, '销售主管', 'ROLE_SALES_EXECUTIVE', 2, NULL, '销售主管', 0, '2020-02-27 15:10:36', '2020-07-06 12:47:14');
-INSERT INTO `sys_role` VALUES (15, '销售专员', 'ROLE_SALESMAN', 2, NULL, '销售专员', 0, '2020-02-27 15:12:18', '2021-03-11 17:54:14');
+INSERT INTO `sys_role` VALUES (1, '管理员', 'ROLE_ADMIN', 1, 0, NULL, '管理员', 0, '2017-10-29 15:45:51', '2021-09-23 15:19:09');
+INSERT INTO `sys_role` VALUES (2, '测试工程师', 'ROLE_TEST', 2, 1, NULL, '测试工程师', 0, '2019-09-02 11:34:36', '2021-09-22 15:58:44');
+INSERT INTO `sys_role` VALUES (14, '销售主管', 'ROLE_SALES_EXECUTIVE', 2, 1, NULL, '销售主管', 0, '2020-02-27 15:10:36', '2021-09-23 15:20:58');
+INSERT INTO `sys_role` VALUES (15, '销售专员', 'ROLE_SALESMAN', 2, 1, NULL, '销售专员', 0, '2020-02-27 15:12:18', '2021-09-22 23:34:04');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -553,13 +554,14 @@ CREATE TABLE `sys_user`  (
                              `phone` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '电话',
                              `status` tinyint(1) NULL DEFAULT NULL COMMENT '状态(1-正常,0-冻结)',
                              `type` tinyint(1) NULL DEFAULT NULL COMMENT '账户类型',
-                             `organization_id` int(11) NULL DEFAULT 0 COMMENT '所属组织ID',
+                             `organization_id` int(11) NULL DEFAULT NULL COMMENT '所属组织ID',
                              `deleted` bigint(20) NULL DEFAULT NULL COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间',
                              `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
                              `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
                              PRIMARY KEY (`user_id`) USING BTREE,
                              UNIQUE INDEX `uk_username_deleted`(`username`, `deleted`) USING BTREE,
-                             INDEX `idx_status`(`status`) USING BTREE
+                             INDEX `idx_status`(`status`) USING BTREE,
+                             INDEX `idx_organizaiton_id`(`organization_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------

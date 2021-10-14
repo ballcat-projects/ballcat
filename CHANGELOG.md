@@ -15,6 +15,7 @@
 - mybatis-plus 升级，其对应一些 count 方法，返回值修改为了 Long 类型，项目中有使用的地方需要对应修改
 - 默认登录时返回的 token 属性有所变更，原 roles 修改为 roleCodes，前端注意对应升级
 - websocket 默认使用 local 进行分发，这将导致集群状态下的数据推送异常，如需集群部署，请修改对应配置
+- websocket 相关接口 MessageSender 移除，该接口并入 MessageDistributor ，注意修改对应依赖引入类型
 
 ### Added
 
@@ -34,21 +35,35 @@
 ### Changed
 
 - refactor：资源服务器对于客户端凭证生产的token 解析支持，对应的 userdetails 为 `ClientPrincipal`
+
 - refactor：授权服务器自省端点的 scope 属性响应调整，根据 OAuth2 自省端点协议，scope 应返回字符串，用空格间隔
-- bug：修复数据权限在表名使用 `` 转义字符时失效的问题
-- refactor：数据权限性能优化：对于无需数据权限控制的 sql 在解析一次后进行记录，后续不再进行解析处理
+
+- refactor：数据权限调整
+
+  - 问题修复： fix 数据权限在表名使用 `` 转义字符时失效的问题
+  - 性能优化：对于无需数据权限控制的 sql 在解析一次后进行记录，后续不再进行解析处理
+  - 结构调整：防止误用以及避免歧义，DataScopeHolder 修改为 DataScopeSqlProcessor 的私有内部类
+
 - refactor：SelectData 试图对象中的 value 修改为 Object 类型，selected 和 disabled 修改为 Boolean 类型
+
 - refactor：系统用户相关的 service 和 mapper 层，修改使用 Collection 接收参数，方便使用
+
 - refactor：TokenAttributeNameConstants 常量类拆分
+
 - refactor：UserInfoDTO 属性调整，新增了 menus 用于存储用户拥有的菜单对象集合，修改 roles 属性用于存储用户拥有的角色对象集合，原 roles 属性修改为 roleCodes 存储角色标识集合
+
 - refactor：为避免歧义，登录和自省端点返回信息中的属性名称 roles 修改为 roleCodes
+
 - bug：修复使用 **ballcat-spring-boot-starter-web** 时，若没有引入 security 依赖则启动异常的问题
+
 - refactor： system 相关事件优化调整
   1. 用户组织变动时发布 UserOrganizationChangeEvent 事件
   2. 用户新建的事件由 UserChangeEvent 修改为 UserCreatedEvent
   3. system 的 event 类从 biz 迁移到 model 模块中
 
-- refactor：**ballcat-spring-boot-starter-websocket** 与redis 解耦，将默认注册的消息分发器由 redis 改为 local，基于内存分发。可通过 ballcat.websocket.message-distributor 属性修改为 redis 或者 custom，值为 custom 表示，用户自己定制 MessageDistributor（如修改为使用 mq，可用性更高）
+- refactor：**ballcat-common-websocket** 移除 MessageSender 接口，将其并入消息分发器 MessageDistributor
+
+- refactor：**ballcat-spring-boot-starter-websocket** 与 redis 解耦，将默认注册的消息分发器由 redis 改为 local，基于内存分发。可通过 ballcat.websocket.message-distributor 属性修改为 redis 或者 custom，值为 custom 表示，用户自己定制 MessageDistributor（如修改为使用 mq，可用性更高）
 
   ```yaml
   ballcat:
