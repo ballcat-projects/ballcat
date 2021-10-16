@@ -36,7 +36,7 @@ public class I18nHeaderCellWriteHandler implements CellWriteHandler {
 
 	public I18nHeaderCellWriteHandler(MessageSource messageSource) {
 		this.messageSource = messageSource;
-		this.placeholderResolver = placeholderName -> messageSource.getMessage(placeholderName, null,
+		this.placeholderResolver = placeholderName -> this.messageSource.getMessage(placeholderName, null,
 				LocaleContextHolder.getLocale());
 	}
 
