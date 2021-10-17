@@ -175,4 +175,74 @@ public class TreeUtils {
 		}
 	}
 
+	/**
+	 * 将一颗树的所有节点平铺到一个 list 中
+	 * @param treeNode 树节点
+	 * @param <T> 树节点的类型
+	 * @return 所有树节点组成的列表
+	 */
+	public <T extends TreeNode<?>> List<T> treeToList(T treeNode) {
+		return treeToList(treeNode, Function.identity());
+	}
+
+	/**
+	 * 将一颗树的所有节点平铺到 list 中
+	 * @param treeNode 树节点
+	 * @param converter 转换器，用于将树节点的类型进行转换，再存储到 list 中
+	 * @param <T> 树节点类型
+	 * @param <R> 转换器转换后的类型
+	 * @return List<R>
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends TreeNode<?>, R> List<R> treeToList(T treeNode, Function<T, R> converter) {
+		List<R> list = new ArrayList<>();
+
+		// 使用队列存储未处理的树节点
+		Queue<T> queue = new LinkedList<>();
+		queue.add(treeNode);
+
+		while (!queue.isEmpty()) {
+			// 弹出一个树节点
+			T node = queue.poll();
+			if (node == null) {
+				continue;
+			}
+
+			// 如果当前节点的含有子节点，则添加到队列中
+			List<? extends TreeNode<?>> children = node.getChildren();
+			if (CollectionUtil.isNotEmpty(children)) {
+				queue.addAll((List<T>) children);
+			}
+
+			// 不再保留对子节点的引用
+			node.setChildren(null);
+			// 转换树节点，并将结果添加到 list 中
+			list.add(converter.apply(node));
+		}
+		return list;
+	}
+
+	/**
+	 * 将一组树的所有节点平铺到一个 list 中
+	 * @param treeNodes 树节点集合
+	 * @param <T> 树节点的类型
+	 * @return 所有树节点组成的列表
+	 */
+	public <T extends TreeNode<?>> List<T> treeToList(List<T> treeNodes) {
+		return treeToList(treeNodes, Function.identity());
+	}
+
+	/**
+	 * 将一组树的所有节点平铺到一个 list 中
+	 * @param treeNodes 树节点集合
+	 * @param converter 转换器，用于将树节点的类型进行转换，再存储到 list 中
+	 * @param <T> 树节点的类型
+	 * @param <R> 转换器转换后的类型
+	 * @return 所有树节点组成的列表
+	 */
+	public <T extends TreeNode<?>, R> List<R> treeToList(List<T> treeNodes, Function<T, R> converter) {
+		return treeNodes.stream().map(node -> treeToList(node, converter)).flatMap(Collection::stream)
+				.collect(Collectors.toList());
+	}
+
 }
