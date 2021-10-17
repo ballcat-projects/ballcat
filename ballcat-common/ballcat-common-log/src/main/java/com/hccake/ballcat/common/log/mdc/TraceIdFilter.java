@@ -21,8 +21,11 @@ public class TraceIdFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		MDC.put(LogConstant.TRACE_ID, IdUtil.objectId());
+		String traceId = IdUtil.objectId();
+		MDC.put(LogConstant.TRACE_ID, traceId);
 		try {
+			// 响应头中添加 traceId 参数，方便排查问题
+			response.setHeader(LogConstant.TRACE_ID, traceId);
 			filterChain.doFilter(request, response);
 		}
 		finally {
