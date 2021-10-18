@@ -1,6 +1,5 @@
 package com.hccake.ballcat.common.util;
 
-import cn.hutool.core.util.StrUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import javax.imageio.stream.ImageInputStream;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
+import org.springframework.util.StringUtils;
 
 /**
  * @author lingting 2021/7/22 13:44
@@ -141,7 +141,7 @@ public class ImageUtils {
 			}
 		}
 
-		if (StrUtil.isBlank(info.getType())) {
+		if (!StringUtils.hasText(info.getType())) {
 			int r4 = stream.read();
 			final boolean isTiff = (r1 == 'M' && r2 == 'M' && r3 == 0 && r4 == 42)
 					|| (r1 == 'I' && r2 == 'I' && r3 == 42 && r4 == 0);
@@ -153,7 +153,7 @@ public class ImageUtils {
 		}
 
 		stream.close();
-		if (StrUtil.isBlank(info.getType())) {
+		if (!StringUtils.hasText(info.getType())) {
 			info.getStream().close();
 			throw new IOException("未知图片类型");
 		}
@@ -196,12 +196,34 @@ public class ImageUtils {
 			throw e;
 		}
 
-		if (StrUtil.isBlank(info.getType())) {
+		if (!StringUtils.hasText(info.getType())) {
 			info.getStream().close();
 			throw new IOException("未知图片类型");
 		}
 
 		return info;
+	}
+
+	/**
+	 * <h1>混合解析, 先进去快速解析, 无结果再进行直接解析</h1>
+	 * <h1>解析图片 - 此方法有可能会把图片直接载入内存, 谨慎处理大图片</h1>
+	 * <p>
+	 * 本方法会多次克隆传入的流, 并返回一个指针在起始位置的流对象
+	 * </p>
+	 * @param stream 流
+	 * @return com.cloud.core.util.ImageUtils.ImageInfo
+	 * @author lingting 2021-07-22 16:09
+	 */
+	public ImageInfo mixResolveClone(InputStream stream) throws IOException {
+		InputStream[] streams = StreamUtils.clone(stream, 2);
+
+		try {
+			return quickResolveClone(streams[0]);
+		}
+		catch (Exception e) {
+			return resolveClone(streams[1]);
+		}
+
 	}
 
 	@Getter
