@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -60,6 +61,23 @@ public class StreamUtils {
 			stringBuilder.append(line);
 		}
 		return stringBuilder.toString();
+	}
+
+	/**
+	 * 将输入流内容写入输出流
+	 * @param inputStream 输入流
+	 * @param outputStream 输出流
+	 * @author lingting 2021-10-19 22:41
+	 */
+	public static void inputToOutput(InputStream inputStream, OutputStream outputStream) throws IOException {
+		int read = 0;
+		byte[] bytes = new byte[1024 * 1024];
+
+		while ((read = inputStream.read(bytes)) > 0) {
+			byte[] readBytes = new byte[read];
+			System.arraycopy(bytes, 0, readBytes, 0, read);
+			outputStream.write(readBytes);
+		}
 	}
 
 	/**
