@@ -68,7 +68,7 @@ public class FtpClient {
 	 */
 	public String getWholePath(String relativePath) {
 		if (relativePath.startsWith(SLASH)) {
-			return getRoot() + relativePath.substring(0);
+			return getRoot() + relativePath.substring(1);
 		}
 		return getRoot() + relativePath;
 	}
