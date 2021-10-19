@@ -28,10 +28,14 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-extend-mybatis-plus</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-spring-boot-starter-oss</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-spring-boot-starter-oss</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-spring-boot-starter-file</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>
