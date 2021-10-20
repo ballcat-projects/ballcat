@@ -1,6 +1,8 @@
 package com.hccake.starter.file;
 
 import com.hccake.ballcat.common.util.StreamUtils;
+import com.hccake.starter.file.local.FileLocalClient;
+import com.hccake.starter.file.local.FileLocalException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,16 +15,15 @@ import org.springframework.util.Assert;
  */
 class FileTest {
 
-	private static FileClient client;
+	private static FileLocalClient client;
 
 	private static final File OPERATE_FILE = new File(
 			"C:\\Users\\lingting\\Documents\\Code\\React\\ballcat-ui-react\\package.json");
 
 	@BeforeAll
-	static void init() throws FileException {
-		final FileProperties properties = new FileProperties();
-		properties.setPath("");
-		client = new FileClient(properties);
+	static void init() throws FileLocalException {
+		final FileProperties.LocalProperties localProperties = new FileProperties.LocalProperties();
+		client = new FileLocalClient(localProperties);
 	}
 
 	@Test

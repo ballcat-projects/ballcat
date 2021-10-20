@@ -32,5 +32,10 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<scope>compile</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+		</dependency>
 	</dependencies>
 </project>
