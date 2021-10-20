@@ -1,27 +1,25 @@
 package com.hccake.ballcat.file.service;
 
 import com.hccake.ballcat.common.oss.OssClient;
-import com.hccake.ballcat.common.util.SpringUtils;
 import com.hccake.starter.file.FileClient;
 import java.io.InputStream;
 import lombok.SneakyThrows;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
  * @author lingting 2021/5/27 11:14
  */
 @Component
-@DependsOn("springUtils")
 public class FileService {
 
 	private OssClient ossClient;
 
 	private final FileClient fileClient;
 
-	public FileService() {
+	public FileService(ApplicationContext context) {
 		try {
-			ossClient = SpringUtils.getBean(OssClient.class);
+			ossClient = context.getBean(OssClient.class);
 		}
 		catch (Exception ignore) {
 			ossClient = null;
@@ -29,7 +27,7 @@ public class FileService {
 
 		// oss 为空或者未配置
 		if (ossClient == null || !ossClient.isEnable()) {
-			fileClient = SpringUtils.getBean(FileClient.class);
+			fileClient = context.getBean(FileClient.class);
 		}
 		else {
 			fileClient = null;

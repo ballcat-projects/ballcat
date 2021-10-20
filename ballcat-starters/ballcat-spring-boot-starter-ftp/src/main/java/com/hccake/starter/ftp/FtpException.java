@@ -4,6 +4,7 @@ import java.io.IOException;
 
 /**
  * ftp 异常
+ *
  * @author lingting 2021/10/18 16:43
  */
 public class FtpException extends IOException {
