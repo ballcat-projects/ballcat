@@ -30,7 +30,6 @@
         <module>ballcat-spring-boot-starter-xss</module>
 		<module>ballcat-spring-boot-starter-i18n</module>
         <module>ballcat-spring-boot-starter-file</module>
-		<module>ballcat-spring-boot-starter-ftp</module>
 	</modules>
 
 </project>

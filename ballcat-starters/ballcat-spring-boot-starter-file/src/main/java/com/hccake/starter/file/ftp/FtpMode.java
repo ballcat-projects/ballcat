@@ -1,4 +1,4 @@
-package com.hccake.starter.ftp;
+package com.hccake.starter.file.ftp;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
