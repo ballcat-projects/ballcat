@@ -4,6 +4,9 @@
 
 ![](https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-doc.png)
 
+> :tada::tada::tada: 基于 React 和 Ant Design 版本的前端 **ballcat-ui-react** 已发布，欢迎大家尝鲜使用
+
+
 **BallCat** 组织旨在为项目快速开发提供一系列的基础能力，方便使用者根据项目需求快速进行功能拓展。
 
 在以前使用其他后台管理脚手架进行开发时，经常会遇到因为项目业务原因需要进行二开的问题，在长期的开发后，一旦源项目进行迭代升级，很难进行同步更新。
@@ -30,19 +33,21 @@
 
 - **后端** ：Spring Boot、Spring Security、Spring Security OAuth2、Mybatis Plus、Hutool
 
-- **前端** ：Vue、Vue Router、Vuex、Axios、Ant Design Vue（前端对应的 react 版本已经在开发中，Vue3 版本也是未来肯定要支持的）
-
+- **前端** ：
+    - Vue、Vue Router、Vuex、Axios、Ant Design Vue（目前基于 Vue2，Vue3 版本将会跟随 AntDesignVue 3.x 一起上线）
+    - React、Ant Design、Umi、TypeScript
 
 
 ## 相关仓库
 
-| 项目            | 简介             | gitee 地址                                         | github 地址                                         |
-| --------------- | ---------------- | -------------------------------------------------- | --------------------------------------------------- |
-| ballcat         | 核心项目组件     | https://gitee.com/ballcat-projects/ballcat         | https://github.com/ballcat-projects/ballcat         |
-| ballcat-ui-vue  | 管理后台前端     | https://gitee.com/ballcat-projects/ballcat-ui-vue  | https://github.com/ballcat-projects/ballcat-ui-vue  |
-| ballcat-codegen | 代码生成器       | https://gitee.com/ballcat-projects/ballcat-codegen | https://github.com/ballcat-projects/ballcat-codegen |
-| ballcat-samples | 使用示例         | https://gitee.com/ballcat-projects/ballcat-samples | https://github.com/ballcat-projects/ballcat-samples |
-| ballcat-boot    | 单体应用模板项目 | https://gitee.com/ballcat-projects/ballcat-boot    | https://github.com/ballcat-projects/ballcat-boot    |
+| 项目             | 简介             | gitee 地址                                          | github 地址                                          |
+| ---------------- | ---------------- | --------------------------------------------------- | ---------------------------------------------------- |
+| ballcat          | 核心项目组件     | https://gitee.com/ballcat-projects/ballcat          | https://github.com/ballcat-projects/ballcat          |
+| ballcat-ui-vue   | 管理后台前端     | https://gitee.com/ballcat-projects/ballcat-ui-vue   | https://github.com/ballcat-projects/ballcat-ui-vue   |
+| ballcat-ui-react | 管理后台前端     | https://gitee.com/ballcat-projects/ballcat-ui-react | https://github.com/ballcat-projects/ballcat-ui-react |
+| ballcat-codegen  | 代码生成器       | https://gitee.com/ballcat-projects/ballcat-codegen  | https://github.com/ballcat-projects/ballcat-codegen  |
+| ballcat-samples  | 使用示例         | https://gitee.com/ballcat-projects/ballcat-samples  | https://github.com/ballcat-projects/ballcat-samples  |
+| ballcat-boot     | 单体应用模板项目 | https://gitee.com/ballcat-projects/ballcat-boot     | https://github.com/ballcat-projects/ballcat-boot     |
 
 > 注意 ballcat 是核心组件仓库，如果需要启动后端服务，请使用 ballcat-boot
 
@@ -269,6 +274,6 @@ npm run serve
 
 如果群二维码失效，可以扫右边我的个人微信二维码，或者添加我的微信号 `Hccake_`，我再邀请你入群
 
-<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_20211024.png" alt="微信" width="35%"/>
+<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_20211021.png" alt="微信" width="35%"/>
 
 <img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/wechat-hccake.jpg" alt="微信" width="35%"/>
