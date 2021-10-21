@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
 /**
  * @author lingting 2021/10/17 20:11
  */
-public class FtpClient implements FileClient {
+public class FtpFileClient implements FileClient {
 
 	public static final String SLASH = "/";
 
@@ -24,7 +24,7 @@ public class FtpClient implements FileClient {
 
 	private final FTPClient client;
 
-	public FtpClient(FtpProperties properties) throws IOException {
+	public FtpFileClient(FtpProperties properties) throws IOException {
 		this.properties = properties;
 		client = new FTPClient();
 		final FtpMode mode = properties.getMode();
@@ -37,14 +37,14 @@ public class FtpClient implements FileClient {
 		client.connect(properties.getIp(), properties.getPort());
 		int replyCode = client.getReplyCode();
 		if (!FTPReply.isPositiveCompletion(replyCode)) {
-			throw new FileFtpException("ftp连接失败! 错误代码: " + replyCode);
+			throw new FtpFileException("ftp连接失败! 错误代码: " + replyCode);
 		}
 
 		client.login(properties.getUsername(), properties.getPassword());
 
 		replyCode = client.getReplyCode();
 		if (!FTPReply.isPositiveCompletion(replyCode)) {
-			throw new FileFtpException("ftp登录失败! 错误代码: " + replyCode);
+			throw new FtpFileException("ftp登录失败! 错误代码: " + replyCode);
 		}
 
 		if (!StringUtils.hasText(properties.getPath())) {
@@ -90,7 +90,7 @@ public class FtpClient implements FileClient {
 
 		// 上传失败
 		if (!client.storeFile(path, stream)) {
-			throw new FileFtpException(
+			throw new FtpFileException(
 					String.format("文件上传失败! 相对路径: %s; 根路径: %s; 请检查此路径是否存在以及登录用户是否拥有操作权限!", relativePath, path));
 		}
 		return path;
@@ -109,12 +109,12 @@ public class FtpClient implements FileClient {
 		final File tmpFile = FileUtils.getTemplateFile("ftpDownload");
 		// 创建文件
 		if (!tmpFile.createNewFile()) {
-			throw new FileFtpException("文件下载失败! 临时文件生成失败!");
+			throw new FtpFileException("文件下载失败! 临时文件生成失败!");
 		}
 		// 输出流
 		try (FileOutputStream outputStream = new FileOutputStream(tmpFile)) {
 			if (!client.retrieveFile(path, outputStream)) {
-				throw new FileFtpException("文件下载失败! path: " + relativePath);
+				throw new FtpFileException("文件下载失败! path: " + relativePath);
 			}
 		}
 		return tmpFile;

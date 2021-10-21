@@ -8,8 +8,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author lingting 2021/10/17 19:37
  */
 @Data
-@ConfigurationProperties(prefix = "ballcat.file")
+@ConfigurationProperties(prefix = FileProperties.PREFIX)
 public class FileProperties {
+
+	public static final String PREFIX = "ballcat.file";
+
+	public static final String PREFIX_FTP = PREFIX + ".ftp";
+
+	public static final String PREFIX_LOCAL = PREFIX + ".local";
 
 	private LocalProperties local;
 

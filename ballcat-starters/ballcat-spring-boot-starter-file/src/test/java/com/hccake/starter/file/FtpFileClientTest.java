@@ -2,21 +2,22 @@ package com.hccake.starter.file;
 
 import com.hccake.ballcat.common.util.StreamUtils;
 import com.hccake.starter.file.FileProperties.FtpProperties;
-import com.hccake.starter.file.ftp.FtpClient;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Objects;
+import com.hccake.starter.file.ftp.FtpFileClient;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Objects;
+
 /**
  * @author lingting 2021/10/18 17:16
  */
-class FtpClientTest {
+class FtpFileClientTest {
 
-	private static FtpClient client;
+	private static FtpFileClient client;
 
 	private static final File OPERATE_FILE = new File(
 			"C:\\Users\\lingting\\Documents\\Code\\React\\ballcat-ui-react\\package.json");
@@ -28,7 +29,7 @@ class FtpClientTest {
 
 		properties.setUsername("user");
 		properties.setPassword("userpwd");
-		client = new FtpClient(properties);
+		client = new FtpFileClient(properties);
 	}
 
 	@Test

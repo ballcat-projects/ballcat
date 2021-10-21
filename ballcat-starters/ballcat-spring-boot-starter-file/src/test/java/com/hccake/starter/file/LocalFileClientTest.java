@@ -1,29 +1,30 @@
 package com.hccake.starter.file;
 
 import com.hccake.ballcat.common.util.StreamUtils;
-import com.hccake.starter.file.local.FileLocalClient;
-import com.hccake.starter.file.local.FileLocalException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import com.hccake.starter.file.local.LocalFileClient;
+import com.hccake.starter.file.local.LocalFileException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 /**
  * @author lingting 2021/10/19 22:49
  */
-class FileTest {
+class LocalFileClientTest {
 
-	private static FileLocalClient client;
+	private static LocalFileClient client;
 
 	private static final File OPERATE_FILE = new File(
 			"C:\\Users\\lingting\\Documents\\Code\\React\\ballcat-ui-react\\package.json");
 
 	@BeforeAll
-	static void init() throws FileLocalException {
+	static void init() throws LocalFileException {
 		final FileProperties.LocalProperties localProperties = new FileProperties.LocalProperties();
-		client = new FileLocalClient(localProperties);
+		client = new LocalFileClient(localProperties);
 	}
 
 	@Test
