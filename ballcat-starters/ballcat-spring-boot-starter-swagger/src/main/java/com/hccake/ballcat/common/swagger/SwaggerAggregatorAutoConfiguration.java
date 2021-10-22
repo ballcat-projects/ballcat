@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.swagger;
 
 import com.hccake.ballcat.common.swagger.property.SwaggerAggregatorProperties;
+import com.hccake.ballcat.common.swagger.property.SwaggerProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,7 +22,7 @@ import java.util.List;
  * @date 2019/11/1 20:03
  */
 @Import(SwaggerConfiguration.class)
-@ConditionalOnProperty(name = "ballcat.swagger.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = SwaggerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerAggregatorAutoConfiguration {
 
 	@Bean
@@ -32,8 +33,8 @@ public class SwaggerAggregatorAutoConfiguration {
 
 	/**
 	 * 聚合文档
-	 * @param defaultResourcesProvider
-	 * @return
+	 * @param defaultResourcesProvider 本地内存的资源提供者
+	 * @return SwaggerResourcesProvider
 	 */
 	@Primary
 	@Bean

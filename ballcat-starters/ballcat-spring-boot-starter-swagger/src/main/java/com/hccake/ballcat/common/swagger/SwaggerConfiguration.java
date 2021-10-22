@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -19,7 +17,6 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @date 2019/11/1 19:43
  */
 @RequiredArgsConstructor
-@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(SwaggerProperties.class)
 public class SwaggerConfiguration {
 
@@ -36,7 +33,8 @@ public class SwaggerConfiguration {
 		Docket docket = new Docket(swaggerProperties.getDocumentationType().getType())
 				.host(swaggerProperties.getHost())
 				.apiInfo(helper.apiInfo())
-				.groupName(swaggerProperties.getGroupName());
+				.groupName(swaggerProperties.getGroupName())
+				.enable(swaggerProperties.getEnabled());
 
 		// 2. 安全配置
 		docket.securitySchemes(helper.securitySchema())

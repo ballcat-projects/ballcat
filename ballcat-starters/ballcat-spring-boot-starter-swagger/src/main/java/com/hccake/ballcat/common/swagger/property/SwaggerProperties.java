@@ -12,8 +12,10 @@ import java.util.List;
  * @date 2019/11/1 19:37
  */
 @Data
-@ConfigurationProperties("ballcat.swagger")
+@ConfigurationProperties(SwaggerProperties.PREFIX)
 public class SwaggerProperties {
+
+	public static final String PREFIX = "ballcat.swagger";
 
 	/**
 	 * 是否开启swagger

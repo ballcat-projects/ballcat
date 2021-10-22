@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.swagger;
 
+import com.hccake.ballcat.common.swagger.property.SwaggerProperties;
 import com.hccake.ballcat.common.swagger.property.SwaggerProviderProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -17,7 +18,7 @@ import org.springframework.web.filter.CorsFilter;
  * @date 2019/11/1 20:03
  */
 @Import(SwaggerConfiguration.class)
-@ConditionalOnProperty(name = "ballcat.swagger.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = SwaggerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerProviderAutoConfiguration {
 
 	private static final String ALL = "*";
