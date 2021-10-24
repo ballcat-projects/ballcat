@@ -20,7 +20,7 @@ public class SwaggerProperties {
 	/**
 	 * 是否开启swagger
 	 */
-	private Boolean enabled;
+	private Boolean enabled = true;
 
 	/**
 	 * 分组名称

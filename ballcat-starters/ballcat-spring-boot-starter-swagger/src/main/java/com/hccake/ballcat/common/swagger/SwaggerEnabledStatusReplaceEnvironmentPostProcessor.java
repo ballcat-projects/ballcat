@@ -26,7 +26,7 @@ public class SwaggerEnabledStatusReplaceEnvironmentPostProcessor implements Envi
 
 	private static final String SPRINGFOX_SWAGGER_ENABLED_KEY = "springfox.documentation.enabled";
 
-	private static final String BALLCAT_SWAGGER_ENABLED_KEY = SwaggerProperties.PREFIX + "enabled";
+	private static final String BALLCAT_SWAGGER_ENABLED_KEY = SwaggerProperties.PREFIX + ".enabled";
 
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
