@@ -20,7 +20,7 @@ public class OssAutoConfiguration {
 	@Bean
 	@ConditionalOnClass(S3Client.class)
 	@ConditionalOnMissingBean(OssClient.class)
-	@ConditionalOnProperty(prefix = "ballcat.oss", name = "accessKey")
+	@ConditionalOnProperty(prefix = "ballcat.oss", name = "access-key")
 	public OssClient ossClient(OssProperties properties) {
 		return new OssClient(properties);
 	}
