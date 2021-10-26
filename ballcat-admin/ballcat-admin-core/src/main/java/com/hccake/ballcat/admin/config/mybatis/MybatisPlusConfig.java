@@ -2,6 +2,7 @@ package com.hccake.ballcat.admin.config.mybatis;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -40,8 +41,8 @@ public class MybatisPlusConfig {
 	 * @return FillMetaObjectHandle
 	 */
 	@Bean
-	@ConditionalOnMissingBean(FillMetaObjectHandle.class)
-	public FillMetaObjectHandle fillMetaObjectHandle() {
+	@ConditionalOnMissingBean(MetaObjectHandler.class)
+	public MetaObjectHandler fillMetaObjectHandle() {
 		return new FillMetaObjectHandle();
 	}
 
