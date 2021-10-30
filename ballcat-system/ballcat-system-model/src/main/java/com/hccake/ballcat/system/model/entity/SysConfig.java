@@ -52,9 +52,9 @@ public class SysConfig extends LogicDeletedBaseEntity {
 	private String category;
 
 	/**
-	 * 描述
+	 * 备注
 	 */
-	@ApiModelProperty(value = "描述")
-	private String description;
+	@ApiModelProperty(value = "备注")
+	private String remarks;
 
 }

@@ -48,12 +48,6 @@ public class SysDict extends LogicDeletedBaseEntity {
 	private String hashCode;
 
 	/**
-	 * 备注
-	 */
-	@ApiModelProperty(value = "备注")
-	private String remarks;
-
-	/**
 	 * 可编辑的
 	 */
 	@ApiModelProperty(value = "1：是 0：否")
@@ -64,5 +58,11 @@ public class SysDict extends LogicDeletedBaseEntity {
 	 */
 	@ApiModelProperty("数据类型,1:Number 2:String 3:Boolean")
 	private Integer valueType;
+
+	/**
+	 * 备注
+	 */
+	@ApiModelProperty(value = "备注")
+	private String remarks;
 
 }

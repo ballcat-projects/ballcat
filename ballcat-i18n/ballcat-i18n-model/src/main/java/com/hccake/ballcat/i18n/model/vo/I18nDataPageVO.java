@@ -45,7 +45,7 @@ public class I18nDataPageVO {
 	 * 备注
 	 */
 	@ApiModelProperty(value = "备注")
-	private String remark;
+	private String remarks;
 
 	/**
 	 * 创建时间

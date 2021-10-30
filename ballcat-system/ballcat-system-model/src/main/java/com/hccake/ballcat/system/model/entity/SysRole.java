@@ -50,7 +50,7 @@ public class SysRole extends LogicDeletedBaseEntity {
 	private String scopeResources;
 
 	@ApiModelProperty(value = "角色备注")
-	private String note;
+	private String remarks;
 
 	@Override
 	public boolean equals(Object o) {

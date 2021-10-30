@@ -51,28 +51,16 @@ public class SysOrganizationTree implements TreeNode<Integer> {
 	private Integer depth;
 
 	/**
-	 * 描述信息
-	 */
-	@ApiModelProperty(value = "描述信息")
-	private String description;
-
-	/**
 	 * 排序字段，由小到大
 	 */
 	@ApiModelProperty(value = "排序字段，由小到大")
 	private Integer sort;
 
 	/**
-	 * 创建者
+	 * 描述信息
 	 */
-	@ApiModelProperty(value = "创建者")
-	private String createBy;
-
-	/**
-	 * 修改者
-	 */
-	@ApiModelProperty(value = "修改者")
-	private String updateBy;
+	@ApiModelProperty(value = "描述信息")
+	private String remarks;
 
 	/**
 	 * 创建时间

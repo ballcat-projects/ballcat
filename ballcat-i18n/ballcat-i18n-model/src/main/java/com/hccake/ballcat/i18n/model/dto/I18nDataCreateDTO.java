@@ -41,7 +41,7 @@ public class I18nDataCreateDTO {
 	 * 备注
 	 */
 	@ApiModelProperty(value = "备注")
-	private String remark;
+	private String remarks;
 
 	/**
 	 * 语言文本

@@ -50,7 +50,7 @@ public class SysConfigPageVO {
 	 * 描述
 	 */
 	@ApiModelProperty(value = "描述")
-	private String description;
+	private String remarks;
 
 	/**
 	 * 创建时间

@@ -96,7 +96,7 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 
 		I18nData entity = new I18nData();
 		entity.setMessage(i18nDataDTO.getMessage());
-		entity.setRemark(i18nDataDTO.getRemark());
+		entity.setRemarks(i18nDataDTO.getRemarks());
 
 		return SqlHelper.retBool(this.update(entity, wrapper));
 	}

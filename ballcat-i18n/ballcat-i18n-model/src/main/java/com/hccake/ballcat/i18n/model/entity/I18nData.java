@@ -54,7 +54,7 @@ public class I18nData extends BaseEntity {
 	 * 备注
 	 */
 	@ApiModelProperty(value = "备注")
-	private String remark;
+	private String remarks;
 
 	@Override
 	public boolean equals(Object o) {

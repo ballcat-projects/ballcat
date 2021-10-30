@@ -34,15 +34,15 @@ public class SysOrganizationDTO {
 	private Integer parentId;
 
 	/**
-	 * 描述信息
-	 */
-	@ApiModelProperty(value = "描述信息")
-	private String description;
-
-	/**
 	 * 排序字段，由小到大
 	 */
 	@ApiModelProperty(value = "排序字段，由小到大")
 	private Integer sort;
+
+	/**
+	 * 备注
+	 */
+	@ApiModelProperty(value = "备注")
+	private String remarks;
 
 }

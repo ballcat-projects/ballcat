@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 /**
  * 国际化信息Excel映射对象
  *
@@ -43,7 +41,7 @@ public class I18nDataExcelVO {
 	 * 备注
 	 */
 	@ApiModelProperty(value = "备注")
-	@ExcelProperty(value = "{i18nData.remark}", index = 3)
-	private String remark;
+	@ExcelProperty(value = "{i18nData.remarks}", index = 3)
+	private String remarks;
 
 }

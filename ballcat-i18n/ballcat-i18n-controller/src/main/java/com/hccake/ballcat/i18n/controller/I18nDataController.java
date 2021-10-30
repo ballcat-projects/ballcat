@@ -86,7 +86,7 @@ public class I18nDataController {
 		for (I18nDataCreateDTO.LanguageText languageText : languageTexts) {
 			I18nData i18nData = new I18nData();
 			i18nData.setCode(i18nDataCreateDTO.getCode());
-			i18nData.setRemark(i18nDataCreateDTO.getRemark());
+			i18nData.setRemarks(i18nDataCreateDTO.getRemarks());
 			i18nData.setLanguageTag(languageText.getLanguageTag());
 			i18nData.setMessage(languageText.getMessage());
 			list.add(i18nData);

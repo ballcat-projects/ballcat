@@ -89,3 +89,26 @@ MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTA
 ALTER TABLE `i18n_data`
 DROP INDEX `udx_laguage_tag_code`,
 ADD UNIQUE INDEX `udx_laguage_tag_code`(`language_tag`, `code`, `deleted`) USING BTREE;
+
+
+-- 统一备注属性的名称为 remarks
+ALTER TABLE `sys_role`
+    CHANGE COLUMN `note` `remarks` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注' AFTER `scope_resources`;
+
+ALTER TABLE `sys_menu`
+    MODIFY COLUMN `remarks` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息' AFTER `type`;
+
+ALTER TABLE `sys_organization`
+    CHANGE COLUMN `description` `remarks` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注' AFTER `sort`;
+
+ALTER TABLE `sys_dict`
+    MODIFY COLUMN `remarks` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注' AFTER `hash_code`;
+
+ALTER TABLE `sys_dict_item`
+    MODIFY COLUMN `remarks` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注' AFTER `sort`;
+
+ALTER TABLE `sys_config`
+    CHANGE COLUMN `description` `remarks` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注' AFTER `category`;
+
+ALTER TABLE `i18n_data`
+    CHANGE COLUMN `remark` `remarks` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注' AFTER `message`;

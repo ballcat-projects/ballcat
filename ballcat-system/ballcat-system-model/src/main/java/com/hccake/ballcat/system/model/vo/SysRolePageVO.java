@@ -39,7 +39,7 @@ public class SysRolePageVO {
 	private String scopeResources;
 
 	@ApiModelProperty(value = "角色备注")
-	private String note;
+	private String remarks;
 
 	@ApiModelProperty(value = "创建时间")
 	private LocalDateTime createTime;
