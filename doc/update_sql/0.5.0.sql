@@ -2,11 +2,11 @@ INSERT INTO `sys_dict` (`code`, `title`, `remarks`, `editable`, `value_type`, `h
 VALUES ('user_status', '用户状态', NULL, 0, 1, '9527', 0, NOW(), NOW());
 
 INSERT INTO `sys_dict_item` (`dict_code`, `value`, `name`, `attributes`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`)
-VALUES ('user_status', '0', '关闭', '{
+VALUES ('user_status', '0', '锁定', '{
     \"tagColor\": \"#d9d9d9\",
     \"languages\": {
-        \"en-US\": \"Closure\",
-        \"zh-CN\": \"关闭\"
+        \"en-US\": \"Locked\",
+        \"zh-CN\": \"锁定\"
     },
     \"textColor\": \"#d9d9d9\",
     \"badgeStatus\": \"default\"
