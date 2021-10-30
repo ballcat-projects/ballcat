@@ -49,7 +49,12 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	@Override
 	public List<SysOrganizationTree> listTree(SysOrganizationQO sysOrganizationQO) {
 		List<SysOrganization> list = baseMapper.selectList(sysOrganizationQO);
-		return TreeUtils.buildTree(list, 0, SysOrganizationConverter.INSTANCE::poToTree);
+		// TODO 临时补丁，处理查询指定名称的组织时构建树失败的问题，考虑检索放在前端处理以便支持模糊检索
+		Integer treeRootId = GlobalConstants.TREE_ROOT_ID;
+		if (CollectionUtil.isNotEmpty(list) && list.size() == 1) {
+			treeRootId = list.get(0).getParentId();
+		}
+		return TreeUtils.buildTree(list, treeRootId, SysOrganizationConverter.INSTANCE::poToTree);
 	}
 
 	/**
