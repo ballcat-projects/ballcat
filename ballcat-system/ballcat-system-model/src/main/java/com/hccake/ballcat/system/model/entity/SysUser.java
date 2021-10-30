@@ -1,13 +1,13 @@
 package com.hccake.ballcat.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
 import com.hccake.extend.mybatis.plus.alias.TableAlias;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import lombok.EqualsAndHashCode;
 
 /**
  * 系统用户表
@@ -16,10 +16,11 @@ import java.time.LocalDateTime;
  * @date 2019-09-12 20:39:31
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableAlias("su")
 @TableName("sys_user")
 @ApiModel(value = "系统用户表")
-public class SysUser implements Serializable {
+public class SysUser extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -95,27 +96,5 @@ public class SysUser implements Serializable {
 	 */
 	@ApiModelProperty(value = "1:系统用户， 2：客户用户")
 	private Integer type;
-
-	/**
-	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
-	 */
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "逻辑删除标识，已删除:0，未删除：删除时间戳")
-	private Long deleted;
-
-	/**
-	 * 创建时间
-	 */
-	@ApiModelProperty(value = "创建时间")
-	@TableField(fill = FieldFill.INSERT)
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@ApiModelProperty(value = "更新时间")
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	private LocalDateTime updateTime;
 
 }

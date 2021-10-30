@@ -1,19 +1,17 @@
 package com.hccake.ballcat.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -26,7 +24,7 @@ import java.util.Objects;
 @ToString
 @TableName("sys_menu")
 @ApiModel(value = "菜单权限")
-public class SysMenu {
+public class SysMenu extends LogicDeletedBaseEntity {
 
 	/**
 	 * 菜单ID
@@ -107,28 +105,6 @@ public class SysMenu {
 	 */
 	@ApiModelProperty(value = "备注信息")
 	private String remarks;
-
-	/**
-	 * 逻辑删除标识，未删除为 0，已删除为删除时间
-	 */
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "逻辑删除标识，未删除为 0，已删除为删除时间")
-	private Long deleted;
-
-	/**
-	 * 创建时间
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	@ApiModelProperty(value = "更新时间")
-	private LocalDateTime updateTime;
 
 	@Override
 	public boolean equals(Object o) {

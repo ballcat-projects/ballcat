@@ -24,7 +24,7 @@
 		LEFT JOIN
 			sys_user su ON su.user_id = ur.user_id
 		LEFT JOIN
-			sys_organization so ON su.organization_id = so.id
+			sys_organization so ON su.organization_id = so.id and so.deleted = 0
 		WHERE ur.role_code = #{qo.roleCode}
 		and su.deleted = 0
 		<if test="qo.userId != null">

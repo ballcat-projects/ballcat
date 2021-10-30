@@ -19,12 +19,12 @@
 
 	<select id="selectByPage" resultType="com.hccake.ballcat.system.model.vo.SysUserPageVO">
 		SELECT
-		<include refid="Base_Alias_Column_List"/>
-		,so.name as organization_name
-		FROM sys_user su
+			<include refid="Base_Alias_Column_List"/>
+			,so.name as organization_name
+		FROM
+			sys_user su
 		LEFT JOIN
-		sys_organization so
-		ON su.organization_id = so.id
+			sys_organization so ON su.organization_id = so.id and so.deleted = 0
 		${ew.customSqlSegment}
 	</select>
 

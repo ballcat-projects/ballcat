@@ -1,12 +1,15 @@
 package com.hccake.ballcat.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -16,9 +19,10 @@ import java.util.Map;
  * @date 2020-03-26 18:40:20
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableName(value = "sys_dict_item", autoResultMap = true)
 @ApiModel(value = "字典项")
-public class SysDictItem {
+public class SysDictItem extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -65,27 +69,5 @@ public class SysDictItem {
 	 */
 	@ApiModelProperty(value = "备注")
 	private String remarks;
-
-	/**
-	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
-	 */
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "逻辑删除标识，已删除:0，未删除：删除时间戳")
-	private Long deleted;
-
-	/**
-	 * 创建时间
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	@ApiModelProperty(value = "更新时间")
-	private LocalDateTime updateTime;
 
 }

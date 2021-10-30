@@ -1,10 +1,10 @@
 package com.hccake.ballcat.notify.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
 import com.hccake.ballcat.notify.enums.AnnouncementStatusEnum;
 import com.hccake.ballcat.notify.enums.NotifyChannelEnum;
 import com.hccake.ballcat.notify.enums.NotifyRecipientFilterTypeEnum;
@@ -12,6 +12,7 @@ import com.hccake.extend.mybatis.plus.alias.TableAlias;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,10 +23,11 @@ import java.util.List;
  * @author hccake 2020-12-15 17:01:15
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableAlias(Announcement.TABLE_ALIAS)
 @TableName(value = "notify_announcement", autoResultMap = true)
 @ApiModel(value = "公告信息")
-public class Announcement {
+public class Announcement extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -91,26 +93,5 @@ public class Announcement {
 	 */
 	@ApiModelProperty(value = "截止日期")
 	private LocalDateTime deadline;
-
-	/**
-	 * 创建人
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建人")
-	private Integer createBy;
-
-	/**
-	 * 创建时间
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	@ApiModelProperty(value = "更新时间")
-	private LocalDateTime updateTime;
 
 }

@@ -19,13 +19,18 @@
 <!--	这里为了兼容 shardingsphare 4.x 暂时使用 ${} 传参-->
 	<update id="followMoveChildNode">
 		UPDATE
-		sys_organization
-		SET hierarchy = CONCAT(#{param.targetParentHierarchy}, SUBSTR(hierarchy, ${param.originParentHierarchyLengthPlusOne})),
-		depth = depth - #{param.depthDiff}
+			sys_organization
+		SET
+		    hierarchy = CONCAT(#{param.targetParentHierarchy},
+		    SUBSTR(hierarchy, ${param.originParentHierarchyLengthPlusOne})),
+			depth = depth - #{param.depthDiff}
 		WHERE
-			parent_id = #{param.parentId}  -- 儿子节点
-			or
-			hierarchy like #{param.grandsonConditionalStatement} -- 孙子节点
+		    deleted = 0
+		    AND  (
+				parent_id = #{param.parentId}  -- 儿子节点
+				OR
+				hierarchy like #{param.grandsonConditionalStatement} -- 孙子节点
+			)
 	</update>
 
 	<select id="listChildOrganization" resultType="com.hccake.ballcat.system.model.entity.SysOrganization">
@@ -34,19 +39,27 @@
 		FROM
 			sys_organization
 		WHERE
-			hierarchy LIKE
-			(SELECT CONCAT( hierarchy, '-', #{organizationId} , '%') FROM sys_organization WHERE id = #{organizationId})
+			hierarchy LIKE (
+				SELECT CONCAT( hierarchy, '-', #{organizationId} , '%')
+				FROM sys_organization
+				WHERE id = #{organizationId} and deleted = 0
+			)
+			AND deleted = 0
 	</select>
-
 
 	<select id="existsChildOrganization" resultType="Boolean">
 		SELECT
-		1
+			1
 		FROM
-		sys_organization
+			sys_organization
 		WHERE
-		hierarchy LIKE
-		(SELECT CONCAT( hierarchy, '-', #{organizationId} , '%') FROM sys_organization WHERE id = #{organizationId})
+			hierarchy LIKE  (
+				SELECT CONCAT( hierarchy, '-', #{organizationId} , '%')
+				FROM sys_organization
+				WHERE id = #{organizationId}
+				AND deleted = 0
+			)
+			AND deleted = 0
 		LIMIT 1
 	</select>
 

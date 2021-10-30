@@ -1,11 +1,13 @@
 package com.hccake.ballcat.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.time.LocalDateTime;
+import lombok.EqualsAndHashCode;
 
 /**
  * 组织架构
@@ -13,9 +15,10 @@ import java.time.LocalDateTime;
  * @author hccake 2020-09-23 20:39:40
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableName("sys_organization")
 @ApiModel(value = "组织架构")
-public class SysOrganization {
+public class SysOrganization extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,31 +64,5 @@ public class SysOrganization {
 	 */
 	@ApiModelProperty(value = "排序字段，由小到大")
 	private Integer sort;
-
-	/**
-	 * 创建者
-	 */
-	@ApiModelProperty(value = "创建者")
-	private String createBy;
-
-	/**
-	 * 修改者
-	 */
-	@ApiModelProperty(value = "修改者")
-	private String updateBy;
-
-	/**
-	 * 创建时间
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	@ApiModelProperty(value = "更新时间")
-	private LocalDateTime updateTime;
 
 }

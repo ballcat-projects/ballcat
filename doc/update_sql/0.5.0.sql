@@ -20,3 +20,72 @@ VALUES ('user_status', '0', '关闭', '{
     \"textColor\": \"#5b8ff9\",
     \"badgeStatus\": \"processing\"
 }', 1, NULL, 0, NOW(), NULL);
+
+
+-- 业务表追加审计字段：创建人、修改人、创建时间、更新时间、逻辑删除标识
+ALTER TABLE `sys_user`
+    MODIFY COLUMN `deleted` bigint NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `organization_id`,
+    ADD COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
+    ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
+    MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+    MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `sys_role`
+    MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `note`,
+    ADD COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
+    ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
+    MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+    MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `sys_menu`
+    MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `remarks`,
+    ADD COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
+    ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
+    MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+    MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `sys_organization`
+    ADD COLUMN `deleted` bigint NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `sort`,
+MODIFY COLUMN `create_by` int NULL DEFAULT NULL COMMENT '创建者' AFTER `deleted`,
+MODIFY COLUMN `update_by` int NULL DEFAULT NULL COMMENT '修改者' AFTER `create_by`,
+MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `sys_dict`
+    MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `hash_code`,
+    ADD COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
+    ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
+    MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+    MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `sys_dict_item`
+    MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `remarks`,
+    ADD COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
+    ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
+    MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+    MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `sys_config`
+    MODIFY COLUMN `deleted` bigint(20) NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `description`,
+    ADD COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
+    ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
+    MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+    MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `notify_announcement`
+    ADD COLUMN `deleted` bigint NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `deadline`,
+MODIFY COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
+ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
+MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `i18n_data`
+    ADD COLUMN `deleted` bigint NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `remark`,
+ADD COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
+ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
+MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `i18n_data`
+DROP INDEX `udx_laguage_tag_code`,
+ADD UNIQUE INDEX `udx_laguage_tag_code`(`language_tag`, `code`, `deleted`) USING BTREE;

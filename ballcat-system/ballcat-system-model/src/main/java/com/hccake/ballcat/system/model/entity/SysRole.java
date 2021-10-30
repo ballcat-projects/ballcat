@@ -1,11 +1,9 @@
 package com.hccake.ballcat.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -13,7 +11,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -27,7 +24,7 @@ import java.util.Objects;
 @ToString
 @TableName("sys_role")
 @ApiModel(value = "角色")
-public class SysRole {
+public class SysRole extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,28 +51,6 @@ public class SysRole {
 
 	@ApiModelProperty(value = "角色备注")
 	private String note;
-
-	/**
-	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
-	 */
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "逻辑删除标识，已删除:0，未删除：删除时间戳")
-	private Long deleted;
-
-	/**
-	 * 创建时间
-	 */
-	@ApiModelProperty(value = "创建时间")
-	@TableField(fill = FieldFill.INSERT)
-	private LocalDateTime createTime;
-
-	/**
-	 * 修改时间
-	 */
-	@ApiModelProperty(value = "修改时间")
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	private LocalDateTime updateTime;
 
 	@Override
 	public boolean equals(Object o) {
