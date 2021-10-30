@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 /**
  * @author lingting 2020-08-12 21:35
  */
+@Deprecated
 @Data
 @Accessors(chain = true)
 @ApiModel(value = "lov vo")

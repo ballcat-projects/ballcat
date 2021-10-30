@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 /**
  * @author lingting 2020-08-12 21:35
  */
+@Deprecated
 @Data
 @ApiModel(value = "lov查询对象")
 public class SysLovQO {

@@ -10,6 +10,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Deprecated
 public class LovChangeMessage extends AbstractJsonWebSocketMessage {
 
 	private String keyword;

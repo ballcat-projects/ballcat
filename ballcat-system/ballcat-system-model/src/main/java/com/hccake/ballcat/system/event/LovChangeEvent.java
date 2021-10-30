@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationEvent;
  */
 @Getter
 @ToString
+@Deprecated
 public class LovChangeEvent extends ApplicationEvent {
 
 	private final String keyword;

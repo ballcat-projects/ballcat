@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * @author lingting 2020-08-10 17:20
  */
+@Deprecated
 public interface SysLovBodyService extends ExtendService<SysLovBody> {
 
 	/**

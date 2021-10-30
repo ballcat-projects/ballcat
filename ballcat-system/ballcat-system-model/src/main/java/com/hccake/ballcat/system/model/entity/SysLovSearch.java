@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * @author lingting 2020/7/5 16:04
  */
+@Deprecated
 @Data
 @TableName(value = "sys_lov_search", autoResultMap = true)
 @Accessors(chain = true)

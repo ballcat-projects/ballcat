@@ -11,6 +11,7 @@ import org.mapstruct.factory.Mappers;
  * @author Hccake 2021/1/19
  * @version 1.0
  */
+@Deprecated
 @Mapper
 public interface SysLovConverter {
 

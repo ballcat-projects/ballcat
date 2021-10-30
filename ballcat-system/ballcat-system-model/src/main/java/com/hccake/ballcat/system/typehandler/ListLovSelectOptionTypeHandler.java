@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * @author lingting 2020-08-10 15:44
  */
+@Deprecated
 public class ListLovSelectOptionTypeHandler implements TypeHandler<List<LovSelectOptions>> {
 
 	@Override

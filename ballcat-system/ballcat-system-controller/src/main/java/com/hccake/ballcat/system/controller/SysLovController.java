@@ -30,6 +30,7 @@ import java.util.Map;
 /**
  * @author lingting 2020-08-10 16:40
  */
+@Deprecated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/lov")

@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
  *
  * @author lingting 2020/7/5 16:04
  */
+@Deprecated
 @Data
 @TableName("sys_lov")
 @Accessors(chain = true)

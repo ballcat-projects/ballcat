@@ -12,6 +12,7 @@ import java.util.List;
  * @author lingting 2020-08-10 17:21
  */
 @Service
+@Deprecated
 public class SysLovBodyServiceImpl extends ExtendServiceImpl<SysLovBodyMapper, SysLovBody>
 		implements SysLovBodyService {
 

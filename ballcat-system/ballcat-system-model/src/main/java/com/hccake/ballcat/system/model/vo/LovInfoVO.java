@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * @author lingting 2020-08-12 21:35
  */
+@Deprecated
 @Data
 @Accessors(chain = true)
 @ApiModel(value = "lov info vo")

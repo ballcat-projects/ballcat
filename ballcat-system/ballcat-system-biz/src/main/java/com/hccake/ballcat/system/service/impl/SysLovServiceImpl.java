@@ -29,6 +29,7 @@ import java.util.List;
 /**
  * @author lingting 2020-08-10 17:21
  */
+@Deprecated
 @Service
 @RequiredArgsConstructor
 public class SysLovServiceImpl extends ExtendServiceImpl<SysLovMapper, SysLov> implements SysLovService {

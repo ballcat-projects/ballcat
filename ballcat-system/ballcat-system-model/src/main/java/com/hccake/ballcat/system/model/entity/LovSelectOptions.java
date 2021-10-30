@@ -7,6 +7,7 @@ import lombok.Setter;
 /**
  * @author lingting 2020-08-10 10:11
  */
+@Deprecated
 @Getter
 @Setter
 @ApiModel("lov 模块 select 选项")
