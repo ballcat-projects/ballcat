@@ -80,7 +80,7 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 		}
 
 		// 使用自定义的异常类进行包装
-		return new ResponseEntity<>(new CustomOAuth2Exception(e.getMessage(), e), headers, HttpStatus.valueOf(status));
+		return new ResponseEntity<>(new CustomOAuth2Exception(e.getMessage(), e), headers, HttpStatus.OK);
 
 	}
 
