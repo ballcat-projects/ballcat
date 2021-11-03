@@ -3,11 +3,10 @@ package com.hccake.extend.mybatis.plus.service;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 以前继承 com.baomidou.mybatisplus.extension.service.IService 的实现类，现在继承当前类
@@ -136,5 +135,21 @@ public interface ExtendService<T> {
 	 * @author lingting 2020-08-26 22:11
 	 */
 	boolean saveBatchSomeColumn(Collection<T> list, int batchSize);
+
+	/**
+	 * 插入（批量）
+	 * @param entityList 实体对象集合
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	default boolean saveBatch(Collection<T> entityList) {
+		return saveBatch(entityList, DEFAULT_INSERT_BATCH_SIZE);
+	}
+
+	/**
+	 * 插入（批量）
+	 * @param entityList 实体对象集合
+	 * @param batchSize 插入批次数量
+	 */
+	boolean saveBatch(Collection<T> entityList, int batchSize);
 
 }
