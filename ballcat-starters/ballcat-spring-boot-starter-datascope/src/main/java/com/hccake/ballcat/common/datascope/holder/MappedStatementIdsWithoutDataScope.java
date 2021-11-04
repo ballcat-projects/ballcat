@@ -2,10 +2,10 @@ package com.hccake.ballcat.common.datascope.holder;
 
 import com.hccake.ballcat.common.datascope.DataScope;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 该类用于存储，不需数据权限处理的 mappedStatementId 集合
@@ -17,7 +17,7 @@ public class MappedStatementIdsWithoutDataScope {
 	/**
 	 * key: DataScope class，value: 该 DataScope 不需要处理的 mappedStatementId 集合
 	 */
-	private static final Map<Class<? extends DataScope>, HashSet<String>> WITHOUT_MAPPED_STATEMENT_ID_MAP = new HashMap<>();
+	private static final Map<Class<? extends DataScope>, HashSet<String>> WITHOUT_MAPPED_STATEMENT_ID_MAP = new ConcurrentHashMap<>();
 
 	/**
 	 * 给所有的 DataScope 对应的忽略列表添加对应的 mappedStatementId
