@@ -55,12 +55,12 @@ public class SysLovServiceImpl extends ExtendServiceImpl<SysLovMapper, SysLov> i
 		String keyword = sysLov.getKeyword();
 		bodyService.removeByKeyword(keyword);
 		bodyList.forEach((body -> body.setKeyword(keyword)));
-		bodyService.saveBatchSomeColumn(bodyList);
+		bodyService.saveBatch(bodyList);
 
 		// 更新 LovSearch，先删除再插入
 		searchService.removeByKeyword(keyword);
 		searchList.forEach((body -> body.setKeyword(keyword)));
-		searchService.saveBatchSomeColumn(searchList);
+		searchService.saveBatch(searchList);
 
 		eventPublisher.publishEvent(LovChangeEvent.of(keyword));
 		return true;
@@ -94,7 +94,7 @@ public class SysLovServiceImpl extends ExtendServiceImpl<SysLovMapper, SysLov> i
 		// 2. 插入body
 		if (CollectionUtil.isNotEmpty(bodyList)) {
 			bodyList.forEach(body -> body.setKeyword(sysLov.getKeyword()));
-			if (!bodyService.saveBatchSomeColumn(bodyList)) {
+			if (!bodyService.saveBatch(bodyList)) {
 				throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovBody失败!");
 			}
 		}
@@ -102,7 +102,7 @@ public class SysLovServiceImpl extends ExtendServiceImpl<SysLovMapper, SysLov> i
 		// 3. 插入 search
 		if (CollectionUtil.isNotEmpty(searchList)) {
 			searchList.forEach(x -> x.setKeyword(sysLov.getKeyword()));
-			if (!searchService.saveBatchSomeColumn(searchList)) {
+			if (!searchService.saveBatch(searchList)) {
 				throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "新增lovSearch失败!");
 			}
 		}

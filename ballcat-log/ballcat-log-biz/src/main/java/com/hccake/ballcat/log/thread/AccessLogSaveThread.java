@@ -43,7 +43,7 @@ public class AccessLogSaveThread extends AbstractBlockingQueueThread<AccessLog> 
 	 */
 	@Override
 	public void process(List<AccessLog> list) throws Exception {
-		accessLogService.saveBatchSomeColumn(list);
+		accessLogService.saveBatch(list);
 	}
 
 }

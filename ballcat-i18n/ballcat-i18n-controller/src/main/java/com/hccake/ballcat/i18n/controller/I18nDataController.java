@@ -91,8 +91,7 @@ public class I18nDataController {
 			i18nData.setMessage(languageText.getMessage());
 			list.add(i18nData);
 		}
-		return i18nDataService.saveBatchSomeColumn(list) ? R.ok()
-				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增国际化信息失败");
+		return i18nDataService.saveBatch(list) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增国际化信息失败");
 	}
 
 	/**

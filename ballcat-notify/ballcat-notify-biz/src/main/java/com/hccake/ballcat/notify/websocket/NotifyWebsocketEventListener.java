@@ -86,7 +86,7 @@ public class NotifyWebsocketEventListener {
 					.setNeedBroadcast(false);
 			messageDistributor.distribute(messageDO);
 
-			userAnnouncementService.saveBatchSomeColumn(userAnnouncements);
+			userAnnouncementService.saveBatch(userAnnouncements);
 		}
 	}
 

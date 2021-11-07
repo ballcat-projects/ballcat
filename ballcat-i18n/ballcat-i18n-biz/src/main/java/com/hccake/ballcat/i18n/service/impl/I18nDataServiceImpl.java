@@ -10,7 +10,6 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.i18n.constant.I18nRedisKeyConstants;
 import com.hccake.ballcat.i18n.converter.I18nDataConverter;
 import com.hccake.ballcat.i18n.mapper.I18nDataMapper;
-import com.hccake.ballcat.i18n.model.dto.I18nDataCreateDTO;
 import com.hccake.ballcat.i18n.model.dto.I18nDataDTO;
 import com.hccake.ballcat.i18n.model.dto.I18nDataUnique;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
@@ -177,8 +176,8 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 	@CacheDel(key = I18nRedisKeyConstants.I18N_DATA_PREFIX, multiDel = true,
 			keyJoint = "#p0.![#this.code + ':' + #this.languageTag]")
 	@Transactional(rollbackFor = Exception.class)
-	public boolean saveBatchSomeColumn(Collection<I18nData> list) {
-		return this.saveBatchSomeColumn(list, DEFAULT_INSERT_BATCH_SIZE);
+	public boolean saveBatch(Collection<I18nData> list) {
+		return super.saveBatch(list);
 	}
 
 	/**

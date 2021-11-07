@@ -63,7 +63,7 @@ public class AnnouncementLoginEventListener {
 					.filter(x -> filterMatched(x, filterAttrs)).map(Announcement::getId)
 					.map(id -> userAnnouncementService.prodUserAnnouncement(userId, id)).collect(Collectors.toList());
 			try {
-				userAnnouncementService.saveBatchSomeColumn(userAnnouncements);
+				userAnnouncementService.saveBatch(userAnnouncements);
 			}
 			catch (Exception exception) {
 				log.error("用户公告保存失败：[{}]", userAnnouncements, exception);
