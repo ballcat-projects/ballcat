@@ -7,15 +7,16 @@ import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.BiConsumer;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * 以前继承 com.baomidou.mybatisplus.extension.service.impl.ServiceImpl 的实现类，现在继承本类
@@ -64,6 +65,19 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 
 	protected Class<T> currentModelClass() {
 		return (Class<T>) ReflectionKit.getSuperClassGenericType(this.getClass(), ExtendServiceImpl.class, 1);
+	}
+
+	/**
+	 * 批量插入
+	 * @param entityList ignore
+	 * @param batchSize ignore
+	 * @return ignore
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean saveBatch(Collection<T> entityList, int batchSize) {
+		String sqlStatement = getSqlStatement(SqlMethod.INSERT_ONE);
+		return executeBatch(entityList, batchSize, (sqlSession, entity) -> sqlSession.insert(sqlStatement, entity));
 	}
 
 	/**
@@ -121,14 +135,6 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 			baseMapper.insertBatchSomeColumn(data);
 		}
 		return true;
-	}
-
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public boolean saveBatch(Collection<T> entityList, int batchSize) {
-		String sqlStatement = getSqlStatement(SqlMethod.INSERT_ONE);
-		return SqlHelper.executeBatch(this.entityClass, this.log, entityList, batchSize,
-				((sqlSession, entity) -> sqlSession.insert(sqlStatement, entity)));
 	}
 
 }

@@ -3,10 +3,11 @@ package com.hccake.extend.mybatis.plus.service;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 以前继承 com.baomidou.mybatisplus.extension.service.IService 的实现类，现在继承当前类
@@ -23,17 +24,28 @@ public interface ExtendService<T> {
 	int DEFAULT_BATCH_SIZE = 1000;
 
 	/**
-	 * 默认一次批量插入的数量
-	 */
-	int DEFAULT_INSERT_BATCH_SIZE = 5000;
-
-	/**
 	 * 插入一条记录（选择字段，策略插入）
 	 * @param entity 实体对象
 	 */
 	default boolean save(T entity) {
 		return SqlHelper.retBool(getBaseMapper().insert(entity));
 	}
+
+	/**
+	 * 插入（批量）
+	 * @param entityList 实体对象集合
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	default boolean saveBatch(Collection<T> entityList) {
+		return saveBatch(entityList, DEFAULT_BATCH_SIZE);
+	}
+
+	/**
+	 * 插入（批量）
+	 * @param entityList 实体对象集合
+	 * @param batchSize 插入批次数量
+	 */
+	boolean saveBatch(Collection<T> entityList, int batchSize);
 
 	/**
 	 * 根据 ID 删除
@@ -124,7 +136,7 @@ public interface ExtendService<T> {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	default boolean saveBatchSomeColumn(Collection<T> list) {
-		return this.saveBatchSomeColumn(list, DEFAULT_INSERT_BATCH_SIZE);
+		return this.saveBatchSomeColumn(list, DEFAULT_BATCH_SIZE);
 	}
 
 	/**
@@ -135,21 +147,5 @@ public interface ExtendService<T> {
 	 * @author lingting 2020-08-26 22:11
 	 */
 	boolean saveBatchSomeColumn(Collection<T> list, int batchSize);
-
-	/**
-	 * 插入（批量）
-	 * @param entityList 实体对象集合
-	 */
-	@Transactional(rollbackFor = Exception.class)
-	default boolean saveBatch(Collection<T> entityList) {
-		return saveBatch(entityList, DEFAULT_INSERT_BATCH_SIZE);
-	}
-
-	/**
-	 * 插入（批量）
-	 * @param entityList 实体对象集合
-	 * @param batchSize 插入批次数量
-	 */
-	boolean saveBatch(Collection<T> entityList, int batchSize);
 
 }
