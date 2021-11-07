@@ -26,7 +26,10 @@ public class TaskExecutionConfiguration {
 		// DiscardOldestPolicy: 抛弃旧的任务、暂不支持；会导致被丢弃的任务无法再次被执行
 		// DiscardPolicy: 抛弃当前任务、暂不支持；会导致被丢弃的任务无法再次被执行
 		// 这里使用主线程直接执行该任务
-		return (taskExecutor -> taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy()));
+		return (taskExecutor -> {
+			taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+			taskExecutor.setTaskDecorator(new MdcTaskDecorator());
+		});
 	}
 
 }
