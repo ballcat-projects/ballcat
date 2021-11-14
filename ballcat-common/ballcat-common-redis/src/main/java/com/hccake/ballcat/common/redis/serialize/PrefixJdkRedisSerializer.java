@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.redis.serialize;
 
+import com.hccake.ballcat.common.redis.prefix.IRedisPrefixConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
@@ -11,40 +12,22 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 @Slf4j
 public class PrefixJdkRedisSerializer extends JdkSerializationRedisSerializer {
 
-	private final String prefix;
+	private final IRedisPrefixConverter redisPrefixConverter;
 
-	private final boolean enable;
-
-	public PrefixJdkRedisSerializer(String prefix) {
-		this.prefix = prefix;
-		this.enable = prefix != null && !"".equals(prefix);
+	public PrefixJdkRedisSerializer(IRedisPrefixConverter redisPrefixConverter) {
+		this.redisPrefixConverter = redisPrefixConverter;
 	}
 
 	@Override
 	public Object deserialize(byte[] bytes) {
-		Object origin = super.deserialize(bytes);
-		if (enable && origin instanceof String) {
-			String originKey = (String) origin;
-			// 如果有全局前缀，则需要删除
-			if (originKey.startsWith(prefix)) {
-				originKey = originKey.substring(prefix.length());
-			}
-			return originKey;
-		}
-		else {
-			return origin;
-		}
+		byte[] unwrap = redisPrefixConverter.unwrap(bytes);
+		return super.deserialize(unwrap);
 	}
 
 	@Override
 	public byte[] serialize(Object object) {
-		if (enable && object instanceof String) {
-			String key = prefix + object;
-			return super.serialize(key);
-		}
-		else {
-			return super.serialize(object);
-		}
+		byte[] originBytes = super.serialize(object);
+		return redisPrefixConverter.wrap(originBytes);
 	}
 
 }

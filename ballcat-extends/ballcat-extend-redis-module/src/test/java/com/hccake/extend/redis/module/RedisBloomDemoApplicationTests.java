@@ -1,5 +1,7 @@
 package com.hccake.extend.redis.module;
 
+import com.hccake.ballcat.common.redis.prefix.IRedisPrefixConverter;
+import com.hccake.ballcat.common.redis.prefix.impl.DefaultRedisPrefixConverter;
 import com.hccake.ballcat.common.redis.serialize.PrefixStringRedisSerializer;
 import com.hccake.extend.redis.moudle.bloom.BloomInsertOptions;
 import com.hccake.extend.redis.moudle.bloom.BloomRedisModuleHelper;
@@ -32,7 +34,8 @@ class RedisBloomDemoApplicationTests {
 		bloomRedisModuleHelper = new BloomRedisModuleHelper(lettuceConnectionFactory);
 		// 可选操作：配合 ballcat-spring-boot-starter-redis 提供的 PrefixStringRedisSerializer，可以给
 		// redis key 添加默认的 key 前缀
-		bloomRedisModuleHelper.setKeySerializer(new PrefixStringRedisSerializer("keyprefix:"));
+		IRedisPrefixConverter redisPrefixConverter = new DefaultRedisPrefixConverter("keyprefix:");
+		bloomRedisModuleHelper.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
 	}
 
 	@Test
