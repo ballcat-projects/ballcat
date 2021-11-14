@@ -13,6 +13,7 @@ import com.hccake.ballcat.common.redis.serialize.JacksonSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixJdkRedisSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixStringRedisSerializer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -82,7 +83,7 @@ public class RedisAutoConfiguration {
 
 	@Bean
 	@DependsOn("cachePropertiesHolder")
-	@ConditionalOnProperty(name = "ballcat.redis.key-prefix")
+	@ConditionalOnClass(IRedisPrefixConverter.class)
 	@ConditionalOnMissingBean
 	public StringRedisTemplate stringRedisTemplate(IRedisPrefixConverter redisPrefixConverter) {
 		StringRedisTemplate template = new StringRedisTemplate();
@@ -93,7 +94,7 @@ public class RedisAutoConfiguration {
 
 	@Bean
 	@DependsOn("cachePropertiesHolder")
-	@ConditionalOnProperty(name = "ballcat.redis.key-prefix")
+	@ConditionalOnClass(IRedisPrefixConverter.class)
 	@ConditionalOnMissingBean(name = "redisTemplate")
 	public RedisTemplate<Object, Object> redisTemplate(IRedisPrefixConverter redisPrefixConverter) {
 		RedisTemplate<Object, Object> template = new RedisTemplate<>();
