@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.redis.serialize;
 
+import com.hccake.ballcat.common.redis.prefix.IRedisPrefixConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -13,32 +14,23 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class PrefixStringRedisSerializer extends StringRedisSerializer {
 
-	private final String prefix;
+	private final IRedisPrefixConverter iRedisPrefixConverter;
 
-	private final boolean enable;
-
-	public PrefixStringRedisSerializer(String prefix) {
+	public PrefixStringRedisSerializer(IRedisPrefixConverter iRedisPrefixConverter) {
 		super(StandardCharsets.UTF_8);
-		this.prefix = prefix;
-		this.enable = prefix != null && !"".equals(prefix);
+		this.iRedisPrefixConverter = iRedisPrefixConverter;
 	}
 
 	@Override
 	public String deserialize(byte[] bytes) {
-		String originKey = super.deserialize(bytes);
-		// 如果有全局前缀，则需要删除
-		if (enable && originKey != null && originKey.startsWith(prefix)) {
-			originKey = originKey.substring(prefix.length());
-		}
-		return originKey;
+		byte[] unwrap = iRedisPrefixConverter.unwrap(bytes);
+		return super.deserialize(unwrap);
 	}
 
 	@Override
-	public byte[] serialize(String string) {
-		if (enable && string != null) {
-			string = prefix + string;
-		}
-		return super.serialize(string);
+	public byte[] serialize(String key) {
+		byte[] originBytes = super.serialize(key);
+		return iRedisPrefixConverter.wrap(originBytes);
 	}
 
 }

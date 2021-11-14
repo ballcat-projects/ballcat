@@ -6,6 +6,8 @@ import com.hccake.ballcat.common.redis.config.CacheProperties;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.redis.core.CacheLock;
 import com.hccake.ballcat.common.redis.core.CacheStringAspect;
+import com.hccake.ballcat.common.redis.prefix.IRedisPrefixConverter;
+import com.hccake.ballcat.common.redis.prefix.impl.DefaultRedisPrefixConverter;
 import com.hccake.ballcat.common.redis.serialize.CacheSerializer;
 import com.hccake.ballcat.common.redis.serialize.JacksonSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixJdkRedisSerializer;
@@ -82,10 +84,10 @@ public class RedisAutoConfiguration {
 	@DependsOn("cachePropertiesHolder")
 	@ConditionalOnProperty(name = "ballcat.redis.key-prefix")
 	@ConditionalOnMissingBean
-	public StringRedisTemplate stringRedisTemplate() {
+	public StringRedisTemplate stringRedisTemplate(IRedisPrefixConverter redisPrefixConverter) {
 		StringRedisTemplate template = new StringRedisTemplate();
 		template.setConnectionFactory(redisConnectionFactory);
-		template.setKeySerializer(new PrefixStringRedisSerializer(CachePropertiesHolder.keyPrefix()));
+		template.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
 		return template;
 	}
 
@@ -93,10 +95,10 @@ public class RedisAutoConfiguration {
 	@DependsOn("cachePropertiesHolder")
 	@ConditionalOnProperty(name = "ballcat.redis.key-prefix")
 	@ConditionalOnMissingBean(name = "redisTemplate")
-	public RedisTemplate<Object, Object> redisTemplate() {
+	public RedisTemplate<Object, Object> redisTemplate(IRedisPrefixConverter redisPrefixConverter) {
 		RedisTemplate<Object, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory);
-		template.setKeySerializer(new PrefixJdkRedisSerializer(CachePropertiesHolder.keyPrefix()));
+		template.setKeySerializer(new PrefixJdkRedisSerializer(redisPrefixConverter));
 		return template;
 	}
 
@@ -105,6 +107,14 @@ public class RedisAutoConfiguration {
 	public RedisHelper redisHelper(StringRedisTemplate template) {
 		RedisHelper.setTemplate(template);
 		return new RedisHelper();
+	}
+
+	@Bean
+	@DependsOn("cachePropertiesHolder")
+	@ConditionalOnProperty(name = "ballcat.redis.key-prefix")
+	@ConditionalOnMissingBean(IRedisPrefixConverter.class)
+	public IRedisPrefixConverter redisPrefixConverter() {
+		return new DefaultRedisPrefixConverter(CachePropertiesHolder.keyPrefix());
 	}
 
 }
