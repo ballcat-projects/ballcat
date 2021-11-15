@@ -22,10 +22,10 @@ public interface IRedisPrefixConverter {
 	String getPrefix();
 
 	/**
-	 * 是否启用
-	 * @return 是否启用
+	 * 前置匹配，是否走添加前缀规则
+	 * @return 是否匹配
 	 */
-	boolean enable();
+	boolean match();
 
 	/**
 	 * 去除key前缀
@@ -34,7 +34,7 @@ public interface IRedisPrefixConverter {
 	 */
 	default byte[] unwrap(byte[] bytes) {
 		int wrapLen;
-		if (!enable() || bytes == null || (wrapLen = bytes.length) == 0) {
+		if (!match() || bytes == null || (wrapLen = bytes.length) == 0) {
 			return bytes;
 		}
 		String prefix = getPrefix();
@@ -57,7 +57,7 @@ public interface IRedisPrefixConverter {
 	 */
 	default byte[] wrap(byte[] bytes) {
 		int originLen;
-		if (!enable() || bytes == null || (originLen = bytes.length) == 0) {
+		if (!match() || bytes == null || (originLen = bytes.length) == 0) {
 			return bytes;
 		}
 		String prefix = getPrefix();
