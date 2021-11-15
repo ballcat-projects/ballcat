@@ -21,7 +21,7 @@ public class DefaultRedisPrefixConverter implements IRedisPrefixConverter {
 	}
 
 	@Override
-	public boolean enable() {
+	public boolean match() {
 		return true;
 	}
 
