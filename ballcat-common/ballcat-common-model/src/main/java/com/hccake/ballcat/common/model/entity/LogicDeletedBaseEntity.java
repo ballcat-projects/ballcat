@@ -17,11 +17,11 @@ import lombok.Setter;
 public abstract class LogicDeletedBaseEntity extends BaseEntity {
 
 	/**
-	 * 逻辑删除标识，已删除:0，未删除：删除时间戳
+	 * 逻辑删除标识，已删除: 删除时间戳，未删除: 0
 	 */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "逻辑删除标识，已删除:0，未删除：删除时间戳")
+	@ApiModelProperty(value = "逻辑删除标识，已删除: 删除时间戳，未删除: 0")
 	private Long deleted;
 
 }

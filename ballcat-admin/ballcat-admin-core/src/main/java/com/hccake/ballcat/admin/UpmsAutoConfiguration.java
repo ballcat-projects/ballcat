@@ -5,6 +5,7 @@ import com.hccake.ballcat.common.security.annotation.EnableOauth2ResourceServer;
 import com.hccake.ballcat.common.security.properties.SecurityProperties;
 import com.hccake.ballcat.system.authentication.CustomTokenEnhancer;
 import com.hccake.ballcat.system.authentication.SysUserDetailsServiceImpl;
+import com.hccake.ballcat.system.authentication.DefaultUserInfoCoordinatorImpl;
 import com.hccake.ballcat.system.authentication.UserInfoCoordinator;
 import com.hccake.ballcat.system.properties.UpmsProperties;
 import com.hccake.ballcat.system.service.SysUserService;
@@ -72,7 +73,7 @@ public class UpmsAutoConfiguration {
 		@Bean
 		@ConditionalOnMissingBean
 		public UserInfoCoordinator userInfoCoordinator() {
-			return new UserInfoCoordinator();
+			return new DefaultUserInfoCoordinatorImpl();
 		}
 
 	}
