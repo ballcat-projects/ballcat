@@ -1,8 +1,10 @@
 package com.hccake.ballcat.common.websocket.holder;
 
+import com.hccake.ballcat.common.websocket.handler.ConcurrentWebSocketSessionOptions;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 
 /**
@@ -15,9 +17,13 @@ public class MapSessionWebSocketHandlerDecorator extends WebSocketHandlerDecorat
 
 	private final SessionKeyGenerator sessionKeyGenerator;
 
-	public MapSessionWebSocketHandlerDecorator(WebSocketHandler delegate, SessionKeyGenerator sessionKeyGenerator) {
+	private final ConcurrentWebSocketSessionOptions concurrentWebSocketSessionOptions;
+
+	public MapSessionWebSocketHandlerDecorator(WebSocketHandler delegate, SessionKeyGenerator sessionKeyGenerator,
+			ConcurrentWebSocketSessionOptions concurrentWebSocketSessionOptions) {
 		super(delegate);
 		this.sessionKeyGenerator = sessionKeyGenerator;
+		this.concurrentWebSocketSessionOptions = concurrentWebSocketSessionOptions;
 	}
 
 	/**
@@ -26,8 +32,15 @@ public class MapSessionWebSocketHandlerDecorator extends WebSocketHandlerDecorat
 	 * @throws Exception 异常对象
 	 */
 	@Override
-	public void afterConnectionEstablished(final WebSocketSession session) throws Exception {
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		Object sessionKey = sessionKeyGenerator.sessionKey(session);
+		// 包装一层，防止并发发送出现问题
+		if (Boolean.TRUE.equals(concurrentWebSocketSessionOptions.isEnable())) {
+			session = new ConcurrentWebSocketSessionDecorator(session,
+					concurrentWebSocketSessionOptions.getSendTimeLimit(),
+					concurrentWebSocketSessionOptions.getBufferSizeLimit(),
+					concurrentWebSocketSessionOptions.getOverflowStrategy());
+		}
 		WebSocketSessionHolder.addSession(sessionKey, session);
 	}
 
@@ -38,7 +51,7 @@ public class MapSessionWebSocketHandlerDecorator extends WebSocketHandlerDecorat
 	 * @throws Exception 异常对象
 	 */
 	@Override
-	public void afterConnectionClosed(final WebSocketSession session, CloseStatus closeStatus) throws Exception {
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
 		Object sessionKey = sessionKeyGenerator.sessionKey(session);
 		WebSocketSessionHolder.removeSession(sessionKey);
 	}
