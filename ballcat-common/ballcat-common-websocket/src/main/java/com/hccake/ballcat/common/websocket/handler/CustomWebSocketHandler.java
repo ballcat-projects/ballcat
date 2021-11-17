@@ -71,6 +71,12 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 		catch (JsonProcessingException e) {
 			throw new ErrorJsonMessageException("json 解析异常");
 		}
+
+		// 必须是 object 类型
+		if (!jsonNode.isObject()) {
+			throw new ErrorJsonMessageException("json 格式异常！非 object 类型！");
+		}
+
 		JsonNode typeNode = jsonNode.get(AbstractJsonWebSocketMessage.TYPE_FIELD);
 		String messageType = typeNode.asText();
 		if (messageType == null) {
