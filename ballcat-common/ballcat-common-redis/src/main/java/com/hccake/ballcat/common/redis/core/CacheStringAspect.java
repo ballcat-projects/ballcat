@@ -4,6 +4,7 @@ import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
 import com.hccake.ballcat.common.redis.core.annotation.CachePut;
 import com.hccake.ballcat.common.redis.core.annotation.Cached;
+import com.hccake.ballcat.common.redis.lock.DistributedLock;
 import com.hccake.ballcat.common.redis.operation.CacheDelOps;
 import com.hccake.ballcat.common.redis.operation.CachedOps;
 import com.hccake.ballcat.common.redis.operation.CachePutOps;
@@ -155,29 +156,18 @@ public class CacheStringAspect {
 		}
 
 		// 2.==========如果缓存为空 则需查询数据库并更新===============
-		Object dbData = null;
-		// 尝试获取锁，只允许一个线程更新缓存
-		String reqId = UUID.randomUUID().toString();
-		if (CacheLock.lock(ops.lockKey(), reqId)) {
-			// 有可能其他线程已经更新缓存，这里再次判断缓存是否为空
-			cacheData = cacheQuery.get();
-			if (cacheData == null) {
+		cacheData = DistributedLock.<String>builder().action(ops.lockKey(), () -> {
+			String cacheValue = cacheQuery.get();
+			if (cacheValue == null) {
 				// 从数据库查询数据
-				dbData = ops.joinPoint().proceed();
+				Object dbValue = ops.joinPoint().proceed();
 				// 如果数据库中没数据，填充一个String，防止缓存击穿
-				cacheData = dbData == null ? CachePropertiesHolder.nullValue() : cacheSerializer.serialize(dbData);
+				cacheValue = dbValue == null ? CachePropertiesHolder.nullValue() : cacheSerializer.serialize(dbValue);
 				// 设置缓存
-				ops.cachePut().accept(cacheData);
+				ops.cachePut().accept(cacheValue);
 			}
-			// 解锁
-			CacheLock.releaseLock(ops.lockKey(), reqId);
-			// 返回数据
-			return dbData;
-		}
-		else {
-			cacheData = cacheQuery.get();
-		}
-
+			return cacheValue;
+		}).fail(cacheQuery).lock();
 		// 自旋时间内未获取到锁，或者数据库中数据为空，返回null
 		if (cacheData == null || ops.nullValue(cacheData)) {
 			return null;
