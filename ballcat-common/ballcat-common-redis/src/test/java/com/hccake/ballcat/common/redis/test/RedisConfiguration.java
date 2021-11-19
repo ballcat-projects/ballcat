@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -26,8 +25,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class RedisConfiguration {
 
 	private static final String host = "localhost";
-	private static final int port = 6379;
 
+	private static final int port = 6379;
 
 	@Bean
 	public CachePropertiesHolder cachePropertiesHolder(CacheProperties cacheProperties) {
@@ -37,18 +36,17 @@ public class RedisConfiguration {
 	}
 
 	@Bean
-	public RedisConnectionFactory redisConnectionFactory(){
-		LettuceConnectionFactory factory = new LettuceConnectionFactory(host,port);
+	public RedisConnectionFactory redisConnectionFactory() {
+		LettuceConnectionFactory factory = new LettuceConnectionFactory(host, port);
 		factory.afterPropertiesSet();
 		return factory;
 	}
-
 
 	@Bean
 	@ConditionalOnClass(IRedisPrefixConverter.class)
 	@ConditionalOnMissingBean
 	public StringRedisTemplate stringRedisTemplate(IRedisPrefixConverter redisPrefixConverter,
-												   RedisConnectionFactory redisConnectionFactory) {
+			RedisConnectionFactory redisConnectionFactory) {
 		StringRedisTemplate template = new StringRedisTemplate();
 		template.setConnectionFactory(redisConnectionFactory);
 		template.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
@@ -67,4 +65,5 @@ public class RedisConfiguration {
 	public IRedisPrefixConverter redisPrefixConverter() {
 		return new DefaultRedisPrefixConverter("ballcat");
 	}
+
 }

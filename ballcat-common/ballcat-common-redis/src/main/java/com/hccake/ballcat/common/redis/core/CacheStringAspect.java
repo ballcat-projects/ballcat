@@ -6,8 +6,8 @@ import com.hccake.ballcat.common.redis.core.annotation.CachePut;
 import com.hccake.ballcat.common.redis.core.annotation.Cached;
 import com.hccake.ballcat.common.redis.lock.DistributedLock;
 import com.hccake.ballcat.common.redis.operation.CacheDelOps;
-import com.hccake.ballcat.common.redis.operation.CachedOps;
 import com.hccake.ballcat.common.redis.operation.CachePutOps;
+import com.hccake.ballcat.common.redis.operation.CachedOps;
 import com.hccake.ballcat.common.redis.operation.function.VoidMethod;
 import com.hccake.ballcat.common.redis.serialize.CacheSerializer;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -26,9 +26,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -156,7 +154,7 @@ public class CacheStringAspect {
 		}
 
 		// 2.==========如果缓存为空 则需查询数据库并更新===============
-		cacheData = DistributedLock.<String>builder().action(ops.lockKey(), () -> {
+		cacheData = DistributedLock.<String>instance().action(ops.lockKey(), () -> {
 			String cacheValue = cacheQuery.get();
 			if (cacheValue == null) {
 				// 从数据库查询数据
@@ -167,7 +165,7 @@ public class CacheStringAspect {
 				ops.cachePut().accept(cacheValue);
 			}
 			return cacheValue;
-		}).fail(cacheQuery).lock();
+		}).onLockFail(cacheQuery).lock();
 		// 自旋时间内未获取到锁，或者数据库中数据为空，返回null
 		if (cacheData == null || ops.nullValue(cacheData)) {
 			return null;

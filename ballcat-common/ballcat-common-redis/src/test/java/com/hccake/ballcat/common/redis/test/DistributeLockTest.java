@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.redis.test;
 
+import cn.hutool.core.lang.Assert;
 import com.hccake.ballcat.common.redis.lock.DistributedLock;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -17,19 +18,33 @@ class DistributeLockTest {
 	String lockKey = "ballcat";
 
 	@Test
-	void testSuccess() {
-		String lock = DistributedLock.<String>builder().action(lockKey, () -> lockKey).success(ret -> ret + ret).lock();
-		System.out.println(lock);
+	void testSuccess() throws Throwable {
+		String value = DistributedLock.<String>instance().action(lockKey, () -> "value")
+				.onSuccess(ret -> ret + "Success").lock();
+		Assert.isTrue(value.equals("valueSuccess"));
 	}
 
 	@Test
-	void testException() {
-		String lock = DistributedLock.<String>builder().action(lockKey, this::get).success(ret -> ret + ret)
-				.exception(e -> System.out.println("发生异常了")).lock();
-		System.out.println(lock);
+	void testHandleException() throws Throwable {
+		String value = DistributedLock.<String>instance().action(lockKey, this::throwIOException)
+				.onSuccess(ret -> ret + ret).onException(e -> System.out.println("发生异常了")).lock();
+		Assert.isNull(value);
 	}
 
-	String get() throws IOException {
+	@Test
+	void testThrowException() {
+		Throwable throwable = null;
+		try {
+			DistributedLock.<String>instance().action(lockKey, this::throwIOException).lock();
+		}
+		catch (Throwable th) {
+			throwable = th;
+		}
+
+		Assert.isTrue(throwable instanceof IOException);
+	}
+
+	String throwIOException() throws IOException {
 		throw new IOException();
 	}
 
