@@ -4,17 +4,13 @@ import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.util.RandomUtil;
 import com.hccake.ballcat.common.i18n.I18nMessage;
 import com.hccake.ballcat.common.i18n.I18nMessageProvider;
-import com.hccake.ballcat.common.redis.listener.MessageEventListener;
-import com.hccake.ballcat.common.util.JsonUtils;
+import com.hccake.ballcat.common.redis.listener.AbstractMessageEventListener;
 import com.hccake.ballcat.i18n.constant.I18nRedisKeyConstants;
 import com.hccake.ballcat.i18n.model.dto.I18nDataUnique;
 import com.hccake.ballcat.i18n.model.entity.I18nData;
 import com.hccake.ballcat.i18n.service.I18nDataService;
-import org.springframework.data.redis.connection.Message;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.Topic;
-import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,11 +20,10 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author hccake
  */
-public class CustomI18nMessageProvider implements I18nMessageProvider, MessageEventListener {
+public class CustomI18nMessageProvider extends AbstractMessageEventListener<I18nDataUnique>
+		implements I18nMessageProvider {
 
 	private final I18nDataService i18nDataService;
-
-	private final StringRedisTemplate stringRedisTemplate;
 
 	private final TimedCache<String, I18nMessage> cache;
 
@@ -38,9 +33,8 @@ public class CustomI18nMessageProvider implements I18nMessageProvider, MessageEv
 
 	private static final int MAX_TIMEOUT = (int) (MILLISECONDS_OF_HOUR * 1.1);
 
-	public CustomI18nMessageProvider(I18nDataService i18nDataService, StringRedisTemplate stringRedisTemplate) {
+	public CustomI18nMessageProvider(I18nDataService i18nDataService) {
 		this.i18nDataService = i18nDataService;
-		this.stringRedisTemplate = stringRedisTemplate;
 		// 默认过期时间设置为 1 小时
 		this.cache = new TimedCache<>(MILLISECONDS_OF_HOUR, new ConcurrentHashMap<>());
 		// 每秒检查一次过期
@@ -93,19 +87,9 @@ public class CustomI18nMessageProvider implements I18nMessageProvider, MessageEv
 	}
 
 	@Override
-	public void onMessage(Message message, byte[] pattern) {
-		byte[] channelBytes = message.getChannel();
-		RedisSerializer<String> stringSerializer = stringRedisTemplate.getStringSerializer();
-		String channel = stringSerializer.deserialize(channelBytes);
-
-		// 这里没有使用通配符，所以一定是true
-		if (I18nRedisKeyConstants.CHANNEL_I18N_DATA_UPDATED.equals(channel)) {
-			byte[] bodyBytes = message.getBody();
-			String body = stringSerializer.deserialize(bodyBytes);
-			I18nDataUnique i18nDataUnique = JsonUtils.toObj(body, I18nDataUnique.class);
-			String cacheKey = getCacheKey(i18nDataUnique.getCode(), i18nDataUnique.getLanguageTag());
-			cache.remove(cacheKey);
-		}
+	protected void handleMessage(I18nDataUnique i18nDataUnique) {
+		String cacheKey = getCacheKey(i18nDataUnique.getCode(), i18nDataUnique.getLanguageTag());
+		cache.remove(cacheKey);
 	}
 
 	@Override

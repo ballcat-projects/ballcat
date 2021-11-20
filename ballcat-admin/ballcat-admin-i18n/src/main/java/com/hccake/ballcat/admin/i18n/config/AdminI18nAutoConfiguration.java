@@ -24,9 +24,8 @@ public class AdminI18nAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(I18nMessageProvider.class)
-	public CustomI18nMessageProvider i18nMessageProvider(I18nDataService i18nDataService,
-			StringRedisTemplate stringRedisTemplate) {
-		return new CustomI18nMessageProvider(i18nDataService, stringRedisTemplate);
+	public CustomI18nMessageProvider i18nMessageProvider(I18nDataService i18nDataService) {
+		return new CustomI18nMessageProvider(i18nDataService);
 	}
 
 }
