@@ -70,8 +70,7 @@ public final class PasswordUtils {
 		byte[] secretKeyBytes = secretKey.getBytes();
 		AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, secretKeyBytes, secretKeyBytes);
 		byte[] result = aes.decrypt(Base64.decode(aesPass.getBytes(StandardCharsets.UTF_8)));
-		// 删除byte数组中补位产生的\u0000, 否则密码校验时会有问题
-		return new String(result, StandardCharsets.UTF_8).replaceAll("[\u0000]", "");
+		return new String(result, StandardCharsets.UTF_8);
 	}
 
 	/**
