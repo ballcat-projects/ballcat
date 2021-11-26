@@ -20,9 +20,6 @@ import net.sf.jsqlparser.statement.update.Update;
 public abstract class JsqlParserSupport {
 
 	public String parserSingle(String sql, Object obj) {
-		if (log.isDebugEnabled()) {
-			log.debug("original SQL: " + sql);
-		}
 		try {
 			Statement statement = CCJSqlParserUtil.parse(sql);
 			return processParser(statement, 0, sql, obj);
@@ -33,9 +30,6 @@ public abstract class JsqlParserSupport {
 	}
 
 	public String parserMulti(String sql, Object obj) {
-		if (log.isDebugEnabled()) {
-			log.debug("original SQL: " + sql);
-		}
 		try {
 			// fixed github pull/295
 			StringBuilder sb = new StringBuilder();
