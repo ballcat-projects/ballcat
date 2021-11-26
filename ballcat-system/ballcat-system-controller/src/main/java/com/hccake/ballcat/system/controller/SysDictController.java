@@ -17,6 +17,7 @@ import com.hccake.ballcat.system.model.vo.SysDictPageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ import java.util.Map;
  * @date 2020-03-26 18:40:20
  */
 @RestController
+@ConditionalOnMissingBean(SysDictController.class)
 @RequiredArgsConstructor
 @RequestMapping("/system/dict")
 @Api(value = "system-dict", tags = "字典表管理")

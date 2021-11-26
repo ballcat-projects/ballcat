@@ -24,6 +24,7 @@ import com.hccake.ballcat.system.service.SysUserRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
  * @author Hccake
  */
 @RestController
+@ConditionalOnMissingBean(SysRoleController.class)
 @RequestMapping("/system/role")
 @Api(value = "system-role", tags = "角色管理模块")
 @RequiredArgsConstructor
