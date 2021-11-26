@@ -12,6 +12,7 @@ import com.hccake.ballcat.system.model.qo.SysConfigQO;
 import com.hccake.ballcat.system.model.vo.SysConfigPageVO;
 import com.hccake.ballcat.system.service.SysConfigService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
  * @date 2019-10-14 17:42:23
  */
 @Service
+@ConditionalOnMissingBean(SysConfigService.class)
 public class SysConfigServiceImpl extends ExtendServiceImpl<SysConfigMapper, SysConfig> implements SysConfigService {
 
 	@Override

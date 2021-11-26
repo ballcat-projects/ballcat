@@ -9,6 +9,7 @@ import com.hccake.ballcat.log.service.OperationLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019-10-15 20:42:32
  */
 @RestController
+@ConditionalOnMissingBean(OperationLogController.class)
 @RequiredArgsConstructor
 @RequestMapping("/log/operation-log")
 @Api(value = "operation-log", tags = "操作日志管理")

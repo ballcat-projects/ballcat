@@ -5,6 +5,7 @@ import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Hccake
  */
 @RestController
+@ConditionalOnMissingBean(AuthController.class)
 @RequestMapping("/oauth")
 @Api(value = "oauth", tags = "用户认证模块")
 @RequiredArgsConstructor

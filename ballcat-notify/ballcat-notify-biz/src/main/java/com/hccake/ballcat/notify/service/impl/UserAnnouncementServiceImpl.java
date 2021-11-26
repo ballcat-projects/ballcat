@@ -9,6 +9,7 @@ import com.hccake.ballcat.notify.service.UserAnnouncementService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
  * @author hccake 2020-12-25 08:04:53
  */
 @Service
+@ConditionalOnMissingBean(UserAnnouncementService.class)
 public class UserAnnouncementServiceImpl extends ExtendServiceImpl<UserAnnouncementMapper, UserAnnouncement>
 		implements UserAnnouncementService {
 

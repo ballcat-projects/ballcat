@@ -19,6 +19,7 @@ import com.hccake.ballcat.i18n.service.I18nDataService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ import java.util.List;
  * @author hccake 2021-08-06 10:48:25
  */
 @Service
+@ConditionalOnMissingBean(I18nDataService.class)
 @RequiredArgsConstructor
 public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nData> implements I18nDataService {
 

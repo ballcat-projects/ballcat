@@ -20,6 +20,7 @@ import com.hccake.ballcat.system.service.SysOrganizationService;
 import com.hccake.ballcat.system.service.SysUserService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
  * @author hccake 2020-09-23 12:09:43
  */
 @Service
+@ConditionalOnMissingBean(SysOrganizationService.class)
 @RequiredArgsConstructor
 public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizationMapper, SysOrganization>
 		implements SysOrganizationService {

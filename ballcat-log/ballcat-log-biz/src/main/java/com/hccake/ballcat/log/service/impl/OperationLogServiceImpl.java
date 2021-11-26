@@ -9,6 +9,7 @@ import com.hccake.ballcat.log.service.OperationLogService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
  * @date 2019-10-15 20:42:32
  */
 @Service
+@ConditionalOnMissingBean(OperationLogService.class)
 public class OperationLogServiceImpl extends ExtendServiceImpl<OperationLogMapper, OperationLog>
 		implements OperationLogService {
 

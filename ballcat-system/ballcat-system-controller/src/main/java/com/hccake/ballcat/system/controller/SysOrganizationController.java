@@ -12,6 +12,7 @@ import com.hccake.ballcat.common.model.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * @author hccake 2020-09-23 12:09:43
  */
 @RestController
+@ConditionalOnMissingBean(SysOrganizationController.class)
 @RequiredArgsConstructor
 @RequestMapping("/system/organization")
 @Api(value = "system-organization", tags = "组织架构管理")

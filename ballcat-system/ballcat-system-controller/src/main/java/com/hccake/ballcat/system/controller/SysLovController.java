@@ -19,6 +19,7 @@ import com.hccake.ballcat.system.service.SysLovService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ import java.util.Map;
  */
 @Deprecated
 @RestController
+@ConditionalOnMissingBean(SysLovController.class)
 @RequiredArgsConstructor
 @RequestMapping("/system/lov")
 @Api(value = "system-lov", tags = "弹窗选择器")

@@ -15,6 +15,7 @@ import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@ConditionalOnMissingBean(SysUserRoleService.class)
 public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper, SysUserRole>
 		implements SysUserRoleService {
 

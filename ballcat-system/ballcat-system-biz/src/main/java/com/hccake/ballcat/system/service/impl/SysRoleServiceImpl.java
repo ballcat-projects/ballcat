@@ -12,6 +12,7 @@ import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ import java.util.List;
  * @since 2017-10-29
  */
 @Service
+@ConditionalOnMissingBean(SysRoleService.class)
 @RequiredArgsConstructor
 public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 

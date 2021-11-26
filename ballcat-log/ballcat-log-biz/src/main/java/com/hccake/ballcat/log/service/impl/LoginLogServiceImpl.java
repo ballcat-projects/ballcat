@@ -8,6 +8,7 @@ import com.hccake.ballcat.log.service.LoginLogService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
  * @author hccake 2020-09-16 20:21:10
  */
 @Service
+@ConditionalOnMissingBean(LoginLogService.class)
 public class LoginLogServiceImpl extends ExtendServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
 
 	/**

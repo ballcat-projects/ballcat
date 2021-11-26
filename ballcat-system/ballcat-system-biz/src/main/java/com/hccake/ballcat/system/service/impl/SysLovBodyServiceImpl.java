@@ -4,6 +4,7 @@ import com.hccake.ballcat.system.mapper.SysLovBodyMapper;
 import com.hccake.ballcat.system.model.entity.SysLovBody;
 import com.hccake.ballcat.system.service.SysLovBodyService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * @author lingting 2020-08-10 17:21
  */
 @Service
+@ConditionalOnMissingBean(SysLovBodyService.class)
 @Deprecated
 public class SysLovBodyServiceImpl extends ExtendServiceImpl<SysLovBodyMapper, SysLovBody>
 		implements SysLovBodyService {
