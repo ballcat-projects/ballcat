@@ -46,7 +46,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@ConditionalOnMissingBean(AnnouncementServiceImpl.class)
+@ConditionalOnMissingBean(AnnouncementService.class)
 @RequiredArgsConstructor
 public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMapper, Announcement>
 		implements AnnouncementService {

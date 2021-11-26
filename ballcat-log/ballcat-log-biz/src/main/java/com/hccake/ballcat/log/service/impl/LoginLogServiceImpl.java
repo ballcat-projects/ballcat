@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @author hccake 2020-09-16 20:21:10
  */
 @Service
-@ConditionalOnMissingBean(LoginLogServiceImpl.class)
+@ConditionalOnMissingBean(LoginLogService.class)
 public class LoginLogServiceImpl extends ExtendServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
 
 	/**

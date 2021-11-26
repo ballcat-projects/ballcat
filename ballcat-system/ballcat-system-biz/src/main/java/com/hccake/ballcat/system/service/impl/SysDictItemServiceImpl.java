@@ -19,7 +19,7 @@ import java.util.List;
  * @date 2020-03-26 18:40:20
  */
 @Service
-@ConditionalOnMissingBean(SysDictItemServiceImpl.class)
+@ConditionalOnMissingBean(SysDictItemService.class)
 public class SysDictItemServiceImpl extends ExtendServiceImpl<SysDictItemMapper, SysDictItem>
 		implements SysDictItemService {
 

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @date 2019-10-14 17:42:23
  */
 @Service
-@ConditionalOnMissingBean(SysConfigServiceImpl.class)
+@ConditionalOnMissingBean(SysConfigService.class)
 public class SysConfigServiceImpl extends ExtendServiceImpl<SysConfigMapper, SysConfig> implements SysConfigService {
 
 	@Override

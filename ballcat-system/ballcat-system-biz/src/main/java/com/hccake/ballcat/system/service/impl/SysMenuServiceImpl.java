@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@ConditionalOnMissingBean(SysMenuServiceImpl.class)
+@ConditionalOnMissingBean(SysMenuService.class)
 @RequiredArgsConstructor
 public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 

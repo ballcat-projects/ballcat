@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author hccake
  */
 @Service
-@ConditionalOnMissingBean(SysRoleMenuServiceImpl.class)
+@ConditionalOnMissingBean(SysRoleMenuService.class)
 public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper, SysRoleMenu>
 		implements SysRoleMenuService {
 

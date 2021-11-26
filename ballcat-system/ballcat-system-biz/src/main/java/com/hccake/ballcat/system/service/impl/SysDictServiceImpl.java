@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2020-03-26 18:40:20
  */
 @Service
-@ConditionalOnMissingBean(SysDictServiceImpl.class)
+@ConditionalOnMissingBean(SysDictService.class)
 public class SysDictServiceImpl extends ExtendServiceImpl<SysDictMapper, SysDict> implements SysDictService {
 
 	/**

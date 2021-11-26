@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Deprecated
 @Service
-@ConditionalOnMissingBean(SysLovServiceImpl.class)
+@ConditionalOnMissingBean(SysLovService.class)
 @RequiredArgsConstructor
 public class SysLovServiceImpl extends ExtendServiceImpl<SysLovMapper, SysLov> implements SysLovService {
 

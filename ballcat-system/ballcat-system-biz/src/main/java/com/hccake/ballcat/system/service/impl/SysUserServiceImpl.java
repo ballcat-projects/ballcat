@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-@ConditionalOnMissingBean(SysUserServiceImpl.class)
+@ConditionalOnMissingBean(SysUserService.class)
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 

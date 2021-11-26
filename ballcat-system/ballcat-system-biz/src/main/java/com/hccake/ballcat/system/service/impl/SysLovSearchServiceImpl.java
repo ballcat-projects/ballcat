@@ -13,7 +13,7 @@ import java.util.List;
  * @author lingting 2020-08-10 17:21
  */
 @Service
-@ConditionalOnMissingBean(SysLovSearchServiceImpl.class)
+@ConditionalOnMissingBean(SysLovSearchService.class)
 @Deprecated
 public class SysLovSearchServiceImpl extends ExtendServiceImpl<SysLovSearchMapper, SysLovSearch>
 		implements SysLovSearchService {

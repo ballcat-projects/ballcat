@@ -28,7 +28,7 @@ import java.util.List;
  * @since 2017-10-29
  */
 @Service
-@ConditionalOnMissingBean(SysRoleServiceImpl.class)
+@ConditionalOnMissingBean(SysRoleService.class)
 @RequiredArgsConstructor
 public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 

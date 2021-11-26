@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * @date 2019-10-15 20:42:32
  */
 @Service
-@ConditionalOnMissingBean(OperationLogServiceImpl.class)
+@ConditionalOnMissingBean(OperationLogService.class)
 public class OperationLogServiceImpl extends ExtendServiceImpl<OperationLogMapper, OperationLog>
 		implements OperationLogService {
 

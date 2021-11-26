@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
  * @author hccake 2020-12-25 08:04:53
  */
 @Service
-@ConditionalOnMissingBean(UserAnnouncementServiceImpl.class)
+@ConditionalOnMissingBean(UserAnnouncementService.class)
 public class UserAnnouncementServiceImpl extends ExtendServiceImpl<UserAnnouncementMapper, UserAnnouncement>
 		implements UserAnnouncementService {
 

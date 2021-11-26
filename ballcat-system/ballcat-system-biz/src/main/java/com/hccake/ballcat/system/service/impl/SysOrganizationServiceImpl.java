@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * @author hccake 2020-09-23 12:09:43
  */
 @Service
-@ConditionalOnMissingBean(SysOrganizationServiceImpl.class)
+@ConditionalOnMissingBean(SysOrganizationService.class)
 @RequiredArgsConstructor
 public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizationMapper, SysOrganization>
 		implements SysOrganizationService {

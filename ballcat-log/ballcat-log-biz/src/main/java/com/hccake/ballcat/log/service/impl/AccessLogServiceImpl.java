@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@ConditionalOnMissingBean(AccessLogServiceImpl.class)
+@ConditionalOnMissingBean(AccessLogService.class)
 public class AccessLogServiceImpl extends ExtendServiceImpl<AccessLogMapper, AccessLog> implements AccessLogService {
 
 	/**

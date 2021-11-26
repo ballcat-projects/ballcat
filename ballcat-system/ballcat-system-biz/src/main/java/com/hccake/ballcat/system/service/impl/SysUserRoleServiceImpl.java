@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@ConditionalOnMissingBean(SysUserRoleServiceImpl.class)
+@ConditionalOnMissingBean(SysUserRoleService.class)
 public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper, SysUserRole>
 		implements SysUserRoleService {
 
