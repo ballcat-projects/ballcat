@@ -26,7 +26,6 @@ import com.hccake.ballcat.file.service.FileService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +45,6 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@ConditionalOnMissingBean(AnnouncementService.class)
 @RequiredArgsConstructor
 public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMapper, Announcement>
 		implements AnnouncementService {

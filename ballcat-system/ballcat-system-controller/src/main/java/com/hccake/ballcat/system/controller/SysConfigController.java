@@ -13,7 +13,6 @@ import com.hccake.ballcat.common.model.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019-10-14 17:42:23
  */
 @RestController
-@ConditionalOnMissingBean(SysConfigController.class)
 @RequiredArgsConstructor
 @RequestMapping("/system/config")
 @Api(value = "system-config", tags = "系统配置")

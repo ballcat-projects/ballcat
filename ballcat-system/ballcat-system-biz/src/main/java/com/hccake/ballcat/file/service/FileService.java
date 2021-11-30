@@ -4,7 +4,6 @@ import com.hccake.ballcat.common.oss.OssClient;
 import com.hccake.starter.file.FileClient;
 import java.io.InputStream;
 import lombok.SneakyThrows;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
  * @author lingting 2021/5/27 11:14
  */
 @Component
-@ConditionalOnMissingBean(FileService.class)
 public class FileService {
 
 	private OssClient ossClient;

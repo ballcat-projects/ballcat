@@ -28,7 +28,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +49,6 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@ConditionalOnMissingBean(SysUserController.class)
 @RequestMapping("/system/user")
 @Api(value = "system-user", tags = "用户管理模块")
 @RequiredArgsConstructor

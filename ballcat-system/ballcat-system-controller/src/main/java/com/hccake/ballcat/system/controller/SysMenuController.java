@@ -22,7 +22,6 @@ import com.hccake.ballcat.system.service.SysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +48,6 @@ import java.util.stream.Collectors;
  * @author hccake 2021-04-06 17:59:51
  */
 @RestController
-@ConditionalOnMissingBean(SysMenuController.class)
 @RequiredArgsConstructor
 @RequestMapping("/system/menu")
 @Api(value = "system-menu", tags = "菜单权限管理")

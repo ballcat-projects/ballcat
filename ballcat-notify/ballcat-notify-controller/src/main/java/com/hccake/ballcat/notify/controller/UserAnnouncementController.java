@@ -10,7 +10,6 @@ import com.hccake.ballcat.common.security.util.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
  * @author hccake 2020-12-25 08:04:53
  */
 @RestController
-@ConditionalOnMissingBean(UserAnnouncementController.class)
 @RequiredArgsConstructor
 @RequestMapping("/notify/user-announcement")
 @Api(value = "user-announcement", tags = "用户公告表管理")

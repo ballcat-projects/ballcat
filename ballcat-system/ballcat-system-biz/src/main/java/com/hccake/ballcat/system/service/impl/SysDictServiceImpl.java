@@ -9,7 +9,6 @@ import com.hccake.ballcat.system.service.SysDictService;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import java.util.List;
  * @date 2020-03-26 18:40:20
  */
 @Service
-@ConditionalOnMissingBean(SysDictService.class)
 public class SysDictServiceImpl extends ExtendServiceImpl<SysDictMapper, SysDict> implements SysDictService {
 
 	/**

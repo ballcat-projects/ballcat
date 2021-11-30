@@ -16,7 +16,6 @@ import com.hccake.ballcat.notify.service.AnnouncementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +29,6 @@ import java.util.List;
  * @author hccake 2020-12-15 17:01:15
  */
 @RestController
-@ConditionalOnMissingBean(AnnouncementController.class)
 @RequiredArgsConstructor
 @RequestMapping("/notify/announcement")
 @Api(value = "announcement", tags = "公告信息管理")

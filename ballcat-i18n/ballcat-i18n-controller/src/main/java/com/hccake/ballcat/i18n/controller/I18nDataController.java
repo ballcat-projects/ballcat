@@ -22,7 +22,6 @@ import com.hccake.common.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +38,6 @@ import java.util.stream.Collectors;
  */
 @Validated
 @RestController
-@ConditionalOnMissingBean(I18nDataController.class)
 @RequiredArgsConstructor
 @RequestMapping("/i18n/i18n-data")
 @Api(value = "i18n-data", tags = "国际化信息管理")

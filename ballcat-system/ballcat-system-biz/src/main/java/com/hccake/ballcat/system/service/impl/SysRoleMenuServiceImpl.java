@@ -6,7 +6,6 @@ import com.hccake.ballcat.system.mapper.SysRoleMenuMapper;
 import com.hccake.ballcat.system.model.entity.SysRoleMenu;
 import com.hccake.ballcat.system.service.SysRoleMenuService;
 import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
  * @author hccake
  */
 @Service
-@ConditionalOnMissingBean(SysRoleMenuService.class)
 public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper, SysRoleMenu>
 		implements SysRoleMenuService {
 

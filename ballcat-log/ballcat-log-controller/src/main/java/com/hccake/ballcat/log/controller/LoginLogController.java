@@ -9,7 +9,6 @@ import com.hccake.ballcat.log.service.LoginLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author hccake 2020-09-16 20:21:10
  */
 @RestController
-@ConditionalOnMissingBean(LoginLogController.class)
 @RequiredArgsConstructor
 @RequestMapping("/log/login-log")
 @Api(value = "login-log", tags = "登陆日志管理")
