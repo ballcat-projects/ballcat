@@ -27,6 +27,10 @@ public class TokenGrantBuilder {
 
 	private final AuthenticationManager authenticationManager;
 
+	public AuthenticationManager getAuthenticationManager() {
+		return authenticationManager;
+	}
+
 	public TokenGranter build(final AuthorizationServerEndpointsConfigurer endpoints) {
 		List<TokenGranter> tokenGranters = defaultTokenGranters(endpoints);
 		return new CompositeTokenGranter(tokenGranters);
