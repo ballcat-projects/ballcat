@@ -140,6 +140,7 @@ http://codegen.ballcat.cn/
 |   |-- ballcat-spring-boot-starter-datascope	-- 数据权限控制
 |   |-- ballcat-spring-boot-starter-dingtalk	-- 钉钉集成工具
 |   |-- ballcat-spring-boot-starter-easyexcel	-- 通过注解快速导入导出excle（easyexcel）
+|   |-- ballcat-spring-boot-starter-file		-- 文件上传 FTP or Local
 |   |-- ballcat-spring-boot-starter-i18n		-- 国际化方案
 |   |-- ballcat-spring-boot-starter-job			-- 定时任务集成（目前仅xxl-job）
 |   |-- ballcat-spring-boot-starter-kafka		-- 消息队列 kafka 集成
@@ -276,6 +277,6 @@ npm run serve
 
 如果群二维码失效，可以扫右边我的个人微信二维码，或者添加我的微信号 `Hccake_`，我再邀请你入群
 
-<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_20211107.jpg" alt="微信" width="35%"/>
+<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_20211203.jpg" alt="微信" width="35%"/>
 
 <img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/wechat-hccake.jpg" alt="微信" width="35%"/>

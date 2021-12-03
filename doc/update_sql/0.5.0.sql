@@ -79,17 +79,6 @@ ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
 MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
 MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
 
-ALTER TABLE `i18n_data`
-    ADD COLUMN `deleted` bigint NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `remark`,
-ADD COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
-ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
-MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
-MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
-
-ALTER TABLE `i18n_data`
-DROP INDEX `udx_laguage_tag_code`,
-ADD UNIQUE INDEX `udx_laguage_tag_code`(`language_tag`, `code`, `deleted`) USING BTREE;
-
 
 -- 统一备注属性的名称为 remarks
 ALTER TABLE `sys_role`
@@ -109,6 +98,19 @@ ALTER TABLE `sys_dict_item`
 
 ALTER TABLE `sys_config`
     CHANGE COLUMN `description` `remarks` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注' AFTER `category`;
+
+
+-- 国际化部分
+ALTER TABLE `i18n_data`
+    ADD COLUMN `deleted` bigint NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `remark`,
+ADD COLUMN `create_by` int NULL COMMENT '创建人' AFTER `deleted`,
+ADD COLUMN `update_by` int NULL COMMENT '修改人' AFTER `create_by`,
+MODIFY COLUMN `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间' AFTER `update_by`,
+MODIFY COLUMN `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间' AFTER `create_time`;
+
+ALTER TABLE `i18n_data`
+DROP INDEX `udx_laguage_tag_code`,
+ADD UNIQUE INDEX `udx_laguage_tag_code`(`language_tag`, `code`, `deleted`) USING BTREE;
 
 ALTER TABLE `i18n_data`
     CHANGE COLUMN `remark` `remarks` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注' AFTER `message`;
