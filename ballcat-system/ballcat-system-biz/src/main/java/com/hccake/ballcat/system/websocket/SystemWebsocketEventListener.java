@@ -4,9 +4,7 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.websocket.distribute.MessageDO;
 import com.hccake.ballcat.common.websocket.distribute.MessageDistributor;
 import com.hccake.ballcat.system.event.DictChangeEvent;
-import com.hccake.ballcat.system.event.LovChangeEvent;
 import com.hccake.ballcat.system.model.dto.DictChangeMessage;
-import com.hccake.ballcat.system.model.dto.LovChangeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -15,13 +13,6 @@ import org.springframework.scheduling.annotation.Async;
 public class SystemWebsocketEventListener {
 
 	private final MessageDistributor messageDistributor;
-
-	@Async
-	@EventListener(LovChangeEvent.class)
-	public void onLovChangeEvent(LovChangeEvent event) {
-		LovChangeMessage message = LovChangeMessage.of(event.getKeyword());
-		messageDistributor.distribute(MessageDO.broadcastMessage(message.toString()));
-	}
 
 	/**
 	 * 字典修改事件监听
