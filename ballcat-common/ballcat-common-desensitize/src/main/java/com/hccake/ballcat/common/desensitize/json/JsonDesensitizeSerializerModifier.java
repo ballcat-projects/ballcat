@@ -15,14 +15,14 @@ import java.util.List;
  *
  * @author Yakir
  */
-public class JsonSerializerModifier extends BeanSerializerModifier {
+public class JsonDesensitizeSerializerModifier extends BeanSerializerModifier {
 
 	private DesensitizeStrategy desensitizeStrategy;
 
-	public JsonSerializerModifier() {
+	public JsonDesensitizeSerializerModifier() {
 	}
 
-	public JsonSerializerModifier(DesensitizeStrategy desensitizeStrategy) {
+	public JsonDesensitizeSerializerModifier(DesensitizeStrategy desensitizeStrategy) {
 		this.desensitizeStrategy = desensitizeStrategy;
 	}
 

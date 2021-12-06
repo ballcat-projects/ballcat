@@ -10,7 +10,7 @@ import com.hccake.ballcat.common.desensitize.handler.RegexDesensitizationHandler
 import com.hccake.ballcat.common.desensitize.handler.SimpleDesensitizationHandler;
 import com.hccake.ballcat.common.desensitize.handler.SixAsteriskDesensitizationHandler;
 import com.hccake.ballcat.common.desensitize.handler.SlideDesensitizationHandler;
-import com.hccake.ballcat.common.desensitize.json.JsonSerializerModifier;
+import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializerModifier;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
@@ -65,7 +65,7 @@ class DesensitisedTest {
 	@Test
 	void testJackson() throws JsonProcessingException {
 		// 指定DesensitizeHandler 若ignore方法为true 则忽略脱敏 false 则启用脱敏
-		JsonSerializerModifier modifier = new JsonSerializerModifier((fieldName) -> {
+		JsonDesensitizeSerializerModifier modifier = new JsonDesensitizeSerializerModifier((fieldName) -> {
 			log.info("当前字段名称{}", fieldName);
 			return false;
 		});

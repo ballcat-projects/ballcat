@@ -4,14 +4,17 @@ import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.hccake.ballcat.common.core.jackson.JavaTimeModule;
 import com.hccake.ballcat.common.core.jackson.NullSerializerModifier;
-import com.hccake.ballcat.common.desensitize.json.JsonSerializerModifier;
+import com.hccake.ballcat.common.desensitize.json.DesensitizeStrategy;
+import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializerModifier;
+import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeModule;
 import com.hccake.ballcat.common.util.json.JacksonJsonToolAdapter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -22,7 +25,8 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
  * @date 2019/10/17 22:14
  */
 @Configuration
-public class JacksonAutoConfiguration {
+@AutoConfigureBefore(JacksonAutoConfiguration.class)
+public class CustomJacksonAutoConfiguration {
 
 	/**
 	 * 自定义objectMapper
@@ -54,15 +58,27 @@ public class JacksonAutoConfiguration {
 	}
 
 	/**
-	 * 注册 Jackson 的脱敏序列化器
+	 * 注册 Jackson 的脱敏模块
 	 * @return Jackson2ObjectMapperBuilderCustomizer
 	 */
 	@Bean
-	@ConditionalOnMissingBean(name = "desensitizeCustomizer")
-	public Jackson2ObjectMapperBuilderCustomizer desensitizeCustomizer() {
-		SimpleModule simpleModule = new SimpleModule();
-		simpleModule.setSerializerModifier(new JsonSerializerModifier());
-		return builder -> builder.modules(simpleModule);
+	@ConditionalOnMissingBean({ JsonDesensitizeModule.class, DesensitizeStrategy.class })
+	public JsonDesensitizeModule jsonDesensitizeModule() {
+		JsonDesensitizeSerializerModifier desensitizeModifier = new JsonDesensitizeSerializerModifier();
+		return new JsonDesensitizeModule(desensitizeModifier);
+	}
+
+	/**
+	 * 注册 Jackson 的脱敏模块
+	 * @return Jackson2ObjectMapperBuilderCustomizer
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	@ConditionalOnBean(DesensitizeStrategy.class)
+	public JsonDesensitizeModule jsonDesensitizeModule(DesensitizeStrategy desensitizeStrategy) {
+		JsonDesensitizeSerializerModifier desensitizeModifier = new JsonDesensitizeSerializerModifier(
+				desensitizeStrategy);
+		return new JsonDesensitizeModule(desensitizeModifier);
 	}
 
 }

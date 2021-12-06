@@ -15,7 +15,7 @@ import java.lang.annotation.Annotation;
  * @author Hccake 2021/1/22
  * @version 1.0
  */
-public class JsonDesensitizeSerializer<T> extends JsonSerializer<T> {
+public class JsonDesensitizeSerializer extends JsonSerializer<Object> {
 
 	/**
 	 * json 脱敏处理注解
@@ -33,21 +33,25 @@ public class JsonDesensitizeSerializer<T> extends JsonSerializer<T> {
 	}
 
 	@Override
-	public void serialize(T value, JsonGenerator jsonGenerator, SerializerProvider serializers) throws IOException {
-		String str = (String) value;
-		String fieldName = jsonGenerator.getOutputContext().getCurrentName();
-		// 未开启脱敏
-		if (desensitizeStrategy != null && desensitizeStrategy.ignoreField(fieldName)) {
-			jsonGenerator.writeString(str);
-			return;
+	public void serialize(Object value, JsonGenerator jsonGenerator, SerializerProvider serializers)
+			throws IOException {
+		if (value instanceof String) {
+			String str = (String) value;
+
+			String fieldName = jsonGenerator.getOutputContext().getCurrentName();
+			// 未开启脱敏
+			if (desensitizeStrategy != null && desensitizeStrategy.ignoreField(fieldName)) {
+				jsonGenerator.writeString(str);
+				return;
+			}
+			DesensitizeFunction handleFunction = AnnotationHandlerHolder
+					.getHandleFunction(jsonDesensitizeAnnotation.annotationType());
+			if (handleFunction == null) {
+				jsonGenerator.writeString(str);
+				return;
+			}
+			jsonGenerator.writeString(handleFunction.desensitize(jsonDesensitizeAnnotation, str));
 		}
-		DesensitizeFunction handleFunction = AnnotationHandlerHolder
-				.getHandleFunction(jsonDesensitizeAnnotation.annotationType());
-		if (handleFunction == null) {
-			jsonGenerator.writeString(str);
-			return;
-		}
-		jsonGenerator.writeString(handleFunction.desensitize(jsonDesensitizeAnnotation, str));
 	}
 
 }
