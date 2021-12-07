@@ -40,26 +40,26 @@
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.28</spring-javaformat-checkstyle.version>
+		<spring-javaformat-checkstyle.version>0.0.29</spring-javaformat-checkstyle.version>
 
-		<spring-boot.version>2.5.6</spring-boot.version>
+		<spring-boot.version>2.6.1</spring-boot.version>
 		<spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
 		<knife4j.version>2.0.9</knife4j.version>
 		<kafka.version>2.5.0</kafka.version>
-		<hutool.version>5.7.12</hutool.version>
+		<hutool.version>5.7.16</hutool.version>
 		<fastjson.version>1.2.76</fastjson.version>
 		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<mybatis.version>3.5.7</mybatis.version>
 		<jsqlparser.version>4.2</jsqlparser.version>
-		<dynamic-datasource.version>3.4.1</dynamic-datasource.version>
+		<dynamic-datasource.version>3.5.0</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
 		<spring-boot-admin.version>2.5.4</spring-boot-admin.version>
 		<easyexcel.version>2.2.10</easyexcel.version>
 		<poi.version>4.1.2</poi.version>
-		<jasypt.version>3.0.3</jasypt.version>
-		<jsoup.version>1.14.2</jsoup.version>
+		<jasypt.version>3.0.4</jasypt.version>
+		<jsoup.version>1.14.3</jsoup.version>
 		<anji-captcha.version>1.2.9</anji-captcha.version>
 		<virtual-currency.version>0.4.2</virtual-currency.version>
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
@@ -369,6 +369,11 @@
 
 			<!--swagger注解-->
 			<dependency>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>2.1.11</version>
+			</dependency>
+			<dependency>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-annotations</artifactId>
 				<version>${swagger.version}</version>
@@ -566,6 +571,17 @@
 				<groupId>commons-net</groupId>
 				<artifactId>commons-net</artifactId>
 				<version>3.8.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>oauth2-oidc-sdk</artifactId>
+				<version>9.20</version>
+			</dependency>
+			<dependency>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>nimbus-jose-jwt</artifactId>
+				<version>9.15.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
