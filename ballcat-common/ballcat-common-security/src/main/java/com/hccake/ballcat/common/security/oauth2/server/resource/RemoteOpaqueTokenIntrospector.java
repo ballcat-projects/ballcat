@@ -53,6 +53,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -126,7 +127,8 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private HttpHeaders requestHeaders() {
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
+		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
 		return headers;
 	}
 

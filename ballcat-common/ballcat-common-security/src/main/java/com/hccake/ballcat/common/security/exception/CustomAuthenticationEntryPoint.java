@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Hccake
@@ -24,7 +25,11 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			AuthenticationException e) throws IOException, ServletException {
 
-		httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
+		String utf8 = StandardCharsets.UTF_8.toString();
+
+		httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+		httpServletResponse.setHeader("Accept-Charset", utf8);
+		httpServletResponse.setCharacterEncoding(utf8);
 		httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
 		R<Object> r = R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage());
 		httpServletResponse.getWriter().write(JsonUtils.toJson(r));
