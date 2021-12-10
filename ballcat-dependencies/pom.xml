@@ -47,6 +47,7 @@
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
 		<io.swagger.v3.version>2.1.11</io.swagger.v3.version>
+		<springdoc-openapi.verison>1.5.13</springdoc-openapi.verison>
 		<knife4j.version>2.0.9</knife4j.version>
 		<kafka.version>2.5.0</kafka.version>
 		<hutool.version>5.7.16</hutool.version>
@@ -368,7 +369,7 @@
 				<version>${revision}</version>
 			</dependency>
 
-			<!--swagger注解-->
+			<!--swagger v3-->
 			<dependency>
 				<groupId>io.swagger.core.v3</groupId>
 				<artifactId>swagger-annotations</artifactId>
@@ -379,6 +380,7 @@
 				<artifactId>swagger-models</artifactId>
 				<version>${io.swagger.v3.version}</version>
 			</dependency>
+			<!--swagger v2-->
 			<dependency>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-annotations</artifactId>
@@ -389,12 +391,68 @@
 				<artifactId>swagger-models</artifactId>
 				<version>${swagger.version}</version>
 			</dependency>
+			<!-- SpringDoc -->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-common</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-webmvc-core</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-webflux-core</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-kotlin</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-hateoas</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-data-rest</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-security</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-groovy</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-ui</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-webflux-ui</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-javadoc</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+			</dependency>
+			<!-- SpringFox -->
 			<dependency>
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-swagger2</artifactId>
 				<version>${springfox.version}</version>
 			</dependency>
-			<!-- springfox swagger ui -->
 			<dependency>
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-swagger-ui</artifactId>
