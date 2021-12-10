@@ -1,8 +1,9 @@
 package com.hccake.ballcat.system.model.qo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * 字典表 查询对象
@@ -11,7 +12,8 @@ import lombok.Data;
  * @date 2020-03-26 18:40:20
  */
 @Data
-@ApiModel(value = "字典表查询对象")
+@Schema(title = "字典表查询对象")
+@ParameterObject
 public class SysDictQO {
 
 	private static final long serialVersionUID = 1L;
@@ -19,13 +21,13 @@ public class SysDictQO {
 	/**
 	 * 字典标识
 	 */
-	@ApiModelProperty(value = "字典标识")
+	@Schema(title = "字典标识")
 	private String code;
 
 	/**
 	 * 字典名称
 	 */
-	@ApiModelProperty(value = "字典名称")
+	@Schema(title = "字典名称")
 	private String title;
 
 }

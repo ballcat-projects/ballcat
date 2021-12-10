@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,33 +23,33 @@ import java.util.Objects;
 @Setter
 @ToString
 @TableName("sys_role")
-@ApiModel(value = "角色")
+@Schema(title = "角色")
 public class SysRole extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "id", type = IdType.AUTO)
-	@ApiModelProperty(value = "角色编号")
+	@Schema(title = "角色编号")
 	private Integer id;
 
 	@NotBlank(message = "角色名称不能为空")
-	@ApiModelProperty(value = "角色名称")
+	@Schema(title = "角色名称")
 	private String name;
 
 	@NotBlank(message = "角色标识不能为空")
-	@ApiModelProperty(value = "角色标识")
+	@Schema(title = "角色标识")
 	private String code;
 
-	@ApiModelProperty("角色类型，1：系统角色 2：业务角色")
+	@Schema(title = "角色类型，1：系统角色 2：业务角色")
 	private Integer type;
 
-	@ApiModelProperty(value = "数据权限")
+	@Schema(title = "数据权限")
 	private Integer scopeType;
 
-	@ApiModelProperty("数据范围资源，当数据范围类型为自定义时使用")
+	@Schema(title = "数据范围资源，当数据范围类型为自定义时使用")
 	private String scopeResources;
 
-	@ApiModelProperty(value = "角色备注")
+	@Schema(title = "角色备注")
 	private String remarks;
 
 	@Override

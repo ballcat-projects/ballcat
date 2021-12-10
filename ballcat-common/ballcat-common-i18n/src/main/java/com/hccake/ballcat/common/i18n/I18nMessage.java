@@ -1,7 +1,6 @@
 package com.hccake.ballcat.common.i18n;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,28 +11,28 @@ import javax.validation.constraints.NotEmpty;
  * @author hccake
  */
 @Data
-@ApiModel("国际化信息")
+@Schema(title = "国际化信息")
 public class I18nMessage {
 
 	/**
 	 * 国际化标识
 	 */
 	@NotEmpty(message = "{i18nMessage.code}：{}")
-	@ApiModelProperty(value = "国际化标识")
+	@Schema(title = "国际化标识")
 	private String code;
 
 	/**
 	 * 消息
 	 */
 	@NotEmpty(message = "{i18nMessage.message}：{}")
-	@ApiModelProperty(value = "文本值，可以使用 { } 加角标，作为占位符")
+	@Schema(title = "文本值，可以使用 { } 加角标，作为占位符")
 	private String message;
 
 	/**
 	 * 地区语言标签
 	 */
 	@NotEmpty(message = "{i18nMessage.languageTag}：{}")
-	@ApiModelProperty(value = "语言标签")
+	@Schema(title = "语言标签")
 	private String languageTag;
 
 }

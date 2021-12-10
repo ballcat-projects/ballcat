@@ -1,7 +1,7 @@
 package com.hccake.ballcat.system.model.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 
 import java.util.Map;
@@ -13,30 +13,30 @@ import java.util.Map;
  * @date 2020-03-26 18:40:20
  */
 @Data
-@ApiModel(value = "字典项VO")
+@Schema(title = "字典项VO")
 public class DictItemVO {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty("id")
+	@Schema(title = "id")
 	private Integer id;
 
 	/**
 	 * 数据值
 	 */
-	@ApiModelProperty(value = "数据值")
+	@Schema(title = "数据值")
 	private String value;
 
 	/**
 	 * 标签
 	 */
-	@ApiModelProperty(value = "文本值")
+	@Schema(title = "文本值")
 	private String name;
 
 	/**
 	 * 附加属性值
 	 */
-	@ApiModelProperty(value = "附加属性值")
+	@Schema(title = "附加属性值")
 	private Map<String, Object> attributes;
 
 }

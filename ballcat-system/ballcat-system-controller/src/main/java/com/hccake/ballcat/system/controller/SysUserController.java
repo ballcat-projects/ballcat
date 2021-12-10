@@ -24,8 +24,8 @@ import com.hccake.ballcat.system.model.vo.SysUserInfo;
 import com.hccake.ballcat.system.model.vo.SysUserPageVO;
 import com.hccake.ballcat.system.service.SysUserRoleService;
 import com.hccake.ballcat.system.service.SysUserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,8 +50,8 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/system/user")
-@Api(value = "system-user", tags = "用户管理模块")
 @RequiredArgsConstructor
+@Tag(name = "用户管理模块")
 public class SysUserController {
 
 	private final SysUserService sysUserService;
@@ -65,9 +65,9 @@ public class SysUserController {
 	 * @param pageParam 参数集
 	 * @return 用户集合
 	 */
-	@ApiOperation(value = "分页查询系统用户")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('system:user:read')")
+	@Operation(summary = "分页查询系统用户")
 	public R<PageResult<SysUserPageVO>> getUserPage(PageParam pageParam, SysUserQO qo) {
 		return R.ok(sysUserService.queryPage(pageParam, qo));
 	}
@@ -76,9 +76,9 @@ public class SysUserController {
 	 * 获取用户Select
 	 * @return 用户SelectData
 	 */
-	@ApiOperation(value = "获取用户下拉列表数据")
 	@GetMapping("/select")
 	@PreAuthorize("@per.hasPermission('system:user:read')")
+	@Operation(summary = "获取用户下拉列表数据")
 	public R<List<SelectData<?>>> listSelectData(
 			@RequestParam(value = "userTypes", required = false) List<Integer> userTypes) {
 		return R.ok(sysUserService.listSelectData(userTypes));
@@ -89,9 +89,9 @@ public class SysUserController {
 	 * @param userId 用户ID
 	 * @return SysUserInfo
 	 */
-	@ApiOperation(value = "获取指定用户的基本信息")
 	@GetMapping("/{userId}")
 	@PreAuthorize("@per.hasPermission('system:user:read')")
+	@Operation(summary = "获取指定用户的基本信息")
 	public R<SysUserInfo> getSysUserInfo(@PathVariable("userId") Integer userId) {
 		SysUser sysUser = sysUserService.getById(userId);
 		if (sysUser == null) {
@@ -107,9 +107,9 @@ public class SysUserController {
 	 * @return success/false
 	 */
 	@PostMapping
-	@ApiOperation(value = "新增系统用户", notes = "新增系统用户")
 	@CreateOperationLogging(msg = "新增系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:add')")
+	@Operation(summary = "新增系统用户", description = "新增系统用户")
 	public R<?> addSysUser(@Valid @RequestBody SysUserDTO sysUserDTO) {
 		SysUser user = sysUserService.getByUsername(sysUserDTO.getUsername());
 		if (user != null) {
@@ -128,9 +128,9 @@ public class SysUserController {
 	 * @return success/false
 	 */
 	@PutMapping
-	@ApiOperation(value = "修改系统用户", notes = "修改系统用户")
 	@UpdateOperationLogging(msg = "修改系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:edit')")
+	@Operation(summary = "修改系统用户", description = "修改系统用户")
 	public R<?> updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
 		return sysUserService.updateSysUser(sysUserDto) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改系统用户失败");
@@ -140,9 +140,9 @@ public class SysUserController {
 	 * 删除用户信息
 	 */
 	@DeleteMapping("/{userId}")
-	@ApiOperation(value = "通过id删除系统用户", notes = "通过id删除系统用户")
 	@DeleteOperationLogging(msg = "通过id删除系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:del')")
+	@Operation(summary = "通过id删除系统用户", description = "通过id删除系统用户")
 	public R<?> deleteByUserId(@PathVariable("userId") Integer userId) {
 		return sysUserService.deleteByUserId(userId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "删除系统用户失败");
@@ -175,9 +175,9 @@ public class SysUserController {
 	 * @return success/false
 	 */
 	@PutMapping("/scope/{userId}")
-	@ApiOperation(value = "系统用户授权", notes = "系统用户授权")
 	@UpdateOperationLogging(msg = "系统用户授权")
 	@PreAuthorize("@per.hasPermission('system:user:grant')")
+	@Operation(summary = "系统用户授权", description = "系统用户授权")
 	public R<?> updateUserScope(@PathVariable("userId") Integer userId, @RequestBody SysUserScope sysUserScope) {
 		return sysUserService.updateUserScope(userId, sysUserScope) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "系统用户授权失败");
@@ -187,9 +187,9 @@ public class SysUserController {
 	 * 修改用户密码
 	 */
 	@PutMapping("/pass/{userId}")
-	@ApiOperation(value = "修改系统用户密码", notes = "修改系统用户密码")
 	@UpdateOperationLogging(msg = "修改系统用户密码")
 	@PreAuthorize("@per.hasPermission('system:user:pass')")
+	@Operation(summary = "修改系统用户密码", description = "修改系统用户密码")
 	public R<?> updateUserPass(@PathVariable("userId") Integer userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
 		String pass = sysUserPassDTO.getPass();
 		if (!pass.equals(sysUserPassDTO.getConfirmPass())) {
@@ -206,9 +206,9 @@ public class SysUserController {
 	 * 批量修改用户状态
 	 */
 	@PutMapping("/status")
-	@ApiOperation(value = "批量修改用户状态", notes = "批量修改用户状态")
 	@UpdateOperationLogging(msg = "批量修改用户状态")
 	@PreAuthorize("@per.hasPermission('system:user:edit')")
+	@Operation(summary = "批量修改用户状态", description = "批量修改用户状态")
 	public R<?> updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
 			@NotNull(message = "用户状态不能为空") @RequestParam("status") Integer status) {
 
@@ -220,10 +220,10 @@ public class SysUserController {
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "批量修改用户状态！");
 	}
 
-	@ApiOperation(value = "修改系统用户头像", notes = "修改系统用户头像")
 	@UpdateOperationLogging(msg = "修改系统用户头像")
 	@PreAuthorize("@per.hasPermission('system:user:edit')")
 	@PostMapping("/avatar")
+	@Operation(summary = "修改系统用户头像", description = "修改系统用户头像")
 	public R<String> updateAvatar(@RequestParam("file") MultipartFile file, @RequestParam("userId") Integer userId) {
 		String objectName;
 		try {

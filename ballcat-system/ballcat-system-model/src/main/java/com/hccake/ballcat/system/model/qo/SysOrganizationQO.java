@@ -1,8 +1,9 @@
 package com.hccake.ballcat.system.model.qo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * 组织架构 查询对象
@@ -10,7 +11,8 @@ import lombok.Data;
  * @author hccake 2020-09-23 12:09:43
  */
 @Data
-@ApiModel(value = "组织架构查询对象")
+@Schema(title = "组织架构查询对象")
+@ParameterObject
 public class SysOrganizationQO {
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +20,7 @@ public class SysOrganizationQO {
 	/**
 	 * 组织名称
 	 */
-	@ApiModelProperty(value = "组织名称")
+	@Schema(title = "组织名称")
 	private String name;
 
 }

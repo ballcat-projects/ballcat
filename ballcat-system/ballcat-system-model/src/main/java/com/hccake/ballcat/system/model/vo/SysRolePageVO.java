@@ -1,7 +1,7 @@
 package com.hccake.ballcat.system.model.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,36 +15,36 @@ import java.time.LocalDateTime;
  * @since 2017-10-29
  */
 @Data
-@ApiModel(value = "角色")
+@Schema(title = "角色")
 public class SysRolePageVO {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "角色编号")
+	@Schema(title = "角色编号")
 	private Integer id;
 
-	@ApiModelProperty(value = "角色名称")
+	@Schema(title = "角色名称")
 	private String name;
 
-	@ApiModelProperty(value = "角色标识")
+	@Schema(title = "角色标识")
 	private String code;
 
-	@ApiModelProperty("角色类型，1：系统角色 2：业务角色")
+	@Schema(title = "角色类型，1：系统角色 2：业务角色")
 	private Integer type;
 
-	@ApiModelProperty("数据权限类型")
+	@Schema(title = "数据权限类型")
 	private Integer scopeType;
 
-	@ApiModelProperty("数据范围资源，当数据范围类型为自定义时使用")
+	@Schema(title = "数据范围资源，当数据范围类型为自定义时使用")
 	private String scopeResources;
 
-	@ApiModelProperty(value = "角色备注")
+	@Schema(title = "角色备注")
 	private String remarks;
 
-	@ApiModelProperty(value = "创建时间")
+	@Schema(title = "创建时间")
 	private LocalDateTime createTime;
 
-	@ApiModelProperty(value = "更新时间")
+	@Schema(title = "更新时间")
 	private LocalDateTime updateTime;
 
 }

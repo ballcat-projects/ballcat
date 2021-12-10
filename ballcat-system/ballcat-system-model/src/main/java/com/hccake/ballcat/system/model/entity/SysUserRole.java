@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hccake.extend.mybatis.plus.alias.TableAlias;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 
 /**
@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @TableAlias("ur")
 @TableName("sys_user_role")
-@ApiModel(value = "用户角色")
+@Schema(title = "用户角色")
 public class SysUserRole {
 
 	private static final long serialVersionUID = 1L;
@@ -28,13 +28,13 @@ public class SysUserRole {
 	/**
 	 * 用户ID
 	 */
-	@ApiModelProperty(value = "用户id")
+	@Schema(title = "用户id")
 	private Integer userId;
 
 	/**
 	 * 角色Code
 	 */
-	@ApiModelProperty(value = "角色Code")
+	@Schema(title = "角色Code")
 	private String roleCode;
 
 }

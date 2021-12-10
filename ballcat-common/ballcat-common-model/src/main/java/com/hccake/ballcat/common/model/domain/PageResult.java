@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.model.domain;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 
 import java.util.Collections;
@@ -14,19 +14,19 @@ import java.util.List;
  * @version 1.0
  */
 @Data
-@ApiModel("分页返回结果")
+@Schema(title = "分页返回结果")
 public class PageResult<T> {
 
 	/**
 	 * 查询数据列表
 	 */
-	@ApiModelProperty(value = "分页数据", required = true)
+	@Schema(title = "分页数据")
 	protected List<T> records = Collections.emptyList();
 
 	/**
 	 * 总数
 	 */
-	@ApiModelProperty(value = "数据总量", required = true)
+	@Schema(title = "数据总量")
 	protected Long total = 0L;
 
 	public PageResult() {

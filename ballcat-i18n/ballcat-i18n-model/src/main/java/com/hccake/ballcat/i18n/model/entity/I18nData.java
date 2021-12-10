@@ -3,8 +3,8 @@ package com.hccake.ballcat.i18n.model.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hccake.ballcat.common.model.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +20,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @TableName("i18n_data")
-@ApiModel(value = "国际化信息")
+@Schema(title = "国际化信息")
 public class I18nData extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -29,31 +29,31 @@ public class I18nData extends BaseEntity {
 	 * ID
 	 */
 	@TableId
-	@ApiModelProperty(value = "ID")
+	@Schema(title = "ID")
 	private Integer id;
 
 	/**
 	 * 语言标签
 	 */
-	@ApiModelProperty(value = "语言标签")
+	@Schema(title = "语言标签")
 	private String languageTag;
 
 	/**
 	 * 国际化标识
 	 */
-	@ApiModelProperty(value = "国际化标识")
+	@Schema(title = "国际化标识")
 	private String code;
 
 	/**
 	 * 文本值，可以使用 { } 加角标，作为占位符
 	 */
-	@ApiModelProperty(value = "文本值，可以使用 { } 加角标，作为占位符")
+	@Schema(title = "文本值，可以使用 { } 加角标，作为占位符")
 	private String message;
 
 	/**
 	 * 备注
 	 */
-	@ApiModelProperty(value = "备注")
+	@Schema(title = "备注")
 	private String remarks;
 
 	@Override

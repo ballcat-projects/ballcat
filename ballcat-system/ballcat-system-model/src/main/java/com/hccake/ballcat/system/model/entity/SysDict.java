@@ -3,8 +3,8 @@ package com.hccake.ballcat.system.model.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_dict")
-@ApiModel(value = "字典表")
+@Schema(title = "字典表")
 public class SysDict extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -26,43 +26,43 @@ public class SysDict extends LogicDeletedBaseEntity {
 	 * 编号
 	 */
 	@TableId
-	@ApiModelProperty(value = "编号")
+	@Schema(title = "编号")
 	private Integer id;
 
 	/**
 	 * 标识
 	 */
-	@ApiModelProperty(value = "标识")
+	@Schema(title = "标识")
 	private String code;
 
 	/**
 	 * 名称
 	 */
-	@ApiModelProperty(value = "名称")
+	@Schema(title = "名称")
 	private String title;
 
 	/**
 	 * Hash值
 	 */
-	@ApiModelProperty(value = "Hash值")
+	@Schema(title = "Hash值")
 	private String hashCode;
 
 	/**
 	 * 可编辑的
 	 */
-	@ApiModelProperty(value = "1：是 0：否")
+	@Schema(title = "1：是 0：否")
 	private Integer editable;
 
 	/**
 	 * 数据类型
 	 */
-	@ApiModelProperty("数据类型,1:Number 2:String 3:Boolean")
+	@Schema(title = "数据类型,1:Number 2:String 3:Boolean")
 	private Integer valueType;
 
 	/**
 	 * 备注
 	 */
-	@ApiModelProperty(value = "备注")
+	@Schema(title = "备注")
 	private String remarks;
 
 }

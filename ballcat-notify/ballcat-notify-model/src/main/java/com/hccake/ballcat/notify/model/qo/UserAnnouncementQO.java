@@ -1,8 +1,9 @@
 package com.hccake.ballcat.notify.model.qo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * 用户公告表 查询对象
@@ -10,7 +11,8 @@ import lombok.Data;
  * @author hccake 2020-12-25 08:04:53
  */
 @Data
-@ApiModel(value = "用户公告表查询对象")
+@Schema(title = "用户公告表查询对象")
+@ParameterObject
 public class UserAnnouncementQO {
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +20,7 @@ public class UserAnnouncementQO {
 	/**
 	 * ID
 	 */
-	@ApiModelProperty(value = "ID")
+	@Schema(title = "ID")
 	private Long id;
 
 }

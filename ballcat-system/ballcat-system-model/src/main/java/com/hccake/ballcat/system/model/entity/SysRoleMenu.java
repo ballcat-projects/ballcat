@@ -3,8 +3,8 @@ package com.hccake.ballcat.system.model.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 
 /**
@@ -15,7 +15,7 @@ import lombok.Data;
  */
 @Data
 @TableName("sys_role_menu")
-@ApiModel(value = "角色菜单")
+@Schema(title = "角色菜单")
 public class SysRoleMenu {
 
 	private static final long serialVersionUID = 1L;
@@ -34,13 +34,13 @@ public class SysRoleMenu {
 	/**
 	 * 角色 Code
 	 */
-	@ApiModelProperty(value = "角色 Code")
+	@Schema(title = "角色 Code")
 	private String roleCode;
 
 	/**
 	 * 权限ID
 	 */
-	@ApiModelProperty(value = "菜单id")
+	@Schema(title = "菜单id")
 	private Integer menuId;
 
 }

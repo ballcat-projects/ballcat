@@ -14,8 +14,8 @@ import com.hccake.ballcat.system.model.qo.SysDictQO;
 import com.hccake.ballcat.system.model.vo.DictDataVO;
 import com.hccake.ballcat.system.model.vo.SysDictItemPageVO;
 import com.hccake.ballcat.system.model.vo.SysDictPageVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/dict")
-@Api(value = "system-dict", tags = "字典表管理")
+@Tag(name = "字典表管理")
 public class SysDictController {
 
 	private final SysDictManager sysDictManager;
@@ -63,9 +63,9 @@ public class SysDictController {
 	 * @param sysDictQO 字典查询参数
 	 * @return R<PageResult<SysDictVO>>
 	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('system:dict:read')")
+	@Operation(summary = "分页查询", description = "分页查询")
 	public R<PageResult<SysDictPageVO>> getSysDictPage(PageParam pageParam, SysDictQO sysDictQO) {
 		return R.ok(sysDictManager.dictPage(pageParam, sysDictQO));
 	}
@@ -75,10 +75,10 @@ public class SysDictController {
 	 * @param sysDict 字典表
 	 * @return R
 	 */
-	@ApiOperation(value = "新增字典表", notes = "新增字典表")
 	@CreateOperationLogging(msg = "新增字典表")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:dict:add')")
+	@Operation(summary = "新增字典表", description = "新增字典表")
 	public R<?> save(@RequestBody SysDict sysDict) {
 		return sysDictManager.dictSave(sysDict) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增字典表失败");
 	}
@@ -88,10 +88,10 @@ public class SysDictController {
 	 * @param sysDict 字典表
 	 * @return R
 	 */
-	@ApiOperation(value = "修改字典表", notes = "修改字典表")
 	@UpdateOperationLogging(msg = "修改字典表")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:dict:edit')")
+	@Operation(summary = "修改字典表", description = "修改字典表")
 	public R<?> updateById(@RequestBody SysDict sysDict) {
 		return sysDictManager.updateDictById(sysDict) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改字典表失败");
@@ -102,10 +102,10 @@ public class SysDictController {
 	 * @param id id
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id删除字典表", notes = "通过id删除字典表")
 	@DeleteOperationLogging(msg = "通过id删除字典表")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
+	@Operation(summary = "通过id删除字典表", description = "通过id删除字典表")
 	public R<?> removeById(@PathVariable("id") Integer id) {
 		return sysDictManager.removeDictById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典表失败");
@@ -117,9 +117,9 @@ public class SysDictController {
 	 * @param dictCode 字典标识
 	 * @return R
 	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/item/page")
 	@PreAuthorize("@per.hasPermission('system:dict:read')")
+	@Operation(summary = "分页查询", description = "分页查询")
 	public R<PageResult<SysDictItemPageVO>> getSysDictItemPage(PageParam pageParam,
 			@RequestParam("dictCode") String dictCode) {
 		return R.ok(sysDictManager.dictItemPage(pageParam, dictCode));
@@ -130,10 +130,10 @@ public class SysDictController {
 	 * @param sysDictItem 字典项
 	 * @return R
 	 */
-	@ApiOperation(value = "新增字典项", notes = "新增字典项")
 	@CreateOperationLogging(msg = "新增字典项")
 	@PostMapping("item")
 	@PreAuthorize("@per.hasPermission('system:dict:add')")
+	@Operation(summary = "新增字典项", description = "新增字典项")
 	public R<?> saveItem(@RequestBody SysDictItem sysDictItem) {
 		return sysDictManager.saveDictItem(sysDictItem) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增字典项失败");
@@ -144,10 +144,10 @@ public class SysDictController {
 	 * @param sysDictItem 字典项
 	 * @return R
 	 */
-	@ApiOperation(value = "修改字典项", notes = "修改字典项")
 	@UpdateOperationLogging(msg = "修改字典项")
 	@PutMapping("item")
 	@PreAuthorize("@per.hasPermission('system:dict:edit')")
+	@Operation(summary = "修改字典项", description = "修改字典项")
 	public R<?> updateItemById(@RequestBody SysDictItem sysDictItem) {
 		return sysDictManager.updateDictItemById(sysDictItem) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改字典项失败");
@@ -158,10 +158,10 @@ public class SysDictController {
 	 * @param id id
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id删除字典项", notes = "通过id删除字典项")
 	@DeleteOperationLogging(msg = "通过id删除字典项")
 	@DeleteMapping("/item/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
+	@Operation(summary = "通过id删除字典项", description = "通过id删除字典项")
 	public R<?> removeItemById(@PathVariable("id") Integer id) {
 		return sysDictManager.removeDictItemById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典项失败");

@@ -21,8 +21,8 @@ import com.hccake.ballcat.system.service.SysMenuService;
 import com.hccake.ballcat.system.service.SysRoleMenuService;
 import com.hccake.ballcat.system.service.SysRoleService;
 import com.hccake.ballcat.system.service.SysUserRoleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +36,8 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/system/role")
-@Api(value = "system-role", tags = "角色管理模块")
 @RequiredArgsConstructor
+@Tag(name = "角色管理模块")
 public class SysRoleController {
 
 	private final SysRoleService sysRoleService;
@@ -75,10 +75,10 @@ public class SysRoleController {
 	 * @param sysRole 系统角色表
 	 * @return R
 	 */
-	@ApiOperation(value = "新增系统角色", notes = "新增系统角色")
 	@CreateOperationLogging(msg = "新增系统角色")
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:role:add')")
+	@Operation(summary = "新增系统角色", description = "新增系统角色")
 	public R<Boolean> save(@Valid @RequestBody SysRole sysRole) {
 		return R.ok(sysRoleService.save(sysRole));
 	}
@@ -88,10 +88,10 @@ public class SysRoleController {
 	 * @param roleUpdateDTO 角色修改DTO
 	 * @return success/false
 	 */
-	@ApiOperation(value = "修改系统角色", notes = "修改系统角色")
 	@UpdateOperationLogging(msg = "修改系统角色")
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:role:edit')")
+	@Operation(summary = "修改系统角色", description = "修改系统角色")
 	public R<Boolean> update(@Valid @RequestBody SysRoleUpdateDTO roleUpdateDTO) {
 		SysRole sysRole = SysRoleConverter.INSTANCE.dtoToPo(roleUpdateDTO);
 		return R.ok(sysRoleService.updateById(sysRole));
@@ -103,9 +103,9 @@ public class SysRoleController {
 	 * @return 结果信息
 	 */
 	@DeleteMapping("/{id}")
-	@ApiOperation(value = "通过id删除系统角色", notes = "通过id删除系统角色")
 	@DeleteOperationLogging(msg = "通过id删除系统角色")
 	@PreAuthorize("@per.hasPermission('system:role:del')")
+	@Operation(summary = "通过id删除系统角色", description = "通过id删除系统角色")
 	public R<Boolean> removeById(@PathVariable("id") Integer id) {
 		SysRole oldRole = sysRoleService.getById(id);
 		if (SysRoleConst.Type.SYSTEM.getValue().equals(oldRole.getType())) {
@@ -130,9 +130,9 @@ public class SysRoleController {
 	 * @return success、false
 	 */
 	@PutMapping("/permission/code/{roleCode}")
-	@ApiOperation(value = "更新角色权限", notes = "更新角色权限")
 	@UpdateOperationLogging(msg = "更新角色权限")
 	@PreAuthorize("@per.hasPermission('system:role:grant')")
+	@Operation(summary = "更新角色权限", description = "更新角色权限")
 	public R<Boolean> savePermissionIds(@PathVariable("roleCode") String roleCode,
 			@RequestBody Integer[] permissionIds) {
 		return R.ok(sysRoleMenuService.saveRoleMenus(roleCode, permissionIds));
@@ -165,8 +165,8 @@ public class SysRoleController {
 	 * @return R
 	 */
 	@GetMapping("/user/page")
-	@ApiOperation(value = "查看已授权指定角色的用户列表", notes = "查看已授权指定角色的用户列表")
 	@PreAuthorize("@per.hasPermission('system:role:grant')")
+	@Operation(summary = "查看已授权指定角色的用户列表", description = "查看已授权指定角色的用户列表")
 	public R<PageResult<RoleBindUserVO>> queryUserPageByRoleCode(PageParam pageParam,
 			@Valid RoleBindUserQO roleBindUserQO) {
 		return R.ok(sysUserRoleService.queryUserPageByRoleCode(pageParam, roleBindUserQO));
@@ -177,8 +177,8 @@ public class SysRoleController {
 	 * @return R
 	 */
 	@DeleteMapping("/user")
-	@ApiOperation(value = "解绑与用户绑定关系", notes = "解绑与用户绑定关系")
 	@PreAuthorize("@per.hasPermission('system:role:grant')")
+	@Operation(summary = "解绑与用户绑定关系", description = "解绑与用户绑定关系")
 	public R<Boolean> unbindRoleUser(@RequestParam("userId") Integer userId,
 			@RequestParam("roleCode") String roleCode) {
 		return R.ok(sysUserRoleService.unbindRoleUser(userId, roleCode));

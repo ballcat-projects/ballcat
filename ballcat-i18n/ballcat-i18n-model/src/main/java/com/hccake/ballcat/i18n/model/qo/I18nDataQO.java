@@ -1,8 +1,9 @@
 package com.hccake.ballcat.i18n.model.qo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * 国际化信息 查询对象
@@ -10,18 +11,19 @@ import lombok.Data;
  * @author hccake 2021-08-06 10:48:25
  */
 @Data
-@ApiModel(value = "国际化信息查询对象")
+@Schema(title = "国际化信息查询对象")
+@ParameterObject
 public class I18nDataQO {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "国际化标识")
+	@Schema(title = "国际化标识")
 	private String code;
 
-	@ApiModelProperty(value = "文本信息")
+	@Schema(title = "文本信息")
 	private String message;
 
-	@ApiModelProperty(value = "语言标签")
+	@Schema(title = "语言标签")
 	private String languageTag;
 
 }

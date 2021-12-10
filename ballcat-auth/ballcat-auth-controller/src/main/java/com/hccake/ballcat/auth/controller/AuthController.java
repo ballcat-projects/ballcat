@@ -3,7 +3,7 @@ package com.hccake.ballcat.auth.controller;
 import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/oauth")
-@Api(value = "oauth", tags = "用户认证模块")
 @RequiredArgsConstructor
+@Tag(name = "用户认证模块")
 public class AuthController {
 
 	private final TokenStore tokenStore;

@@ -1,8 +1,9 @@
 package com.hccake.ballcat.system.model.qo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
+import org.springdoc.api.annotations.ParameterObject;
 
 /**
  * 菜单权限 查询对象
@@ -10,7 +11,8 @@ import lombok.Data;
  * @author hccake 2021-04-06 17:59:51
  */
 @Data
-@ApiModel(value = "菜单权限查询对象")
+@Schema(title = "菜单权限查询对象")
+@ParameterObject
 public class SysMenuQO {
 
 	private static final long serialVersionUID = 1L;
@@ -18,25 +20,25 @@ public class SysMenuQO {
 	/**
 	 * 菜单ID
 	 */
-	@ApiModelProperty(value = "菜单ID")
+	@Schema(title = "菜单ID")
 	private Integer id;
 
 	/**
 	 * 菜单名称
 	 */
-	@ApiModelProperty(value = "菜单名称")
+	@Schema(title = "菜单名称")
 	private String title;
 
 	/**
 	 * 授权标识
 	 */
-	@ApiModelProperty(value = "授权标识")
+	@Schema(title = "授权标识")
 	private String permission;
 
 	/**
 	 * 路由地址
 	 */
-	@ApiModelProperty(value = "路由地址")
+	@Schema(title = "路由地址")
 	private String path;
 
 }

@@ -3,7 +3,7 @@ package com.hccake.ballcat.common.model.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +21,7 @@ public abstract class LogicDeletedBaseEntity extends BaseEntity {
 	 */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "逻辑删除标识，已删除: 删除时间戳，未删除: 0")
+	@Schema(title = "逻辑删除标识，已删除: 删除时间戳，未删除: 0")
 	private Long deleted;
 
 }

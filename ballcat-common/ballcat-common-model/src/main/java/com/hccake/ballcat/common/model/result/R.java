@@ -1,8 +1,8 @@
 package com.hccake.ballcat.common.model.result;
 
 import com.hccake.ballcat.common.i18n.I18nClass;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -21,18 +21,18 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ApiModel(value = "返回体结构")
+@Schema(title = "返回体结构")
 public class R<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "返回状态码")
+	@Schema(title = "返回状态码")
 	private int code;
 
-	@ApiModelProperty(value = "返回信息")
+	@Schema(title = "返回信息")
 	private String message;
 
-	@ApiModelProperty(value = "数据")
+	@Schema(title = "数据")
 	private T data;
 
 	public static <T> R<T> ok() {

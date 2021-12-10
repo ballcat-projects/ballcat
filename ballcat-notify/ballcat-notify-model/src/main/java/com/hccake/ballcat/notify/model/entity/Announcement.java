@@ -9,8 +9,8 @@ import com.hccake.ballcat.notify.enums.AnnouncementStatusEnum;
 import com.hccake.ballcat.notify.enums.NotifyChannelEnum;
 import com.hccake.ballcat.notify.enums.NotifyRecipientFilterTypeEnum;
 import com.hccake.extend.mybatis.plus.alias.TableAlias;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,7 +26,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @TableAlias(Announcement.TABLE_ALIAS)
 @TableName(value = "notify_announcement", autoResultMap = true)
-@ApiModel(value = "公告信息")
+@Schema(title = "公告信息")
 public class Announcement extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -37,61 +37,61 @@ public class Announcement extends LogicDeletedBaseEntity {
 	 * ID
 	 */
 	@TableId
-	@ApiModelProperty(value = "ID")
+	@Schema(title = "ID")
 	private Long id;
 
 	/**
 	 * 标题
 	 */
-	@ApiModelProperty(value = "标题")
+	@Schema(title = "标题")
 	private String title;
 
 	/**
 	 * 内容
 	 */
-	@ApiModelProperty(value = "内容")
+	@Schema(title = "内容")
 	private String content;
 
 	/**
 	 * 接收人筛选方式
 	 * @see NotifyRecipientFilterTypeEnum
 	 */
-	@ApiModelProperty(value = "接收人筛选方式")
+	@Schema(title = "接收人筛选方式")
 	private Integer recipientFilterType;
 
 	/**
 	 * 对应接收人筛选方式的条件信息，多个用逗号分割。如角色标识，组织ID，用户类型，用户ID等
 	 */
-	@ApiModelProperty(value = "对应接收人筛选方式的条件信息。如角色标识，组织ID，用户类型，用户ID等")
 	@TableField(typeHandler = JacksonTypeHandler.class)
+	@Schema(title = "对应接收人筛选方式的条件信息。如角色标识，组织ID，用户类型，用户ID等")
 	private List<Object> recipientFilterCondition;
 
 	/**
 	 * 接收方式，值与通知渠道一一对应
 	 * @see NotifyChannelEnum
 	 */
-	@ApiModelProperty(value = "接收方式")
 	@TableField(typeHandler = JacksonTypeHandler.class)
+	@Schema(title = "接收方式")
 	private List<Integer> receiveMode;
 
 	/**
 	 * 状态
 	 * @see AnnouncementStatusEnum
 	 */
-	@ApiModelProperty(value = "状态")
+	@Schema(title = "状态")
 	private Integer status;
 
 	/**
 	 * 永久有效的
 	 * @see com.hccake.ballcat.common.core.constant.enums.BooleanEnum
 	 */
-	@ApiModelProperty(value = "永久有效的")
+	@Schema(title = "永久有效的")
 	private Integer immortal;
 
 	/**
 	 * 截止日期
 	 */
-	@ApiModelProperty(value = "截止日期")
+	@Schema(title = "截止日期")
 	private LocalDateTime deadline;
 
 }

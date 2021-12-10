@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,7 +21,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "sys_dict_item", autoResultMap = true)
-@ApiModel(value = "字典项")
+@Schema(title = "字典项")
 public class SysDictItem extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -30,44 +30,44 @@ public class SysDictItem extends LogicDeletedBaseEntity {
 	 * ID
 	 */
 	@TableId
-	@ApiModelProperty(value = "ID")
+	@Schema(title = "ID")
 	private Integer id;
 
 	/**
 	 * 字典标识
 	 */
-	@ApiModelProperty(value = "字典标识")
+	@Schema(title = "字典标识")
 	private String dictCode;
 
 	/**
 	 * 数据值
 	 */
-	@ApiModelProperty(value = "数据值")
+	@Schema(title = "数据值")
 	private String value;
 
 	/**
 	 * 文本值
 	 */
-	@ApiModelProperty(value = "文本值")
+	@Schema(title = "文本值")
 	private String name;
 
 	/**
 	 * 附加属性值
 	 */
 	@TableField(typeHandler = JacksonTypeHandler.class)
-	@ApiModelProperty(value = "附加属性值")
+	@Schema(title = "附加属性值")
 	private Map<String, Object> attributes;
 
 	/**
 	 * 排序（升序）
 	 */
-	@ApiModelProperty(value = "排序（升序）")
+	@Schema(title = "排序（升序）")
 	private Integer sort;
 
 	/**
 	 * 备注
 	 */
-	@ApiModelProperty(value = "备注")
+	@Schema(title = "备注")
 	private String remarks;
 
 }

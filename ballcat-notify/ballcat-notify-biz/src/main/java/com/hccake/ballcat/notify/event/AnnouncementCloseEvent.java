@@ -1,6 +1,5 @@
 package com.hccake.ballcat.notify.event;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -19,7 +18,6 @@ public class AnnouncementCloseEvent {
 	/**
 	 * ID
 	 */
-	@ApiModelProperty(value = "公告ID")
 	private final Long id;
 
 }
