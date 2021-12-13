@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.hccake.ballcat.common.openapi.OpenApiConfiguration
+# Environment Post Processor
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.hccake.ballcat.common.openapi.SwaggerEnabledStatusReplaceEnvironmentPostProcessor

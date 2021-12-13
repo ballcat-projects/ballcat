@@ -20,6 +20,7 @@
 		<module>ballcat-spring-boot-starter-kafka</module>
 		<module>ballcat-spring-boot-starter-log</module>
 		<module>ballcat-spring-boot-starter-mail</module>
+		<module>ballcat-spring-boot-starter-openapi</module>
 		<module>ballcat-spring-boot-starter-redis</module>
 		<module>ballcat-spring-boot-starter-oss</module>
 		<module>ballcat-spring-boot-starter-swagger</module>
