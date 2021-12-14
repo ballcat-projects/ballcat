@@ -46,7 +46,7 @@ public class OpenApiConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(OpenAPI.class)
-	@SuppressWarnings("all")
+	@SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
 	public OpenAPI openAPI() {
 
 		OpenAPI openAPI = new OpenAPI();
