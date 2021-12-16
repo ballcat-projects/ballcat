@@ -20,5 +20,6 @@
         <module>ballcat-extend-pay-ali</module>
         <module>ballcat-extend-pay-wx</module>
         <module>ballcat-extend-redis-module</module>
+        <module>ballcat-extend-openapi</module>
     </modules>
 </project>

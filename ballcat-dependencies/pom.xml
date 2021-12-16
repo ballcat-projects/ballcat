@@ -238,11 +238,6 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-openapi</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-boot-starter-websocket</artifactId>
 				<version>${revision}</version>
 			</dependency>
@@ -295,6 +290,11 @@
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-extend-pay-wx</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-openapi</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<!-- system 系统模块 -->

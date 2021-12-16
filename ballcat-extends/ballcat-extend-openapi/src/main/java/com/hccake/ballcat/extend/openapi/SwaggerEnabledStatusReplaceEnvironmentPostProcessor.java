@@ -1,5 +1,6 @@
-package com.hccake.ballcat.common.openapi;
+package com.hccake.ballcat.extend.openapi;
 
+import org.springdoc.core.Constants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -10,8 +11,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.springdoc.core.Constants.SPRINGDOC_ENABLED;
 
 /**
  * 将 ballcat openApi 的开关配置同步至 springdoc
@@ -30,7 +29,7 @@ public class SwaggerEnabledStatusReplaceEnvironmentPostProcessor implements Envi
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 		// 如果已经独立配置了 springdoc 的开关信息，则不处理
-		String springFoxSwaggerEnabledValue = environment.getProperty(SPRINGDOC_ENABLED);
+		String springFoxSwaggerEnabledValue = environment.getProperty(Constants.SPRINGDOC_ENABLED);
 		if (StringUtils.hasText(springFoxSwaggerEnabledValue)) {
 			return;
 		}
@@ -44,7 +43,7 @@ public class SwaggerEnabledStatusReplaceEnvironmentPostProcessor implements Envi
 
 		// 将 ballcat openapi 的开关状态同步至 springdoc
 		Map<String, Object> map = new HashMap<>(1);
-		map.put(SPRINGDOC_ENABLED, ballcatEnabledOpenApi);
+		map.put(Constants.SPRINGDOC_ENABLED, ballcatEnabledOpenApi);
 		replace(environment.getPropertySources(), map);
 	}
 

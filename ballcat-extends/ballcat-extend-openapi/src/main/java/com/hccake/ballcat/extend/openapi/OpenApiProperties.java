@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.openapi;
+package com.hccake.ballcat.extend.openapi;
 
 import cn.hutool.core.collection.ListUtil;
 import io.swagger.v3.oas.models.ExternalDocumentation;
