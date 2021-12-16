@@ -58,7 +58,7 @@ public class AnnouncementController {
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('notify:announcement:add')")
 	@Operation(summary = "新增公告信息", description = "新增公告信息")
-	public R<?> save(@Valid @RequestBody AnnouncementDTO announcementDTO) {
+	public R<Void> save(@Valid @RequestBody AnnouncementDTO announcementDTO) {
 		return announcementService.addAnnouncement(announcementDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增公告信息失败");
 	}
@@ -72,7 +72,7 @@ public class AnnouncementController {
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
 	@Operation(summary = "修改公告信息", description = "修改公告信息")
-	public R<?> updateById(@Valid @RequestBody AnnouncementDTO announcementDTO) {
+	public R<Void> updateById(@Valid @RequestBody AnnouncementDTO announcementDTO) {
 		return announcementService.updateAnnouncement(announcementDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改公告信息失败");
 	}
@@ -86,7 +86,7 @@ public class AnnouncementController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('notify:announcement:del')")
 	@Operation(summary = "通过id删除公告信息", description = "通过id删除公告信息")
-	public R<?> removeById(@PathVariable("id") Long id) {
+	public R<Void> removeById(@PathVariable("id") Long id) {
 		return announcementService.removeById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除公告信息失败");
 	}
@@ -99,7 +99,7 @@ public class AnnouncementController {
 	@PatchMapping("/publish/{announcementId}")
 	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
 	@Operation(summary = "发布公告信息", description = "发布公告信息")
-	public R<?> enableAnnouncement(@PathVariable("announcementId") Long announcementId) {
+	public R<Void> enableAnnouncement(@PathVariable("announcementId") Long announcementId) {
 		return announcementService.publish(announcementId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "发布公告信息失败");
 	}
@@ -112,7 +112,7 @@ public class AnnouncementController {
 	@PatchMapping("/close/{announcementId}")
 	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
 	@Operation(summary = "关闭公告信息", description = "关闭公告信息")
-	public R<?> disableAnnouncement(@PathVariable("announcementId") Long announcementId) {
+	public R<Void> disableAnnouncement(@PathVariable("announcementId") Long announcementId) {
 		return announcementService.close(announcementId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "关闭公告信息失败");
 	}

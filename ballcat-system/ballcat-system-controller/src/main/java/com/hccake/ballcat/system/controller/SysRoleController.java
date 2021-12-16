@@ -155,7 +155,7 @@ public class SysRoleController {
 	 * @return 角色列表
 	 */
 	@GetMapping("/select")
-	public R<List<SelectData<?>>> listSelectData() {
+	public R<List<SelectData<Void>>> listSelectData() {
 		return R.ok(sysRoleService.listSelectData());
 	}
 

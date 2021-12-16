@@ -61,7 +61,7 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	 * @return List<SelectData<?>>
 	 */
 	@Override
-	public List<SelectData<?>> listSelectData() {
+	public List<SelectData<Void>> listSelectData() {
 		return baseMapper.listSelectData();
 	}
 

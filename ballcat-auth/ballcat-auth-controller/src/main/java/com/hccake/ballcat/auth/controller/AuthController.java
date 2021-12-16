@@ -35,7 +35,7 @@ public class AuthController {
 	 * @param authHeader Authorization
 	 */
 	@DeleteMapping("/logout")
-	public R<?> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+	public R<Void> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
 		if (StrUtil.isBlank(authHeader)) {
 			return R.failed(SystemResultCode.FORBIDDEN, "退出失败，token 为空");
 		}

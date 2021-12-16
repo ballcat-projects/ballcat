@@ -134,7 +134,7 @@ public class SysMenuController {
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:menu:add')")
 	@Operation(summary = "新增菜单权限", description = "新增菜单权限")
-	public R<String> save(@Valid @RequestBody SysMenuCreateDTO sysMenuCreateDTO) {
+	public R<Void> save(@Valid @RequestBody SysMenuCreateDTO sysMenuCreateDTO) {
 		return sysMenuService.create(sysMenuCreateDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增菜单权限失败");
 	}
@@ -148,7 +148,7 @@ public class SysMenuController {
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:menu:edit')")
 	@Operation(summary = "修改菜单权限", description = "修改菜单权限")
-	public R<String> updateById(@RequestBody SysMenuUpdateDTO sysMenuUpdateDTO) {
+	public R<Void> updateById(@RequestBody SysMenuUpdateDTO sysMenuUpdateDTO) {
 		sysMenuService.update(sysMenuUpdateDTO);
 		return R.ok();
 	}
@@ -162,7 +162,7 @@ public class SysMenuController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:menu:del')")
 	@Operation(summary = "通过id删除菜单权限", description = "通过id删除菜单权限")
-	public R<String> removeById(@PathVariable("id") Integer id) {
+	public R<Void> removeById(@PathVariable("id") Integer id) {
 		return sysMenuService.removeById(id) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除菜单权限失败");
 	}
 

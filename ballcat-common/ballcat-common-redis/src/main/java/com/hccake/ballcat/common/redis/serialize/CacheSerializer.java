@@ -41,7 +41,7 @@ public interface CacheSerializer {
 		if (type instanceof ParameterizedType) {
 			Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
 			// 获取泛型类型
-			Class rowClass = (Class) ((ParameterizedType) type).getRawType();
+			Class<?> rowClass = (Class<?>) ((ParameterizedType) type).getRawType();
 
 			JavaType[] javaTypes = new JavaType[actualTypeArguments.length];
 
@@ -53,7 +53,7 @@ public interface CacheSerializer {
 		}
 		else {
 			// 简单类型直接用该类构建JavaType
-			Class cla = (Class) type;
+			Class<?> cla = (Class<?>) type;
 			return TypeFactory.defaultInstance().constructParametricType(cla, new JavaType[0]);
 		}
 	}

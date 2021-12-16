@@ -79,7 +79,7 @@ public class SysDictController {
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:dict:add')")
 	@Operation(summary = "新增字典表", description = "新增字典表")
-	public R<?> save(@RequestBody SysDict sysDict) {
+	public R<Void> save(@RequestBody SysDict sysDict) {
 		return sysDictManager.dictSave(sysDict) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增字典表失败");
 	}
 
@@ -92,7 +92,7 @@ public class SysDictController {
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:dict:edit')")
 	@Operation(summary = "修改字典表", description = "修改字典表")
-	public R<?> updateById(@RequestBody SysDict sysDict) {
+	public R<Void> updateById(@RequestBody SysDict sysDict) {
 		return sysDictManager.updateDictById(sysDict) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改字典表失败");
 	}
@@ -106,7 +106,7 @@ public class SysDictController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
 	@Operation(summary = "通过id删除字典表", description = "通过id删除字典表")
-	public R<?> removeById(@PathVariable("id") Integer id) {
+	public R<Void> removeById(@PathVariable("id") Integer id) {
 		return sysDictManager.removeDictById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典表失败");
 	}
@@ -134,7 +134,7 @@ public class SysDictController {
 	@PostMapping("item")
 	@PreAuthorize("@per.hasPermission('system:dict:add')")
 	@Operation(summary = "新增字典项", description = "新增字典项")
-	public R<?> saveItem(@RequestBody SysDictItem sysDictItem) {
+	public R<Void> saveItem(@RequestBody SysDictItem sysDictItem) {
 		return sysDictManager.saveDictItem(sysDictItem) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增字典项失败");
 	}
@@ -148,7 +148,7 @@ public class SysDictController {
 	@PutMapping("item")
 	@PreAuthorize("@per.hasPermission('system:dict:edit')")
 	@Operation(summary = "修改字典项", description = "修改字典项")
-	public R<?> updateItemById(@RequestBody SysDictItem sysDictItem) {
+	public R<Void> updateItemById(@RequestBody SysDictItem sysDictItem) {
 		return sysDictManager.updateDictItemById(sysDictItem) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改字典项失败");
 	}
@@ -162,7 +162,7 @@ public class SysDictController {
 	@DeleteMapping("/item/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
 	@Operation(summary = "通过id删除字典项", description = "通过id删除字典项")
-	public R<?> removeItemById(@PathVariable("id") Integer id) {
+	public R<Void> removeItemById(@PathVariable("id") Integer id) {
 		return sysDictManager.removeDictItemById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典项失败");
 	}

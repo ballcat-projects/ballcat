@@ -79,7 +79,7 @@ public class I18nDataController {
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:add')")
 	@Operation(summary = "新增国际化信息", description = "新增国际化信息")
-	public R save(@Valid @RequestBody I18nDataCreateDTO i18nDataCreateDTO) {
+	public R<Void> save(@Valid @RequestBody I18nDataCreateDTO i18nDataCreateDTO) {
 		// 转换为实体类列表
 		List<I18nData> list = new ArrayList<>();
 		List<I18nDataCreateDTO.LanguageText> languageTexts = i18nDataCreateDTO.getLanguageTexts();
@@ -103,7 +103,7 @@ public class I18nDataController {
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:edit')")
 	@Operation(summary = "修改国际化信息", description = "修改国际化信息")
-	public R updateById(@RequestBody I18nDataDTO i18nDataDTO) {
+	public R<Void> updateById(@RequestBody I18nDataDTO i18nDataDTO) {
 		return i18nDataService.updateByCodeAndLanguageTag(i18nDataDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改国际化信息失败");
 	}
@@ -118,7 +118,7 @@ public class I18nDataController {
 	@DeleteMapping
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:del')")
 	@Operation(summary = "通过id删除国际化信息", description = "通过id删除国际化信息")
-	public R removeById(@RequestParam("code") String code, @RequestParam("languageTag") String languageTag) {
+	public R<Void> removeById(@RequestParam("code") String code, @RequestParam("languageTag") String languageTag) {
 		return i18nDataService.removeByCodeAndLanguageTag(code, languageTag) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除国际化信息失败");
 	}
@@ -130,7 +130,7 @@ public class I18nDataController {
 	@PostMapping("/import")
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:import')")
 	@Operation(summary = "导入国际化信息", description = "导入国际化信息")
-	public R<?> importI18nData(@RequestExcel List<I18nDataExcelVO> excelVos,
+	public R<List<I18nData>> importI18nData(@RequestExcel List<I18nDataExcelVO> excelVos,
 			@RequestParam("importMode") ImportModeEnum importModeEnum) {
 
 		if (CollectionUtil.isEmpty(excelVos)) {

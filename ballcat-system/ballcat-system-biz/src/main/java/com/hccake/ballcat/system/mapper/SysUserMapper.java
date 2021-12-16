@@ -131,7 +131,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param userTypes 用户类型
 	 * @return List<SelectData>
 	 */
-	List<SelectData<?>> listSelectData(@Param("userTypes") Collection<Integer> userTypes);
+	List<SelectData<Void>> listSelectData(@Param("userTypes") Collection<Integer> userTypes);
 
 	/**
 	 * 是否存在指定组织的用户

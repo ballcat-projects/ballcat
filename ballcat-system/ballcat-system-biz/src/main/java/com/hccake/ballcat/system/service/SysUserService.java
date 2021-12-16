@@ -140,7 +140,7 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param type 为空时返回所有客户为1返回系统客户 name=> username value => userId
 	 * @return List<SelectData>
 	 */
-	List<SelectData<?>> listSelectData(Collection<Integer> type);
+	List<SelectData<Void>> listSelectData(Collection<Integer> type);
 
 	/**
 	 * 获取用户的角色Code集合

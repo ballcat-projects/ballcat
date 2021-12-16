@@ -340,7 +340,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @param userTypes 用户类型
 	 */
 	@Override
-	public List<SelectData<?>> listSelectData(Collection<Integer> userTypes) {
+	public List<SelectData<Void>> listSelectData(Collection<Integer> userTypes) {
 		return baseMapper.listSelectData(userTypes);
 	}
 

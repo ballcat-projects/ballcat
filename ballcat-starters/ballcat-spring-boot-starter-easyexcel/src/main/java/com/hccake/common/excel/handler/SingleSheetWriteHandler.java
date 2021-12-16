@@ -29,12 +29,12 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 	/**
 	 * obj 是List 且list不为空同时list中的元素不是是List 才返回true
 	 * @param obj 返回对象
-	 * @return
+	 * @return boolean
 	 */
 	@Override
 	public boolean support(Object obj) {
 		if (obj instanceof List) {
-			List objList = (List) obj;
+			List<?> objList = (List<?>) obj;
 			return !objList.isEmpty() && !(objList.get(0) instanceof List);
 		}
 		else {
@@ -45,7 +45,7 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 	@Override
 	@SneakyThrows
 	public void write(Object obj, HttpServletResponse response, ResponseExcel responseExcel) {
-		List list = (List) obj;
+		List<?> list = (List<?>) obj;
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
 
 		// 有模板则不指定sheet名

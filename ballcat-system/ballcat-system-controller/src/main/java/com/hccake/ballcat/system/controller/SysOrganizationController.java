@@ -51,7 +51,7 @@ public class SysOrganizationController {
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:organization:add')")
 	@Operation(summary = "新增组织架构")
-	public R<?> save(@RequestBody SysOrganizationDTO sysOrganizationDTO) {
+	public R<Void> save(@RequestBody SysOrganizationDTO sysOrganizationDTO) {
 		return sysOrganizationService.create(sysOrganizationDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增组织架构失败");
 	}
@@ -65,7 +65,7 @@ public class SysOrganizationController {
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:organization:edit')")
 	@Operation(summary = "修改组织架构")
-	public R<?> updateById(@RequestBody SysOrganizationDTO sysOrganizationDTO) {
+	public R<Void> updateById(@RequestBody SysOrganizationDTO sysOrganizationDTO) {
 		return sysOrganizationService.update(sysOrganizationDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改组织架构失败");
 	}
@@ -79,7 +79,7 @@ public class SysOrganizationController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:organization:del')")
 	@Operation(summary = "通过id删除组织架构")
-	public R<?> removeById(@PathVariable("id") Integer id) {
+	public R<Void> removeById(@PathVariable("id") Integer id) {
 		return sysOrganizationService.removeById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除组织架构失败");
 	}
@@ -92,7 +92,7 @@ public class SysOrganizationController {
 	@PatchMapping("/revised")
 	@PreAuthorize("@per.hasPermission('system:organization:revised')")
 	@Operation(summary = "校正组织机构层级和深度")
-	public R<?> revisedHierarchyAndPath() {
+	public R<Void> revisedHierarchyAndPath() {
 		return sysOrganizationService.revisedHierarchyAndPath() ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "校正组织机构层级和深度失败");
 	}

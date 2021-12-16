@@ -47,6 +47,6 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 	 * 获取角色下拉框数据
 	 * @return 下拉选择框数据集合
 	 */
-	List<SelectData<?>> listSelectData();
+	List<SelectData<Void>> listSelectData();
 
 }

@@ -59,7 +59,7 @@ public class SysConfigController {
 	@PostMapping
 	@PreAuthorize("@per.hasPermission('system:config:add')")
 	@Operation(summary = "新增系统配置", description = "新增系统配置")
-	public R save(@RequestBody SysConfig sysConfig) {
+	public R<Boolean> save(@RequestBody SysConfig sysConfig) {
 		return R.ok(sysConfigService.save(sysConfig));
 	}
 
@@ -72,7 +72,7 @@ public class SysConfigController {
 	@PutMapping
 	@PreAuthorize("@per.hasPermission('system:config:edit')")
 	@Operation(summary = "修改系统配置")
-	public R updateById(@RequestBody SysConfig sysConfig) {
+	public R<Boolean> updateById(@RequestBody SysConfig sysConfig) {
 		return R.ok(sysConfigService.updateByKey(sysConfig));
 	}
 
@@ -85,7 +85,7 @@ public class SysConfigController {
 	@DeleteMapping
 	@PreAuthorize("@per.hasPermission('system:config:del')")
 	@Operation(summary = "删除系统配置")
-	public R removeById(@RequestParam("confKey") String confKey) {
+	public R<Boolean> removeById(@RequestParam("confKey") String confKey) {
 		return R.ok(sysConfigService.removeByKey(confKey));
 	}
 

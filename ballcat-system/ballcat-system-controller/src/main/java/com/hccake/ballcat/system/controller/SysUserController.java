@@ -79,7 +79,7 @@ public class SysUserController {
 	@GetMapping("/select")
 	@PreAuthorize("@per.hasPermission('system:user:read')")
 	@Operation(summary = "获取用户下拉列表数据")
-	public R<List<SelectData<?>>> listSelectData(
+	public R<List<SelectData<Void>>> listSelectData(
 			@RequestParam(value = "userTypes", required = false) List<Integer> userTypes) {
 		return R.ok(sysUserService.listSelectData(userTypes));
 	}
@@ -110,7 +110,7 @@ public class SysUserController {
 	@CreateOperationLogging(msg = "新增系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:add')")
 	@Operation(summary = "新增系统用户", description = "新增系统用户")
-	public R<?> addSysUser(@Valid @RequestBody SysUserDTO sysUserDTO) {
+	public R<Void> addSysUser(@Valid @RequestBody SysUserDTO sysUserDTO) {
 		SysUser user = sysUserService.getByUsername(sysUserDTO.getUsername());
 		if (user != null) {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "用户名已存在");
@@ -131,7 +131,7 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "修改系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:edit')")
 	@Operation(summary = "修改系统用户", description = "修改系统用户")
-	public R<?> updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
+	public R<Void> updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
 		return sysUserService.updateSysUser(sysUserDto) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改系统用户失败");
 	}
@@ -143,7 +143,7 @@ public class SysUserController {
 	@DeleteOperationLogging(msg = "通过id删除系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:del')")
 	@Operation(summary = "通过id删除系统用户", description = "通过id删除系统用户")
-	public R<?> deleteByUserId(@PathVariable("userId") Integer userId) {
+	public R<Void> deleteByUserId(@PathVariable("userId") Integer userId) {
 		return sysUserService.deleteByUserId(userId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "删除系统用户失败");
 	}
@@ -178,7 +178,7 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "系统用户授权")
 	@PreAuthorize("@per.hasPermission('system:user:grant')")
 	@Operation(summary = "系统用户授权", description = "系统用户授权")
-	public R<?> updateUserScope(@PathVariable("userId") Integer userId, @RequestBody SysUserScope sysUserScope) {
+	public R<Void> updateUserScope(@PathVariable("userId") Integer userId, @RequestBody SysUserScope sysUserScope) {
 		return sysUserService.updateUserScope(userId, sysUserScope) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "系统用户授权失败");
 	}
@@ -190,7 +190,7 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "修改系统用户密码")
 	@PreAuthorize("@per.hasPermission('system:user:pass')")
 	@Operation(summary = "修改系统用户密码", description = "修改系统用户密码")
-	public R<?> updateUserPass(@PathVariable("userId") Integer userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
+	public R<Void> updateUserPass(@PathVariable("userId") Integer userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
 		String pass = sysUserPassDTO.getPass();
 		if (!pass.equals(sysUserPassDTO.getConfirmPass())) {
 			return R.failed(SystemResultCode.BAD_REQUEST, "错误的密码!");
@@ -209,7 +209,7 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "批量修改用户状态")
 	@PreAuthorize("@per.hasPermission('system:user:edit')")
 	@Operation(summary = "批量修改用户状态", description = "批量修改用户状态")
-	public R<?> updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
+	public R<Void> updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
 			@NotNull(message = "用户状态不能为空") @RequestParam("status") Integer status) {
 
 		if (!SysUserConst.Status.NORMAL.getValue().equals(status)
