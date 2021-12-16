@@ -105,7 +105,7 @@ public class OpenApiConfiguration {
 		// 转换 CORS 配置
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedOrigins(corsConfig.getAllowedOrigins());
-		corsConfiguration.setAllowedOriginPatterns(corsConfig.getAllowedOrigins());
+		corsConfiguration.setAllowedOriginPatterns(corsConfig.getAllowedOriginPatterns());
 		corsConfiguration.setAllowedMethods(corsConfig.getAllowedMethods());
 		corsConfiguration.setAllowedHeaders(corsConfig.getAllowedHeaders());
 		corsConfiguration.setExposedHeaders(corsConfig.getExposedHeaders());
