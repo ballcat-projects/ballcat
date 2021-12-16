@@ -3,13 +3,14 @@ package com.hccake.starter.file.ftp;
 import com.hccake.ballcat.common.util.FileUtils;
 import com.hccake.starter.file.FileClient;
 import com.hccake.starter.file.FileProperties.FtpProperties;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
+import org.springframework.util.StringUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
-import org.springframework.util.StringUtils;
 
 /**
  * @author lingting 2021/10/17 20:11
@@ -18,14 +19,11 @@ public class FtpFileClient implements FileClient {
 
 	public static final String SLASH = "/";
 
-	private final FtpProperties properties;
-
 	private final String rootPath;
 
 	private final FTPClient client;
 
 	public FtpFileClient(FtpProperties properties) throws IOException {
-		this.properties = properties;
 		client = new FTPClient();
 		final FtpMode mode = properties.getMode();
 		if (mode == FtpMode.ACTIVE) {

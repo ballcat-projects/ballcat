@@ -1,6 +1,7 @@
 package com.hccake.ballcat.auth.authentication;
 
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
+import lombok.EqualsAndHashCode;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import java.util.Collections;
  * @author hccake
  * @see AbstractAuthenticationToken
  */
+@EqualsAndHashCode(callSuper = true)
 public class OAuth2ClientAuthenticationToken extends AbstractAuthenticationToken {
 
 	private static final long serialVersionUID = 1L;

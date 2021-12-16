@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The type Actuator filter.
@@ -63,6 +64,7 @@ public class ActuatorSecurityFilter extends OncePerRequestFilter {
 		}
 		else {
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
+			response.setHeader("Accept-Charset", StandardCharsets.UTF_8.toString());
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED);
 			response.getWriter().write(JsonUtils.toJson(r));

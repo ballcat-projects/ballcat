@@ -13,7 +13,7 @@ public class WxPayProperties {
 	/**
 	 * 是否使用沙箱, 如果为 false 则使用 prod的配置初始化支付信息, 否则使用dev配置进行初始化
 	 */
-	private Boolean sandbox = false;
+	private boolean sandbox = false;
 
 	/**
 	 * 线上环境配置

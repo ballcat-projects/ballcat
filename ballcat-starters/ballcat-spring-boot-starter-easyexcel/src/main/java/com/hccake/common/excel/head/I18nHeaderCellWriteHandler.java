@@ -48,7 +48,7 @@ public class I18nHeaderCellWriteHandler implements CellWriteHandler {
 	@Override
 	public void beforeCellCreate(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, Row row,
 			Head head, Integer columnIndex, Integer relativeRowIndex, Boolean isHead) {
-		if (isHead) {
+		if (isHead != null && isHead) {
 			List<String> originHeadNameList = head.getHeadNameList();
 			if (CollectionUtils.isNotEmpty(originHeadNameList)) {
 				// 国际化处理
@@ -63,19 +63,19 @@ public class I18nHeaderCellWriteHandler implements CellWriteHandler {
 	@Override
 	public void afterCellCreate(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, Cell cell,
 			Head head, Integer relativeRowIndex, Boolean isHead) {
-
+		// do nothing
 	}
 
 	@Override
 	public void afterCellDataConverted(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder,
 			CellData cellData, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
-
+		// do nothing
 	}
 
 	@Override
 	public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder,
 			List<CellData> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
-
+		// do nothing
 	}
 
 }

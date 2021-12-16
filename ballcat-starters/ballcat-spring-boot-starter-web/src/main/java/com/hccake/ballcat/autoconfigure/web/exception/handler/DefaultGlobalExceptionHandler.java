@@ -15,6 +15,7 @@ public class DefaultGlobalExceptionHandler implements GlobalExceptionHandler {
 	 */
 	@Override
 	public void handle(Throwable throwable) {
+		// do nothing
 	}
 
 }

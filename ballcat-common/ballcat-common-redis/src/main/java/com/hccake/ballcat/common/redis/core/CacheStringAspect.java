@@ -55,6 +55,7 @@ public class CacheStringAspect {
 
 	@Pointcut("execution(@(@com.hccake.ballcat.common.redis.core.annotation.MetaCacheAnnotation *) * *(..))")
 	public void pointCut() {
+		// do nothing
 	}
 
 	@Around("pointCut()")

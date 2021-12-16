@@ -12,7 +12,7 @@ public interface OAuth2ClientConfigurer {
 	/**
 	 * 配置 clientDetailsService
 	 * @param clientDetailsServiceConfigurer clientDetailsService 配置类
-	 * @exception Exception 异常信息
+	 * @throws Exception 异常信息
 	 */
 	void configure(ClientDetailsServiceConfigurer clientDetailsServiceConfigurer) throws Exception;
 

@@ -8,14 +8,15 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * 缓存key的生成工具类，主要用于解析spel, 进行拼接key的生成
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/9/3 9:58 缓存key的生成工具类，主要用于解析spel, 进行拼接key的生成
+ * @date 2019/9/3 9:58
  */
 public class KeyGenerator {
 

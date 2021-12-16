@@ -21,9 +21,9 @@ public class WxPayAutoConfiguration {
 	@ConditionalOnMissingBean(WxPay.class)
 	public WxPay wxPay(WxPayProperties properties) {
 		// 获取配置
-		WxPayProperties.Config config = properties.getSandbox() ? properties.getDev() : properties.getProd();
+		WxPayProperties.Config config = properties.isSandbox() ? properties.getDev() : properties.getProd();
 
-		WxPay wxPay = new WxPay(config.getAppId(), config.getMchId(), config.getMckKey(), properties.getSandbox());
+		WxPay wxPay = new WxPay(config.getAppId(), config.getMchId(), config.getMckKey(), properties.isSandbox());
 
 		wxPay.setReturnUrl(config.getReturnUrl());
 		wxPay.setNotifyUrl(config.getNotifyUrl());

@@ -13,7 +13,7 @@ public class ActuatorSecurityProperties {
 	/**
 	 * 是否开启鉴权
 	 */
-	private Boolean auth = false;
+	private boolean auth = false;
 
 	private String secretId;
 

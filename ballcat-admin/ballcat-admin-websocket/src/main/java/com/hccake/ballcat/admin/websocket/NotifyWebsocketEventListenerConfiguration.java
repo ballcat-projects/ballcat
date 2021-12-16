@@ -18,9 +18,9 @@ public class NotifyWebsocketEventListenerConfiguration {
 	private final MessageDistributor messageDistributor;
 
 	@Bean
-	public NotifyWebsocketEventListener notifyWebsocketEventListener(UserAnnouncementService userAnnouncementService,
+	public NotifyWebsocketEventListener notifyWebsocketEventListener(
 			NotifyInfoDelegateHandler<? super NotifyInfo> notifyInfoDelegateHandler) {
-		return new NotifyWebsocketEventListener(userAnnouncementService, messageDistributor, notifyInfoDelegateHandler);
+		return new NotifyWebsocketEventListener(messageDistributor, notifyInfoDelegateHandler);
 	}
 
 }

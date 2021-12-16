@@ -13,7 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Hccake 2021/1/14
  * @version 1.0
  */
-public class TableAliasHelper {
+public final class TableAliasHelper {
+
+	private TableAliasHelper() {
+	}
 
 	private static final String COMMA = ",";
 
@@ -64,7 +67,8 @@ public class TableAliasHelper {
 		if (tableAlias == null) {
 			TableAlias annotation = AnnotationUtils.findAnnotation(clazz, TableAlias.class);
 			if (annotation == null) {
-				throw new RuntimeException("[tableAliasSelectSql] No TableAlias annotations found in class: " + clazz);
+				throw new TableAliasNotFoundException(
+						"[tableAliasSelectSql] No TableAlias annotations found in class: " + clazz);
 			}
 			tableAlias = annotation.value();
 			TABLE_ALIAS_CACHE.put(clazz, tableAlias);

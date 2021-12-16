@@ -39,6 +39,9 @@ import java.util.Map;
  */
 public abstract class PluginUtils {
 
+	private PluginUtils() {
+	}
+
 	public static final String DELEGATE_BOUNDSQL_SQL = "delegate.boundSql.sql";
 
 	/**

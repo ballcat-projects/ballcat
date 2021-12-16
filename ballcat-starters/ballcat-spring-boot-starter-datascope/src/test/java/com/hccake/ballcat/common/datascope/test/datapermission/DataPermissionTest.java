@@ -14,7 +14,7 @@ import java.util.Arrays;
  * @author hccake
  */
 @SpringJUnitConfig({ DataPermissionTestConfiguration.class })
-public class DataPermissionTest {
+class DataPermissionTest {
 
 	@Autowired
 	TestService testService;
@@ -23,14 +23,14 @@ public class DataPermissionTest {
 	DataPermissionAnnotationAdvisor dataPermissionAnnotationAdvisor;
 
 	@Test
-	public void testAnnotationMatchingPointcut() throws NoSuchMethodException {
+	void testAnnotationMatchingPointcut() throws NoSuchMethodException {
 		MethodMatcher methodMatcher = dataPermissionAnnotationAdvisor.getPointcut().getMethodMatcher();
 		boolean match = methodMatcher.matches(TestServiceImpl.class.getMethod("methodA"), TestServiceImpl.class);
 		Assert.isTrue(match, "切点未正确匹配被注解的方法");
 	}
 
 	@Test
-	public void test() {
+	void test() {
 		// 使用方法本身注解
 		DataPermission dataPermissionA = testService.methodA();
 		Assert.isTrue(Arrays.equals(dataPermissionA.excludeResources(), new String[] { "order" }),

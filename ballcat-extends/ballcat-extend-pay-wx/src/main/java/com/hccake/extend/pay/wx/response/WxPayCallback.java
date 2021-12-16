@@ -1,16 +1,17 @@
 package com.hccake.extend.pay.wx.response;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.extend.pay.wx.WxPay;
 import com.hccake.extend.pay.wx.enums.ResponseCode;
 import com.hccake.extend.pay.wx.enums.TradeType;
-import java.math.BigInteger;
-import java.util.Map;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.math.BigInteger;
+import java.util.Map;
 
 /**
  * @author lingting 2021/2/25 15:43
@@ -18,7 +19,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Data
 @Accessors(chain = true)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class WxPayCallback {
 
 	private String transactionId;

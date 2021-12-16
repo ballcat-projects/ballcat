@@ -1,5 +1,6 @@
 package com.hccake.ballcat.auth.mobile;
 
+import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +12,7 @@ import java.util.Collection;
  * @author lengleng
  * @date 2018/1/9 手机号登录令牌
  */
+@EqualsAndHashCode(callSuper = true)
 public class MobileAuthenticationToken extends AbstractAuthenticationToken {
 
 	private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;

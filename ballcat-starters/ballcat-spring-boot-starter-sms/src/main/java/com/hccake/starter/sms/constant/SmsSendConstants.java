@@ -15,13 +15,13 @@ public class SmsSendConstants {
 		/**
 		 * 状态值 说明
 		 */
-		notSend(0, "未发送"),
+		NOT_SEND(0, "未发送"),
 
-		sending(1, "已在发送队列"),
+		SENDING(1, "已在发送队列"),
 
-		success(2, "发送成功"),
+		SUCCESS(2, "发送成功"),
 
-		failed(3, "发送失败"),
+		FAILED(3, "发送失败"),
 
 		;
 
@@ -38,9 +38,9 @@ public class SmsSendConstants {
 		/**
 		 * 状态值 说明
 		 */
-		sms(0, "短信"),
+		SMS(0, "短信"),
 
-		mms(1, "彩信"),
+		MMS(1, "彩信"),
 
 		;
 

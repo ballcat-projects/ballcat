@@ -25,7 +25,7 @@ public class ActuatorSecurityAutoConfiguration {
 			ActuatorSecurityProperties actuatorSecurityProperties) {
 		log.debug("Actuator 过滤器已开启====");
 		FilterRegistrationBean<ActuatorSecurityFilter> registrationBean = new FilterRegistrationBean<>();
-		if (actuatorSecurityProperties.getAuth()) {
+		if (actuatorSecurityProperties.isAuth()) {
 			// 监控开启
 			ActuatorSecurityFilter filter = new ActuatorSecurityFilter(actuatorSecurityProperties.getSecretId(),
 					actuatorSecurityProperties.getSecretKey());

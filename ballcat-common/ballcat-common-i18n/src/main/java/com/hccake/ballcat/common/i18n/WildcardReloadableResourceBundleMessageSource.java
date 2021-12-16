@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.i18n;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -20,6 +21,7 @@ import java.util.Locale;
  * @author Nicolás Miranda
  * @author hccake
  */
+@Slf4j
 public class WildcardReloadableResourceBundleMessageSource extends ReloadableResourceBundleMessageSource {
 
 	private static final String PROPERTIES_SUFFIX = ".properties";
@@ -64,7 +66,8 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 					fileNames.add(sourcePath);
 				}
 			}
-			catch (IOException ignored) {
+			catch (IOException ex) {
+				log.error("读取国际化信息文件异常", ex);
 			}
 		}
 		return fileNames;

@@ -23,7 +23,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 /**
  * @author hccake
  */
-public class SqlParseTest {
+class SqlParseTest {
 
 	DataScope tenantDataScope = new DataScope() {
 		final String columnName = "tenant_id";

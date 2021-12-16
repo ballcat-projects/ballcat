@@ -15,7 +15,10 @@ import java.util.Collection;
  * @version 1.0
  */
 @Slf4j
-public class WebSocketMessageSender {
+public final class WebSocketMessageSender {
+
+	private WebSocketMessageSender() {
+	}
 
 	public static void broadcast(String message) {
 		Collection<WebSocketSession> sessions = WebSocketSessionHolder.getSessions();

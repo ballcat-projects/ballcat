@@ -9,7 +9,10 @@ import java.nio.charset.StandardCharsets;
  *
  * @author hccake
  */
-public class SmsUtils {
+public final class SmsUtils {
+
+	private SmsUtils() {
+	}
 
 	/**
 	 * 短信载荷可用字节数

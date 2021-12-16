@@ -21,7 +21,10 @@ package com.hccake.ballcat.common.charset;
  * @author joelauer
  * @author hccake
  */
-public class GSMCharset {
+public final class GSMCharset {
+
+	private GSMCharset() {
+	}
 
 	/**
 	 * The extension character uses this character as a precharacter

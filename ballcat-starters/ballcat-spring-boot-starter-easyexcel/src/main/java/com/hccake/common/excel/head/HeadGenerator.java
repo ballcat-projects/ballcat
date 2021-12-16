@@ -1,7 +1,5 @@
 package com.hccake.common.excel.head;
 
-import java.util.List;
-
 /**
  * Excel头生成器，用于自定义生成头部信息
  *
