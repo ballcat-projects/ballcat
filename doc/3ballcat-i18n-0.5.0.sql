@@ -12,7 +12,7 @@ CREATE TABLE `i18n_data` (
                              `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
                              PRIMARY KEY (`id`),
                              UNIQUE KEY `udx_laguage_tag_code` (`language_tag`,`code`,`deleted`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COMMENT='国际化信息';
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci  COMMENT='国际化信息';
 
 -- 插入菜单的国际化信息配置
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (1, 'zh-CN', 'menu.account', '个人页', '', '2021-08-06 11:46:52', NULL);
