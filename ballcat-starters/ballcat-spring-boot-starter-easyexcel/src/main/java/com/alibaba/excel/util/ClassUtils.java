@@ -21,9 +21,9 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class ClassUtils {
 
-	private static final Map<Class, SoftReference<FieldCache>> FIELD_CACHE = new ConcurrentHashMap<Class, SoftReference<FieldCache>>();
+	private static final Map<Class<?>, SoftReference<FieldCache>> FIELD_CACHE = new ConcurrentHashMap<>();
 
-	public static void declaredFields(Class clazz, Map<Integer, Field> sortedAllFiledMap,
+	public static void declaredFields(Class<?> clazz, Map<Integer, Field> sortedAllFiledMap,
 			Map<Integer, Field> indexFiledMap, Map<String, Field> ignoreMap, Boolean convertAllFiled,
 			Boolean needIgnore, Holder holder) {
 		FieldCache fieldCache = getFieldCache(clazz, convertAllFiled);
@@ -33,11 +33,11 @@ public class ClassUtils {
 		if (ignoreMap != null) {
 			ignoreMap.putAll(fieldCache.getIgnoreMap());
 		}
-		Map<Integer, Field> tempIndexFildMap = indexFiledMap;
-		if (tempIndexFildMap == null) {
-			tempIndexFildMap = new TreeMap<Integer, Field>();
+		Map<Integer, Field> tempIndexFieldMap = indexFiledMap;
+		if (tempIndexFieldMap == null) {
+			tempIndexFieldMap = new TreeMap<>();
 		}
-		tempIndexFildMap.putAll(fieldCache.getIndexFiledMap());
+		tempIndexFieldMap.putAll(fieldCache.getIndexFiledMap());
 
 		Map<Integer, Field> originSortedAllFiledMap = fieldCache.getSortedAllFiledMap();
 		if (!needIgnore) {
@@ -60,7 +60,7 @@ public class ClassUtils {
 				if (ignoreMap != null && name != null) {
 					ignoreMap.put(name, field);
 				}
-				tempIndexFildMap.remove(index);
+				tempIndexFieldMap.remove(index);
 				ignoreNum++;
 			}
 			else if (field != null) {
@@ -70,12 +70,12 @@ public class ClassUtils {
 		}
 	}
 
-	public static void declaredFields(Class clazz, Map<Integer, Field> sortedAllFiledMap, Boolean convertAllFiled,
+	public static void declaredFields(Class<?> clazz, Map<Integer, Field> sortedAllFiledMap, Boolean convertAllFiled,
 			Boolean needIgnore, WriteHolder writeHolder) {
 		declaredFields(clazz, sortedAllFiledMap, null, null, convertAllFiled, needIgnore, writeHolder);
 	}
 
-	private static FieldCache getFieldCache(Class clazz, Boolean convertAllFiled) {
+	private static FieldCache getFieldCache(Class<?> clazz, Boolean convertAllFiled) {
 		if (clazz == null) {
 			return null;
 		}
@@ -93,38 +93,39 @@ public class ClassUtils {
 		return FIELD_CACHE.get(clazz).get();
 	}
 
-	private static void declaredFields(Class clazz, Boolean convertAllFiled) {
-		List<Field> tempFieldList = new ArrayList<Field>();
-		Class tempClass = clazz;
+	private static void declaredFields(Class<?> clazz, Boolean convertAllFiled) {
+		List<Field> tempFieldList = new ArrayList<>();
+		Class<?> tempClass = clazz;
 		// When the parent class is null, it indicates that the parent class (Object
 		// class) has reached the top
 		// level.
+		// TODO BaseRowModel is Deprecated,you don't need to extend any classes
 		while (tempClass != null && tempClass != BaseRowModel.class) {
 			Collections.addAll(tempFieldList, tempClass.getDeclaredFields());
 			// Get the parent class and give it to yourself
 			tempClass = tempClass.getSuperclass();
 		}
 		// Screening of field
-		Map<Integer, List<Field>> orderFiledMap = new TreeMap<Integer, List<Field>>();
-		Map<Integer, Field> indexFiledMap = new TreeMap<Integer, Field>();
-		Map<String, Field> ignoreMap = new HashMap<String, Field>(16);
+		Map<Integer, List<Field>> orderFiledMap = new TreeMap<>();
+		Map<Integer, Field> indexFiledMap = new TreeMap<>();
+		Map<String, Field> ignoreMap = new HashMap<>(16);
 
-		ExcelIgnoreUnannotated excelIgnoreUnannotated = (ExcelIgnoreUnannotated) clazz
-				.getAnnotation(ExcelIgnoreUnannotated.class);
+		assert clazz != null;
+		ExcelIgnoreUnannotated excelIgnoreUnannotated = clazz.getAnnotation(ExcelIgnoreUnannotated.class);
 		for (Field field : tempFieldList) {
 			declaredOneField(field, orderFiledMap, indexFiledMap, ignoreMap, excelIgnoreUnannotated, convertAllFiled);
 		}
-		FIELD_CACHE.put(clazz, new SoftReference<FieldCache>(
+		FIELD_CACHE.put(clazz, new SoftReference<>(
 				new FieldCache(buildSortedAllFiledMap(orderFiledMap, indexFiledMap), indexFiledMap, ignoreMap)));
 	}
 
 	private static Map<Integer, Field> buildSortedAllFiledMap(Map<Integer, List<Field>> orderFiledMap,
 			Map<Integer, Field> indexFiledMap) {
 
-		Map<Integer, Field> sortedAllFiledMap = new HashMap<Integer, Field>(
+		Map<Integer, Field> sortedAllFiledMap = new HashMap<>(
 				(orderFiledMap.size() + indexFiledMap.size()) * 4 / 3 + 1);
 
-		Map<Integer, Field> tempIndexFiledMap = new HashMap<Integer, Field>(indexFiledMap);
+		Map<Integer, Field> tempIndexFiledMap = new HashMap<>(indexFiledMap);
 		int index = 0;
 		for (List<Field> fieldList : orderFiledMap.values()) {
 			for (Field field : fieldList) {
@@ -175,11 +176,7 @@ public class ClassUtils {
 		if (excelProperty != null) {
 			order = excelProperty.order();
 		}
-		List<Field> orderFiledList = orderFiledMap.get(order);
-		if (orderFiledList == null) {
-			orderFiledList = new ArrayList<Field>();
-			orderFiledMap.put(order, orderFiledList);
-		}
+		List<Field> orderFiledList = orderFiledMap.computeIfAbsent(order, k -> new ArrayList<>());
 		orderFiledList.add(field);
 	}
 

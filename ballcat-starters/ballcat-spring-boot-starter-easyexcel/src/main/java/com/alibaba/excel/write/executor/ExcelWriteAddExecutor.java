@@ -46,7 +46,7 @@ public class ExcelWriteAddExecutor extends AbstractExcelWriteExecutor {
 			newRowIndex += writeContext.currentWriteHolder().relativeHeadRowIndex();
 		}
 		// BeanMap is out of order,so use sortedAllFiledMap
-		Map<Integer, Field> sortedAllFiledMap = new TreeMap<Integer, Field>();
+		Map<Integer, Field> sortedAllFiledMap = new TreeMap<>();
 		int relativeRowIndex = 0;
 		for (Object oneRowData : data) {
 			int n = relativeRowIndex + newRowIndex;
@@ -115,7 +115,7 @@ public class ExcelWriteAddExecutor extends AbstractExcelWriteExecutor {
 			Map<Integer, Field> sortedAllFiledMap) {
 		WriteHolder currentWriteHolder = writeContext.currentWriteHolder();
 		BeanMap beanMap = BeanMap.create(oneRowData);
-		Set<String> beanMapHandledSet = new HashSet<String>();
+		Set<String> beanMapHandledSet = new HashSet<>();
 		int cellIndex = 0;
 		// If it's a class it needs to be cast by type
 		if (HeadKindEnum.CLASS.equals(writeContext.currentWriteHolder().excelWriteHeadProperty().getHeadKind())) {

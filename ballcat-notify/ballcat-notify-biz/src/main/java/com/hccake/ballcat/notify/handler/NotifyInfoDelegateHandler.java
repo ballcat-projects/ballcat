@@ -4,7 +4,6 @@ import com.hccake.ballcat.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
