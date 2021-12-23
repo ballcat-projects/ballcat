@@ -4,11 +4,11 @@ import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.hccake.ballcat.common.core.jackson.JavaTimeModule;
+import com.hccake.ballcat.common.core.jackson.CustomJavaTimeModule;
 import com.hccake.ballcat.common.core.jackson.NullSerializerModifier;
 import com.hccake.ballcat.common.desensitize.json.DesensitizeStrategy;
-import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializerModifier;
 import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeModule;
+import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializerModifier;
 import com.hccake.ballcat.common.util.json.JacksonJsonToolAdapter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -46,15 +46,22 @@ public class CustomJacksonAutoConfiguration {
 		// NULL值修改
 		objectMapper.setSerializerFactory(
 				objectMapper.getSerializerFactory().withSerializerModifier(new NullSerializerModifier()));
-		// 时间解析器
-		objectMapper.registerModule(new JavaTimeModule());
 		// 有特殊需要转义字符, 不报错
 		objectMapper.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature());
-
 		// 更新 JsonUtils 中的 ObjectMapper，保持容器和工具类中的 ObjectMapper 对象一致
 		JacksonJsonToolAdapter.setMapper(objectMapper);
 
 		return objectMapper;
+	}
+
+	/**
+	 * 注册自定义 的 jackson 时间格式，高优先级，用于覆盖默认的时间格式
+	 * @return CustomJavaTimeModule
+	 */
+	@Bean
+	@ConditionalOnMissingBean(CustomJavaTimeModule.class)
+	public CustomJavaTimeModule customJavaTimeModule() {
+		return new CustomJavaTimeModule();
 	}
 
 	/**
