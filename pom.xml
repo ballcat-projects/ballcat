@@ -17,6 +17,7 @@
 		<module>ballcat-notify</module>
 		<module>ballcat-log</module>
         <module>ballcat-i18n</module>
+		<module>ballcat-tenant</module>
     </modules>
 	<name>ballcat</name>
 	<description>项目基本脚手架</description>

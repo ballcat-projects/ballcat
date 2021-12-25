@@ -1,19 +1,17 @@
 package com.hccake.ballcat.admin.config.mybatis;
 
-import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.hccake.extend.mybatis.plus.injector.CustomSqlInjector;
-import com.hccake.extend.mybatis.plus.methods.InsertBatchSomeColumnByCollection;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +19,12 @@ import java.util.List;
  * @date 2020/04/19 默认配置MybatisPlus分页插件，通过conditional注解达到覆盖效用
  */
 @Configuration
+@AllArgsConstructor
 public class MybatisPlusConfig {
+
+	private final List<InnerInterceptor> innerInterceptors;
+
+	private final List<AbstractMethod> injectMethods;
 
 	/**
 	 * MybatisPlusInterceptor 插件，默认提供分页插件</br>
@@ -32,7 +35,8 @@ public class MybatisPlusConfig {
 	@ConditionalOnMissingBean(MybatisPlusInterceptor.class)
 	public MybatisPlusInterceptor mybatisPlusInterceptor() {
 		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-		interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+		AnnotationAwareOrderComparator.sort(innerInterceptors);
+		innerInterceptors.forEach(interceptor::addInnerInterceptor);
 		return interceptor;
 	}
 
@@ -53,10 +57,7 @@ public class MybatisPlusConfig {
 	@Bean
 	@ConditionalOnMissingBean(ISqlInjector.class)
 	public ISqlInjector customSqlInjector() {
-		List<AbstractMethod> list = new ArrayList<>();
-		// 对于只在更新时进行填充的字段不做插入处理
-		list.add(new InsertBatchSomeColumnByCollection(t -> t.getFieldFill() != FieldFill.UPDATE));
-		return new CustomSqlInjector(list);
+		return new CustomSqlInjector(injectMethods);
 	}
 
 }
