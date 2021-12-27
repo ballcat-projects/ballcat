@@ -175,12 +175,14 @@ public class SysDictManager {
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该字典项目不能删除");
 		}
 		// 更新字典项Hash值
-		if (sysDictService.updateHashCode(dictCode)) {
-			return sysDictItemService.removeById(id);
-		}
-		else {
+		if (!sysDictService.updateHashCode(dictCode)) {
 			return false;
 		}
+		boolean result = sysDictItemService.removeById(id);
+		if (result) {
+			eventPublisher.publishEvent(new DictChangeEvent(dictCode));
+		}
+		return true;
 	}
 
 	/**

@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.hccake.ballcat.autoconfigure.tenant.TenantAutoConfiguration,\
+    com.hccake.ballcat.autoconfigure.tenant.TenantDatasourceLoader,\
+    com.hccake.ballcat.autoconfigure.tenant.config.TenantInterceptorConfig
+
+org.springframework.boot.env.EnvironmentPostProcessor=\
+    com.hccake.ballcat.autoconfigure.tenant.DynamicDatasourceEnvPostProcessor

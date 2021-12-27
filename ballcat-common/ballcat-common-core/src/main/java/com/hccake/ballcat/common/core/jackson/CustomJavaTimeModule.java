@@ -24,9 +24,9 @@ import java.time.format.DateTimeFormatter;
  * @see com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
  * @author Hccake
  */
-public class JavaTimeModule extends SimpleModule {
+public class CustomJavaTimeModule extends SimpleModule {
 
-	public JavaTimeModule() {
+	public CustomJavaTimeModule() {
 		super(PackageVersion.VERSION);
 
 		this.addSerializer(LocalDateTime.class,

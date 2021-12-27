@@ -17,6 +17,7 @@
 		<module>ballcat-notify</module>
 		<module>ballcat-log</module>
         <module>ballcat-i18n</module>
+		<module>ballcat-tenant</module>
     </modules>
 	<name>ballcat</name>
 	<description>项目基本脚手架</description>
@@ -63,7 +64,7 @@
 		<maven-source-plugin.version>3.1.0</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
 
-		<spring-boot.version>2.6.1</spring-boot.version>
+		<spring-boot.version>2.6.2</spring-boot.version>
 
 		<!-- mapstruct 和 lombok 等注解处理器 -->
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>

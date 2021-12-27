@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hccake.ballcat.tenant.mapper.SysDatasourceMapper">
+
+	<resultMap id="sysDatasourceMap" type="com.hccake.ballcat.tenant.model.entity.SysDatasource">
+  		<id property="id" column="id"/>
+    		<result property="name" column="name"/>
+    		<result property="url" column="url"/>
+    		<result property="username" column="username"/>
+    		<result property="password" column="password"/>
+    		<result property="type" column="type"/>
+    		<result property="maxHolds" column="max_holds"/>
+    		<result property="extra" column="extra"/>
+    		<result property="description" column="description"/>
+    		<result property="createTime" column="create_time"/>
+    		<result property="updateTime" column="update_time"/>
+      </resultMap>
+
+	<sql id="Base_Column_List">
+		id,        
+		name,        
+		url,        
+		username,        
+		password,        
+		type,        
+		max_holds,        
+		extra,        
+		description,        
+		create_time,        
+		update_time        
+	</sql>
+
+	<sql id="Base_Alias_Column_List">
+		sd.id,        
+		sd.name,        
+		sd.url,        
+		sd.username,        
+		sd.password,        
+		sd.type,        
+		sd.max_holds,        
+		sd.extra,        
+		sd.description,        
+		sd.create_time,        
+		sd.update_time        
+	</sql>
+</mapper>
