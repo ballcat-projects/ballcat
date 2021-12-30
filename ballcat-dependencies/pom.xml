@@ -49,7 +49,7 @@
 		<io.swagger.v3.version>2.1.11</io.swagger.v3.version>
 		<springdoc-openapi.verison>1.6.2</springdoc-openapi.verison>
 		<kafka.version>2.5.0</kafka.version>
-		<hutool.version>5.7.16</hutool.version>
+		<hutool.version>5.7.18</hutool.version>
 		<fastjson.version>1.2.76</fastjson.version>
 		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<mybatis.version>3.5.7</mybatis.version>
@@ -101,6 +101,15 @@
 						<groupId>org.springframework.boot</groupId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+
+			<!-- hutool工具类 -->
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-bom</artifactId>
+				<version>${hutool.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 
 
@@ -537,37 +546,8 @@
 				<artifactId>spring-boot-admin-starter-client</artifactId>
 				<version>${spring-boot-admin.version}</version>
 			</dependency>
-			<!--hutool工具类-->
-			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-core</artifactId>
-				<version>${hutool.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-http</artifactId>
-				<version>${hutool.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-crypto</artifactId>
-				<version>${hutool.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-extra</artifactId>
-				<version>${hutool.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-cache</artifactId>
-				<version>${hutool.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-json</artifactId>
-				<version>${hutool.version}</version>
-			</dependency>
+
+
 			<!-- fastjson -->
 
 			<dependency>
