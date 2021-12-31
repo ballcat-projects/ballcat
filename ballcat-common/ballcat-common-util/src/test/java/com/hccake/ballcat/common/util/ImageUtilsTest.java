@@ -1,8 +1,8 @@
 package com.hccake.ballcat.common.util;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import lombok.SneakyThrows;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -10,28 +10,22 @@ import org.junit.jupiter.api.Test;
  */
 class ImageUtilsTest {
 
-	final String path = "D:\\react\\ballcat-ui-react\\public\\icons\\icon-128x128.png";
-
 	@SneakyThrows
 	@Test
 	void resolveClone() {
-		File file = new File(path);
-		final FileInputStream stream = new FileInputStream(file);
-		final ImageUtils.ImageInfo info = ImageUtils.resolveClone(stream);
-		System.out.println(info.getType());
-		System.out.println(info.getWidth());
-		System.out.println(info.getHeight());
+		final InputStream svg = FileUtils
+				.getInputStreamByUrlPath("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png");
+		final ImageUtils.ImageInfo info = ImageUtils.resolveClone(svg);
+		Assertions.assertEquals("image/png", info.getType());
 	}
 
 	@SneakyThrows
 	@Test
 	void quickResolveClone() {
-		File file = new File(path);
-		final FileInputStream stream = new FileInputStream(file);
-		final ImageUtils.ImageInfo info = ImageUtils.quickResolveClone(stream);
-		System.out.println(info.getType());
-		System.out.println(info.getWidth());
-		System.out.println(info.getHeight());
+		final InputStream svg = FileUtils
+				.getInputStreamByUrlPath("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png");
+		final ImageUtils.ImageInfo info = ImageUtils.quickResolveClone(svg);
+		Assertions.assertEquals("image/png", info.getType());
 	}
 
 }
