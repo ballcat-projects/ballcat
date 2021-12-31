@@ -1,8 +1,9 @@
 package com.hccake.ballcat.common.util;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,32 +19,49 @@ import lombok.NoArgsConstructor;
 public class StreamUtils {
 
 	/**
+	 * 默认大小 1024 * 1024 * 8
+	 */
+	public static final int DEFAULT_SIZE = 10485760;
+
+	/**
 	 * 克隆文件流
 	 * @param stream 源流
 	 * @param amounts 数量
 	 * @author lingting 2021-04-16 16:18
 	 */
 	public static InputStream[] clone(InputStream stream, Integer amounts) throws IOException {
-		InputStream[] streams = new InputStream[amounts];
-		ByteArrayOutputStream[] outs = new ByteArrayOutputStream[amounts];
+		return clone(stream, amounts, DEFAULT_SIZE);
+	}
 
-		byte[] buffer = new byte[1024];
+	public static InputStream[] clone(InputStream stream, Integer amounts, int size) throws IOException {
+		InputStream[] streams = new InputStream[amounts];
+		File[] files = new File[amounts];
+		FileOutputStream[] outs = new FileOutputStream[amounts];
+
+		byte[] buffer = new byte[size < 1 ? DEFAULT_SIZE : size];
 		int len;
 
 		while ((len = stream.read(buffer)) > -1) {
-
 			for (int i = 0, outsLength = outs.length; i < outsLength; i++) {
-				ByteArrayOutputStream out = outs[i];
+				FileOutputStream out = outs[i];
 				if (out == null) {
-					out = new ByteArrayOutputStream();
+					files[i] = FileUtils.getTemplateFile("clone." + i + "." + System.currentTimeMillis());
+					out = new FileOutputStream(files[i]);
 					outs[i] = out;
 				}
 				out.write(buffer, 0, len);
 			}
 		}
 
-		for (int i = 0; i < outs.length; i++) {
-			streams[i] = new ByteArrayInputStream(outs[i].toByteArray());
+		for (int i = 0; i < files.length; i++) {
+			try {
+				outs[i].close();
+			}
+			catch (IOException e) {
+				//
+			}
+
+			streams[i] = new FileInputStream(files[i]);
 		}
 
 		return streams;
@@ -69,14 +87,16 @@ public class StreamUtils {
 	 * @param outputStream 输出流
 	 * @author lingting 2021-10-19 22:41
 	 */
-	public static void inputToOutput(InputStream inputStream, OutputStream outputStream) throws IOException {
-		int read = 0;
-		byte[] bytes = new byte[1024 * 1024];
+	public static void write(InputStream inputStream, OutputStream outputStream) throws IOException {
+		write(inputStream, outputStream, DEFAULT_SIZE);
+	}
 
-		while ((read = inputStream.read(bytes)) > 0) {
-			byte[] readBytes = new byte[read];
-			System.arraycopy(bytes, 0, readBytes, 0, read);
-			outputStream.write(readBytes);
+	public static void write(InputStream inputStream, OutputStream outputStream, int size) throws IOException {
+		int len;
+		byte[] bytes = new byte[size < 1 ? DEFAULT_SIZE : size];
+
+		while ((len = inputStream.read(bytes)) > 0) {
+			outputStream.write(bytes, 0, len);
 		}
 	}
 

@@ -4,12 +4,11 @@ import com.hccake.ballcat.common.util.FileUtils;
 import com.hccake.ballcat.common.util.StreamUtils;
 import com.hccake.starter.file.FileClient;
 import com.hccake.starter.file.FileProperties.LocalProperties;
-import org.springframework.util.StringUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.springframework.util.StringUtils;
 
 /**
  * @author lingting 2021/10/17 20:11
@@ -80,7 +79,7 @@ public class LocalFileClient implements FileClient {
 		}
 
 		try (FileOutputStream outputStream = new FileOutputStream(file)) {
-			StreamUtils.inputToOutput(stream, outputStream);
+			StreamUtils.write(stream, outputStream);
 		}
 
 		return file.getPath();
