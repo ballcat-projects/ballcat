@@ -17,7 +17,6 @@ import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.ExistsExpression;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
-import net.sf.jsqlparser.expression.operators.relational.ItemsList;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.insert.Insert;
@@ -226,9 +225,9 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			else if (where instanceof InExpression) {
 				// in
 				InExpression expression = (InExpression) where;
-				ItemsList itemsList = expression.getRightItemsList();
-				if (itemsList instanceof SubSelect) {
-					processSelectBody(((SubSelect) itemsList).getSelectBody());
+				Expression inExpression = expression.getRightExpression();
+				if (inExpression instanceof SubSelect) {
+					processSelectBody(((SubSelect) inExpression).getSelectBody());
 				}
 			}
 			else if (where instanceof ExistsExpression) {
