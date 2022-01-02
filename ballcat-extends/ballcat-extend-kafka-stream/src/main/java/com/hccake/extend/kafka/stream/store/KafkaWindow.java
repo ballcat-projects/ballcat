@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
  *
  * @author lingting 2020/6/22 10:32
  */
-public interface KafkaWindow<Value, Values> {
+public interface KafkaWindow<V, Values> {
 
 	/**
 	 * 数据通过校验才插入
@@ -15,7 +15,7 @@ public interface KafkaWindow<Value, Values> {
 	 * @param value 值
 	 * @author lingting 2020-06-19 10:27:30
 	 */
-	default void pushValue(Value value, Values values) {
+	default void pushValue(V value, Values values) {
 		if (check(value)) {
 			forkPush(value, values);
 		}
@@ -27,8 +27,8 @@ public interface KafkaWindow<Value, Values> {
 	 * @param iterable 需要插入的多个值
 	 * @author lingting 2020-06-19 11:05:00
 	 */
-	default void pushAll(Iterable<Value> iterable, Values values) {
-		for (Value v : iterable) {
+	default void pushAll(Iterable<V> iterable, Values values) {
+		for (V v : iterable) {
 			pushValue(v, values);
 		}
 	}
@@ -39,7 +39,7 @@ public interface KafkaWindow<Value, Values> {
 	 * @param values 存放所有数据的对象
 	 * @author lingting 2020-06-19 10:25:24
 	 */
-	void forkPush(Value value, Values values);
+	void forkPush(V value, Values values);
 
 	/**
 	 * 校验 value 是否可以插入
@@ -47,7 +47,7 @@ public interface KafkaWindow<Value, Values> {
 	 * @return boolean true 可以插入
 	 * @author lingting 2020-06-19 10:27:17
 	 */
-	default boolean check(Value value) {
+	default boolean check(V value) {
 		if (!isInsertNull()) {
 			// 不能插入空值，进行校验
 			if (value instanceof String && StrUtil.isEmpty((String) value)) {

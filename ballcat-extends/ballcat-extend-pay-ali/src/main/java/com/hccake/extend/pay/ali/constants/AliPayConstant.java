@@ -29,4 +29,6 @@ public class AliPayConstant {
 	 */
 	public static final String PRODUCT_CODE = "FAST_INSTANT_TRADE_PAY";
 
+	public static final String FIELD_FUND_BILL_LIST = "fund_bill_list";
+
 }

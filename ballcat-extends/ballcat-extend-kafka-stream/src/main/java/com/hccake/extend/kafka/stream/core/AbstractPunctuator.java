@@ -13,7 +13,7 @@ import org.apache.kafka.streams.processor.Punctuator;
  * @author lingting 2020/6/17 14:02
  */
 @Slf4j
-public abstract class AbstractPunctuator extends AbstractKafka implements Punctuator {
+public abstract class AbstractPunctuator implements Kafka, Punctuator {
 
 	@Getter
 	private ProcessorContext context;

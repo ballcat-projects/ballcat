@@ -1,5 +1,6 @@
 package com.hccake.extend.kafka;
 
+import java.util.concurrent.Future;
 import lombok.Getter;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -7,13 +8,14 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.header.Header;
 
-import java.util.concurrent.Future;
-
 /**
  * 生产者扩展 提供了一些更加方便使用 生产者的方法
  *
+ * 忽略sonar异常. record 方法名需要与 kafka默认提供的方法名保持同名. 避免误导
+ *
  * @author lingting 2020/6/23 17:11
  */
+@SuppressWarnings("java:S6213")
 public class KafkaExtendProducer<K, V> {
 
 	@Getter

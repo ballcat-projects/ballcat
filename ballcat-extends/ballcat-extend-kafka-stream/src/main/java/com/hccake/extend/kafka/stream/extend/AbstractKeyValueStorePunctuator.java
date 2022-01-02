@@ -2,16 +2,16 @@ package com.hccake.extend.kafka.stream.extend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.extend.kafka.stream.core.AbstractPunctuator;
+import com.hccake.extend.kafka.stream.exception.NotAllowedException;
 import com.hccake.extend.kafka.stream.store.KafkaKeyValueStore;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.processor.ProcessorContext;
 import org.apache.kafka.streams.state.KeyValueIterator;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiFunction;
 
 /**
  * kafka 扩展类 自动注入 指定类型 指定名称的 store Value 数据的类型 Values 存放数据的对象类型
@@ -21,6 +21,8 @@ import java.util.function.BiFunction;
 @Slf4j
 public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractPunctuator {
 
+	public static final int HANDLER_SIZE = 1000;
+
 	@Getter
 	private KafkaKeyValueStore<K, V> store;
 
@@ -29,10 +31,12 @@ public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractP
 	 */
 	private BiFunction<K, V, R> signHandle;
 
+	/**
+	 * 不允许使用这个初始化方法.
+	 */
 	@Override
-	@Deprecated
 	public AbstractKeyValueStorePunctuator<K, V, R> init(ProcessorContext context) {
-		throw new RuntimeException(
+		throw new NotAllowedException(
 				"继承自 com.hccake.extend.kafka.stream.extend.AbstractKeyValueStorePunctuator 的类禁止使用当前方法进行初始化!");
 	}
 
@@ -50,7 +54,7 @@ public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractP
 	 * @author lingting 2020-06-22 15:37:10
 	 */
 	public long getHandleSize() {
-		return 1000;
+		return HANDLER_SIZE;
 	}
 
 	@Override

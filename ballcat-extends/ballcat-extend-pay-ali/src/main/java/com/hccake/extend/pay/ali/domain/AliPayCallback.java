@@ -1,7 +1,9 @@
 package com.hccake.extend.pay.ali.domain;
 
+import static com.hccake.extend.pay.ali.constants.AliPayConstant.FIELD_FUND_BILL_LIST;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.extend.pay.ali.AliPay;
@@ -21,7 +23,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AliPayCallback {
 
 	/**
@@ -32,10 +34,10 @@ public class AliPayCallback {
 	 */
 	public static AliPayCallback of(Map<String, String> callbackParams) {
 		Map<String, Object> map = new HashMap<>(callbackParams);
-		String fundBillListStr = callbackParams.get("fund_bill_list").replaceAll("&quot;", "\"");
-		map.put("fund_bill_list", JsonUtils.toObj(fundBillListStr, List.class));
+		String fundBillListStr = callbackParams.get(FIELD_FUND_BILL_LIST).replace("&quot;", "\"");
+		map.put(FIELD_FUND_BILL_LIST, JsonUtils.toObj(fundBillListStr, List.class));
 		// 覆盖原值
-		callbackParams.put("fund_bill_list", fundBillListStr);
+		callbackParams.put(FIELD_FUND_BILL_LIST, fundBillListStr);
 		return JsonUtils.toObj(JsonUtils.toJson(map), AliPayCallback.class).setRaw(callbackParams);
 	}
 

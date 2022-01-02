@@ -7,9 +7,6 @@ import com.hccake.ballcat.autoconfigure.web.exception.ExceptionHandleProperties;
 import com.hccake.ballcat.autoconfigure.web.exception.domain.ExceptionMessage;
 import com.hccake.ballcat.autoconfigure.web.exception.domain.ExceptionNoticeResponse;
 import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Map;
@@ -17,6 +14,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
  * @author lingting 2020-09-03 20:09
@@ -150,6 +149,9 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 			if (!config.getIgnoreExceptions().contains(throwable.getClass())) {
 				queue.put(throwable);
 			}
+		}
+		catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 		}
 		catch (Exception e) {
 			log.error("往异常消息队列插入新异常时出错", e);

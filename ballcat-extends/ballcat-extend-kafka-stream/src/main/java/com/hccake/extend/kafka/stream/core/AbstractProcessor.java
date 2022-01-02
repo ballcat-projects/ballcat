@@ -3,6 +3,7 @@ package com.hccake.extend.kafka.stream.core;
 import cn.hutool.core.convert.Convert;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.extend.kafka.stream.util.ProcessorContextUtil;
+import java.time.Duration;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.processor.Processor;
@@ -10,15 +11,13 @@ import org.apache.kafka.streams.processor.ProcessorContext;
 import org.apache.kafka.streams.processor.PunctuationType;
 import org.apache.kafka.streams.processor.To;
 
-import java.time.Duration;
-
 /**
  * kafka 顶级 processor 类
  *
  * @author lingting 2020/6/16 22:27
  */
 @Slf4j
-public abstract class AbstractProcessor<K, V> extends AbstractKafka implements Processor<K, V> {
+public abstract class AbstractProcessor<K, V> implements Kafka, Processor<K, V> {
 
 	@Getter
 	private ProcessorContext context;
@@ -63,7 +62,7 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 	 * @param childName 目标名称
 	 * @author lingting 2020-06-17 19:44:45
 	 */
-	public <KEY, VALUE> void forward(KEY key, VALUE value, String childName) {
+	public void forward(K key, V value, String childName) {
 		context.forward(key, value, To.child(childName));
 	}
 
@@ -74,7 +73,7 @@ public abstract class AbstractProcessor<K, V> extends AbstractKafka implements P
 	 * @param to 目标
 	 * @author lingting 2020-06-17 19:47:55
 	 */
-	public <KEY, VALUE> void forward(KEY key, VALUE value, To to) {
+	public void forward(K key, V value, To to) {
 		context.forward(key, value, to);
 	}
 

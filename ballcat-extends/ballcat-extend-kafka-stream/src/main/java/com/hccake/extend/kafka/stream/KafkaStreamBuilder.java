@@ -2,6 +2,13 @@ package com.hccake.extend.kafka.stream;
 
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.regex.Pattern;
 import lombok.Getter;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -15,10 +22,6 @@ import org.apache.kafka.streams.processor.StreamPartitioner;
 import org.apache.kafka.streams.processor.TimestampExtractor;
 import org.apache.kafka.streams.processor.TopicNameExtractor;
 import org.apache.kafka.streams.state.StoreBuilder;
-
-import java.util.*;
-import java.util.function.BiFunction;
-import java.util.regex.Pattern;
 
 /**
  * kafka Stream 流构建方法
@@ -248,6 +251,10 @@ public class KafkaStreamBuilder {
 		return this;
 	}
 
+	/**
+	 * 与kafka原方法保持一致. 减低迁移成本
+	 */
+	@SuppressWarnings("java:S107")
 	public synchronized KafkaStreamBuilder addGlobalStore(StoreBuilder<?> storeBuilder, String sourceName,
 			TimestampExtractor timestampExtractor, Deserializer<?> keyDeserializer, Deserializer<?> valueDeserializer,
 			String topic, String processorName, ProcessorSupplier<?, ?> stateUpdateSupplier) {

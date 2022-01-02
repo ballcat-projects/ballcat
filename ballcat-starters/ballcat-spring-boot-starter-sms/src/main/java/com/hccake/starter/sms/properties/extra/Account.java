@@ -13,7 +13,7 @@ public class Account {
 	/**
 	 * 账号
 	 */
-	private String account;
+	private String username;
 
 	/**
 	 * 密码
