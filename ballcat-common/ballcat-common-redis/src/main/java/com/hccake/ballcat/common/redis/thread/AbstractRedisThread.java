@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
 
 /**
  * @see java.util.concurrent.LinkedBlockingDeque
@@ -96,6 +97,9 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 					lock.unlock();
 				}
 			}
+			catch (InterruptedException ex) {
+				Thread.currentThread().interrupt();
+			}
 			catch (Exception ex) {
 				log.error("{} put error, param: {}", this.getClass().toString(), e, ex);
 			}
@@ -104,9 +108,12 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 
 	/**
 	 * 从redis中获取数据
+	 *
+	 * 忽略sonar 警告. 子类有可能需要在get时做其他操作.
 	 * @return java.lang.String
 	 * @author lingting 2021-03-02 22:04
 	 */
+	@SuppressWarnings("java:S2177")
 	protected String get() {
 		return RedisHelper.listLeftPop(getKey());
 	}
@@ -121,31 +128,21 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 		// 上锁
 		lock.lockInterruptibly();
 		try {
-			String pop = get();
-
-			if (StrUtil.isBlank(pop)) {
-				// 设置等待时长
-				long nanos = TimeUnit.MILLISECONDS.toNanos(time);
-
-				while (nanos > 0) {
-					// 休眠. 返回剩余的休眠时间
-					nanos = condition.awaitNanos(nanos);
-
-					// 如果不运行了
-					if (!isRun()) {
-						break;
-					}
-
-					// 被唤醒. 或者超时
-					pop = get();
-
-					// 获取到值
-					if (StrUtil.isNotBlank(pop)) {
-						// 结束循环. 返回值
-						break;
-					}
+			// 设置等待时长
+			long nanos = TimeUnit.MILLISECONDS.toNanos(time);
+			String pop;
+			do {
+				// 获取数据
+				pop = get();
+				if (StringUtils.hasText(pop)) {
+					break;
 				}
+
+				// 休眠. 返回剩余的休眠时间
+				nanos = condition.awaitNanos(nanos);
 			}
+			while (isRun() && nanos > 0);
+
 			return convertToObj(pop);
 		}
 		finally {

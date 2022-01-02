@@ -2,10 +2,9 @@ package com.hccake.ballcat.common.util.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import lombok.Getter;
-
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
+import lombok.Getter;
 
 /**
  * @author lingting 2021/2/26 10:22
@@ -13,10 +12,11 @@ import java.util.function.Consumer;
 public class GsonJsonToolAdapter implements JsonTool {
 
 	@Getter
-	static Gson gson = new GsonBuilder().create();
+	static Gson gson;
 
 	static {
 		// 初始化gson配置
+		gson = new GsonBuilder().create();
 	}
 
 	/**
@@ -24,7 +24,7 @@ public class GsonJsonToolAdapter implements JsonTool {
 	 *
 	 * @author lingting 2021-02-26 10:29
 	 */
-	public void config(Consumer<GsonBuilder> consumer) {
+	public static void config(Consumer<GsonBuilder> consumer) {
 		GsonBuilder builder = gson.newBuilder();
 		consumer.accept(builder);
 		// 更新 gson

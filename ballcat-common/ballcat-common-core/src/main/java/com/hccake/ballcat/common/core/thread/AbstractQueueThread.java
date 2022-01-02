@@ -119,9 +119,11 @@ public abstract class AbstractQueueThread<E> extends Thread
 	 * @exception Exception 异常
 	 * @author lingting 2021-03-02 20:53
 	 */
+	@SuppressWarnings("java:S112")
 	public abstract void process(List<E> list) throws Exception;
 
 	@Override
+	@SuppressWarnings("java:S1181")
 	public void run() {
 		init();
 		List<E> list;
@@ -139,8 +141,13 @@ public abstract class AbstractQueueThread<E> extends Thread
 					process(list);
 				}
 			}
-			catch (Throwable e) {
+			catch (Exception e) {
 				error(e, list);
+			}
+			// Throwable 异常直接结束. 这里捕获用来保留信息. 方便排查问题
+			catch (Throwable t) {
+				log.error("线程队列运行异常!", t);
+				throw t;
 			}
 		}
 	}

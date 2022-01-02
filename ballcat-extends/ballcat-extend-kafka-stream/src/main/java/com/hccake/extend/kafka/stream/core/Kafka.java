@@ -9,23 +9,24 @@ import org.apache.kafka.streams.state.KeyValueStore;
  *
  * @author lingting 2020/6/22 11:02
  */
-public abstract class AbstractKafka {
+public interface Kafka {
 
 	/**
 	 * 获取上下文
 	 * @return content
 	 * @author lingting 2020-06-22 11:03:23
 	 */
-	public abstract ProcessorContext getContext();
+	ProcessorContext getContext();
 
 	/**
 	 * 获取 KeyValueStore
+	 * @param name store name
 	 * @return java.lang.String
 	 * @author lingting 2020-06-22 09:57:37
 	 */
 	@SuppressWarnings("unchecked")
-	public <VK, VV> KafkaKeyValueStore<VK, VV> getStore(String name) {
-		return KafkaKeyValueStore.init((KeyValueStore<VK, VV>) getContext().getStateStore(name));
+	default <K, V> KafkaKeyValueStore<K, V> getStore(String name) {
+		return KafkaKeyValueStore.init((KeyValueStore<K, V>) getContext().getStateStore(name));
 	}
 
 }

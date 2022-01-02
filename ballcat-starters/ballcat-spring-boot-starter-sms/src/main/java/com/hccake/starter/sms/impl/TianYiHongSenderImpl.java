@@ -40,8 +40,8 @@ public class TianYiHongSenderImpl extends BaseServiceImpl implements SmsSender<S
 			TianYiHong ty = sp.getTianYiHong();
 			String dateTime = DateUtil.format(LocalDateTime.now(), "yyyyMMddHHmmss");
 
-			String req = StrUtil.format("account={}&sign={}&datetime={}&content={}{}{}", account.getAccount(),
-					account.getPassword(), md5.digestHex(account.getAccount() + account.getPassword() + dateTime),
+			String req = StrUtil.format("account={}&sign={}&datetime={}&content={}{}{}", account.getUsername(),
+					account.getPassword(), md5.digestHex(account.getUsername() + account.getPassword() + dateTime),
 					dateTime, p.getContent()
 					// sender id
 					, ty.getSenderIdCountry().contains(p.getCountry()) ? "&senderid=" + ty.getSenderId() : ""
