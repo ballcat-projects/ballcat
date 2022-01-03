@@ -33,9 +33,9 @@ class TesseractTest {
 
 	@Test
 	void boxes() {
-		final List<TesseractBoxes> list = tesseract.toBoxes(image);
+		final List<TesseractBox> list = tesseract.toBoxes(image);
 		Assertions.assertFalse(list.isEmpty());
-		final TesseractBoxes boxes = list.get(0);
+		final TesseractBox boxes = list.get(0);
 		Assertions.assertEquals("1", boxes.getText());
 	}
 

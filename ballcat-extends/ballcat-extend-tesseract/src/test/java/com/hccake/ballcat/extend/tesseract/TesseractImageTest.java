@@ -28,6 +28,7 @@ class TesseractImageTest {
 	@SneakyThrows
 	void rgb() {
 		final String write = image.rgb().write();
+		System.out.println(write);
 		Assertions.assertNotNull(write);
 	}
 
@@ -39,6 +40,7 @@ class TesseractImageTest {
 		rectangle.setSize(100, 100);
 
 		final String write = image.crop(rectangle).write();
+		System.out.println(write);
 		Assertions.assertNotNull(write);
 	}
 

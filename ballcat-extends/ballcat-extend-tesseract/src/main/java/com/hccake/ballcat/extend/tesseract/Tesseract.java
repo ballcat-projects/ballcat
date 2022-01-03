@@ -2,6 +2,7 @@ package com.hccake.ballcat.extend.tesseract;
 
 import com.hccake.ballcat.extend.tesseract.enums.TesseractLang;
 import java.util.List;
+import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,24 +32,29 @@ public class Tesseract {
 		tesseractPath = path;
 	}
 
+	/**
+	 * tesseract 命令执行. 方便使用者重写. 自定义自己的命令.
+	 */
+	public List<String> run(Consumer<TesseractCommand.TesseractCommandBuilder> builderConsumer) {
+		final TesseractCommand.TesseractCommandBuilder builder = TesseractCommand.builder().tesseract(tesseractPath);
+		builderConsumer.accept(builder);
+		return builder.build().run();
+	}
+
 	public List<String> toString(TesseractImage image) {
 		return toString(image, getLang());
 	}
 
 	public List<String> toString(TesseractImage image, String lang) {
-		final TesseractCommand command = TesseractCommand.builder().boxes(false).tesseract(tesseractPath).lang(lang)
-				.image(image).build();
-		return command.run();
+		return run(builder -> builder.lang(lang).image(image));
 	}
 
-	public List<TesseractBoxes> toBoxes(TesseractImage image) {
+	public List<TesseractBox> toBoxes(TesseractImage image) {
 		return toBoxes(image, getLang());
 	}
 
-	public List<TesseractBoxes> toBoxes(TesseractImage image, String lang) {
-		final TesseractCommand command = TesseractCommand.builder().boxes(true).tesseract(tesseractPath).lang(lang)
-				.image(image).build();
-		return TesseractBoxes.of(command.run(), image);
+	public List<TesseractBox> toBoxes(TesseractImage image, String lang) {
+		return TesseractBox.of(run(builder -> builder.lang(lang).image(image).boxes(true)), image);
 	}
 
 }

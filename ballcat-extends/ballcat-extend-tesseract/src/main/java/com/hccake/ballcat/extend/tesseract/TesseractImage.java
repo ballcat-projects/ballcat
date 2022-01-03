@@ -66,27 +66,30 @@ public class TesseractImage {
 
 		for (int x = 0; x < buffer.getWidth(); x++) {
 			for (int y = 0; y < buffer.getHeight(); y++) {
-				final int rgb = buffer.getRGB(x, y);
-				final int r = (rgb >> 16) & 0xff;
-				final int g = (rgb >> 8) & 0xff;
-				final int b = rgb & 0xff;
-				int gray = (int) (0.3 * r + 0.59 * g + 0.11 * b);
-
-				grayBuffer.setRGB(x, y, colorToRgb(gray, gray, gray));
+				grayBuffer.setRGB(x, y, toGrayRgb(buffer.getRGB(x, y)));
 			}
 		}
 
 		return new TesseractImage(rawFile, grayBuffer, type);
 	}
 
-	protected int colorToRgb(int red, int green, int blue) {
-		int rgb = 255;
+	/**
+	 * 转灰度
+	 * @param oldRgb 原颜色
+	 * @return int 灰度颜色
+	 */
+	protected int toGrayRgb(int oldRgb) {
+		final int r = (oldRgb >> 16) & 0xff;
+		final int g = (oldRgb >> 8) & 0xff;
+		final int b = oldRgb & 0xff;
+		final int gray = (int) (0.3 * r + 0.59 * g + 0.11 * b);
+
+		int rgb = 255 << 8;
+		rgb += gray;
 		rgb = rgb << 8;
-		rgb += red;
+		rgb += gray;
 		rgb = rgb << 8;
-		rgb += green;
-		rgb = rgb << 8;
-		rgb += blue;
+		rgb += gray;
 		return rgb;
 	}
 

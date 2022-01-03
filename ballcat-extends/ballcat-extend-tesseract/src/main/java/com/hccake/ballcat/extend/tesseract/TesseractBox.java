@@ -15,7 +15,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class TesseractBoxes implements Serializable {
+public class TesseractBox implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,9 +46,9 @@ public class TesseractBoxes implements Serializable {
 	 */
 	private int index;
 
-	public static List<TesseractBoxes> of(List<String> lines, TesseractImage image) {
+	public static List<TesseractBox> of(List<String> lines, TesseractImage image) {
 		final int height = image.getHeight();
-		List<TesseractBoxes> list = new ArrayList<>();
+		List<TesseractBox> list = new ArrayList<>();
 
 		for (String line : lines) {
 			/*
@@ -68,17 +68,17 @@ public class TesseractBoxes implements Serializable {
 			 */
 			final String[] split = line.split(" ");
 
-			final TesseractBoxes boxes = new TesseractBoxes();
-			boxes.text = split[0];
+			final TesseractBox box = new TesseractBox();
+			box.text = split[0];
 
-			boxes.x = Integer.parseInt(split[1]);
-			boxes.y = height - Integer.parseInt(split[4]);
+			box.x = Integer.parseInt(split[1]);
+			box.y = height - Integer.parseInt(split[4]);
 
-			boxes.width = Integer.parseInt(split[3]) - boxes.x;
-			boxes.height = Integer.parseInt(split[4]) - Integer.parseInt(split[2]);
+			box.width = Integer.parseInt(split[3]) - box.x;
+			box.height = Integer.parseInt(split[4]) - Integer.parseInt(split[2]);
 
-			boxes.index = Integer.parseInt(split[5]);
-			list.add(boxes);
+			box.index = Integer.parseInt(split[5]);
+			list.add(box);
 		}
 
 		return list;

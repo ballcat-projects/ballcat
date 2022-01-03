@@ -8,10 +8,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
+import lombok.Getter;
 
 /**
  * @author lingting
  */
+@Getter
 @Builder
 public class TesseractCommand {
 
@@ -23,7 +25,14 @@ public class TesseractCommand {
 
 	private boolean boxes;
 
-	public List<String> run() {
+	/**
+	 * 页面分割模式. 值范围 1-13; 默认 3
+	 *
+	 * 小文本可以调大.
+	 */
+	private Integer psm;
+
+	public String getCommand() {
 		StringBuilder builder = new StringBuilder("\"").append(tesseract).append("\" \"");
 
 		try {
@@ -37,16 +46,20 @@ public class TesseractCommand {
 			builder.append(" -l ").append(lang);
 		}
 
+		if (psm != null) {
+			builder.append(" --psm ").append(psm);
+		}
+
 		if (boxes) {
 			builder.append(" makebox");
 		}
 
-		return run(builder.toString());
+		return builder.toString();
 	}
 
-	private List<String> run(String command) {
+	public List<String> run() {
 		try {
-			final Process process = Runtime.getRuntime().exec(command);
+			final Process process = Runtime.getRuntime().exec(getCommand());
 			final InputStream in = process.getInputStream();
 
 			final BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -74,7 +87,7 @@ public class TesseractCommand {
 		}
 	}
 
-	boolean hasText(String str) {
+	protected boolean hasText(String str) {
 		if (str == null || str.length() == 0) {
 			return false;
 		}
