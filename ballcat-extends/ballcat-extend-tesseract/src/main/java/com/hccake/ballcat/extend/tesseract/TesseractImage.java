@@ -18,7 +18,7 @@ public class TesseractImage {
 
 	static {
 		if (!DIR.exists()) {
-			DIR.mkdir();
+			DIR.mkdirs();
 		}
 	}
 
