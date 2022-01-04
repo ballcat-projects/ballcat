@@ -38,7 +38,7 @@ public class FileUtils {
 		tempDir = new File(SYSTEM_TEMP_DIR, dirName);
 
 		if (!tempDir.exists()) {
-			tempDir.mkdir();
+			tempDir.mkdirs();
 		}
 	}
 
