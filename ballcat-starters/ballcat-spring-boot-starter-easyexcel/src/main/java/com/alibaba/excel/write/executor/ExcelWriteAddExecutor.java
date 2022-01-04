@@ -9,7 +9,6 @@ import com.alibaba.excel.util.ClassUtils;
 import com.alibaba.excel.util.CollectionUtils;
 import com.alibaba.excel.util.WorkBookUtil;
 import com.alibaba.excel.util.WriteHandlerUtils;
-import com.alibaba.excel.write.executor.AbstractExcelWriteExecutor;
 import com.alibaba.excel.write.metadata.holder.AbstractWriteHolder;
 import com.alibaba.excel.write.metadata.holder.WriteHolder;
 import com.alibaba.excel.write.metadata.holder.WriteSheetHolder;
@@ -30,6 +29,7 @@ import java.util.TreeMap;
  *
  * @author Jiaju Zhuang
  */
+@SuppressWarnings("all")
 public class ExcelWriteAddExecutor extends AbstractExcelWriteExecutor {
 
 	public ExcelWriteAddExecutor(WriteContext writeContext) {

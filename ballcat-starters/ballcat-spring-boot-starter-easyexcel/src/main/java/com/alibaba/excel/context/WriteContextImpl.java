@@ -41,6 +41,7 @@ import java.util.UUID;
  *
  * @author jipengfei
  */
+@SuppressWarnings("all")
 public class WriteContextImpl implements WriteContext {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WriteContextImpl.class);

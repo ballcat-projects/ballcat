@@ -1,6 +1,5 @@
 package com.hccake.common.core.test.desensite.custom;
 
-import cn.hutool.core.lang.Assert;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.desensitize.AnnotationHandlerHolder;
@@ -8,6 +7,7 @@ import com.hccake.ballcat.common.desensitize.DesensitizationHandlerHolder;
 import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializerModifier;
 import com.hccake.common.core.test.desensite.DesensitizationUser;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,9 +42,8 @@ class CustomDesensitisedTest {
 				.setCustomDesensitize("自定义属性");
 		String value = objectMapper.writeValueAsString(user);
 		log.info("脱敏后的数据：{}", value);
-		Assert.isTrue(
-				"{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"customer rule自定义属性\"}"
-						.equals(value));
+		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"customer rule自定义属性\"}";
+		Assertions.assertEquals(expected, value);
 	}
 
 }

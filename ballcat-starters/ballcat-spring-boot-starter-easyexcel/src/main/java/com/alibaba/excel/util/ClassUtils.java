@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Jiaju Zhuang
  **/
+@SuppressWarnings("all")
 public class ClassUtils {
 
 	private static final Map<Class<?>, SoftReference<FieldCache>> FIELD_CACHE = new ConcurrentHashMap<>();

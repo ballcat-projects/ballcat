@@ -44,6 +44,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
 	 * @param filterChain 过滤器链
 	 */
 	@Override
+	@SuppressWarnings("java:S1181")
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 

@@ -1,8 +1,8 @@
 package com.hccake.ballcat.common.util;
 
-import cn.hutool.core.lang.Assert;
 import com.hccake.ballcat.common.util.tree.SimpleTreeNode;
 import com.hccake.ballcat.common.util.tree.TreeUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ class TreeUtilsTest {
 		simpleTreeNodes.sort(Comparator.comparingInt(SimpleTreeNode::getId));
 
 		// 比较初始的树节点列表和通过两次转换完毕的结果是否一致
-		Assert.isTrue(list.equals(simpleTreeNodes));
+		Assertions.assertEquals(list, simpleTreeNodes);
 	}
 
 }

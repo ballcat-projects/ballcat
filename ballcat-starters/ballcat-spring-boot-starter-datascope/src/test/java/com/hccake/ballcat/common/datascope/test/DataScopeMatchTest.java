@@ -11,8 +11,8 @@ import net.sf.jsqlparser.expression.StringValue;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
 import net.sf.jsqlparser.schema.Column;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -65,7 +65,7 @@ class DataScopeMatchTest {
 		System.out.println(parseSql);
 
 		String trueSql = "SELECT o.order_id, o.order_name, oi.order_price FROM t_ORDER o LEFT JOIN t_order_info oi ON o.order_id = oi.order_id AND oi.order_id IN ('1', '2') WHERE oi.order_price > 100 AND o.order_id IN ('1', '2')";
-		Assert.isTrue(trueSql.equals(parseSql), "sql 数据权限解析异常");
+		Assertions.assertEquals(trueSql, parseSql, "sql 数据权限解析异常");
 	}
 
 	@Test
@@ -80,7 +80,7 @@ class DataScopeMatchTest {
 			System.out.println(parseSql);
 
 			int matchNum = DataScopeMatchNumHolder.getMatchNum();
-			Assert.isTrue(matchNum == 2, "sql 数据权限匹配计数异常");
+			Assertions.assertEquals(2, matchNum, "sql 数据权限匹配计数异常");
 
 		}
 		finally {
@@ -100,7 +100,7 @@ class DataScopeMatchTest {
 			System.out.println(parseSql);
 
 			int matchNum = DataScopeMatchNumHolder.getMatchNum();
-			Assert.isTrue(matchNum == 0, "sql 数据权限匹配计数异常");
+			Assertions.assertEquals(0, matchNum, "sql 数据权限匹配计数异常");
 
 		}
 		finally {

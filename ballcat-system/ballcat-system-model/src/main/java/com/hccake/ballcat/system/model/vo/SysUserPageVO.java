@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @Data
 @Schema(title = "系统用户VO")
 public class SysUserPageVO implements Serializable {
-`
-	private static final long serialVersionUID = 1L;`
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 用户ID

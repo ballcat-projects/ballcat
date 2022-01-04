@@ -27,6 +27,7 @@ import java.util.*;
  * @author hccake
  */
 @Slf4j
+@SuppressWarnings("all")
 public class CustomRedisTokenStore implements TokenStore {
 
 	private static final String ACCESS = "access:";

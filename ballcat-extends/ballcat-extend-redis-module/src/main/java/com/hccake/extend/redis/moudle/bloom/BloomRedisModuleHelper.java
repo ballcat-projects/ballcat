@@ -94,8 +94,8 @@ public class BloomRedisModuleHelper extends AbstractRedisModuleHelper {
 	 * @param item 待添加的元素
 	 * @return true 标识元素不在过滤器中，false 表示已存在该元素
 	 */
-	public Boolean insert(String key, BloomInsertOptions bloomInsertOptions, String item) {
-		List<Boolean> list = insert(key, bloomInsertOptions, new String[] { item });
+	public Boolean insertOne(String key, BloomInsertOptions bloomInsertOptions, String item) {
+		List<Boolean> list = insert(key, bloomInsertOptions, item);
 		return list.get(0);
 	}
 
