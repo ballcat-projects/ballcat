@@ -48,10 +48,10 @@ public class SysDict extends LogicDeletedBaseEntity {
 	private String hashCode;
 
 	/**
-	 * 可编辑的
+	 * 状态
 	 */
-	@Schema(title = "1：是 0：否")
-	private Integer editable;
+	@Schema(title = "1：启用 0：禁用")
+	private Integer status;
 
 	/**
 	 * 数据类型
