@@ -20,8 +20,17 @@ public class DictDataVO {
 	@Schema(title = "字典标识")
 	private String dictCode;
 
+	/**
+	 * 字典值类型
+	 */
 	@Schema(title = "字典值类型")
 	private Integer valueType;
+
+	/**
+	 * 状态
+	 */
+	@Schema(title = "状态")
+	private Integer status;
 
 	/**
 	 * 字典Hash值

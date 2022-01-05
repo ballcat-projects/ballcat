@@ -102,6 +102,7 @@ public class SysDictController {
 	 * @param id id
 	 * @return R
 	 */
+	@Deprecated
 	@DeleteOperationLogging(msg = "通过id删除字典表")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
@@ -110,6 +111,21 @@ public class SysDictController {
 		return sysDictManager.removeDictById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典表失败");
 	}
+
+	/**
+	 * 通过id修改字典表状态
+	 * @param id id
+	 * @return R
+	 */
+	@UpdateOperationLogging(msg = "通过id修改字典表状态")
+	@PatchMapping("/{id}/{status}")
+	@PreAuthorize("@per.hasPermission('system:dict:updateStatus')")
+	@Operation(summary = "通过id修改字典表状态", description = "通过id修改字典表状态")
+	public R<Void> updateDictStatusById(@PathVariable("id") Integer id, @PathVariable("status") Integer status) {
+		return sysDictManager.updateDictStatusById(id, status) ? R.ok()
+				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id修改字典表状态失败");
+	}
+
 
 	/**
 	 * 分页查询
