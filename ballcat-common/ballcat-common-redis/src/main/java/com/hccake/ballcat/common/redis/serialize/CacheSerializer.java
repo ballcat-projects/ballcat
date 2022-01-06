@@ -54,7 +54,7 @@ public interface CacheSerializer {
 		else {
 			// 简单类型直接用该类构建JavaType
 			Class<?> cla = (Class<?>) type;
-			return TypeFactory.defaultInstance().constructParametricType(cla, (JavaType) null);
+			return TypeFactory.defaultInstance().constructParametricType(cla, new JavaType[0]);
 		}
 	}
 
