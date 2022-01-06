@@ -6,8 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * WebSocketSession 唯一标识生成器 此类主要使用当前 session 对应用户的唯一标识最为 session 的唯一标识 方便系统快速通过用户获取对应
- * session
+ * <p>
+ * 用户 WebSocketSession 唯一标识生成器
+ * </p>
+ *
+ * 此类主要使用当前 session 对应用户的唯一标识做为 session 的唯一标识 方便系统快速通过用户获取对应 session
  *
  * @author Hccake 2021/1/5
  * @version 1.0

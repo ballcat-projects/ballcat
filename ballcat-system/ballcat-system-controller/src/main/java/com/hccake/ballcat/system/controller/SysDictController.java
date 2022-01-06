@@ -126,7 +126,6 @@ public class SysDictController {
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id修改字典表状态失败");
 	}
 
-
 	/**
 	 * 分页查询
 	 * @param pageParam 分页参数
