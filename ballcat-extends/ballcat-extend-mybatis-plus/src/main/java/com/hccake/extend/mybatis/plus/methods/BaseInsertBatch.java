@@ -17,6 +17,10 @@ import org.apache.ibatis.mapping.SqlSource;
  */
 public abstract class BaseInsertBatch extends AbstractMethod {
 
+	protected BaseInsertBatch(String methodName) {
+		super(methodName);
+	}
+
 	@Override
 	public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
 		SqlSource sqlSource = languageDriver.createSqlSource(configuration, String.format(getSql(),
@@ -38,15 +42,15 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 			}
 			else {
 				if (null != tableInfo.getKeySequence()) {
-					keyGenerator = TableInfoHelper.genKeyGenerator(getId(), tableInfo, builderAssistant);
+					keyGenerator = TableInfoHelper.genKeyGenerator(this.methodName, tableInfo, builderAssistant);
 					keyProperty = getKeyProperty(tableInfo);
 					keyColumn = tableInfo.getKeyColumn();
 				}
 			}
 		}
 
-		return this.addInsertMappedStatement(mapperClass, modelClass, getId(), sqlSource, keyGenerator, keyProperty,
-				keyColumn);
+		return this.addInsertMappedStatement(mapperClass, modelClass, this.methodName, sqlSource, keyGenerator,
+				keyProperty, keyColumn);
 	}
 
 	private String getKeyProperty(TableInfo tableInfo) {
@@ -77,13 +81,6 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 	 * @author lingting 2020-06-09 20:38:54
 	 */
 	protected abstract String getSql();
-
-	/**
-	 * 获取脚本id 即 方法名
-	 * @return java.lang.String
-	 * @author lingting 2020-06-09 20:39:30
-	 */
-	protected abstract String getId();
 
 	protected String prepareValuesSqlForMysqlBatch(TableInfo tableInfo) {
 		return prepareValuesBuildSqlForMysqlBatch(tableInfo).toString();

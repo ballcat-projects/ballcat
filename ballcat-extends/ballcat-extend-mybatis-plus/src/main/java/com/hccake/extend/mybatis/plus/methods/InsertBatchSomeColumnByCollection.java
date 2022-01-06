@@ -8,8 +8,6 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
@@ -26,9 +24,25 @@ import java.util.function.Predicate;
  *
  * @author lingting 2021/2/23 15:32
  */
-@NoArgsConstructor
-@AllArgsConstructor
 public class InsertBatchSomeColumnByCollection extends AbstractMethod {
+
+	private static final String DEFAULT_METHOD_NAME = "insertBatchSomeColumn";
+
+	public InsertBatchSomeColumnByCollection() {
+		super(DEFAULT_METHOD_NAME);
+	}
+
+	public InsertBatchSomeColumnByCollection(Predicate<TableFieldInfo> predicate) {
+		this(DEFAULT_METHOD_NAME, predicate);
+	}
+
+	/**
+	 * 自定义 mapper 方法名
+	 */
+	public InsertBatchSomeColumnByCollection(String methodName, Predicate<TableFieldInfo> predicate) {
+		super(methodName);
+		this.predicate = predicate;
+	}
 
 	/**
 	 * 字段筛选条件
@@ -63,7 +77,7 @@ public class InsertBatchSomeColumnByCollection extends AbstractMethod {
 			}
 			else {
 				if (null != tableInfo.getKeySequence()) {
-					keyGenerator = TableInfoHelper.genKeyGenerator(getMethod(sqlMethod), tableInfo, builderAssistant);
+					keyGenerator = TableInfoHelper.genKeyGenerator(this.methodName, tableInfo, builderAssistant);
 					keyProperty = tableInfo.getKeyProperty();
 					keyColumn = tableInfo.getKeyColumn();
 				}
@@ -71,14 +85,8 @@ public class InsertBatchSomeColumnByCollection extends AbstractMethod {
 		}
 		String sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(), columnScript, valuesScript);
 		SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
-		return this.addInsertMappedStatement(mapperClass, modelClass, getMethod(sqlMethod), sqlSource, keyGenerator,
+		return this.addInsertMappedStatement(mapperClass, modelClass, this.methodName, sqlSource, keyGenerator,
 				keyProperty, keyColumn);
-	}
-
-	@Override
-	public String getMethod(SqlMethod sqlMethod) {
-		// 自定义 mapper 方法名
-		return "insertBatchSomeColumn";
 	}
 
 }

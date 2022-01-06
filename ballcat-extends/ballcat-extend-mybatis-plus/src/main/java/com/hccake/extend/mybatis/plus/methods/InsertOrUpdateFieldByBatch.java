@@ -9,14 +9,17 @@ public class InsertOrUpdateFieldByBatch extends BaseInsertBatch {
 
 	private static final String SQL = "<script>insert into %s %s values %s</script>";
 
-	@Override
-	protected String getSql() {
-		return SQL;
+	protected InsertOrUpdateFieldByBatch() {
+		super("insertOrUpdateFieldByBatch");
+	}
+
+	protected InsertOrUpdateFieldByBatch(String methodName) {
+		super(methodName);
 	}
 
 	@Override
-	protected String getId() {
-		return "insertOrUpdateFieldByBatch";
+	protected String getSql() {
+		return SQL;
 	}
 
 	@Override

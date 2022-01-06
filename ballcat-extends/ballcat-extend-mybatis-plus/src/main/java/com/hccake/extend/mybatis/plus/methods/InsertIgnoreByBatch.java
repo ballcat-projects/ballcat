@@ -5,14 +5,17 @@ package com.hccake.extend.mybatis.plus.methods;
  */
 public class InsertIgnoreByBatch extends BaseInsertBatch {
 
-	@Override
-	protected String getSql() {
-		return "<script>insert ignore into %s %s values %s</script>";
+	protected InsertIgnoreByBatch() {
+		super("insertIgnoreByBatch");
+	}
+
+	protected InsertIgnoreByBatch(String methodName) {
+		super(methodName);
 	}
 
 	@Override
-	protected String getId() {
-		return "insertIgnoreByBatch";
+	protected String getSql() {
+		return "<script>insert ignore into %s %s values %s</script>";
 	}
 
 }

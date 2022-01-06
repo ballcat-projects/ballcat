@@ -12,6 +12,14 @@ import java.util.function.Predicate;
  */
 public class InsertOrUpdateByBatch extends BaseInsertBatch {
 
+	protected InsertOrUpdateByBatch() {
+		super("insertOrUpdateByBatch");
+	}
+
+	protected InsertOrUpdateByBatch(String methodName) {
+		super(methodName);
+	}
+
 	/**
 	 * 字段筛选条件
 	 */
@@ -22,11 +30,6 @@ public class InsertOrUpdateByBatch extends BaseInsertBatch {
 	@Override
 	protected String getSql() {
 		return "<script>insert into %s %s values %s</script>";
-	}
-
-	@Override
-	protected String getId() {
-		return "insertOrUpdateByBatch";
 	}
 
 	@Override
