@@ -119,7 +119,7 @@ public class SysDictController {
 	 */
 	@UpdateOperationLogging(msg = "通过id修改字典表状态")
 	@PatchMapping("/{id}/{status}")
-	@PreAuthorize("@per.hasPermission('system:dict:updateStatus')")
+	@PreAuthorize("@per.hasPermission('system:dict:edit')")
 	@Operation(summary = "通过id修改字典表状态", description = "通过id修改字典表状态")
 	public R<Void> updateDictStatusById(@PathVariable("id") Integer id, @PathVariable("status") Integer status) {
 		return sysDictManager.updateDictStatusById(id, status) ? R.ok()
