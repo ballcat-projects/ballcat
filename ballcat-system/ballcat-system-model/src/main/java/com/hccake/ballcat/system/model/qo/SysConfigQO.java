@@ -1,5 +1,6 @@
 package com.hccake.ballcat.system.model.qo;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Data;
@@ -19,19 +20,19 @@ public class SysConfigQO {
 	/**
 	 * 配置名称
 	 */
-	@Schema(title = "配置名称")
+	@Parameter(description = "配置名称")
 	private String name;
 
 	/**
 	 * 配置在缓存中的key名
 	 */
-	@Schema(title = "配置在缓存中的key名")
+	@Parameter(description = "配置在缓存中的key名")
 	private String confKey;
 
 	/**
 	 * 分类
 	 */
-	@Schema(title = "分类")
+	@Parameter(description = "分类")
 	private String category;
 
 }

@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +23,10 @@ import java.util.List;
 public class PageParam {
 
 	@Schema(title = "当前页码", description = "从 1 开始", defaultValue = "1", example = "1")
-	@NotNull(message = "当前页码不能为空")
 	@Min(value = 1, message = "当前页不能小于 1")
 	private long current = 1;
 
 	@Schema(title = "每页显示条数", description = "最大值为 100", defaultValue = "10")
-	@NotNull(message = "每页条数不能为空")
 	@Range(min = 1, max = 100, message = "条数范围为 [1, 100]")
 	private long size = 10;
 

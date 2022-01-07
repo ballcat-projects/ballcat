@@ -1,5 +1,6 @@
 package com.hccake.ballcat.system.model.qo;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Data;
@@ -20,7 +21,7 @@ public class SysOrganizationQO {
 	/**
 	 * 组织名称
 	 */
-	@Schema(title = "组织名称")
+	@Parameter(description = "组织名称")
 	private String name;
 
 }

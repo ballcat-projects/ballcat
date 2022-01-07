@@ -1,7 +1,7 @@
 package com.hccake.ballcat.notify.model.qo;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import lombok.Data;
 import org.springdoc.api.annotations.ParameterObject;
 
@@ -20,7 +20,7 @@ public class UserAnnouncementQO {
 	/**
 	 * ID
 	 */
-	@Schema(title = "ID")
+	@Parameter(description = "ID")
 	private Long id;
 
 }

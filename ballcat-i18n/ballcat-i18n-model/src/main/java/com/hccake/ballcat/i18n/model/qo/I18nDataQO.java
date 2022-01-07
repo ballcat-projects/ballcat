@@ -1,7 +1,7 @@
 package com.hccake.ballcat.i18n.model.qo;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import lombok.Data;
 import org.springdoc.api.annotations.ParameterObject;
 
@@ -17,13 +17,13 @@ public class I18nDataQO {
 
 	private static final long serialVersionUID = 1L;
 
-	@Schema(title = "国际化标识")
+	@Parameter(description = "国际化标识")
 	private String code;
 
-	@Schema(title = "文本信息")
+	@Parameter(description = "文本信息")
 	private String message;
 
-	@Schema(title = "语言标签")
+	@Parameter(description = "语言标签")
 	private String languageTag;
 
 }

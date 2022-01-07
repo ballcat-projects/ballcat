@@ -1,7 +1,7 @@
 package com.hccake.ballcat.system.model.qo;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import lombok.Data;
 import org.springdoc.api.annotations.ParameterObject;
 
@@ -20,25 +20,25 @@ public class SysMenuQO {
 	/**
 	 * 菜单ID
 	 */
-	@Schema(title = "菜单ID")
+	@Parameter(description = "菜单ID")
 	private Integer id;
 
 	/**
 	 * 菜单名称
 	 */
-	@Schema(title = "菜单名称")
+	@Parameter(description = "菜单名称")
 	private String title;
 
 	/**
 	 * 授权标识
 	 */
-	@Schema(title = "授权标识")
+	@Parameter(description = "授权标识")
 	private String permission;
 
 	/**
 	 * 路由地址
 	 */
-	@Schema(title = "路由地址")
+	@Parameter(description = "路由地址")
 	private String path;
 
 }

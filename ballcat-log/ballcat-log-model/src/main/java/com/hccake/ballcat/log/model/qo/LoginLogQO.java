@@ -1,6 +1,7 @@
 package com.hccake.ballcat.log.model.qo;
 
 import com.hccake.ballcat.log.enums.LoginEventTypeEnum;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springdoc.api.annotations.ParameterObject;
@@ -25,25 +26,25 @@ public class LoginLogQO {
 	/**
 	 * 追踪ID
 	 */
-	@Schema(title = "追踪ID")
+	@Parameter(description = "追踪ID")
 	private String traceId;
 
 	/**
 	 * 用户名
 	 */
-	@Schema(title = "用户名")
+	@Parameter(description = "用户名")
 	private String username;
 
 	/**
 	 * 操作信息
 	 */
-	@Schema(title = "操作信息")
+	@Parameter(description = "请求IP")
 	private String ip;
 
 	/**
 	 * 状态
 	 */
-	@Schema(title = "状态")
+	@Parameter(description = "状态")
 	private Integer status;
 
 	/**
@@ -51,21 +52,21 @@ public class LoginLogQO {
 	 *
 	 * @see LoginEventTypeEnum
 	 */
-	@Schema(title = "事件类型")
+	@Parameter(description = "事件类型")
 	private Integer eventType;
 
 	/**
 	 * 登陆时间区间（开始时间）
 	 */
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
-	@Schema(title = "开始时间（登陆时间区间）")
+	@Parameter(description = "开始时间（登陆时间区间）")
 	private LocalDateTime startTime;
 
 	/**
 	 * 登陆时间区间（结束时间）
 	 */
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
-	@Schema(title = "结束时间（登陆时间区间）")
+	@Parameter(description = "结束时间（登陆时间区间）")
 	private LocalDateTime endTime;
 
 }
