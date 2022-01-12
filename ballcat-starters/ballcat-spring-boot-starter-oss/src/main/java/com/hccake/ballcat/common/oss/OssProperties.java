@@ -79,30 +79,44 @@ public class OssProperties {
 
 	/**
 	 * 所有文件相关操作都在此路径下进行操作
+	 * @deprecated use {@link OssProperties#objectKeyPrefix}
 	 */
-	private String rootPath = OssConstants.SLASH;
+	@Deprecated
+	private String rootPath = "";
+
+	/**
+	 * 所有 oss 对象 key 的前缀
+	 */
+	private String objectKeyPrefix = "";
 
 	/**
 	 * 上传时为文件配置acl, 为null 不配置
 	 */
 	private ObjectCannedACL acl;
 
-	public String getRootPath() {
-		if (!StringUtils.hasText(rootPath)) {
-			rootPath = OssConstants.SLASH;
+	public String getObjectKeyPrefix() {
+		String prefix = objectKeyPrefix;
+
+		if (!StringUtils.hasText(prefix)) {
+			prefix = rootPath;
+		}
+
+		// 不存在或者是 / 直接返回
+		if (!StringUtils.hasText(prefix) || prefix.equals(OssConstants.SLASH)) {
+			return "";
 		}
 
 		// 保证 root path 以 / 结尾
-		if (!rootPath.endsWith(OssConstants.SLASH)) {
-			rootPath = rootPath + OssConstants.SLASH;
+		if (!prefix.endsWith(OssConstants.SLASH)) {
+			prefix = prefix + OssConstants.SLASH;
 		}
 
 		// 保证 root path 不以 / 开头
-		if (rootPath.startsWith(OssConstants.SLASH)) {
-			rootPath = rootPath.substring(1);
+		if (prefix.startsWith(OssConstants.SLASH)) {
+			prefix = prefix.substring(1);
 		}
 
-		return rootPath;
+		return prefix;
 	}
 
 }

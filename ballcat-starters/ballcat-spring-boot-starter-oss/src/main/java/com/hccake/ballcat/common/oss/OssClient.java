@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.DisposableBean;
@@ -37,7 +36,7 @@ public class OssClient implements DisposableBean {
 
 	private final String domain;
 
-	private final String root;
+	private final String objectKeyPrefix;
 
 	private final S3Client client;
 
@@ -54,7 +53,7 @@ public class OssClient implements DisposableBean {
 		this.accessSecret = properties.getAccessSecret();
 		this.bucket = properties.getBucket();
 		this.domain = properties.getDomain();
-		this.root = properties.getRootPath();
+		this.objectKeyPrefix = properties.getObjectKeyPrefix();
 		this.acl = properties.getAcl();
 
 		final boolean isEnable = !StringUtils.hasText(accessKey) || !StringUtils.hasText(accessSecret)
@@ -84,24 +83,24 @@ public class OssClient implements DisposableBean {
 	}
 
 	/**
-	 * 文件上传, 本方法会读一遍流, 计算流大小, 推荐使用 upload(stream, relativePath, size) 方法
-	 * @param relativePath 文件相对 getRoot() 的路径
+	 * 文件上传, 本方法会读一遍流, 计算流大小, 推荐使用 upload(stream, relativeKey, size) 方法
+	 * @param relativeKey 文件相对 getRoot() 的路径
 	 * @param stream 文件输入流
 	 * @return 文件绝对路径
 	 * @throws IOException 流操作时异常
 	 */
-	public String upload(InputStream stream, String relativePath) throws IOException {
+	public String upload(InputStream stream, String relativeKey) throws IOException {
 		final StreamTemp temp = getSize(stream);
-		return upload(temp.getStream(), relativePath, temp.getSize());
+		return upload(temp.getStream(), relativeKey, temp.getSize());
 	}
 
-	public String upload(InputStream stream, String relativePath, Long size) {
-		return upload(stream, relativePath, size, acl);
+	public String upload(InputStream stream, String relativeKey, Long size) {
+		return upload(stream, relativeKey, size, acl);
 	}
 
-	public String upload(InputStream stream, String relativePath, Long size, ObjectCannedACL acl) {
-		final String path = getPath(relativePath);
-		final PutObjectRequest.Builder builder = PutObjectRequest.builder().bucket(bucket).key(path);
+	public String upload(InputStream stream, String relativeKey, Long size, ObjectCannedACL acl) {
+		final String objectKey = getObjectKey(relativeKey);
+		final PutObjectRequest.Builder builder = PutObjectRequest.builder().bucket(bucket).key(objectKey);
 
 		if (acl != null) {
 			// 配置权限
@@ -109,18 +108,18 @@ public class OssClient implements DisposableBean {
 		}
 
 		getClient().putObject(builder.build(), RequestBody.fromInputStream(stream, size));
-		return path;
+		return objectKey;
 	}
 
-	public void delete(String path) {
-		getClient().deleteObject(builder -> builder.bucket(bucket).key(getPath(path)));
+	public void delete(String objectKey) {
+		getClient().deleteObject(builder -> builder.bucket(bucket).key(getObjectKey(objectKey)));
 	}
 
 	@SneakyThrows
 	public void copy(String absoluteSource, String absoluteTarget) {
 		String s = getCopyUrl(absoluteSource);
 		final CopyObjectRequest request = CopyObjectRequest.builder().copySource(s).destinationBucket(bucket)
-				.destinationKey(getPath(absoluteTarget)).build();
+				.destinationKey(getObjectKey(absoluteTarget)).build();
 		getClient().copyObject(request);
 	}
 
@@ -128,20 +127,20 @@ public class OssClient implements DisposableBean {
 	 * 获取 相对路径 的下载url
 	 * @author lingting 2021-05-12 18:50
 	 */
-	public String getDownloadUrl(String relativePath) {
-		return getDownloadUrlByAbsolute(getPath(relativePath));
+	public String getDownloadUrl(String relativeKey) {
+		return getDownloadUrlByAbsolute(getObjectKey(relativeKey));
 	}
 
 	/**
 	 * 获取 绝对路径 的下载url
 	 * @author lingting 2021-05-12 18:50
 	 */
-	public String getDownloadUrlByAbsolute(String path) {
-		return String.format("%s/%s", downloadPrefix, path);
+	public String getDownloadUrlByAbsolute(String objectKey) {
+		return String.format("%s/%s", downloadPrefix, objectKey);
 	}
 
-	protected String getCopyUrl(String path) throws UnsupportedEncodingException {
-		return URLEncoder.encode(bucket + getPath(path), StandardCharsets.UTF_8.toString());
+	protected String getCopyUrl(String objectKey) throws UnsupportedEncodingException {
+		return URLEncoder.encode(bucket + getObjectKey(objectKey), StandardCharsets.UTF_8.toString());
 	}
 
 	/**
@@ -183,15 +182,27 @@ public class OssClient implements DisposableBean {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return 文件绝对路径
 	 * @author lingting 2021-05-10 15:58
+	 * @deprecated use {@link OssClient#getObjectKey}
 	 */
+	@Deprecated
 	public String getPath(String relativePath) {
-		Assert.hasText(relativePath, "path must not be empty");
+		return getObjectKey(relativePath);
+	}
 
-		if (relativePath.startsWith(OssConstants.SLASH)) {
-			relativePath = relativePath.substring(1);
+	/**
+	 * 获取真实Oss对象key
+	 * @param relativeKey 文件相对 getRoot() 的Key
+	 * @return 文件绝对路径
+	 * @author lingting 2021-05-10 15:58
+	 */
+	public String getObjectKey(String relativeKey) {
+		Assert.hasText(relativeKey, "key must not be empty");
+
+		if (relativeKey.startsWith(OssConstants.SLASH)) {
+			relativeKey = relativeKey.substring(1);
 		}
 
-		return getRoot() + relativePath;
+		return getObjectKeyPrefix() + relativeKey;
 	}
 
 }
