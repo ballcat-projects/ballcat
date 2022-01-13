@@ -2,11 +2,10 @@ package com.hccake.ballcat.common.oss;
 
 import com.hccake.ballcat.common.oss.interceptor.ModifyPathInterceptor;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.function.Consumer;
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -85,6 +84,10 @@ public class ClientBuilder {
 	}
 
 	public String downloadPrefix() {
+		// 不以 / 结尾
+		if (StringUtils.hasText(downloadPrefix) && downloadPrefix.endsWith(OssConstants.SLASH)) {
+			return downloadPrefix.substring(0, downloadPrefix.length() - 1);
+		}
 		return downloadPrefix;
 	}
 
@@ -102,8 +105,7 @@ public class ClientBuilder {
 		return this;
 	}
 
-	@SneakyThrows
-	private S3ClientBuilder create() {
+	private S3ClientBuilder create() throws URISyntaxException {
 		S3ClientBuilder builder = S3Client.builder();
 
 		// 关闭路径形式
@@ -163,7 +165,7 @@ public class ClientBuilder {
 		return builder;
 	}
 
-	public S3Client build() {
+	public S3Client build() throws URISyntaxException {
 		return create().build();
 	}
 
@@ -171,7 +173,7 @@ public class ClientBuilder {
 	 * 覆写一些配置
 	 * @author lingting 2021-05-12 22:37
 	 */
-	public S3Client build(Consumer<S3ClientBuilder> consumer) {
+	public S3Client build(Consumer<S3ClientBuilder> consumer) throws URISyntaxException {
 		final S3ClientBuilder builder = create();
 		consumer.accept(builder);
 		return builder.build();

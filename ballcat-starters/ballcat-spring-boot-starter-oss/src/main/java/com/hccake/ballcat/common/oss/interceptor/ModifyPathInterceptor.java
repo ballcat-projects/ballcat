@@ -3,7 +3,6 @@ package com.hccake.ballcat.common.oss.interceptor;
 import static com.hccake.ballcat.common.oss.OssConstants.SLASH;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import software.amazon.awssdk.core.interceptor.Context;
 import software.amazon.awssdk.core.interceptor.ExecutionAttributes;
 import software.amazon.awssdk.core.interceptor.ExecutionInterceptor;
@@ -24,7 +23,6 @@ public class ModifyPathInterceptor implements ExecutionInterceptor {
 
 	private final String bucket;
 
-	@SneakyThrows
 	@Override
 	public SdkHttpRequest modifyHttpRequest(Context.ModifyHttpRequest context,
 			ExecutionAttributes executionAttributes) {

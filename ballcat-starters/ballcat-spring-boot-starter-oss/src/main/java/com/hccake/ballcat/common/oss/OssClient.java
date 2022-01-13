@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -24,6 +25,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 /**
  * @author lingting 2021/5/11 9:59
  */
+@Slf4j
 @Getter
 public class OssClient implements DisposableBean {
 
@@ -45,9 +47,9 @@ public class OssClient implements DisposableBean {
 
 	private final ObjectCannedACL acl;
 
-	private String downloadPrefix;
+	private final String downloadPrefix;
 
-	private boolean enable = true;
+	private final boolean enable;
 
 	public OssClient(OssProperties properties) {
 		this.endpoint = properties.getEndpoint();
@@ -59,21 +61,25 @@ public class OssClient implements DisposableBean {
 		this.objectKeyPrefix = properties.getObjectKeyPrefix();
 		this.acl = properties.getAcl();
 
-		final boolean isEnable = !StringUtils.hasText(accessKey) || !StringUtils.hasText(accessSecret)
+		final boolean disabled = !StringUtils.hasText(accessKey) || !StringUtils.hasText(accessSecret)
 				|| (!StringUtils.hasText(endpoint) && !StringUtils.hasText(domain));
-		if (isEnable) {
-			this.enable = false;
-			client = null;
-		}
-		else {
+		S3Client tempClient = null;
+		String tempDownloadPrefix = "";
+		if (!disabled) {
 			final ClientBuilder builder = createBuilder();
-			client = builder.build();
-			downloadPrefix = builder.downloadPrefix();
-			// 不以 / 结尾
-			if (downloadPrefix.endsWith(OssConstants.SLASH)) {
-				downloadPrefix = downloadPrefix.substring(0, downloadPrefix.length() - 1);
+			try {
+				tempClient = builder.build();
+				tempDownloadPrefix = builder.downloadPrefix();
+			}
+			catch (Exception e) {
+				log.error("oss构造失败!", e);
+				tempClient = null;
 			}
 		}
+
+		this.client = tempClient;
+		this.enable = !disabled;
+		this.downloadPrefix = tempDownloadPrefix;
 	}
 
 	/**
@@ -102,7 +108,9 @@ public class OssClient implements DisposableBean {
 	}
 
 	public String upload(File file, String relativeKey) throws IOException {
-		return upload(new FileInputStream(file), relativeKey, Files.size(file.toPath()), acl);
+		try (final FileInputStream stream = new FileInputStream(file)) {
+			return upload(stream, relativeKey, Files.size(file.toPath()), acl);
+		}
 	}
 
 	public String upload(InputStream stream, String relativeKey, Long size, ObjectCannedACL acl) {

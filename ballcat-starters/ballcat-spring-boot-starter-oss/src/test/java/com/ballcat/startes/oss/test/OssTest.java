@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -55,6 +56,7 @@ class OssTest {
 		final String relativePath = "t.txt";
 		client.upload(stream, relativePath);
 		System.out.println(client.getDownloadUrl(relativePath));
+		Assertions.assertNotNull(client.getDownloadUrl(relativePath));
 	}
 
 	@Test
@@ -80,6 +82,7 @@ class OssTest {
 		final String relativePath = "t.txt";
 		client.upload(stream, relativePath);
 		System.out.println(client.getDownloadUrl(relativePath));
+		Assertions.assertNotNull(client.getDownloadUrl(relativePath));
 	}
 
 	/**
@@ -109,6 +112,7 @@ class OssTest {
 		final String relativePath = "t.txt";
 		client.upload(stream, relativePath);
 		System.out.println(client.getDownloadUrl(relativePath));
+		Assertions.assertNotNull(client.getDownloadUrl(relativePath));
 	}
 
 	/**
@@ -137,6 +141,7 @@ class OssTest {
 		final String relativePath = "t.txt";
 		client.upload(stream, relativePath);
 		System.out.println(client.getDownloadUrl(relativePath));
+		Assertions.assertNotNull(client.getDownloadUrl(relativePath));
 	}
 
 	@Test
@@ -162,6 +167,7 @@ class OssTest {
 		final String relativePath = "t.txt";
 		client.upload(stream, relativePath);
 		System.out.println(client.getDownloadUrl(relativePath));
+		Assertions.assertNotNull(client.getDownloadUrl(relativePath));
 	}
 
 }
