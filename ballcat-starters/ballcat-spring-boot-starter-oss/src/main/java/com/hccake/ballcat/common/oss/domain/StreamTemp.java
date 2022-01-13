@@ -1,7 +1,8 @@
 package com.hccake.ballcat.common.oss.domain;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import lombok.Data;
@@ -16,12 +17,27 @@ import lombok.experimental.Accessors;
 @RequiredArgsConstructor
 public class StreamTemp {
 
+	private static final File TEMP_DIR = new File(System.getProperty("java.io.tmpdir"), "ballcat/oss/stream");
+
+	static {
+		if (!TEMP_DIR.exists()) {
+			TEMP_DIR.mkdirs();
+		}
+	}
+
 	private final Long size;
 
 	private final InputStream stream;
 
 	public static StreamTemp of(InputStream stream) throws IOException {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		File file;
+
+		do {
+			file = new File(TEMP_DIR, System.currentTimeMillis() + ".stream.tmp");
+		}
+		while (!file.createNewFile());
+
+		FileOutputStream out = new FileOutputStream(file);
 
 		long size = 0;
 		byte[] buffer = new byte[1024];
@@ -32,7 +48,7 @@ public class StreamTemp {
 			out.write(buffer, 0, len);
 		}
 
-		return new StreamTemp(size, new ByteArrayInputStream(out.toByteArray()));
+		return new StreamTemp(size, new FileInputStream(file));
 	}
 
 }
