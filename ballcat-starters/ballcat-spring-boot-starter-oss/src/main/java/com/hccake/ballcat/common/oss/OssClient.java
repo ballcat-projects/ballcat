@@ -2,11 +2,14 @@ package com.hccake.ballcat.common.oss;
 
 import com.hccake.ballcat.common.oss.domain.StreamTemp;
 import com.hccake.ballcat.common.oss.exception.OssDisabledException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.DisposableBean;
@@ -98,6 +101,10 @@ public class OssClient implements DisposableBean {
 		return upload(stream, relativeKey, size, acl);
 	}
 
+	public String upload(File file, String relativeKey) throws IOException {
+		return upload(new FileInputStream(file), relativeKey, Files.size(file.toPath()), acl);
+	}
+
 	public String upload(InputStream stream, String relativeKey, Long size, ObjectCannedACL acl) {
 		final String objectKey = getObjectKey(relativeKey);
 		final PutObjectRequest.Builder builder = PutObjectRequest.builder().bucket(bucket).key(objectKey);
@@ -151,7 +158,6 @@ public class OssClient implements DisposableBean {
 		return enable;
 	}
 
-	@SneakyThrows
 	protected S3Client getClient() {
 		if (client == null) {
 			throw new OssDisabledException();
