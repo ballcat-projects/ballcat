@@ -37,18 +37,18 @@ public class StreamTemp {
 		}
 		while (!file.createNewFile());
 
-		FileOutputStream out = new FileOutputStream(file);
+		try (final FileOutputStream out = new FileOutputStream(file)) {
+			long size = 0;
+			byte[] buffer = new byte[1024];
+			int len;
 
-		long size = 0;
-		byte[] buffer = new byte[1024];
-		int len;
+			while ((len = stream.read(buffer)) > -1) {
+				size += len;
+				out.write(buffer, 0, len);
+			}
 
-		while ((len = stream.read(buffer)) > -1) {
-			size += len;
-			out.write(buffer, 0, len);
+			return new StreamTemp(size, new FileInputStream(file));
 		}
-
-		return new StreamTemp(size, new FileInputStream(file));
 	}
 
 }
