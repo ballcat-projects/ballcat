@@ -1,6 +1,5 @@
 package com.hccake.ballcat.common.util;
 
-import cn.hutool.core.util.IdUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,8 +45,15 @@ public class FileUtils {
 	 * 获取临时文件, 不会创建文件
 	 * @author lingting 2021-04-19 10:48
 	 */
-	public static File getTemplateFile(String name) {
-		return new File(tempDir, IdUtil.fastSimpleUUID() + name);
+	public static File getTemplateFile(String name) throws IOException {
+		File file;
+
+		do {
+			file = new File(tempDir, System.currentTimeMillis() + "." + name);
+		}
+		while (!file.createNewFile());
+
+		return file;
 	}
 
 	/**
