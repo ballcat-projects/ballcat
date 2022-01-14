@@ -1,6 +1,12 @@
 package com.hccake.ballcat.common.idempotent.key;
 
 /**
+ * <p>
+ * 幂等Key存储
+ * </p>
+ *
+ * 消费过的幂等 key 记录下来，再下次消费前校验 key 是否已记录，从而拒绝执行
+ *
  * @author hccake
  */
 public interface IdempotentKeyStore {

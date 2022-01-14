@@ -4,6 +4,8 @@ import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
 
 /**
+ * 基于内存的幂等Key存储组件
+ *
  * @author hccake
  */
 public class InMemoryIdempotentKeyStore implements IdempotentKeyStore {
