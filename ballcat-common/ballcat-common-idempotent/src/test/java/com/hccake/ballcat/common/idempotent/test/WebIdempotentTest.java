@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.NestedServletException;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,12 +42,23 @@ class WebIdempotentTest {
 		this.mockMvc.perform(get("/").header("formId", "formId1")).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().string(containsString("hello word")));
 
-		this.mockMvc.perform(get("/").header("formId", "formId1")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("hello word")));
+		Throwable exception = null;
+		try{
+			this.mockMvc
+					.perform(get("/").header("formId", "formId1"))
+					.andDo(print()).andExpect(status().is5xxServerError());
+		}catch (NestedServletException nestedServletException){
+			Throwable cause = nestedServletException.getCause();
+			Assertions.assertNotNull(cause);
+			exception = cause;
+		}
+
+		Assertions.assertNotNull(exception, "幂等控制失败！");
+		Assertions.assertTrue(IdempotentException.class.isAssignableFrom(exception.getClass()));
 	}
 
 	@Test
-	void testIdempotent() throws InterruptedException {
+	void testIdempotent() {
 		tryExecute("aaa");
 		Assertions.assertTrue(tryExecute("bbb"));
 		Assertions.assertFalse(tryExecute("bbb"));
