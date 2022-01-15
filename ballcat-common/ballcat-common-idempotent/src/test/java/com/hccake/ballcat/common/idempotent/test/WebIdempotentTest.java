@@ -43,11 +43,11 @@ class WebIdempotentTest {
 				.andExpect(content().string(containsString("hello word")));
 
 		Throwable exception = null;
-		try{
-			this.mockMvc
-					.perform(get("/").header("formId", "formId1"))
-					.andDo(print()).andExpect(status().is5xxServerError());
-		}catch (NestedServletException nestedServletException){
+		try {
+			this.mockMvc.perform(get("/").header("formId", "formId1")).andDo(print())
+					.andExpect(status().is5xxServerError());
+		}
+		catch (NestedServletException nestedServletException) {
 			Throwable cause = nestedServletException.getCause();
 			Assertions.assertNotNull(cause);
 			exception = cause;
