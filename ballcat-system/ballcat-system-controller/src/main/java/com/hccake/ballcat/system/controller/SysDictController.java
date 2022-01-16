@@ -102,28 +102,13 @@ public class SysDictController {
 	 * @param id id
 	 * @return R
 	 */
-	@Deprecated
 	@DeleteOperationLogging(msg = "通过id删除字典表")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
 	@Operation(summary = "通过id删除字典表", description = "通过id删除字典表")
 	public R<Void> removeById(@PathVariable("id") Integer id) {
-		return sysDictManager.removeDictById(id) ? R.ok()
-				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典表失败");
-	}
-
-	/**
-	 * 通过id修改字典表状态
-	 * @param id id
-	 * @return R
-	 */
-	@UpdateOperationLogging(msg = "通过id修改字典表状态")
-	@PatchMapping("/{id}/{status}")
-	@PreAuthorize("@per.hasPermission('system:dict:edit')")
-	@Operation(summary = "通过id修改字典表状态", description = "通过id修改字典表状态")
-	public R<Void> updateDictStatusById(@PathVariable("id") Integer id, @PathVariable("status") Integer status) {
-		return sysDictManager.updateDictStatusById(id, status) ? R.ok()
-				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id修改字典表状态失败");
+		sysDictManager.removeDictById(id);
+		return R.ok();
 	}
 
 	/**
@@ -180,6 +165,20 @@ public class SysDictController {
 	public R<Void> removeItemById(@PathVariable("id") Integer id) {
 		return sysDictManager.removeDictItemById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典项失败");
+	}
+
+	/**
+	 * 通过id修改字典项状态
+	 * @param id id
+	 * @return R
+	 */
+	@UpdateOperationLogging(msg = "通过id修改字典项状态")
+	@PatchMapping("/item/{id}")
+	@PreAuthorize("@per.hasPermission('system:dict:edit')")
+	@Operation(summary = "通过id修改字典项状态", description = "通过id修改字典项状态")
+	public R<Void> updateDictItemStatusById(@PathVariable("id") Integer id, @RequestParam("status") Integer status) {
+		sysDictManager.updateDictItemStatusById(id, status);
+		return R.ok();
 	}
 
 }

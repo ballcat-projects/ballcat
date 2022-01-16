@@ -56,4 +56,14 @@ public class SysDictItemServiceImpl extends ExtendServiceImpl<SysDictItemMapper,
 		return true;
 	}
 
+	/**
+	 * 判断字典项是否存在
+	 * @param dictCode 字典标识
+	 * @return 存在返回 true
+	 */
+	@Override
+	public boolean exist(String dictCode) {
+		return baseMapper.existsDictItem(dictCode);
+	}
+
 }

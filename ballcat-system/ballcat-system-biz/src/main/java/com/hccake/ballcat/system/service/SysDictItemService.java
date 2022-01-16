@@ -38,4 +38,11 @@ public interface SysDictItemService extends ExtendService<SysDictItem> {
 	 */
 	boolean removeByDictCode(String dictCode);
 
+	/**
+	 * 根据字典标识判断是否存在对应字典项
+	 * @param dictCode 字典标识
+	 * @return boolean 存在返回 true
+	 */
+	boolean exist(String dictCode);
+
 }

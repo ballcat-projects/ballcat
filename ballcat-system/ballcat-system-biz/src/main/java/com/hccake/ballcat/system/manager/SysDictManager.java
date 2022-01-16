@@ -1,6 +1,7 @@
 package com.hccake.ballcat.system.manager;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.model.domain.PageParam;
@@ -82,33 +83,48 @@ public class SysDictManager {
 	/**
 	 * 删除字典
 	 * @param id 字典id
-	 * @return 执行是否成功
 	 */
-	@Deprecated
 	@Transactional(rollbackFor = Exception.class)
-	public boolean removeDictById(Integer id) {
+	public void removeDictById(Integer id) {
 		// 查询现有数据
 		SysDict dict = sysDictService.getById(id);
-		// 需级联删除对应的字典项
-		if (sysDictService.removeById(id) && sysDictItemService.removeByDictCode(dict.getCode())) {
-			return true;
-		}
-		else {
-			throw new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "字典项删除异常");
-		}
+		// 字典标识
+		String dictCode = dict.getCode();
+
+		// 有关联字典项则不允许删除
+		Assert.isFalse(sysDictItemService.exist(dictCode),
+				() -> new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该字典下存在字典项，不允许删除！"));
+
+		// 删除字典
+		Assert.isTrue(sysDictService.removeById(id),
+				() -> new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "字典删除异常"));
 	}
 
 	/**
-	 * 更新状态
-	 * @param id 字典id
-	 * @return 执行是否成功
+	 * 更新字典项状态
+	 * @param itemId 字典项id
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public boolean updateDictStatusById(Integer id, Integer status) {
-		SysDict sysDict = new SysDict();
-		sysDict.setStatus(status);
-		sysDict.setId(id);
-		return updateDictById(sysDict);
+	public void updateDictItemStatusById(Integer itemId, Integer status) {
+		// 获取字典项
+		SysDictItem dictItem = sysDictItemService.getById(itemId);
+		Assert.notNull(dictItem,
+				() -> new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "错误的字典项 id：" + itemId));
+
+		// 更新字典项状态
+		SysDictItem entity = new SysDictItem();
+		entity.setId(itemId);
+		entity.setStatus(status);
+		Assert.isTrue(sysDictItemService.updateById(entity),
+				() -> new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "字典项状态更新异常"));
+
+		// 更新字典 hash
+		String dictCode = dictItem.getDictCode();
+		Assert.isTrue(sysDictService.updateHashCode(dictCode),
+				() -> new BusinessException(BaseResultCode.UPDATE_DATABASE_ERROR.getCode(), "字典 Hash 更新异常"));
+
+		// 发布字典更新事件
+		eventPublisher.publishEvent(new DictChangeEvent(dictCode));
 	}
 
 	/**
@@ -202,7 +218,6 @@ public class SysDictManager {
 				dictDataVO.setValueType(sysDict.getValueType());
 				dictDataVO.setDictCode(sysDict.getCode());
 				dictDataVO.setHashCode(sysDict.getHashCode());
-				dictDataVO.setStatus(sysDict.getStatus());
 				dictDataVO.setDictItems(setDictItems);
 
 				list.add(dictDataVO);

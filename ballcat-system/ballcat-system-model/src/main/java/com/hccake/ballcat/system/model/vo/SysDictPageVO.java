@@ -48,15 +48,9 @@ public class SysDictPageVO {
 	private String remarks;
 
 	/**
-	 * 状态
-	 */
-	@Schema(title = "1：启用 0：禁用")
-	private Integer status;
-
-	/**
 	 * 数据类型
 	 */
-	@Schema(title = "数据类型,1:Number 2:String 3:Boolean")
+	@Schema(title = "数据类型", description = "1:Number 2:String 3:Boolean")
 	private Integer valueType;
 
 	/**

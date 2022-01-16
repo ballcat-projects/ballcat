@@ -61,8 +61,7 @@ public interface SysDictItemMapper extends ExtendMapper<SysDictItem> {
 	 * @return boolean 存在：true
 	 */
 	default boolean existsDictItem(String dictCode) {
-		Long count = this.selectCount(Wrappers.lambdaQuery(SysDictItem.class).eq(SysDictItem::getDictCode, dictCode));
-		return count != null && count > 0;
+		return this.exists(Wrappers.lambdaQuery(SysDictItem.class).eq(SysDictItem::getDictCode, dictCode));
 	}
 
 }

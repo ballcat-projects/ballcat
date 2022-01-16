@@ -27,12 +27,6 @@ public class DictDataVO {
 	private Integer valueType;
 
 	/**
-	 * 状态
-	 */
-	@Schema(title = "状态")
-	private Integer status;
-
-	/**
 	 * 字典Hash值
 	 */
 	@Schema(title = "字典Hash值")

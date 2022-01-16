@@ -34,6 +34,12 @@ public class DictItemVO {
 	private String name;
 
 	/**
+	 * 状态
+	 */
+	@Schema(title = "状态", description = "1：启用 0：禁用")
+	private Integer status;
+
+	/**
 	 * 附加属性值
 	 */
 	@Schema(title = "附加属性值")
