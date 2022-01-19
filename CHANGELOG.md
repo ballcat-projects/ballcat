@@ -1,5 +1,74 @@
 # 更新日志
 
+
+
+## [0.6.0] 2021-01-20
+
+### :warning: Warning
+
+- Swagger2 相关注解迁移到 OpenAPI3，由于使用了 springdoc-openapi，且该项目当前版本的一些问题，如果没有在 服务中引入
+  **springdoc-openapi-ui** 的依赖，或者配置中添加 `springdoc.api-docs.enabled=false` 的配置，则会导致启动报错
+- 删除了 knife4j-ui 的版本管理，对于 OpenAPI3，请使用 knife4j 的 3.x 版本
+- springfox 组件未适配 springboot 2.6.2 版本，如需继续使用 springfox，请添加 `spring.mvc.pathmatch.matching-strategy=ant-path-matcher` 配置，以及注册 `SpringfoxHandlerProviderBeanPostProcessor` 到 spring 容器中
+- springboot 2.6.x 默认禁止循环依赖，如有循环依赖启动将会报错，请注意修改代码，或者添加配置 `spring.main.allow-circular-references = true ` (不建议)
+
+
+### ⭐ New Features
+
+- 【修改】修改 jackson 脱敏支持的模块添加方式，使用为注册 `JsonDesensitizeModule` 的形式，以便复用 spring-boot 默认的 module 注册。
+- 【修改】调整 `CustomJavaTimeModule` 的注册方式，防止被 JSR310 的 `JavaTimeModule` 覆盖
+- 【删除】移除过时已久的 `IPageArgumentResolver`，让 starter-web 和 mybatis-plus 模块解耦。
+- 【删除】移除过时的 Lov 相关代码。
+- 【修改】Swagger2 相关注解迁移到 OpenAPI3
+- 【修改】文档底层支持从 springfox 迁移到 springdoc-openapi
+- 【添加】对于 GET 请求的入参封装类，如 xxQO，添加 `@ParameterObject` 注解，以便在文档上正确展示查询入参
+- 【修改】由于 springfox 长久不更新，弃用基于该框架的 **ballcat-spring-boot-starter-swagger** 组件
+- 【新增】添加 **ballcat-extend-openapi**，模块，基于 springdoc-openapi 做了部分扩展，参看[文档](http://www.ballcat.cn/guide/feature/openapi.html)
+- 【删除】删除 knife4j-ui 的版本管理
+- 【修改】代码优化，显示指定部分参数或返回值的泛型
+- 【修改】Sonarlint 部分代码警告处理
+- 【删除】移除 dependencies pom 中无用的 pluginManagement 部分
+- 【修改】hutool 依赖管理改为使用 hutool 官方提供的 bom
+- 【新增】添加 **ballcat-extend-tesseract** 扩展模块，用于 OCR 文字识别工具的调用封装
+- 【修改】字典相关逻辑调整
+  - 去除字典只读/可写的属性控制
+  - 字典项增加启用/禁用的状态属性
+  - 字典现在在有字典项的情况下不允许删除（之前会自动级联删除）
+- 【修改】同步 mybtais-plus 升级 3.5.x 后，AbstractMethod 的方法名获取做的调整
+- 【修改】**ballcat-spring-boot-starter-oss** 更新 oss 相关方法与变量. 由 path 变为 key. 符合 oss 规范，原 rootPath 属性标记为过期，修改为 objectKeyPrefix
+- 【添加】**ballcat-spring-boot-starter-oss** 新增根据 `File`  直接上传的方法
+- 【修改】`StreamUtils` 克隆流方法优化. 使用 FileOutStream 保证不会因为文件过大而内存溢出
+- 【修改】`OssDisabledException` 父类由 `Exception` 修改为 `RuntimeException`
+- 【修改】**ballcat-common-idempotent** 幂等组件微调
+  - `RedisIdempotentKeyStore` 的 stringRedisTemplate 属性，改为构造器注入
+  - 取消 `IdempotentAspect` 切面的 @Component 注解，防止误注册
+
+
+
+### 🐞 Bug Fixes
+
+- 【修复】修复删除字典项时没有将变动通知到前端的问题
+- 【修复】修复 `FileUtils#updateTmpDir` 方法中文件夹创建异常的问题
+
+
+
+### 🔨 Dependency Upgrades
+
+- 【升级】spring-boot from  2.5.6 to 2.6.2
+- 【升级】lombok from 1.18.20 to 1.18.22
+- 【升级】spring-javaformat from 0.0.28 to 0.0.29
+- 【升级】hutool from 5.7.12 to 5.7.19
+- 【升级】dynamic-datasource from 3.4.1 to 3.5.0
+- 【升级】jasypt from 3.0.3 to 3.0.4
+- 【升级】jsoup from 1.14.2 to 1.14.3
+- 【升级】mybatis-plus from 3.4.3.4 to 3.5.0
+- 【升级】mybatis from 3.5.7 to 3.5.9
+- 【升级】jsqlparse from 4.2 to 4.3
+- 【升级】fastjson from 1.2.76 to 1.2.79
+- 【升级】spring-boot-admin from 2.5.4 to 2.6.0
+
+
+
 ## [0.5.0] 2021-12-03
 
 ### :warning: Warning
@@ -26,7 +95,7 @@
 - 【修改】 默认提供的 MybatisPlusConfig 配置类中的自动填充处理类的条件注解修改，方便用户替换为自己的 `MetaObjectHandler`
 - 【新增】 线程池配置 `@Async` 异步线程日志支持 traceId 输出
 - 【添加】 `TokenGrantBuilder#getAuthenticationManager()` 方法，方便子类继承时获取 AuthenticationManager (#133)
-- 【修改】 `FileService` ，OssClient 不再为必须依赖，当没有配置 Oss 时，默认回退使用 FileClient，根据配置走本地存储或者
+- 【修改】 `FileService` ，OssClient 不再为必须依赖，当没有配置 Oss 时，默认回退使用 FileClient，根据配置走本地存储或者FTP
 - 【修改】 `MappedStatementIdsWithoutDataScope` 的 `WITHOUT_MAPPED_STATEMENT_ID_MAP` 属性类型为 `ConcurrentHashMap`
 - 【修改】 `TraceIdFilter` 默认在响应头中返回 TraceId 参数，方便排查问题
 - 【修改】 `UserInfoCoordinator` 从类调整为接口，并提供默认实现 `DefaultUserInfoCoordinatorImpl`
@@ -359,7 +428,7 @@
 
 ### Dependency
 
-- Bump  spring-boot-admin from 2.4.1 to 2.4.1
+- Bump  spring-boot-admin from 2.3.1 to 2.4.1
 - Bump virtual-currency  from 0.4.1  to  0.4.2
 
 
