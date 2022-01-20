@@ -11,7 +11,9 @@
 - 删除了 knife4j-ui 的版本管理，对于 OpenAPI3，请使用 knife4j 的 3.x 版本
 - springfox 组件未适配 springboot 2.6.2 版本，如需继续使用 springfox，请添加 `spring.mvc.pathmatch.matching-strategy=ant-path-matcher` 配置，以及注册 `SpringfoxHandlerProviderBeanPostProcessor` 到 spring 容器中
 - springboot 2.6.x 默认禁止循环依赖，如有循环依赖启动将会报错，请注意修改代码，或者添加配置 `spring.main.allow-circular-references = true ` (不建议)
-
+- `IPageArgumentResolver` 移除，如果直接使用 mybatisPlus 的 IPage 做为查询入参会有 SQL 注入风险，请注意修改！！！
+- `IPageArgumentResolver` 移除，如果直接使用 mybatisPlus 的 IPage 做为查询入参会有 SQL 注入风险，请注意修改！！！
+- `IPageArgumentResolver` 移除，如果直接使用 mybatisPlus 的 IPage 做为查询入参会有 SQL 注入风险，请注意修改！！！
 
 ### ⭐ New Features
 
