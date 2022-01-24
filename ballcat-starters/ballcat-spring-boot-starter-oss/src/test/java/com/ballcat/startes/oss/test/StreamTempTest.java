@@ -17,6 +17,14 @@ class StreamTempTest {
 		final File file = new File("C:\\Users\\lingting\\Pictures\\rgb.jpg");
 		final StreamTemp temp = StreamTemp.of(new FileInputStream(file));
 		Assertions.assertEquals(47558, temp.getSize());
+		Throwable throwable = null;
+		try {
+			temp.getStream().close();
+		}
+		catch (Throwable t) {
+			throwable = t;
+		}
+		Assertions.assertNull(throwable);
 	}
 
 }
