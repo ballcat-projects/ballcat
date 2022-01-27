@@ -5,9 +5,11 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Map;
 
 /**
+ * 修改parameterMap
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/10/17 21:57 修改parameterMap
+ * @date 2019/10/17 21:57
  */
 public class ModifyParamMapRequestWrapper extends HttpServletRequestWrapper {
 

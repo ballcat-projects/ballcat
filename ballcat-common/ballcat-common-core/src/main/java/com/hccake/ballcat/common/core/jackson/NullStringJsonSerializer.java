@@ -7,9 +7,11 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 
 /**
+ * jackson NULL值序列化为 ""
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/10/17 22:19 jackson NULL值序列化为 ""
+ * @date 2019/10/17 22:19
  */
 public class NullStringJsonSerializer extends JsonSerializer<Object> {
 

@@ -22,9 +22,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 前端传递过来的加密密码，需要在登陆之前先解密
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/9/28 16:57 前端传递过来的加密密码，需要在登陆之前先解密
+ * @date 2019/9/28 16:57
  */
 @Slf4j
 @RequiredArgsConstructor

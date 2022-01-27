@@ -24,9 +24,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
+ * Redis 自动配置类
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/9/2 14:13 指定扫描包
+ * @date 2019/9/2 14:13
  */
 @RequiredArgsConstructor
 @EnableConfigurationProperties(CacheProperties.class)

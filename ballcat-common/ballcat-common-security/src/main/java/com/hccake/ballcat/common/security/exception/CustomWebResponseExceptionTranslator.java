@@ -19,9 +19,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 /**
+ * 覆盖默认的DefaultWebResponseExceptionTranslator的方法
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/9/29 10:43 覆盖默认的DefaultWebResponseExceptionTranslator的方法
+ * @date 2019/9/29 10:43
  */
 public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 

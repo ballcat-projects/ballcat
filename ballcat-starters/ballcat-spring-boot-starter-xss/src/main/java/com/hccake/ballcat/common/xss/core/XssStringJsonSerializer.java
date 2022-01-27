@@ -8,9 +8,11 @@ import com.hccake.ballcat.common.xss.cleaner.XssCleaner;
 import java.io.IOException;
 
 /**
+ * XSS过滤 jackson 序列化器
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/10/17 22:23 XSS过滤
+ * @date 2019/10/17 22:23
  */
 public class XssStringJsonSerializer extends JsonSerializer<String> {
 

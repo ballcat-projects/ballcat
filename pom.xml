@@ -325,6 +325,9 @@
 						<artifactId>maven-javadoc-plugin</artifactId>
 						<version>${maven-javadoc-plugin.version}</version>
 						<configuration>
+							<tags>
+								<tag><name>date</name></tag>
+							</tags>
 							<doclint>none</doclint>
 							<additionalJOption>-J-Dfile.encoding=UTF-8</additionalJOption>
 						</configuration>
