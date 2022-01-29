@@ -57,7 +57,7 @@
 		<dynamic-datasource.version>3.5.0</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
 		<spring-boot-admin.version>2.6.0</spring-boot-admin.version>
-		<easyexcel.version>2.2.10</easyexcel.version>
+		<easyexcel.version>3.0.5</easyexcel.version>
 		<poi.version>4.1.2</poi.version>
 		<jasypt.version>3.0.4</jasypt.version>
 		<jsoup.version>1.14.3</jsoup.version>
