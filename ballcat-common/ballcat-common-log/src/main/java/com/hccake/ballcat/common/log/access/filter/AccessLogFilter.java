@@ -1,9 +1,12 @@
 package com.hccake.ballcat.common.log.access.filter;
 
-import com.hccake.ballcat.common.log.access.handler.AccessLogHandler;
-import com.hccake.ballcat.common.log.util.LogUtils;
 import com.hccake.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
+import com.hccake.ballcat.common.log.access.handler.AccessLogHandler;
+import com.hccake.ballcat.common.log.constant.LogConstant;
+import com.hccake.ballcat.common.log.util.LogUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.MDC;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -71,6 +74,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
 		// 开始时间
 		Long startTime = System.currentTimeMillis();
 		Throwable myThrowable = null;
+		final String traceId = MDC.get(LogConstant.TRACE_ID);
 		try {
 			filterChain.doFilter(requestWrapper, responseWrapper);
 		}
@@ -80,6 +84,10 @@ public class AccessLogFilter extends OncePerRequestFilter {
 			throw throwable;
 		}
 		finally {
+			// 这里抛BusinessException后会丢失traceId，需要重新设置
+			if (StringUtils.isBlank(MDC.get(LogConstant.TRACE_ID))) {
+				MDC.put(LogConstant.TRACE_ID, traceId);
+			}
 			// 结束时间
 			Long endTime = System.currentTimeMillis();
 			// 执行时长
