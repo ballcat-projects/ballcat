@@ -2,8 +2,13 @@ package com.hccake.extend.mybatis.plus.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
+import com.baomidou.mybatisplus.core.toolkit.Assert;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
@@ -14,8 +19,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 /**
@@ -90,6 +97,45 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 		return SqlHelper.getSqlStatement(mapperClass, sqlMethod);
 	}
 
+	/**
+	 * TableId 注解存在更新记录，否插入一条记录
+	 * @param entity 实体对象
+	 * @return boolean
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean saveOrUpdate(T entity) {
+		if (null != entity) {
+			TableInfo tableInfo = TableInfoHelper.getTableInfo(this.entityClass);
+			Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
+			String keyProperty = tableInfo.getKeyProperty();
+			Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
+			Object idVal = tableInfo.getPropertyValue(entity, tableInfo.getKeyProperty());
+			return StringUtils.checkValNull(idVal) || Objects.isNull(getById((Serializable) idVal)) ? save(entity)
+					: updateById(entity);
+		}
+		return false;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public boolean saveOrUpdateBatch(Collection<T> entityList, int batchSize) {
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+		Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
+		String keyProperty = tableInfo.getKeyProperty();
+		Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
+		return SqlHelper.saveOrUpdateBatch(this.entityClass, this.mapperClass, this.log, entityList, batchSize,
+				(sqlSession, entity) -> {
+					Object idVal = tableInfo.getPropertyValue(entity, keyProperty);
+					return StringUtils.checkValNull(idVal) || CollectionUtils
+							.isEmpty(sqlSession.selectList(getSqlStatement(SqlMethod.SELECT_BY_ID), entity));
+				}, (sqlSession, entity) -> {
+					MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
+					param.put(Constants.ENTITY, entity);
+					sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param);
+				});
+	}
+
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean updateBatchById(Collection<T> entityList, int batchSize) {
@@ -112,6 +158,71 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 	 */
 	protected <E> boolean executeBatch(Collection<E> list, int batchSize, BiConsumer<SqlSession, E> consumer) {
 		return SqlHelper.executeBatch(this.entityClass, this.log, list, batchSize, consumer);
+	}
+
+	@Override
+	public boolean removeById(Serializable id) {
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(getEntityClass());
+		if (tableInfo.isWithLogicDelete() && tableInfo.isWithUpdateFill()) {
+			return removeById(id, true);
+		}
+		return SqlHelper.retBool(getBaseMapper().deleteById(id));
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean removeByIds(Collection<?> list) {
+		if (CollectionUtils.isEmpty(list)) {
+			return false;
+		}
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(getEntityClass());
+		if (tableInfo.isWithLogicDelete() && tableInfo.isWithUpdateFill()) {
+			return removeBatchByIds(list, true);
+		}
+		return SqlHelper.retBool(getBaseMapper().deleteBatchIds(list));
+	}
+
+	@Override
+	public boolean removeById(Serializable id, boolean useFill) {
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+		if (useFill && tableInfo.isWithLogicDelete()) {
+			if (entityClass.isAssignableFrom(id.getClass())) {
+				return SqlHelper.retBool(getBaseMapper().deleteById(id));
+			}
+			T instance = tableInfo.newInstance();
+			tableInfo.setPropertyValue(instance, tableInfo.getKeyProperty(), id);
+			return removeById(instance);
+		}
+		return SqlHelper.retBool(getBaseMapper().deleteById(id));
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean removeBatchByIds(Collection<?> list, int batchSize) {
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+		return removeBatchByIds(list, batchSize, tableInfo.isWithLogicDelete() && tableInfo.isWithUpdateFill());
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean removeBatchByIds(Collection<?> list, int batchSize, boolean useFill) {
+		String sqlStatement = getSqlStatement(SqlMethod.DELETE_BY_ID);
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+		return executeBatch(list, batchSize, (sqlSession, e) -> {
+			if (useFill && tableInfo.isWithLogicDelete()) {
+				if (entityClass.isAssignableFrom(e.getClass())) {
+					sqlSession.update(sqlStatement, e);
+				}
+				else {
+					T instance = tableInfo.newInstance();
+					tableInfo.setPropertyValue(instance, tableInfo.getKeyProperty(), e);
+					sqlSession.update(sqlStatement, instance);
+				}
+			}
+			else {
+				sqlSession.update(sqlStatement, e);
+			}
+		});
 	}
 
 	// ^^^^^^ Copy From com.baomidou.mybatisplus.extension.service.impl.ServiceImpl end

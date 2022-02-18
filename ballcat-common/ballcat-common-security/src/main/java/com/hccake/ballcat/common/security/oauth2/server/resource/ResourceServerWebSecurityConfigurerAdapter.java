@@ -63,11 +63,6 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 			}
 		}
 
-		// 添加多种授权模式
-		for (AuthenticationProvider authenticationProvider : authenticationProviders) {
-			http.authenticationProvider(authenticationProvider);
-		}
-
 		// @formatter:off
         http
 			// 记住我
@@ -106,6 +101,11 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// 添加多种授权模式
+		for (AuthenticationProvider authenticationProvider : authenticationProviders) {
+			auth.authenticationProvider(authenticationProvider);
+		}
+		// 注册 DaoAuthenticationProvider
 		if (userDetailsService != null && passwordEncoder != null) {
 			auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 		}

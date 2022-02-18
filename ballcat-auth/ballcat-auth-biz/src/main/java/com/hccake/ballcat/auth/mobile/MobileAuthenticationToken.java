@@ -9,8 +9,10 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import java.util.Collection;
 
 /**
+ * 手机号登录令牌
+ *
  * @author lengleng
- * @date 2018/1/9 手机号登录令牌
+ * @date 2018/1/9
  */
 @EqualsAndHashCode(callSuper = true)
 public class MobileAuthenticationToken extends AbstractAuthenticationToken {

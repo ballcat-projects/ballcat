@@ -8,7 +8,6 @@ import com.hccake.common.excel.annotation.Sheet;
 import com.hccake.common.excel.config.ExcelConfigProperties;
 import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.kit.ExcelException;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.ObjectProvider;
 
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +41,6 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 	}
 
 	@Override
-	@SneakyThrows
 	public void write(Object obj, HttpServletResponse response, ResponseExcel responseExcel) {
 		List<?> objList = (List<?>) obj;
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);

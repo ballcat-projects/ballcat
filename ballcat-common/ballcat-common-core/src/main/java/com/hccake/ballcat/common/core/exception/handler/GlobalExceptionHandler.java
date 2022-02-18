@@ -1,9 +1,11 @@
 package com.hccake.ballcat.common.core.exception.handler;
 
 /**
+ * 异常日志处理类
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/10/18 17:05 异常日志处理类
+ * @date 2019/10/18 17:05
  */
 public interface GlobalExceptionHandler {
 

@@ -13,8 +13,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
+ * 手机登录校验逻辑 验证码登录、社交登录
+ *
  * @author lengleng
- * @date 2018/8/5 手机登录校验逻辑 验证码登录、社交登录
+ * @date 2018/8/5
  */
 @Slf4j
 public class MobileAuthenticationProvider implements AuthenticationProvider {

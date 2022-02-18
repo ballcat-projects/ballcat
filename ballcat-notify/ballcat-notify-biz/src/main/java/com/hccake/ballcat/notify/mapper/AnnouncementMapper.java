@@ -1,10 +1,11 @@
 package com.hccake.ballcat.notify.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.notify.enums.AnnouncementStatusEnum;
-import com.hccake.ballcat.notify.converter.AnnouncementConverter;
 import com.hccake.ballcat.notify.model.entity.Announcement;
 import com.hccake.ballcat.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.notify.model.vo.AnnouncementPageVO;
@@ -36,10 +37,18 @@ public interface AnnouncementMapper extends ExtendMapper<Announcement> {
 				.likeIfPresent(Announcement::getTitle, qo.getTitle())
 				.inIfPresent(Announcement::getStatus, (Object[]) qo.getStatus())
 				.eqIfPresent(Announcement::getRecipientFilterType, qo.getRecipientFilterType());
-		IPage<AnnouncementPageVO> voPage = this.selectPage(page, wrapperX)
-				.convert(AnnouncementConverter.INSTANCE::poToPageVo);
+		IPage<AnnouncementPageVO> voPage = this.selectByPage(page, wrapperX);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
+
+	/**
+	 * 分页查询通知
+	 * @param page 分页封装对象
+	 * @param wrapper 条件构造器
+	 * @return 分页封装对象
+	 */
+	IPage<AnnouncementPageVO> selectByPage(IPage<Announcement> page,
+			@Param(Constants.WRAPPER) Wrapper<Announcement> wrapper);
 
 	/**
 	 * 更新公共（限制只能更新未发布的公共）

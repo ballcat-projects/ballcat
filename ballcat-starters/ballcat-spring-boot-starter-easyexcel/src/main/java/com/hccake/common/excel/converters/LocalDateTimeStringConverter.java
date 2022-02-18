@@ -2,12 +2,12 @@ package com.hccake.common.excel.converters;
 
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.enums.CellDataTypeEnum;
-import com.alibaba.excel.metadata.CellData;
 import com.alibaba.excel.metadata.GlobalConfiguration;
+import com.alibaba.excel.metadata.data.ReadCellData;
+import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
 import com.alibaba.excel.util.DateUtils;
 
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -36,8 +36,8 @@ public enum LocalDateTimeStringConverter implements Converter<LocalDateTime> {
 	}
 
 	@Override
-	public LocalDateTime convertToJavaData(CellData cellData, ExcelContentProperty contentProperty,
-			GlobalConfiguration globalConfiguration) throws ParseException {
+	public LocalDateTime convertToJavaData(ReadCellData cellData, ExcelContentProperty contentProperty,
+			GlobalConfiguration globalConfiguration) {
 		String stringValue = cellData.getStringValue();
 		String pattern;
 		if (contentProperty == null || contentProperty.getDateTimeFormatProperty() == null) {
@@ -51,7 +51,7 @@ public enum LocalDateTimeStringConverter implements Converter<LocalDateTime> {
 	}
 
 	@Override
-	public CellData<String> convertToExcelData(LocalDateTime value, ExcelContentProperty contentProperty,
+	public WriteCellData<String> convertToExcelData(LocalDateTime value, ExcelContentProperty contentProperty,
 			GlobalConfiguration globalConfiguration) {
 		String pattern;
 		if (contentProperty == null || contentProperty.getDateTimeFormatProperty() == null) {
@@ -61,7 +61,7 @@ public enum LocalDateTimeStringConverter implements Converter<LocalDateTime> {
 			pattern = contentProperty.getDateTimeFormatProperty().getFormat();
 		}
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		return new CellData<>(value.format(formatter));
+		return new WriteCellData<>(value.format(formatter));
 	}
 
 	/**

@@ -22,9 +22,11 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
+ * OAuth2 授权服务器配置
+ *
  * @author Hccake
  * @version 1.0
- * @date 2019/9/27 16:14 OAuth2 授权服务器配置
+ * @date 2019/9/27 16:14
  */
 @RequiredArgsConstructor
 public class CustomAuthorizationServerConfigurer implements AuthorizationServerConfigurer {

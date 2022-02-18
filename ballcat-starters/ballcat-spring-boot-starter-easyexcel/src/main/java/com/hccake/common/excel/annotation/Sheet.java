@@ -5,11 +5,10 @@ import com.hccake.common.excel.head.HeadGenerator;
 import java.lang.annotation.*;
 
 /**
+ * 用于指定导入导出的 excel 的 sheet 属性
  * @author Yakir
- * @Topic Sheet
- * @Description
  * @date 2021/4/29 15:03
- * @Version 1.0
+ * @version 1.0
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
