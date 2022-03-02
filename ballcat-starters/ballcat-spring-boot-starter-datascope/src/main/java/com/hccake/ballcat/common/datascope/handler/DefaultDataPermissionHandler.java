@@ -3,6 +3,7 @@ package com.hccake.ballcat.common.datascope.handler;
 import com.hccake.ballcat.common.datascope.DataScope;
 import com.hccake.ballcat.common.datascope.annotation.DataPermission;
 import com.hccake.ballcat.common.datascope.holder.DataPermissionAnnotationHolder;
+import com.hccake.ballcat.common.datascope.holder.DataPermissionRuleHolder;
 import com.hccake.ballcat.common.datascope.holder.MappedStatementIdsWithoutDataScope;
 import lombok.RequiredArgsConstructor;
 
@@ -43,29 +44,16 @@ public class DefaultDataPermissionHandler implements DataPermissionHandler {
 		if (this.dataScopes == null || this.dataScopes.isEmpty()) {
 			return new ArrayList<>();
 		}
-		// 获取当前方法对应的权限注解，根据注解进行数据范围控制的过滤
-		DataPermission dataPermission = DataPermissionAnnotationHolder.peek();
-		if (dataPermission == null) {
-			return dataScopes;
+
+		// 首先获取 {@link executeWithDataPermissionRule} 中设置的权限规则
+		DataPermissionRule dataPermissionRule = DataPermissionRuleHolder.peek();
+		if (dataPermissionRule == null) {
+			// 再获取当前方法对应的权限注解，根据注解进行数据范围控制的过滤
+			DataPermission dataPermission = DataPermissionAnnotationHolder.peek();
+			dataPermissionRule = new DataPermissionRule(dataPermission);
 		}
 
-		if (dataPermission.ignore()) {
-			return new ArrayList<>();
-		}
-
-		// 当指定了只包含的资源时，只对该资源的DataScope
-		if (dataPermission.includeResources().length > 0) {
-			Set<String> a = new HashSet<>(Arrays.asList(dataPermission.includeResources()));
-			return dataScopes.stream().filter(x -> a.contains(x.getResource())).collect(Collectors.toList());
-		}
-
-		// 当未指定只包含的资源，且指定了排除的资源时，则排除此部分资源的 DataScope
-		if (dataPermission.excludeResources().length > 0) {
-			Set<String> a = new HashSet<>(Arrays.asList(dataPermission.excludeResources()));
-			return dataScopes.stream().filter(x -> !a.contains(x.getResource())).collect(Collectors.toList());
-		}
-
-		return dataScopes;
+		return filterDataScopes(dataPermissionRule);
 	}
 
 	/**
@@ -81,6 +69,51 @@ public class DefaultDataPermissionHandler implements DataPermissionHandler {
 	@Override
 	public boolean ignorePermissionControl(List<DataScope> dataScopeList, String mappedStatementId) {
 		return MappedStatementIdsWithoutDataScope.onAllWithoutSet(dataScopeList, mappedStatementId);
+	}
+
+	/**
+	 * 使用指定的数据权限执行任务，执行时会忽略方法上的 @DataPermission 注解
+	 * @param dataPermissionRule 当前任务执行时使用的数据权限规则
+	 * @param task 待执行的动作
+	 */
+	@Override
+	public void executeWithDataPermissionRule(DataPermissionRule dataPermissionRule, Task task) {
+		DataPermissionRuleHolder.push(dataPermissionRule);
+		try {
+			task.perform();
+		}
+		finally {
+			DataPermissionRuleHolder.poll();
+		}
+	}
+
+	/**
+	 * 根据数据权限规则过滤出 dataScope 列表
+	 * @param dataPermissionRule 数据权限规则
+	 * @return List<DataScope>
+	 */
+	protected List<DataScope> filterDataScopes(DataPermissionRule dataPermissionRule) {
+		if (dataPermissionRule == null) {
+			return dataScopes;
+		}
+
+		if (dataPermissionRule.ignore()) {
+			return new ArrayList<>();
+		}
+
+		// 当指定了只包含的资源时，只对该资源的DataScope
+		if (dataPermissionRule.includeResources().length > 0) {
+			Set<String> a = new HashSet<>(Arrays.asList(dataPermissionRule.includeResources()));
+			return dataScopes.stream().filter(x -> a.contains(x.getResource())).collect(Collectors.toList());
+		}
+
+		// 当未指定只包含的资源，且指定了排除的资源时，则排除此部分资源的 DataScope
+		if (dataPermissionRule.excludeResources().length > 0) {
+			Set<String> a = new HashSet<>(Arrays.asList(dataPermissionRule.excludeResources()));
+			return dataScopes.stream().filter(x -> !a.contains(x.getResource())).collect(Collectors.toList());
+		}
+
+		return dataScopes;
 	}
 
 }
