@@ -25,7 +25,8 @@ public final class DataPermissionAnnotationHolder {
 	 * @return DataPermission
 	 */
 	public static DataPermission peek() {
-		return DATA_PERMISSIONS.get().peek();
+		Deque<DataPermission> deque = DATA_PERMISSIONS.get();
+		return deque == null ? null : deque.peek();
 	}
 
 	/**
@@ -33,7 +34,11 @@ public final class DataPermissionAnnotationHolder {
 	 * @return DataPermission
 	 */
 	public static DataPermission push(DataPermission dataPermission) {
-		DATA_PERMISSIONS.get().push(dataPermission);
+		Deque<DataPermission> deque = DATA_PERMISSIONS.get();
+		if (deque == null) {
+			deque = new ArrayDeque<>();
+		}
+		deque.push(dataPermission);
 		return dataPermission;
 	}
 
@@ -42,9 +47,10 @@ public final class DataPermissionAnnotationHolder {
 	 */
 	public static void poll() {
 		Deque<DataPermission> deque = DATA_PERMISSIONS.get();
+		deque.poll();
 		// 当没有元素时，清空 ThreadLocal
-		if (deque.poll() == null) {
-			DATA_PERMISSIONS.remove();
+		if (deque.isEmpty()) {
+			clear();
 		}
 	}
 

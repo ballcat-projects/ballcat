@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.datascope.test.datapermission;
 
 import com.hccake.ballcat.common.datascope.annotation.DataPermission;
+import com.hccake.ballcat.common.datascope.holder.DataPermissionAnnotationHolder;
 import com.hccake.ballcat.common.datascope.interceptor.DataPermissionAnnotationAdvisor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,15 @@ class DataPermissionTest {
 		DataPermission dataPermissionB = testService.methodB();
 		Assertions.assertArrayEquals(new String[] { "class" }, dataPermissionB.excludeResources(),
 				"dataPermission 解析错误");
+
+		// 继承自类注解
+		DataPermission dataPermissionC = testService.methodC();
+		Assertions.assertArrayEquals(new String[] { "class" }, dataPermissionC.excludeResources(),
+				"dataPermission 解析错误");
+
+		// 执行完成必须要被 clear
+		DataPermission dataPermission = DataPermissionAnnotationHolder.peek();
+		Assertions.assertNull(dataPermission, "dataPermission 解析错误");
 	}
 
 }

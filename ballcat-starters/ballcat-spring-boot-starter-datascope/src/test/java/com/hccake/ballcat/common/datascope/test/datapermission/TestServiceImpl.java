@@ -22,4 +22,9 @@ public class TestServiceImpl implements TestService {
 		return DataPermissionAnnotationHolder.peek();
 	}
 
+	@Override
+	public DataPermission methodC() {
+		return DataPermissionAnnotationHolder.peek();
+	}
+
 }

@@ -11,4 +11,6 @@ public interface TestService {
 
 	DataPermission methodB();
 
+	DataPermission methodC();
+
 }
