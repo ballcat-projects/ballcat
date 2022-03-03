@@ -3,6 +3,7 @@ package com.hccake.ballcat.system.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.common.core.constant.GlobalConstants;
@@ -48,13 +49,17 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	 */
 	@Override
 	public List<SysOrganizationTree> listTree(SysOrganizationQO sysOrganizationQO) {
-		List<SysOrganization> list = baseMapper.selectList(sysOrganizationQO);
-		// TODO 临时补丁，处理查询指定名称的组织时构建树失败的问题，考虑检索放在前端处理以便支持模糊检索
-		Integer treeRootId = GlobalConstants.TREE_ROOT_ID;
-		if (CollectionUtil.isNotEmpty(list) && list.size() == 1) {
-			treeRootId = list.get(0).getParentId();
+		List<SysOrganization> list = this.list();
+		List<SysOrganizationTree> tree = TreeUtils.buildTree(list, GlobalConstants.TREE_ROOT_ID,
+				SysOrganizationConverter.INSTANCE::poToTree);
+
+		// 如果有名称的查询条件，则进行剪枝操作
+		String name = sysOrganizationQO.getName();
+		if (StrUtil.isNotEmpty(name)) {
+			return TreeUtils.pruneTree(tree, node -> node.getName() != null && node.getName().contains(name));
 		}
-		return TreeUtils.buildTree(list, treeRootId, SysOrganizationConverter.INSTANCE::poToTree);
+
+		return tree;
 	}
 
 	/**
