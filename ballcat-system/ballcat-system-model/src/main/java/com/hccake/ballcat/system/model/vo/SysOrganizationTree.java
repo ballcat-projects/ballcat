@@ -85,8 +85,8 @@ public class SysOrganizationTree implements TreeNode<Integer> {
 	 * @param children 子节点
 	 */
 	@Override
-	public void setChildren(List<? extends TreeNode<Integer>> children) {
-		// noinspection unchecked
+	@SuppressWarnings("unchecked")
+	public <T extends TreeNode<Integer>> void setChildren(List<T> children) {
 		this.children = (List<SysOrganizationTree>) children;
 	}
 

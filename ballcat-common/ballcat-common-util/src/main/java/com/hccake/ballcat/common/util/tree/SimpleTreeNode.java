@@ -10,21 +10,27 @@ import java.util.List;
  * @date 2020/6/21 17:08
  */
 @Data
-public class SimpleTreeNode<T> implements TreeNode<T> {
+public class SimpleTreeNode<I> implements TreeNode<I> {
 
 	/**
 	 * 节点ID
 	 */
-	private T id;
+	private I id;
 
 	/**
 	 * 父节点ID
 	 */
-	private T parentId;
+	private I parentId;
 
 	/**
 	 * 子节点集合
 	 */
-	private List<? extends TreeNode<T>> children;
+	private List<SimpleTreeNode<I>> children;
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T extends TreeNode<I>> void setChildren(List<T> children) {
+		this.children = (List<SimpleTreeNode<I>>) children;
+	}
 
 }

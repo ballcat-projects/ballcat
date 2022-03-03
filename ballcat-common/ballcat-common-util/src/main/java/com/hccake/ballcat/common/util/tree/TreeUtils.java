@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -112,10 +113,11 @@ public class TreeUtils {
 	/**
 	 * 获取指定树节点下的所有叶子节点
 	 * @param parent 父节点
-	 * @param <T> 实际节点类型
+	 * @param <T> 树节点的类型
+	 * @param <I> 树节点的 id 类型
 	 * @return 叶子节点
 	 */
-	public <T extends TreeNode<?>> List<T> getLeafs(T parent) {
+	public <T extends TreeNode<I>, I> List<T> getLeafs(T parent) {
 		List<T> leafs = new ArrayList<>();
 		fillLeaf(parent, leafs);
 		return leafs;
@@ -127,8 +129,7 @@ public class TreeUtils {
 	 * @param leafs 叶子节点列表
 	 * @param <T> 实际节点类型
 	 */
-	@SuppressWarnings("rawtypes, unchecked")
-	public <T extends TreeNode> void fillLeaf(T parent, List<T> leafs) {
+	public <T extends TreeNode<I>, I> void fillLeaf(T parent, List<T> leafs) {
 		List<T> children = parent.getChildren();
 		// 如果节点没有子节点则说明为叶子节点
 		if (CollectionUtil.isEmpty(children)) {
@@ -168,7 +169,7 @@ public class TreeUtils {
 		}
 		for (T treeNode : treeList) {
 			ids.add(treeNode.getId());
-			List<? extends TreeNode<I>> children = treeNode.getChildren();
+			List<T> children = treeNode.getChildren();
 			if (CollectionUtil.isNotEmpty(children)) {
 				fillTreeNodeIds(ids, children);
 			}
@@ -179,9 +180,10 @@ public class TreeUtils {
 	 * 将一颗树的所有节点平铺到一个 list 中
 	 * @param treeNode 树节点
 	 * @param <T> 树节点的类型
+	 * @param <I> 树节点的 id 类型
 	 * @return 所有树节点组成的列表
 	 */
-	public <T extends TreeNode<?>> List<T> treeToList(T treeNode) {
+	public <T extends TreeNode<I>, I> List<T> treeToList(T treeNode) {
 		return treeToList(treeNode, Function.identity());
 	}
 
@@ -189,12 +191,12 @@ public class TreeUtils {
 	 * 将一颗树的所有节点平铺到 list 中
 	 * @param treeNode 树节点
 	 * @param converter 转换器，用于将树节点的类型进行转换，再存储到 list 中
-	 * @param <T> 树节点类型
+	 * @param <T> 树节点的类型
+	 * @param <I> 树节点的 id 类型
 	 * @param <R> 转换器转换后的类型
 	 * @return List<R>
 	 */
-	@SuppressWarnings("unchecked")
-	public <T extends TreeNode<?>, R> List<R> treeToList(T treeNode, Function<T, R> converter) {
+	public <T extends TreeNode<I>, I, R> List<R> treeToList(T treeNode, Function<T, R> converter) {
 		List<R> list = new ArrayList<>();
 
 		// 使用队列存储未处理的树节点
@@ -209,9 +211,9 @@ public class TreeUtils {
 			}
 
 			// 如果当前节点的含有子节点，则添加到队列中
-			List<? extends TreeNode<?>> children = node.getChildren();
+			List<T> children = node.getChildren();
 			if (CollectionUtil.isNotEmpty(children)) {
-				queue.addAll((List<T>) children);
+				queue.addAll(children);
 			}
 
 			// 不再保留对子节点的引用
@@ -226,9 +228,10 @@ public class TreeUtils {
 	 * 将一组树的所有节点平铺到一个 list 中
 	 * @param treeNodes 树节点集合
 	 * @param <T> 树节点的类型
+	 * @param <I> 树节点的 id 类型
 	 * @return 所有树节点组成的列表
 	 */
-	public <T extends TreeNode<?>> List<T> treeToList(List<T> treeNodes) {
+	public <T extends TreeNode<I>, I> List<T> treeToList(List<T> treeNodes) {
 		return treeToList(treeNodes, Function.identity());
 	}
 
@@ -237,12 +240,56 @@ public class TreeUtils {
 	 * @param treeNodes 树节点集合
 	 * @param converter 转换器，用于将树节点的类型进行转换，再存储到 list 中
 	 * @param <T> 树节点的类型
+	 * @param <I> 树节点的 id 类型
 	 * @param <R> 转换器转换后的类型
 	 * @return 所有树节点组成的列表
 	 */
-	public <T extends TreeNode<?>, R> List<R> treeToList(List<T> treeNodes, Function<T, R> converter) {
+	public <T extends TreeNode<I>, I, R> List<R> treeToList(List<T> treeNodes, Function<T, R> converter) {
 		return treeNodes.stream().map(node -> treeToList(node, converter)).flatMap(Collection::stream)
 				.collect(Collectors.toList());
+	}
+
+	/**
+	 * 根据指定规则进行树剪枝
+	 * @param treeNodes 待剪枝的树节点列表
+	 * @param <T> TreeNode
+	 * @param matcher 匹配规则
+	 * @return 剪枝完成后的树节点列表
+	 */
+	public <T extends TreeNode<I>, I> List<T> pruneTree(List<T> treeNodes, Predicate<T> matcher) {
+		List<T> result = new ArrayList<>();
+		if (CollectionUtil.isEmpty(treeNodes)) {
+			return result;
+		}
+		for (T treeNode : treeNodes) {
+			List<T> children = pruneTree(treeNode.getChildren(), matcher);
+			if (CollectionUtil.isNotEmpty(children)) {
+				treeNode.setChildren(children);
+				result.add(treeNode);
+			}
+			else if (matcher.test(treeNode)) {
+				treeNode.setChildren(null);
+				result.add(treeNode);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * 根据指定规则进行树剪枝
+	 * @param treeNode 待剪枝的树节点
+	 * @param <T> TreeNode
+	 * @param matcher 匹配规则
+	 * @return 剪枝完成后的树节点
+	 */
+	public <T extends TreeNode<I>, I> T pruneTree(T treeNode, Predicate<T> matcher) {
+		List<T> children = pruneTree(treeNode.getChildren(), matcher);
+		boolean childrenMatched = CollectionUtil.isNotEmpty(children);
+		if (childrenMatched) {
+			treeNode.setChildren(children);
+		}
+		boolean nodeMatched = matcher.test(treeNode);
+		return (nodeMatched || childrenMatched) ? treeNode : null;
 	}
 
 }
