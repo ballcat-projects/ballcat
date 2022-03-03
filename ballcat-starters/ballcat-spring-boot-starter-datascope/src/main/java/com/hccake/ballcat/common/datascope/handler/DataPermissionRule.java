@@ -35,7 +35,7 @@ public class DataPermissionRule {
 	 * @see DataPermission#excludeResources
 	 * @return 资源类型数组
 	 */
-	String[] includeResources() {
+	public String[] includeResources() {
 		return includeResources;
 	}
 
@@ -44,7 +44,7 @@ public class DataPermissionRule {
 	 * @see DataPermission#includeResources
 	 * @return 资源类型数组
 	 */
-	String[] excludeResources() {
+	public String[] excludeResources() {
 		return excludeResources;
 	}
 

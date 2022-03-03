@@ -1,8 +1,6 @@
 package com.hccake.ballcat.common.datascope.handler;
 
 import com.hccake.ballcat.common.datascope.DataScope;
-import com.hccake.ballcat.common.datascope.annotation.DataPermission;
-import com.hccake.ballcat.common.datascope.holder.DataPermissionAnnotationHolder;
 import com.hccake.ballcat.common.datascope.holder.DataPermissionRuleHolder;
 import com.hccake.ballcat.common.datascope.holder.MappedStatementIdsWithoutDataScope;
 import lombok.RequiredArgsConstructor;
@@ -44,17 +42,8 @@ public class DefaultDataPermissionHandler implements DataPermissionHandler {
 		if (this.dataScopes == null || this.dataScopes.isEmpty()) {
 			return new ArrayList<>();
 		}
-
-		// 首先获取 {@link executeWithDataPermissionRule} 中设置的权限规则
+		// 获取权限规则
 		DataPermissionRule dataPermissionRule = DataPermissionRuleHolder.peek();
-		if (dataPermissionRule == null) {
-			// 再获取当前方法对应的权限注解，根据注解进行数据范围控制的过滤
-			DataPermission dataPermission = DataPermissionAnnotationHolder.peek();
-			if (dataPermission != null) {
-				dataPermissionRule = new DataPermissionRule(dataPermission);
-			}
-		}
-
 		return filterDataScopes(dataPermissionRule);
 	}
 
