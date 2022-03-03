@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.datascope.test;
+package com.hccake.ballcat.common.datascope.test.datascope;
 
 import com.hccake.ballcat.common.datascope.DataScope;
 import com.hccake.ballcat.common.datascope.handler.DataPermissionHandler;

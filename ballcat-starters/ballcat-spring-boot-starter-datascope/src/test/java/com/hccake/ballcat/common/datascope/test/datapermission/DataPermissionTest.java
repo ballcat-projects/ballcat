@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.datascope.test.datapermission;
 
-import com.hccake.ballcat.common.datascope.annotation.DataPermission;
-import com.hccake.ballcat.common.datascope.holder.DataPermissionAnnotationHolder;
+import com.hccake.ballcat.common.datascope.handler.DataPermissionRule;
+import com.hccake.ballcat.common.datascope.holder.DataPermissionRuleHolder;
 import com.hccake.ballcat.common.datascope.interceptor.DataPermissionAnnotationAdvisor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,23 +31,23 @@ class DataPermissionTest {
 	@Test
 	void test() {
 		// 使用方法本身注解
-		DataPermission dataPermissionA = testService.methodA();
+		DataPermissionRule dataPermissionA = testService.methodA();
 		Assertions.assertArrayEquals(new String[] { "order" }, dataPermissionA.excludeResources(),
 				"dataPermission 解析错误");
 
 		// 继承自类注解
-		DataPermission dataPermissionB = testService.methodB();
+		DataPermissionRule dataPermissionB = testService.methodB();
 		Assertions.assertArrayEquals(new String[] { "class" }, dataPermissionB.excludeResources(),
 				"dataPermission 解析错误");
 
 		// 继承自类注解
-		DataPermission dataPermissionC = testService.methodC();
+		DataPermissionRule dataPermissionC = testService.methodC();
 		Assertions.assertArrayEquals(new String[] { "class" }, dataPermissionC.excludeResources(),
 				"dataPermission 解析错误");
 
 		// 执行完成必须要被 clear
-		DataPermission dataPermission = DataPermissionAnnotationHolder.peek();
-		Assertions.assertNull(dataPermission, "dataPermission 解析错误");
+		DataPermissionRule dataPermissionRule = DataPermissionRuleHolder.peek();
+		Assertions.assertNull(dataPermissionRule, "dataPermission 解析错误");
 	}
 
 }

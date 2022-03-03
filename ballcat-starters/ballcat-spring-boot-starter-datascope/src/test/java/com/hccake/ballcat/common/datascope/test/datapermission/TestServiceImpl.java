@@ -1,7 +1,8 @@
 package com.hccake.ballcat.common.datascope.test.datapermission;
 
 import com.hccake.ballcat.common.datascope.annotation.DataPermission;
-import com.hccake.ballcat.common.datascope.holder.DataPermissionAnnotationHolder;
+import com.hccake.ballcat.common.datascope.handler.DataPermissionRule;
+import com.hccake.ballcat.common.datascope.holder.DataPermissionRuleHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,18 +14,18 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	@DataPermission(excludeResources = { "order" })
-	public DataPermission methodA() {
-		return DataPermissionAnnotationHolder.peek();
+	public DataPermissionRule methodA() {
+		return DataPermissionRuleHolder.peek();
 	}
 
 	@Override
-	public DataPermission methodB() {
-		return DataPermissionAnnotationHolder.peek();
+	public DataPermissionRule methodB() {
+		return DataPermissionRuleHolder.peek();
 	}
 
 	@Override
-	public DataPermission methodC() {
-		return DataPermissionAnnotationHolder.peek();
+	public DataPermissionRule methodC() {
+		return DataPermissionRuleHolder.peek();
 	}
 
 }
