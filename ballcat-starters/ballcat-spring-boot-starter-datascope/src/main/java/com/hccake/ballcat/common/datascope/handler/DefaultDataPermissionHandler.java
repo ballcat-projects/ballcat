@@ -50,7 +50,9 @@ public class DefaultDataPermissionHandler implements DataPermissionHandler {
 		if (dataPermissionRule == null) {
 			// 再获取当前方法对应的权限注解，根据注解进行数据范围控制的过滤
 			DataPermission dataPermission = DataPermissionAnnotationHolder.peek();
-			dataPermissionRule = new DataPermissionRule(dataPermission);
+			if (dataPermission != null) {
+				dataPermissionRule = new DataPermissionRule(dataPermission);
+			}
 		}
 
 		return filterDataScopes(dataPermissionRule);
