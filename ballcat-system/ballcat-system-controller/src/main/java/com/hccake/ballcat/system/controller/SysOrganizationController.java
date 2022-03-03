@@ -1,21 +1,35 @@
 package com.hccake.ballcat.system.controller;
 
-import com.hccake.ballcat.system.model.dto.SysOrganizationDTO;
-import com.hccake.ballcat.system.model.qo.SysOrganizationQO;
-import com.hccake.ballcat.system.model.vo.SysOrganizationTree;
-import com.hccake.ballcat.system.service.SysOrganizationService;
+import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.hccake.ballcat.system.converter.SysOrganizationConverter;
+import com.hccake.ballcat.system.model.dto.SysOrganizationDTO;
+import com.hccake.ballcat.system.model.entity.SysOrganization;
+import com.hccake.ballcat.system.model.qo.SysOrganizationQO;
+import com.hccake.ballcat.system.model.vo.SysOrganizationTree;
+import com.hccake.ballcat.system.model.vo.SysOrganizationVO;
+import com.hccake.ballcat.system.service.SysOrganizationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 组织架构
@@ -29,6 +43,23 @@ import java.util.List;
 public class SysOrganizationController {
 
 	private final SysOrganizationService sysOrganizationService;
+
+	/**
+	 * 组织架构列表查询
+	 * @return R 通用返回体
+	 */
+	@GetMapping("/list")
+	@PreAuthorize("@per.hasPermission('system:organization:read')")
+	@Operation(summary = "组织架构列表查询")
+	public R<List<SysOrganizationVO>> listOrganization() {
+		List<SysOrganization> list = sysOrganizationService.list();
+		if (CollectionUtil.isEmpty(list)) {
+			return R.ok(new ArrayList<>());
+		}
+		List<SysOrganizationVO> voList = list.stream().map(SysOrganizationConverter.INSTANCE::poToVo)
+				.collect(Collectors.toList());
+		return R.ok(voList);
+	}
 
 	/**
 	 * 组织架构树查询
