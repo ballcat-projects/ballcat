@@ -54,7 +54,9 @@ public class RedisHelper {
 		return template.opsForSet();
 	}
 
-	public static ZSetOperations<String, String> getZSet() { return template.opsForZSet(); }
+	public static ZSetOperations<String, String> getZSet() {
+		return template.opsForZSet();
+	}
 
 	public static boolean hasKey(String key) {
 		Boolean b = template.hasKey(key);
@@ -114,7 +116,7 @@ public class RedisHelper {
 	}
 
 	public static <T> T execute(RedisScript<T> script, RedisSerializer<?> argsSerializer,
-								RedisSerializer<T> resultSerializer, List<String> keys, Object... args) {
+			RedisSerializer<T> resultSerializer, List<String> keys, Object... args) {
 		return template.execute(script, argsSerializer, resultSerializer, keys, args);
 	}
 
@@ -131,7 +133,7 @@ public class RedisHelper {
 	}
 
 	public static List<Object> executePipelined(SessionCallback<?> session,
-												@Nullable RedisSerializer<?> resultSerializer) {
+			@Nullable RedisSerializer<?> resultSerializer) {
 		return template.executePipelined(session, resultSerializer);
 	}
 
@@ -140,7 +142,7 @@ public class RedisHelper {
 	}
 
 	public static List<Object> executePipelined(RedisCallback<?> action,
-												@Nullable RedisSerializer<?> resultSerializer) {
+			@Nullable RedisSerializer<?> resultSerializer) {
 		return template.executePipelined(action, resultSerializer);
 	}
 
