@@ -11,13 +11,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.SessionCallback;
-import org.springframework.data.redis.core.SetOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -59,6 +53,8 @@ public class RedisHelper {
 	public static SetOperations<String, String> getSet() {
 		return template.opsForSet();
 	}
+
+	public static ZSetOperations<String, String> getZSet() { return template.opsForZSet(); }
 
 	public static boolean hasKey(String key) {
 		Boolean b = template.hasKey(key);
@@ -118,7 +114,7 @@ public class RedisHelper {
 	}
 
 	public static <T> T execute(RedisScript<T> script, RedisSerializer<?> argsSerializer,
-			RedisSerializer<T> resultSerializer, List<String> keys, Object... args) {
+								RedisSerializer<T> resultSerializer, List<String> keys, Object... args) {
 		return template.execute(script, argsSerializer, resultSerializer, keys, args);
 	}
 
@@ -135,7 +131,7 @@ public class RedisHelper {
 	}
 
 	public static List<Object> executePipelined(SessionCallback<?> session,
-			@Nullable RedisSerializer<?> resultSerializer) {
+												@Nullable RedisSerializer<?> resultSerializer) {
 		return template.executePipelined(session, resultSerializer);
 	}
 
@@ -144,7 +140,7 @@ public class RedisHelper {
 	}
 
 	public static List<Object> executePipelined(RedisCallback<?> action,
-			@Nullable RedisSerializer<?> resultSerializer) {
+												@Nullable RedisSerializer<?> resultSerializer) {
 		return template.executePipelined(action, resultSerializer);
 	}
 
@@ -413,6 +409,83 @@ public class RedisHelper {
 	 */
 	public static Long setRemove(String key, String... values) {
 		return getSet().remove(key, (Object[]) values);
+	}
+
+	/*
+	 * zset -----------------------------------------------------------
+	 */
+
+	/**
+	 * zset中添加数据
+	 *
+	 * @author svn 2022-03-10 18:20
+	 */
+	public static Boolean zSetAdd(String key, String value, double score) {
+		return getZSet().add(key, value, score);
+	}
+
+	/**
+	 * 获取有序集合中元素数量
+	 * @author svn 2022-03-10 18:22
+	 */
+	public static Long zSetSize(String key) {
+		return getZSet().size(key);
+	}
+
+	/**
+	 * 随机弹出一个元素
+	 * @author svn 2022-03-10 18:23
+	 */
+	public static String zSetRandom(String key) {
+		return getZSet().randomMember(key);
+	}
+
+	/**
+	 * 移除有序集合中的元素
+	 * @author svn 2022-03-10 18:24
+	 */
+	public static Long zSetRemove(String key, String... values) {
+		return getZSet().remove(key, (Object[]) values);
+	}
+
+	/**
+	 * 在有序集合中的排名
+	 * @author svn 2022-03-10 18:30
+	 */
+	public static Long zSetRank(String key, String value) {
+		return getZSet().rank(key, value);
+	}
+
+	/**
+	 * 在有序集合中的排名, 从小到大
+	 * @author svn 2022-03-10 18:31
+	 */
+	public static Set<String> zSetRange(String key, int start, int end) {
+		return getZSet().range(key, start, end);
+	}
+
+	/**
+	 * 在有序集合中的排名, 从大到小
+	 * @author svn 2022-03-10 18:33
+	 */
+	public static Set<String> zSetReverseRange(String key, int start, int end) {
+		return getZSet().reverseRange(key, start, end);
+	}
+
+	/**
+	 * 在有序集合中的排名, 分数区间, 从小到大
+	 * @author svn 2022-03-10 18:34
+	 */
+	public static Set<String> zSetRangeByScore(String key, double min, double max) {
+		return getZSet().rangeByScore(key, min, max);
+	}
+
+	/**
+	 * 在有序集合中的排名, 分数区间, 从大到小
+	 * @author svn 2022-03-10 18:35
+	 */
+	public static Set<String> zSetReverseRangeByScore(String key, double min, double max) {
+		return getZSet().reverseRangeByScore(key, min, max);
 	}
 
 	public static Object evalLua(String lua, List<String> key, Object... argv) {
