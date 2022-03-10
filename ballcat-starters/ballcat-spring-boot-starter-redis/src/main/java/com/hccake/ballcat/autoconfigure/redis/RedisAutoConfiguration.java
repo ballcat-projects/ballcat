@@ -41,6 +41,7 @@ public class RedisAutoConfiguration {
 	 * @return GlobalCacheProperties
 	 */
 	@Bean
+	@ConditionalOnMissingBean
 	public CachePropertiesHolder cachePropertiesHolder(CacheProperties cacheProperties) {
 		CachePropertiesHolder cachePropertiesHolder = new CachePropertiesHolder();
 		cachePropertiesHolder.setCacheProperties(cacheProperties);
@@ -53,6 +54,7 @@ public class RedisAutoConfiguration {
 	 * @return JacksonSerializer
 	 */
 	@Bean
+	@ConditionalOnMissingBean
 	public CacheSerializer cacheSerializer(ObjectMapper objectMapper) {
 		return new JacksonSerializer(objectMapper);
 	}
@@ -63,6 +65,7 @@ public class RedisAutoConfiguration {
 	 * @return CacheLock
 	 */
 	@Bean
+	@ConditionalOnMissingBean
 	public CacheLock cacheLock(StringRedisTemplate stringRedisTemplate) {
 		CacheLock cacheLock = new CacheLock();
 		cacheLock.setStringRedisTemplate(stringRedisTemplate);
@@ -78,6 +81,7 @@ public class RedisAutoConfiguration {
 	 */
 	@Bean
 	@DependsOn("cacheLock")
+	@ConditionalOnMissingBean
 	public CacheStringAspect cacheStringAspect(StringRedisTemplate stringRedisTemplate,
 			CacheSerializer cacheSerializer) {
 		return new CacheStringAspect(stringRedisTemplate, cacheSerializer);
