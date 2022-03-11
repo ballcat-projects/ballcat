@@ -1,10 +1,5 @@
 package com.hccake.ballcat.common.websocket.distribute;
 
-import cn.hutool.core.collection.CollectionUtil;
-import com.hccake.ballcat.common.websocket.WebSocketMessageSender;
-
-import java.util.List;
-
 /**
  * 消息分发器
  *
@@ -23,20 +18,6 @@ public interface MessageDistributor {
 	 * 发送消息
 	 * @param messageDO 发送的消息
 	 */
-	default void doSend(MessageDO messageDO) {
-		Boolean needBroadcast = messageDO.getNeedBroadcast();
-		String messageText = messageDO.getMessageText();
-		List<Object> sessionKeys = messageDO.getSessionKeys();
-		if (needBroadcast != null && needBroadcast) {
-			// 广播信息
-			WebSocketMessageSender.broadcast(messageText);
-		}
-		else if (CollectionUtil.isNotEmpty(sessionKeys)) {
-			// 指定用户发送
-			for (Object sessionKey : sessionKeys) {
-				WebSocketMessageSender.send(sessionKey, messageText);
-			}
-		}
-	}
+	void doSend(MessageDO messageDO);
 
 }

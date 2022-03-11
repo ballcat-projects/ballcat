@@ -1,14 +1,12 @@
 package com.hccake.ballcat.common.websocket;
 
 import com.hccake.ballcat.common.util.JsonUtils;
-import com.hccake.ballcat.common.websocket.holder.WebSocketSessionHolder;
 import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.Collection;
 
 /**
  * @author Hccake 2021/1/4
@@ -18,24 +16,6 @@ import java.util.Collection;
 public final class WebSocketMessageSender {
 
 	private WebSocketMessageSender() {
-	}
-
-	public static void broadcast(String message) {
-		Collection<WebSocketSession> sessions = WebSocketSessionHolder.getSessions();
-		for (WebSocketSession session : sessions) {
-			send(session, message);
-		}
-	}
-
-	public static boolean send(Object sessionKey, String message) {
-		WebSocketSession session = WebSocketSessionHolder.getSession(sessionKey);
-		if (session == null) {
-			log.trace("[send] 当前 sessionKey：{} 对应 session 不在本服务中", sessionKey);
-			return false;
-		}
-		else {
-			return send(session, message);
-		}
 	}
 
 	public static void send(WebSocketSession session, JsonWebSocketMessage message) {

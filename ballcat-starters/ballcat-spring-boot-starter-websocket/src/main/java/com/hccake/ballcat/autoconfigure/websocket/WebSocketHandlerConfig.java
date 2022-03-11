@@ -3,8 +3,10 @@ package com.hccake.ballcat.autoconfigure.websocket;
 import com.hccake.ballcat.common.websocket.handler.CustomWebSocketHandler;
 import com.hccake.ballcat.common.websocket.handler.PingJsonMessageHandler;
 import com.hccake.ballcat.common.websocket.handler.PlanTextMessageHandler;
-import com.hccake.ballcat.common.websocket.holder.MapSessionWebSocketHandlerDecorator;
-import com.hccake.ballcat.common.websocket.holder.SessionKeyGenerator;
+import com.hccake.ballcat.common.websocket.session.MapSessionWebSocketHandlerDecorator;
+import com.hccake.ballcat.common.websocket.session.SessionKeyGenerator;
+import com.hccake.ballcat.common.websocket.session.DefaultWebSocketSessionStore;
+import com.hccake.ballcat.common.websocket.session.WebSocketSessionStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -25,12 +27,23 @@ public class WebSocketHandlerConfig {
 
 	private final WebSocketProperties webSocketProperties;
 
+	/**
+	 * WebSocket session 存储器
+	 * @return DefaultWebSocketSessionStore
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public WebSocketSessionStore webSocketSessionStore(
+			@Autowired(required = false) SessionKeyGenerator sessionKeyGenerator) {
+		return new DefaultWebSocketSessionStore(sessionKeyGenerator);
+	}
+
 	@Bean
 	@ConditionalOnMissingBean({ TextWebSocketHandler.class, PlanTextMessageHandler.class })
-	public WebSocketHandler webSocketHandler1(@Autowired(required = false) SessionKeyGenerator sessionKeyGenerator) {
+	public WebSocketHandler webSocketHandler1(WebSocketSessionStore webSocketSessionStore) {
 		CustomWebSocketHandler customWebSocketHandler = new CustomWebSocketHandler();
 		if (webSocketProperties.isMapSession()) {
-			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, sessionKeyGenerator,
+			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, webSocketSessionStore,
 					webSocketProperties.getConcurrent());
 		}
 		return customWebSocketHandler;
@@ -39,11 +52,11 @@ public class WebSocketHandlerConfig {
 	@Bean
 	@ConditionalOnBean(PlanTextMessageHandler.class)
 	@ConditionalOnMissingBean(TextWebSocketHandler.class)
-	public WebSocketHandler webSocketHandler2(@Autowired(required = false) SessionKeyGenerator sessionKeyGenerator,
-			PlanTextMessageHandler planTextMessageHandler) {
+	public WebSocketHandler webSocketHandler2(PlanTextMessageHandler planTextMessageHandler,
+			WebSocketSessionStore webSocketSessionStore) {
 		CustomWebSocketHandler customWebSocketHandler = new CustomWebSocketHandler(planTextMessageHandler);
 		if (webSocketProperties.isMapSession()) {
-			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, sessionKeyGenerator,
+			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, webSocketSessionStore,
 					webSocketProperties.getConcurrent());
 		}
 		return customWebSocketHandler;

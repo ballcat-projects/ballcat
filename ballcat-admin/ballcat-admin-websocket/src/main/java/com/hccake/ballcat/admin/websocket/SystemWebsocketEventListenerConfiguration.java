@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author Hccake
+ */
 @RequiredArgsConstructor
 @ConditionalOnClass(SystemWebsocketEventListener.class)
 @Configuration(proxyBeanMethods = false)

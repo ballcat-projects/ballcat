@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.websocket.holder;
+package com.hccake.ballcat.common.websocket.session;
 
 import org.springframework.web.socket.WebSocketSession;
 

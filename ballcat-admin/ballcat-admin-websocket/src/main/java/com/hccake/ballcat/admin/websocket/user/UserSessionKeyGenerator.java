@@ -1,7 +1,7 @@
 package com.hccake.ballcat.admin.websocket.user;
 
 import com.hccake.ballcat.admin.websocket.constant.AdminWebSocketConstants;
-import com.hccake.ballcat.common.websocket.holder.SessionKeyGenerator;
+import com.hccake.ballcat.common.websocket.session.SessionKeyGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.socket.WebSocketSession;
 

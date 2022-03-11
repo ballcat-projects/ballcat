@@ -2,6 +2,7 @@ package com.hccake.ballcat.autoconfigure.websocket;
 
 import com.hccake.ballcat.common.websocket.distribute.MessageDistributor;
 import com.hccake.ballcat.common.websocket.distribute.RedisMessageDistributor;
+import com.hccake.ballcat.common.websocket.session.WebSocketSessionStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -25,12 +26,15 @@ import javax.annotation.PostConstruct;
 @ConditionalOnProperty(prefix = WebSocketProperties.PREFIX, name = "message-distributor",
 		havingValue = MessageDistributorTypeConstants.REDIS)
 @Configuration(proxyBeanMethods = false)
+@RequiredArgsConstructor
 public class RedisMessageDistributorConfiguration {
+
+	private final WebSocketSessionStore webSocketSessionStore;
 
 	@Bean
 	@ConditionalOnMissingBean(MessageDistributor.class)
 	public RedisMessageDistributor messageDistributor(StringRedisTemplate stringRedisTemplate) {
-		return new RedisMessageDistributor(stringRedisTemplate);
+		return new RedisMessageDistributor(webSocketSessionStore, stringRedisTemplate);
 	}
 
 	@Bean

@@ -2,7 +2,7 @@ package com.hccake.ballcat.admin.websocket;
 
 import com.hccake.ballcat.admin.websocket.user.UserAttributeHandshakeInterceptor;
 import com.hccake.ballcat.admin.websocket.user.UserSessionKeyGenerator;
-import com.hccake.ballcat.common.websocket.holder.SessionKeyGenerator;
+import com.hccake.ballcat.common.websocket.session.SessionKeyGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

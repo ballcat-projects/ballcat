@@ -34,7 +34,7 @@ public class UserAttributeHandshakeInterceptor implements HandshakeInterceptor {
 	 */
 	@Override
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
-			Map<String, Object> attributes) throws Exception {
+			Map<String, Object> attributes) {
 		String accessToken = null;
 		// 获得 accessToken
 		if (request instanceof ServletServerHttpRequest) {
