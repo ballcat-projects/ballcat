@@ -4,11 +4,13 @@ import com.hccake.ballcat.common.websocket.handler.JsonMessageHandler;
 import com.hccake.ballcat.common.websocket.holder.JsonMessageHandlerHolder;
 import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.SockJsServiceRegistration;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistration;
 import org.springframework.web.socket.server.HandshakeInterceptor;
@@ -30,6 +32,9 @@ public class WebSocketAutoConfiguration {
 
 	private final List<JsonMessageHandler<JsonWebSocketMessage>> jsonMessageHandlerList;
 
+	@Autowired(required = false)
+	private SockJsServiceConfigurer sockJsServiceConfigurer;
+
 	@Bean
 	@ConditionalOnMissingBean
 	public WebSocketConfigurer webSocketConfigurer(List<HandshakeInterceptor> handshakeInterceptor,
@@ -47,6 +52,13 @@ public class WebSocketAutoConfiguration {
 			String[] allowedOriginPatterns = webSocketProperties.getAllowedOriginPatterns();
 			if (allowedOriginPatterns != null && allowedOriginPatterns.length > 0) {
 				registration.setAllowedOriginPatterns(allowedOriginPatterns);
+			}
+
+			if (webSocketProperties.isWithSockjs()) {
+				SockJsServiceRegistration sockJsServiceRegistration = registration.withSockJS();
+				if (sockJsServiceConfigurer != null) {
+					sockJsServiceConfigurer.config(sockJsServiceRegistration);
+				}
 			}
 		};
 	}

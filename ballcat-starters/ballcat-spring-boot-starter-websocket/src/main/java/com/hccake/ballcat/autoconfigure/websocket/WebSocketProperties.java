@@ -49,6 +49,11 @@ public class WebSocketProperties {
 	private boolean mapSession = true;
 
 	/**
+	 * 是否开启 sockJs 支持
+	 */
+	private boolean withSockjs = false;
+
+	/**
 	 * 多线程发送相关配置
 	 */
 	@NestedConfigurationProperty
