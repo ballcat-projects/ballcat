@@ -24,9 +24,14 @@ public class WebSocketProperties {
 	private String path = "/ws";
 
 	/**
-	 * 允许访问源
+	 * 允许跨域的源
 	 */
-	private String allowOrigins = "*";
+	private String[] allowedOrigins;
+
+	/**
+	 * 允许跨域来源的匹配规则
+	 */
+	private String[] allowedOriginPatterns = new String[] { "*" };
 
 	/**
 	 * 是否支持部分消息
