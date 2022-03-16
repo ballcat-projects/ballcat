@@ -18,10 +18,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 访问日志
@@ -110,7 +107,7 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 	public String getParams(HttpServletRequest request) {
 		String params;
 		try {
-			Map<String, String[]> parameterMap = request.getParameterMap();
+			Map<String, String[]> parameterMap = new HashMap<>(request.getParameterMap());
 			for (String paramKey : needDesensitizeParams) {
 				String[] values = parameterMap.get(paramKey);
 				if (values != null && values.length != 0) {
