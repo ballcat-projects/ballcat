@@ -27,7 +27,7 @@ public class PageParam {
 	private long current = 1;
 
 	@Schema(title = "每页显示条数", description = "最大值为 100", defaultValue = "10")
-	@Range(min = 1, max = 100, message = "条数范围为 [1, 100]")
+	@Range(min = 1, max = 100, message = "每页显示条数范围为 [1, 100]")
 	private long size = 10;
 
 	@Schema(title = "排序规则")

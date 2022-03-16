@@ -1,18 +1,25 @@
 package com.hccake.ballcat.autoconfigure.web.servlet;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.hccake.ballcat.common.core.exception.SqlCheckedException;
 import com.hccake.ballcat.common.model.domain.PageParam;
-import com.hccake.ballcat.common.model.result.BaseResultCode;
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.ValidationAnnotationUtils;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author lengleng
@@ -24,8 +31,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Slf4j
 public class PageParamArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private static final String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
-			"alter", "drop", "sleep" };
+	private static final Set<String> SQL_KEYWORDS = CollectionUtil.newHashSet("master", "truncate", "insert", "select",
+			"delete", "update", "declare", "alter", "drop", "sleep");
 
 	private static final String FILED_NAME_REGEX = "[A-Za-z0-9_]+";
 
@@ -52,7 +59,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	 */
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
@@ -78,6 +85,8 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 
 		List<PageParam.Sort> sorts = getOrderItems(sortFields, sortOrders);
 		pageParam.setSorts(sorts);
+
+		paramValidate(parameter, mavContainer, webRequest, binderFactory, pageParam);
 
 		return pageParam;
 	}
@@ -122,32 +131,50 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	}
 
 	/**
-	 * 判断排序字段名是否非法 字段名只允许数字字母下划线
+	 * 判断排序字段名是否非法 字段名只允许数字字母下划线，且不能是 sql 关键字
 	 * @param filedName 字段名
 	 * @return 是否非法
 	 */
-	public static boolean validFieldName(String filedName) {
-		return StrUtil.isNotBlank(filedName) && filedName.matches(FILED_NAME_REGEX);
+	public boolean validFieldName(String filedName) {
+		boolean isValid = StrUtil.isNotBlank(filedName) && filedName.matches(FILED_NAME_REGEX)
+				&& !SQL_KEYWORDS.contains(filedName);
+		if (!isValid) {
+			log.warn("异常的分页查询排序字段：{}", filedName);
+		}
+		return isValid;
 	}
 
-	/**
-	 * SQL注入过滤
-	 * @param str 待验证的字符串
-	 */
-	public static void sqlInject(String str) {
-		if (StrUtil.isEmpty(str)) {
-			return;
-		}
-		// 转换成小写
-		String inStr = str.toLowerCase();
-
-		// 判断是否包含非法字符
-		for (String keyword : KEYWORDS) {
-			if (inStr.contains(keyword)) {
-				log.error("查询包含非法字符 {}", keyword);
-				throw new SqlCheckedException(BaseResultCode.MALICIOUS_REQUEST.getCode(), "恶意请求参数：" + keyword);
+	protected void paramValidate(MethodParameter parameter, ModelAndViewContainer mavContainer,
+			NativeWebRequest webRequest, WebDataBinderFactory binderFactory, PageParam pageParam) throws Exception {
+		// 数据校验处理
+		if (binderFactory != null) {
+			WebDataBinder binder = binderFactory.createBinder(webRequest, pageParam, "pageParam");
+			validateIfApplicable(binder, parameter);
+			if (binder.getBindingResult().hasErrors() && isBindExceptionRequired(binder, parameter)) {
+				throw new MethodArgumentNotValidException(parameter, binder.getBindingResult());
+			}
+			if (mavContainer != null) {
+				mavContainer.addAttribute(BindingResult.MODEL_KEY_PREFIX + "pageParam", binder.getBindingResult());
 			}
 		}
+	}
+
+	protected void validateIfApplicable(WebDataBinder binder, MethodParameter parameter) {
+		Annotation[] annotations = parameter.getParameterAnnotations();
+		for (Annotation ann : annotations) {
+			Object[] validationHints = ValidationAnnotationUtils.determineValidationHints(ann);
+			if (validationHints != null) {
+				binder.validate(validationHints);
+				break;
+			}
+		}
+	}
+
+	protected boolean isBindExceptionRequired(WebDataBinder binder, MethodParameter parameter) {
+		int i = parameter.getParameterIndex();
+		Class<?>[] paramTypes = parameter.getExecutable().getParameterTypes();
+		boolean hasBindingResult = (paramTypes.length > (i + 1) && Errors.class.isAssignableFrom(paramTypes[i + 1]));
+		return !hasBindingResult;
 	}
 
 }
