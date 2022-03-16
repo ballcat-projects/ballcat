@@ -1,11 +1,14 @@
 package com.hccake.ballcat.autoconfigure.websocket;
 
-import com.hccake.ballcat.common.websocket.handler.JsonMessageHandler;
-import com.hccake.ballcat.common.websocket.holder.JsonMessageHandlerHolder;
-import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
+import com.hccake.ballcat.autoconfigure.websocket.config.LocalMessageDistributorConfig;
+import com.hccake.ballcat.autoconfigure.websocket.config.RedisMessageDistributorConfig;
+import com.hccake.ballcat.autoconfigure.websocket.config.WebSocketHandlerConfig;
+import com.hccake.ballcat.common.websocket.handler.PingJsonMessageHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.socket.WebSocketHandler;
@@ -15,30 +18,26 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistration;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
  * websocket自动配置
  *
- * @author Yakir
+ * @author Yakir Hccake
  */
-@Import(WebSocketHandlerConfig.class)
+@Import({ WebSocketHandlerConfig.class, LocalMessageDistributorConfig.class, RedisMessageDistributorConfig.class })
 @EnableWebSocket
 @RequiredArgsConstructor
+@EnableConfigurationProperties(WebSocketProperties.class)
 public class WebSocketAutoConfiguration {
 
 	private final WebSocketProperties webSocketProperties;
 
-	private final List<JsonMessageHandler<JsonWebSocketMessage>> jsonMessageHandlerList;
-
-	@Autowired(required = false)
-	private SockJsServiceConfigurer sockJsServiceConfigurer;
-
 	@Bean
 	@ConditionalOnMissingBean
 	public WebSocketConfigurer webSocketConfigurer(List<HandshakeInterceptor> handshakeInterceptor,
-			WebSocketHandler webSocketHandler) {
+			WebSocketHandler webSocketHandler,
+			@Autowired(required = false) SockJsServiceConfigurer sockJsServiceConfigurer) {
 		return registry -> {
 			WebSocketHandlerRegistration registration = registry
 					.addHandler(webSocketHandler, webSocketProperties.getPath())
@@ -64,13 +63,14 @@ public class WebSocketAutoConfiguration {
 	}
 
 	/**
-	 * 初始化时将所有的jsonMessageHandler注册到JsonMessageHandlerHolder中
+	 * 心跳处理器
+	 * @return PingJsonMessageHandler
 	 */
-	@PostConstruct
-	public void initJsonMessageHandlerHolder() {
-		for (JsonMessageHandler<JsonWebSocketMessage> jsonMessageHandler : jsonMessageHandlerList) {
-			JsonMessageHandlerHolder.addHandler(jsonMessageHandler);
-		}
+	@Bean
+	@ConditionalOnProperty(prefix = WebSocketProperties.PREFIX, name = "heartbeat", havingValue = "true",
+			matchIfMissing = true)
+	public PingJsonMessageHandler pingJsonMessageHandler() {
+		return new PingJsonMessageHandler();
 	}
 
 }

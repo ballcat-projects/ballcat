@@ -1,5 +1,7 @@
-package com.hccake.ballcat.autoconfigure.websocket;
+package com.hccake.ballcat.autoconfigure.websocket.config;
 
+import com.hccake.ballcat.autoconfigure.websocket.MessageDistributorTypeConstants;
+import com.hccake.ballcat.autoconfigure.websocket.WebSocketProperties;
 import com.hccake.ballcat.common.websocket.distribute.LocalMessageDistributor;
 import com.hccake.ballcat.common.websocket.distribute.MessageDistributor;
 import com.hccake.ballcat.common.websocket.session.WebSocketSessionStore;
@@ -18,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 		havingValue = MessageDistributorTypeConstants.LOCAL, matchIfMissing = true)
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
-public class LocalMessageDistributorConfiguration {
+public class LocalMessageDistributorConfig {
 
 	private final WebSocketSessionStore webSocketSessionStore;
 

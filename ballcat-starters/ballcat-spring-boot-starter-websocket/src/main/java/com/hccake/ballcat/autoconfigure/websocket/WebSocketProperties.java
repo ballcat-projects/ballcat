@@ -62,6 +62,28 @@ public class WebSocketProperties {
 	/**
 	 * 消息分发器：local | redis，默认 local, 如果自定义的话，可以配置为其他任意值
 	 */
-	private String messageDistributor = MessageDistributorTypeConstants.LOCAL;
+	private MessageDistributorTypeEnum messageDistributor = MessageDistributorTypeEnum.LOCAL;
+
+	/**
+	 * 消息分发器类型，用于解决集群场景下的消息跨节点推送问题
+	 */
+	enum MessageDistributorTypeEnum {
+
+		/**
+		 * 本地缓存，不做跨节点分发
+		 */
+		LOCAL,
+
+		/**
+		 * redis，利用 redis pub/sub 处理
+		 */
+		REDIS,
+
+		/**
+		 * 自定义，用户自己实现一个 MessageDistributor
+		 */
+		CUSTOM;
+
+	}
 
 }

@@ -1,4 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.hccake.ballcat.autoconfigure.websocket.WebSocketAutoConfiguration,\
-  com.hccake.ballcat.autoconfigure.websocket.RedisMessageDistributorConfiguration,\
-  com.hccake.ballcat.autoconfigure.websocket.LocalMessageDistributorConfiguration
+  com.hccake.ballcat.autoconfigure.websocket.WebSocketAutoConfiguration

@@ -1,5 +1,7 @@
-package com.hccake.ballcat.autoconfigure.websocket;
+package com.hccake.ballcat.autoconfigure.websocket.config;
 
+import com.hccake.ballcat.autoconfigure.websocket.MessageDistributorTypeConstants;
+import com.hccake.ballcat.autoconfigure.websocket.WebSocketProperties;
 import com.hccake.ballcat.common.websocket.distribute.MessageDistributor;
 import com.hccake.ballcat.common.websocket.distribute.RedisMessageDistributor;
 import com.hccake.ballcat.common.websocket.session.WebSocketSessionStore;
@@ -27,7 +29,7 @@ import javax.annotation.PostConstruct;
 		havingValue = MessageDistributorTypeConstants.REDIS)
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
-public class RedisMessageDistributorConfiguration {
+public class RedisMessageDistributorConfig {
 
 	private final WebSocketSessionStore webSocketSessionStore;
 
