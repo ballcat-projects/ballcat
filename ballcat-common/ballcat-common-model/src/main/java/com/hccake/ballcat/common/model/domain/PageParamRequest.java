@@ -3,7 +3,6 @@ package com.hccake.ballcat.common.model.domain;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.hibernate.validator.constraints.Range;
 import org.springdoc.api.annotations.ParameterObject;
 
 import javax.validation.Valid;
@@ -28,8 +27,8 @@ public class PageParamRequest {
 	private long current = 1;
 
 	@Parameter(description = "每页显示条数, 最大值为 100")
-	@Schema(minimum = "1", maximum = "10", defaultValue = "10", example = "10")
-	@Range(min = 1, max = 100, message = "条数范围为 [1, 100]")
+	@Schema(title = "每页显示条数", description = "最大值为系统设置，默认 100", minimum = "1", defaultValue = "10", example = "10")
+	@Min(value = 1, message = "每页显示条数不能小于1")
 	private long size = 10;
 
 	@Parameter(description = "排序字段，多个排序字段以,分割")

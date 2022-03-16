@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.ValidationAnnotationUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
@@ -37,6 +38,16 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	private static final String FILED_NAME_REGEX = "[A-Za-z0-9_]+";
 
 	private static final String ASC = "asc";
+
+	private final int pageSizeLimit;
+
+	public PageParamArgumentResolver() {
+		this(0);
+	}
+
+	public PageParamArgumentResolver(int pageSizeLimit) {
+		this.pageSizeLimit = pageSizeLimit;
+	}
 
 	/**
 	 * 判断Controller是否包含page 参数
@@ -150,11 +161,18 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 		if (binderFactory != null) {
 			WebDataBinder binder = binderFactory.createBinder(webRequest, pageParam, "pageParam");
 			validateIfApplicable(binder, parameter);
-			if (binder.getBindingResult().hasErrors() && isBindExceptionRequired(binder, parameter)) {
-				throw new MethodArgumentNotValidException(parameter, binder.getBindingResult());
+			BindingResult bindingResult = binder.getBindingResult();
+
+			long size = pageParam.getSize();
+			if (size > pageSizeLimit) {
+				bindingResult.addError(new ObjectError("size", "分页条数不能大于" + pageSizeLimit));
+			}
+
+			if (bindingResult.hasErrors() && isBindExceptionRequired(binder, parameter)) {
+				throw new MethodArgumentNotValidException(parameter, bindingResult);
 			}
 			if (mavContainer != null) {
-				mavContainer.addAttribute(BindingResult.MODEL_KEY_PREFIX + "pageParam", binder.getBindingResult());
+				mavContainer.addAttribute(BindingResult.MODEL_KEY_PREFIX + "pageParam", bindingResult);
 			}
 		}
 	}
