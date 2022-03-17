@@ -35,8 +35,6 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	private static final Set<String> SQL_KEYWORDS = CollectionUtil.newHashSet("master", "truncate", "insert", "select",
 			"delete", "update", "declare", "alter", "drop", "sleep");
 
-	private static final String FILED_NAME_REGEX = "[A-Za-z0-9_]+";
-
 	private static final String ASC = "asc";
 
 	private final int pageSizeLimit;
@@ -147,7 +145,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	 * @return 是否非法
 	 */
 	public boolean validFieldName(String filedName) {
-		boolean isValid = StrUtil.isNotBlank(filedName) && filedName.matches(FILED_NAME_REGEX)
+		boolean isValid = StrUtil.isNotBlank(filedName) && filedName.matches(PageParam.SORT_FILED_REGEX)
 				&& !SQL_KEYWORDS.contains(filedName);
 		if (!isValid) {
 			log.warn("异常的分页查询排序字段：{}", filedName);

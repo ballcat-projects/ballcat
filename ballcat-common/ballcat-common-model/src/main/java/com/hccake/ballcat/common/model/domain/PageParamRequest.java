@@ -32,8 +32,9 @@ public class PageParamRequest {
 	private long size = 10;
 
 	@Parameter(description = "排序字段，多个排序字段以,分割")
-	@Schema(pattern = "^[A-Za-z0-9_]{1,64}(,[A-Za-z0-9_]{1,64})*$", example = "id")
-	@Pattern(regexp = "^[A-Za-z0-9_]{1,64}(,[A-Za-z0-9_]{1,64})*$", message = "排序字段格式非法")
+	@Schema(pattern = "^(" + PageParam.SORT_FILED_REGEX + ")(,(" + PageParam.SORT_FILED_REGEX + "))*$", example = "id")
+	@Pattern(regexp = "^(" + PageParam.SORT_FILED_REGEX + ")(,(" + PageParam.SORT_FILED_REGEX + "))*$",
+			message = "排序字段格式非法")
 	String sortFields;
 
 	@Parameter(description = "排序方式，与排序字段一一对应，以,分割")
