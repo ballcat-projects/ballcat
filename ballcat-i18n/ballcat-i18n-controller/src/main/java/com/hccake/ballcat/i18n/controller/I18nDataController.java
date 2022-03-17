@@ -54,7 +54,7 @@ public class I18nDataController {
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('i18n:i18n-data:read')")
 	@Operation(summary = "分页查询", description = "分页查询")
-	public R<PageResult<I18nDataPageVO>> getI18nDataPage(PageParam pageParam, I18nDataQO i18nDataQO) {
+	public R<PageResult<I18nDataPageVO>> getI18nDataPage(@Validated PageParam pageParam, I18nDataQO i18nDataQO) {
 		return R.ok(i18nDataService.queryPage(pageParam, i18nDataQO));
 	}
 

@@ -6,10 +6,11 @@ import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.log.model.qo.AccessLogQO;
 import com.hccake.ballcat.log.model.vo.AccessLogPageVO;
 import com.hccake.ballcat.log.service.AccessLogService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +38,7 @@ public class AccessLogController {
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('log:access-log:read')")
 	@Operation(summary = "分页查询", description = "分页查询")
-	public R<PageResult<AccessLogPageVO>> getAccessLogApiPage(PageParam pageParam, AccessLogQO accessLogQO) {
+	public R<PageResult<AccessLogPageVO>> getAccessLogApiPage(@Validated PageParam pageParam, AccessLogQO accessLogQO) {
 		return R.ok(accessLogService.queryPage(pageParam, accessLogQO));
 	}
 

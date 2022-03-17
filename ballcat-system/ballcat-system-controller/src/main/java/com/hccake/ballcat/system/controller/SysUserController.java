@@ -68,7 +68,7 @@ public class SysUserController {
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('system:user:read')")
 	@Operation(summary = "分页查询系统用户")
-	public R<PageResult<SysUserPageVO>> getUserPage(PageParam pageParam, SysUserQO qo) {
+	public R<PageResult<SysUserPageVO>> getUserPage(@Validated PageParam pageParam, SysUserQO qo) {
 		return R.ok(sysUserService.queryPage(pageParam, qo));
 	}
 
