@@ -21,8 +21,6 @@ import java.util.List;
 @Schema(title = "分页查询参数")
 public class PageParam {
 
-	public static final String SORT_FILED_REGEX = "([A-Za-z0-9_]{1,10}.)?[A-Za-z0-9_]{1,64}";
-
 	@Schema(title = "当前页码", description = "从 1 开始", defaultValue = "1", example = "1")
 	@Min(value = 1, message = "当前页不能小于 1")
 	private long current = 1;
@@ -41,7 +39,7 @@ public class PageParam {
 	public static class Sort {
 
 		@Schema(title = "排序字段", example = "id")
-		@Pattern(regexp = SORT_FILED_REGEX, message = "排序字段格式非法")
+		@Pattern(regexp = PageParamRequest.SORT_FILED_REGEX, message = "排序字段格式非法")
 		private String field;
 
 		@Schema(title = "是否正序排序", example = "false")

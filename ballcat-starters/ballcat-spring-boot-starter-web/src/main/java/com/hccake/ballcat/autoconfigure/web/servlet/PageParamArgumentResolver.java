@@ -3,6 +3,7 @@ package com.hccake.ballcat.autoconfigure.web.servlet;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageParamRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.validation.BindingResult;
@@ -74,8 +75,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 
 		String current = request.getParameter("current");
 		String size = request.getParameter("size");
-		String sortFields = request.getParameter("sortFields");
-		String sortOrders = request.getParameter("sortOrders");
+		String sort = request.getParameter("sort");
 
 		PageParam pageParam;
 		try {
@@ -92,7 +92,15 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 			pageParam.setSize(Long.parseLong(size));
 		}
 
-		List<PageParam.Sort> sorts = getOrderItems(sortFields, sortOrders);
+		List<PageParam.Sort> sorts;
+		if (StrUtil.isNotEmpty(sort)) {
+			sorts = getSortList(sort);
+		}
+		else {
+			String sortFields = request.getParameter("sortFields");
+			String sortOrders = request.getParameter("sortOrders");
+			sorts = getSortList(sortFields, sortOrders);
+		}
 		pageParam.setSorts(sorts);
 
 		paramValidate(parameter, mavContainer, webRequest, binderFactory, pageParam);
@@ -102,11 +110,42 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 
 	/**
 	 * 封装排序规则
+	 * @param sort 排序规则字符串
+	 * @return List<PageParam.Sort>
+	 */
+	protected List<PageParam.Sort> getSortList(String sort) {
+		List<PageParam.Sort> sorts = new ArrayList<>();
+
+		// 获取多列排序规则
+		String[] sortRules = sort.split(",");
+
+		// 将排序规则转换为 Sort 对象
+		for (String sortRule : sortRules) {
+			if (sortRule == null) {
+				continue;
+			}
+
+			// 切割后必须是两位， a:b 的规则
+			String[] sortRuleArr = sortRule.split(":");
+			if (sortRuleArr.length != 2) {
+				continue;
+			}
+
+			String field = sortRuleArr[0];
+			String order = sortRuleArr[1];
+			fillValidSort(field, order, sorts);
+		}
+
+		return sorts;
+	}
+
+	/**
+	 * 封装排序规则
 	 * @param sortFields 排序字段，使用英文逗号分割
 	 * @param sortOrders 排序规则，使用英文逗号分割，与排序字段一一对应
 	 * @return List<PageParam.OrderItem>
 	 */
-	protected List<PageParam.Sort> getOrderItems(String sortFields, String sortOrders) {
+	protected List<PageParam.Sort> getSortList(String sortFields, String sortOrders) {
 		List<PageParam.Sort> sorts = new ArrayList<>();
 
 		// 字段和规则都不能为空
@@ -121,22 +160,30 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 			return sorts;
 		}
 
-		String field;
-		String order;
 		for (int i = 0; i < fieldArr.length; i++) {
-			field = fieldArr[i];
-			order = orderArr[i];
-			if (validFieldName(field)) {
-				PageParam.Sort sort = new PageParam.Sort();
-				// 驼峰转下划线
-				sort.setAsc(ASC.equalsIgnoreCase(order));
-				// 正序/倒序
-				sort.setField(StrUtil.toUnderlineCase(field));
-				sorts.add(sort);
-			}
+			String field = fieldArr[i];
+			String order = orderArr[i];
+			fillValidSort(field, order, sorts);
 		}
 
 		return sorts;
+	}
+
+	/**
+	 * 校验并填充有效的 sort 对象到指定集合忠
+	 * @param field 排序列
+	 * @param order 排序顺序
+	 * @param sorts sorts 集合
+	 */
+	protected void fillValidSort(String field, String order, List<PageParam.Sort> sorts) {
+		if (validFieldName(field)) {
+			PageParam.Sort sort = new PageParam.Sort();
+			// 驼峰转下划线
+			sort.setAsc(ASC.equalsIgnoreCase(order));
+			// 正序/倒序
+			sort.setField(StrUtil.toUnderlineCase(field));
+			sorts.add(sort);
+		}
 	}
 
 	/**
@@ -145,7 +192,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	 * @return 是否非法
 	 */
 	public boolean validFieldName(String filedName) {
-		boolean isValid = StrUtil.isNotBlank(filedName) && filedName.matches(PageParam.SORT_FILED_REGEX)
+		boolean isValid = StrUtil.isNotBlank(filedName) && filedName.matches(PageParamRequest.SORT_FILED_REGEX)
 				&& !SQL_KEYWORDS.contains(filedName);
 		if (!isValid) {
 			log.warn("异常的分页查询排序字段：{}", filedName);
