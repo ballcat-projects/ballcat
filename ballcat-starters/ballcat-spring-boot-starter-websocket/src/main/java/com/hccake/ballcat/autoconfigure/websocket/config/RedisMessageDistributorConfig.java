@@ -49,7 +49,7 @@ public class RedisMessageDistributorConfig {
 	}
 
 	@Configuration(proxyBeanMethods = false)
-	@ConditionalOnBean(MessageDistributor.class)
+	@ConditionalOnBean({RedisMessageDistributor.class})
 	@RequiredArgsConstructor
 	static class RedisMessageListenerRegisterConfiguration {
 
