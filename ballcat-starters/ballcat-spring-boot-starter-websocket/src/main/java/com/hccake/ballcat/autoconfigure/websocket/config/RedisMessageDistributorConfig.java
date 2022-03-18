@@ -4,6 +4,7 @@ import com.hccake.ballcat.autoconfigure.websocket.MessageDistributorTypeConstant
 import com.hccake.ballcat.autoconfigure.websocket.WebSocketProperties;
 import com.hccake.ballcat.common.websocket.distribute.MessageDistributor;
 import com.hccake.ballcat.common.websocket.distribute.RedisMessageDistributor;
+import com.hccake.ballcat.common.websocket.distribute.RedisMessageListenerInitializer;
 import com.hccake.ballcat.common.websocket.session.WebSocketSessionStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -14,10 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-
-import javax.annotation.PostConstruct;
 
 /**
  * 基于 Redis Pub/Sub 的消息分发器
@@ -48,20 +46,12 @@ public class RedisMessageDistributorConfig {
 		return container;
 	}
 
-	@Configuration(proxyBeanMethods = false)
-	@RequiredArgsConstructor
-	static class RedisMessageListenerRegisterConfiguration {
-
-		private final RedisMessageListenerContainer redisMessageListenerContainer;
-
-		private final RedisMessageDistributor redisWebsocketMessageListener;
-
-		@PostConstruct
-		public void addMessageListener() {
-			redisMessageListenerContainer.addMessageListener(redisWebsocketMessageListener,
-					new PatternTopic(RedisMessageDistributor.CHANNEL));
-		}
-
+	@Bean
+	@ConditionalOnMissingBean
+	public RedisMessageListenerInitializer redisMessageListenerInitializer(
+			RedisMessageListenerContainer redisMessageListenerContainer,
+			RedisMessageDistributor redisWebsocketMessageListener) {
+		return new RedisMessageListenerInitializer(redisMessageListenerContainer, redisWebsocketMessageListener);
 	}
 
 }
