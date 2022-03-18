@@ -14,11 +14,21 @@ import com.hccake.ballcat.system.model.qo.SysDictQO;
 import com.hccake.ballcat.system.model.vo.DictDataVO;
 import com.hccake.ballcat.system.model.vo.SysDictItemPageVO;
 import com.hccake.ballcat.system.model.vo.SysDictPageVO;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -66,7 +76,7 @@ public class SysDictController {
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('system:dict:read')")
 	@Operation(summary = "分页查询", description = "分页查询")
-	public R<PageResult<SysDictPageVO>> getSysDictPage(PageParam pageParam, SysDictQO sysDictQO) {
+	public R<PageResult<SysDictPageVO>> getSysDictPage(@Validated PageParam pageParam, SysDictQO sysDictQO) {
 		return R.ok(sysDictManager.dictPage(pageParam, sysDictQO));
 	}
 

@@ -39,7 +39,7 @@ public class PageParam {
 	public static class Sort {
 
 		@Schema(title = "排序字段", example = "id")
-		@Pattern(regexp = "[A-Za-z0-9_]{1,64}", message = "排序字段格式非法")
+		@Pattern(regexp = PageParamRequest.SORT_FILED_REGEX, message = "排序字段格式非法")
 		private String field;
 
 		@Schema(title = "是否正序排序", example = "false")

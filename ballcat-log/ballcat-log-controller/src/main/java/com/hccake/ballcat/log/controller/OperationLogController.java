@@ -6,10 +6,11 @@ import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.log.model.qo.OperationLogQO;
 import com.hccake.ballcat.log.model.vo.OperationLogPageVO;
 import com.hccake.ballcat.log.service.OperationLogService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +38,7 @@ public class OperationLogController {
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('log:operation-log:read')")
 	@Operation(summary = "分页查询", description = "分页查询")
-	public R<PageResult<OperationLogPageVO>> getOperationLogAdminPage(PageParam pageParam,
+	public R<PageResult<OperationLogPageVO>> getOperationLogAdminPage(@Validated PageParam pageParam,
 			OperationLogQO operationLogQO) {
 		return R.ok(operationLogService.queryPage(pageParam, operationLogQO));
 	}

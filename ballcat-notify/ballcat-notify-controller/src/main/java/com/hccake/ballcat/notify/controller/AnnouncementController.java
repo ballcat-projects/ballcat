@@ -13,11 +13,21 @@ import com.hccake.ballcat.notify.model.entity.Announcement;
 import com.hccake.ballcat.notify.model.qo.AnnouncementQO;
 import com.hccake.ballcat.notify.model.vo.AnnouncementPageVO;
 import com.hccake.ballcat.notify.service.AnnouncementService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -45,7 +55,8 @@ public class AnnouncementController {
 	@GetMapping("/page")
 	@PreAuthorize("@per.hasPermission('notify:announcement:read')")
 	@Operation(summary = "分页查询", description = "分页查询")
-	public R<PageResult<AnnouncementPageVO>> getAnnouncementPage(PageParam pageParam, AnnouncementQO announcementQO) {
+	public R<PageResult<AnnouncementPageVO>> getAnnouncementPage(@Validated PageParam pageParam,
+			AnnouncementQO announcementQO) {
 		return R.ok(announcementService.queryPage(pageParam, announcementQO));
 	}
 
