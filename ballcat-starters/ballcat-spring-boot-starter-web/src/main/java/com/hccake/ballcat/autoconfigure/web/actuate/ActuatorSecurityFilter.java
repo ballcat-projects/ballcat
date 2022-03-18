@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * The type Actuator filter.
+ * Actuator 安全过滤器，做一个签名认证，校验通过才允许访问
  *
  * @author Hccake
  * @version 1.0
