@@ -29,7 +29,7 @@ import org.springframework.security.access.AccessDeniedException;
 @EnableConfigurationProperties(ExceptionHandleProperties.class)
 public class ExceptionAutoConfiguration {
 
-	@Value("${spring.application.name}")
+	@Value("${spring.application.name: unknown-application}")
 	private String applicationName;
 
 	/**
