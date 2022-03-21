@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -76,12 +75,18 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 		return true;
 	}
 
-	@SneakyThrows
 	@Override
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
 			Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
 			ServerHttpResponse response) {
-		switchLanguage(body);
+
+		try {
+			switchLanguage(body);
+		}
+		catch (Exception ex) {
+			log.error("[国际化]响应体国际化处理异常：{}", body);
+		}
+
 		return body;
 	}
 
