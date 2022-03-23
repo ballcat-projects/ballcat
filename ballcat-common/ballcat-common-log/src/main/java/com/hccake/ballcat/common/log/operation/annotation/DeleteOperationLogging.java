@@ -28,13 +28,13 @@ public @interface DeleteOperationLogging {
 	 * @return boolean
 	 */
 	@AliasFor(annotation = OperationLogging.class)
-	boolean isSaveRequestData() default true;
+	boolean isSaveParam() default true;
 
 	/**
-	 * 是否保存响应的参数
+	 * 是否保存响应的内容
 	 * @return boolean
 	 */
 	@AliasFor(annotation = OperationLogging.class)
-	boolean isSaveResponseData() default true;
+	boolean isSaveResult() default true;
 
 }

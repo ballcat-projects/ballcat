@@ -8,9 +8,11 @@ import com.hccake.ballcat.common.log.operation.handler.AbstractOperationLogHandl
 import com.hccake.ballcat.common.log.util.LogUtils;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.util.IpUtils;
+import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.log.model.entity.OperationLog;
 import com.hccake.ballcat.log.service.OperationLogService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
@@ -47,7 +49,7 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 		// @formatter:on
 
 		// 请求参数
-		if (operationLogging.isSaveRequestData()) {
+		if (operationLogging.isSaveParam()) {
 			operationLog.setParams(getParams(joinPoint));
 		}
 
@@ -58,6 +60,7 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 	}
 
 	@Override
+	@SneakyThrows
 	public OperationLog recordExecutionInfo(OperationLog operationLog, ProceedingJoinPoint joinPoint,
 			long executionTime, Throwable throwable, boolean isSaveResponseData) {
 		// 执行时长
@@ -65,6 +68,11 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 		// 执行状态
 		LogStatusEnum logStatusEnum = throwable == null ? LogStatusEnum.SUCCESS : LogStatusEnum.FAIL;
 		operationLog.setStatus(logStatusEnum.getValue());
+		// 执行结果
+		if (isSaveResponseData) {
+			Optional.ofNullable(joinPoint.proceed())
+					.ifPresent(x -> operationLog.setResult(JsonUtils.toJson(x)));
+		}
 		return operationLog;
 	}
 

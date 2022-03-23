@@ -30,12 +30,12 @@ public @interface OperationLogging {
 	 * 是否保存请求的参数
 	 * @return boolean
 	 */
-	boolean isSaveRequestData() default true;
+	boolean isSaveParam() default true;
 
 	/**
-	 * 是否保存响应的参数
+	 * 是否保存响应的内容
 	 * @return boolean
 	 */
-	boolean isSaveResponseData() default true;
+	boolean isSaveResult() default true;
 
 }

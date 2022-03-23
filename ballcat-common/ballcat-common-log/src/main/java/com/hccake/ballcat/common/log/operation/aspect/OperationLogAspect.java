@@ -53,18 +53,18 @@ public class OperationLogAspect<T> {
 		}
 		finally {
 			// 是否保存响应内容
-			boolean isSaveResponseData = operationLogging.isSaveResponseData();
+			boolean isSaveResult = operationLogging.isSaveResult();
 			// 操作日志记录处理
-			handleLog(joinPoint, startTime, operationLog, throwable, isSaveResponseData);
+			handleLog(joinPoint, startTime, operationLog, throwable, isSaveResult);
 		}
 	}
 
-	private void handleLog(ProceedingJoinPoint joinPoint, long startTime, T operationLog, Throwable throwable, boolean isSaveResponseData) {
+	private void handleLog(ProceedingJoinPoint joinPoint, long startTime, T operationLog, Throwable throwable, boolean isSaveResult) {
 		try {
 			// 结束时间
 			long executionTime = System.currentTimeMillis() - startTime;
 			// 记录执行信息
-			operationLogHandler.recordExecutionInfo(operationLog, joinPoint, executionTime, throwable, isSaveResponseData);
+			operationLogHandler.recordExecutionInfo(operationLog, joinPoint, executionTime, throwable, isSaveResult);
 			// 处理操作日志
 			operationLogHandler.handleLog(operationLog);
 		}
