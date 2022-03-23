@@ -18,12 +18,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JsonMessageHandlerInitializer {
 
-	private final List<JsonMessageHandler<JsonWebSocketMessage>> jsonMessageHandlerList;
+	private final List<JsonMessageHandler<? extends JsonWebSocketMessage>> jsonMessageHandlerList;
 
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void initJsonMessageHandlerHolder() {
-		for (JsonMessageHandler<JsonWebSocketMessage> jsonMessageHandler : jsonMessageHandlerList) {
-			JsonMessageHandlerHolder.addHandler(jsonMessageHandler);
+		for (JsonMessageHandler<? extends JsonWebSocketMessage> jsonMessageHandler : jsonMessageHandlerList) {
+			JsonMessageHandlerHolder.addHandler((JsonMessageHandler<JsonWebSocketMessage>) jsonMessageHandler);
 		}
 	}
 

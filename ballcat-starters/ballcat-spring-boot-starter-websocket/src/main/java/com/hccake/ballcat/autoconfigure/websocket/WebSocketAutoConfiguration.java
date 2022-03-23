@@ -3,7 +3,10 @@ package com.hccake.ballcat.autoconfigure.websocket;
 import com.hccake.ballcat.autoconfigure.websocket.config.LocalMessageDistributorConfig;
 import com.hccake.ballcat.autoconfigure.websocket.config.RedisMessageDistributorConfig;
 import com.hccake.ballcat.autoconfigure.websocket.config.WebSocketHandlerConfig;
+import com.hccake.ballcat.common.websocket.handler.JsonMessageHandler;
 import com.hccake.ballcat.common.websocket.handler.PingJsonMessageHandler;
+import com.hccake.ballcat.common.websocket.holder.JsonMessageHandlerInitializer;
+import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -71,6 +74,18 @@ public class WebSocketAutoConfiguration {
 			matchIfMissing = true)
 	public PingJsonMessageHandler pingJsonMessageHandler() {
 		return new PingJsonMessageHandler();
+	}
+
+	/**
+	 * 注册 JsonMessageHandlerInitializer 收集所有的 json 类型消息处理器
+	 * @param jsonMessageHandlerList json 类型消息处理器
+	 * @return JsonMessageHandlerInitializer
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public JsonMessageHandlerInitializer jsonMessageHandlerInitializer(
+			List<JsonMessageHandler<? extends JsonWebSocketMessage>> jsonMessageHandlerList) {
+		return new JsonMessageHandlerInitializer(jsonMessageHandlerList);
 	}
 
 }
