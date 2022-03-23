@@ -6,7 +6,6 @@ import com.hccake.ballcat.common.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.common.log.operation.enums.LogStatusEnum;
 import com.hccake.ballcat.common.log.operation.handler.AbstractOperationLogHandler;
 import com.hccake.ballcat.common.log.util.LogUtils;
-import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.util.IpUtils;
 import com.hccake.ballcat.log.model.entity.OperationLog;
@@ -14,9 +13,11 @@ import com.hccake.ballcat.log.service.OperationLogService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.MDC;
+import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * @author Hccake
@@ -38,26 +39,27 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 				.setCreateTime(LocalDateTime.now())
 				.setIp(IpUtils.getIpAddr(request))
 				.setMethod(request.getMethod())
-				.setUserAgent(request.getHeader("user-agent"))
+				.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT))
 				.setUri(URLUtil.getPath(request.getRequestURI()))
 				.setType(operationLogging.type().getValue())
 				.setMsg(operationLogging.msg())
-				.setParams(getParams(joinPoint))
 				.setTraceId(MDC.get(LogConstant.TRACE_ID));
 		// @formatter:on
 
-		// 操作用户
-		User user = SecurityUtils.getUser();
-		if (user != null) {
-			operationLog.setOperator(user.getUsername());
+		// 请求参数
+		if (operationLogging.isSaveRequestData()) {
+			operationLog.setParams(getParams(joinPoint));
 		}
+
+		// 操作用户
+		Optional.ofNullable(SecurityUtils.getUser()).ifPresent(x -> operationLog.setOperator(x.getUsername()));
 
 		return operationLog;
 	}
 
 	@Override
 	public OperationLog recordExecutionInfo(OperationLog operationLog, ProceedingJoinPoint joinPoint,
-			long executionTime, Throwable throwable) {
+			long executionTime, Throwable throwable, boolean isSaveResponseData) {
 		// 执行时长
 		operationLog.setTime(executionTime);
 		// 执行状态

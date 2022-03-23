@@ -26,9 +26,10 @@ public interface OperationLogHandler<T> {
 	 * @param joinPoint 当前执行方法的切点信息
 	 * @param executionTime 方法执行时长
 	 * @param throwable 方法执行的异常，为 null 则表示无异常
-	 * @return 操作日志对象
+	 * @param isSaveResponseData 是否记录返回值
+	 * @return T 操作日志对象
 	 */
-	T recordExecutionInfo(T log, ProceedingJoinPoint joinPoint, long executionTime, Throwable throwable);
+	T recordExecutionInfo(T log, ProceedingJoinPoint joinPoint, long executionTime, Throwable throwable, boolean isSaveResponseData);
 
 	/**
 	 * 处理日志，可以在这里进行存储，或者输出
