@@ -10,6 +10,7 @@ import org.slf4j.MDC;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
+import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -34,6 +35,11 @@ public class AccessLogFilter extends OncePerRequestFilter {
 	 * 针对需忽略的Url的规则匹配器
 	 */
 	private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
+	
+	/**
+	 * URL 路径匹配的帮助类
+	 */
+	private static final UrlPathHelper URL_PATH_HELPER = new UrlPathHelper();
 
 	/**
 	 * Same contract as for {@code doFilter}, but guaranteed to be just invoked once per
@@ -52,9 +58,9 @@ public class AccessLogFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		// 跳过部分忽略 url
-		String requestUri = request.getRequestURI();
+		String lookupPathForRequest = URL_PATH_HELPER.getLookupPathForRequest(request);
 		for (String ignoreUrlPattern : ignoreUrlPatterns) {
-			if (ANT_PATH_MATCHER.match(ignoreUrlPattern, requestUri)) {
+			if (ANT_PATH_MATCHER.match(ignoreUrlPattern, lookupPathForRequest)) {
 				filterChain.doFilter(request, response);
 				return;
 			}
