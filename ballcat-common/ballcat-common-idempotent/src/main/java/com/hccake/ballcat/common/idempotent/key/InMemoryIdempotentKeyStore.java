@@ -3,6 +3,8 @@ package com.hccake.ballcat.common.idempotent.key;
 import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 基于内存的幂等Key存储组件
  *
@@ -18,10 +20,11 @@ public class InMemoryIdempotentKeyStore implements IdempotentKeyStore {
 	}
 
 	@Override
-	public synchronized boolean saveIfAbsent(String key, long duration) {
+	public synchronized boolean saveIfAbsent(String key, long duration, TimeUnit timeUnit) {
 		Long value = cache.get(key, false);
 		if (value == null) {
-			cache.put(key, System.currentTimeMillis(), duration * 1000);
+			long timeOut = TimeUnit.MILLISECONDS.convert(duration, timeUnit);
+			cache.put(key, System.currentTimeMillis(), timeOut);
 			return true;
 		}
 		return false;
