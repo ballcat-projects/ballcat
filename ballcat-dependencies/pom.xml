@@ -40,14 +40,14 @@
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.29</spring-javaformat-checkstyle.version>
+		<spring-javaformat-checkstyle.version>0.0.31</spring-javaformat-checkstyle.version>
 
-		<spring-boot.version>2.6.2</spring-boot.version>
+		<spring-boot.version>2.6.4</spring-boot.version>
 		<spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
 		<io.swagger.v3.version>2.1.11</io.swagger.v3.version>
-		<springdoc-openapi.verison>1.6.5</springdoc-openapi.verison>
+		<springdoc-openapi.verison>1.6.6</springdoc-openapi.verison>
 		<kafka.version>2.5.0</kafka.version>
 		<hutool.version>5.7.19</hutool.version>
 		<fastjson.version>1.2.79</fastjson.version>
@@ -56,7 +56,7 @@
 		<jsqlparser.version>4.3</jsqlparser.version>
 		<dynamic-datasource.version>3.5.0</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
-		<spring-boot-admin.version>2.6.0</spring-boot-admin.version>
+		<spring-boot-admin.version>2.6.2</spring-boot-admin.version>
 		<easyexcel.version>3.0.5</easyexcel.version>
 		<poi.version>4.1.2</poi.version>
 		<jasypt.version>3.0.4</jasypt.version>
@@ -64,7 +64,7 @@
 		<anji-captcha.version>1.2.9</anji-captcha.version>
 		<virtual-currency.version>0.4.2</virtual-currency.version>
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-		<software.amazon.awssdk.version>2.16.61</software.amazon.awssdk.version>
+		<software.amazon.awssdk.version>2.17.154</software.amazon.awssdk.version>
 	</properties>
 
 	<dependencyManagement>

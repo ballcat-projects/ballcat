@@ -12,12 +12,12 @@
 		<module>ballcat-starters</module>
 		<module>ballcat-dependencies</module>
 		<module>ballcat-extends</module>
-        <module>ballcat-system</module>
+		<module>ballcat-system</module>
 		<module>ballcat-auth</module>
 		<module>ballcat-notify</module>
 		<module>ballcat-log</module>
-        <module>ballcat-i18n</module>
-    </modules>
+		<module>ballcat-i18n</module>
+	</modules>
 	<name>ballcat</name>
 	<description>项目基本脚手架</description>
 	<url>https://github.com/hccake/ballcat</url>
@@ -55,7 +55,7 @@
 
 		<maven-compiler-plugin.verison>3.8.0</maven-compiler-plugin.verison>
 		<flatten-maven-plugin.version>1.2.5</flatten-maven-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.29</spring-javaformat-checkstyle.version>
+		<spring-javaformat-checkstyle.version>0.0.31</spring-javaformat-checkstyle.version>
 
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
@@ -63,7 +63,7 @@
 		<maven-source-plugin.version>3.1.0</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
 
-		<spring-boot.version>2.6.2</spring-boot.version>
+		<spring-boot.version>2.6.4</spring-boot.version>
 
 		<!-- mapstruct 和 lombok 等注解处理器 -->
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
@@ -326,7 +326,9 @@
 						<version>${maven-javadoc-plugin.version}</version>
 						<configuration>
 							<tags>
-								<tag><name>date</name></tag>
+								<tag>
+									<name>date</name>
+								</tag>
 							</tags>
 							<doclint>none</doclint>
 							<additionalJOption>-J-Dfile.encoding=UTF-8</additionalJOption>
