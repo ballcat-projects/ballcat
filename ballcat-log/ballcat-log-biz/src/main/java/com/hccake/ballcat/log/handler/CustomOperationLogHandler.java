@@ -62,16 +62,15 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 	@Override
 	@SneakyThrows
 	public OperationLog recordExecutionInfo(OperationLog operationLog, ProceedingJoinPoint joinPoint,
-			long executionTime, Throwable throwable, boolean isSaveResponseData) {
+			long executionTime, Throwable throwable, boolean isSaveResult, Object result) {
 		// 执行时长
 		operationLog.setTime(executionTime);
 		// 执行状态
 		LogStatusEnum logStatusEnum = throwable == null ? LogStatusEnum.SUCCESS : LogStatusEnum.FAIL;
 		operationLog.setStatus(logStatusEnum.getValue());
 		// 执行结果
-		if (isSaveResponseData) {
-			Optional.ofNullable(joinPoint.proceed())
-					.ifPresent(x -> operationLog.setResult(JsonUtils.toJson(x)));
+		if (isSaveResult) {
+			Optional.ofNullable(result).ifPresent(x -> operationLog.setResult(JsonUtils.toJson(x)));
 		}
 		return operationLog;
 	}

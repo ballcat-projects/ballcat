@@ -44,8 +44,10 @@ public class OperationLogAspect<T> {
 		T operationLog = operationLogHandler.buildLog(operationLogging, joinPoint);
 
 		Throwable throwable = null;
+		Object result = null;
 		try {
-			return joinPoint.proceed();
+			result = joinPoint.proceed();
+			return result;
 		}
 		catch (Throwable e) {
 			throwable = e;
@@ -55,16 +57,16 @@ public class OperationLogAspect<T> {
 			// 是否保存响应内容
 			boolean isSaveResult = operationLogging.isSaveResult();
 			// 操作日志记录处理
-			handleLog(joinPoint, startTime, operationLog, throwable, isSaveResult);
+			handleLog(joinPoint, startTime, operationLog, throwable, isSaveResult, result);
 		}
 	}
 
-	private void handleLog(ProceedingJoinPoint joinPoint, long startTime, T operationLog, Throwable throwable, boolean isSaveResult) {
+	private void handleLog(ProceedingJoinPoint joinPoint, long startTime, T operationLog, Throwable throwable, boolean isSaveResult, Object result) {
 		try {
 			// 结束时间
 			long executionTime = System.currentTimeMillis() - startTime;
 			// 记录执行信息
-			operationLogHandler.recordExecutionInfo(operationLog, joinPoint, executionTime, throwable, isSaveResult);
+			operationLogHandler.recordExecutionInfo(operationLog, joinPoint, executionTime, throwable, isSaveResult, result);
 			// 处理操作日志
 			operationLogHandler.handleLog(operationLog);
 		}
