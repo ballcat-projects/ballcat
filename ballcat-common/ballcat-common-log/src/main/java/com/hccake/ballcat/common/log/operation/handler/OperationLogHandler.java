@@ -30,7 +30,8 @@ public interface OperationLogHandler<T> {
 	 * @param result 方法执行的返回值
 	 * @return T 操作日志对象
 	 */
-	T recordExecutionInfo(T log, ProceedingJoinPoint joinPoint, long executionTime, Throwable throwable, boolean isSaveResult, Object result);
+	T recordExecutionInfo(T log, ProceedingJoinPoint joinPoint, long executionTime, Throwable throwable,
+			boolean isSaveResult, Object result);
 
 	/**
 	 * 处理日志，可以在这里进行存储，或者输出

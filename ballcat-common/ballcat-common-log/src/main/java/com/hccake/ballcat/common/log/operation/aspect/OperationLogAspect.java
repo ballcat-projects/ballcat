@@ -61,12 +61,14 @@ public class OperationLogAspect<T> {
 		}
 	}
 
-	private void handleLog(ProceedingJoinPoint joinPoint, long startTime, T operationLog, Throwable throwable, boolean isSaveResult, Object result) {
+	private void handleLog(ProceedingJoinPoint joinPoint, long startTime, T operationLog, Throwable throwable,
+			boolean isSaveResult, Object result) {
 		try {
 			// 结束时间
 			long executionTime = System.currentTimeMillis() - startTime;
 			// 记录执行信息
-			operationLogHandler.recordExecutionInfo(operationLog, joinPoint, executionTime, throwable, isSaveResult, result);
+			operationLogHandler.recordExecutionInfo(operationLog, joinPoint, executionTime, throwable, isSaveResult,
+					result);
 			// 处理操作日志
 			operationLogHandler.handleLog(operationLog);
 		}

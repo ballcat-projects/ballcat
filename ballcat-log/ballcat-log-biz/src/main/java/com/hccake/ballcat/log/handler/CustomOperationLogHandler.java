@@ -12,7 +12,6 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.log.model.entity.OperationLog;
 import com.hccake.ballcat.log.service.OperationLogService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
@@ -60,7 +59,6 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 	}
 
 	@Override
-	@SneakyThrows
 	public OperationLog recordExecutionInfo(OperationLog operationLog, ProceedingJoinPoint joinPoint,
 			long executionTime, Throwable throwable, boolean isSaveResult, Object result) {
 		// 执行时长

@@ -35,7 +35,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
 	 * 针对需忽略的Url的规则匹配器
 	 */
 	private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
-	
+
 	/**
 	 * URL 路径匹配的帮助类
 	 */
