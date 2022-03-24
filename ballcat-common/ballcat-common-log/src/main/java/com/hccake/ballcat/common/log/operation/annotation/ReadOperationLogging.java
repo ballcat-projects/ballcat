@@ -23,4 +23,18 @@ public @interface ReadOperationLogging {
 	@AliasFor(annotation = OperationLogging.class)
 	String msg();
 
+	/**
+	 * 是否保存请求的参数
+	 * @return boolean
+	 */
+	@AliasFor(annotation = OperationLogging.class)
+	boolean isSaveParam() default true;
+
+	/**
+	 * 是否保存响应的内容
+	 * @return boolean
+	 */
+	@AliasFor(annotation = OperationLogging.class)
+	boolean isSaveResult() default true;
+
 }

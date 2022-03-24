@@ -90,6 +90,12 @@ public class OperationLog {
 	private Long time;
 
 	/**
+	 * 操作结果
+	 */
+	@Schema(title = "操作结果")
+	private String result;
+
+	/**
 	 * 创建者
 	 */
 	@Schema(title = "创建者")
