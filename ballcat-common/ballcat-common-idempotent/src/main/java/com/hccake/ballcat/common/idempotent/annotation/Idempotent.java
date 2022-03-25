@@ -56,4 +56,10 @@ public @interface Idempotent {
 	 */
 	boolean removeKeyWhenFinished() default false;
 
+	/**
+	 * 否在业务执行异常时立刻清除幂等 key
+	 * @return boolean true: 立刻清除 false: 不处理
+	 */
+	boolean removeKeyWhenError() default false;
+
 }

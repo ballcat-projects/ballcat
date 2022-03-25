@@ -35,11 +35,11 @@ public class IdempotentAspect {
 		String idempotentKey = buildIdempotentKey(joinPoint, idempotentAnnotation);
 
 		// 校验当前请求是否重复请求
-		Assert.isTrue(idempotentKeyStore.saveIfAbsent(idempotentKey, idempotentAnnotation.duration(),
-				idempotentAnnotation.timeUnit()), () -> {
-					throw new IdempotentException(BaseResultCode.REPEATED_EXECUTE.getCode(),
-							idempotentAnnotation.message());
-				});
+		boolean saveSuccess = idempotentKeyStore.saveIfAbsent(idempotentKey, idempotentAnnotation.duration(),
+				idempotentAnnotation.timeUnit());
+		Assert.isTrue(saveSuccess, () -> {
+			throw new IdempotentException(BaseResultCode.REPEATED_EXECUTE.getCode(), idempotentAnnotation.message());
+		});
 
 		try {
 			Object result = joinPoint.proceed();
@@ -49,8 +49,10 @@ public class IdempotentAspect {
 			return result;
 		}
 		catch (Throwable e) {
-			// 异常时必须删除，方便重试处理
-			idempotentKeyStore.remove(idempotentKey);
+			// 异常时，根据配置决定是否删除幂等 key
+			if (idempotentAnnotation.removeKeyWhenError()) {
+				idempotentKeyStore.remove(idempotentKey);
+			}
 			throw e;
 		}
 
