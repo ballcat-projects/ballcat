@@ -89,6 +89,12 @@ public class OpenApiConfiguration {
 			}
 		}
 
+		openAPI.servers(openApiProperties.getServers());
+		openAPI.tags(openApiProperties.getTags());
+		openAPI.paths(openApiProperties.getPaths());
+		openAPI.components(openApiProperties.getComponents());
+		openAPI.extensions(openApiProperties.getExtensions());
+
 		return openAPI;
 	}
 

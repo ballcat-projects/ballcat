@@ -1,10 +1,14 @@
 package com.hccake.ballcat.extend.openapi;
 
 import cn.hutool.core.collection.ListUtil;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -67,6 +71,38 @@ public class OpenApiProperties {
 	 */
 	@NestedConfigurationProperty
 	private ExternalDocumentation externalDocs;
+
+	/**
+	 * Api 服务
+	 * @see <a href="https://swagger.io/docs/specification/api-host-and-base-path/">API
+	 * Server and Base URL</a>
+	 */
+	@NestedConfigurationProperty
+	private List<Server> servers = null;
+
+	/**
+	 * 标签
+	 */
+	@NestedConfigurationProperty
+	private List<Tag> tags = null;
+
+	/**
+	 * 路径
+	 */
+	@NestedConfigurationProperty
+	private Paths paths = null;
+
+	/**
+	 * 组件
+	 */
+	@NestedConfigurationProperty
+	private Components components = null;
+
+	/**
+	 * 扩展信息
+	 */
+	@NestedConfigurationProperty
+	private Map<String, Object> extensions = null;
 
 	/**
 	 * 安全配置 map 没有提示：https://github.com/spring-projects/spring-boot/issues/9945
