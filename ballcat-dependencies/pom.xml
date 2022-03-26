@@ -56,7 +56,7 @@
 		<jsqlparser.version>4.3</jsqlparser.version>
 		<dynamic-datasource.version>3.5.0</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
-		<spring-boot-admin.version>2.6.2</spring-boot-admin.version>
+		<spring-boot-admin.version>2.6.3</spring-boot-admin.version>
 		<easyexcel.version>3.0.5</easyexcel.version>
 		<poi.version>4.1.2</poi.version>
 		<jasypt.version>3.0.4</jasypt.version>
@@ -108,6 +108,15 @@
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-bom</artifactId>
 				<version>${hutool.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- spring-boot-admin 监控依赖 -->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-dependencies</artifactId>
+				<version>${spring-boot-admin.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -539,19 +548,6 @@
 				<artifactId>poi-ooxml</artifactId>
 				<version>${poi.version}</version>
 			</dependency>
-			<!--监控server端-->
-			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-starter-server</artifactId>
-				<version>${spring-boot-admin.version}</version>
-			</dependency>
-			<!--监控Client-->
-			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-starter-client</artifactId>
-				<version>${spring-boot-admin.version}</version>
-			</dependency>
-
 
 			<!-- fastjson -->
 			<dependency>
