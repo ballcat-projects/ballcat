@@ -1,6 +1,7 @@
 package com.hccake.ballcat.autoconfigure.web.servlet;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageParamRequest;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -75,7 +77,8 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 
 		String current = request.getParameter("current");
 		String size = request.getParameter("size");
-		String sort = request.getParameter("sort");
+		Map<String, String[]> parameterMap = request.getParameterMap();
+		String[] sort = parameterMap.get("sort");
 
 		PageParam pageParam;
 		try {
@@ -93,7 +96,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 		}
 
 		List<PageParam.Sort> sorts;
-		if (StrUtil.isNotEmpty(sort)) {
+		if (ArrayUtil.isNotEmpty(sort)) {
 			sorts = getSortList(sort);
 		}
 		else {
@@ -113,26 +116,30 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	 * @param sort 排序规则字符串
 	 * @return List<PageParam.Sort>
 	 */
-	protected List<PageParam.Sort> getSortList(String sort) {
+	protected List<PageParam.Sort> getSortList(String[] sort) {
 		List<PageParam.Sort> sorts = new ArrayList<>();
 
-		// 获取多列排序规则
-		String[] sortRules = sort.split(",");
-
 		// 将排序规则转换为 Sort 对象
-		for (String sortRule : sortRules) {
+		for (String sortRule : sort) {
 			if (sortRule == null) {
 				continue;
 			}
 
 			// 切割后必须是两位， a:b 的规则
-			String[] sortRuleArr = sortRule.split(":");
-			if (sortRuleArr.length != 2) {
-				continue;
+			String[] sortRuleArr = sortRule.split(",");
+
+			// 字段
+			String field = sortRuleArr[0];
+
+			// 排序规则，默认正序
+			String order;
+			if (sortRuleArr.length < 2) {
+				order = ASC;
+			}
+			else {
+				order = sortRuleArr[1];
 			}
 
-			String field = sortRuleArr[0];
-			String order = sortRuleArr[1];
 			fillValidSort(field, order, sorts);
 		}
 
