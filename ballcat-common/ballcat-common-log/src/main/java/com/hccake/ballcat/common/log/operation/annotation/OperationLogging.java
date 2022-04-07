@@ -27,15 +27,15 @@ public @interface OperationLogging {
 	OperationTypeEnum type();
 
 	/**
-	 * 是否保存请求的参数
+	 * 是否保存方法入参
 	 * @return boolean
 	 */
-	boolean isSaveParam() default true;
+	boolean recordParams() default true;
 
 	/**
-	 * 是否保存响应的内容
+	 * 是否保存方法返回值
 	 * @return boolean
 	 */
-	boolean isSaveResult() default true;
+	boolean recordResult() default true;
 
 }

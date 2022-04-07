@@ -55,7 +55,7 @@ public class OperationLogAspect<T> {
 		}
 		finally {
 			// 是否保存响应内容
-			boolean isSaveResult = operationLogging.isSaveResult();
+			boolean isSaveResult = operationLogging.recordResult();
 			// 操作日志记录处理
 			handleLog(joinPoint, startTime, operationLog, throwable, isSaveResult, result);
 		}

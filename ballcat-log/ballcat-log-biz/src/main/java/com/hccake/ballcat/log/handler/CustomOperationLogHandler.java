@@ -48,7 +48,7 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 		// @formatter:on
 
 		// 请求参数
-		if (operationLogging.isSaveParam()) {
+		if (operationLogging.recordParams()) {
 			operationLog.setParams(getParams(joinPoint));
 		}
 
