@@ -128,14 +128,12 @@ public class AnnouncementController {
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "关闭公告信息失败");
 	}
 
-	@UpdateOperationLogging(msg = "公告内容图片上传")
+	@UpdateOperationLogging(msg = "公告内容图片上传", recordParams = false)
 	@PreAuthorize("@per.hasPermission('notify:announcement:edit')")
 	@PostMapping("/image")
 	@Operation(summary = "公告内容图片上传", description = "公告内容图片上传")
 	public R<List<String>> uploadImages(@RequestParam("files") List<MultipartFile> files) {
-
 		List<String> objectNames = announcementService.uploadImages(files);
-
 		return R.ok(objectNames);
 	}
 
