@@ -43,6 +43,7 @@
 		<spring-javaformat-checkstyle.version>0.0.31</spring-javaformat-checkstyle.version>
 
 		<spring-boot.version>2.6.6</spring-boot.version>
+		<spring-boot-admin.version>2.6.6</spring-boot-admin.version>
 		<spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
@@ -56,7 +57,6 @@
 		<jsqlparser.version>4.3</jsqlparser.version>
 		<dynamic-datasource.version>3.5.0</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
-		<spring-boot-admin.version>2.6.3</spring-boot-admin.version>
 		<easyexcel.version>3.0.5</easyexcel.version>
 		<poi.version>4.1.2</poi.version>
 		<jasypt.version>3.0.4</jasypt.version>
