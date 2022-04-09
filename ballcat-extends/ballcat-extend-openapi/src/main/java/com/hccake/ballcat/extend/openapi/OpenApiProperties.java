@@ -35,36 +35,10 @@ public class OpenApiProperties {
 	private Boolean enabled = true;
 
 	/**
-	 * 标题
-	 */
-	private String title = null;
-
-	/**
-	 * 描述
-	 */
-	private String description = null;
-
-	/**
-	 * 服务条款URL
-	 */
-	private String termsOfService = null;
-
-	/**
-	 * 版本
-	 */
-	private String version = null;
-
-	/**
-	 * 联系人信息
+	 * 文档基本信息
 	 */
 	@NestedConfigurationProperty
-	private Contact contact = null;
-
-	/**
-	 * 许可证
-	 */
-	@NestedConfigurationProperty
-	private License license = null;
+	private InfoProperties info = new InfoProperties();
 
 	/**
 	 * 扩展文档地址
@@ -118,6 +92,57 @@ public class OpenApiProperties {
 	 * 跨域配置
 	 */
 	private CorsConfig corsConfig;
+
+	/**
+	 * <p>
+	 * 文档的基础属性信息
+	 * </p>
+	 *
+	 * @see io.swagger.v3.oas.models.info.Info
+	 *
+	 * 为了 springboot 自动生产配置提示信息，所以这里复制一个类出来
+	 */
+	@Data
+	public static class InfoProperties {
+
+		/**
+		 * 标题
+		 */
+		private String title = null;
+
+		/**
+		 * 描述
+		 */
+		private String description = null;
+
+		/**
+		 * 服务条款URL
+		 */
+		private String termsOfService = null;
+
+		/**
+		 * 联系人信息
+		 */
+		@NestedConfigurationProperty
+		private Contact contact = null;
+
+		/**
+		 * 许可证
+		 */
+		@NestedConfigurationProperty
+		private License license = null;
+
+		/**
+		 * 版本
+		 */
+		private String version = null;
+
+		/**
+		 * 扩展属性
+		 */
+		private java.util.Map<String, Object> extensions = null;
+
+	}
 
 	/**
 	 * <p>

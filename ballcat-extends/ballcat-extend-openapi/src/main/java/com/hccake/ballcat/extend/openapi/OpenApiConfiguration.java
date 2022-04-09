@@ -52,13 +52,8 @@ public class OpenApiConfiguration {
 		OpenAPI openAPI = new OpenAPI();
 
 		// 文档基本信息
-		Info info = new Info();
-		info.setTitle(openApiProperties.getTitle());
-		info.setDescription(openApiProperties.getDescription());
-		info.setVersion(openApiProperties.getVersion());
-		info.setTermsOfService(openApiProperties.getTermsOfService());
-		info.setLicense(openApiProperties.getLicense());
-		info.setContact(openApiProperties.getContact());
+		OpenApiProperties.InfoProperties infoProperties = openApiProperties.getInfo();
+		Info info = convertInfo(infoProperties);
 		openAPI.info(info);
 
 		// 扩展文档信息
@@ -96,6 +91,19 @@ public class OpenApiConfiguration {
 		openAPI.extensions(openApiProperties.getExtensions());
 
 		return openAPI;
+	}
+
+	@SuppressWarnings("java:S1854")
+	private Info convertInfo(OpenApiProperties.InfoProperties infoProperties) {
+		Info info = new Info();
+		info.setTitle(infoProperties.getTitle());
+		info.setDescription(infoProperties.getDescription());
+		info.setTermsOfService(infoProperties.getTermsOfService());
+		info.setContact(infoProperties.getContact());
+		info.setLicense(infoProperties.getLicense());
+		info.setVersion(infoProperties.getVersion());
+		info.setExtensions(infoProperties.getExtensions());
+		return info;
 	}
 
 	/**
