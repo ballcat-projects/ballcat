@@ -1,10 +1,10 @@
-package com.hccake.ballcat.system.websocket;
+package com.hccake.ballcat.admin.websocket.listener;
 
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.websocket.distribute.MessageDO;
 import com.hccake.ballcat.common.websocket.distribute.MessageDistributor;
 import com.hccake.ballcat.system.event.DictChangeEvent;
-import com.hccake.ballcat.system.model.dto.DictChangeMessage;
+import com.hccake.ballcat.admin.websocket.message.DictChangeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;

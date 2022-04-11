@@ -1,4 +1,4 @@
-package com.hccake.ballcat.notify.websocket;
+package com.hccake.ballcat.admin.websocket.listener;
 
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.websocket.distribute.MessageDO;
@@ -7,7 +7,7 @@ import com.hccake.ballcat.notify.event.AnnouncementCloseEvent;
 import com.hccake.ballcat.notify.event.StationNotifyPushEvent;
 import com.hccake.ballcat.notify.handler.NotifyInfoDelegateHandler;
 import com.hccake.ballcat.notify.model.domain.NotifyInfo;
-import com.hccake.ballcat.notify.model.dto.AnnouncementCloseMessage;
+import com.hccake.ballcat.admin.websocket.message.AnnouncementCloseMessage;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +35,12 @@ public class NotifyWebsocketEventListener {
 	@Async
 	@EventListener(AnnouncementCloseEvent.class)
 	public void onAnnouncementCloseEvent(AnnouncementCloseEvent event) {
-		// 构建字典修改的消息体
+		// 构建公告关闭的消息体
 		AnnouncementCloseMessage message = new AnnouncementCloseMessage();
 		message.setId(event.getId());
 		String msg = JsonUtils.toJson(message);
 
-		// 广播修改信息
+		// 广播公告关闭信息
 		MessageDO messageDO = new MessageDO().setMessageText(msg).setNeedBroadcast(true);
 		messageDistributor.distribute(messageDO);
 	}

@@ -2,7 +2,6 @@ package com.hccake.ballcat.notify.handler.impl;
 
 import com.hccake.ballcat.notify.handler.AbstractNotifyInfoHandler;
 import com.hccake.ballcat.notify.model.domain.AnnouncementNotifyInfo;
-import com.hccake.ballcat.notify.model.dto.AnnouncementPushMessage;
 import com.hccake.ballcat.notify.model.entity.UserAnnouncement;
 import com.hccake.ballcat.notify.service.UserAnnouncementService;
 import com.hccake.ballcat.system.model.entity.SysUser;

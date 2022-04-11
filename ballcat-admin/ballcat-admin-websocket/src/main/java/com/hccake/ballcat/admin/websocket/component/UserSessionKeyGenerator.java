@@ -1,4 +1,4 @@
-package com.hccake.ballcat.admin.websocket.user;
+package com.hccake.ballcat.admin.websocket.component;
 
 import com.hccake.ballcat.admin.websocket.constant.AdminWebSocketConstants;
 import com.hccake.ballcat.common.websocket.session.SessionKeyGenerator;
