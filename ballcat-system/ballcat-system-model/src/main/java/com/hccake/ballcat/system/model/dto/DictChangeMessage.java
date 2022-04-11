@@ -1,6 +1,6 @@
 package com.hccake.ballcat.system.model.dto;
 
-import com.hccake.ballcat.common.websocket.message.AbstractJsonWebSocketMessage;
+import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class DictChangeMessage extends AbstractJsonWebSocketMessage {
+public class DictChangeMessage extends JsonWebSocketMessage {
 
 	public DictChangeMessage() {
 		super("dict-change");

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.notify.model.dto;
 
-import com.hccake.ballcat.common.websocket.message.AbstractJsonWebSocketMessage;
+import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class AnnouncementPushMessage extends AbstractJsonWebSocketMessage {
+public class AnnouncementPushMessage extends JsonWebSocketMessage {
 
 	public AnnouncementPushMessage() {
 		super("announcement-push");

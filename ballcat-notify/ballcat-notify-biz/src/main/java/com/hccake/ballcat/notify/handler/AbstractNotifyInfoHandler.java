@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.websocket.distribute.MessageDO;
 import com.hccake.ballcat.common.websocket.distribute.MessageDistributor;
-import com.hccake.ballcat.common.websocket.message.AbstractJsonWebSocketMessage;
+import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
 import com.hccake.ballcat.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @param <T>event消息对象
  * @param <M> websocket发送消息对象
  */
-public abstract class AbstractNotifyInfoHandler<T extends NotifyInfo, M extends AbstractJsonWebSocketMessage>
+public abstract class AbstractNotifyInfoHandler<T extends NotifyInfo, M extends JsonWebSocketMessage>
 		implements NotifyInfoHandler<T> {
 
 	@Autowired

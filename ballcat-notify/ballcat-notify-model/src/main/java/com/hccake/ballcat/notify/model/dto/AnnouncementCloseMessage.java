@@ -1,6 +1,6 @@
 package com.hccake.ballcat.notify.model.dto;
 
-import com.hccake.ballcat.common.websocket.message.AbstractJsonWebSocketMessage;
+import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +10,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class AnnouncementCloseMessage extends AbstractJsonWebSocketMessage {
+public class AnnouncementCloseMessage extends JsonWebSocketMessage {
 
 	public AnnouncementCloseMessage() {
 		super("announcement-close");
