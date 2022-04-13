@@ -196,7 +196,7 @@ ballcat-i18n.sql
 **默认 oauth_client_details 脚本中有一个 test client，该 client 只能用于开发及测试环境，其登陆时会跳过图形验证码以及密码解密过程，生产环境请删除该client**
 
 > 注意： ballcat/docs/update 下的是各个版本升级的增量 sql，初次搭建时无需执行。  
-> 当跟随 ballcat 做版本升级时，如从 0.5.0 版本升级到 0.6.0 版本时，需执行 update 文件夹下的 0.6.0.sql
+> 当跟随 ballcat 做版本升级时，如从 0.5.0 版本升级到 0.6.0 版本时，需执行 update 文件夹下的 0.5.0-to-0.6.0.sql
 
 
 
