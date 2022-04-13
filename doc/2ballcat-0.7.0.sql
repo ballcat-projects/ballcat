@@ -66,6 +66,7 @@ CREATE TABLE `log_operation_log`  (
   `uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求URI',
   `method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '请求方式',
   `params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '操作提交的数据',
+  `result` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '操作结果',
   `status` tinyint(1) NOT NULL COMMENT '操作状态',
   `type` tinyint(1) NULL DEFAULT NULL COMMENT '操作类型',
   `time` bigint(64) NULL DEFAULT NULL COMMENT '执行时长',
