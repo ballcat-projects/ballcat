@@ -6,7 +6,7 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import lombok.Data;
@@ -14,7 +14,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.web.cors.CorsConfiguration;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +54,13 @@ public class OpenApiProperties {
 	private List<Server> servers = null;
 
 	/**
+	 * 安全配置
+	 * @see <a href="https://swagger.io/docs/specification/authentication/">Authentication
+	 */
+	@NestedConfigurationProperty
+	private List<SecurityRequirement> security = null;
+
+	/**
 	 * 标签
 	 */
 	@NestedConfigurationProperty
@@ -77,16 +83,6 @@ public class OpenApiProperties {
 	 */
 	@NestedConfigurationProperty
 	private Map<String, Object> extensions = null;
-
-	/**
-	 * 安全配置 map 没有提示：https://github.com/spring-projects/spring-boot/issues/9945
-	 */
-	private Map<String, SecurityScheme> securitySchemes = new HashMap<>(8);
-
-	/**
-	 * 全局安全校验，key 应对 securitySchemes 的 key
-	 */
-	private Map<String, List<String>> globalSecurityRequirements = new HashMap<>(8);
 
 	/**
 	 * 跨域配置

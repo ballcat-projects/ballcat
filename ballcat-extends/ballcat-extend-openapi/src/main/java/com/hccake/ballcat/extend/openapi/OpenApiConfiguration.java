@@ -1,13 +1,9 @@
 package com.hccake.ballcat.extend.openapi;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageParamRequest;
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.SpringDocUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -20,10 +16,6 @@ import org.springframework.core.Ordered;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 /**
  * OpenAPI 的自动配置类
@@ -58,33 +50,8 @@ public class OpenApiConfiguration {
 
 		// 扩展文档信息
 		openAPI.externalDocs(openApiProperties.getExternalDocs());
-
-		// 添加文档的安全性校验支持
-		Map<String, SecurityScheme> securitySchemes = openApiProperties.getSecuritySchemes();
-		// see https://github.com/springdoc/springdoc-openapi/issues/696
-		if (CollectionUtil.isNotEmpty(securitySchemes)) {
-			Components components = new Components();
-			for (Map.Entry<String, SecurityScheme> infoEntry : securitySchemes.entrySet()) {
-				String key = infoEntry.getKey();
-				SecurityScheme securityScheme = infoEntry.getValue();
-				components.addSecuritySchemes(key, securityScheme);
-			}
-			openAPI.components(components);
-		}
-
-		// 添加全局的安全验证设置
-		Map<String, List<String>> globalSecurityRequirements = openApiProperties.getGlobalSecurityRequirements();
-		if (CollectionUtil.isNotEmpty(globalSecurityRequirements)) {
-			for (Map.Entry<String, List<String>> entry : globalSecurityRequirements.entrySet()) {
-				String key = entry.getKey();
-				// 只有 oauth2 和 openIdConnect 类型的 SecurityScheme 才需要 Scopes
-				List<String> scopes = CollectionUtil.isEmpty(entry.getValue()) ? Collections.emptyList()
-						: entry.getValue();
-				openAPI.addSecurityItem(new SecurityRequirement().addList(key, scopes));
-			}
-		}
-
 		openAPI.servers(openApiProperties.getServers());
+		openAPI.security(openApiProperties.getSecurity());
 		openAPI.tags(openApiProperties.getTags());
 		openAPI.paths(openApiProperties.getPaths());
 		openAPI.components(openApiProperties.getComponents());
