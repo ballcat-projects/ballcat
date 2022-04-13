@@ -13,6 +13,16 @@ import java.util.List;
 public class LoginUser {
 
 	/**
+	 * 登录用户 id
+	 */
+	private Integer id;
+
+	/**
+	 * 用户角色
+	 */
+	private UserRoleType userRoleType;
+
+	/**
 	 * 当前登录用户所拥有的班级
 	 */
 	private List<String> classNameList;

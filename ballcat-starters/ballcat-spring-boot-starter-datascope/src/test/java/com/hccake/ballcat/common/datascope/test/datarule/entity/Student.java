@@ -9,6 +9,8 @@ public class Student {
 
 	private String name;
 
-	private String classId;
+	private String className;
+
+	private String schoolName;
 
 }

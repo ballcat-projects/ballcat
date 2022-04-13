@@ -3,6 +3,7 @@ package com.hccake.ballcat.common.datascope.test.datarule.datascope;
 import com.hccake.ballcat.common.datascope.DataScope;
 import com.hccake.ballcat.common.datascope.test.datarule.user.LoginUser;
 import com.hccake.ballcat.common.datascope.test.datarule.user.LoginUserHolder;
+import com.hccake.ballcat.common.datascope.test.datarule.user.UserRoleType;
 import com.hccake.ballcat.common.datascope.util.CollectionUtils;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
@@ -21,6 +22,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
+ * 学校维度的数据权限控制
+ *
  * @author hccake
  */
 public class SchoolDataScope implements DataScope {
@@ -44,9 +47,17 @@ public class SchoolDataScope implements DataScope {
 	@Override
 	public Expression getExpression(String tableName, Alias tableAlias) {
 		LoginUser loginUser = LoginUserHolder.get();
-		if (loginUser == null || CollectionUtils.isEmpty(loginUser.getSchoolNameList())) {
-			// 永不满足
+
+		// 如果当前登录用户为空，或者是老师，但是没有任何学校权限
+		if (loginUser == null || (UserRoleType.TEACHER.equals(loginUser.getUserRoleType())
+				&& CollectionUtils.isEmpty(loginUser.getSchoolNameList()))) {
+			// where 1 = 2 永不满足
 			return new EqualsTo(new LongValue(1), new LongValue(2));
+		}
+
+		// 如果是学生，则不控制，因为学生的权限会在 StudentDataScope 中处理
+		if (UserRoleType.STUDENT.equals(loginUser.getUserRoleType())) {
+			return null;
 		}
 
 		// 提取当前登录用户拥有的学校权限

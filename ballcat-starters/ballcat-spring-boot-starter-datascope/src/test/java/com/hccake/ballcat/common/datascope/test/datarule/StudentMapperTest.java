@@ -8,10 +8,12 @@ import com.hccake.ballcat.common.datascope.test.datarule.config.DataPermissionRu
 import com.hccake.ballcat.common.datascope.test.datarule.config.DataSourceConfiguration;
 import com.hccake.ballcat.common.datascope.test.datarule.datascope.ClassDataScope;
 import com.hccake.ballcat.common.datascope.test.datarule.datascope.SchoolDataScope;
+import com.hccake.ballcat.common.datascope.test.datarule.datascope.StudentDataScope;
 import com.hccake.ballcat.common.datascope.test.datarule.entity.Student;
 import com.hccake.ballcat.common.datascope.test.datarule.service.StudentService;
 import com.hccake.ballcat.common.datascope.test.datarule.user.LoginUser;
 import com.hccake.ballcat.common.datascope.test.datarule.user.LoginUserHolder;
+import com.hccake.ballcat.common.datascope.test.datarule.user.UserRoleType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +46,8 @@ class StudentMapperTest {
 	void login() {
 		// 设置当前登录用户权限
 		LoginUser loginUser = new LoginUser();
+		loginUser.setId(1);
+		loginUser.setUserRoleType(UserRoleType.TEACHER);
 		loginUser.setSchoolNameList(Collections.singletonList("实验中学"));
 		loginUser.setClassNameList(Collections.singletonList("一班"));
 		LoginUserHolder.set(loginUser);
@@ -55,7 +59,7 @@ class StudentMapperTest {
 	}
 
 	@Test
-	void testSelect1() {
+	void testTeacherSelect() {
 		// 实验中学，一班总共有 2 名学生
 		List<Student> studentList1 = studentService.listStudent();
 		Assertions.assertEquals(2, studentList1.size());
@@ -97,6 +101,26 @@ class StudentMapperTest {
 		// 注解忽略
 		List<Student> studentList6 = studentService.listStudentOnlyFilterSchool();
 		Assertions.assertEquals(6, studentList6.size());
+
+	}
+
+	@Test
+	void testStudentSelect() {
+		// 更改当前登录用户权限，设置角色为学生
+		LoginUser loginUser = LoginUserHolder.get();
+		loginUser.setUserRoleType(UserRoleType.STUDENT);
+
+		// id 为 1 的学生叫 张三
+		loginUser.setId(1);
+		List<Student> studentList1 = studentService.listStudent();
+		Assertions.assertEquals(1, studentList1.size());
+		Assertions.assertEquals("张三", studentList1.get(0).getName());
+
+		// id 为 2 的学生叫 李四
+		loginUser.setId(2);
+		List<Student> studentList2 = studentService.listStudent();
+		Assertions.assertEquals(1, studentList2.size());
+		Assertions.assertEquals("李四", studentList2.get(0).getName());
 
 	}
 
@@ -155,7 +179,8 @@ class StudentMapperTest {
 		});
 
 		DataPermissionRule dataPermissionRule2 = new DataPermissionRule();
-		dataPermissionRule2.setExcludeResources(new String[] { SchoolDataScope.RESOURCE_NAME });
+		dataPermissionRule2
+				.setExcludeResources(new String[] { SchoolDataScope.RESOURCE_NAME, StudentDataScope.RESOURCE_NAME });
 		dataPermissionHandler.executeWithDataPermissionRule(dataPermissionRule2, () -> {
 			List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(null);
 			Assertions.assertFalse(dataScopes.isEmpty());
