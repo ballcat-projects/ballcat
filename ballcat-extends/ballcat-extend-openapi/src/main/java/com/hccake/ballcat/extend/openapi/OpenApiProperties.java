@@ -50,20 +50,17 @@ public class OpenApiProperties {
 	 * @see <a href="https://swagger.io/docs/specification/api-host-and-base-path/">API
 	 * Server and Base URL</a>
 	 */
-	@NestedConfigurationProperty
 	private List<Server> servers = null;
 
 	/**
 	 * 安全配置
 	 * @see <a href="https://swagger.io/docs/specification/authentication/">Authentication
 	 */
-	@NestedConfigurationProperty
 	private List<SecurityRequirement> security = null;
 
 	/**
 	 * 标签
 	 */
-	@NestedConfigurationProperty
 	private List<Tag> tags = null;
 
 	/**
@@ -80,8 +77,9 @@ public class OpenApiProperties {
 
 	/**
 	 * 扩展信息
+	 *
+	 * map 没有提示：https://github.com/spring-projects/spring-boot/issues/9945
 	 */
-	@NestedConfigurationProperty
 	private Map<String, Object> extensions = null;
 
 	/**
@@ -136,7 +134,7 @@ public class OpenApiProperties {
 		/**
 		 * 扩展属性
 		 */
-		private java.util.Map<String, Object> extensions = null;
+		private Map<String, Object> extensions = null;
 
 	}
 
