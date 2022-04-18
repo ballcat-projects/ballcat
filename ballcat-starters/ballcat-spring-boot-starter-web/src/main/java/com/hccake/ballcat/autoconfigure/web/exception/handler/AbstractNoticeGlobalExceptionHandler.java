@@ -10,12 +10,20 @@ import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+
+import com.hccake.ballcat.common.core.util.WebUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author lingting 2020-09-03 20:09
@@ -49,6 +57,11 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 	 * 本地ip
 	 */
 	private String ip;
+
+	/**
+	 * 请求地址
+	 */
+	private String requestUri;
 
 	private final String applicationName;
 
@@ -130,7 +143,8 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 
 	public ExceptionMessage init(Throwable t) {
 		return new ExceptionMessage().setNumber(1).setMac(mac).setApplicationName(applicationName).setHostname(hostname)
-				.setIp(ip).setStack(ExceptionUtil.stacktraceToString(t, config.getLength()).replace("\\r", ""))
+				.setIp(ip).setRequestUri(requestUri)
+				.setStack(ExceptionUtil.stacktraceToString(t, config.getLength()).replace("\\r", ""))
 				.setTime(DateUtil.now());
 	}
 
@@ -145,6 +159,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 	@Override
 	public void handle(Throwable throwable) {
 		try {
+			this.requestUri = WebUtils.getRequest().getRequestURI();
 			// 只有不是忽略的异常类才会插入异常消息队列
 			if (!config.getIgnoreExceptions().contains(throwable.getClass())) {
 				queue.put(throwable);
