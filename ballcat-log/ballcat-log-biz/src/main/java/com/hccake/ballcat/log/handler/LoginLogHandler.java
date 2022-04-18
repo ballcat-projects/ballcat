@@ -2,9 +2,9 @@ package com.hccake.ballcat.log.handler;
 
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
+import com.hccake.ballcat.common.core.util.WebUtils;
 import com.hccake.ballcat.common.log.constant.LogConstant;
 import com.hccake.ballcat.common.log.operation.enums.LogStatusEnum;
-import com.hccake.ballcat.common.log.util.LogUtils;
 import com.hccake.ballcat.common.util.IpUtils;
 import com.hccake.ballcat.log.enums.LoginEventTypeEnum;
 import com.hccake.ballcat.log.model.entity.LoginLog;
@@ -84,7 +84,7 @@ public class LoginLogHandler {
 	 */
 	private LoginLog prodLoginLog(AbstractAuthenticationToken source) {
 		// 获取 Request
-		HttpServletRequest request = LogUtils.getHttpServletRequest();
+		HttpServletRequest request = WebUtils.getRequest();
 		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now()).setIp(IpUtils.getIpAddr(request))
 				.setStatus(LogStatusEnum.SUCCESS.getValue()).setTraceId(MDC.get(LogConstant.TRACE_ID))
 				.setUsername(source.getName());

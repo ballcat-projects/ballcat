@@ -1,11 +1,11 @@
 package com.hccake.ballcat.log.handler;
 
 import cn.hutool.core.util.URLUtil;
+import com.hccake.ballcat.common.core.util.WebUtils;
 import com.hccake.ballcat.common.log.constant.LogConstant;
 import com.hccake.ballcat.common.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.common.log.operation.enums.LogStatusEnum;
 import com.hccake.ballcat.common.log.operation.handler.AbstractOperationLogHandler;
-import com.hccake.ballcat.common.log.util.LogUtils;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.util.IpUtils;
 import com.hccake.ballcat.common.util.JsonUtils;
@@ -33,7 +33,7 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 	@Override
 	public OperationLog buildLog(OperationLogging operationLogging, ProceedingJoinPoint joinPoint) {
 		// 获取 Request
-		HttpServletRequest request = LogUtils.getHttpServletRequest();
+		HttpServletRequest request = WebUtils.getRequest();
 
 		// @formatter:off
 		OperationLog operationLog = new OperationLog()
