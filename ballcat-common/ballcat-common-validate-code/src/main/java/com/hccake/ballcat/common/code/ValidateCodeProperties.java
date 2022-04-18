@@ -13,8 +13,9 @@ import java.util.Set;
  * @author xm.z
  */
 @Data
-@ConfigurationProperties(prefix = "healthy.security")
+@ConfigurationProperties(prefix = ValidateCodeProperties.PREFIX)
 public class ValidateCodeProperties {
+	public static final String PREFIX = "ballcat.validate-code";
 
 	/**
 	 * 图片验证码配置
