@@ -54,6 +54,10 @@
         </dependency>
 		<!-- 图形验证码 -->
 		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-spring-boot-starter-captcha</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.anji-plus</groupId>
 			<artifactId>spring-boot-starter-captcha</artifactId>
 		</dependency>

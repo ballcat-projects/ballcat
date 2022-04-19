@@ -1,8 +1,7 @@
 package com.hccake.ballcat.auth.filter;
 
-import com.anji.captcha.model.common.ResponseModel;
-import com.anji.captcha.model.vo.CaptchaVO;
-import com.anji.captcha.service.CaptchaService;
+import com.hccake.ballcat.common.captcha.domain.CaptchaResponse;
+import com.hccake.ballcat.common.captcha.processor.CaptchaProcessor;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
@@ -10,6 +9,7 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -25,9 +25,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LoginCaptchaFilter extends OncePerRequestFilter {
 
-	private final CaptchaService captchaService;
-
-	private static final String CAPTCHA_VERIFICATION_PARAM = "captchaVerification";
+	private final CaptchaProcessor captchaProcessor;
 
 	private static final String GRANT_TYPE_PASSWORD = "password";
 
@@ -48,13 +46,10 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		String captchaVerification = request.getParameter(CAPTCHA_VERIFICATION_PARAM);
+		ServletWebRequest servletWebRequest = new ServletWebRequest(request, response);
+		CaptchaResponse captchaResponse = captchaProcessor.verification(servletWebRequest);
 
-		CaptchaVO captchaVO = new CaptchaVO();
-		captchaVO.setCaptchaVerification(captchaVerification);
-		ResponseModel responseModel = captchaService.verification(captchaVO);
-
-		if (responseModel.isSuccess()) {
+		if (captchaResponse.isSuccess()) {
 			filterChain.doFilter(request, response);
 		}
 		else {
