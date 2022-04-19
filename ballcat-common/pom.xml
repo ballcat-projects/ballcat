@@ -23,6 +23,7 @@
 		<module>ballcat-common-log</module>
 		<module>ballcat-common-redis</module>
         <module>ballcat-common-i18n</module>
+        <module>ballcat-common-validate-code</module>
     </modules>
 
 
