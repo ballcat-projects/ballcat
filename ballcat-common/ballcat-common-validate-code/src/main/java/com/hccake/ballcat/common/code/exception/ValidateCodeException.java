@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.code;
+package com.hccake.ballcat.common.code.exception;
 
 /**
  * ValidateCodeException
