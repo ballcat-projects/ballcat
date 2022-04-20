@@ -1,5 +1,6 @@
 package com.hccake.ballcat.auth.filter;
 
+import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.auth.filter.captcha.CaptchaValidator;
 import com.hccake.ballcat.auth.filter.captcha.domain.CaptchaResponse;
 import com.hccake.ballcat.common.model.result.R;
@@ -9,7 +10,6 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -51,16 +51,10 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 		}
 		else {
-			// 验证码校验失败，返回信息告诉前端
-			// repCode 0000 无异常，代表成功
-			// repCode 9999 服务器内部异常
-			// repCode 0011 参数不能为空
-			// repCode 6110 验证码已失效，请重新获取
-			// repCode 6111 验证失败
-			// repCode 6112 获取验证码失败,请联系管理员
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED, "Captcha code error");
+			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED,
+					StrUtil.blankToDefault(captchaResponse.getErrMsg(), "Captcha code error"));
 			response.getWriter().write(JsonUtils.toJson(r));
 		}
 
