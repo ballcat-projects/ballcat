@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.captcha.domain;
+package com.hccake.ballcat.auth.filter.captcha.domain;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -3,7 +3,7 @@ package com.hccake.ballcat.auth.configuration;
 import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
 import com.hccake.ballcat.auth.filter.LoginCaptchaFilter;
 import com.hccake.ballcat.auth.filter.LoginPasswordDecoderFilter;
-import com.hccake.ballcat.common.captcha.processor.CaptchaProcessor;
+import com.hccake.ballcat.auth.filter.captcha.CaptchaValidator;
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.common.security.properties.SecurityProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -38,15 +38,15 @@ public class AuthorizationFilterConfiguration {
 
 	/**
 	 * 登录验证码拦截判断
-	 * @param captchaProcessor 验证码处理类
+	 * @param captchaValidator 验证码验证器
 	 * @return FilterRegistrationBean<LoginCaptchaFilter>
 	 */
 	@Bean
 	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "login-captcha-enabled",
 			havingValue = "true", matchIfMissing = true)
-	public FilterRegistrationBean<LoginCaptchaFilter> loginCaptchaFilter(CaptchaProcessor captchaProcessor) {
+	public FilterRegistrationBean<LoginCaptchaFilter> loginCaptchaFilter(CaptchaValidator captchaValidator) {
 		FilterRegistrationBean<LoginCaptchaFilter> bean = new FilterRegistrationBean<>();
-		LoginCaptchaFilter filter = new LoginCaptchaFilter(captchaProcessor);
+		LoginCaptchaFilter filter = new LoginCaptchaFilter(captchaValidator);
 		bean.setFilter(filter);
 		// 比密码解密早一步
 		bean.setOrder(-1);

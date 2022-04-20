@@ -1,7 +1,7 @@
 package com.hccake.ballcat.auth.filter;
 
-import com.hccake.ballcat.common.captcha.domain.CaptchaResponse;
-import com.hccake.ballcat.common.captcha.processor.CaptchaProcessor;
+import com.hccake.ballcat.auth.filter.captcha.CaptchaValidator;
+import com.hccake.ballcat.auth.filter.captcha.domain.CaptchaResponse;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
@@ -25,7 +25,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LoginCaptchaFilter extends OncePerRequestFilter {
 
-	private final CaptchaProcessor captchaProcessor;
+	private final CaptchaValidator captchaValidator;
 
 	private static final String GRANT_TYPE_PASSWORD = "password";
 
@@ -46,9 +46,7 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		ServletWebRequest servletWebRequest = new ServletWebRequest(request, response);
-		CaptchaResponse captchaResponse = captchaProcessor.verification(servletWebRequest);
-
+		CaptchaResponse captchaResponse = captchaValidator.validate(request);
 		if (captchaResponse.isSuccess()) {
 			filterChain.doFilter(request, response);
 		}
