@@ -40,7 +40,13 @@
 		<dependency>
 			<groupId>com.tencentcloudapi</groupId>
 			<artifactId>tencentcloud-sdk-java</artifactId>
-			<version>3.1.42</version>
+			<version>3.1.270</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>dysmsapi20170525</artifactId>
+			<version>2.0.9</version>
 		</dependency>
 
         <!-- spring boot 配置所需依赖 -->
