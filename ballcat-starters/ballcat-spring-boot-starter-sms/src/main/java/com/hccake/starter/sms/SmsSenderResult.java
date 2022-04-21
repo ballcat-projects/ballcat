@@ -14,6 +14,7 @@ import lombok.experimental.Accessors;
  * 短信发送结果
  *
  * @author lingting 2020/4/26 13:22
+ * @author 疯狂的狮子Li 2022-04-21
  */
 @Getter
 @Accessors(chain = true)
@@ -118,6 +119,18 @@ public class SmsSenderResult {
 			result.success = false;
 			result.msg = Convert.toStr(map.get(TIAN_YI_HONG_MSG), "获取错误信息失败!");
 		}
+		return result;
+	}
+
+	@SneakyThrows
+	public static SmsSenderResult generateAliyun(String resp, String req, Set<String> phoneNumbers) {
+		SmsSenderResult result = new SmsSenderResult();
+		result.res = resp;
+		// 没有异常就是成功!
+		result.success = true;
+		result.platform = TypeEnum.ALIYUN.name();
+		result.target = JsonUtils.toJson(phoneNumbers);
+		result.req = req;
 		return result;
 	}
 
