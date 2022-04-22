@@ -40,7 +40,19 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
-        </dependency>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-compress</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- 修复poi漏洞 -->
+		<dependency>
+			<artifactId>commons-compress</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<version>1.21</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
