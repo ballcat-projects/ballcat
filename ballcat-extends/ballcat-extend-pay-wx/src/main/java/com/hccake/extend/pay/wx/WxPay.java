@@ -170,7 +170,6 @@ public class WxPay {
 	 * @param rs 请求后缀
 	 * @author lingting 2021-01-29 18:12
 	 */
-	@SneakyThrows
 	public Map<String, String> request(Map<String, String> params, RequestSuffix rs) {
 		Map<String, String> map = new HashMap<>(params.size() + 3);
 		map.putAll(params);

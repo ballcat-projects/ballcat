@@ -10,8 +10,11 @@ import lombok.experimental.Accessors;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * 订单消息发送
@@ -34,7 +37,7 @@ public class DingTalkSender {
 
 	private final Mac mac;
 
-	@SneakyThrows
+	@SneakyThrows(NoSuchAlgorithmException.class)
 	public DingTalkSender(String url) {
 		this.url = url;
 		mac = Mac.getInstance("HmacSHA256");
@@ -45,7 +48,6 @@ public class DingTalkSender {
 	 *
 	 * @author lingting 2020-06-11 00:05:51
 	 */
-	@SneakyThrows
 	public DingTalkResponse sendMessage(DingTalkMessage message) {
 		if (StrUtil.isEmpty(secret)) {
 			return sendNormalMessage(message);
@@ -69,7 +71,6 @@ public class DingTalkSender {
 	 *
 	 * @author lingting 2020-06-11 00:10:38
 	 */
-	@SneakyThrows
 	public DingTalkResponse sendSecretMessage(DingTalkMessage message) {
 		return request(message, true);
 	}
@@ -78,7 +79,7 @@ public class DingTalkSender {
 	 * 设置密钥
 	 * @author lingting 2020-09-04 14:37
 	 */
-	@SneakyThrows
+	@SneakyThrows(InvalidKeyException.class)
 	public DingTalkSender setSecret(String secret) {
 		if (StrUtil.isNotEmpty(secret)) {
 			this.secret = secret;
@@ -92,7 +93,7 @@ public class DingTalkSender {
 	 * @param timestamp 当前时间戳
 	 * @author lingting 2020-06-11 00:13:55
 	 */
-	@SneakyThrows
+	@SneakyThrows(UnsupportedEncodingException.class)
 	public String secret(long timestamp) {
 		return url + "&timestamp=" + timestamp + "&sign=" + URLEncoder.encode(
 				Base64.encode(mac.doFinal((timestamp + "\n" + secret).getBytes(StandardCharsets.UTF_8))), "UTF-8");

@@ -15,7 +15,7 @@ public class Aliyun {
 
 	private String accessKeyId;
 
-	private  String accessKeySecret;
+	private String accessKeySecret;
 
 	/*
 	 * 短信签名名称

@@ -60,4 +60,27 @@ public class AuthController {
 		return R.ok();
 	}
 
+	// public void test(){
+	// // 获取 token 对象
+	// String accessToken = "token";
+	// OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(accessToken);
+	//
+	// // 更新 tokenStore 中的数据
+	// OAuth2Authentication auth2Authentication =
+	// tokenStore.readAuthentication(oAuth2AccessToken);
+	// // 新的包含权限的 user 对象
+	//
+	// User user = (User) auth2Authentication.getDetails();
+	// // 更新 user 里的属性
+	// UserDetails newUserDetails = new User();
+	// auth2Authentication.setDetails(newUserDetails);
+	// tokenStore.storeAccessToken(oAuth2AccessToken, auth2Authentication);
+	//
+	// // 如果后面还有操作需要新权限的话， 更新当前内存中的权限信息
+	// SecurityContext context = SecurityContextHolder.getContext();
+	// context.setAuthentication(auth2Authentication);
+	// SecurityContextHolder.setContext(context);
+	//
+	// }
+
 }

@@ -2,14 +2,6 @@ package com.hccake.ballcat.common.oss;
 
 import com.hccake.ballcat.common.oss.domain.StreamTemp;
 import com.hccake.ballcat.common.oss.exception.OssDisabledException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +13,15 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CopyObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 /**
  * @author lingting 2021/5/11 9:59
@@ -157,7 +158,7 @@ public class OssClient implements DisposableBean {
 		getClient().deleteObject(builder -> builder.bucket(bucket).key(getObjectKey(objectKey)));
 	}
 
-	@SneakyThrows
+	@SneakyThrows(UnsupportedEncodingException.class)
 	public void copy(String absoluteSource, String absoluteTarget) {
 		String s = getCopyUrl(absoluteSource);
 		final CopyObjectRequest request = CopyObjectRequest.builder().copySource(s).destinationBucket(bucket)

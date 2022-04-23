@@ -2,10 +2,11 @@ package com.hccake.ballcat.file.service;
 
 import com.hccake.ballcat.common.oss.OssClient;
 import com.hccake.starter.file.FileClient;
-import java.io.InputStream;
-import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author lingting 2021/5/27 11:14
@@ -34,8 +35,7 @@ public class FileService {
 		}
 	}
 
-	@SneakyThrows
-	public String upload(InputStream stream, String relativePath, Long size) {
+	public String upload(InputStream stream, String relativePath, Long size) throws IOException {
 		if (fileClient != null) {
 			return fileClient.upload(stream, relativePath);
 		}

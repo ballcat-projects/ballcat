@@ -1,6 +1,7 @@
 package com.hccake.extend.dingtalk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.extend.dingtalk.message.DingTalkActionCardMessage;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class DingTalkParams {
 	private Text text;
 
 	@Override
-	@SneakyThrows
+	@SneakyThrows(JsonProcessingException.class)
 	public String toString() {
 		return new ObjectMapper().writeValueAsString(this);
 	}

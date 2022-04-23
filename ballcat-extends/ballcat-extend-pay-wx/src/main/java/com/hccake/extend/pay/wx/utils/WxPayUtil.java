@@ -5,15 +5,14 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.hccake.extend.pay.wx.constants.WxPayConstant;
 import com.hccake.extend.pay.wx.enums.SignType;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.XMLConstants;
@@ -26,13 +25,17 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author lingting 2021/1/26 16:04
@@ -138,14 +141,13 @@ public final class WxPayUtil {
 	 * @return java.lang.String 签名结果
 	 * @author lingting 2021-01-29 18:13
 	 */
-	@SneakyThrows
 	public static String sign(Map<String, String> params, String mckKey) {
 		SignType st = SignType.of(params.get(WxPayConstant.FIELD_SIGN_TYPE));
 		Assert.isFalse(st == null, "签名类型不能为空!");
 		return sign(params, st, mckKey);
 	}
 
-	@SneakyThrows
+	@SneakyThrows({ InvalidKeyException.class, NoSuchAlgorithmException.class })
 	public static String sign(Map<String, String> params, SignType type, String mckKey) {
 		String[] keyArray = params.keySet().toArray(new String[0]);
 		// 参数key排序
