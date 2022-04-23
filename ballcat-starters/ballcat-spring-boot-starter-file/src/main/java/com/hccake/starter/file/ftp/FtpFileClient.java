@@ -1,19 +1,22 @@
 package com.hccake.starter.file.ftp;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.ftp.Ftp;
+import cn.hutool.extra.ftp.FtpConfig;
 import com.hccake.ballcat.common.util.FileUtils;
 import com.hccake.starter.file.FileClient;
 import com.hccake.starter.file.FileProperties.FtpProperties;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 /**
- * @author lingting 2021/10/17 20:11
+ * @author 疯狂的狮子Li
  */
 public class FtpFileClient implements FileClient {
 
@@ -21,34 +24,28 @@ public class FtpFileClient implements FileClient {
 
 	private final String rootPath;
 
-	private final FTPClient client;
+	private final Ftp client;
 
-	public FtpFileClient(FtpProperties properties) throws IOException {
-		client = new FTPClient();
+	public FtpFileClient(FtpProperties properties) {
+		FtpConfig config = new FtpConfig()
+				.setHost(properties.getIp())
+				.setPort(properties.getPort())
+				.setUser(properties.getUsername())
+				.setPassword(properties.getPassword())
+				.setCharset(Charset.forName(properties.getEncoding()));
+
 		final FtpMode mode = properties.getMode();
 		if (mode == FtpMode.ACTIVE) {
-			client.enterLocalActiveMode();
-		}
-		else if (mode == FtpMode.PASSIVE) {
-			client.enterLocalPassiveMode();
-		}
-		client.connect(properties.getIp(), properties.getPort());
-		int replyCode = client.getReplyCode();
-		if (!FTPReply.isPositiveCompletion(replyCode)) {
-			throw new FtpFileException("ftp连接失败! 错误代码: " + replyCode);
-		}
-
-		client.login(properties.getUsername(), properties.getPassword());
-
-		replyCode = client.getReplyCode();
-		if (!FTPReply.isPositiveCompletion(replyCode)) {
-			throw new FtpFileException("ftp登录失败! 错误代码: " + replyCode);
+			client = new Ftp(config, cn.hutool.extra.ftp.FtpMode.Active);
+		} else if (mode == FtpMode.PASSIVE) {
+			client = new Ftp(config, cn.hutool.extra.ftp.FtpMode.Passive);
+		} else {
+			client = new Ftp(config, null);
 		}
 
 		if (!StringUtils.hasText(properties.getPath())) {
 			throw new NullPointerException("ftp文件根路径不能为空!");
 		}
-		client.setControlEncoding(properties.getEncoding());
 		rootPath = properties.getPath().endsWith(SLASH) ? properties.getPath() : properties.getPath() + SLASH;
 	}
 
@@ -85,9 +82,10 @@ public class FtpFileClient implements FileClient {
 	@Override
 	public String upload(InputStream stream, String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
-
+		final String fileName = FileUtil.getName(path);
+		final String dir = StrUtil.removeSuffix(path, fileName);
 		// 上传失败
-		if (!client.storeFile(path, stream)) {
+		if (!client.upload(dir, fileName, stream)) {
 			throw new FtpFileException(
 					String.format("文件上传失败! 相对路径: %s; 根路径: %s; 请检查此路径是否存在以及登录用户是否拥有操作权限!", relativePath, path));
 		}
@@ -103,17 +101,13 @@ public class FtpFileClient implements FileClient {
 	@Override
 	public File download(String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
+		final String fileName = FileUtil.getName(path);
+		final String dir = StrUtil.removeSuffix(path, fileName);
 		// 临时文件
-		final File tmpFile = FileUtils.getTemplateFile("ftpDownload");
-		// 创建文件
-		if (!tmpFile.createNewFile()) {
-			throw new FtpFileException("文件下载失败! 临时文件生成失败!");
-		}
+		final File tmpFile = FileUtil.createTempFile();
 		// 输出流
 		try (FileOutputStream outputStream = new FileOutputStream(tmpFile)) {
-			if (!client.retrieveFile(path, outputStream)) {
-				throw new FtpFileException("文件下载失败! path: " + relativePath);
-			}
+			client.download(dir, fileName, outputStream);
 		}
 		return tmpFile;
 	}
@@ -126,7 +120,7 @@ public class FtpFileClient implements FileClient {
 	 */
 	@Override
 	public boolean delete(String relativePath) throws IOException {
-		return client.deleteFile(getWholePath(relativePath));
+		return client.delFile(getWholePath(relativePath));
 	}
 
 }
