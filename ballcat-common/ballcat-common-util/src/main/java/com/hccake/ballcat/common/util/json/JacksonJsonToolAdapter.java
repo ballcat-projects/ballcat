@@ -34,19 +34,19 @@ public class JacksonJsonToolAdapter implements JsonTool {
 		return mapper.writeValueAsString(obj);
 	}
 
-	@SneakyThrows({ JsonProcessingException.class, JsonMappingException.class })
+	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
 	@Override
 	public <T> T toObj(String json, Class<T> r) {
 		return mapper.readValue(json, r);
 	}
 
-	@SneakyThrows({ JsonProcessingException.class, JsonMappingException.class })
+	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
 	@Override
 	public <T> T toObj(String json, Type t) {
 		return mapper.readValue(json, mapper.constructType(t));
 	}
 
-	@SneakyThrows({ JsonProcessingException.class, JsonMappingException.class })
+	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
 	@Override
 	public <T> T toObj(String json, TypeReference<T> t) {
 		return mapper.readValue(json, new com.fasterxml.jackson.core.type.TypeReference<T>() {

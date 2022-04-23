@@ -24,7 +24,7 @@ public class DingTalkResponse {
 
 	public static final Long SUCCESS_CODE = 0L;
 
-	@SneakyThrows({ IOException.class, StreamReadException.class, DatabindException.class })
+	@SneakyThrows({ StreamReadException.class, DatabindException.class, IOException.class })
 	public DingTalkResponse(String res) {
 		Map<?, ?> resMap = new ObjectMapper().readValue(res.getBytes(), Map.class);
 		this.response = res;
