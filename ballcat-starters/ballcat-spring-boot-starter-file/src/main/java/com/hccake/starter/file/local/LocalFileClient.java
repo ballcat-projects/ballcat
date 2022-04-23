@@ -1,6 +1,6 @@
 package com.hccake.starter.file.local;
 
-import com.hccake.ballcat.common.util.FileUtils;
+import cn.hutool.core.io.FileUtil;
 import com.hccake.ballcat.common.util.StreamUtils;
 import com.hccake.starter.file.FileClient;
 import com.hccake.starter.file.FileProperties.LocalProperties;
@@ -23,9 +23,7 @@ public class LocalFileClient implements FileClient {
 	private final String parentDirPath;
 
 	public LocalFileClient(LocalProperties properties) throws LocalFileException {
-		final File dir = StringUtils.hasText(properties.getPath()) ? new File(properties.getPath())
-				: FileUtils.getSystemTempDir();
-
+		final File dir = StringUtils.hasText(properties.getPath()) ? new File(properties.getPath()) : FileUtil.getTmpDir();
 		// 不存在且创建失败
 		if (!dir.exists() && !dir.mkdirs()) {
 			throw new LocalFileException(String.format("路径: %s; 不存在且创建失败! 请检查是否拥有对该路径的操作权限!", dir.getPath()));
@@ -83,7 +81,7 @@ public class LocalFileClient implements FileClient {
 			StreamUtils.write(stream, outputStream);
 		}
 
-		return file.getPath();
+		return relativePath;
 	}
 
 	/**
