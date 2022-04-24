@@ -4,8 +4,8 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.ftp.Ftp;
 import cn.hutool.extra.ftp.FtpConfig;
-import com.hccake.ballcat.common.util.FileUtils;
-import com.hccake.starter.file.FileClient;
+import com.hccake.starter.file.core.AbstractFileClient;
+import com.hccake.starter.file.exception.FileException;
 import com.hccake.starter.file.FileProperties.FtpProperties;
 import org.springframework.util.StringUtils;
 
@@ -16,60 +16,35 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 
 /**
- * @author 疯狂的狮子Li
+ * @author lingting 2021/10/17 20:11
+ * @author 疯狂的狮子Li 2022-04-24
  */
-public class FtpFileClient implements FileClient {
-
-	public static final String SLASH = "/";
-
-	private final String rootPath;
+public class FtpFileClient extends AbstractFileClient {
 
 	private final Ftp client;
 
 	public FtpFileClient(FtpProperties properties) {
-		FtpConfig config = new FtpConfig()
-				.setHost(properties.getIp())
-				.setPort(properties.getPort())
-				.setUser(properties.getUsername())
-				.setPassword(properties.getPassword())
+		FtpConfig config = new FtpConfig().setHost(properties.getIp()).setPort(properties.getPort())
+				.setUser(properties.getUsername()).setPassword(properties.getPassword())
 				.setCharset(Charset.forName(properties.getEncoding()));
 
 		final FtpMode mode = properties.getMode();
 		if (mode == FtpMode.ACTIVE) {
 			client = new Ftp(config, cn.hutool.extra.ftp.FtpMode.Active);
-		} else if (mode == FtpMode.PASSIVE) {
+		}
+		else if (mode == FtpMode.PASSIVE) {
 			client = new Ftp(config, cn.hutool.extra.ftp.FtpMode.Passive);
-		} else {
+		}
+		else {
 			client = new Ftp(config, null);
 		}
 
 		if (!StringUtils.hasText(properties.getPath())) {
 			throw new NullPointerException("ftp文件根路径不能为空!");
 		}
-		rootPath = properties.getPath().endsWith(SLASH) ? properties.getPath() : properties.getPath() + SLASH;
-	}
 
-	/**
-	 * 获取操作的根路径
-	 * @return java.lang.String
-	 * @author lingting 2021-10-18 11:24
-	 */
-	@Override
-	public String getRoot() {
-		return rootPath;
-	}
-
-	/**
-	 * 获取完整路径
-	 * @param relativePath 文件相对 getRoot() 的路径@return java.lang.String
-	 * @author lingting 2021-10-18 16:40
-	 */
-	@Override
-	public String getWholePath(String relativePath) {
-		if (relativePath.startsWith(SLASH)) {
-			return getRoot() + relativePath.substring(1);
-		}
-		return getRoot() + relativePath;
+		super.rootPath = properties.getPath().endsWith(super.slash) ? properties.getPath()
+				: properties.getPath() + super.slash;
 	}
 
 	/**
@@ -78,6 +53,7 @@ public class FtpFileClient implements FileClient {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return java.lang.String 文件完整路径
 	 * @author lingting 2021-10-18 11:40
+	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public String upload(InputStream stream, String relativePath) throws IOException {
@@ -86,7 +62,7 @@ public class FtpFileClient implements FileClient {
 		final String dir = StrUtil.removeSuffix(path, fileName);
 		// 上传失败
 		if (!client.upload(dir, fileName, stream)) {
-			throw new FtpFileException(
+			throw new FileException(
 					String.format("文件上传失败! 相对路径: %s; 根路径: %s; 请检查此路径是否存在以及登录用户是否拥有操作权限!", relativePath, path));
 		}
 		return path;
@@ -97,6 +73,7 @@ public class FtpFileClient implements FileClient {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return java.io.FileOutputStream 文件流
 	 * @author lingting 2021-10-18 16:48
+	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public File download(String relativePath) throws IOException {
@@ -117,6 +94,7 @@ public class FtpFileClient implements FileClient {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return boolean
 	 * @author lingting 2021-10-18 17:14
+	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public boolean delete(String relativePath) throws IOException {

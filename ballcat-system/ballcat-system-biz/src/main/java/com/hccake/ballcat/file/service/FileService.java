@@ -1,7 +1,7 @@
 package com.hccake.ballcat.file.service;
 
 import com.hccake.ballcat.common.oss.OssClient;
-import com.hccake.starter.file.FileClient;
+import com.hccake.starter.file.core.FileClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 

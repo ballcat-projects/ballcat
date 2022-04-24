@@ -4,12 +4,6 @@ import cn.hutool.extra.ftp.SimpleFtpServer;
 import com.hccake.ballcat.common.util.StreamUtils;
 import com.hccake.starter.file.FileProperties.FtpProperties;
 import com.hccake.starter.file.ftp.FtpFileClient;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.ftpserver.ftplet.Authority;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.apache.ftpserver.usermanager.impl.WritePermission;
@@ -17,8 +11,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * @author 疯狂的狮子Li
+ * @author lingting 2021/10/18 17:16
+ * @author 疯狂的狮子Li 2022-04-24
  */
 class FtpFileClientTest {
 
@@ -38,15 +39,15 @@ class FtpFileClientTest {
 
 	@Test
 	void upload() throws IOException {
-		final String uploadPath = client.upload(new FileInputStream(OPERATE_FILE), "th.jpg");
+		final String uploadPath = client.upload(Files.newInputStream(OPERATE_FILE.toPath()), "th.jpg");
 		Assertions.assertEquals("/th.jpg", uploadPath, "结果路径异常!");
 	}
 
 	@Test
 	void download() throws IOException {
 		final File file = client.download("/th.jpg");
-		Assertions.assertEquals(StreamUtils.toString(new FileInputStream(file)),
-				StreamUtils.toString(new FileInputStream(OPERATE_FILE)), "文件内容不匹配!");
+		Assertions.assertEquals(StreamUtils.toString(Files.newInputStream(file.toPath())),
+				StreamUtils.toString(Files.newInputStream(OPERATE_FILE.toPath())), "文件内容不匹配!");
 	}
 
 	@Test
@@ -55,7 +56,7 @@ class FtpFileClientTest {
 		Assertions.assertFalse(client.delete("/th.jpg"), "删除成功, 有问题");
 	}
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		BaseUser user = new BaseUser();
 		user.setName("lionli");
 		user.setPassword("666666");

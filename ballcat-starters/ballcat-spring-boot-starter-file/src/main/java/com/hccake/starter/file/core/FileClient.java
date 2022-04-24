@@ -1,4 +1,4 @@
-package com.hccake.starter.file;
+package com.hccake.starter.file.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,22 +6,9 @@ import java.io.InputStream;
 
 /**
  * @author lingting 2021/10/17 20:11
+ * @author 疯狂的狮子Li 2022-04-24
  */
 public interface FileClient {
-
-	/**
-	 * 获取操作的根路径
-	 * @return java.lang.String
-	 * @author lingting 2021-10-18 11:24
-	 */
-	String getRoot();
-
-	/**
-	 * 获取完整路径
-	 * @param relativePath 文件相对 getRoot() 的路径@return java.lang.String
-	 * @author lingting 2021-10-18 16:40
-	 */
-	String getWholePath(String relativePath);
 
 	/**
 	 *
