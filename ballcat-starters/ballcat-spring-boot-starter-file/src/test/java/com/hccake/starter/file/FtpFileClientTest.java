@@ -46,6 +46,7 @@ class FtpFileClientTest {
 	@Test
 	void download() throws IOException {
 		final File file = client.download("/th.jpg");
+		Assertions.assertEquals(file.getName(), OPERATE_FILE.getName(), "文件名不匹配!");
 		Assertions.assertEquals(StreamUtils.toString(Files.newInputStream(file.toPath())),
 				StreamUtils.toString(Files.newInputStream(OPERATE_FILE.toPath())), "文件内容不匹配!");
 	}

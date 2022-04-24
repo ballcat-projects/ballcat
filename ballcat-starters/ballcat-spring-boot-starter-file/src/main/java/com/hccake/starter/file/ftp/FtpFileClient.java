@@ -81,7 +81,8 @@ public class FtpFileClient extends AbstractFileClient {
 		final String fileName = FileUtil.getName(path);
 		final String dir = StrUtil.removeSuffix(path, fileName);
 		// 临时文件
-		final File tmpFile = FileUtil.createTempFile();
+		File tmpFile = FileUtil.createTempFile();
+		tmpFile = FileUtil.rename(tmpFile, fileName, true);
 		// 输出流
 		try (FileOutputStream outputStream = new FileOutputStream(tmpFile)) {
 			client.download(dir, fileName, outputStream);
