@@ -33,11 +33,13 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!-- apache ftp 文件上传的依赖 -->
 		<dependency>
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
 		</dependency>
 
+		<!-- apache ftp server 测试使用 -->
 		<dependency>
 			<groupId>org.apache.ftpserver</groupId>
 			<artifactId>ftpserver-core</artifactId>
