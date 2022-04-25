@@ -7,7 +7,7 @@
     		<result property="languageTag" column="language_tag"/>
     		<result property="code" column="code"/>
     		<result property="message" column="message"/>
-    		<result property="remark" column="remark"/>
+    		<result property="remarks" column="remarks"/>
     		<result property="createTime" column="create_time"/>
     		<result property="updateTime" column="update_time"/>
       </resultMap>
@@ -17,7 +17,7 @@
 		language_tag,        
 		code,        
 		message,        
-		remark,        
+		remarks,
 		create_time,        
 		update_time        
 	</sql>
@@ -27,7 +27,7 @@
 		id.language_tag,        
 		id.code,        
 		id.message,        
-		id.remark,        
+		id.remarks,
 		id.create_time,        
 		id.update_time        
 	</sql>
