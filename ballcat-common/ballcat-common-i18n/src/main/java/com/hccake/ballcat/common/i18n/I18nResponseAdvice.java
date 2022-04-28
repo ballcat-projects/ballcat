@@ -133,24 +133,12 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 					}
 				}
 
-				// 获取国际化的唯一标识
-				String annotationCode = i18nField.code();
-				// 是否指定code属性,通过code属性来获取值
-				if (StrUtil.isEmpty(annotationCode) && StrUtil.isNotEmpty(i18nField.codeProperty())) {
-					Field codePropertyField = ReflectUtil.getField(sourceClass, i18nField.codeProperty());
-					if (codePropertyField != null) {
-						fieldValue = ReflectUtil.getFieldValue(source, field);
-					}
-				}
-				String code = StrUtil.isNotEmpty(annotationCode) ? annotationCode : (String) fieldValue;
+				// 获取国际化标识
+				String code = parseMessageCode(source, sourceClass, field, (String) fieldValue, i18nField);
 				if (StrUtil.isEmpty(code)) {
 					continue;
 				}
-				// 给code添加固定的前缀
-				String prefix = i18nField.prefix();
-				if (!StrUtil.isEmpty(prefix)) {
-					code = prefix + code;
-				}
+
 				// 把当前 field 的值更新为国际化后的属性
 				Locale locale = LocaleContextHolder.getLocale();
 				String message = codeToMessage(code, locale, fallbackLocale);
@@ -182,6 +170,66 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 				switchLanguage(fieldValue);
 			}
 		}
+	}
+
+	/**
+	 * <h2>根据指定规则解析 messageCode 值
+	 * <p>
+	 * 先解析出来 code 值，再拼接上前缀，成为完整的 messageCode。
+	 * </p>
+	 * <br>
+	 * 解析 code 流程如下：
+	 * <ol>
+	 * <li>优先获取注解指定的 code 值
+	 * <li>其次根据指定的属性获取 code
+	 * <li>再次使用当前属性的值做为 code
+	 * <ol/>
+	 * @param source 源对象
+	 * @param sourceClass 源对象类型
+	 * @param field 属性
+	 * @param fieldValue 属性值
+	 * @param i18nField 国际化注解
+	 * @return String 国际化 code
+	 */
+	private String parseMessageCode(Object source, Class<?> sourceClass, Field field, String fieldValue,
+			I18nField i18nField) {
+		// 给 code 添加固定的前缀
+		String prefix = i18nField.prefix();
+
+		// 1. 优先获取注解的属性
+		String code = i18nField.code();
+		if (StrUtil.isNotEmpty(code)) {
+			return prefix + code;
+		}
+
+		// 2. 根据指定的属性获取 code
+		String codeProperty = i18nField.codeProperty();
+		if (StrUtil.isNotEmpty(codeProperty)) {
+			Field codePropertyField = ReflectUtil.getField(sourceClass, codeProperty);
+			if (codePropertyField != null) {
+				Object codePropertyValue = ReflectUtil.getFieldValue(source, field);
+				if (codePropertyValue instanceof String) {
+					code = (String) codePropertyValue;
+				}
+				else {
+					log.warn("错误的 codeProperty， 类 {} 的属性 {} 不是 String 类型", codeProperty, sourceClass);
+				}
+			}
+			else {
+				log.warn("错误的 codeProperty，类 {} 的属性 {} 不存在", codeProperty, sourceClass);
+			}
+		}
+		if (StrUtil.isNotEmpty(code)) {
+			return prefix + code;
+		}
+
+		// 3. 使用当前属性的值做为 code
+		if (StrUtil.isNotEmpty(fieldValue)) {
+			return prefix + fieldValue;
+		}
+
+		log.warn("解析 messageCode 失败：类 {} ，属性 {}", codeProperty, sourceClass);
+		return null;
 	}
 
 	/**
