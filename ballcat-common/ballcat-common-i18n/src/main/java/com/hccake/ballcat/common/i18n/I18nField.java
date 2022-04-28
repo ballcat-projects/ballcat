@@ -35,4 +35,16 @@ public @interface I18nField {
 	 */
 	String condition() default "";
 
+	/**
+	 * 指定国际化的唯一标识属性,被指定的属性的值作为 code ,当不传值时，则使用被标注的元素的值作为 code (可选)
+	 * @return String
+	 */
+	String codeProperty() default "";
+
+	/**
+	 * 为了防止重复code可添加添加一个前缀 prefix(可选)
+	 * @return String
+	 */
+	String prefix() default "";
+
 }

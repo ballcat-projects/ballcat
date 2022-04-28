@@ -135,9 +135,21 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 
 				// 获取国际化的唯一标识
 				String annotationCode = i18nField.code();
+				// 是否指定code属性,通过code属性来获取值
+				if (StrUtil.isEmpty(annotationCode) && StrUtil.isNotEmpty(i18nField.codeProperty())) {
+					Field codePropertyField = ReflectUtil.getField(sourceClass, i18nField.codeProperty());
+					if (codePropertyField != null) {
+						fieldValue = ReflectUtil.getFieldValue(source, field);
+					}
+				}
 				String code = StrUtil.isNotEmpty(annotationCode) ? annotationCode : (String) fieldValue;
 				if (StrUtil.isEmpty(code)) {
 					continue;
+				}
+				// 给code添加固定的前缀
+				String prefix = i18nField.prefix();
+				if (!StrUtil.isEmpty(prefix)) {
+					code = prefix + code;
 				}
 				// 把当前 field 的值更新为国际化后的属性
 				Locale locale = LocaleContextHolder.getLocale();
