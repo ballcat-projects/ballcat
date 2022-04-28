@@ -208,15 +208,21 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 			Field codePropertyField = ReflectUtil.getField(sourceClass, codeProperty);
 			if (codePropertyField != null) {
 				Object codePropertyValue = ReflectUtil.getFieldValue(source, field);
-				if (codePropertyValue instanceof String) {
-					code = (String) codePropertyValue;
-				}
-				else {
-					log.warn("错误的 codeProperty， 类 {} 的属性 {} 不是 String 类型", codeProperty, sourceClass);
+				// 如果codePropertyValue为null不处理
+				if (codePropertyValue != null) {
+					if (codePropertyValue instanceof String) {
+						code = (String) codePropertyValue;
+					}
+					else if (codePropertyValue instanceof Number) {
+						code = codePropertyValue.toString();
+					}
+					else {
+						log.warn("错误的 codeProperty， 类 {} 的属性 {} 不是 String or Number 类型", codeProperty, sourceClass);
+					}
 				}
 			}
 			else {
-				log.warn("错误的 codeProperty，类 {} 的属性 {} 不存在", codeProperty, sourceClass);
+				log.warn("错误的 codeProperty，类 {} 的属性 {} 不存在", sourceClass, codeProperty);
 			}
 		}
 		if (StrUtil.isNotEmpty(code)) {
