@@ -9,6 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -19,6 +20,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
@@ -65,14 +67,16 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 	}
 
 	/**
-	 * supports all type
+	 * supports by @I18nSupport
 	 * @param returnType MethodParameter
 	 * @param converterType 消息转换器
-	 * @return always true
+	 * @return supports by @I18nSupport
 	 */
 	@Override
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-		return true;
+		AnnotatedElement annotatedElement = returnType.getAnnotatedElement();
+		I18nSupport i18nSupport = AnnotationUtils.findAnnotation(annotatedElement, I18nSupport.class);
+		return i18nSupport != null&&i18nSupport.support();
 	}
 
 	@Override
@@ -134,14 +138,14 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 				}
 
 				// 获取国际化标识
-				String code = parseMessageCode(source, sourceClass, field, (String) fieldValue, i18nField);
+				String code = parseMessageCode(source, (String) fieldValue, i18nField);
 				if (StrUtil.isEmpty(code)) {
 					continue;
 				}
 
 				// 把当前 field 的值更新为国际化后的属性
 				Locale locale = LocaleContextHolder.getLocale();
-				String message = codeToMessage(code, locale, fallbackLocale);
+				String message = codeToMessage(code, locale, (String) fieldValue, fallbackLocale);
 				ReflectUtil.setFieldValue(source, field, message);
 			}
 			else if (fieldValue instanceof Collection) {
@@ -173,63 +177,32 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 	}
 
 	/**
-	 * <h2>根据指定规则解析 messageCode 值
+	 * <h2>使用（SpEL 表达式）获取国际化code
 	 * <p>
-	 * 先解析出来 code 值，再拼接上前缀，成为完整的 messageCode。
+	 * 先解析出来 code 值,如果SpEL表达式为空就使用当前属性值作为code
 	 * </p>
 	 * <br>
-	 * 解析 code 流程如下：
 	 * <ol>
-	 * <li>优先获取注解指定的 code 值
-	 * <li>其次根据指定的属性获取 code
-	 * <li>再次使用当前属性的值做为 code
-	 * <ol/>
 	 * @param source 源对象
-	 * @param sourceClass 源对象类型
-	 * @param field 属性
 	 * @param fieldValue 属性值
 	 * @param i18nField 国际化注解
 	 * @return String 国际化 code
 	 */
-	private String parseMessageCode(Object source, Class<?> sourceClass, Field field, String fieldValue,
-			I18nField i18nField) {
-		// 给 code 添加固定的前缀
-		String prefix = i18nField.prefix();
-
-		// 1. 优先获取注解的属性
-		String code = i18nField.code();
-		if (StrUtil.isNotEmpty(code)) {
-			return prefix + code;
-		}
-
-		// 2. 根据指定的属性获取 code
-		String codeProperty = i18nField.codeProperty();
-		if (StrUtil.isNotEmpty(codeProperty)) {
-			Field codePropertyField = ReflectUtil.getField(sourceClass, codeProperty);
-			if (codePropertyField != null) {
-				Object codePropertyValue = ReflectUtil.getFieldValue(source, field);
-				if (codePropertyValue instanceof String) {
-					code = (String) codePropertyValue;
-				}
-				else {
-					log.warn("错误的 codeProperty， 类 {} 的属性 {} 不是 String 类型", codeProperty, sourceClass);
-				}
+	private String parseMessageCode(Object source, String fieldValue, I18nField i18nField) {
+		String code;
+		String codeExpression = i18nField.code();
+		if (StrUtil.isNotEmpty(codeExpression)) {
+			Expression expression = EXPRESSION_CACHE.get(codeExpression);
+			if (expression == null) {
+				expression = PARSER.parseExpression(codeExpression);
+				EXPRESSION_CACHE.put(codeExpression, expression);
 			}
-			else {
-				log.warn("错误的 codeProperty，类 {} 的属性 {} 不存在", codeProperty, sourceClass);
-			}
+			code = expression.getValue(source, String.class);
 		}
-		if (StrUtil.isNotEmpty(code)) {
-			return prefix + code;
+		else {
+			code = fieldValue;
 		}
-
-		// 3. 使用当前属性的值做为 code
-		if (StrUtil.isNotEmpty(fieldValue)) {
-			return prefix + fieldValue;
-		}
-
-		log.warn("解析 messageCode 失败：类 {} ，属性 {}", codeProperty, sourceClass);
-		return null;
+		return code;
 	}
 
 	/**
@@ -239,16 +212,14 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 	 * @param fallbackLocale 回退语言
 	 * @return 国际化 text，或者 code 本身
 	 */
-	private String codeToMessage(String code, Locale locale, Locale fallbackLocale) {
+	private String codeToMessage(String code, Locale locale, String defaultMessage, Locale fallbackLocale) {
 		String message;
 
-		NoSuchMessageException noSuchMessageException;
 		try {
 			message = messageSource.getMessage(code, null, locale);
 			return message;
 		}
 		catch (NoSuchMessageException e) {
-			noSuchMessageException = e;
 			log.warn("[codeToMessage]未找到对应的国际化配置，code: {}, local: {}", code, locale);
 		}
 
@@ -268,7 +239,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 			return code;
 		}
 		else {
-			throw noSuchMessageException;
+			return defaultMessage;
 		}
 	}
 
