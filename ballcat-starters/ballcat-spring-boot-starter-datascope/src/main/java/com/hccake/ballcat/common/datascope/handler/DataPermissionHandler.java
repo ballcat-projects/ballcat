@@ -33,24 +33,4 @@ public interface DataPermissionHandler {
 	 */
 	boolean ignorePermissionControl(List<DataScope> dataScopeList, String mappedStatementId);
 
-	/**
-	 * 使用指定的数据权限执行任务，执行时会忽略方法上的 @DataPermission 注解
-	 * @param dataPermissionRule 当前任务执行时使用的数据权限规则
-	 * @param task 待执行的任务
-	 */
-	void executeWithDataPermissionRule(DataPermissionRule dataPermissionRule, Task task);
-
-	/**
-	 * 任务接口
-	 */
-	@FunctionalInterface
-	interface Task {
-
-		/**
-		 * 执行任务
-		 */
-		void perform();
-
-	}
-
 }

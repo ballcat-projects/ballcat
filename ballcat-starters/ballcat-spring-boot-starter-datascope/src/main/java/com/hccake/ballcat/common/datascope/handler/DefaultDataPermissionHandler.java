@@ -63,22 +63,6 @@ public class DefaultDataPermissionHandler implements DataPermissionHandler {
 	}
 
 	/**
-	 * 使用指定的数据权限执行任务，执行时会忽略方法上的 @DataPermission 注解
-	 * @param dataPermissionRule 当前任务执行时使用的数据权限规则
-	 * @param task 待执行的动作
-	 */
-	@Override
-	public void executeWithDataPermissionRule(DataPermissionRule dataPermissionRule, Task task) {
-		DataPermissionRuleHolder.push(dataPermissionRule);
-		try {
-			task.perform();
-		}
-		finally {
-			DataPermissionRuleHolder.poll();
-		}
-	}
-
-	/**
 	 * 根据数据权限规则过滤出 dataScope 列表
 	 * @param dataPermissionRule 数据权限规则
 	 * @return List<DataScope>
