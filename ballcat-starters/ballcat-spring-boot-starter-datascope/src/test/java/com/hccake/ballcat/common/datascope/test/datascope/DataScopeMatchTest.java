@@ -56,19 +56,6 @@ class DataScopeMatchTest {
 	DataScopeSqlProcessor dataScopeSqlProcessor = new DataScopeSqlProcessor();
 
 	@Test
-	void testRight() {
-		String sql = "select o.order_id,o.order_name,oi.order_price "
-				+ "from t_ORDER o left join t_order_info oi on o.order_id = oi.order_id "
-				+ "where oi.order_price > 100";
-
-		String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
-		System.out.println(parseSql);
-
-		String trueSql = "SELECT o.order_id, o.order_name, oi.order_price FROM t_ORDER o LEFT JOIN t_order_info oi ON o.order_id = oi.order_id AND oi.order_id IN ('1', '2') WHERE oi.order_price > 100 AND o.order_id IN ('1', '2')";
-		Assertions.assertEquals(trueSql, parseSql, "sql 数据权限解析异常");
-	}
-
-	@Test
 	void testMatchNum() {
 		String sql = "select o.order_id,o.order_name,oi.order_price "
 				+ "from t_ORDER o left join t_order_info oi on o.order_id = oi.order_id "
@@ -79,12 +66,12 @@ class DataScopeMatchTest {
 			String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
 			System.out.println(parseSql);
 
-			int matchNum = DataScopeMatchNumHolder.getMatchNum();
+			Integer matchNum = DataScopeMatchNumHolder.pollMatchNum();
 			Assertions.assertEquals(2, matchNum, "sql 数据权限匹配计数异常");
 
 		}
 		finally {
-			DataScopeMatchNumHolder.remove();
+			DataScopeMatchNumHolder.removeIfEmpty();
 		}
 
 	}
@@ -99,12 +86,39 @@ class DataScopeMatchTest {
 			String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
 			System.out.println(parseSql);
 
-			int matchNum = DataScopeMatchNumHolder.getMatchNum();
+			Integer matchNum = DataScopeMatchNumHolder.pollMatchNum();
 			Assertions.assertEquals(0, matchNum, "sql 数据权限匹配计数异常");
 
 		}
 		finally {
-			DataScopeMatchNumHolder.remove();
+			DataScopeMatchNumHolder.removeIfEmpty();
+		}
+
+	}
+
+	/**
+	 * 嵌套进行 matchNumber 匹配
+	 */
+	@Test
+	void testNestedMatchNum() {
+		String sql = "select o.order_id,o.order_name,oi.order_price "
+				+ "from t_ORDER o left join t_order_info oi on o.order_id = oi.order_id "
+				+ "where oi.order_price > 100";
+
+		DataScopeMatchNumHolder.initMatchNum();
+		try {
+
+			testNoMatch();
+
+			String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
+			System.out.println(parseSql);
+
+			Integer matchNum = DataScopeMatchNumHolder.pollMatchNum();
+			Assertions.assertEquals(2, matchNum, "sql 数据权限匹配计数异常");
+
+		}
+		finally {
+			DataScopeMatchNumHolder.removeIfEmpty();
 		}
 
 	}
