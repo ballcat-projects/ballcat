@@ -10,13 +10,12 @@ import com.hccake.ballcat.common.desensitize.json.DesensitizeStrategy;
 import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeModule;
 import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializerModifier;
 import com.hccake.ballcat.common.util.json.JacksonJsonToolAdapter;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 /**
@@ -24,8 +23,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
  * @version 1.0
  * @date 2019/10/17 22:14
  */
-@Configuration
-@AutoConfigureBefore(JacksonAutoConfiguration.class)
+@AutoConfiguration(before = JacksonAutoConfiguration.class)
 public class CustomJacksonAutoConfiguration {
 
 	/**

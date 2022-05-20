@@ -2,8 +2,7 @@ package com.hccake.starter.pay.ali;
 
 import com.hccake.extend.pay.ali.AliPay;
 import com.hccake.extend.pay.ali.constants.AliPayConstant;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,8 +11,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * @author lingting 2021/1/25 11:30
  */
-@Slf4j
-@RequiredArgsConstructor
+@AutoConfiguration
 @ConditionalOnClass(AliPay.class)
 @EnableConfigurationProperties(AliPayProperties.class)
 public class AliPayAutoConfiguration {

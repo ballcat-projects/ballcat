@@ -13,6 +13,7 @@ import com.hccake.ballcat.common.redis.serialize.JacksonSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixJdkRedisSerializer;
 import com.hccake.ballcat.common.redis.serialize.PrefixStringRedisSerializer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,6 +31,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @version 1.0
  * @date 2019/9/2 14:13
  */
+@AutoConfiguration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(CacheProperties.class)
 public class RedisAutoConfiguration {

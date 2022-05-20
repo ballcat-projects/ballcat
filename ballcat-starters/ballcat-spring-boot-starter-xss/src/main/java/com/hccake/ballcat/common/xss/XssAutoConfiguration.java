@@ -7,6 +7,7 @@ import com.hccake.ballcat.common.xss.config.XssProperties;
 import com.hccake.ballcat.common.xss.core.XssFilter;
 import com.hccake.ballcat.common.xss.core.XssStringJsonDeserializer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,15 +16,14 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Hccake 2021/3/8
  * @version 1.0
  */
 @Slf4j
+@AutoConfiguration
 @EnableConfigurationProperties(XssProperties.class)
-@Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication
 @ConditionalOnProperty(prefix = XssProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class XssAutoConfiguration {

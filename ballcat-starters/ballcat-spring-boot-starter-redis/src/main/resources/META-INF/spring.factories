@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.hccake.ballcat.autoconfigure.redis.RedisAutoConfiguration,\
-    com.hccake.ballcat.autoconfigure.redis.MessageEventListenerAutoConfiguration

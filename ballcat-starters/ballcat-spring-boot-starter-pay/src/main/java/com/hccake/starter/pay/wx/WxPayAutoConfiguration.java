@@ -1,8 +1,7 @@
 package com.hccake.starter.pay.wx;
 
 import com.hccake.extend.pay.wx.WxPay;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -11,8 +10,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * @author lingting 2021/1/25 11:30
  */
-@Slf4j
-@RequiredArgsConstructor
+@AutoConfiguration
 @ConditionalOnClass(WxPay.class)
 @EnableConfigurationProperties(WxPayProperties.class)
 public class WxPayAutoConfiguration {

@@ -1,9 +1,7 @@
 package com.hccake.ballcat.autoconfigure.i18n;
 
-import java.time.Duration;
-
 import com.hccake.ballcat.common.i18n.WildcardReloadableResourceBundleMessageSource;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage;
@@ -19,7 +17,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.Resource;
@@ -27,6 +24,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.StringUtils;
+
+import java.time.Duration;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for {@link MessageSource}.
@@ -36,12 +35,11 @@ import org.springframework.util.StringUtils;
  * @author Eddú Meléndez
  * @since 1.5.0
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration(before = MessageSourceAutoConfiguration.class)
 @ConditionalOnMissingBean(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME, search = SearchStrategy.CURRENT)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @Conditional(CustomMessageSourceAutoConfiguration.ResourceBundleCondition.class)
 @EnableConfigurationProperties
-@AutoConfigureBefore(MessageSourceAutoConfiguration.class)
 public class CustomMessageSourceAutoConfiguration {
 
 	private static final Resource[] NO_RESOURCES = {};

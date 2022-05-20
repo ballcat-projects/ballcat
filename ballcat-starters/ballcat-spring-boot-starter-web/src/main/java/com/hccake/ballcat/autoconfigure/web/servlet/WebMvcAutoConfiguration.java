@@ -2,6 +2,7 @@ package com.hccake.ballcat.autoconfigure.web.servlet;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,7 @@ import java.util.List;
  * @version 1.0
  * @date 2019/10/19 17:10
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 public class WebMvcAutoConfiguration {
 
 	@Value("${ballcat.web.page-size-limit:100}")
