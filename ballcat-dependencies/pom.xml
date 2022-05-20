@@ -42,7 +42,7 @@
 		<flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
 		<spring-javaformat-checkstyle.version>0.0.31</spring-javaformat-checkstyle.version>
 
-		<spring-boot.version>2.6.7</spring-boot.version>
+		<spring-boot.version>2.7.0</spring-boot.version>
 		<spring-boot-admin.version>2.6.6</spring-boot-admin.version>
 		<spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
 		<springfox.version>3.0.0</springfox.version>
