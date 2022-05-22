@@ -35,6 +35,7 @@ import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,6 +69,8 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	private final SysRoleService sysRoleService;
 
 	private final ApplicationEventPublisher publisher;
+
+	private final PasswordEncoder passwordEncoder;
 
 	/**
 	 * 根据QueryObject查询分页数据
@@ -146,7 +149,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
 		// 对密码进行加密
 		String rawPassword = sysUserDto.getPassword();
-		String encodedPassword = PasswordUtils.encode(rawPassword);
+		String encodedPassword = passwordEncoder.encode(rawPassword);
 		sysUser.setPassword(encodedPassword);
 
 		// 保存用户
@@ -242,7 +245,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	public boolean updatePassword(Integer userId, String rawPassword) {
 		Assert.isTrue(adminUserChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		// 密码加密加密
-		String encodedPassword = PasswordUtils.encode(rawPassword);
+		String encodedPassword = passwordEncoder.encode(rawPassword);
 		return baseMapper.updatePassword(userId, encodedPassword);
 	}
 
