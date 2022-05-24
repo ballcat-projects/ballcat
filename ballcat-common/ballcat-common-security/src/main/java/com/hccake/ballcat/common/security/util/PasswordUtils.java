@@ -35,7 +35,7 @@ public final class PasswordUtils {
 	 * @return DelegatingPasswordEncoder
 	 */
 	@SuppressWarnings("deprecation")
-	private static PasswordEncoder createDelegatingPasswordEncoder() {
+	public static PasswordEncoder createDelegatingPasswordEncoder() {
 		String encodingId = "bcrypt";
 		Map<String, PasswordEncoder> encoders = new HashMap<>(10);
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -57,8 +57,6 @@ public final class PasswordUtils {
 		delegatingPasswordEncoder.setDefaultPasswordEncoderForMatches(bCryptPasswordEncoder);
 		return delegatingPasswordEncoder;
 	}
-
-	public static final PasswordEncoder ENCODER = PasswordUtils.createDelegatingPasswordEncoder();
 
 	/**
 	 * 将前端传递过来的密文解密为明文
@@ -83,34 +81,6 @@ public final class PasswordUtils {
 		byte[] secretKeyBytes = secretKey.getBytes();
 		AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, secretKeyBytes, secretKeyBytes);
 		return aes.encryptBase64(password, StandardCharsets.UTF_8);
-	}
-
-	/**
-	 * 加密密码
-	 * @param rawPassword 明文密码
-	 * @return 密文密码
-	 */
-	public static String encode(CharSequence rawPassword) {
-		return ENCODER.encode(rawPassword);
-	}
-
-	/**
-	 * 判断明文密码和密文密码是否匹配
-	 * @param rawPassword 明文密码
-	 * @param encodedPassword 密文密码
-	 * @return 匹配返回 true
-	 */
-	public static boolean matches(CharSequence rawPassword, String encodedPassword) {
-		return ENCODER.matches(rawPassword, encodedPassword);
-	}
-
-	/**
-	 * 判断是否需要升级加密算法
-	 * @param encodedPassword 密文密码
-	 * @return 需要返回 true
-	 */
-	public static boolean upgradeEncoding(String encodedPassword) {
-		return ENCODER.upgradeEncoding(encodedPassword);
 	}
 
 }
