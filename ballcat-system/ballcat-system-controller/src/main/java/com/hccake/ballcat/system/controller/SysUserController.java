@@ -1,6 +1,7 @@
 package com.hccake.ballcat.system.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.crypto.CryptoException;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
@@ -30,7 +31,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -193,12 +202,19 @@ public class SysUserController {
 	public R<Void> updateUserPass(@PathVariable("userId") Integer userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
 		String pass = sysUserPassDTO.getPass();
 		if (!pass.equals(sysUserPassDTO.getConfirmPass())) {
-			return R.failed(SystemResultCode.BAD_REQUEST, "错误的密码!");
+			return R.failed(SystemResultCode.BAD_REQUEST, "两次密码输入不一致!");
 		}
 
-		// 明文密码
-		String password = PasswordUtils.decodeAES(pass, securityProperties.getPasswordSecretKey());
-		return sysUserService.updatePassword(userId, password) ? R.ok()
+		// 解密明文密码
+		String rawPassword;
+		try {
+			rawPassword = PasswordUtils.decodeAES(pass, securityProperties.getPasswordSecretKey());
+		}
+		catch (CryptoException ex) {
+			return R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "密码密文解密异常！");
+		}
+
+		return sysUserService.updatePassword(userId, rawPassword) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改用户密码失败！");
 	}
 
