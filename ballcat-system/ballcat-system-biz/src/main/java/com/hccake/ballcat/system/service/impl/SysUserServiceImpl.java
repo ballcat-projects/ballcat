@@ -149,7 +149,6 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	@Transactional(rollbackFor = Exception.class)
 	public boolean addSysUser(SysUserDTO sysUserDto) {
 		SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
-		sysUser.setStatus(SysUserConst.Status.NORMAL.getValue());
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
 		// 对密码进行加密
 		String rawPassword = sysUserDto.getPassword();
