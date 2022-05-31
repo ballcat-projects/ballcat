@@ -2,6 +2,8 @@ package com.hccake.ballcat.system.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.crypto.CryptoException;
+import com.hccake.ballcat.common.core.validation.group.CreateGroup;
+import com.hccake.ballcat.common.core.validation.group.UpdateGroup;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
@@ -42,10 +44,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import javax.validation.ValidationException;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +121,7 @@ public class SysUserController {
 	@CreateOperationLogging(msg = "新增系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:add')")
 	@Operation(summary = "新增系统用户", description = "新增系统用户")
-	public R<Void> addSysUser(@Valid @RequestBody SysUserDTO sysUserDTO) {
+	public R<Void> addSysUser(@Validated({ Default.class, CreateGroup.class }) @RequestBody SysUserDTO sysUserDTO) {
 		SysUser user = sysUserService.getByUsername(sysUserDTO.getUsername());
 		if (user != null) {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "用户名已存在");
@@ -140,7 +142,7 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "修改系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:edit')")
 	@Operation(summary = "修改系统用户", description = "修改系统用户")
-	public R<Void> updateUserInfo(@Valid @RequestBody SysUserDTO sysUserDto) {
+	public R<Void> updateUserInfo(@Validated({ Default.class, UpdateGroup.class }) @RequestBody SysUserDTO sysUserDto) {
 		return sysUserService.updateSysUser(sysUserDto) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改系统用户失败");
 	}
