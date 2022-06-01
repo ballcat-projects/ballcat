@@ -31,7 +31,6 @@ public @interface CachePut {
 
 	/**
 	 * 控制时长单位，默认为 SECONDS 秒
-	 *
 	 * @return {@link TimeUnit}
 	 */
 	TimeUnit timeUnit() default TimeUnit.SECONDS;

@@ -118,13 +118,15 @@ public class CacheStringAspect {
 	}
 
 	private Consumer<Object> prodCachePutFunction(ValueOperations<String, String> valueOperations, String key, long ttl,
-												  TimeUnit unit) {
+			TimeUnit unit) {
 		Consumer<Object> cachePut;
 		if (ttl < 0) {
 			cachePut = value -> valueOperations.set(key, (String) value);
-		} else if (ttl == 0) {
+		}
+		else if (ttl == 0) {
 			cachePut = value -> valueOperations.set(key, (String) value, CachePropertiesHolder.expireTime(), unit);
-		} else {
+		}
+		else {
 			cachePut = value -> valueOperations.set(key, (String) value, ttl, unit);
 		}
 		return cachePut;
