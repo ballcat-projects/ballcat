@@ -52,9 +52,9 @@
 		<kafka.version>2.6.3</kafka.version>
 		<hutool.version>5.7.22</hutool.version>
 		<fastjson.version>1.2.80</fastjson.version>
-		<mybatis-plus.version>3.5.1</mybatis-plus.version>
-		<mybatis.version>3.5.9</mybatis.version>
-		<jsqlparser.version>4.3</jsqlparser.version>
+		<mybatis-plus.version>3.5.2</mybatis-plus.version>
+		<mybatis.version>3.5.10</mybatis.version>
+		<jsqlparser.version>4.4</jsqlparser.version>
 		<dynamic-datasource.version>3.5.1</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
 		<easyexcel.version>3.0.5</easyexcel.version>
