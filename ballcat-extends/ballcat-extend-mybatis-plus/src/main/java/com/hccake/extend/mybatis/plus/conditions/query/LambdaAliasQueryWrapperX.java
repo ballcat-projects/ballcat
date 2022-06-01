@@ -43,6 +43,17 @@ public class LambdaAliasQueryWrapperX<T> extends LambdaQueryWrapperX<T> {
 	}
 
 	/**
+	 * 用于生成嵌套 sql
+	 * <p>
+	 * 故 sqlSelect 不向下传递
+	 * </p>
+	 */
+	@Override
+	protected LambdaAliasQueryWrapperX<T> instance() {
+		return new LambdaAliasQueryWrapperX<>(getEntityClass());
+	}
+
+	/**
 	 * 查询条件构造时添加上表别名
 	 * @param column 字段Lambda
 	 * @return 表别名.字段名，如：t.id
