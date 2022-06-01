@@ -48,7 +48,7 @@
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
 		<io.swagger.v3.version>2.2.0</io.swagger.v3.version>
-		<springdoc-openapi.verison>1.6.7</springdoc-openapi.verison>
+		<springdoc-openapi.verison>1.6.9</springdoc-openapi.verison>
 		<kafka.version>2.6.3</kafka.version>
 		<hutool.version>5.7.22</hutool.version>
 		<fastjson.version>1.2.80</fastjson.version>
