@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.redis.core.annotation;
 
 import java.lang.annotation.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Hccake
@@ -27,5 +28,11 @@ public @interface Cached {
 	 * 超时时间(S) ttl = 0 使用全局配置值 ttl < 0 : 不超时 ttl > 0 : 使用此超时间
 	 */
 	long ttl() default 0;
+
+	/**
+	 * 控制时长单位，默认为 SECONDS 秒
+	 * @return {@link TimeUnit}
+	 */
+	TimeUnit timeUnit() default TimeUnit.SECONDS;
 
 }

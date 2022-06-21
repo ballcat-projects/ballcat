@@ -1,7 +1,6 @@
 package com.hccake.ballcat.auth.mobile;
 
 import lombok.EqualsAndHashCode;
-import lombok.SneakyThrows;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
@@ -44,7 +43,6 @@ public class MobileAuthenticationToken extends AbstractAuthenticationToken {
 	}
 
 	@Override
-	@SneakyThrows
 	public void setAuthenticated(boolean isAuthenticated) {
 		if (isAuthenticated) {
 			throw new IllegalArgumentException(

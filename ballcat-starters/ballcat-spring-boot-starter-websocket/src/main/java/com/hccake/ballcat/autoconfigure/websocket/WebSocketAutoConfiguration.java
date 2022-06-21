@@ -9,6 +9,7 @@ import com.hccake.ballcat.common.websocket.holder.JsonMessageHandlerInitializer;
 import com.hccake.ballcat.common.websocket.message.JsonWebSocketMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -28,6 +29,7 @@ import java.util.List;
  *
  * @author Yakir Hccake
  */
+@AutoConfiguration
 @Import({ WebSocketHandlerConfig.class, LocalMessageDistributorConfig.class, RedisMessageDistributorConfig.class })
 @EnableWebSocket
 @RequiredArgsConstructor

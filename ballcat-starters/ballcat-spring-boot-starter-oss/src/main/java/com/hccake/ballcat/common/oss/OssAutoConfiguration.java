@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.oss;
 
-import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,7 +13,7 @@ import software.amazon.awssdk.services.s3.S3Client;
  *
  * @author Hccake
  */
-@AllArgsConstructor
+@AutoConfiguration
 @EnableConfigurationProperties(OssProperties.class)
 public class OssAutoConfiguration {
 

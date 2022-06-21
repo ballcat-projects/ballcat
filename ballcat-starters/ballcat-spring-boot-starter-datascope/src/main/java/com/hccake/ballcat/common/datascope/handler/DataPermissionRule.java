@@ -3,7 +3,10 @@ package com.hccake.ballcat.common.datascope.handler;
 import com.hccake.ballcat.common.datascope.annotation.DataPermission;
 
 /**
+ * 数据权限的规则抽象类
+ *
  * @author hccake
+ * @since 0.7.0
  */
 public class DataPermissionRule {
 
@@ -14,6 +17,16 @@ public class DataPermissionRule {
 	private String[] excludeResources = new String[0];
 
 	public DataPermissionRule() {
+	}
+
+	public DataPermissionRule(boolean ignore) {
+		this.ignore = ignore;
+	}
+
+	public DataPermissionRule(boolean ignore, String[] includeResources, String[] excludeResources) {
+		this.ignore = ignore;
+		this.includeResources = includeResources;
+		this.excludeResources = excludeResources;
 	}
 
 	public DataPermissionRule(DataPermission dataPermission) {
@@ -48,16 +61,19 @@ public class DataPermissionRule {
 		return excludeResources;
 	}
 
-	public void setIgnore(boolean ignore) {
+	public DataPermissionRule setIgnore(boolean ignore) {
 		this.ignore = ignore;
+		return this;
 	}
 
-	public void setIncludeResources(String[] includeResources) {
+	public DataPermissionRule setIncludeResources(String[] includeResources) {
 		this.includeResources = includeResources;
+		return this;
 	}
 
-	public void setExcludeResources(String[] excludeResources) {
+	public DataPermissionRule setExcludeResources(String[] excludeResources) {
 		this.excludeResources = excludeResources;
+		return this;
 	}
 
 }

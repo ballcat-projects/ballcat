@@ -32,7 +32,7 @@ import java.util.Map;
  */
 public class CheckEndpointPostProcessor implements BeanPostProcessor {
 
-	@SneakyThrows
+	@SneakyThrows({ NoSuchFieldException.class, IllegalAccessException.class })
 	@Override
 	public Object postProcessAfterInitialization(final Object beanInstance, String beanName) throws BeansException {
 		// 代理 CheckTokenEndpoint

@@ -74,11 +74,19 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+		if (request == null) {
+			return null;
+		}
 
 		String current = request.getParameter("current");
 		String size = request.getParameter("size");
 		Map<String, String[]> parameterMap = request.getParameterMap();
+
+		// sort 同时支持 sort 和 sort[]
 		String[] sort = parameterMap.get("sort");
+		if (ArrayUtil.isEmpty(sort)) {
+			sort = parameterMap.get("sort[]");
+		}
 
 		PageParam pageParam;
 		try {

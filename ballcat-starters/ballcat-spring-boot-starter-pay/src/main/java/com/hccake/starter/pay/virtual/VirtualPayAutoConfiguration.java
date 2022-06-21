@@ -1,23 +1,21 @@
 package com.hccake.starter.pay.virtual;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import live.lingting.virtual.currency.bitcoin.BitcoinServiceImpl;
+import live.lingting.virtual.currency.core.Contract;
+import live.lingting.virtual.currency.etherscan.EtherscanServiceImpl;
+import live.lingting.virtual.currency.tronscan.TronscanServiceImpl;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import live.lingting.virtual.currency.bitcoin.BitcoinServiceImpl;
-import live.lingting.virtual.currency.core.Contract;
-import live.lingting.virtual.currency.etherscan.EtherscanServiceImpl;
-import live.lingting.virtual.currency.tronscan.TronscanServiceImpl;
 
 /**
  * @author lingting 2021/1/5 9:52
  */
-@Slf4j
-@RequiredArgsConstructor
+@AutoConfiguration
 @ConditionalOnClass(Contract.class)
 @EnableConfigurationProperties({ BitcoinProperties.class, EtherscanProperties.class, TronscanProperties.class })
 public class VirtualPayAutoConfiguration {

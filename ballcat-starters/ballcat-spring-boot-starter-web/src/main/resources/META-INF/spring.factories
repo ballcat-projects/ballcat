@@ -3,6 +3,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.hccake.ballcat.autoconfigure.web.jackson.CustomJacksonAutoConfiguration,\
     com.hccake.ballcat.autoconfigure.web.exception.ExceptionAutoConfiguration,\
     com.hccake.ballcat.autoconfigure.web.servlet.WebMvcAutoConfiguration,\
-    com.hccake.ballcat.autoconfigure.web.validation.ValidationAutoConfiguration
+    com.hccake.ballcat.autoconfigure.web.validation.BallcatValidationAutoConfiguration
 
 

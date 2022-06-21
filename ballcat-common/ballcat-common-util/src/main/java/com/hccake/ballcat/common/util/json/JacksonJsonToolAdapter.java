@@ -1,6 +1,8 @@
 package com.hccake.ballcat.common.util.json;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,25 +28,25 @@ public class JacksonJsonToolAdapter implements JsonTool {
 		consumer.accept(mapper);
 	}
 
-	@SneakyThrows
+	@SneakyThrows(JsonProcessingException.class)
 	@Override
 	public String toJson(Object obj) {
 		return mapper.writeValueAsString(obj);
 	}
 
-	@SneakyThrows
+	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
 	@Override
 	public <T> T toObj(String json, Class<T> r) {
 		return mapper.readValue(json, r);
 	}
 
-	@SneakyThrows
+	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
 	@Override
 	public <T> T toObj(String json, Type t) {
 		return mapper.readValue(json, mapper.constructType(t));
 	}
 
-	@SneakyThrows
+	@SneakyThrows({ JsonMappingException.class, JsonProcessingException.class })
 	@Override
 	public <T> T toObj(String json, TypeReference<T> t) {
 		return mapper.readValue(json, new com.fasterxml.jackson.core.type.TypeReference<T>() {

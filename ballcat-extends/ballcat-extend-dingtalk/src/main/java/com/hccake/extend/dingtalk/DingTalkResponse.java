@@ -1,12 +1,15 @@
 package com.hccake.extend.dingtalk;
 
 import cn.hutool.core.convert.Convert;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -21,9 +24,9 @@ public class DingTalkResponse {
 
 	public static final Long SUCCESS_CODE = 0L;
 
-	@SneakyThrows
+	@SneakyThrows({ StreamReadException.class, DatabindException.class, IOException.class })
 	public DingTalkResponse(String res) {
-		Map resMap = new ObjectMapper().readValue(res.getBytes(), Map.class);
+		Map<?, ?> resMap = new ObjectMapper().readValue(res.getBytes(), Map.class);
 		this.response = res;
 		this.code = Convert.toLong(resMap.get("errcode"));
 		this.message = Convert.toStr(resMap.get("errmsg"));

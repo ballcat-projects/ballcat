@@ -3,8 +3,11 @@ package com.hccake.extend.pay.wx.domain;
 import cn.hutool.http.HttpRequest;
 import com.hccake.extend.pay.wx.enums.RequestSuffix;
 import com.hccake.extend.pay.wx.utils.WxPayUtil;
-import java.util.Map;
 import lombok.SneakyThrows;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import java.util.Map;
 
 /**
  * 微信域名管理
@@ -28,8 +31,8 @@ public class DefaultWxDomain implements WxDomain {
 		return new DefaultWxDomain(sandbox);
 	}
 
+	@SneakyThrows({ ParserConfigurationException.class, TransformerException.class })
 	@Override
-	@SneakyThrows
 	public String sendRequest(Map<String, String> params, RequestSuffix rs) {
 		// 获取请求地址
 		String url = getUrl(rs.getSuffix());

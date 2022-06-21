@@ -40,8 +40,8 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 		return parameter.hasParameterAnnotation(RequestExcel.class);
 	}
 
+	@SneakyThrows(Exception.class)
 	@Override
-	@SneakyThrows
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer modelAndViewContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory webDataBinderFactory) {
 		Class<?> parameterType = parameter.getParameterType();

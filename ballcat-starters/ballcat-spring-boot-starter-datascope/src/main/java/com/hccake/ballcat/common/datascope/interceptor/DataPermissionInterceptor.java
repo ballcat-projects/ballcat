@@ -56,9 +56,9 @@ public class DataPermissionInterceptor implements Interceptor {
 			return invocation.proceed();
 		}
 
+		// 创建 matchNumTreadLocal
+		DataScopeMatchNumHolder.initMatchNum();
 		try {
-			// 创建 matchNumTreadLocal
-			DataScopeMatchNumHolder.initMatchNum();
 			// 根据 DataScopes 进行数据权限的 sql 处理
 			if (sct == SqlCommandType.SELECT) {
 				mpBs.sql(dataScopeSqlProcessor.parserSingle(mpBs.sql(), dataScopes));
@@ -67,12 +67,13 @@ public class DataPermissionInterceptor implements Interceptor {
 				mpBs.sql(dataScopeSqlProcessor.parserMulti(mpBs.sql(), dataScopes));
 			}
 			// 如果解析后发现当前 mappedStatementId 对应的 sql，没有任何数据权限匹配，则记录下来，后续可以直接跳过不解析
-			if (DataScopeMatchNumHolder.getMatchNum() == 0) {
+			Integer matchNum = DataScopeMatchNumHolder.pollMatchNum();
+			if (matchNum != null && matchNum == 0) {
 				MappedStatementIdsWithoutDataScope.addToWithoutSet(dataScopes, mappedStatementId);
 			}
 		}
 		finally {
-			DataScopeMatchNumHolder.remove();
+			DataScopeMatchNumHolder.removeIfEmpty();
 		}
 
 		// 执行 sql

@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * I18nMessage 创建事件的监听者
+ *
  * @author hccake
  */
 @Component
@@ -22,11 +24,11 @@ public class I18nMessageCreateListener {
 	private final I18nDataService i18nDataService;
 
 	/**
-	 * 监听鉴权失败事件
+	 * 监听 I18nMessageCreateEvent 事件，保存对应的 I18nMessage
 	 * @param event the event
 	 */
 	@EventListener(I18nMessageCreateEvent.class)
-	public void onAuthenticationFailureEvent(I18nMessageCreateEvent event) {
+	public void saveOnI18nMessageCreateEvent(I18nMessageCreateEvent event) {
 		List<I18nMessage> i18nMessages = event.getI18nMessages();
 		List<I18nData> list = i18nMessages.stream().map(I18nDataConverter.INSTANCE::messageToPo)
 				.collect(Collectors.toList());

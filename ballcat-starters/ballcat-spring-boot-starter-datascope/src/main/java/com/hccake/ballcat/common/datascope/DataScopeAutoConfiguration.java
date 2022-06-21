@@ -6,6 +6,7 @@ import com.hccake.ballcat.common.datascope.interceptor.DataPermissionAnnotationA
 import com.hccake.ballcat.common.datascope.interceptor.DataPermissionInterceptor;
 import com.hccake.ballcat.common.datascope.processor.DataScopeSqlProcessor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * @author hccake
  */
+@AutoConfiguration
 @RequiredArgsConstructor
 @ConditionalOnBean(DataScope.class)
 public class DataScopeAutoConfiguration {

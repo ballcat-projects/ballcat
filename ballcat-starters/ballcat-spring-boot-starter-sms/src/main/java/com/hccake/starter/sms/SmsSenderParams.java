@@ -6,13 +6,11 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author lingting 2020/4/26 11:40
+ * @author 疯狂的狮子Li 2022-04-21
  */
 @ToString
 @Getter
@@ -32,6 +30,11 @@ public class SmsSenderParams {
 	 * @see Tencent
 	 */
 	private List<Object> templateParam = new ArrayList<>();
+
+	/**
+	 * 短信模板参数 aliyun专用
+	 */
+	private Map<String, Object> aliyunTemplateParam = new HashMap<>();
 
 	/**
 	 * 短信内容

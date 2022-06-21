@@ -2,6 +2,7 @@ package com.hccake.starter.sms.properties;
 
 import com.hccake.starter.sms.enums.TypeEnum;
 import com.hccake.starter.sms.properties.extra.Account;
+import com.hccake.starter.sms.properties.extra.Aliyun;
 import com.hccake.starter.sms.properties.extra.Tencent;
 import com.hccake.starter.sms.properties.extra.TianYiHong;
 import lombok.Data;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 /**
  * @author lingting 2020/4/26 9:43
+ * @author 疯狂的狮子Li 2022-04-21
  */
 @Data
 @ConfigurationProperties(prefix = "ballcat.sms")
@@ -53,5 +55,11 @@ public class SmsProperties {
 	 */
 	@NestedConfigurationProperty
 	private TianYiHong tianYiHong;
+
+	/**
+	 * 阿里云所需额外参数
+	 */
+	@NestedConfigurationProperty
+	private Aliyun aliyun;
 
 }

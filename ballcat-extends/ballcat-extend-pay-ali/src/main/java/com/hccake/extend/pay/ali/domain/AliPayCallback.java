@@ -1,21 +1,22 @@
 package com.hccake.extend.pay.ali.domain;
 
-import static com.hccake.extend.pay.ali.constants.AliPayConstant.FIELD_FUND_BILL_LIST;
-
+import com.alipay.api.AlipayApiException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.extend.pay.ali.AliPay;
 import com.hccake.extend.pay.ali.enums.TradeStatus;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.experimental.Accessors;
+
+import static com.hccake.extend.pay.ali.constants.AliPayConstant.FIELD_FUND_BILL_LIST;
 
 /**
  * @author lingting 2021/1/26 13:31
@@ -41,8 +42,7 @@ public class AliPayCallback {
 		return JsonUtils.toObj(JsonUtils.toJson(map), AliPayCallback.class).setRaw(callbackParams);
 	}
 
-	@SneakyThrows
-	public boolean checkSign(AliPay aliPay) {
+	public boolean checkSign(AliPay aliPay) throws AlipayApiException {
 		return aliPay.checkSignV1(getRaw()) || aliPay.checkSignV2(getRaw());
 	}
 

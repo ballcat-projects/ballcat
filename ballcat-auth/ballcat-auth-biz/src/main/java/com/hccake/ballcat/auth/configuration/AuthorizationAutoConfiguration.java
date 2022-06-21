@@ -66,7 +66,7 @@ public class AuthorizationAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	protected PasswordEncoder passwordEncoder() {
-		return PasswordUtils.ENCODER;
+		return PasswordUtils.createDelegatingPasswordEncoder();
 	}
 
 	/**

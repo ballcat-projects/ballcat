@@ -27,10 +27,5 @@
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 		</dependency>
-		<!-- 行为验证码 -->
-		<dependency>
-			<groupId>com.anji-plus</groupId>
-			<artifactId>captcha</artifactId>
-		</dependency>
 	</dependencies>
 </project>

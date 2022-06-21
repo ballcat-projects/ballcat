@@ -1,8 +1,9 @@
 package com.hccake.starter.file.local;
 
-import com.hccake.ballcat.common.util.FileUtils;
+import cn.hutool.core.io.FileUtil;
 import com.hccake.ballcat.common.util.StreamUtils;
-import com.hccake.starter.file.FileClient;
+import com.hccake.starter.file.core.AbstractFileClient;
+import com.hccake.starter.file.exception.FileException;
 import com.hccake.starter.file.FileProperties.LocalProperties;
 import org.springframework.util.StringUtils;
 
@@ -13,49 +14,22 @@ import java.io.InputStream;
 
 /**
  * @author lingting 2021/10/17 20:11
+ * @author 疯狂的狮子Li 2022-04-24
  */
-public class LocalFileClient implements FileClient {
-
-	public static final String SLASH = File.separator;
+public class LocalFileClient extends AbstractFileClient {
 
 	private final File parentDir;
 
-	private final String parentDirPath;
-
-	public LocalFileClient(LocalProperties properties) throws LocalFileException {
+	public LocalFileClient(LocalProperties properties) throws IOException {
 		final File dir = StringUtils.hasText(properties.getPath()) ? new File(properties.getPath())
-				: FileUtils.getSystemTempDir();
-
+				: FileUtil.getTmpDir();
 		// 不存在且创建失败
 		if (!dir.exists() && !dir.mkdirs()) {
-			throw new LocalFileException(String.format("路径: %s; 不存在且创建失败! 请检查是否拥有对该路径的操作权限!", dir.getPath()));
+			throw new FileException(String.format("路径: %s; 不存在且创建失败! 请检查是否拥有对该路径的操作权限!", dir.getPath()));
 		}
-
 		parentDir = dir;
-		parentDirPath = dir.getPath();
-	}
-
-	/**
-	 * 获取操作的根路径
-	 * @return java.lang.String
-	 * @author lingting 2021-10-18 11:24
-	 */
-	@Override
-	public String getRoot() {
-		return parentDirPath;
-	}
-
-	/**
-	 * 获取完整路径
-	 * @param relativePath 文件相对 getRoot() 的路径@return java.lang.String
-	 * @author lingting 2021-10-18 16:40
-	 */
-	@Override
-	public String getWholePath(String relativePath) {
-		if (relativePath.startsWith(SLASH)) {
-			return getRoot() + relativePath.substring(1);
-		}
-		return getRoot() + relativePath;
+		super.rootPath = dir.getPath();
+		super.slash = File.separator;
 	}
 
 	/**
@@ -65,6 +39,7 @@ public class LocalFileClient implements FileClient {
 	 * @param stream 文件输入流
 	 * @return 文件绝对路径
 	 * @author lingting 2021-10-19 22:32
+	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public String upload(InputStream stream, String relativePath) throws IOException {
@@ -72,18 +47,18 @@ public class LocalFileClient implements FileClient {
 		final File file = new File(parentDir, relativePath);
 
 		if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
-			throw new LocalFileException("文件上传失败! 创建父级文件夹失败! 父级路径: " + file.getParentFile().getPath());
+			throw new FileException("文件上传失败! 创建父级文件夹失败! 父级路径: " + file.getParentFile().getPath());
 		}
 
 		if (!file.exists() && !file.createNewFile()) {
-			throw new LocalFileException("文件上传失败! 创建文件失败! 文件路径: " + file.getPath());
+			throw new FileException("文件上传失败! 创建文件失败! 文件路径: " + file.getPath());
 		}
 
 		try (FileOutputStream outputStream = new FileOutputStream(file)) {
 			StreamUtils.write(stream, outputStream);
 		}
 
-		return file.getPath();
+		return relativePath;
 	}
 
 	/**
@@ -91,9 +66,10 @@ public class LocalFileClient implements FileClient {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return java.io.FileOutputStream 文件流
 	 * @author lingting 2021-10-18 16:48
+	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
-	public File download(String relativePath) {
+	public File download(String relativePath) throws IOException {
 		return new File(parentDir, relativePath);
 	}
 

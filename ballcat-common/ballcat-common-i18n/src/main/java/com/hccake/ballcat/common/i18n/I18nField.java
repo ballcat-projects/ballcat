@@ -23,7 +23,9 @@ public @interface I18nField {
 	String value() default "";
 
 	/**
-	 * 国际化的唯一标识, 当不传值时，则使用被标注的元素的值作为 code
+	 * 使用（SpEL 表达式）获取国际化code， 1,默认未 “”，表示则使用被标注的元素的值作为 code 2, 指定国际化的唯一标识属性,被指定的属性的值作为
+	 * code ,当不传值时，则使用被标注的元素的值作为 code (可选) 目前支持属性类型为: String & Number(将会格式化为String) 示例:
+	 * "title" 3,为了防止重复code可添加添加一个前缀 prefix(可选) 示例: "'prefix'+ "title"
 	 * @return String
 	 */
 	@AliasFor("value")

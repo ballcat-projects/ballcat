@@ -83,7 +83,8 @@ public class CacheStringAspect {
 			String lockKey = key + CachePropertiesHolder.lockKeySuffix();
 			Supplier<String> cacheQuery = () -> valueOperations.get(key);
 			// 失效时间控制
-			Consumer<Object> cachePut = prodCachePutFunction(valueOperations, key, cachedAnnotation.ttl());
+			Consumer<Object> cachePut = prodCachePutFunction(valueOperations, key, cachedAnnotation.ttl(),
+					cachedAnnotation.timeUnit());
 			return cached(new CachedOps(point, lockKey, cacheQuery, cachePut, method.getGenericReturnType()));
 
 		}
@@ -93,7 +94,8 @@ public class CacheStringAspect {
 			// 缓存key
 			String key = keyGenerator.getKey(cachePutAnnotation.key(), cachePutAnnotation.keyJoint());
 			// 失效时间控制
-			Consumer<Object> cachePut = prodCachePutFunction(valueOperations, key, cachePutAnnotation.ttl());
+			Consumer<Object> cachePut = prodCachePutFunction(valueOperations, key, cachePutAnnotation.ttl(),
+					cachePutAnnotation.timeUnit());
 			return cachePut(new CachePutOps(point, cachePut));
 		}
 
@@ -115,18 +117,17 @@ public class CacheStringAspect {
 		return point.proceed();
 	}
 
-	private Consumer<Object> prodCachePutFunction(ValueOperations<String, String> valueOperations, String key,
-			long ttl) {
+	private Consumer<Object> prodCachePutFunction(ValueOperations<String, String> valueOperations, String key, long ttl,
+			TimeUnit unit) {
 		Consumer<Object> cachePut;
 		if (ttl < 0) {
 			cachePut = value -> valueOperations.set(key, (String) value);
 		}
 		else if (ttl == 0) {
-			cachePut = value -> valueOperations.set(key, (String) value, CachePropertiesHolder.expireTime(),
-					TimeUnit.SECONDS);
+			cachePut = value -> valueOperations.set(key, (String) value, CachePropertiesHolder.expireTime(), unit);
 		}
 		else {
-			cachePut = value -> valueOperations.set(key, (String) value, ttl, TimeUnit.SECONDS);
+			cachePut = value -> valueOperations.set(key, (String) value, ttl, unit);
 		}
 		return cachePut;
 	}

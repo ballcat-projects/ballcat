@@ -14,6 +14,7 @@ import com.hccake.ballcat.common.datascope.test.datarule.service.StudentService;
 import com.hccake.ballcat.common.datascope.test.datarule.user.LoginUser;
 import com.hccake.ballcat.common.datascope.test.datarule.user.LoginUserHolder;
 import com.hccake.ballcat.common.datascope.test.datarule.user.UserRoleType;
+import com.hccake.ballcat.common.datascope.util.DataPermissionUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,32 +74,31 @@ class StudentMapperTest {
 		Assertions.assertEquals(3, studentList2.size());
 
 		/* 忽略权限控制，一共有 10 名学生 */
-		// 编程式忽略
-		DataPermissionRule dataPermissionRule = new DataPermissionRule();
-		dataPermissionRule.setIgnore(true);
-		dataPermissionHandler.executeWithDataPermissionRule(dataPermissionRule,
+		// === 编程式 ===
+		DataPermissionRule dataPermissionRule = new DataPermissionRule(true);
+		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule,
 				() -> Assertions.assertEquals(10, studentService.listStudent().size()));
-		// 注解忽略权限
+		// === 注解 ====
 		List<Student> studentList4 = studentService.listStudentWithoutDataPermission();
 		Assertions.assertEquals(10, studentList4.size());
 
 		/* 只控制班级的数据权限，实验中学 + 德高中学 一班总共有 5 名学生 */
-		// 编程式忽略
-		DataPermissionRule dataPermissionRule1 = new DataPermissionRule();
-		dataPermissionRule1.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
-		dataPermissionHandler.executeWithDataPermissionRule(dataPermissionRule1,
+		// === 编程式 ===
+		DataPermissionRule dataPermissionRule1 = new DataPermissionRule()
+				.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
+		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule1,
 				() -> Assertions.assertEquals(5, studentService.listStudent().size()));
-		// 注解忽略
+		// === 注解 ====
 		List<Student> studentList5 = studentService.listStudentOnlyFilterClass();
 		Assertions.assertEquals(5, studentList5.size());
 
 		/* 只控制学校的数据权限，"德高中学"、一班、二班 总共有 6 名学生 */
-		DataPermissionRule dataPermissionRule2 = new DataPermissionRule();
-		// 编程式忽略
-		dataPermissionRule2.setIncludeResources(new String[] { SchoolDataScope.RESOURCE_NAME });
-		dataPermissionHandler.executeWithDataPermissionRule(dataPermissionRule2,
+		// === 编程式 ===
+		DataPermissionRule dataPermissionRule2 = new DataPermissionRule()
+				.setIncludeResources(new String[] { SchoolDataScope.RESOURCE_NAME });
+		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule2,
 				() -> Assertions.assertEquals(6, studentService.listStudent().size()));
-		// 注解忽略
+		// === 注解 ====
 		List<Student> studentList6 = studentService.listStudentOnlyFilterSchool();
 		Assertions.assertEquals(6, studentList6.size());
 
@@ -134,17 +134,16 @@ class StudentMapperTest {
 		Assertions.assertEquals(2, studentList.size());
 
 		// 编程式数据权限，
-		DataPermissionRule dataPermissionRule = new DataPermissionRule();
-		dataPermissionRule.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
-		dataPermissionHandler.executeWithDataPermissionRule(dataPermissionRule, () -> {
+		DataPermissionRule dataPermissionRule = new DataPermissionRule()
+				.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
+		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule, () -> {
 			// 编程式数据权限内部方法，走指定的规则
 			List<Student> studentList2 = studentService.listStudent();
 			Assertions.assertEquals(5, studentList2.size());
 
 			// 嵌套的权限控制
-			DataPermissionRule dataPermissionRule1 = new DataPermissionRule();
-			dataPermissionRule1.setIgnore(true);
-			dataPermissionHandler.executeWithDataPermissionRule(dataPermissionRule1, () -> {
+			DataPermissionRule dataPermissionRule1 = new DataPermissionRule(true);
+			DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule1, () -> {
 				// 规则嵌套时，优先使用内部规则
 				List<Student> studentList1 = studentService.listStudent();
 				Assertions.assertEquals(10, studentList1.size());
@@ -162,26 +161,24 @@ class StudentMapperTest {
 	@Test
 	void testExecuteWithDataPermissionRule() {
 
-		DataPermissionRule dataPermissionRule = new DataPermissionRule();
-		dataPermissionRule.setIgnore(true);
-		dataPermissionHandler.executeWithDataPermissionRule(dataPermissionRule, () -> {
+		DataPermissionRule dataPermissionRule = new DataPermissionRule(true);
+		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule, () -> {
 			List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(null);
 			Assertions.assertTrue(dataScopes.isEmpty());
 		});
 
-		DataPermissionRule dataPermissionRule1 = new DataPermissionRule();
-		dataPermissionRule1.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
-		dataPermissionHandler.executeWithDataPermissionRule(dataPermissionRule1, () -> {
+		DataPermissionRule dataPermissionRule1 = new DataPermissionRule()
+				.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
+		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule1, () -> {
 			List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(null);
 			Assertions.assertFalse(dataScopes.isEmpty());
 			Assertions.assertEquals(1, dataScopes.size());
 			Assertions.assertEquals(ClassDataScope.RESOURCE_NAME, dataScopes.get(0).getResource());
 		});
 
-		DataPermissionRule dataPermissionRule2 = new DataPermissionRule();
-		dataPermissionRule2
+		DataPermissionRule dataPermissionRule2 = new DataPermissionRule()
 				.setExcludeResources(new String[] { SchoolDataScope.RESOURCE_NAME, StudentDataScope.RESOURCE_NAME });
-		dataPermissionHandler.executeWithDataPermissionRule(dataPermissionRule2, () -> {
+		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule2, () -> {
 			List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(null);
 			Assertions.assertFalse(dataScopes.isEmpty());
 			Assertions.assertEquals(1, dataScopes.size());

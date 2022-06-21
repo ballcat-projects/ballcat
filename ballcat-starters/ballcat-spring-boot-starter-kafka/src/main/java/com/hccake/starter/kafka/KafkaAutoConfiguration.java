@@ -3,8 +3,8 @@ package com.hccake.starter.kafka;
 import com.hccake.extend.kafka.KafkaConsumerBuilder;
 import com.hccake.extend.kafka.KafkaExtendProducer;
 import com.hccake.extend.kafka.KafkaProducerBuilder;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Scope;
  * @author lingting 2020/7/28 21:17
  */
 @Slf4j
-@RequiredArgsConstructor
+@AutoConfiguration
 @EnableConfigurationProperties({ KafkaProperties.class })
 public class KafkaAutoConfiguration {
 

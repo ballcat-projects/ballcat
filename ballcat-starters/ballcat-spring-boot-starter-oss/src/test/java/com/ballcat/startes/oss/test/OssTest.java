@@ -2,13 +2,15 @@ package com.ballcat.startes.oss.test;
 
 import com.hccake.ballcat.common.oss.OssClient;
 import com.hccake.ballcat.common.oss.OssProperties;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author lingting 2021/5/13 14:09
@@ -24,7 +26,7 @@ class OssTest {
 	 * 阿里云
 	 */
 	@Test
-	@SneakyThrows
+	@SneakyThrows(IOException.class)
 	void ali() {
 
 		properties = new OssProperties();
@@ -60,7 +62,7 @@ class OssTest {
 	}
 
 	@Test
-	@SneakyThrows
+	@SneakyThrows(IOException.class)
 	void aliDomain() {
 
 		properties = new OssProperties();
@@ -92,7 +94,7 @@ class OssTest {
 	 * </p>
 	 */
 	@Test
-	@SneakyThrows
+	@SneakyThrows(IOException.class)
 	void tx() {
 		properties = new OssProperties();
 		properties.setObjectKeyPrefix("/");
@@ -119,7 +121,7 @@ class OssTest {
 	 * 亚马逊国际
 	 */
 	@Test
-	@SneakyThrows
+	@SneakyThrows(IOException.class)
 	void aws() {
 
 		properties = new OssProperties();
@@ -145,7 +147,7 @@ class OssTest {
 	}
 
 	@Test
-	@SneakyThrows
+	@SneakyThrows(IOException.class)
 	void awsDomain() {
 
 		properties = new OssProperties();

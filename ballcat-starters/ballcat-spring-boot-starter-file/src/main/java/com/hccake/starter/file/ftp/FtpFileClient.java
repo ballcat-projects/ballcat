@@ -1,78 +1,50 @@
 package com.hccake.starter.file.ftp;
 
-import com.hccake.ballcat.common.util.FileUtils;
-import com.hccake.starter.file.FileClient;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.ftp.Ftp;
+import cn.hutool.extra.ftp.FtpConfig;
+import com.hccake.starter.file.core.AbstractFileClient;
+import com.hccake.starter.file.exception.FileException;
 import com.hccake.starter.file.FileProperties.FtpProperties;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 /**
  * @author lingting 2021/10/17 20:11
+ * @author 疯狂的狮子Li 2022-04-24
  */
-public class FtpFileClient implements FileClient {
+public class FtpFileClient extends AbstractFileClient {
 
-	public static final String SLASH = "/";
+	private final Ftp client;
 
-	private final String rootPath;
+	public FtpFileClient(FtpProperties properties) {
+		FtpConfig config = new FtpConfig().setHost(properties.getIp()).setPort(properties.getPort())
+				.setUser(properties.getUsername()).setPassword(properties.getPassword())
+				.setCharset(Charset.forName(properties.getEncoding()));
 
-	private final FTPClient client;
-
-	public FtpFileClient(FtpProperties properties) throws IOException {
-		client = new FTPClient();
 		final FtpMode mode = properties.getMode();
 		if (mode == FtpMode.ACTIVE) {
-			client.enterLocalActiveMode();
+			client = new Ftp(config, cn.hutool.extra.ftp.FtpMode.Active);
 		}
 		else if (mode == FtpMode.PASSIVE) {
-			client.enterLocalPassiveMode();
+			client = new Ftp(config, cn.hutool.extra.ftp.FtpMode.Passive);
 		}
-		client.connect(properties.getIp(), properties.getPort());
-		int replyCode = client.getReplyCode();
-		if (!FTPReply.isPositiveCompletion(replyCode)) {
-			throw new FtpFileException("ftp连接失败! 错误代码: " + replyCode);
-		}
-
-		client.login(properties.getUsername(), properties.getPassword());
-
-		replyCode = client.getReplyCode();
-		if (!FTPReply.isPositiveCompletion(replyCode)) {
-			throw new FtpFileException("ftp登录失败! 错误代码: " + replyCode);
+		else {
+			client = new Ftp(config, null);
 		}
 
 		if (!StringUtils.hasText(properties.getPath())) {
 			throw new NullPointerException("ftp文件根路径不能为空!");
 		}
-		client.setControlEncoding(properties.getEncoding());
-		rootPath = properties.getPath().endsWith(SLASH) ? properties.getPath() : properties.getPath() + SLASH;
-	}
 
-	/**
-	 * 获取操作的根路径
-	 * @return java.lang.String
-	 * @author lingting 2021-10-18 11:24
-	 */
-	@Override
-	public String getRoot() {
-		return rootPath;
-	}
-
-	/**
-	 * 获取完整路径
-	 * @param relativePath 文件相对 getRoot() 的路径@return java.lang.String
-	 * @author lingting 2021-10-18 16:40
-	 */
-	@Override
-	public String getWholePath(String relativePath) {
-		if (relativePath.startsWith(SLASH)) {
-			return getRoot() + relativePath.substring(1);
-		}
-		return getRoot() + relativePath;
+		super.rootPath = properties.getPath().endsWith(super.slash) ? properties.getPath()
+				: properties.getPath() + super.slash;
 	}
 
 	/**
@@ -81,14 +53,16 @@ public class FtpFileClient implements FileClient {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return java.lang.String 文件完整路径
 	 * @author lingting 2021-10-18 11:40
+	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public String upload(InputStream stream, String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
-
+		final String fileName = FileUtil.getName(path);
+		final String dir = StrUtil.removeSuffix(path, fileName);
 		// 上传失败
-		if (!client.storeFile(path, stream)) {
-			throw new FtpFileException(
+		if (!client.upload(dir, fileName, stream)) {
+			throw new FileException(
 					String.format("文件上传失败! 相对路径: %s; 根路径: %s; 请检查此路径是否存在以及登录用户是否拥有操作权限!", relativePath, path));
 		}
 		return path;
@@ -99,21 +73,19 @@ public class FtpFileClient implements FileClient {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return java.io.FileOutputStream 文件流
 	 * @author lingting 2021-10-18 16:48
+	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public File download(String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
+		final String fileName = FileUtil.getName(path);
+		final String dir = StrUtil.removeSuffix(path, fileName);
 		// 临时文件
-		final File tmpFile = FileUtils.getTemplateFile("ftpDownload");
-		// 创建文件
-		if (!tmpFile.createNewFile()) {
-			throw new FtpFileException("文件下载失败! 临时文件生成失败!");
-		}
+		File tmpFile = FileUtil.createTempFile();
+		tmpFile = FileUtil.rename(tmpFile, fileName, true);
 		// 输出流
 		try (FileOutputStream outputStream = new FileOutputStream(tmpFile)) {
-			if (!client.retrieveFile(path, outputStream)) {
-				throw new FtpFileException("文件下载失败! path: " + relativePath);
-			}
+			client.download(dir, fileName, outputStream);
 		}
 		return tmpFile;
 	}
@@ -123,10 +95,11 @@ public class FtpFileClient implements FileClient {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return boolean
 	 * @author lingting 2021-10-18 17:14
+	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public boolean delete(String relativePath) throws IOException {
-		return client.deleteFile(getWholePath(relativePath));
+		return client.delFile(getWholePath(relativePath));
 	}
 
 }

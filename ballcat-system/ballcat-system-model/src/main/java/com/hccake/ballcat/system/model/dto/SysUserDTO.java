@@ -1,11 +1,16 @@
 package com.hccake.ballcat.system.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hccake.ballcat.common.core.validation.group.CreateGroup;
+import com.hccake.ballcat.common.core.validation.group.UpdateGroup;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.desensitize.json.annotation.JsonRegexDesensitize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -21,12 +26,14 @@ public class SysUserDTO {
 	/**
 	 * 主键id
 	 */
+	@NotNull(message = "userId {}", groups = UpdateGroup.class)
 	@Schema(title = "主键id")
 	private Integer userId;
 
 	/**
 	 * 前端传入密码
 	 */
+	@NotEmpty(message = "pass {}", groups = CreateGroup.class)
 	@JsonRegexDesensitize(type = RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD)
 	@Schema(title = "前端传入密码")
 	private String pass;
@@ -40,12 +47,14 @@ public class SysUserDTO {
 	/**
 	 * 登录账号
 	 */
+	@NotEmpty(message = "username {}")
 	@Schema(title = "登录账号")
 	private String username;
 
 	/**
 	 * 昵称
 	 */
+	@NotEmpty(message = "nickname {}")
 	@Schema(title = "昵称")
 	private String nickname;
 
@@ -76,6 +85,7 @@ public class SysUserDTO {
 	/**
 	 * 状态(1-正常,2-冻结)
 	 */
+	@Range(message = "status {}", min = 0, max = 1)
 	@Schema(title = "状态(1-正常,2-冻结)")
 	private Integer status;
 

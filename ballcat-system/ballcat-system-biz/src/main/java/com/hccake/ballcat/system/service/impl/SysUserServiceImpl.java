@@ -11,7 +11,6 @@ import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
-import com.hccake.ballcat.common.security.util.PasswordUtils;
 import com.hccake.ballcat.file.service.FileService;
 import com.hccake.ballcat.system.checker.AdminUserChecker;
 import com.hccake.ballcat.system.constant.SysUserConst;
@@ -35,6 +34,7 @@ import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +42,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -68,6 +73,8 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	private final SysRoleService sysRoleService;
 
 	private final ApplicationEventPublisher publisher;
+
+	private final PasswordEncoder passwordEncoder;
 
 	/**
 	 * 根据QueryObject查询分页数据
@@ -142,11 +149,10 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	@Transactional(rollbackFor = Exception.class)
 	public boolean addSysUser(SysUserDTO sysUserDto) {
 		SysUser sysUser = SysUserConverter.INSTANCE.dtoToPo(sysUserDto);
-		sysUser.setStatus(SysUserConst.Status.NORMAL.getValue());
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
 		// 对密码进行加密
 		String rawPassword = sysUserDto.getPassword();
-		String encodedPassword = PasswordUtils.encode(rawPassword);
+		String encodedPassword = passwordEncoder.encode(rawPassword);
 		sysUser.setPassword(encodedPassword);
 
 		// 保存用户
@@ -242,7 +248,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	public boolean updatePassword(Integer userId, String rawPassword) {
 		Assert.isTrue(adminUserChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		// 密码加密加密
-		String encodedPassword = PasswordUtils.encode(rawPassword);
+		String encodedPassword = passwordEncoder.encode(rawPassword);
 		return baseMapper.updatePassword(userId, encodedPassword);
 	}
 

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.hccake.ballcat.admin.UpmsAutoConfiguration
+    com.hccake.ballcat.admin.upms.UpmsAutoConfiguration

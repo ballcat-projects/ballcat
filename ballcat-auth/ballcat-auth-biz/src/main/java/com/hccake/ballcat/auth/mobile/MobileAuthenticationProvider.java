@@ -28,7 +28,6 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
 	private UserDetailsService userDetailsService;
 
 	@Override
-	@SneakyThrows
 	public Authentication authenticate(Authentication authentication) {
 		MobileAuthenticationToken mobileAuthenticationToken = (MobileAuthenticationToken) authentication;
 

@@ -6,9 +6,9 @@ import com.hccake.ballcat.common.util.json.HuToolJsonToolAdapter;
 import com.hccake.ballcat.common.util.json.JacksonJsonToolAdapter;
 import com.hccake.ballcat.common.util.json.JsonTool;
 import com.hccake.ballcat.common.util.json.TypeReference;
-import java.lang.reflect.Type;
 import lombok.Getter;
-import lombok.SneakyThrows;
+
+import java.lang.reflect.Type;
 
 /**
  * @author lingting 2021/2/25 20:38
@@ -55,17 +55,14 @@ public final class JsonUtils {
 		JsonUtils.jsonTool = jsonTool;
 	}
 
-	@SneakyThrows
 	public static String toJson(Object obj) {
 		return jsonTool.toJson(obj);
 	}
 
-	@SneakyThrows
 	public static <T> T toObj(String json, Class<T> r) {
 		return jsonTool.toObj(json, r);
 	}
 
-	@SneakyThrows
 	public static <T> T toObj(String json, Type t) {
 		// 防止误传入其他类型的 typeReference 走这个方法然后转换出错
 		if (classIsPresent(HUTOOL_JSON_TYPE_REFERENCE_CLASS) && t instanceof cn.hutool.core.lang.TypeReference) {
@@ -96,7 +93,6 @@ public final class JsonUtils {
 		return jsonTool.toObj(json, t);
 	}
 
-	@SneakyThrows
 	public static <T> T toObj(String json, TypeReference<T> t) {
 		return jsonTool.toObj(json, t);
 	}

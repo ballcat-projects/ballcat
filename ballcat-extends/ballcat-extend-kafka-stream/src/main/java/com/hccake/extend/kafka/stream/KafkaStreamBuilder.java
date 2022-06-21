@@ -243,9 +243,9 @@ public class KafkaStreamBuilder {
 		return this;
 	}
 
-	public synchronized KafkaStreamBuilder addGlobalStore(StoreBuilder<?> storeBuilder, String sourceName,
-			Deserializer<?> keyDeserializer, Deserializer<?> valueDeserializer, String topic, String processorName,
-			ProcessorSupplier<?, ?> stateUpdateSupplier) {
+	public synchronized <K, V> KafkaStreamBuilder addGlobalStore(StoreBuilder<?> storeBuilder, String sourceName,
+			Deserializer<K> keyDeserializer, Deserializer<V> valueDeserializer, String topic, String processorName,
+			ProcessorSupplier<K, V> stateUpdateSupplier) {
 		topology.addGlobalStore(storeBuilder, sourceName, keyDeserializer, valueDeserializer, topic, processorName,
 				stateUpdateSupplier);
 		return this;
@@ -255,9 +255,9 @@ public class KafkaStreamBuilder {
 	 * 与kafka原方法保持一致. 减低迁移成本
 	 */
 	@SuppressWarnings("java:S107")
-	public synchronized KafkaStreamBuilder addGlobalStore(StoreBuilder<?> storeBuilder, String sourceName,
-			TimestampExtractor timestampExtractor, Deserializer<?> keyDeserializer, Deserializer<?> valueDeserializer,
-			String topic, String processorName, ProcessorSupplier<?, ?> stateUpdateSupplier) {
+	public synchronized <K, V> KafkaStreamBuilder addGlobalStore(StoreBuilder<?> storeBuilder, String sourceName,
+			TimestampExtractor timestampExtractor, Deserializer<K> keyDeserializer, Deserializer<V> valueDeserializer,
+			String topic, String processorName, ProcessorSupplier<K, V> stateUpdateSupplier) {
 		topology.addGlobalStore(storeBuilder, sourceName, timestampExtractor, keyDeserializer, valueDeserializer, topic,
 				processorName, stateUpdateSupplier);
 		return this;

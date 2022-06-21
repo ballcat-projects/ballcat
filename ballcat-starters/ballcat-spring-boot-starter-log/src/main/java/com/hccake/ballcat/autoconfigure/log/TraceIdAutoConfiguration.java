@@ -1,7 +1,7 @@
 package com.hccake.ballcat.autoconfigure.log;
 
 import com.hccake.ballcat.common.log.mdc.TraceIdFilter;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,7 @@ import org.springframework.core.Ordered;
  * @version 1.0
  * @date 2020/5/25 17:29
  */
-@Slf4j
+@AutoConfiguration
 @ConditionalOnWebApplication
 public class TraceIdAutoConfiguration {
 

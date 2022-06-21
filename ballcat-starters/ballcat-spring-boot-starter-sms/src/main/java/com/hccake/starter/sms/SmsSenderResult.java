@@ -4,16 +4,17 @@ import cn.hutool.core.convert.Convert;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.util.json.TypeReference;
 import com.hccake.starter.sms.enums.TypeEnum;
+import lombok.Getter;
+import lombok.experimental.Accessors;
+
 import java.util.Map;
 import java.util.Set;
-import lombok.Getter;
-import lombok.SneakyThrows;
-import lombok.experimental.Accessors;
 
 /**
  * 短信发送结果
  *
  * @author lingting 2020/4/26 13:22
+ * @author 疯狂的狮子Li 2022-04-21
  */
 @Getter
 @Accessors(chain = true)
@@ -74,7 +75,6 @@ public class SmsSenderResult {
 	 * @return com.hccake.starter.sms.domain.SendResult
 	 * @author lingting 2020-04-26 13:43:39
 	 */
-	@SneakyThrows
 	public static SmsSenderResult generateException(TypeEnum platform, Set<String> phoneNumbers, String id,
 			Throwable e) {
 		SmsSenderResult result = new SmsSenderResult();
@@ -90,7 +90,6 @@ public class SmsSenderResult {
 	 * @param resp 请求的返回结果
 	 * @param phoneNumbers 目标号码
 	 */
-	@SneakyThrows
 	public static SmsSenderResult generate(String resp, String req, Set<String> phoneNumbers) {
 		SmsSenderResult result = new SmsSenderResult();
 		result.res = resp;
@@ -102,7 +101,6 @@ public class SmsSenderResult {
 		return result;
 	}
 
-	@SneakyThrows
 	public static SmsSenderResult generateTianYiHong(String resp, String req, Set<String> phoneNumbers) {
 		SmsSenderResult result = new SmsSenderResult();
 		result.res = resp;
@@ -121,7 +119,17 @@ public class SmsSenderResult {
 		return result;
 	}
 
-	@SneakyThrows
+	public static SmsSenderResult generateAliyun(String resp, String req, Set<String> phoneNumbers) {
+		SmsSenderResult result = new SmsSenderResult();
+		result.res = resp;
+		// 没有异常就是成功!
+		result.success = true;
+		result.platform = TypeEnum.ALIYUN.name();
+		result.target = JsonUtils.toJson(phoneNumbers);
+		result.req = req;
+		return result;
+	}
+
 	@Override
 	public String toString() {
 		return JsonUtils.toJson(this);

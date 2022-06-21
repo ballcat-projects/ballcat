@@ -1,10 +1,11 @@
 package com.hccake.ballcat.extend.tesseract;
 
-import java.awt.Rectangle;
-import java.io.IOException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
+import java.io.IOException;
 
 /**
  * @author lingting
@@ -25,7 +26,7 @@ class TesseractImageTest {
 	}
 
 	@Test
-	@SneakyThrows
+	@SneakyThrows(IOException.class)
 	void rgb() {
 		final String write = image.rgb().write();
 		System.out.println(write);
@@ -33,7 +34,7 @@ class TesseractImageTest {
 	}
 
 	@Test
-	@SneakyThrows
+	@SneakyThrows(IOException.class)
 	void crop() {
 		final Rectangle rectangle = new Rectangle();
 		rectangle.setLocation(238, 268);
