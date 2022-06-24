@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.core.validation.constraints;
 
-import com.hccake.ballcat.common.core.validation.validator.EnumValueValidator;
+import com.hccake.ballcat.common.core.validation.validator.ValueOfEnumValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -18,16 +18,21 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({ METHOD, FIELD, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
-@Repeatable(EnumValue.List.class)
+@Repeatable(ValueOfEnum.List.class)
 @Documented
-@Constraint(validatedBy = { EnumValueValidator.class })
-public @interface EnumValue {
+@Constraint(validatedBy = { ValueOfEnumValidator.class })
+public @interface ValueOfEnum {
 
-	String message() default "Not in the specified range";
+	String message() default "value is not in enum {enumClass}";
 
-	int[] intValues() default {};
+	Class<?>[] enumClass();
 
-	String[] strValues() default {};
+	String method() default "valueOf";
+
+	/**
+	 * 允许值为 null, 默认不允许
+	 */
+	boolean allowNull() default false;
 
 	Class<?>[] groups() default {};
 
@@ -38,7 +43,7 @@ public @interface EnumValue {
 	@Documented
 	@interface List {
 
-		EnumValue[] value();
+		ValueOfEnum[] value();
 
 	}
 
