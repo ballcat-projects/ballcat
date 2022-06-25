@@ -54,7 +54,7 @@
 		<fastjson.version>1.2.83</fastjson.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<mybatis.version>3.5.10</mybatis.version>
-		<jsqlparser.version>4.4</jsqlparser.version>
+		<jsqlparser.version>4.3</jsqlparser.version>
 		<dynamic-datasource.version>3.5.1</dynamic-datasource.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
 		<easyexcel.version>3.0.5</easyexcel.version>
