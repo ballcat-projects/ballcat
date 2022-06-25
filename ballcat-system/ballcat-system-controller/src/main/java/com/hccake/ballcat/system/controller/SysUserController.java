@@ -1,7 +1,6 @@
 package com.hccake.ballcat.system.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.crypto.CryptoException;
 import com.hccake.ballcat.common.core.validation.group.CreateGroup;
 import com.hccake.ballcat.common.core.validation.group.UpdateGroup;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
@@ -13,8 +12,7 @@ import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
-import com.hccake.ballcat.common.security.properties.SecurityProperties;
-import com.hccake.ballcat.common.security.util.PasswordUtils;
+import com.hccake.ballcat.system.component.PasswordHelper;
 import com.hccake.ballcat.system.constant.SysUserConst;
 import com.hccake.ballcat.system.converter.SysUserConverter;
 import com.hccake.ballcat.system.model.dto.SysUserDTO;
@@ -69,7 +67,7 @@ public class SysUserController {
 
 	private final SysUserRoleService sysUserRoleService;
 
-	private final SecurityProperties securityProperties;
+	private final PasswordHelper passwordHelper;
 
 	/**
 	 * 分页查询用户
@@ -126,11 +124,19 @@ public class SysUserController {
 		if (user != null) {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "用户名已存在");
 		}
+
 		// 明文密码
-		String password = PasswordUtils.decodeAES(sysUserDTO.getPass(), securityProperties.getPasswordSecretKey());
-		sysUserDTO.setPassword(password);
-		return sysUserService.addSysUser(sysUserDTO) ? R.ok()
-				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增系统用户失败");
+		String rawPassword = passwordHelper.decodeAes(sysUserDTO.getPass());
+		sysUserDTO.setPassword(rawPassword);
+
+		// 密码规则校验
+		if (passwordHelper.validateRule(rawPassword)) {
+			return sysUserService.addSysUser(sysUserDTO) ? R.ok()
+					: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增系统用户失败");
+		}
+		else {
+			return R.failed(SystemResultCode.BAD_REQUEST, "密码格式不符合规则!");
+		}
 	}
 
 	/**
@@ -208,16 +214,15 @@ public class SysUserController {
 		}
 
 		// 解密明文密码
-		String rawPassword;
-		try {
-			rawPassword = PasswordUtils.decodeAES(pass, securityProperties.getPasswordSecretKey());
+		String rawPassword = passwordHelper.decodeAes(pass);
+		// 密码规则校验
+		if (passwordHelper.validateRule(rawPassword)) {
+			return sysUserService.updatePassword(userId, rawPassword) ? R.ok()
+					: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改用户密码失败！");
 		}
-		catch (CryptoException ex) {
-			return R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "密码密文解密异常！");
+		else {
+			return R.failed(SystemResultCode.BAD_REQUEST, "密码格式不符合规则!");
 		}
-
-		return sysUserService.updatePassword(userId, rawPassword) ? R.ok()
-				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改用户密码失败！");
 	}
 
 	/**

@@ -13,6 +13,7 @@ import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.file.service.FileService;
 import com.hccake.ballcat.system.checker.AdminUserChecker;
+import com.hccake.ballcat.system.component.PasswordHelper;
 import com.hccake.ballcat.system.constant.SysUserConst;
 import com.hccake.ballcat.system.converter.SysUserConverter;
 import com.hccake.ballcat.system.event.UserCreatedEvent;
@@ -34,7 +35,6 @@ import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,7 +74,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 	private final ApplicationEventPublisher publisher;
 
-	private final PasswordEncoder passwordEncoder;
+	private final PasswordHelper passwordHelper;
 
 	/**
 	 * 根据QueryObject查询分页数据
@@ -152,7 +152,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		sysUser.setType(SysUserConst.Type.SYSTEM.getValue());
 		// 对密码进行加密
 		String rawPassword = sysUserDto.getPassword();
-		String encodedPassword = passwordEncoder.encode(rawPassword);
+		String encodedPassword = passwordHelper.encode(rawPassword);
 		sysUser.setPassword(encodedPassword);
 
 		// 保存用户
@@ -248,7 +248,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	public boolean updatePassword(Integer userId, String rawPassword) {
 		Assert.isTrue(adminUserChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		// 密码加密加密
-		String encodedPassword = passwordEncoder.encode(rawPassword);
+		String encodedPassword = passwordHelper.encode(rawPassword);
 		return baseMapper.updatePassword(userId, encodedPassword);
 	}
 

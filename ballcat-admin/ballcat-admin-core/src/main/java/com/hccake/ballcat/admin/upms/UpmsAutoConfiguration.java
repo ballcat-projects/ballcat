@@ -7,7 +7,7 @@ import com.hccake.ballcat.system.authentication.CustomTokenEnhancer;
 import com.hccake.ballcat.system.authentication.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.system.authentication.DefaultUserInfoCoordinatorImpl;
 import com.hccake.ballcat.system.authentication.UserInfoCoordinator;
-import com.hccake.ballcat.system.properties.UpmsProperties;
+import com.hccake.ballcat.system.properties.SystemProperties;
 import com.hccake.ballcat.system.service.SysUserService;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -31,7 +31,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 @MapperScan("com.hccake.ballcat.**.mapper")
 @ComponentScan({ "com.hccake.ballcat.admin.upms", "com.hccake.ballcat.auth", "com.hccake.ballcat.system",
 		"com.hccake.ballcat.log", "com.hccake.ballcat.file", "com.hccake.ballcat.notify" })
-@EnableConfigurationProperties({ UpmsProperties.class, SecurityProperties.class })
+@EnableConfigurationProperties({ SystemProperties.class, SecurityProperties.class })
 @EnableOauth2AuthorizationServer
 @EnableOauth2ResourceServer
 public class UpmsAutoConfiguration {

@@ -12,13 +12,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "ballcat.upms")
-public class UpmsProperties {
+@ConfigurationProperties(prefix = "ballcat.system")
+public class SystemProperties {
 
 	/**
 	 * 超级管理员的配置
 	 */
 	private Administrator administrator = new Administrator();
+
+	/**
+	 * 密码的规则：值为正则表达式，当为空时，不对密码规则进行校验
+	 */
+	private String passwordRule;
 
 	@Getter
 	@Setter
