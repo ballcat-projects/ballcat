@@ -43,7 +43,6 @@
 		<spring-javaformat-checkstyle.version>0.0.31</spring-javaformat-checkstyle.version>
 
 		<spring-boot.version>2.7.1</spring-boot.version>
-		<spring-boot-admin.version>2.6.6</spring-boot-admin.version>
 		<spring-security-oauth2.version>2.3.8.RELEASE</spring-security-oauth2.version>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
@@ -110,16 +109,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
-			<!-- spring-boot-admin 监控依赖 -->
-			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-dependencies</artifactId>
-				<version>${spring-boot-admin.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-
 
 			<!-- ballcat 自身模块版本 -->
 			<dependency>
