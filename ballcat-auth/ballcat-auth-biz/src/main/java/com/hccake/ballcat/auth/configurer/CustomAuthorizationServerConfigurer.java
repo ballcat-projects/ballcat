@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
@@ -53,15 +55,25 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	/**
 	 * 定义资源权限控制的配置
 	 * @param security AuthorizationServerSecurityConfigurer
-	 * @throws Exception 异常
 	 */
 	@Override
-	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+	public void configure(AuthorizationServerSecurityConfigurer security) {
 		// @formatter:off
 		security.tokenKeyAccess("permitAll()")
 			.checkTokenAccess("isAuthenticated()")
 			.authenticationEntryPoint(authenticationEntryPoint)
-			.allowFormAuthenticationForClients();
+			.allowFormAuthenticationForClients()
+			// 处理使用 allowFormAuthenticationForClients 后，注册的过滤器异常处理不走自定义配置的问题
+			.addObjectPostProcessor(new ObjectPostProcessor<Object>() {
+				@Override
+				public <O> O postProcess(O object) {
+					if(object instanceof ClientCredentialsTokenEndpointFilter) {
+						ClientCredentialsTokenEndpointFilter filter = (ClientCredentialsTokenEndpointFilter) object;
+						filter.setAuthenticationEntryPoint(authenticationEntryPoint);
+					}
+					return object;
+				}
+			});
 		// @formatter:on
 	}
 
