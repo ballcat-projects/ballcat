@@ -10,6 +10,7 @@ import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.schema.Column;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -333,6 +334,19 @@ class SqlParseTest {
 	void selectWithAs() {
 		assertSql("with with_as_A as (select * from entity) select * from with_as_A",
 				"WITH with_as_A AS (SELECT * FROM entity WHERE entity.tenant_id = 1) SELECT * FROM with_as_A");
+	}
+
+	/**
+	 * 4.4 版本 jsqlParse ur 做为表别名会解析失败
+	 */
+	@Test
+	void testJsqlParseAlias() {
+		String sql = "SELECT\n" + "r.id, r.name, r.code, r.type, r.scope_type, r.scope_resources\n" + "FROM\n"
+				+ "sys_user_role ur\n" + "left join\n" + "sys_role r\n" + "on r.code = ur.role_code\n"
+				+ "WHERE ur.user_id = ?\n" + "and r.deleted = 0";
+		Assertions
+				.assertDoesNotThrow(() -> dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes()));
+
 	}
 
 	void assertSql(String sql, String targetSql) {
