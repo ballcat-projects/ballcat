@@ -9,9 +9,6 @@ public abstract class AbstractFileClient implements FileClient {
 
 	protected String rootPath;
 
-	public AbstractFileClient() {
-	}
-
 	/**
 	 * 获取操作的根路径
 	 */
