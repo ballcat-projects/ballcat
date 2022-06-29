@@ -1,10 +1,12 @@
-package com.hccake.ballcat.autoconfigure.web.servlet;
+package com.hccake.ballcat.autoconfigure.web.pageable;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageParamRequest;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.validation.BindingResult;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,70 +24,34 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import static com.hccake.ballcat.autoconfigure.web.pageable.PageableConstants.*;
 
 /**
- * @author lengleng
  * @author hccake
- * @date 2019-06-24
- * <p>
- * 解决Mybatis Plus Order By SQL注入问题
  */
 @Slf4j
-public class PageParamArgumentResolver implements HandlerMethodArgumentResolver {
+public abstract class PageParamArgumentResolverSupport {
 
-	private static final Set<String> SQL_KEYWORDS = CollectionUtil.newHashSet("master", "truncate", "insert", "select",
-			"delete", "update", "declare", "alter", "drop", "sleep");
+	@Setter
+	@Getter
+	private String pageParameterName = DEFAULT_PAGE_PARAMETER;
 
-	private static final String ASC = "asc";
+	@Setter
+	@Getter
+	private String sizeParameterName = DEFAULT_SIZE_PARAMETER;
 
-	private final int pageSizeLimit;
+	@Setter
+	@Getter
+	private String sortParameterName = DEFAULT_SORT_PARAMETER;
 
-	public PageParamArgumentResolver() {
-		this(0);
-	}
+	@Setter
+	@Getter
+	private int maxPageSize = DEFAULT_MAX_PAGE_SIZE;
 
-	public PageParamArgumentResolver(int pageSizeLimit) {
-		this.pageSizeLimit = pageSizeLimit;
-	}
-
-	/**
-	 * 判断Controller是否包含page 参数
-	 * @param parameter 参数
-	 * @return 是否过滤
-	 */
-	@Override
-	public boolean supportsParameter(MethodParameter parameter) {
-		return PageParam.class.isAssignableFrom(parameter.getParameterType());
-	}
-
-	/**
-	 * @param parameter 入参集合
-	 * @param mavContainer model 和 view
-	 * @param webRequest web相关
-	 * @param binderFactory 入参解析
-	 * @return 检查后新的page对象
-	 * <p>
-	 * page 只支持查询 GET .如需解析POST获取请求报文体处理
-	 */
-	@Override
-	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-
-		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-		if (request == null) {
-			return null;
-		}
-
-		String current = request.getParameter("current");
-		String size = request.getParameter("size");
-		Map<String, String[]> parameterMap = request.getParameterMap();
-
-		// sort 同时支持 sort 和 sort[]
-		String[] sort = parameterMap.get("sort");
-		if (ArrayUtil.isEmpty(sort)) {
-			sort = parameterMap.get("sort[]");
-		}
+	protected PageParam getPageParam(MethodParameter parameter, HttpServletRequest request) {
+		String pageParameterValue = request.getParameter(pageParameterName);
+		String sizeParameterValue = request.getParameter(sizeParameterName);
 
 		PageParam pageParam;
 		try {
@@ -96,11 +61,19 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 			pageParam = new PageParam();
 		}
 
-		if (StrUtil.isNotBlank(current)) {
-			pageParam.setCurrent(Long.parseLong(current));
-		}
-		if (StrUtil.isNotBlank(size)) {
-			pageParam.setSize(Long.parseLong(size));
+		long pageValue = parseValueFormString(pageParameterValue, 1);
+		pageParam.setPage(pageValue);
+		pageParam.setCurrent(pageValue);
+
+		long sizeValue = parseValueFormString(sizeParameterValue, 10);
+		pageParam.setSize(sizeValue);
+
+		// ========== 排序处理 ===========
+		Map<String, String[]> parameterMap = request.getParameterMap();
+		// sort 可以传多个，所以同时支持 sort 和 sort[]
+		String[] sort = parameterMap.get(sortParameterName);
+		if (ArrayUtil.isEmpty(sort)) {
+			sort = parameterMap.get(sortParameterName + "[]");
 		}
 
 		List<PageParam.Sort> sorts;
@@ -108,15 +81,22 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 			sorts = getSortList(sort);
 		}
 		else {
-			String sortFields = request.getParameter("sortFields");
-			String sortOrders = request.getParameter("sortOrders");
+			String sortFields = request.getParameter(SORT_FIELDS);
+			String sortOrders = request.getParameter(SORT_ORDERS);
 			sorts = getSortList(sortFields, sortOrders);
 		}
 		pageParam.setSorts(sorts);
 
-		paramValidate(parameter, mavContainer, webRequest, binderFactory, pageParam);
-
 		return pageParam;
+	}
+
+	private long parseValueFormString(String currentParameterValue, long defaultValue) {
+		try {
+			return Long.parseLong(currentParameterValue);
+		}
+		catch (NumberFormatException e) {
+			return defaultValue;
+		}
 	}
 
 	/**
@@ -160,17 +140,18 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	 * @param sortOrders 排序规则，使用英文逗号分割，与排序字段一一对应
 	 * @return List<PageParam.OrderItem>
 	 */
+	@Deprecated
 	protected List<PageParam.Sort> getSortList(String sortFields, String sortOrders) {
 		List<PageParam.Sort> sorts = new ArrayList<>();
 
 		// 字段和规则都不能为空
-		if (StrUtil.isBlank(sortFields) || StrUtil.isBlank(sortOrders)) {
+		if (CharSequenceUtil.isBlank(sortFields) || CharSequenceUtil.isBlank(sortOrders)) {
 			return sorts;
 		}
 
 		// 字段和规则不一一对应则不处理
-		String[] fieldArr = sortFields.split(StrUtil.COMMA);
-		String[] orderArr = sortOrders.split(StrUtil.COMMA);
+		String[] fieldArr = sortFields.split(StrPool.COMMA);
+		String[] orderArr = sortOrders.split(StrPool.COMMA);
 		if (fieldArr.length != orderArr.length) {
 			return sorts;
 		}
@@ -196,7 +177,7 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 			// 驼峰转下划线
 			sort.setAsc(ASC.equalsIgnoreCase(order));
 			// 正序/倒序
-			sort.setField(StrUtil.toUnderlineCase(field));
+			sort.setField(CharSequenceUtil.toUnderlineCase(field));
 			sorts.add(sort);
 		}
 	}
@@ -206,8 +187,8 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 	 * @param filedName 字段名
 	 * @return 是否非法
 	 */
-	public boolean validFieldName(String filedName) {
-		boolean isValid = StrUtil.isNotBlank(filedName) && filedName.matches(PageParamRequest.SORT_FILED_REGEX)
+	protected boolean validFieldName(String filedName) {
+		boolean isValid = CharSequenceUtil.isNotBlank(filedName) && filedName.matches(PageParamRequest.SORT_FILED_REGEX)
 				&& !SQL_KEYWORDS.contains(filedName);
 		if (!isValid) {
 			log.warn("异常的分页查询排序字段：{}", filedName);
@@ -224,8 +205,8 @@ public class PageParamArgumentResolver implements HandlerMethodArgumentResolver 
 			BindingResult bindingResult = binder.getBindingResult();
 
 			long size = pageParam.getSize();
-			if (size > pageSizeLimit) {
-				bindingResult.addError(new ObjectError("size", "分页条数不能大于" + pageSizeLimit));
+			if (size > maxPageSize) {
+				bindingResult.addError(new ObjectError("size", "分页条数不能大于" + maxPageSize));
 			}
 
 			if (bindingResult.hasErrors() && isBindExceptionRequired(binder, parameter)) {

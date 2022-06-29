@@ -21,9 +21,14 @@ import java.util.List;
 @Schema(title = "分页查询参数")
 public class PageParam {
 
-	@Schema(title = "当前页码", description = "从 1 开始", defaultValue = "1", example = "1")
+	@Deprecated
+	@Schema(title = "当前页码, 现在建议使用 page 参数", description = "从 1 开始", defaultValue = "1", example = "1")
 	@Min(value = 1, message = "当前页不能小于 1")
 	private long current = 1;
+
+	@Schema(title = "当前页码", description = "从 1 开始", defaultValue = "1", example = "1")
+	@Min(value = 1, message = "当前页不能小于 1")
+	private long page = 1;
 
 	@Schema(title = "每页显示条数", description = "最大值为系统设置，默认 100", defaultValue = "10")
 	@Min(value = 1, message = "每页显示条数不能小于1")

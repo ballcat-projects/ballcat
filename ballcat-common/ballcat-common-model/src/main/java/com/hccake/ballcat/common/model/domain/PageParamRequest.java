@@ -29,9 +29,14 @@ public class PageParamRequest {
 
 	public static final String SORT_REGEX = "^" + SORT_FILED_REGEX + "(," + SORT_FILED_ORDER + ")*$";
 
-	@Parameter(description = "当前页码, 从 1 开始", schema = @Schema(minimum = "1", defaultValue = "1", example = "1"))
+	@Deprecated
+	@Parameter(description = "当前页码，现在推荐使用 page 参数", schema = @Schema(minimum = "1", defaultValue = "1", example = "1"))
 	@Min(value = 1, message = "当前页不能小于 1")
 	private long current = 1;
+
+	@Parameter(description = "当前页码, 从 1 开始", schema = @Schema(minimum = "1", defaultValue = "1", example = "1"))
+	@Min(value = 1, message = "当前页不能小于 1")
+	private long page = 1;
 
 	@Parameter(description = "每页显示条数, 最大值为 100",
 			schema = @Schema(title = "每页显示条数", description = "最大值为系统设置，默认 100", minimum = "1", defaultValue = "10",
