@@ -4,7 +4,6 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.ArrayUtil;
 import com.hccake.ballcat.common.model.domain.PageParam;
-import com.hccake.ballcat.common.model.domain.PageParamRequest;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.hccake.ballcat.autoconfigure.web.pageable.PageableConstants.*;
+import static com.hccake.ballcat.common.model.domain.PageableConstants.*;
 
 /**
  * @author hccake
@@ -188,7 +187,7 @@ public abstract class PageParamArgumentResolverSupport {
 	 * @return 是否非法
 	 */
 	protected boolean validFieldName(String filedName) {
-		boolean isValid = CharSequenceUtil.isNotBlank(filedName) && filedName.matches(PageParamRequest.SORT_FILED_REGEX)
+		boolean isValid = CharSequenceUtil.isNotBlank(filedName) && filedName.matches(SORT_FILED_REGEX)
 				&& !SQL_KEYWORDS.contains(filedName);
 		if (!isValid) {
 			log.warn("异常的分页查询排序字段：{}", filedName);

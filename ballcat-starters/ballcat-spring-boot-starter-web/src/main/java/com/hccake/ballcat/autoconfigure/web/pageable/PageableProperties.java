@@ -3,7 +3,7 @@ package com.hccake.ballcat.autoconfigure.web.pageable;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import static com.hccake.ballcat.autoconfigure.web.pageable.PageableConstants.*;
+import static com.hccake.ballcat.common.model.domain.PageableConstants.*;
 
 /**
  * @author hccake

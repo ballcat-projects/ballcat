@@ -1,12 +1,19 @@
 package com.hccake.ballcat.extend.openapi;
 
+import com.hccake.ballcat.common.model.domain.PageableConstants;
+import com.hccake.ballcat.autoconfigure.web.pageable.PageableProperties;
 import com.hccake.ballcat.common.model.domain.PageParam;
-import com.hccake.ballcat.common.model.domain.PageParamRequest;
+import com.hccake.ballcat.extend.openapi.pageable.PageParamOpenAPIConverter;
+import com.hccake.ballcat.extend.openapi.pageable.PageableRequestClassCreator;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.SpringDocConfiguration;
 import org.springdoc.core.SpringDocUtils;
+import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -17,24 +24,24 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * OpenAPI 的自动配置类
  *
  * @author hccake
  */
+@SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
 @AutoConfiguration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(OpenApiProperties.class)
+@AutoConfigureBefore(SpringDocConfiguration.class)
 @ConditionalOnProperty(prefix = OpenApiProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class OpenApiAutoConfiguration {
 
 	private final OpenApiProperties openApiProperties;
-
-	static {
-		// 由于 PageParam 是由自定义的 PageParamArgumentResolver 处理的，所以需要在文档上进行入参的格式转换
-		SpringDocUtils config = SpringDocUtils.getConfig();
-		config.replaceParameterObjectWithClass(PageParam.class, PageParamRequest.class);
-	}
 
 	@Bean
 	@ConditionalOnMissingBean(OpenAPI.class)
@@ -102,6 +109,50 @@ public class OpenApiAutoConfiguration {
 		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 
 		return bean;
+	}
+
+	/**
+	 * The type Spring doc pageParam configuration.
+	 */
+	@RequiredArgsConstructor
+	@ConditionalOnClass(PageableProperties.class)
+	static class SpringDocPageParamConfiguration {
+
+		private final PageableProperties pageableProperties;
+
+		/**
+		 * PageParam open api converter pageable open api converter.
+		 * @param objectMapperProvider the object mapper provider
+		 * @return the pageParam open api converter
+		 */
+		@Bean
+		@ConditionalOnMissingBean
+		PageParamOpenAPIConverter pageParamAPIConverter(ObjectMapperProvider objectMapperProvider) throws IOException {
+
+			Map<String, String> map = new HashMap<>();
+
+			String page = pageableProperties.getPageParameterName();
+			if (!PageableConstants.DEFAULT_PAGE_PARAMETER.equals(page)) {
+				map.put(PageableConstants.DEFAULT_PAGE_PARAMETER, page);
+			}
+
+			String size = pageableProperties.getSizeParameterName();
+			if (!PageableConstants.DEFAULT_SIZE_PARAMETER.equals(size)) {
+				map.put(PageableConstants.DEFAULT_SIZE_PARAMETER, size);
+			}
+
+			String sort = pageableProperties.getSortParameterName();
+			if (!PageableConstants.DEFAULT_SORT_PARAMETER.equals(sort)) {
+				map.put(PageableConstants.DEFAULT_SORT_PARAMETER, sort);
+			}
+
+			// 由于 PageParam 是由自定义的 PageParamArgumentResolver 处理的，所以需要在文档上进行入参的格式转换
+			SpringDocUtils config = SpringDocUtils.getConfig();
+			Class<?> pageParamRequestClass = PageableRequestClassCreator.create(map);
+			config.replaceParameterObjectWithClass(PageParam.class, pageParamRequestClass);
+			return new PageParamOpenAPIConverter(objectMapperProvider);
+		}
+
 	}
 
 }

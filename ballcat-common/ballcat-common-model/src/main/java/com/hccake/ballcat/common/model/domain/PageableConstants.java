@@ -1,4 +1,4 @@
-package com.hccake.ballcat.autoconfigure.web.pageable;
+package com.hccake.ballcat.common.model.domain;
 
 import cn.hutool.core.collection.CollUtil;
 
@@ -11,6 +11,22 @@ public final class PageableConstants {
 
 	private PageableConstants() {
 	}
+
+	/**
+	 * 排序的 Field 部分的正则
+	 */
+	public static final String SORT_FILED_REGEX = "(([A-Za-z0-9_]{1,10}.)?[A-Za-z0-9_]{1,64})";
+
+	/**
+	 * 排序的 order 部分的正则
+	 */
+	public static final String SORT_FILED_ORDER = "(desc|asc)";
+
+	/**
+	 * 完整的排序规则正则
+	 */
+	public static final String SORT_REGEX = "^" + PageableConstants.SORT_FILED_REGEX + "(,"
+			+ PageableConstants.SORT_FILED_ORDER + ")*$";
 
 	/**
 	 * 默认的当前页数的参数名

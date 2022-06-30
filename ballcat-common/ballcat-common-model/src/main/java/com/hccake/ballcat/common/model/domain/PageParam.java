@@ -21,6 +21,9 @@ import java.util.List;
 @Schema(title = "分页查询参数")
 public class PageParam {
 
+	/**
+	 * @deprecated 使用 page 属性
+	 */
 	@Deprecated
 	@Schema(title = "当前页码, 现在建议使用 page 参数", description = "从 1 开始", defaultValue = "1", example = "1")
 	@Min(value = 1, message = "当前页不能小于 1")
@@ -44,7 +47,7 @@ public class PageParam {
 	public static class Sort {
 
 		@Schema(title = "排序字段", example = "id")
-		@Pattern(regexp = PageParamRequest.SORT_FILED_REGEX, message = "排序字段格式非法")
+		@Pattern(regexp = PageableConstants.SORT_FILED_REGEX, message = "排序字段格式非法")
 		private String field;
 
 		@Schema(title = "是否正序排序", example = "false")
