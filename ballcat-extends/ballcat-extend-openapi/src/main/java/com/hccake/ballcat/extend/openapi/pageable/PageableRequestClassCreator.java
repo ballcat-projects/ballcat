@@ -10,8 +10,10 @@ import org.springframework.asm.MethodVisitor;
 import org.springframework.asm.Opcodes;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 分页请求参数对应的 class 创建器
@@ -60,15 +62,21 @@ public class PageableRequestClassCreator {
 	}
 
 	public static Class<?> create(Map<String, String> modifyFiledMap) throws IOException {
-		ClassReader classReader = new ClassReader(PageableRequest.class.getCanonicalName());
-		ClassWriter classWriter = new ClassWriter(classReader, 0);
+		String className = PageableRequest.class.getCanonicalName();
+		String classFilePath = className.replace('.', '/') + ".class";
+		ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 
-		ModifyFieldNameAdapter modifyFieldNameAdapter = new ModifyFieldNameAdapter(Opcodes.ASM9, classWriter,
-				modifyFiledMap);
-		classReader.accept(modifyFieldNameAdapter, 0);
+		try (InputStream resourceAsStream = contextClassLoader.getResourceAsStream(classFilePath)) {
+			Objects.requireNonNull(resourceAsStream, className + " 必须存在");
+			ClassReader classReader = new ClassReader(resourceAsStream);
+			ClassWriter classWriter = new ClassWriter(classReader, 0);
+			ModifyFieldNameAdapter modifyFieldNameAdapter = new ModifyFieldNameAdapter(Opcodes.ASM9, classWriter,
+					modifyFiledMap);
+			classReader.accept(modifyFieldNameAdapter, 0);
 
-		ByteClassLoader myClassLoader = new ByteClassLoader();
-		return myClassLoader.defineClass(classWriter.toByteArray());
+			ByteClassLoader myClassLoader = new ByteClassLoader();
+			return myClassLoader.defineClass(classWriter.toByteArray());
+		}
 	}
 
 }
