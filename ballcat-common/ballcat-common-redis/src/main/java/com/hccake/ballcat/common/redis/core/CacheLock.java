@@ -41,7 +41,9 @@ public class CacheLock {
 	 * 释放锁lua脚本 KEYS【1】：key值是为要加的锁定义的字符串常量 ARGV【1】：value值是 request id, 用来防止解除了不该解除的锁. 可用
 	 * UUID
 	 */
-	private static final String RELEASE_LOCK_LUA_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+	private static final DefaultRedisScript<Long> RELEASE_LOCK_LUA_SCRIPT = new DefaultRedisScript<>(
+			"if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end",
+			Long.class);
 
 	/**
 	 * 释放锁成功返回值
@@ -56,9 +58,7 @@ public class CacheLock {
 	 */
 	public static boolean releaseLock(String key, String requestId) {
 		log.trace("release lock: {key:{}, clientId:{}}", key, requestId);
-		// 指定ReturnType为Long.class
-		DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(RELEASE_LOCK_LUA_SCRIPT, Long.class);
-		Long result = redisTemplate.execute(redisScript, Collections.singletonList(key), requestId);
+		Long result = redisTemplate.execute(RELEASE_LOCK_LUA_SCRIPT, Collections.singletonList(key), requestId);
 		return Objects.equals(result, RELEASE_LOCK_SUCCESS_RESULT);
 	}
 
