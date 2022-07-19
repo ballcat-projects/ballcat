@@ -124,8 +124,8 @@ public class RedisAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(RedisHelper.class)
 	public RedisHelper redisHelper(StringRedisTemplate template) {
-		RedisHelper.setTemplate(template);
-		return new RedisHelper();
+		RedisHelper.setRedisTemplate(template);
+		return RedisHelper.INSTANCE;
 	}
 
 }
