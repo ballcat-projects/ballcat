@@ -5,6 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +32,10 @@ public class FileUtils {
 		updateTmpDir("ballcat");
 	}
 
+	/**
+	 * use {@link SystemUtils#tempDir()}
+	 */
+	@Deprecated
 	public static File getSystemTempDir() {
 		return new File(System.getProperty("java.io.tmpdir"));
 	}
@@ -67,6 +78,66 @@ public class FileUtils {
 		conn.setConnectTimeout(5 * 1000);
 		// 得到输入流
 		return conn.getInputStream();
+	}
+
+	/**
+	 * 扫描指定路径下所有文件
+	 * @param path 指定路径
+	 * @param recursive 是否递归
+	 * @return java.util.List<java.lang.String>
+	 */
+	public static List<String> scanFile(String path, boolean recursive) {
+		List<String> list = new ArrayList<>();
+		File file = new File(path);
+		if (!file.exists()) {
+			return list;
+		}
+
+		if (file.isFile()) {
+			list.add(file.getAbsolutePath());
+		}
+		// 文件夹
+		else {
+			File[] files = file.listFiles();
+
+			if (files == null || files.length < 1) {
+				return list;
+			}
+
+			for (File childFile : files) {
+				// 如果递归
+				if (recursive && childFile.isDirectory()) {
+					list.addAll(scanFile(childFile.getAbsolutePath(), true));
+				}
+				// 是文件
+				else if (childFile.isFile()) {
+					list.add(childFile.getAbsolutePath());
+				}
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * 复制文件
+	 * @param source 源文件
+	 * @param target 目标文件
+	 * @param override 如果目标文件已存在是否覆盖
+	 * @param options 其他文件复制选项 {@link StandardCopyOption}
+	 * @return 目标文件地址
+	 */
+	public static Path copy(File source, File target, boolean override, CopyOption... options) throws IOException {
+		List<CopyOption> list = new ArrayList<>();
+		if (override) {
+			list.add(StandardCopyOption.REPLACE_EXISTING);
+		}
+
+		if (options != null && options.length > 0) {
+			list.addAll(Arrays.asList(options));
+		}
+
+		return Files.copy(source.toPath(), target.toPath(), list.toArray(new CopyOption[0]));
 	}
 
 }
