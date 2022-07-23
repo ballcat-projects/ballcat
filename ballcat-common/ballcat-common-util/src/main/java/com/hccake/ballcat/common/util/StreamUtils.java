@@ -1,6 +1,7 @@
 package com.hccake.ballcat.common.util;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -113,6 +114,17 @@ public class StreamUtils {
 			sv += cnt;
 		}
 		return ret;
+	}
+
+	public static void close(Closeable closeable) {
+		try {
+			if (closeable != null) {
+				closeable.close();
+			}
+		}
+		catch (Exception e) {
+			//
+		}
 	}
 
 }
