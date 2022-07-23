@@ -58,7 +58,7 @@ public abstract class AbstractQueueThread<E> extends Thread
 	 * @return 返回时长，单位毫秒
 	 * @author lingting 2021-03-02 20:52
 	 */
-	public static long getPollTimeoutMs() {
+	public long getPollTimeoutMs() {
 		return POLL_TIMEOUT_MS;
 	}
 
