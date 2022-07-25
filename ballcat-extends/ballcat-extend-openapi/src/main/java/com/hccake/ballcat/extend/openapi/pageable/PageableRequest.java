@@ -11,7 +11,6 @@ import org.springdoc.api.annotations.ParameterObject;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 
 /**
@@ -37,10 +36,8 @@ public class PageableRequest {
 	@Min(value = 1, message = "每页显示条数不能小于1")
 	private long size;
 
-	@Parameter(description = "排序规则，格式为：property(,asc|desc)。" + "默认为升序。" + "支持传入多个排序字段。",
-			array = @ArraySchema(
-					schema = @Schema(type = "string", pattern = PageableConstants.SORT_REGEX, example = "id,desc")))
-	@Pattern(regexp = PageableConstants.SORT_REGEX, message = "排序字段格式非法")
+	@Parameter(description = "排序规则，格式为：property(,asc|desc)。" + "默认为升序。" + "支持传入多个排序字段。", array = @ArraySchema(
+			schema = @Schema(type = "string", pattern = PageableConstants.SORT_REGEX, example = "id,desc")))
 	private List<String> sort;
 
 }
