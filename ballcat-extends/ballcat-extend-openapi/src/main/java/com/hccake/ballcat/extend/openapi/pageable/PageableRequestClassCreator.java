@@ -74,7 +74,7 @@ public class PageableRequestClassCreator {
 					modifyFiledMap);
 			classReader.accept(modifyFieldNameAdapter, 0);
 
-			ByteClassLoader myClassLoader = new ByteClassLoader();
+			ByteClassLoader myClassLoader = new ByteClassLoader(contextClassLoader);
 			return myClassLoader.defineClass(classWriter.toByteArray());
 		}
 	}

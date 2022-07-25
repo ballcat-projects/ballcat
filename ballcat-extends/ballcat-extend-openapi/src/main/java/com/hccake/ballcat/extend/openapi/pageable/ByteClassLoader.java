@@ -7,6 +7,10 @@ package com.hccake.ballcat.extend.openapi.pageable;
  */
 public class ByteClassLoader extends ClassLoader {
 
+	public ByteClassLoader(ClassLoader contextClassLoader) {
+		super(contextClassLoader);
+	}
+
 	public Class<?> defineClass(byte[] bytes) {
 		return defineClass(null, bytes, 0, bytes.length);
 	}
