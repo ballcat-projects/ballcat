@@ -15,7 +15,7 @@ public final class PageableConstants {
 	/**
 	 * 排序的 Field 部分的正则
 	 */
-	public static final String SORT_FILED_REGEX = "(([A-Za-z0-9_]{1,10}.)?[A-Za-z0-9_]{1,64})";
+	public static final String SORT_FILED_REGEX = "(([A-Za-z0-9_]{1,10}\\.)?[A-Za-z0-9_]{1,64})";
 
 	/**
 	 * 排序的 order 部分的正则
