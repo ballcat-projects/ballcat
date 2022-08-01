@@ -1,9 +1,13 @@
 package com.hccake.ballcat.common.log.operation.annotation;
 
-import com.hccake.ballcat.common.log.operation.enums.OperationTypeEnum;
+import com.hccake.ballcat.common.log.operation.enums.OperationTypes;
 import org.springframework.core.annotation.AliasFor;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author Hccake
@@ -13,7 +17,7 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@OperationLogging(type = OperationTypeEnum.CREATE)
+@OperationLogging(type = OperationTypes.CREATE)
 public @interface CreateOperationLogging {
 
 	/**

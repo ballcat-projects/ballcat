@@ -1,8 +1,10 @@
 package com.hccake.ballcat.common.log.operation.annotation;
 
-import com.hccake.ballcat.common.log.operation.enums.OperationTypeEnum;
-
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author Hccake
@@ -24,7 +26,7 @@ public @interface OperationLogging {
 	 * 日志操作类型
 	 * @return 日志操作类型枚举
 	 */
-	OperationTypeEnum type();
+	int type();
 
 	/**
 	 * 是否保存方法入参

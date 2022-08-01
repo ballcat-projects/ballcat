@@ -42,7 +42,7 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 				.setMethod(request.getMethod())
 				.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT))
 				.setUri(URLUtil.getPath(request.getRequestURI()))
-				.setType(operationLogging.type().getValue())
+				.setType(operationLogging.type())
 				.setMsg(operationLogging.msg())
 				.setTraceId(MDC.get(LogConstant.TRACE_ID));
 		// @formatter:on
