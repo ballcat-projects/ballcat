@@ -19,17 +19,15 @@ public class StreamTemp {
 
 	private static final File TEMP_DIR = new File(System.getProperty("java.io.tmpdir"), "ballcat/oss/stream");
 
-	static {
-		if (!TEMP_DIR.exists()) {
-			TEMP_DIR.mkdirs();
-		}
-	}
-
 	private final Long size;
 
 	private final InputStream stream;
 
 	public static StreamTemp of(InputStream stream) throws IOException {
+		if (!TEMP_DIR.exists()) {
+			TEMP_DIR.mkdirs();
+		}
+
 		File file;
 
 		do {

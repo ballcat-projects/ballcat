@@ -16,12 +16,6 @@ public class TesseractImage {
 
 	private static final File DIR = new File(System.getProperty("java.io.tmpdir"), "ballcat/tesseract");
 
-	static {
-		if (!DIR.exists()) {
-			DIR.mkdirs();
-		}
-	}
-
 	/**
 	 * 原始文件
 	 */
@@ -117,6 +111,9 @@ public class TesseractImage {
 	 */
 	public String write() throws IOException {
 		if (tmpFile == null) {
+			if (!DIR.exists()) {
+				DIR.mkdirs();
+			}
 			tmpFile = new File(DIR, System.currentTimeMillis() + "." + type);
 			if (tmpFile.createNewFile()) {
 				ImageIO.write(buffer, type, tmpFile);
