@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtils {
 
-	private static final File SYSTEM_TEMP_DIR = new File(System.getProperty("java.io.tmpdir"));
+	private static final File SYSTEM_TEMP_DIR = SystemUtils.tempDir();
 
 	/**
 	 * 系统的临时文件夹
@@ -46,10 +46,6 @@ public class FileUtils {
 	 */
 	public static void updateTmpDir(String dirName) {
 		tempDir = new File(SYSTEM_TEMP_DIR, dirName);
-
-		if (!tempDir.exists()) {
-			tempDir.mkdirs();
-		}
 	}
 
 	/**
@@ -57,6 +53,10 @@ public class FileUtils {
 	 * @author lingting 2021-04-19 10:48
 	 */
 	public static File getTemplateFile(String name) throws IOException {
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+		}
+
 		File file;
 
 		do {
