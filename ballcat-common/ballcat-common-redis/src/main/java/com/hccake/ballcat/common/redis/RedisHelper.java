@@ -214,8 +214,7 @@ public class RedisHelper {
 	 * @see <a href="http://redis.io/commands/ttl">TTL Command</a>
 	 */
 	public static long ttl(String key) {
-		Long expire = redisTemplate.getExpire(key);
-		return expire == null ? -2 : expire;
+		return redisTemplate.getExpire(key);
 	}
 
 	/**
