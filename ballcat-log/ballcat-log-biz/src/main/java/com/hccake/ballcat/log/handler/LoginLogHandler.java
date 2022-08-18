@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.MDC;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
@@ -61,9 +62,11 @@ public class LoginLogHandler {
 	@EventListener(AbstractAuthenticationFailureEvent.class)
 	public void onAuthenticationFailureEvent(AbstractAuthenticationFailureEvent event) {
 		AbstractAuthenticationToken source = (AbstractAuthenticationToken) event.getSource();
-		LoginLog loginLog = prodLoginLog(source).setMsg(event.getException().getMessage())
-				.setEventType(LoginEventTypeEnum.LOGIN.getValue()).setStatus(LogStatusEnum.FAIL.getValue());
-		loginLogService.save(loginLog);
+		if (source instanceof UsernamePasswordAuthenticationToken) {
+			LoginLog loginLog = prodLoginLog(source).setMsg(event.getException().getMessage())
+					.setEventType(LoginEventTypeEnum.LOGIN.getValue()).setStatus(LogStatusEnum.FAIL.getValue());
+			loginLogService.save(loginLog);
+		}
 	}
 
 	/**
