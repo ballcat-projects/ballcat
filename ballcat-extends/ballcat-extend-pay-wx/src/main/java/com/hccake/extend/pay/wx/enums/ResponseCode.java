@@ -30,12 +30,12 @@ public enum ResponseCode {
 	@JsonCreator
 	public static ResponseCode of(String status) {
 		switch (status) {
-		case "SUCCESS":
-			return SUCCESS;
-		case "FAIL":
-			return FAIL;
-		default:
-			return ERROR;
+			case "SUCCESS":
+				return SUCCESS;
+			case "FAIL":
+				return FAIL;
+			default:
+				return ERROR;
 		}
 	}
 

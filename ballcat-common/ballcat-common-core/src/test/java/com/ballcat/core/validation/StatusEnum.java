@@ -16,12 +16,12 @@ public enum StatusEnum {
 
 	public static StatusEnum fromValue(int value) {
 		switch (value) {
-		case 1:
-			return SUCCESS;
-		case 0:
-			return ERROR;
-		default:
-			return null;
+			case 1:
+				return SUCCESS;
+			case 0:
+				return ERROR;
+			default:
+				return null;
 		}
 	}
 

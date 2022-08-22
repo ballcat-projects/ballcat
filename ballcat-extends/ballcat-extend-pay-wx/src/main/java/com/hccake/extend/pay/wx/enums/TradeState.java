@@ -49,24 +49,24 @@ public enum TradeState {
 	@JsonCreator
 	public static TradeState of(String status) {
 		switch (status) {
-		case "SUCCESS":
-			return SUCCESS;
-		case "REFUND":
-			return REFUND;
-		case "NOTPAY":
-			return NOTPAY;
-		case "CLOSED":
-			return CLOSED;
-		case "REVOKED":
-			return REVOKED;
-		case "USERPAYING":
-			return USERPAYING;
-		case "PAYERROR":
-			return PAYERROR;
-		case "ACCEPT":
-			return ACCEPT;
-		default:
-			return ERROR;
+			case "SUCCESS":
+				return SUCCESS;
+			case "REFUND":
+				return REFUND;
+			case "NOTPAY":
+				return NOTPAY;
+			case "CLOSED":
+				return CLOSED;
+			case "REVOKED":
+				return REVOKED;
+			case "USERPAYING":
+				return USERPAYING;
+			case "PAYERROR":
+				return PAYERROR;
+			case "ACCEPT":
+				return ACCEPT;
+			default:
+				return ERROR;
 		}
 	}
 

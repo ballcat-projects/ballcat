@@ -46,22 +46,22 @@ public class DemoTest {
 		for (ConstraintViolation<Demo> constraintViolation : constraintViolations) {
 
 			switch (constraintViolation.getPropertyPath().toString()) {
-			case "name":
-				assertEquals("value must match one of the values in the list: [张三, 李四]",
-						constraintViolation.getMessage());
-				break;
-			case "statusValue":
-				assertEquals("value must match one of the values in the list: [1, 0]",
-						constraintViolation.getMessage());
-				break;
-			case "status":
-				assertEquals("value is not in enum [class com.ballcat.core.validation.StatusEnum]",
-						constraintViolation.getMessage());
-				break;
-			case "statusName":
-				assertEquals("value is not in enum [class com.ballcat.core.validation.StatusEnum]",
-						constraintViolation.getMessage());
-				break;
+				case "name":
+					assertEquals("value must match one of the values in the list: [张三, 李四]",
+							constraintViolation.getMessage());
+					break;
+				case "statusValue":
+					assertEquals("value must match one of the values in the list: [1, 0]",
+							constraintViolation.getMessage());
+					break;
+				case "status":
+					assertEquals("value is not in enum [class com.ballcat.core.validation.StatusEnum]",
+							constraintViolation.getMessage());
+					break;
+				case "statusName":
+					assertEquals("value is not in enum [class com.ballcat.core.validation.StatusEnum]",
+							constraintViolation.getMessage());
+					break;
 			}
 		}
 
