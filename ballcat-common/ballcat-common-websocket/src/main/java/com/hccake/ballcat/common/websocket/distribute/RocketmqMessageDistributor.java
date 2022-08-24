@@ -1,6 +1,5 @@
 package com.hccake.ballcat.common.websocket.distribute;
 
-import com.alibaba.fastjson.JSON;
 import com.hccake.ballcat.common.util.JsonUtils;
 import com.hccake.ballcat.common.websocket.exception.ErrorJsonMessageException;
 import com.hccake.ballcat.common.websocket.session.WebSocketSessionStore;
@@ -64,7 +63,7 @@ public class RocketmqMessageDistributor extends AbstractMessageDistributor imple
 	@Override
 	public void onMessage(MessageExt message) {
 		String body = new String(message.getBody(), StandardCharsets.UTF_8);
-		MessageDO event = JSON.parseObject(body, MessageDO.class);
+		MessageDO event = JsonUtils.toObj(body, MessageDO.class);
 		log.info("the content is [{}]", event);
 		try {
 			this.doSend(event);
