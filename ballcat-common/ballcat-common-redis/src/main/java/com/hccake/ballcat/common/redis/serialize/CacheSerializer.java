@@ -36,6 +36,7 @@ public interface CacheSerializer {
 	 * @param type Java 对象类型
 	 * @return jackson 中的对象类型抽象
 	 */
+	@SuppressWarnings("java:S3878")
 	static JavaType getJavaType(Type type) {
 		// 判断是否带有泛型
 		if (type instanceof ParameterizedType) {

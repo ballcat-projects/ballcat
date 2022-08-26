@@ -12,6 +12,7 @@ public interface ThrowingExecutor<T> {
 	 * @return T
 	 * @throws Throwable 异常
 	 */
+	@SuppressWarnings("java:S112")
 	T execute() throws Throwable;
 
 }
