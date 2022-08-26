@@ -71,7 +71,6 @@ public class ExceptionMessage {
 
 	/**
 	 * 数量自增
-	 * @author lingting 2020-09-03 20:31
 	 */
 	public ExceptionMessage increment() {
 		number++;

@@ -96,7 +96,6 @@ public class KafkaKeyValueStore<K, V> implements KafkaWindow<V, KeyValueStore<K,
 	 * 直接插入数据
 	 * @param v 值
 	 * @param kvKeyValueStore 目标
-	 * @author lingting 2020-06-22 10:36:53
 	 */
 	@Override
 	public void forkPush(V v, KeyValueStore<K, V> kvKeyValueStore) {

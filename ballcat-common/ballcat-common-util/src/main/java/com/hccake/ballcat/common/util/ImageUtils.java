@@ -1,18 +1,19 @@
 package com.hccake.ballcat.common.util;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.UtilityClass;
+import org.springframework.util.StringUtils;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.UtilityClass;
-import org.springframework.util.StringUtils;
 
 /**
  * @author lingting 2021/7/22 13:44
@@ -104,7 +105,6 @@ public class ImageUtils {
 	 * 注册解析方案
 	 * @param resolver 解析方案
 	 * @param index 所在位置. 越小越先执行, 最小值为0
-	 * @author lingting 2021-07-22 16:50
 	 */
 	public void registerResolver(ImageResolver resolver, int index) {
 		RESOLVER_LIST.add(Math.max(index, 0), resolver);
@@ -120,7 +120,6 @@ public class ImageUtils {
 	 * 快速解析图片数据, 返回值携带可用的流
 	 * </p>
 	 * @throws IOException 流异常时抛出
-	 * @author lingting 2021-07-22 14:09
 	 */
 	public ImageInfo quickResolveClone(InputStream stream) throws IOException {
 		final InputStream[] streams = StreamUtils.clone(stream, 2);
@@ -168,7 +167,6 @@ public class ImageUtils {
 	 * @param stream 流
 	 * @return com.cloud.core.util.ImageUtils.ImageInfo
 	 * @throws IOException 流异常时抛出
-	 * @author lingting 2021-07-22 16:09
 	 */
 	public ImageInfo resolveClone(InputStream stream) throws IOException {
 		final InputStream[] streams = StreamUtils.clone(stream, 2);
@@ -212,7 +210,6 @@ public class ImageUtils {
 	 * </p>
 	 * @param stream 流
 	 * @return com.cloud.core.util.ImageUtils.ImageInfo
-	 * @author lingting 2021-07-22 16:09
 	 */
 	public ImageInfo mixResolveClone(InputStream stream) throws IOException {
 		InputStream[] streams = StreamUtils.clone(stream, 2);
@@ -251,7 +248,6 @@ public class ImageUtils {
 		 * @param r2 流2
 		 * @param r3 流3
 		 * @return boolean
-		 * @author lingting 2021-07-22 14:19
 		 */
 		boolean isSupport(int r1, int r2, int r3);
 
@@ -260,7 +256,6 @@ public class ImageUtils {
 		 * @param info 详情
 		 * @param stream 图片流
 		 * @throws IOException 流异常时抛出
-		 * @author lingting 2021-07-22 14:51
 		 */
 		void resolve(ImageInfo info, InputStream stream) throws IOException;
 
@@ -268,7 +263,6 @@ public class ImageUtils {
 
 	/**
 	 * tiff格式处理
-	 * @author lingting 2021-07-22 16:28
 	 */
 	private void tiffResolver(InputStream stream, ImageInfo info, int r1) throws IOException {
 		boolean bigEndian = r1 == 'M';

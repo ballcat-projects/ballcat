@@ -43,7 +43,6 @@ public @interface ResponseExcel {
 
 	/**
 	 * 内存操作
-	 * @return
 	 */
 	boolean inMemory() default false;
 

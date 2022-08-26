@@ -42,7 +42,6 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	 * @param obj 校验对象
 	 * @param optional 交易数据
 	 * @param r 处理结果
-	 * @author lingting 2021-01-05 11:18
 	 */
 	public abstract void failed(T obj, @NotNull Optional<TransactionInfo> optional, R r);
 
@@ -51,7 +50,6 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	 * @param obj 校验对象
 	 * @param optional 交易数据
 	 * @param r 处理结果
-	 * @author lingting 2021-01-05 11:19
 	 */
 	public abstract void success(T obj, @NotNull Optional<TransactionInfo> optional, R r);
 
@@ -59,7 +57,6 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	 * 异常处理
 	 * @param obj 校验对象
 	 * @param e 异常信息
-	 * @author lingting 2021-01-05 11:29
 	 */
 	public abstract void error(T obj, Throwable e);
 

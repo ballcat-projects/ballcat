@@ -39,7 +39,6 @@ public interface WxDomain {
 	 * @param params 参数
 	 * @param rs 请求后缀
 	 * @return java.util.Map<java.lang.String,java.lang.String>
-	 * @author lingting 2021-02-01 10:58
 	 */
 	@SneakyThrows({ ParserConfigurationException.class, IOException.class, SAXException.class })
 	default Map<String, String> request(Map<String, String> params, RequestSuffix rs) {
@@ -60,7 +59,6 @@ public interface WxDomain {
 	 * @param params 参数
 	 * @param rs 前缀
 	 * @return java.lang.String
-	 * @author lingting 2021-02-25 14:09
 	 */
 	String sendRequest(Map<String, String> params, RequestSuffix rs);
 
@@ -69,7 +67,6 @@ public interface WxDomain {
 	 * 获取沙箱环境密钥
 	 * @param wxPay 支付信息
 	 * @return com.hccake.extend.pay.wx.response.WxPayResponse
-	 * @author lingting 2021-02-25 14:49
 	 */
 	default WxPayResponse sandbox(WxPay wxPay) {
 		HashMap<String, String> map = new HashMap<>();

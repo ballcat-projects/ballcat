@@ -31,7 +31,6 @@ public class AliPayCallback {
 	 * 解析回调参数
 	 * @param callbackParams 所有回调参数
 	 * @return com.hccake.extend.pay.ali.domain.AliPayCallback
-	 * @author lingting 2021-01-26 14:39
 	 */
 	public static AliPayCallback of(Map<String, String> callbackParams) {
 		Map<String, Object> map = new HashMap<>(callbackParams);

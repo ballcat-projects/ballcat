@@ -30,7 +30,6 @@ public interface ExtendMapper<T> extends BaseMapper<T> {
 	 * 批量插入数据 实现类 {@link InsertBatchSomeColumn}
 	 * @param list 数据列表
 	 * @return int 改动行
-	 * @author lingting 2020-08-26 22:11
 	 */
 	int insertBatchSomeColumn(@Param("collection") Collection<T> list);
 

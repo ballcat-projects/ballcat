@@ -42,8 +42,6 @@ public class KafkaProducerBuilder {
 
 	/**
 	 * 添加 kafka 路径 host:port
-	 *
-	 * @author lingting 2020-06-19 16:30:03
 	 */
 	public KafkaProducerBuilder addBootstrapServers(String uri) {
 		bootstrapServers.add(uri);
@@ -57,8 +55,6 @@ public class KafkaProducerBuilder {
 
 	/**
 	 * 添加配置
-	 *
-	 * @author lingting 2020-06-19 16:30:50
 	 */
 	public KafkaProducerBuilder put(Object key, Object val) {
 		properties.put(key, val);
@@ -67,8 +63,6 @@ public class KafkaProducerBuilder {
 
 	/**
 	 * 添加配置
-	 *
-	 * @author lingting 2020-06-19 16:30:50
 	 */
 	public KafkaProducerBuilder putAll(Properties properties) {
 		this.properties.putAll(properties);

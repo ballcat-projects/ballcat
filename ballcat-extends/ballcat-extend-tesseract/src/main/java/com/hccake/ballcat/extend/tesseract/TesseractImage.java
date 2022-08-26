@@ -1,14 +1,19 @@
 package com.hccake.ballcat.extend.tesseract;
 
-import java.awt.Rectangle;
+import lombok.Getter;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
-import javax.imageio.ImageIO;
-import lombok.Getter;
 
 /**
+ * <p>
+ * TesseractImage class.
+ * </p>
+ *
  * @author lingting
  */
 @Getter
@@ -31,10 +36,24 @@ public class TesseractImage {
 
 	private File tmpFile;
 
+	/**
+	 * <p>
+	 * Constructor for TesseractImage.
+	 * </p>
+	 * @param path a {@link java.lang.String} object.
+	 * @throws java.io.IOException if any.
+	 */
 	public TesseractImage(String path) throws IOException {
 		this(new File(path));
 	}
 
+	/**
+	 * <p>
+	 * Constructor for TesseractImage.
+	 * </p>
+	 * @param file a {@link java.io.File} object.
+	 * @throws java.io.IOException if any.
+	 */
 	public TesseractImage(File file) throws IOException {
 		this(file, ImageIO.read(file));
 	}
@@ -90,6 +109,7 @@ public class TesseractImage {
 	/**
 	 * 裁剪
 	 * @return 裁剪后的图片
+	 * @param rectangle a {@link java.awt.Rectangle} object.
 	 */
 	public TesseractImage crop(Rectangle rectangle) {
 		final BufferedImage cropBuffer = new BufferedImage(rectangle.width, rectangle.height, buffer.getType());
@@ -108,6 +128,7 @@ public class TesseractImage {
 	/**
 	 * 数据写入文件
 	 * @return java.lang.String
+	 * @throws java.io.IOException if any.
 	 */
 	public String write() throws IOException {
 		if (tmpFile == null) {

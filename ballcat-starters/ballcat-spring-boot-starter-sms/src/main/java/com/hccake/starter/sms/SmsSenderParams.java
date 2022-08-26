@@ -56,8 +56,6 @@ public class SmsSenderParams {
 
 	/**
 	 * 添加模板参数
-	 *
-	 * @author lingting 2020-04-26 11:07:36
 	 */
 	public SmsSenderParams addTemplateParam(Object param) {
 		this.templateParam.add(param);

@@ -1,12 +1,12 @@
 package com.hccake.starter.file.ftp;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.extra.ftp.Ftp;
 import cn.hutool.extra.ftp.FtpConfig;
+import com.hccake.starter.file.FileProperties.FtpProperties;
 import com.hccake.starter.file.core.AbstractFileClient;
 import com.hccake.starter.file.exception.FileException;
-import com.hccake.starter.file.FileProperties.FtpProperties;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
@@ -52,14 +52,12 @@ public class FtpFileClient extends AbstractFileClient {
 	 * @param stream 文件流
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return java.lang.String 文件完整路径
-	 * @author lingting 2021-10-18 11:40
-	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public String upload(InputStream stream, String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
 		final String fileName = FileUtil.getName(path);
-		final String dir = StrUtil.removeSuffix(path, fileName);
+		final String dir = CharSequenceUtil.removeSuffix(path, fileName);
 		// 上传失败
 		if (!client.upload(dir, fileName, stream)) {
 			throw new FileException(
@@ -72,14 +70,12 @@ public class FtpFileClient extends AbstractFileClient {
 	 * 下载文件
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return java.io.FileOutputStream 文件流
-	 * @author lingting 2021-10-18 16:48
-	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public File download(String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
 		final String fileName = FileUtil.getName(path);
-		final String dir = StrUtil.removeSuffix(path, fileName);
+		final String dir = CharSequenceUtil.removeSuffix(path, fileName);
 		// 临时文件
 		File tmpFile = FileUtil.createTempFile();
 		tmpFile = FileUtil.rename(tmpFile, fileName, true);
@@ -94,11 +90,9 @@ public class FtpFileClient extends AbstractFileClient {
 	 * 删除文件
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return boolean
-	 * @author lingting 2021-10-18 17:14
-	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
-	public boolean delete(String relativePath) throws IOException {
+	public boolean delete(String relativePath) {
 		return client.delFile(getWholePath(relativePath));
 	}
 

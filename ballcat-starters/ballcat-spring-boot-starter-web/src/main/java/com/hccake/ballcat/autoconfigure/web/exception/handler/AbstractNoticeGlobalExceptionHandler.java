@@ -7,23 +7,17 @@ import com.hccake.ballcat.autoconfigure.web.exception.ExceptionHandleProperties;
 import com.hccake.ballcat.autoconfigure.web.exception.domain.ExceptionMessage;
 import com.hccake.ballcat.autoconfigure.web.exception.domain.ExceptionNoticeResponse;
 import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
+import com.hccake.ballcat.common.core.util.WebUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
-import com.hccake.ballcat.common.core.util.WebUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author lingting 2020-09-03 20:09
@@ -152,7 +146,6 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 	 * 发送通知
 	 * @param sendMessage 发送的消息
 	 * @return 返回消息发送状态，如果发送失败需要设置失败信息
-	 * @author lingting 2020-06-12 00:37:23
 	 */
 	public abstract ExceptionNoticeResponse send(ExceptionMessage sendMessage);
 

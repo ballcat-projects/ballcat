@@ -85,7 +85,6 @@ public class OssClient implements DisposableBean {
 
 	/**
 	 * 生成 builder . 便于子类重写
-	 * @author lingting 2021-05-13 14:43
 	 */
 	protected ClientBuilder createBuilder() {
 		return ClientBuilder.builder().accessKey(accessKey).accessSecret(accessSecret).bucket(bucket).domain(domain)
@@ -168,7 +167,6 @@ public class OssClient implements DisposableBean {
 
 	/**
 	 * 获取 相对路径 的下载url
-	 * @author lingting 2021-05-12 18:50
 	 */
 	public String getDownloadUrl(String relativeKey) {
 		return getDownloadUrlByAbsolute(getObjectKey(relativeKey));
@@ -176,7 +174,6 @@ public class OssClient implements DisposableBean {
 
 	/**
 	 * 获取 绝对路径 的下载url
-	 * @author lingting 2021-05-12 18:50
 	 */
 	public String getDownloadUrlByAbsolute(String objectKey) {
 		return String.format("%s/%s", downloadPrefix, objectKey);
@@ -188,7 +185,6 @@ public class OssClient implements DisposableBean {
 
 	/**
 	 * 检查oss是否启用
-	 * @author lingting 2021-05-27 10:45
 	 */
 	public boolean enabled() {
 		return enable;
@@ -212,7 +208,6 @@ public class OssClient implements DisposableBean {
 	 * 方便有其他更好的计算大小实现时可以先替换
 	 * @param stream 要计算大小的流
 	 * @return StreamTemp 返回大小和一个完全相同的新流
-	 * @author lingting 2021-05-10 15:29
 	 * @throws IOException 流操作时异常
 	 */
 	public StreamTemp getSize(InputStream stream) throws IOException {
@@ -223,7 +218,6 @@ public class OssClient implements DisposableBean {
 	 * 获取真实文件路径
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return 文件绝对路径
-	 * @author lingting 2021-05-10 15:58
 	 * @deprecated use {@link OssClient#getObjectKey}
 	 */
 	@Deprecated
@@ -235,7 +229,6 @@ public class OssClient implements DisposableBean {
 	 * 获取真实Oss对象key
 	 * @param relativeKey 文件相对 getRoot() 的Key
 	 * @return 文件绝对路径
-	 * @author lingting 2021-05-10 15:58
 	 */
 	public String getObjectKey(String relativeKey) {
 		Assert.hasText(relativeKey, "key must not be empty");

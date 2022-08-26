@@ -23,7 +23,6 @@ public class AliAppPay {
 	 * @param appId app id
 	 * @param response app pay 接口返回值
 	 * @return com.hccake.extend.pay.ali.domain.AliAppPay
-	 * @author lingting 2021-01-25 10:55
 	 */
 	public static AliAppPay of(String appId, AlipayTradeAppPayResponse response) {
 		return of(appId, response.getBody());
@@ -34,7 +33,6 @@ public class AliAppPay {
 	 * @param appId app id
 	 * @param body app pay 接口返回值中 body 字段内容
 	 * @return com.hccake.extend.pay.ali.domain.AliAppPay
-	 * @author lingting 2021-01-25 10:55
 	 */
 	public static AliAppPay of(String appId, String body) {
 		AliAppPay pay = new AliAppPay();

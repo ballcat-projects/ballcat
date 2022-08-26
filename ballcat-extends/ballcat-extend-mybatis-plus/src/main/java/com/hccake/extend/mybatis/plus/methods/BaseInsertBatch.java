@@ -59,7 +59,6 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 
 	/**
 	 * 是否回填主键
-	 * @author lingting 2020-08-26 22:14
 	 */
 	public boolean backFillKey() {
 		return false;
@@ -78,7 +77,6 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 	/**
 	 * 获取注册的脚本
 	 * @return java.lang.String
-	 * @author lingting 2020-06-09 20:38:54
 	 */
 	protected abstract String getSql();
 

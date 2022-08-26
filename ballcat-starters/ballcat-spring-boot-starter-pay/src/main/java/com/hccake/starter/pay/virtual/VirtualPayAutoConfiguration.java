@@ -26,7 +26,6 @@ public class VirtualPayAutoConfiguration {
 
 	/**
 	 * infura 配置类
-	 * @author lingting 2021-01-05 10:40
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -47,7 +46,6 @@ public class VirtualPayAutoConfiguration {
 
 	/**
 	 * infura 平台实现类
-	 * @author lingting 2021-01-05 10:35
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -64,7 +62,6 @@ public class VirtualPayAutoConfiguration {
 
 	/**
 	 * tronscan 配置类
-	 * @author lingting 2021-01-05 10:40
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -80,7 +77,6 @@ public class VirtualPayAutoConfiguration {
 
 	/**
 	 * tronscan 平台实现类
-	 * @author lingting 2021-01-05 10:35
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -96,7 +92,6 @@ public class VirtualPayAutoConfiguration {
 
 	/**
 	 * bitcoin 配置类
-	 * @author lingting 2021-01-05 10:40
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -112,7 +107,6 @@ public class VirtualPayAutoConfiguration {
 
 	/**
 	 * bitcoin 平台实现类
-	 * @author lingting 2021-01-05 10:35
 	 */
 	@Bean
 	@ConditionalOnMissingBean

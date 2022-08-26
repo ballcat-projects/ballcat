@@ -65,8 +65,6 @@ public class LocalFileClient extends AbstractFileClient {
 	 * 下载文件
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return java.io.FileOutputStream 文件流
-	 * @author lingting 2021-10-18 16:48
-	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public File download(String relativePath) throws IOException {
@@ -77,7 +75,6 @@ public class LocalFileClient extends AbstractFileClient {
 	 * 删除文件
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @return boolean
-	 * @author lingting 2021-10-18 17:14
 	 */
 	@Override
 	public boolean delete(String relativePath) throws IOException {

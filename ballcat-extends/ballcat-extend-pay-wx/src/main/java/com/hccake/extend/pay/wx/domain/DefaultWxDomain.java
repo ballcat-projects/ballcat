@@ -43,7 +43,6 @@ public class DefaultWxDomain implements WxDomain {
 	/**
 	 * 根据微信的建议, 这里后续需要加上主备切换的功能
 	 * @return java.lang.String
-	 * @author lingting 2021-01-29 17:50
 	 */
 	public String getDomain() {
 		return MAIN1;

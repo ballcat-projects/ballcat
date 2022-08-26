@@ -30,8 +30,6 @@ public abstract class AbstractProcessor<K, V> implements Kafka, Processor<K, V> 
 
 	/**
 	 * 用于初始化窗口的方法 子类如果需要 自己重写
-	 *
-	 * @author lingting 2020-06-17 10:44:39
 	 */
 	public void initSchedule(ProcessorContext context) {
 
@@ -39,8 +37,6 @@ public abstract class AbstractProcessor<K, V> implements Kafka, Processor<K, V> 
 
 	/**
 	 * 用于构筑 Punctuator
-	 *
-	 * @author lingting 2020-06-21 13:58:34
 	 */
 	public void schedule(Duration interval, PunctuationType type, AbstractPunctuator callback) {
 		context.schedule(interval, type, callback);
@@ -48,8 +44,6 @@ public abstract class AbstractProcessor<K, V> implements Kafka, Processor<K, V> 
 
 	/**
 	 * 用于构筑 {@link PunctuationType#WALL_CLOCK_TIME} 类型的 Punctuator
-	 *
-	 * @author lingting 2020-06-21 13:58:53
 	 */
 	public void schedule(Duration interval, AbstractPunctuator callback) {
 		schedule(interval, PunctuationType.WALL_CLOCK_TIME, callback);
@@ -60,7 +54,6 @@ public abstract class AbstractProcessor<K, V> implements Kafka, Processor<K, V> 
 	 * @param key key
 	 * @param value value
 	 * @param childName 目标名称
-	 * @author lingting 2020-06-17 19:44:45
 	 */
 	public void forward(K key, V value, String childName) {
 		context.forward(key, value, To.child(childName));
@@ -71,7 +64,6 @@ public abstract class AbstractProcessor<K, V> implements Kafka, Processor<K, V> 
 	 * @param key key
 	 * @param value value
 	 * @param to 目标
-	 * @author lingting 2020-06-17 19:47:55
 	 */
 	public void forward(K key, V value, To to) {
 		context.forward(key, value, to);

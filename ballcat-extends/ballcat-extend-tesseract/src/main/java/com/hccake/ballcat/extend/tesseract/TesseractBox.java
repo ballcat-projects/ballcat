@@ -1,11 +1,12 @@
 package com.hccake.ballcat.extend.tesseract;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 本类坐标系. 原点为 图片左上角
@@ -46,6 +47,14 @@ public class TesseractBox implements Serializable {
 	 */
 	private int index;
 
+	/**
+	 * <p>
+	 * of.
+	 * </p>
+	 * @param lines a {@link java.util.List} object.
+	 * @param image a {@link com.hccake.ballcat.extend.tesseract.TesseractImage} object.
+	 * @return a {@link java.util.List} object.
+	 */
 	public static List<TesseractBox> of(List<String> lines, TesseractImage image) {
 		final int height = image.getHeight();
 		List<TesseractBox> list = new ArrayList<>();

@@ -14,7 +14,6 @@ public interface Kafka {
 	/**
 	 * 获取上下文
 	 * @return content
-	 * @author lingting 2020-06-22 11:03:23
 	 */
 	ProcessorContext getContext();
 
@@ -22,7 +21,6 @@ public interface Kafka {
 	 * 获取 KeyValueStore
 	 * @param name store name
 	 * @return java.lang.String
-	 * @author lingting 2020-06-22 09:57:37
 	 */
 	@SuppressWarnings("unchecked")
 	default <K, V> KafkaKeyValueStore<K, V> getStore(String name) {

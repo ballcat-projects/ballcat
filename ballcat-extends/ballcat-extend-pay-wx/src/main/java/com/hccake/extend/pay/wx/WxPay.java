@@ -1,9 +1,7 @@
 package com.hccake.extend.pay.wx;
 
-import static com.hccake.extend.pay.wx.constants.WxPayConstant.HUNDRED;
-
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.hccake.extend.pay.wx.constants.WxPayConstant;
 import com.hccake.extend.pay.wx.domain.DefaultWxDomain;
 import com.hccake.extend.pay.wx.domain.WxDomain;
@@ -14,12 +12,14 @@ import com.hccake.extend.pay.wx.response.WxPayCallback;
 import com.hccake.extend.pay.wx.response.WxPayOrderQueryResponse;
 import com.hccake.extend.pay.wx.response.WxPayResponse;
 import com.hccake.extend.pay.wx.utils.WxPayUtil;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Data;
-import lombok.SneakyThrows;
+
+import static com.hccake.extend.pay.wx.constants.WxPayConstant.HUNDRED;
 
 /**
  * @author lingting 2021/1/26 15:54
@@ -134,7 +134,6 @@ public class WxPay {
 	 * @param body 描述
 	 * @param notifyUrl 通知
 	 * @param tradeType 支付类型
-	 * @author lingting 2021-02-25 10:19
 	 */
 	public Map<String, String> pay(String sn, BigDecimal amount, String ip, String body, String notifyUrl,
 			TradeType tradeType) {
@@ -154,10 +153,9 @@ public class WxPay {
 	 * @param sn 平台订单号
 	 * @param wxSn 微信订单号
 	 * @return com.hccake.extend.pay.wx.response.WxPayOrderQueryResponse
-	 * @author lingting 2021-02-25 15:20
 	 */
 	public WxPayOrderQueryResponse query(String sn, String wxSn) {
-		Assert.isFalse(StrUtil.isBlank(sn) && StrUtil.isBlank(wxSn), "参数 sn 和 wxSn 不能同时为空!");
+		Assert.isFalse(CharSequenceUtil.isBlank(sn) && CharSequenceUtil.isBlank(wxSn), "参数 sn 和 wxSn 不能同时为空!");
 		Map<String, String> params = new HashMap<>(6);
 		params.put("out_trade_no", sn);
 		params.put("transaction_id", wxSn);
@@ -168,7 +166,6 @@ public class WxPay {
 	 * 向微信发起请求
 	 * @param params 参数
 	 * @param rs 请求后缀
-	 * @author lingting 2021-01-29 18:12
 	 */
 	public Map<String, String> request(Map<String, String> params, RequestSuffix rs) {
 		Map<String, String> map = new HashMap<>(params.size() + 3);
@@ -190,7 +187,6 @@ public class WxPay {
 	 * 金额单位转换, 元 转为 分
 	 * @param amount 支付金额, 单位 元
 	 * @return java.lang.String
-	 * @author lingting 2021-01-25 10:27
 	 */
 	public String yuanToFen(BigDecimal amount) {
 		return amount.multiply(HUNDRED).setScale(2, RoundingMode.UP).toBigInteger().toString();
@@ -200,11 +196,10 @@ public class WxPay {
 	 * 验证回调签名
 	 * @param callback 回调数据
 	 * @return java.lang.Boolean
-	 * @author lingting 2021-02-25 16:01
 	 */
 	public boolean checkSign(WxPayCallback callback) {
 		// 原签名不存在时, 直接失败
-		if (StrUtil.isBlank(callback.getSign())) {
+		if (CharSequenceUtil.isBlank(callback.getSign())) {
 			return false;
 		}
 

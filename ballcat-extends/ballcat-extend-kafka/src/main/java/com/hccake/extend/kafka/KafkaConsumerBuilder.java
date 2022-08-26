@@ -73,8 +73,6 @@ public class KafkaConsumerBuilder {
 
 	/**
 	 * 添加配置
-	 *
-	 * @author lingting 2020-06-19 16:30:50
 	 */
 	public KafkaConsumerBuilder putAll(Properties properties) {
 		this.properties.putAll(properties);
@@ -83,8 +81,6 @@ public class KafkaConsumerBuilder {
 
 	/**
 	 * 组id
-	 *
-	 * @author lingting 2020-06-19 16:46:32
 	 */
 	public KafkaConsumerBuilder groupId(String groupId) {
 		return put(ConsumerConfig.GROUP_ID_CONFIG, groupId);

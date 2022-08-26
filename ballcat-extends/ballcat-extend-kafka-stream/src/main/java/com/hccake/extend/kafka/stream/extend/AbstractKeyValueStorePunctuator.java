@@ -4,14 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.extend.kafka.stream.core.AbstractPunctuator;
 import com.hccake.extend.kafka.stream.exception.NotAllowedException;
 import com.hccake.extend.kafka.stream.store.KafkaKeyValueStore;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiFunction;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.processor.ProcessorContext;
 import org.apache.kafka.streams.state.KeyValueIterator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
 
 /**
  * kafka 扩展类 自动注入 指定类型 指定名称的 store Value 数据的类型 Values 存放数据的对象类型
@@ -50,8 +51,6 @@ public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractP
 
 	/**
 	 * 获取单批量处理数量
-	 *
-	 * @author lingting 2020-06-22 15:37:10
 	 */
 	public long getHandleSize() {
 		return HANDLER_SIZE;
@@ -78,7 +77,6 @@ public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractP
 	 * 执行数据处理方法
 	 * @param list 数据
 	 * @param timestamp 时间戳
-	 * @author lingting 2020-06-22 19:51:56
 	 */
 	public void runHandle(long timestamp, List<R> list) {
 		try {
@@ -104,7 +102,6 @@ public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractP
 	 * 批量处理数据
 	 * @param timestamp 时间戳
 	 * @param list 当前批数据
-	 * @author lingting 2020-06-22 15:35:38
 	 */
 	public abstract void handle(long timestamp, List<R> list);
 

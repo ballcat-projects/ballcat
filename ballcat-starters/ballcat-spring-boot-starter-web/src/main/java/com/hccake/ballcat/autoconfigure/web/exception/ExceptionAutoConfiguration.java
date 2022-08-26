@@ -45,8 +45,6 @@ public class ExceptionAutoConfiguration {
 
 	/**
 	 * 钉钉消息通知的日志处理器
-	 *
-	 * @author lingting 2020-06-12 00:32:40
 	 */
 	@Bean
 	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
@@ -59,8 +57,6 @@ public class ExceptionAutoConfiguration {
 
 	/**
 	 * 邮件消息通知的日志处理器
-	 *
-	 * @author lingting 2020-06-12 00:32:40
 	 */
 	@Bean
 	@ConditionalOnMissingBean(GlobalExceptionHandler.class)

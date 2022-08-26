@@ -67,7 +67,6 @@ public class WxPayCallback {
 	 * 验签
 	 * @param wxPay 微信支付信息
 	 * @return boolean
-	 * @author lingting 2021-02-25 16:04
 	 */
 	public boolean checkSign(WxPay wxPay) {
 		return wxPay.checkSign(this);

@@ -13,7 +13,6 @@ public interface JsonTool {
 	 * obj -> jsonStr
 	 * @param obj obj
 	 * @return java.lang.String
-	 * @author lingting 2021-02-25 21:00
 	 */
 	String toJson(Object obj);
 
@@ -22,7 +21,6 @@ public interface JsonTool {
 	 * @param json json str
 	 * @param r obj.class
 	 * @return T
-	 * @author lingting 2021-02-25 21:02
 	 */
 	<T> T toObj(String json, Class<T> r);
 
@@ -31,7 +29,6 @@ public interface JsonTool {
 	 * @param json json str
 	 * @param t (obj.class)type
 	 * @return T
-	 * @author lingting 2021-02-25 21:02
 	 */
 	<T> T toObj(String json, Type t);
 
@@ -41,7 +38,6 @@ public interface JsonTool {
 	 * @param json json str
 	 * @param t TypeReference
 	 * @return T
-	 * @author lingting 2021-02-25 21:49
 	 */
 	<T> T toObj(String json, TypeReference<T> t);
 

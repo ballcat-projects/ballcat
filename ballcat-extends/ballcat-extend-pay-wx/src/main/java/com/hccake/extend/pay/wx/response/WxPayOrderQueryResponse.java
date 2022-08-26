@@ -95,7 +95,6 @@ public class WxPayOrderQueryResponse {
 	/**
 	 * 交易是否成功 . 返回false 表示交易失败
 	 * @return boolean
-	 * @author lingting 2021-02-25 15:35
 	 */
 	public boolean isSuccess() {
 		// 交易成功

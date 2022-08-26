@@ -52,8 +52,6 @@ public class SpringUtils implements ApplicationContextAware {
 
 	/**
 	 * 获取环境
-	 *
-	 * @author lingting 2020-06-12 16:38:56
 	 */
 	public static Environment getEnvironment() {
 		return context.getEnvironment();

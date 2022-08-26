@@ -1,16 +1,21 @@
 package com.hccake.ballcat.extend.tesseract;
 
 import com.hccake.ballcat.extend.tesseract.exception.OcrException;
+import lombok.Builder;
+import lombok.Getter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Builder;
-import lombok.Getter;
 
 /**
+ * <p>
+ * TesseractCommand class.
+ * </p>
+ *
  * @author lingting
  */
 @Getter
@@ -32,6 +37,12 @@ public class TesseractCommand {
 	 */
 	private Integer psm;
 
+	/**
+	 * <p>
+	 * getCommand.
+	 * </p>
+	 * @return a {@link java.lang.String} object.
+	 */
 	public String getCommand() {
 		StringBuilder builder = new StringBuilder("\"").append(tesseract).append("\" \"");
 
@@ -57,6 +68,12 @@ public class TesseractCommand {
 		return builder.toString();
 	}
 
+	/**
+	 * <p>
+	 * run.
+	 * </p>
+	 * @return a {@link java.util.List} object.
+	 */
 	public List<String> run() {
 		try {
 			final Process process = Runtime.getRuntime().exec(getCommand());
@@ -87,6 +104,13 @@ public class TesseractCommand {
 		}
 	}
 
+	/**
+	 * <p>
+	 * hasText.
+	 * </p>
+	 * @param str a {@link java.lang.String} object.
+	 * @return a boolean.
+	 */
 	protected boolean hasText(String str) {
 		if (str == null || str.length() == 0) {
 			return false;

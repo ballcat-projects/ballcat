@@ -73,7 +73,6 @@ public class SmsSenderResult {
 	 * @param id 异常id
 	 * @param e 异常信息
 	 * @return com.hccake.starter.sms.domain.SendResult
-	 * @author lingting 2020-04-26 13:43:39
 	 */
 	public static SmsSenderResult generateException(TypeEnum platform, Set<String> phoneNumbers, String id,
 			Throwable e) {

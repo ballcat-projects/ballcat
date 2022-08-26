@@ -11,7 +11,6 @@ public interface SmsSender<T, R> {
 	 * 发送短信
 	 * @param p 参数配置
 	 * @return boolean
-	 * @author lingting 2020-04-26 11:44:46
 	 */
 	R send(T p);
 

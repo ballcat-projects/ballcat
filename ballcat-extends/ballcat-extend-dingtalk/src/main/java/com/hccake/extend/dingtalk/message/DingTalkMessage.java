@@ -8,7 +8,6 @@ public interface DingTalkMessage {
 	/**
 	 * 生成钉钉消息发送参数
 	 * @return 钉钉文档要求的 jsonString
-	 * @author lingting 2020-06-12 19:56:54
 	 */
 	String generate();
 

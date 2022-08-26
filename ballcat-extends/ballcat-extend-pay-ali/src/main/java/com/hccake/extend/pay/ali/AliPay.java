@@ -1,7 +1,5 @@
 package com.hccake.extend.pay.ali;
 
-import static com.hccake.extend.pay.ali.constants.AliPayConstant.FIELD_FUND_BILL_LIST;
-
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -25,14 +23,16 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.hccake.extend.pay.ali.constants.AliPayConstant;
 import com.hccake.extend.pay.ali.domain.AliPayQuery;
-import java.math.BigDecimal;
-import java.util.Map;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
+import static com.hccake.extend.pay.ali.constants.AliPayConstant.FIELD_FUND_BILL_LIST;
+
 /**
- * api文档: https://opendocs.alipay.com/apis.
- *
- * 在线调试: https://openhome.alipay.com/platform/demoManage.htm.
+ * <a href="https://opendocs.alipay.com/apis">api文档</a>.
+ * <a href="https://openhome.alipay.com/platform/demoManage.htm">在线调试</a>.
  *
  * @author lingting 2021/1/25 9:42
  */
@@ -81,7 +81,6 @@ public class AliPay {
 	 * @param amount 用户支付金额(单位: 元)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradeWapPayResponse
-	 * @author lingting 2021-01-25 10:14
 	 */
 	public AlipayTradeWapPayResponse mobileWapPay(String sn, BigDecimal amount, String subject)
 			throws AlipayApiException {
@@ -94,7 +93,6 @@ public class AliPay {
 	 * @param amount 用户支付金额(单位: 元)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradeWapPayResponse
-	 * @author lingting 2021-01-25 10:14
 	 */
 	public AlipayTradeWapPayResponse mobileWapPay(String sn, BigDecimal amount, String subject, String returnUrl,
 			String notifyUrl) throws AlipayApiException {
@@ -108,7 +106,6 @@ public class AliPay {
 
 	/**
 	 * 手机网站支付-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradeWapPayResponse mobileWapPay(AlipayTradePayModel model) throws AlipayApiException {
 		return mobileWapPay(model, returnUrl, notifyUrl);
@@ -116,7 +113,6 @@ public class AliPay {
 
 	/**
 	 * 手机网站支付-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradeWapPayResponse mobileWapPay(AlipayTradePayModel model, String returnUrl, String notifyUrl)
 			throws AlipayApiException {
@@ -134,7 +130,6 @@ public class AliPay {
 	 * @param amount 用户支付金额(单位: 元)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradeWapPayResponse
-	 * @author lingting 2021-01-25 10:14
 	 */
 	public AlipayTradePagePayResponse computerWapPay(String sn, BigDecimal amount, String subject)
 			throws AlipayApiException {
@@ -147,7 +142,6 @@ public class AliPay {
 	 * @param amount 用户支付金额(单位: 元)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradeWapPayResponse
-	 * @author lingting 2021-01-25 10:14
 	 */
 	public AlipayTradePagePayResponse computerWapPay(String sn, BigDecimal amount, String subject, String returnUrl,
 			String notifyUrl) throws AlipayApiException {
@@ -162,7 +156,6 @@ public class AliPay {
 
 	/**
 	 * 电脑网站支付-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradePagePayResponse computerWapPay(AlipayTradePayModel model) throws AlipayApiException {
 		return computerWapPay(model, returnUrl, notifyUrl);
@@ -170,7 +163,6 @@ public class AliPay {
 
 	/**
 	 * 电脑网站支付-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradePagePayResponse computerWapPay(AlipayTradePayModel model, String returnUrl, String notifyUrl)
 			throws AlipayApiException {
@@ -188,7 +180,6 @@ public class AliPay {
 	 * @param amount 用户支付金额(单位: 元)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradeWapPayResponse
-	 * @author lingting 2021-01-25 10:14
 	 */
 	public AlipayTradeAppPayResponse appPay(String sn, BigDecimal amount, String subject) throws AlipayApiException {
 		return appPay(sn, amount, subject, notifyUrl);
@@ -200,7 +191,6 @@ public class AliPay {
 	 * @param amount 用户支付金额(单位: 元)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradeAppPayResponse
-	 * @author lingting 2021-01-25 10:14
 	 */
 	public AlipayTradeAppPayResponse appPay(String sn, BigDecimal amount, String subject, String notifyUrl)
 			throws AlipayApiException {
@@ -214,7 +204,6 @@ public class AliPay {
 
 	/**
 	 * APP支付-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradeAppPayResponse appPay(AlipayTradePayModel model) throws AlipayApiException {
 		return appPay(model, notifyUrl);
@@ -222,7 +211,6 @@ public class AliPay {
 
 	/**
 	 * APP支付-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradeAppPayResponse appPay(AlipayTradePayModel model, String notifyUrl) throws AlipayApiException {
 		AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
@@ -238,7 +226,6 @@ public class AliPay {
 	 * @param code 付款码内容(条形码或二维码内容)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradeWapPayResponse
-	 * @author lingting 2021-01-25 10:14
 	 */
 	public AlipayTradePayResponse codePay(String sn, BigDecimal amount, String code, String subject)
 			throws AlipayApiException {
@@ -252,7 +239,6 @@ public class AliPay {
 	 * @param code 付款码内容(条形码或二维码内容)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradeAppPayResponse
-	 * @author lingting 2021-01-25 10:14
 	 */
 	public AlipayTradePayResponse codePay(String sn, BigDecimal amount, String code, String subject, String notifyUrl)
 			throws AlipayApiException {
@@ -268,7 +254,6 @@ public class AliPay {
 
 	/**
 	 * 付款码支付-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradePayResponse codePay(AlipayTradePayModel model) throws AlipayApiException {
 		return codePay(model, notifyUrl);
@@ -276,7 +261,6 @@ public class AliPay {
 
 	/**
 	 * 付款码支付-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradePayResponse codePay(AlipayTradePayModel model, String notifyUrl) throws AlipayApiException {
 		AlipayTradePayRequest request = new AlipayTradePayRequest();
@@ -293,7 +277,6 @@ public class AliPay {
 	 * @param amount 用户支付金额(单位: 元)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradePrecreateResponse
-	 * @author lingting 2021-05-21 17:22
 	 */
 	public AlipayTradePrecreateResponse qrPay(String sn, BigDecimal amount, String subject) throws AlipayApiException {
 		return qrPay(sn, amount, subject, notifyUrl);
@@ -305,7 +288,6 @@ public class AliPay {
 	 * @param amount 用户支付金额(单位: 元)
 	 * @param subject 商品标题
 	 * @return com.alipay.api.response.AlipayTradePrecreateResponse
-	 * @author lingting 2021-05-21 17:22
 	 */
 	public AlipayTradePrecreateResponse qrPay(String sn, BigDecimal amount, String subject, String notifyUrl)
 			throws AlipayApiException {
@@ -319,7 +301,6 @@ public class AliPay {
 
 	/**
 	 * 二维码付款-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradePrecreateResponse qrPay(AlipayTradePrecreateModel model) throws AlipayApiException {
 		return qrPay(model, notifyUrl);
@@ -327,7 +308,6 @@ public class AliPay {
 
 	/**
 	 * 二维码付款-复杂支付
-	 * @author lingting 2021-01-25 09:56
 	 */
 	public AlipayTradePrecreateResponse qrPay(AlipayTradePrecreateModel model, String notifyUrl)
 			throws AlipayApiException {
@@ -341,7 +321,6 @@ public class AliPay {
 	 * 交易查询
 	 * @param sn 平台订单号
 	 * @return com.alipay.api.response.AlipayTradeQueryResponse
-	 * @author lingting 2021-01-25 11:12
 	 */
 	public AliPayQuery query(String sn) throws AlipayApiException {
 		return query(sn, null);
@@ -352,7 +331,6 @@ public class AliPay {
 	 * @param sn 平台订单号
 	 * @param tradeNo 支付宝订单号
 	 * @return com.alipay.api.response.AlipayTradeQueryResponse
-	 * @author lingting 2021-01-25 11:12
 	 */
 	public AliPayQuery query(String sn, String tradeNo) throws AlipayApiException {
 		AlipayTradeQueryModel model = new AlipayTradeQueryModel();
@@ -364,7 +342,6 @@ public class AliPay {
 	/**
 	 * 交易查询 - 复杂查询
 	 * @return com.alipay.api.response.AlipayTradeQueryResponse
-	 * @author lingting 2021-01-25 11:12
 	 */
 	public AliPayQuery query(AlipayTradeQueryModel model) throws AlipayApiException {
 		AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
@@ -377,7 +354,6 @@ public class AliPay {
 	 * @param sn 平台订单号
 	 * @param amount 退款金额(单位: 元)
 	 * @return com.alipay.api.response.AlipayTradeQueryResponse
-	 * @author lingting 2021-01-25 11:12
 	 */
 	public AlipayTradeRefundResponse refund(String sn, BigDecimal amount) throws AlipayApiException {
 		return refund(sn, null, amount);
@@ -389,7 +365,6 @@ public class AliPay {
 	 * @param tradeNo 支付宝订单号
 	 * @param amount 退款金额(单位: 元)
 	 * @return com.alipay.api.response.AlipayTradeQueryResponse
-	 * @author lingting 2021-01-25 11:12
 	 */
 	public AlipayTradeRefundResponse refund(String sn, String tradeNo, BigDecimal amount) throws AlipayApiException {
 		AlipayTradeRefundModel model = new AlipayTradeRefundModel();
@@ -402,7 +377,6 @@ public class AliPay {
 	/**
 	 * 交易退款 - 复杂退款
 	 * @return com.alipay.api.response.AlipayTradeQueryResponse
-	 * @author lingting 2021-01-25 11:12
 	 */
 	public AlipayTradeRefundResponse refund(AlipayTradeRefundModel model) throws AlipayApiException {
 		AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
@@ -414,7 +388,6 @@ public class AliPay {
 	 * v1 版本验签
 	 * @param map 所有参数
 	 * @return boolean
-	 * @author lingting 2021-01-26 14:46
 	 */
 	public boolean checkSignV1(Map<String, String> map) throws AlipayApiException {
 		// 验签需要先移除 fund_bill_list 参数值中的 &quot; 否则会导致正确的签名验签失败
@@ -426,7 +399,6 @@ public class AliPay {
 	 * v2 版本验签
 	 * @param map 所有参数
 	 * @return boolean
-	 * @author lingting 2021-01-26 14:46
 	 */
 	public boolean checkSignV2(Map<String, String> map) throws AlipayApiException {
 		// 验签需要先移除 fund_bill_list 参数值中的 &quot; 否则会导致正确的签名验签失败

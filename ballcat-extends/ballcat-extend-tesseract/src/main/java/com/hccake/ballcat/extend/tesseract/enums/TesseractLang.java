@@ -4,7 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * <p>
+ * TesseractLang class.
+ * </p>
+ *
  * @author lingting
+ * @version $Id: $Id
  */
 @Getter
 @AllArgsConstructor
