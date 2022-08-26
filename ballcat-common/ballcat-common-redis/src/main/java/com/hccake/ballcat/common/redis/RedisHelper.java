@@ -1,6 +1,18 @@
 package com.hccake.ballcat.common.redis;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Range;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisStreamCommands;
+import org.springframework.data.redis.connection.RedisZSetCommands;
+import org.springframework.data.redis.connection.stream.Consumer;
+import org.springframework.data.redis.connection.stream.MapRecord;
+import org.springframework.data.redis.connection.stream.ReadOffset;
+import org.springframework.data.redis.connection.stream.Record;
+import org.springframework.data.redis.connection.stream.RecordId;
+import org.springframework.data.redis.connection.stream.StreamOffset;
+import org.springframework.data.redis.connection.stream.StreamReadOptions;
+import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
@@ -9,6 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.StreamOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -25,6 +38,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,6 +79,16 @@ public class RedisHelper {
 		RedisHelper.redisTemplate = redisTemplate;
 	}
 
+	@SuppressWarnings("all")
+	private static RedisSerializer<String> getKeySerializer() {
+		return (RedisSerializer<String>) redisTemplate.getKeySerializer();
+	}
+
+	@SuppressWarnings("all")
+	private static RedisSerializer<String> getValueSerializer() {
+		return (RedisSerializer<String>) redisTemplate.getValueSerializer();
+	}
+
 	public static HashOperations<String, String, String> hashOps() {
 		return redisTemplate.opsForHash();
 	}
@@ -83,6 +107,10 @@ public class RedisHelper {
 
 	public static ZSetOperations<String, String> zSetOps() {
 		return redisTemplate.opsForZSet();
+	}
+
+	public static StreamOperations<String, String, String> streamOps() {
+		return redisTemplate.opsForStream();
 	}
 
 	// --------------------- key command start -----------------
@@ -198,7 +226,6 @@ public class RedisHelper {
 	 * 获取所有符合指定表达式的 key
 	 * @param pattern 表达式
 	 * @return java.util.Set<java.lang.String>
-	 * @author lingting 2020-04-27 15:44:09
 	 * @see <a href="http://redis.io/commands/keys">Keys Command</a>
 	 */
 	public static Set<String> keys(String pattern) {
@@ -1629,5 +1656,161 @@ public class RedisHelper {
 	}
 
 	// =================== PUB/SUB command end =================
+
+	// =================== Stream command start =================
+
+	/**
+	 * XACK key group ID [ID ...]
+	 * @param key key of stream
+	 * @param group consume group
+	 * @param ids record ids
+	 * @see <a href="https://redis.io/commands/xack/">XACK Command</a>
+	 * @since Redis 5.0.0
+	 */
+	public static long xAck(String key, String group, String... ids) {
+		return streamOps().acknowledge(key, group, ids);
+	}
+
+	public static long xAck(String key, String group, RecordId... ids) {
+		return streamOps().acknowledge(key, group, ids);
+	}
+
+	/**
+	 * XADD key ID field string [field string ...]
+	 * @param key key of stream
+	 * @param content record content
+	 * @return the ID of the added entry
+	 * @see <a href="https://redis.io/commands/xadd/">XADD Command</a>
+	 * @since Redis 5.0.0
+	 */
+	public static RecordId xAdd(String key, Map<String, String> content) {
+		return streamOps().add(StreamRecords.newRecord().in(key).ofMap(content));
+	}
+
+	public static RecordId xAdd(String key, Map<String, String> content, RedisStreamCommands.XAddOptions xAddOptions) {
+		return xAdd(Record.of(content).withStreamKey(key), xAddOptions);
+	}
+
+	public static RecordId xAdd(MapRecord<String, String, String> mapRecord,
+			RedisStreamCommands.XAddOptions xAddOptions) {
+		RedisSerializer<String> keySerializer = getKeySerializer();
+		RedisSerializer<String> valueSerializer = getValueSerializer();
+
+		byte[] rawKey = keySerializer.serialize(mapRecord.getStream());
+
+		Map<String, String> content = mapRecord.getValue();
+		Map<byte[], byte[]> rawContent = new LinkedHashMap<>(content.size());
+
+		for (Map.Entry<String, String> entry : content.entrySet()) {
+			rawContent.put(keySerializer.serialize(entry.getKey()), valueSerializer.serialize(entry.getValue()));
+		}
+
+		return redisTemplate.execute((RedisConnection conn) -> conn.streamCommands()
+				.xAdd(Record.of(rawContent).withStreamKey(rawKey), xAddOptions));
+	}
+
+	/**
+	 * XDEL key ID [ID ...]
+	 * @param key key of stream
+	 * @param ids record ids
+	 * @see <a href="https://redis.io/commands/xdel/">XDEL Command</a>
+	 * @since Redis 5.0.0
+	 */
+	public static long xDel(String key, String... ids) {
+		return streamOps().delete(key, ids);
+	}
+
+	public static long xDel(String key, RecordId... ids) {
+		return streamOps().delete(key, ids);
+	}
+
+	/**
+	 * XGROUP CREATE <key> <groupName> <id or $>
+	 * @param key key of stream
+	 * @param groupName group name
+	 * @see <a href="https://redis.io/commands/xgroup-create/">XGROUP CREATE Command</a>
+	 * @since Redis 5.0.0
+	 */
+	public static String xGroupCreate(String key, String groupName, ReadOffset readOffset, boolean makeStream) {
+		RedisSerializer<String> keySerializer = getKeySerializer();
+		byte[] rawKey = keySerializer.serialize(key);
+
+		return redisTemplate.execute((RedisConnection conn) -> conn.streamCommands().xGroupCreate(rawKey, groupName,
+				readOffset, makeStream));
+	}
+
+	public static String xGroupCreate(String key, String groupName) {
+		return xGroupCreate(key, groupName, ReadOffset.latest(), true);
+	}
+
+	/**
+	 * XLEN key
+	 * @param key key of stream
+	 * @return length of stream
+	 * @see <a href="https://redis.io/commands/xlen/">XLEN Command</a>
+	 * @since Redis 5.0.0
+	 */
+	public static long xLen(String key) {
+		return streamOps().size(key);
+	}
+
+	/**
+	 * XRANGE key start end COUNT count
+	 * @param key key of stream
+	 * @param range start and end
+	 * @return The entries with IDs matching the specified range.
+	 * @see <a href="https://redis.io/commands/xrange/">XRANGE Command</a>
+	 * @since Redis 5.0.0
+	 */
+	public static List<MapRecord<String, String, String>> xRange(String key, Range<String> range) {
+		return streamOps().range(key, range);
+	}
+
+	public static List<MapRecord<String, String, String>> xRange(String key, Range<String> range,
+			RedisZSetCommands.Limit limit) {
+		return streamOps().range(key, range, limit);
+	}
+
+	/**
+	 * XREAD [COUNT count] [BLOCK milliseconds] STREAMS key [key ...] ID [ID ...]
+	 *
+	 * @see <a href="https://redis.io/commands/xread/">XREAD Command</a>
+	 * @since Redis 5.0.0
+	 */
+	public static List<MapRecord<String, String, String>> xRead(StreamOffset<String>... streams) {
+		return streamOps().read(streams);
+	}
+
+	public static List<MapRecord<String, String, String>> xRead(StreamReadOptions streamReadOptions,
+			StreamOffset<String>... streams) {
+		return streamOps().read(streamReadOptions, streams);
+	}
+
+	/**
+	 * XREADGROUP GROUP group consumer [COUNT count] [BLOCK milliseconds] [NOACK] STREAMS
+	 * key [key ...] id [id ...]
+	 *
+	 * @see <a href="https://redis.io/commands/xreadgroup/">XREADGROUP Command</a>
+	 * @since Redis 5.0.0
+	 */
+	public static List<MapRecord<String, String, String>> xReadGroup(Consumer consumer,
+			StreamOffset<String>... streams) {
+		return streamOps().read(consumer, streams);
+	}
+
+	public static List<MapRecord<String, String, String>> xReadGroup(Consumer consumer,
+			StreamReadOptions streamReadOptions, StreamOffset<String>... streams) {
+		return streamOps().read(consumer, streamReadOptions, streams);
+	}
+
+	public static List<MapRecord<String, String, String>> xReadGroup(String group, String consumer,
+			StreamOffset<String>... streams) {
+		return streamOps().read(Consumer.from(group, consumer), streams);
+	}
+
+	public static List<MapRecord<String, String, String>> xReadGroup(String group, String consumer,
+			StreamReadOptions streamReadOptions, StreamOffset<String>... streams) {
+		return streamOps().read(Consumer.from(group, consumer), streamReadOptions, streams);
+	}
 
 }
