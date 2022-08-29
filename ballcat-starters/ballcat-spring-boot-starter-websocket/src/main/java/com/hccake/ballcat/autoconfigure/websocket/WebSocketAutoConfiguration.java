@@ -1,6 +1,7 @@
 package com.hccake.ballcat.autoconfigure.websocket;
 
 import com.hccake.ballcat.autoconfigure.websocket.config.LocalMessageDistributorConfig;
+import com.hccake.ballcat.autoconfigure.websocket.config.RocketMqMessageDistributorConfig;
 import com.hccake.ballcat.autoconfigure.websocket.config.RedisMessageDistributorConfig;
 import com.hccake.ballcat.autoconfigure.websocket.config.WebSocketHandlerConfig;
 import com.hccake.ballcat.common.websocket.handler.JsonMessageHandler;
@@ -30,7 +31,7 @@ import java.util.List;
  * @author Yakir Hccake
  */
 @AutoConfiguration
-@Import({ WebSocketHandlerConfig.class, LocalMessageDistributorConfig.class, RedisMessageDistributorConfig.class })
+@Import({ WebSocketHandlerConfig.class, LocalMessageDistributorConfig.class, RedisMessageDistributorConfig.class, RocketMqMessageDistributorConfig.class})
 @EnableWebSocket
 @RequiredArgsConstructor
 @EnableConfigurationProperties(WebSocketProperties.class)

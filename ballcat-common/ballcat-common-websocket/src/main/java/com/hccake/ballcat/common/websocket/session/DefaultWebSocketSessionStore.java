@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -81,7 +82,12 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	 */
 	@Override
 	public Collection<WebSocketSession> getSessions(Object sessionKey) {
-		return sessionKeyToWsSessions.get(sessionKey).values();
+		Map<String, WebSocketSession> sessions = this.sessionKeyToWsSessions.get(sessionKey);
+		if (sessions != null) {
+			return this.sessionKeyToWsSessions.get(sessionKey).values();
+		}
+		log.warn("根据指定的sessionKey: {} 获取对应的wsSessions为空!", sessionKey);
+		return Collections.emptyList();
 	}
 
 	/**

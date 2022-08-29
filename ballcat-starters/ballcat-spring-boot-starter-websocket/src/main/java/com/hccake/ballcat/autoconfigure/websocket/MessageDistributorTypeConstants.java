@@ -21,6 +21,11 @@ public final class MessageDistributorTypeConstants {
 	public static final String REDIS = "redis";
 
 	/**
+	 * 基于 rocketmq 广播
+	 */
+	public static final String ROCKETMQ = "rocketmq";
+
+	/**
 	 * 自定义
 	 */
 	public static final String CUSTOM = "custom";
