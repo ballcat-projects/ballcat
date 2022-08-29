@@ -31,7 +31,8 @@ import java.util.List;
  * @author Yakir Hccake
  */
 @AutoConfiguration
-@Import({ WebSocketHandlerConfig.class, LocalMessageDistributorConfig.class, RedisMessageDistributorConfig.class, RocketMqMessageDistributorConfig.class})
+@Import({ WebSocketHandlerConfig.class, LocalMessageDistributorConfig.class, RedisMessageDistributorConfig.class,
+		RocketMqMessageDistributorConfig.class })
 @EnableWebSocket
 @RequiredArgsConstructor
 @EnableConfigurationProperties(WebSocketProperties.class)

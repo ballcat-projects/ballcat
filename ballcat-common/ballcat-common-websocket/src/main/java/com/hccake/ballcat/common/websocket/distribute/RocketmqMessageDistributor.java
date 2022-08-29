@@ -15,11 +15,11 @@ import org.springframework.beans.factory.annotation.Value;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @ClassName RocketmqMessageDistributor.java
- * @Author liu_yx
- * @Version 1.0.0
- * @Description MQ发送消息，接收到消息时进行推送, 广播模式
- * @CreateTime 2022年06月30日 14:10:10
+ * MQ发送消息，接收到消息时进行推送, 广播模式
+ * <p>
+ *
+ * @author liu_yx 2022年06月30日 14:10:10
+ * @since 0.9.0
  */
 @Slf4j
 @RocketMQMessageListener(
@@ -67,7 +67,8 @@ public class RocketmqMessageDistributor extends AbstractMessageDistributor imple
 		log.info("the content is [{}]", event);
 		try {
 			this.doSend(event);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error("MQ消费信息处理异常: {}", e.getMessage(), e);
 			throw new ErrorJsonMessageException("MQ消费信息处理异常, " + e.getMessage());
 		}

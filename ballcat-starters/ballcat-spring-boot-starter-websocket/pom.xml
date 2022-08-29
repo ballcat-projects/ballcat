@@ -21,11 +21,6 @@
 			<artifactId>ballcat-common-websocket</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
@@ -38,6 +33,18 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <scope>compile</scope>
         </dependency>
+		<!-- spring-data-redis -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- rocketmq-->
+		<dependency>
+			<groupId>org.apache.rocketmq</groupId>
+			<artifactId>rocketmq-spring-boot-starter</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 </project>

@@ -83,11 +83,11 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	@Override
 	public Collection<WebSocketSession> getSessions(Object sessionKey) {
 		Map<String, WebSocketSession> sessions = this.sessionKeyToWsSessions.get(sessionKey);
-		if (sessions != null) {
-			return this.sessionKeyToWsSessions.get(sessionKey).values();
+		if (sessions == null) {
+			log.warn("根据指定的sessionKey: {} 获取对应的wsSessions为空!", sessionKey);
+			return Collections.emptyList();
 		}
-		log.warn("根据指定的sessionKey: {} 获取对应的wsSessions为空!", sessionKey);
-		return Collections.emptyList();
+		return sessions.values();
 	}
 
 	/**

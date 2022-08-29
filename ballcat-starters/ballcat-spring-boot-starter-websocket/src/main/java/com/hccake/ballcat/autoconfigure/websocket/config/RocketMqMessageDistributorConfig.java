@@ -13,14 +13,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @ClassName RocketMqMessageDistributorConfig.java
- * @Author liu_yx
- * @Version 1.0.0
- * @Description MQ的消息分发器配置
- * @CreateTime 2022年06月30日 14:11:34
+ * MQ的消息分发器配置
+ *
+ * @author liu_yx
+ * @since 0.9.0 2022年06月30日 14:11:34
  */
 @ConditionalOnProperty(prefix = WebSocketProperties.PREFIX, name = "message-distributor",
-		havingValue = MessageDistributorTypeConstants.ROCKETMQ, matchIfMissing = true)
+		havingValue = MessageDistributorTypeConstants.ROCKETMQ)
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class RocketMqMessageDistributorConfig {
