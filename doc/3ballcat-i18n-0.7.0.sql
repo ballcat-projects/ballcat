@@ -74,7 +74,6 @@ INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `cr
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (57, 'zh-CN', 'menu.develop.codegen', '代码生成', NULL, '2021-08-06 11:46:52', '2021-08-08 17:03:22');
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (58, 'en-US', 'menu.develop.codegen', 'Code Generate', NULL, '2021-08-06 11:46:52', '2021-08-08 17:03:33');
 
-
 -- 插入国际化菜单
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (130000, 0, 'menu.i18n', 'global', NULL, 'i18n', 1, '', 4, 0, 0, 0, '国际化', 0, '2021-08-05 17:04:07', '2021-08-05 17:04:57');
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (130100, 130000, 'menu.i18n.i18nData', NULL, NULL, 'i18n-data', 1, 'i18n/i18n-data/I18nDataPage', 1, 1, 0, 1, '国际化信息', 0, '2021-08-05 17:00:54', '2021-08-05 17:29:34');
@@ -85,6 +84,15 @@ INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `icon`, `permission`, `path`
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (130105, 130100, '国际化信息导出', NULL, 'i18n:i18n-data:export', '', 1, NULL, 5, 0, 0, 2, NULL, 0, '2021-08-05 17:00:54', '2021-08-05 17:00:54');
 INSERT INTO `sys_menu` (`id`, `parent_id`, `title`, `icon`, `permission`, `path`, `target_type`, `uri`, `sort`, `keep_alive`, `hidden`, `type`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES (130106, 130100, '国际化信息导出', NULL, 'i18n:i18n-data:import', '', 1, NULL, 6, 0, 0, 2, NULL, 0, '2021-08-05 17:00:54', '2021-08-05 17:00:54');
 
+-- 系统管理员授权
+INSERT INTO `sys_role_menu` (`role_code`, `menu_id`) VALUES ('ROLE_ADMIN', 130000);
+INSERT INTO `sys_role_menu` (`role_code`, `menu_id`) VALUES ('ROLE_ADMIN', 130100);
+INSERT INTO `sys_role_menu` (`role_code`, `menu_id`) VALUES ('ROLE_ADMIN', 130101);
+INSERT INTO `sys_role_menu` (`role_code`, `menu_id`) VALUES ('ROLE_ADMIN', 130102);
+INSERT INTO `sys_role_menu` (`role_code`, `menu_id`) VALUES ('ROLE_ADMIN', 130103);
+INSERT INTO `sys_role_menu` (`role_code`, `menu_id`) VALUES ('ROLE_ADMIN', 130104);
+INSERT INTO `sys_role_menu` (`role_code`, `menu_id`) VALUES ('ROLE_ADMIN', 130105);
+INSERT INTO `sys_role_menu` (`role_code`, `menu_id`) VALUES ('ROLE_ADMIN', 130106);
 
 -- 更新菜单的国际化 title
 update sys_menu set title = 'menu.account' where id = 10028;
