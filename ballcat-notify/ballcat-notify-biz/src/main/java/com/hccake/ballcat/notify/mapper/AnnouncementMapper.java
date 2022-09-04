@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.common.core.constant.GlobalConstants;
 import com.hccake.ballcat.notify.enums.AnnouncementStatusEnum;
 import com.hccake.ballcat.notify.model.entity.Announcement;
 import com.hccake.ballcat.notify.model.qo.AnnouncementQO;
@@ -36,7 +37,8 @@ public interface AnnouncementMapper extends ExtendMapper<Announcement> {
 		LambdaQueryWrapperX<Announcement> wrapperX = WrappersX.lambdaAliasQueryX(Announcement.class)
 				.likeIfPresent(Announcement::getTitle, qo.getTitle())
 				.inIfPresent(Announcement::getStatus, (Object[]) qo.getStatus())
-				.eqIfPresent(Announcement::getRecipientFilterType, qo.getRecipientFilterType());
+				.eqIfPresent(Announcement::getRecipientFilterType, qo.getRecipientFilterType())
+				.eq(Announcement::getDeleted, GlobalConstants.NOT_DELETED_FLAG);
 		IPage<AnnouncementPageVO> voPage = this.selectByPage(page, wrapperX);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
