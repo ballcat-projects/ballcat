@@ -1,5 +1,6 @@
 package com.hccake.ballcat.auth.configurer;
 
+import com.hccake.ballcat.auth.authentication.ClientBasicAuthenticationProvider;
 import com.hccake.ballcat.auth.authentication.TokenGrantBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
@@ -49,6 +51,8 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 
 	private final TokenGrantBuilder tokenGrantBuilder;
 
+	private final ClientDetailsService clientDetailsService;
+
 	@Autowired(required = false)
 	private TokenEnhancer tokenEnhancer;
 
@@ -61,6 +65,7 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 		// @formatter:off
 		security.tokenKeyAccess("permitAll()")
 			.checkTokenAccess("isAuthenticated()")
+			.addAuthenticationProvider(new ClientBasicAuthenticationProvider(clientDetailsService))
 			.authenticationEntryPoint(authenticationEntryPoint)
 			.allowFormAuthenticationForClients()
 			// 处理使用 allowFormAuthenticationForClients 后，注册的过滤器异常处理不走自定义配置的问题

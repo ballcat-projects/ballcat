@@ -3,6 +3,7 @@ package com.hccake.ballcat.auth.filter;
 import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.util.JsonUtils;
@@ -55,7 +56,8 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		}
 
 		// 测试客户端密码不加密，直接跳过（swagger 或 postman测试时使用）
-		if (SecurityUtils.isTestClient()) {
+		ClientPrincipal clientPrincipal = SecurityUtils.getClientPrincipal();
+		if (clientPrincipal != null && clientPrincipal.getScope().contains("skip_password_decode")) {
 			filterChain.doFilter(request, response);
 			return;
 		}

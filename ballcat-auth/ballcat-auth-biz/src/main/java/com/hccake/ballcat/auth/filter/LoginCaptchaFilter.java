@@ -1,10 +1,11 @@
 package com.hccake.ballcat.auth.filter;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.hccake.ballcat.auth.filter.captcha.CaptchaValidator;
 import com.hccake.ballcat.auth.filter.captcha.domain.CaptchaResponse;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +34,16 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		// 测试客户端 跳过验证码（swagger 或 postman测试时使用）
-		if (SecurityUtils.isTestClient()) {
+		// 只对 password 的 grant_type 进行拦截处理
+		String grantType = request.getParameter("grant_type");
+		if (!GRANT_TYPE_PASSWORD.equals(grantType)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
-		// 只对 password 的 grant_type 进行拦截处理
-		String grantType = request.getParameter("grant_type");
-		if (!GRANT_TYPE_PASSWORD.equals(grantType)) {
+		// 测试客户端 跳过验证码（swagger 或 postman测试时使用）
+		ClientPrincipal clientPrincipal = SecurityUtils.getClientPrincipal();
+		if (clientPrincipal != null && clientPrincipal.getScope().contains("skip_captcha")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -54,7 +56,7 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED,
-					StrUtil.blankToDefault(captchaResponse.getErrMsg(), "Captcha code error"));
+					CharSequenceUtil.blankToDefault(captchaResponse.getErrMsg(), "Captcha code error"));
 			response.getWriter().write(JsonUtils.toJson(r));
 		}
 
