@@ -48,7 +48,13 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		// 测试客户端 跳过密码解密（swagger 或 postman测试时使用）
+		// 非密码模式下，直接跳过
+		if (!request.getParameter(GRANT_TYPE).equals(PASSWORD)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
+		// 测试客户端密码不加密，直接跳过（swagger 或 postman测试时使用）
 		if (SecurityUtils.isTestClient()) {
 			filterChain.doFilter(request, response);
 			return;
@@ -59,10 +65,8 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		String passwordAes = request.getParameter(PASSWORD);
 
 		try {
-			if (request.getParameter(GRANT_TYPE).equals(PASSWORD)) {
-				String password = PasswordUtils.decodeAES(passwordAes, passwordSecretKey);
-				parameterMap.put(PASSWORD, new String[] { password });
-			}
+			String password = PasswordUtils.decodeAES(passwordAes, passwordSecretKey);
+			parameterMap.put(PASSWORD, new String[] { password });
 		}
 		catch (Exception e) {
 			log.error("[doFilterInternal] password decode aes error，passwordAes: {}，passwordSecretKey: {}", passwordAes,
