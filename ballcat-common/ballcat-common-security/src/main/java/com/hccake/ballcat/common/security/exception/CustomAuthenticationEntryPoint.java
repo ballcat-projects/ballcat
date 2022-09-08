@@ -27,8 +27,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
 		String utf8 = StandardCharsets.UTF_8.toString();
 
-		httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-		httpServletResponse.setHeader("Accept-Charset", utf8);
+		httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 		httpServletResponse.setCharacterEncoding(utf8);
 		httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
 		R<Object> r = R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage());

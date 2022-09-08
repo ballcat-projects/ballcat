@@ -51,7 +51,7 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 		}
 		else {
-			response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
+			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED,
 					StrUtil.blankToDefault(captchaResponse.getErrMsg(), "Captcha code error"));

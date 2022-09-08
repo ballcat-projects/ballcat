@@ -17,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,8 +67,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		catch (Exception e) {
 			log.error("[doFilterInternal] password decode aes error，passwordAes: {}，passwordSecretKey: {}", passwordAes,
 					passwordSecretKey, e);
-			response.setHeader("Content-Type", MediaType.APPLICATION_JSON.toString());
-			response.setHeader("Accept-Charset", StandardCharsets.UTF_8.toString());
+			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
 			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED, "用户名或密码错误！");
 			response.getWriter().write(JsonUtils.toJson(r));

@@ -1,11 +1,17 @@
 package com.hccake.ballcat.common.security.userdetails;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * OAuth2 Client 实体封装对象
@@ -22,6 +28,7 @@ public class ClientPrincipal implements OAuth2AuthenticatedPrincipal, Serializab
 
 	private Set<String> scope = new HashSet<>();
 
+	@NonNull
 	public Set<String> getScope() {
 		return scope;
 	}

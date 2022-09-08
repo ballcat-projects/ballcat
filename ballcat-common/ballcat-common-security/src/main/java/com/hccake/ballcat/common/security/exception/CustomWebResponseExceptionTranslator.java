@@ -15,9 +15,6 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-
 /**
  * 覆盖默认的DefaultWebResponseExceptionTranslator的方法
  *
@@ -79,8 +76,7 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Cache-Control", "no-store");
 		headers.set("Pragma", "no-cache");
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
+		headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		if (status == HttpStatus.UNAUTHORIZED.value() || (e instanceof InsufficientScopeException)) {
 			headers.set("WWW-Authenticate", String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
 		}
