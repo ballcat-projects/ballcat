@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
@@ -53,6 +54,8 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 
 	private final ClientDetailsService clientDetailsService;
 
+	private final PasswordEncoder passwordEncoder;
+
 	@Autowired(required = false)
 	private TokenEnhancer tokenEnhancer;
 
@@ -62,10 +65,13 @@ public class CustomAuthorizationServerConfigurer implements AuthorizationServerC
 	 */
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) {
+		// 不能交给 spring 托管，否则会被注册到资源服务器的权限控制中
+		ClientBasicAuthenticationProvider authenticationProvider = new ClientBasicAuthenticationProvider(
+				clientDetailsService, passwordEncoder);
 		// @formatter:off
 		security.tokenKeyAccess("permitAll()")
 			.checkTokenAccess("isAuthenticated()")
-			.addAuthenticationProvider(new ClientBasicAuthenticationProvider(clientDetailsService))
+			.addAuthenticationProvider(authenticationProvider)
 			.authenticationEntryPoint(authenticationEntryPoint)
 			.allowFormAuthenticationForClients()
 			// 处理使用 allowFormAuthenticationForClients 后，注册的过滤器异常处理不走自定义配置的问题

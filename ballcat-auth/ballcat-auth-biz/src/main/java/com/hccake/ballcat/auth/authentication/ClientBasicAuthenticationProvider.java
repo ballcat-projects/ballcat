@@ -7,9 +7,11 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.ClientRegistrationException;
+import org.springframework.security.oauth2.provider.NoSuchClientException;
 
 import java.util.HashMap;
 
@@ -24,25 +26,25 @@ public class ClientBasicAuthenticationProvider implements AuthenticationProvider
 
 	private final ClientDetailsService clientDetailsService;
 
+	private final PasswordEncoder passwordEncoder;
+
 	@Override
 	public Authentication authenticate(Authentication authentication) {
-		UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
+		String clientId = authentication.getPrincipal().toString();
 
-		// mobile 登录只做了 app 用户的支持,所以这里就不判断客户端类型了
-		String clientId = authenticationToken.getPrincipal().toString();
-		ClientDetails clientDetails = null;
-
+		ClientDetails clientDetails;
 		try {
 			clientDetails = clientDetailsService.loadClientByClientId(clientId);
 		}
-		catch (ClientRegistrationException ex) {
-			throw new BadCredentialsException(ex.getMessage());
+		catch (NoSuchClientException ex) {
+			throw new UsernameNotFoundException(ex.getMessage(), ex);
 		}
-		if (clientDetails == null) {
-			log.debug("Authentication failed: no clientDetails find by clientId: {}", clientId);
 
-			throw new BadCredentialsException(
-					"ClientDetailsService returned null, which is an interface contract violation");
+		// client id 和 secret 校验
+		String presentedPassword = authentication.getCredentials().toString();
+		if (!this.passwordEncoder.matches(presentedPassword, clientDetails.getClientSecret())) {
+			log.debug("Failed to authenticate since password does not match stored value");
+			throw new BadCredentialsException("error client id or secret");
 		}
 
 		ClientPrincipal clientPrincipal = new ClientPrincipal(clientId, new HashMap<>(8),
