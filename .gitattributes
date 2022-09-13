@@ -2,6 +2,7 @@
 *.html linguist-language=java
 
 * text auto
+*.jpg -text
 
 # 强制换行符为 LF
 # * text eol=lf
