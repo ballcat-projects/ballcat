@@ -3,6 +3,7 @@ package com.hccake.common.excel.handler;
 import com.alibaba.excel.context.AnalysisContext;
 import com.hccake.common.excel.kit.Validators;
 import com.hccake.common.excel.vo.ErrorMessage;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.ConstraintViolation;
@@ -25,6 +26,7 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 
 	private final List<ErrorMessage> errorMessageList = new ArrayList<>();
 
+	@Setter
 	private Long lineNum = 1L;
 
 	@Override
