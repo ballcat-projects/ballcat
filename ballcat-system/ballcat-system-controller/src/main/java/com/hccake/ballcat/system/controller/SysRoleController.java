@@ -117,6 +117,9 @@ public class SysRoleController {
 	@Operation(summary = "通过id删除系统角色", description = "通过id删除系统角色")
 	public R<Boolean> removeById(@PathVariable("id") Integer id) {
 		SysRole oldRole = sysRoleService.getById(id);
+		if (oldRole == null) {
+			return R.ok();
+		}
 		if (SysRoleConst.Type.SYSTEM.getValue().equals(oldRole.getType())) {
 			return R.failed(BaseResultCode.LOGIC_CHECK_ERROR, "系统角色不允许被删除!");
 		}
