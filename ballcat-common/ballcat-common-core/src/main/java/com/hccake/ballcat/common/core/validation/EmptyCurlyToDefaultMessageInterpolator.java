@@ -9,7 +9,7 @@ import java.util.Locale;
 
 /**
  * 将消息中空的花括号替换为校验注解的默认值
- *
+ * <p>
  * 扩展自原有的 {@link ResourceBundleMessageInterpolator} 消息处理器
  *
  * @author hccake
@@ -51,9 +51,7 @@ public class EmptyCurlyToDefaultMessageInterpolator extends ResourceBundleMessag
 				Object defaultValue = messageMethod.getDefaultValue();
 				if (defaultValue instanceof String) {
 					String defaultMessage = (String) defaultValue;
-					if (defaultMessage.startsWith(LEFT_CURLY_BRACES) && defaultMessage.endsWith(RIGHT_CURLY_BRACES)) {
-						message = message.replace(EMPTY_CURLY_BRACES, defaultMessage);
-					}
+					message = message.replace(EMPTY_CURLY_BRACES, defaultMessage);
 				}
 			}
 		}
