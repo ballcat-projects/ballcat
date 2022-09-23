@@ -1,5 +1,6 @@
 package com.hccake.ballcat.system.converter;
 
+import com.hccake.ballcat.system.model.dto.SysDictItemDTO;
 import com.hccake.ballcat.system.model.entity.SysDictItem;
 import com.hccake.ballcat.system.model.vo.DictItemVO;
 import com.hccake.ballcat.system.model.vo.SysDictItemPageVO;
@@ -29,5 +30,12 @@ public interface SysDictItemConverter {
 	 * @return 字典项VO
 	 */
 	DictItemVO poToItemVo(SysDictItem sysDictItem);
+
+	/**
+	 * 字典项传输对象转实体
+	 * @param sysDictItemDTO 传输对象
+	 * @return SysDictItem
+	 */
+	SysDictItem dtoToPo(SysDictItemDTO sysDictItemDTO);
 
 }

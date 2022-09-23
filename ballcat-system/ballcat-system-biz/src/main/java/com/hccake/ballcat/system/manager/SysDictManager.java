@@ -9,6 +9,7 @@ import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.system.converter.SysDictItemConverter;
 import com.hccake.ballcat.system.event.DictChangeEvent;
+import com.hccake.ballcat.system.model.dto.SysDictItemDTO;
 import com.hccake.ballcat.system.model.entity.SysDict;
 import com.hccake.ballcat.system.model.entity.SysDictItem;
 import com.hccake.ballcat.system.model.qo.SysDictQO;
@@ -139,17 +140,18 @@ public class SysDictManager {
 
 	/**
 	 * 新增字典项
-	 * @param sysDictItem 字典项
+	 * @param sysDictItemDTO 字典项
 	 * @return 执行是否成功
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public boolean saveDictItem(SysDictItem sysDictItem) {
+	public boolean saveDictItem(SysDictItemDTO sysDictItemDTO) {
 		// 更新字典项Hash值
-		String dictCode = sysDictItem.getDictCode();
+		String dictCode = sysDictItemDTO.getDictCode();
 		if (!sysDictService.updateHashCode(dictCode)) {
 			return false;
 		}
 
+		SysDictItem sysDictItem = SysDictItemConverter.INSTANCE.dtoToPo(sysDictItemDTO);
 		boolean result = sysDictItemService.save(sysDictItem);
 		if (result) {
 			eventPublisher.publishEvent(new DictChangeEvent(dictCode));
@@ -159,17 +161,19 @@ public class SysDictManager {
 
 	/**
 	 * 更新字典项
-	 * @param sysDictItem 字典项
+	 * @param sysDictItemDTO 字典项
 	 * @return 执行是否成功
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public boolean updateDictItemById(SysDictItem sysDictItem) {
+	public boolean updateDictItemById(SysDictItemDTO sysDictItemDTO) {
 		// 根据ID查询字典
-		String dictCode = sysDictItem.getDictCode();
+		String dictCode = sysDictItemDTO.getDictCode();
 		// 更新字典项Hash值
 		if (!sysDictService.updateHashCode(dictCode)) {
 			return false;
 		}
+
+		SysDictItem sysDictItem = SysDictItemConverter.INSTANCE.dtoToPo(sysDictItemDTO);
 		boolean result = sysDictItemService.updateById(sysDictItem);
 		if (result) {
 			eventPublisher.publishEvent(new DictChangeEvent(dictCode));

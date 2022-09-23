@@ -1,5 +1,7 @@
 package com.hccake.ballcat.system.controller;
 
+import com.hccake.ballcat.common.core.validation.group.CreateGroup;
+import com.hccake.ballcat.common.core.validation.group.UpdateGroup;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
@@ -8,8 +10,8 @@ import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.system.manager.SysDictManager;
+import com.hccake.ballcat.system.model.dto.SysDictItemDTO;
 import com.hccake.ballcat.system.model.entity.SysDict;
-import com.hccake.ballcat.system.model.entity.SysDictItem;
 import com.hccake.ballcat.system.model.qo.SysDictQO;
 import com.hccake.ballcat.system.model.vo.DictDataVO;
 import com.hccake.ballcat.system.model.vo.SysDictItemPageVO;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.groups.Default;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +42,7 @@ import java.util.Map;
  * @author hccake
  * @date 2020-03-26 18:40:20
  */
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/system/dict")
@@ -137,29 +141,31 @@ public class SysDictController {
 
 	/**
 	 * 新增字典项
-	 * @param sysDictItem 字典项
+	 * @param sysDictItemDTO 字典项
 	 * @return R
 	 */
 	@CreateOperationLogging(msg = "新增字典项")
 	@PostMapping("item")
 	@PreAuthorize("@per.hasPermission('system:dict:add')")
 	@Operation(summary = "新增字典项", description = "新增字典项")
-	public R<Void> saveItem(@RequestBody SysDictItem sysDictItem) {
-		return sysDictManager.saveDictItem(sysDictItem) ? R.ok()
+	public R<Void> saveItem(
+			@Validated({ Default.class, CreateGroup.class }) @RequestBody SysDictItemDTO sysDictItemDTO) {
+		return sysDictManager.saveDictItem(sysDictItemDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新增字典项失败");
 	}
 
 	/**
 	 * 修改字典项
-	 * @param sysDictItem 字典项
+	 * @param sysDictItemDTO 字典项
 	 * @return R
 	 */
 	@UpdateOperationLogging(msg = "修改字典项")
 	@PutMapping("item")
 	@PreAuthorize("@per.hasPermission('system:dict:edit')")
 	@Operation(summary = "修改字典项", description = "修改字典项")
-	public R<Void> updateItemById(@RequestBody SysDictItem sysDictItem) {
-		return sysDictManager.updateDictItemById(sysDictItem) ? R.ok()
+	public R<Void> updateItemById(
+			@Validated({ Default.class, UpdateGroup.class }) @RequestBody SysDictItemDTO sysDictItemDTO) {
+		return sysDictManager.updateDictItemById(sysDictItemDTO) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "修改字典项失败");
 	}
 
