@@ -15,6 +15,7 @@
 	<modules>
 		<module>ballcat-auth-biz</module>
 		<module>ballcat-auth-controller</module>
+		<module>ballcat-oauth2-authorization-server</module>
 	</modules>
 
 </project>
