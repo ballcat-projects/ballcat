@@ -15,8 +15,9 @@
  */
 package com.hccake.ballcat.common.security.oauth2.server.resource;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
+import com.hccake.ballcat.common.security.constant.UserAttributeNameConstants;
 import com.hccake.ballcat.common.security.constant.UserInfoFiledNameConstants;
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.userdetails.User;
@@ -62,6 +63,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -83,7 +86,7 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private Converter<String, RequestEntity<?>> requestEntityConverter;
 
-	private RestOperations restOperations;
+	private final RestOperations restOperations;
 
 	private static final String AUTHORITY_SCOPE_PREFIX = "SCOPE_";
 
@@ -105,7 +108,7 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	/**
 	 * Creates a {@code OpaqueTokenAuthenticationProvider} with the provided parameters
-	 *
+	 * <p>
 	 * The given {@link RestOperations} should perform its own client authentication
 	 * against the introspection endpoint.
 	 * @param introspectionUri The introspection endpoint uri
@@ -283,7 +286,7 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 		}
 
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		if (CollectionUtil.isNotEmpty(scopes)) {
+		if (CollUtil.isNotEmpty(scopes)) {
 			for (String scope : scopes) {
 				authorities.add(new SimpleGrantedAuthority(AUTHORITY_SCOPE_PREFIX + scope));
 			}
@@ -325,20 +328,30 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 				.nickname(info.getAsString(UserInfoFiledNameConstants.NICKNAME))
 				.avatar(info.getAsString(UserInfoFiledNameConstants.AVATAR)).status(1);
 
-		Object authoritiesJSONArray = responseBody.get("authorities");
-		if (authoritiesJSONArray != null) {
-			Collection<? extends GrantedAuthority> authorities = AuthorityUtils
-					.createAuthorityList(((JSONArray) authoritiesJSONArray).toArray(new String[0]));
+		Collection<? extends GrantedAuthority> authorities = null;
+		Object authoritiesJsonArray = responseBody.get("authorities");
+		if (authoritiesJsonArray != null) {
+			authorities = AuthorityUtils.createAuthorityList(((JSONArray) authoritiesJsonArray).toArray(new String[0]));
 			builder.authorities(authorities);
 		}
 
-		Object attribute = responseBody.get(TokenAttributeNameConstants.ATTRIBUTES);
-		if (attribute != null) {
-			claims.putAll((JSONObject) attribute);
+		Object attributesObject = responseBody.get(TokenAttributeNameConstants.ATTRIBUTES);
+		if (attributesObject != null) {
+			JSONObject attributes = (JSONObject) attributesObject;
+			claims.putAll(attributes);
+			// 暂时做下兼容，SAS 不返回 authorities 信息了
+			if (CollUtil.isEmpty(authorities)) {
+				Collection<String> roleCodes = (Collection) attributes
+						.getOrDefault(UserAttributeNameConstants.ROLE_CODES, Collections.emptySet());
+				Collection<String> permissions = (Collection) attributes
+						.getOrDefault(UserAttributeNameConstants.PERMISSIONS, Collections.emptySet());
+				authorities = Stream.of(roleCodes, permissions).flatMap(Collection::stream)
+						.map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+				builder.authorities(authorities);
+			}
 		}
-		builder.attributes(claims);
 
-		return builder.build();
+		return builder.attributes(claims).build();
 	}
 
 	private URL issuer(String uri) {
