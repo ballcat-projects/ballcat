@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hccake.security.oauth2.server.authorization.web.authentication;
+package org.ballcat.security.oauth2.server.authorization.web.authentication;
 
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;

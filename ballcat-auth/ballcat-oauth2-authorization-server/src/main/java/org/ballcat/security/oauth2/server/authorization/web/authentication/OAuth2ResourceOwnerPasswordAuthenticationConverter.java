@@ -1,6 +1,6 @@
-package com.hccake.security.oauth2.server.authorization.web.authentication;
+package org.ballcat.security.oauth2.server.authorization.web.authentication;
 
-import com.hccake.security.oauth2.server.authorization.authentication.OAuth2ResourceOwnerPasswordAuthenticationToken;
+import org.ballcat.security.oauth2.server.authorization.authentication.OAuth2ResourceOwnerPasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;

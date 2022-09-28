@@ -1,4 +1,4 @@
-package com.hccake.security.oauth2.server.authorization.authentication;
+package org.ballcat.security.oauth2.server.authorization.authentication;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;

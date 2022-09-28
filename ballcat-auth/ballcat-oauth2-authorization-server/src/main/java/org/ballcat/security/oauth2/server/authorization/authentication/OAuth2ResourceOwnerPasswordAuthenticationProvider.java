@@ -1,4 +1,4 @@
-package com.hccake.security.oauth2.server.authorization.authentication;
+package org.ballcat.security.oauth2.server.authorization.authentication;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,11 +41,16 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 	private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
 
+	private static final AccessTokenResponseEnhancer DEFAULT_TOKEN_RESPONSE_ENHANCER = (
+			RegisteredClient registeredClient, Object principal) -> Collections.emptyMap();
+
 	private final AuthenticationManager authenticationManager;
 
 	private final OAuth2AuthorizationService authorizationService;
 
 	private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
+
+	private final AccessTokenResponseEnhancer accessTokenResponseEnhancer;
 
 	/**
 	 * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using
@@ -53,16 +58,32 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 	 * @param authenticationManager the authentication manager
 	 * @param authorizationService the authorization service
 	 * @param tokenGenerator the token generator
-	 * @since 0.2.3
+	 * @since 1.0.0
 	 */
 	public OAuth2ResourceOwnerPasswordAuthenticationProvider(AuthenticationManager authenticationManager,
 			OAuth2AuthorizationService authorizationService,
 			OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
+		this(authenticationManager, authorizationService, tokenGenerator, DEFAULT_TOKEN_RESPONSE_ENHANCER);
+	}
+
+	/**
+	 * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using
+	 * the provided parameters.
+	 * @param authenticationManager the authentication manager
+	 * @param authorizationService the authorization service
+	 * @param tokenGenerator the token generator
+	 * @param accessTokenResponseEnhancer the token response enhancer
+	 * @since 1.0.0
+	 */
+	public OAuth2ResourceOwnerPasswordAuthenticationProvider(AuthenticationManager authenticationManager,
+			OAuth2AuthorizationService authorizationService, OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
+			AccessTokenResponseEnhancer accessTokenResponseEnhancer) {
 		Assert.notNull(authorizationService, "authorizationService cannot be null");
 		Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
 		this.authenticationManager = authenticationManager;
 		this.authorizationService = authorizationService;
 		this.tokenGenerator = tokenGenerator;
+		this.accessTokenResponseEnhancer = accessTokenResponseEnhancer;
 	}
 
 	@Override
@@ -162,7 +183,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 		log.debug("OAuth2Authorization saved successfully");
 
-		Map<String, Object> additionalParameters = Collections.emptyMap();
+		Map<String, Object> additionalParameters = this.accessTokenResponseEnhancer.enhancer(registeredClient,
+				usernamePasswordAuthentication.getPrincipal());
 
 		log.debug("returning OAuth2AccessTokenAuthenticationToken");
 
