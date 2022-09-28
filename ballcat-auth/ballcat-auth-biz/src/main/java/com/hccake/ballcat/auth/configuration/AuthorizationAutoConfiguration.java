@@ -7,12 +7,11 @@ import com.hccake.ballcat.auth.authentication.TokenGrantBuilder;
 import com.hccake.ballcat.auth.configurer.CustomAuthorizationServerConfigurer;
 import com.hccake.ballcat.auth.configurer.JdbcOAuth2ClientConfigurer;
 import com.hccake.ballcat.auth.configurer.OAuth2ClientConfigurer;
+import com.hccake.ballcat.auth.exception.CustomWebResponseExceptionTranslator;
+import com.hccake.ballcat.auth.token.CustomRedisTokenStore;
+import com.hccake.ballcat.auth.web.CustomAuthenticationEntryPoint;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
-import com.hccake.ballcat.common.security.component.CustomRedisTokenStore;
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
-import com.hccake.ballcat.common.security.exception.CustomAuthenticationEntryPoint;
-import com.hccake.ballcat.common.security.exception.CustomWebResponseExceptionTranslator;
-import com.hccake.ballcat.common.security.properties.SecurityProperties;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -36,7 +35,7 @@ import javax.sql.DataSource;
  * @author hccake
  */
 @Import({ CustomAuthorizationServerConfigurer.class, AuthorizationFilterConfiguration.class })
-@EnableConfigurationProperties({ SecurityProperties.class, OAuth2AuthorizationServerProperties.class })
+@EnableConfigurationProperties({ OAuth2AuthorizationServerProperties.class })
 public class AuthorizationAutoConfiguration {
 
 	/**

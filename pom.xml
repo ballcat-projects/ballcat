@@ -17,6 +17,8 @@
 		<module>ballcat-notify</module>
 		<module>ballcat-log</module>
 		<module>ballcat-i18n</module>
+		<module>ballcat-security/ballcat-security-oauth2-core</module>
+		<module>ballcat-security/ballcat-security-oauth2-resource-server</module>
 	</modules>
 	<name>ballcat</name>
 	<description>项目基本脚手架</description>
