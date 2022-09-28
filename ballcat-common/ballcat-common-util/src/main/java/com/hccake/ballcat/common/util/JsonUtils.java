@@ -48,8 +48,6 @@ public final class JsonUtils {
 
 	/**
 	 * 切换适配器. 请注意 本方法全局生效
-	 *
-	 * @author lingting 2021-02-26 11:18
 	 */
 	public static void switchAdapter(JsonTool jsonTool) {
 		JsonUtils.jsonTool = jsonTool;

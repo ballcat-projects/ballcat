@@ -171,7 +171,6 @@ public class ClientBuilder {
 
 	/**
 	 * 覆写一些配置
-	 * @author lingting 2021-05-12 22:37
 	 */
 	public S3Client build(Consumer<S3ClientBuilder> consumer) throws URISyntaxException {
 		final S3ClientBuilder builder = create();

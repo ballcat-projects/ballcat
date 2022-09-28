@@ -38,8 +38,6 @@ public class LocalFileClient extends AbstractFileClient {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 * @param stream 文件输入流
 	 * @return 文件绝对路径
-	 * @author lingting 2021-10-19 22:32
-	 * @author 疯狂的狮子Li 2022-04-24
 	 */
 	@Override
 	public String upload(InputStream stream, String relativePath) throws IOException {

@@ -14,8 +14,8 @@ public interface SheetWriteHandler {
 
 	/**
 	 * 是否支持
-	 * @param obj
-	 * @return
+	 * @param obj 返回对象
+	 * @return boolean
 	 */
 	boolean support(Object obj);
 

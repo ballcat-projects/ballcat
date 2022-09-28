@@ -25,7 +25,6 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	 * 根据校验对象信息获取交易数据
 	 * @param obj 校验对象信息
 	 * @return live.lingting.virtual.currency.Transaction
-	 * @author lingting 2021-01-05 11:22
 	 */
 	public abstract Optional<TransactionInfo> getTransaction(T obj);
 
@@ -33,7 +32,6 @@ public abstract class AbstractVerifyThread<T extends VerifyObj, R> extends Abstr
 	 * 处理交易
 	 * @param obj 校验对象信息
 	 * @param optional 交易数据
-	 * @author lingting 2021-01-05 11:13
 	 */
 	public abstract void handler(T obj, @NotNull Optional<TransactionInfo> optional);
 

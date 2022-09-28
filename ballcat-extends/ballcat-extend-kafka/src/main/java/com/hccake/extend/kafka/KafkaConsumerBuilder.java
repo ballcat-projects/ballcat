@@ -48,8 +48,6 @@ public class KafkaConsumerBuilder {
 
 	/**
 	 * 添加 kafka 路径 host:port
-	 *
-	 * @author lingting 2020-06-19 16:30:03
 	 */
 	public KafkaConsumerBuilder addBootstrapServers(String uri) {
 		bootstrapServers.add(uri);
@@ -63,8 +61,6 @@ public class KafkaConsumerBuilder {
 
 	/**
 	 * 添加配置
-	 *
-	 * @author lingting 2020-06-19 16:30:50
 	 */
 	public KafkaConsumerBuilder put(Object key, Object val) {
 		properties.put(key, val);

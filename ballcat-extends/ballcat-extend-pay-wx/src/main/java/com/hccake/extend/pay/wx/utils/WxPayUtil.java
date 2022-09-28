@@ -66,7 +66,6 @@ public final class WxPayUtil {
 	 * map 转 xml 字符串
 	 * @param data map
 	 * @return java.lang.String
-	 * @author lingting 2021-02-01 10:22
 	 */
 	public static String mapToXml(Map<String, String> data) throws ParserConfigurationException, TransformerException {
 		Document document = getDocument();
@@ -107,7 +106,6 @@ public final class WxPayUtil {
 	 * xml字符串转map
 	 * @param xml xml字符串
 	 * @return java.util.Map<java.lang.String,java.lang.String>
-	 * @author lingting 2021-02-01 11:29
 	 */
 	public static Map<String, String> xmlToMap(String xml)
 			throws ParserConfigurationException, IOException, SAXException {

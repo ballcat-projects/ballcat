@@ -1,5 +1,8 @@
 package com.hccake.ballcat.common.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +15,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 /**
  * @author lingting 2021/4/16 14:33
@@ -42,7 +43,6 @@ public class FileUtils {
 
 	/**
 	 * 更新临时文件路径
-	 * @author lingting 2021-10-18 17:10
 	 */
 	public static void updateTmpDir(String dirName) {
 		tempDir = new File(SYSTEM_TEMP_DIR, dirName);
@@ -50,7 +50,6 @@ public class FileUtils {
 
 	/**
 	 * 获取临时文件, 不会创建文件
-	 * @author lingting 2021-04-19 10:48
 	 */
 	public static File getTemplateFile(String name) throws IOException {
 		if (!tempDir.exists()) {

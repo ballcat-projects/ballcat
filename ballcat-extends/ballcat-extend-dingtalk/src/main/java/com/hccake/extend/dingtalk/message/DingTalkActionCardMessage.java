@@ -51,8 +51,6 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 
 	/**
 	 * 添加按钮
-	 *
-	 * @author lingting 2020-06-10 23:59:45
 	 */
 	public DingTalkActionCardMessage addButton(String title, String url) {
 		buttons.add(new Button(title, url));
