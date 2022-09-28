@@ -1,10 +1,9 @@
 package com.hccake.ballcat.system.component;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.crypto.CryptoException;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
-import com.hccake.ballcat.system.properties.SecurityProperties;
 import com.hccake.ballcat.system.properties.SystemProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,18 +19,17 @@ import java.util.regex.Pattern;
 @Component
 public class PasswordHelper {
 
-	private final SecurityProperties securityProperties;
-
 	private final PasswordEncoder passwordEncoder;
 
 	private final Pattern passwordPattern;
 
-	public PasswordHelper(SecurityProperties securityProperties, SystemProperties systemProperties,
-			PasswordEncoder passwordEncoder) {
-		this.securityProperties = securityProperties;
+	private final String passwordSecretKey;
+
+	public PasswordHelper(SystemProperties systemProperties, PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
 		String passwordRule = systemProperties.getPasswordRule();
-		this.passwordPattern = StrUtil.isEmpty(passwordRule) ? null : Pattern.compile(passwordRule);
+		this.passwordPattern = CharSequenceUtil.isEmpty(passwordRule) ? null : Pattern.compile(passwordRule);
+		this.passwordSecretKey = systemProperties.getPasswordSecretKey();
 	}
 
 	/**
@@ -40,7 +38,7 @@ public class PasswordHelper {
 	 * @return 加密后的密文
 	 */
 	public String encode(String rawPassword) {
-		return passwordEncoder.encode(rawPassword);
+		return this.passwordEncoder.encode(rawPassword);
 	}
 
 	/**
@@ -50,7 +48,7 @@ public class PasswordHelper {
 	 */
 	public String decodeAes(String aesPass) {
 		try {
-			return PasswordUtils.decodeAES(aesPass, securityProperties.getPasswordSecretKey());
+			return PasswordUtils.decodeAES(aesPass, this.passwordSecretKey);
 		}
 		catch (CryptoException ex) {
 			throw new BusinessException(400, "密码密文解密异常！");

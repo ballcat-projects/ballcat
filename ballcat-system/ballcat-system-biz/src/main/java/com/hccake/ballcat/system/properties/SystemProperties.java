@@ -12,8 +12,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "ballcat.system")
+@ConfigurationProperties(prefix = SystemProperties.PREFIX)
 public class SystemProperties {
+
+	public static final String PREFIX = "ballcat.system";
 
 	/**
 	 * 超级管理员的配置
@@ -24,6 +26,11 @@ public class SystemProperties {
 	 * 密码的规则：值为正则表达式，当为空时，不对密码规则进行校验
 	 */
 	private String passwordRule;
+
+	/**
+	 * 前后端交互使用的对称加密算法的密钥，必须 16 位字符
+	 */
+	private String passwordSecretKey;
 
 	@Getter
 	@Setter

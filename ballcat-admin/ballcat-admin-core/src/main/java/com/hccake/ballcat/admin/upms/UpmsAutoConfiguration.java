@@ -7,7 +7,6 @@ import com.hccake.ballcat.system.authentication.CustomTokenEnhancer;
 import com.hccake.ballcat.system.authentication.DefaultUserInfoCoordinatorImpl;
 import com.hccake.ballcat.system.authentication.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.system.authentication.UserInfoCoordinator;
-import com.hccake.ballcat.system.properties.SecurityProperties;
 import com.hccake.ballcat.system.properties.SystemProperties;
 import com.hccake.ballcat.system.service.SysUserService;
 import org.ballcat.security.oauth2.server.resource.SharedStoredOpaqueTokenIntrospector;
@@ -38,22 +37,22 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 @MapperScan("com.hccake.ballcat.**.mapper")
 @ComponentScan({ "com.hccake.ballcat.admin.upms", "com.hccake.ballcat.auth", "com.hccake.ballcat.system",
 		"com.hccake.ballcat.log", "com.hccake.ballcat.file", "com.hccake.ballcat.notify" })
-@EnableConfigurationProperties({ SystemProperties.class, SecurityProperties.class })
+@EnableConfigurationProperties({ SystemProperties.class })
 @EnableOauth2AuthorizationServer
 @EnableOauth2ResourceServer
 public class UpmsAutoConfiguration {
 
 	/**
 	 * password 模式下，密码入参要求 AES 加密。 在进入令牌端点前，通过过滤器进行解密处理。
-	 * @param securityProperties 安全配置相关
+	 * @param systemProperties 安全配置相关
 	 * @return FilterRegistrationBean<LoginPasswordDecoderFilter>
 	 */
 	@Bean
-	@ConditionalOnProperty(prefix = SecurityProperties.PREFIX, name = "password-secret-key")
+	@ConditionalOnProperty(prefix = SystemProperties.PREFIX, name = "password-secret-key")
 	public FilterRegistrationBean<LoginPasswordDecoderFilter> loginPasswordDecoderFilter(
-			SecurityProperties securityProperties) {
+			SystemProperties systemProperties) {
 		FilterRegistrationBean<LoginPasswordDecoderFilter> bean = new FilterRegistrationBean<>();
-		LoginPasswordDecoderFilter filter = new LoginPasswordDecoderFilter(securityProperties.getPasswordSecretKey());
+		LoginPasswordDecoderFilter filter = new LoginPasswordDecoderFilter(systemProperties.getPasswordSecretKey());
 		bean.setFilter(filter);
 		bean.setOrder(0);
 		bean.addUrlPatterns(SecurityConstants.LOGIN_URL);
