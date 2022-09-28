@@ -17,6 +17,7 @@
 		<module>ballcat-notify</module>
 		<module>ballcat-log</module>
 		<module>ballcat-i18n</module>
+		<module>ballcat-security/ballcat-security-oauth2-authorization-server</module>
 		<module>ballcat-security/ballcat-security-oauth2-core</module>
 		<module>ballcat-security/ballcat-security-oauth2-resource-server</module>
 	</modules>

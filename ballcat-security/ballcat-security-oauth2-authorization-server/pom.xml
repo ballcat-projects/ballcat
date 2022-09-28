@@ -3,13 +3,14 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>ballcat-auth</artifactId>
+		<artifactId>ballcat</artifactId>
 		<groupId>com.hccake</groupId>
 		<version>${revision}</version>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>ballcat-oauth2-authorization-server</artifactId>
+	<artifactId>ballcat-security-oauth2-authorization-server</artifactId>
 
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
