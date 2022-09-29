@@ -2,8 +2,8 @@ package com.hccake.ballcat.auth.configuration;
 
 import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
 import com.hccake.ballcat.auth.filter.LoginCaptchaFilter;
-import com.hccake.ballcat.auth.filter.captcha.CaptchaValidator;
 import com.hccake.ballcat.common.security.constant.SecurityConstants;
+import org.ballcat.security.captcha.CaptchaValidator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.auth.filter;
+package org.ballcat.security.oauth2.server.authorization.web.filter;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import com.hccake.ballcat.common.model.result.R;

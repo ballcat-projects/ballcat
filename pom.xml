@@ -20,6 +20,7 @@
 		<module>ballcat-security/ballcat-security-oauth2-authorization-server</module>
 		<module>ballcat-security/ballcat-security-oauth2-core</module>
 		<module>ballcat-security/ballcat-security-oauth2-resource-server</module>
+		<module>ballcat-security/ballcat-security-core</module>
 	</modules>
 	<name>ballcat</name>
 	<description>项目基本脚手架</description>
