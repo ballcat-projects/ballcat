@@ -13,10 +13,10 @@
 	<artifactId>ballcat-security</artifactId>
 
 	<modules>
-		<module>ballcat-security-oauth2-authorization-server</module>
-		<module>ballcat-security-oauth2-core</module>
-		<module>ballcat-security-oauth2-resource-server</module>
 		<module>ballcat-security-core</module>
+		<module>ballcat-spring-security-oauth2-authorization-server</module>
+		<module>ballcat-spring-security-oauth2-core</module>
+		<module>ballcat-spring-security-oauth2-resource-server</module>
 	</modules>
 
 
