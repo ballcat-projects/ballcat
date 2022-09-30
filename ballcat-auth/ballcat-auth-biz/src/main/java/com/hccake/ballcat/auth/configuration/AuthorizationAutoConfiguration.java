@@ -11,7 +11,6 @@ import com.hccake.ballcat.auth.exception.CustomWebResponseExceptionTranslator;
 import com.hccake.ballcat.auth.token.CustomRedisTokenStore;
 import com.hccake.ballcat.auth.web.CustomAuthenticationEntryPoint;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
-import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -37,6 +36,11 @@ import javax.sql.DataSource;
 @Import({ CustomAuthorizationServerConfigurer.class, AuthorizationFilterConfiguration.class })
 @EnableConfigurationProperties({ OAuth2AuthorizationServerProperties.class })
 public class AuthorizationAutoConfiguration {
+
+	/**
+	 * 缓存 oauth 相关前缀
+	 */
+	private static final String OAUTH_PREFIX = "oauth:";
 
 	/**
 	 * check_token 端点返回信息的处理类
@@ -77,7 +81,7 @@ public class AuthorizationAutoConfiguration {
 	@ConditionalOnMissingBean
 	public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory) {
 		CustomRedisTokenStore tokenStore = new CustomRedisTokenStore(redisConnectionFactory);
-		tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + SecurityConstants.OAUTH_PREFIX);
+		tokenStore.setPrefix(CachePropertiesHolder.keyPrefix() + OAUTH_PREFIX);
 		return tokenStore;
 	}
 

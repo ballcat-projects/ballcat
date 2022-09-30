@@ -3,6 +3,7 @@ package com.hccake.ballcat.auth.filter;
 import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.security.ScopeNames;
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -34,10 +37,6 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
 	private final String passwordSecretKey;
 
-	private static final String PASSWORD = "password";
-
-	private static final String GRANT_TYPE = "grant_type";
-
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -50,25 +49,26 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		}
 
 		// 非密码模式下，直接跳过
-		if (!request.getParameter(GRANT_TYPE).equals(PASSWORD)) {
+		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		if (!AuthorizationGrantType.PASSWORD.getValue().equals(grantType)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
 		// 测试客户端密码不加密，直接跳过（swagger 或 postman测试时使用）
 		ClientPrincipal clientPrincipal = SecurityUtils.getClientPrincipal();
-		if (clientPrincipal != null && clientPrincipal.getScope().contains("skip_password_decode")) {
+		if (clientPrincipal != null && clientPrincipal.getScope().contains(ScopeNames.SKIP_PASSWORD_DECODE)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
 		// 解密前台加密后的密码
 		Map<String, String[]> parameterMap = new HashMap<>(request.getParameterMap());
-		String passwordAes = request.getParameter(PASSWORD);
+		String passwordAes = request.getParameter(OAuth2ParameterNames.PASSWORD);
 
 		try {
 			String password = PasswordUtils.decodeAES(passwordAes, passwordSecretKey);
-			parameterMap.put(PASSWORD, new String[] { password });
+			parameterMap.put(OAuth2ParameterNames.PASSWORD, new String[] { password });
 		}
 		catch (Exception e) {
 			log.error("[doFilterInternal] password decode aes error，passwordAes: {}，passwordSecretKey: {}", passwordAes,

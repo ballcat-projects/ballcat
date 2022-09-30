@@ -3,6 +3,7 @@ package org.ballcat.springsecurity.oauth2.server.authorization.web.filter;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.security.ScopeNames;
 import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.security.captcha.CaptchaValidateResult;
@@ -11,8 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -35,8 +38,6 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 
 	private final CaptchaValidator captchaValidator;
 
-	private static final String GRANT_TYPE_PASSWORD = "password";
-
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -47,8 +48,8 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 		}
 
 		// 只对 password 的 grant_type 进行拦截处理
-		String grantType = request.getParameter("grant_type");
-		if (!GRANT_TYPE_PASSWORD.equals(grantType)) {
+		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		if (!AuthorizationGrantType.PASSWORD.getValue().equals(grantType)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -59,7 +60,7 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
 		// 测试客户端 跳过验证码（swagger 或 postman测试时使用）
-		if (registeredClient != null && registeredClient.getScopes().contains("skip_captcha")) {
+		if (registeredClient != null && registeredClient.getScopes().contains(ScopeNames.SKIP_CAPTCHA)) {
 			filterChain.doFilter(request, response);
 			return;
 		}

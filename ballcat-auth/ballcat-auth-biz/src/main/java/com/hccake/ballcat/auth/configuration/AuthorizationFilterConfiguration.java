@@ -3,7 +3,6 @@ package com.hccake.ballcat.auth.configuration;
 import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
 import com.hccake.ballcat.auth.filter.LoginCaptchaFilter;
 import com.hccake.ballcat.auth.filter.LoginPasswordDecoderFilter;
-import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import org.ballcat.security.captcha.CaptchaValidator;
 import org.ballcat.security.properties.SecurityProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -20,6 +19,11 @@ import org.springframework.context.annotation.Configuration;
 public class AuthorizationFilterConfiguration {
 
 	/**
+	 * 登陆地址
+	 */
+	private static final String LOGIN_URL = "/oauth/token";
+
+	/**
 	 * 登录验证码拦截判断
 	 * @param captchaValidator 验证码验证器
 	 * @return FilterRegistrationBean<LoginCaptchaFilter>
@@ -33,7 +37,7 @@ public class AuthorizationFilterConfiguration {
 		bean.setFilter(filter);
 		// 比密码解密早一步
 		bean.setOrder(-501);
-		bean.addUrlPatterns(SecurityConstants.LOGIN_URL);
+		bean.addUrlPatterns(LOGIN_URL);
 		return bean;
 	}
 
@@ -50,7 +54,7 @@ public class AuthorizationFilterConfiguration {
 		LoginPasswordDecoderFilter filter = new LoginPasswordDecoderFilter(securityProperties.getPasswordSecretKey());
 		bean.setFilter(filter);
 		bean.setOrder(-500);
-		bean.addUrlPatterns(SecurityConstants.LOGIN_URL);
+		bean.addUrlPatterns(LOGIN_URL);
 		return bean;
 	}
 

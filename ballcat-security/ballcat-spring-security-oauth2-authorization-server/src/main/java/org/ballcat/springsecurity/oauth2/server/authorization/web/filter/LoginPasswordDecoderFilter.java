@@ -3,6 +3,7 @@ package org.ballcat.springsecurity.oauth2.server.authorization.web.filter;
 import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.security.ScopeNames;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
 import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -41,10 +44,6 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
 	private final String passwordSecretKey;
 
-	private static final String PASSWORD = "password";
-
-	private static final String GRANT_TYPE = "grant_type";
-
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -62,8 +61,8 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		}
 
 		// 非密码模式下，直接跳过
-		String grantType = request.getParameter(GRANT_TYPE);
-		if (!PASSWORD.equals(grantType)) {
+		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		if (!AuthorizationGrantType.PASSWORD.getValue().equals(grantType)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -74,18 +73,18 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
 		// 测试客户端密码不加密，直接跳过（swagger 或 postman测试时使用）
-		if (registeredClient != null && registeredClient.getScopes().contains("skip_password_decode")) {
+		if (registeredClient != null && registeredClient.getScopes().contains(ScopeNames.SKIP_PASSWORD_DECODE)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
 		// 解密前台加密后的密码
 		Map<String, String[]> parameterMap = new HashMap<>(request.getParameterMap());
-		String passwordAes = request.getParameter(PASSWORD);
+		String passwordAes = request.getParameter(OAuth2ParameterNames.PASSWORD);
 
 		try {
 			String password = PasswordUtils.decodeAES(passwordAes, passwordSecretKey);
-			parameterMap.put(PASSWORD, new String[] { password });
+			parameterMap.put(OAuth2ParameterNames.PASSWORD, new String[] { password });
 		}
 		catch (Exception e) {
 			log.error("[doFilterInternal] password decode aes error，passwordAes: {}，passwordSecretKey: {}", passwordAes,

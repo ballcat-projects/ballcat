@@ -3,6 +3,7 @@ package com.hccake.ballcat.auth.filter;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
+import com.hccake.ballcat.common.security.ScopeNames;
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.util.JsonUtils;
@@ -11,6 +12,8 @@ import org.ballcat.security.captcha.CaptchaValidateResult;
 import org.ballcat.security.captcha.CaptchaValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -28,22 +31,20 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 
 	private final CaptchaValidator captchaValidator;
 
-	private static final String GRANT_TYPE_PASSWORD = "password";
-
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
 		// 只对 password 的 grant_type 进行拦截处理
-		String grantType = request.getParameter("grant_type");
-		if (!GRANT_TYPE_PASSWORD.equals(grantType)) {
+		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		if (!AuthorizationGrantType.PASSWORD.getValue().equals(grantType)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
 		// 测试客户端 跳过验证码（swagger 或 postman测试时使用）
 		ClientPrincipal clientPrincipal = SecurityUtils.getClientPrincipal();
-		if (clientPrincipal != null && clientPrincipal.getScope().contains("skip_captcha")) {
+		if (clientPrincipal != null && clientPrincipal.getScope().contains(ScopeNames.SKIP_CAPTCHA)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
