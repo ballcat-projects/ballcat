@@ -8,13 +8,12 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.security.captcha.CaptchaValidateResult;
 import org.ballcat.security.captcha.CaptchaValidator;
+import org.ballcat.springsecurity.oauth2.server.authorization.authentication.Oauth2ClientAuthenticationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -56,7 +55,8 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 
 		// 获取当前客户端
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authentication);
+		OAuth2ClientAuthenticationToken clientPrincipal = Oauth2ClientAuthenticationUtils
+				.getAuthenticatedClientElseThrowInvalidClient(authentication);
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
 		// 测试客户端 跳过验证码（swagger 或 postman测试时使用）
@@ -77,26 +77,6 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			response.getWriter().write(JsonUtils.toJson(r));
 		}
 
-	}
-
-	private OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(
-			Authentication authentication) {
-
-		if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
-			return (OAuth2ClientAuthenticationToken) authentication;
-		}
-
-		OAuth2ClientAuthenticationToken clientPrincipal = null;
-
-		if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
-			clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
-		}
-
-		if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
-			return clientPrincipal;
-		}
-
-		throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
 	}
 
 }

@@ -91,8 +91,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 		OAuth2ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthentication = (OAuth2ResourceOwnerPasswordAuthenticationToken) authentication;
 
-		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(
-				resourceOwnerPasswordAuthentication);
+		OAuth2ClientAuthenticationToken clientPrincipal = Oauth2ClientAuthenticationUtils
+				.getAuthenticatedClientElseThrowInvalidClient(resourceOwnerPasswordAuthentication);
 
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
@@ -212,22 +212,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 		log.debug("got usernamePasswordAuthenticationToken={}", usernamePasswordAuthenticationToken);
 
 		return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-	}
-
-	private OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(
-			Authentication authentication) {
-
-		OAuth2ClientAuthenticationToken clientPrincipal = null;
-
-		if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
-			clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
-		}
-
-		if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
-			return clientPrincipal;
-		}
-
-		throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
 	}
 
 }
