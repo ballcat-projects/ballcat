@@ -27,11 +27,6 @@ public class SystemProperties {
 	 */
 	private String passwordRule;
 
-	/**
-	 * 前后端交互使用的对称加密算法的密钥，必须 16 位字符
-	 */
-	private String passwordSecretKey;
-
 	@Getter
 	@Setter
 	public static class Administrator {

@@ -5,6 +5,7 @@ import cn.hutool.crypto.CryptoException;
 import com.hccake.ballcat.common.core.exception.BusinessException;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
 import com.hccake.ballcat.system.properties.SystemProperties;
+import org.ballcat.security.properties.SecurityProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,17 +20,18 @@ import java.util.regex.Pattern;
 @Component
 public class PasswordHelper {
 
+	private final SecurityProperties securityProperties;
+
 	private final PasswordEncoder passwordEncoder;
 
 	private final Pattern passwordPattern;
 
-	private final String passwordSecretKey;
-
-	public PasswordHelper(SystemProperties systemProperties, PasswordEncoder passwordEncoder) {
+	public PasswordHelper(SecurityProperties securityProperties, SystemProperties systemProperties,
+			PasswordEncoder passwordEncoder) {
+		this.securityProperties = securityProperties;
 		this.passwordEncoder = passwordEncoder;
 		String passwordRule = systemProperties.getPasswordRule();
 		this.passwordPattern = CharSequenceUtil.isEmpty(passwordRule) ? null : Pattern.compile(passwordRule);
-		this.passwordSecretKey = systemProperties.getPasswordSecretKey();
 	}
 
 	/**
@@ -38,7 +40,7 @@ public class PasswordHelper {
 	 * @return 加密后的密文
 	 */
 	public String encode(String rawPassword) {
-		return this.passwordEncoder.encode(rawPassword);
+		return passwordEncoder.encode(rawPassword);
 	}
 
 	/**
@@ -48,7 +50,7 @@ public class PasswordHelper {
 	 */
 	public String decodeAes(String aesPass) {
 		try {
-			return PasswordUtils.decodeAES(aesPass, this.passwordSecretKey);
+			return PasswordUtils.decodeAES(aesPass, securityProperties.getPasswordSecretKey());
 		}
 		catch (CryptoException ex) {
 			throw new BusinessException(400, "密码密文解密异常！");

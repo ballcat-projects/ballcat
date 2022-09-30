@@ -1,14 +1,13 @@
 package com.hccake.ballcat.admin.upms;
 
 import com.hccake.ballcat.auth.annotation.EnableOauth2AuthorizationServer;
-import com.hccake.ballcat.auth.filter.LoginPasswordDecoderFilter;
-import com.hccake.ballcat.common.security.constant.SecurityConstants;
 import com.hccake.ballcat.system.authentication.CustomTokenEnhancer;
 import com.hccake.ballcat.system.authentication.DefaultUserInfoCoordinatorImpl;
 import com.hccake.ballcat.system.authentication.SysUserDetailsServiceImpl;
 import com.hccake.ballcat.system.authentication.UserInfoCoordinator;
 import com.hccake.ballcat.system.properties.SystemProperties;
 import com.hccake.ballcat.system.service.SysUserService;
+import org.ballcat.security.properties.SecurityProperties;
 import org.ballcat.springsecurity.oauth2.server.resource.SharedStoredOpaqueTokenIntrospector;
 import org.ballcat.springsecurity.oauth2.server.resource.annotation.EnableOauth2ResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
@@ -17,7 +16,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -37,27 +35,10 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 @MapperScan("com.hccake.ballcat.**.mapper")
 @ComponentScan({ "com.hccake.ballcat.admin.upms", "com.hccake.ballcat.auth", "com.hccake.ballcat.system",
 		"com.hccake.ballcat.log", "com.hccake.ballcat.file", "com.hccake.ballcat.notify" })
-@EnableConfigurationProperties({ SystemProperties.class })
+@EnableConfigurationProperties({ SystemProperties.class, SecurityProperties.class })
 @EnableOauth2AuthorizationServer
 @EnableOauth2ResourceServer
 public class UpmsAutoConfiguration {
-
-	/**
-	 * password 模式下，密码入参要求 AES 加密。 在进入令牌端点前，通过过滤器进行解密处理。
-	 * @param systemProperties 安全配置相关
-	 * @return FilterRegistrationBean<LoginPasswordDecoderFilter>
-	 */
-	@Bean
-	@ConditionalOnProperty(prefix = SystemProperties.PREFIX, name = "password-secret-key")
-	public FilterRegistrationBean<LoginPasswordDecoderFilter> loginPasswordDecoderFilter(
-			SystemProperties systemProperties) {
-		FilterRegistrationBean<LoginPasswordDecoderFilter> bean = new FilterRegistrationBean<>();
-		LoginPasswordDecoderFilter filter = new LoginPasswordDecoderFilter(systemProperties.getPasswordSecretKey());
-		bean.setFilter(filter);
-		bean.setOrder(0);
-		bean.addUrlPatterns(SecurityConstants.LOGIN_URL);
-		return bean;
-	}
 
 	/**
 	 * 用户详情处理类
