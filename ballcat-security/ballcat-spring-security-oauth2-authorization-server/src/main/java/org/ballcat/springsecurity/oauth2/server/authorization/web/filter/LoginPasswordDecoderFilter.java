@@ -3,14 +3,19 @@ package org.ballcat.springsecurity.oauth2.server.authorization.web.filter;
 import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
-import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
-import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -32,6 +37,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
+	private final RequestMatcher requestMatcher;
+
 	private final String passwordSecretKey;
 
 	private static final String PASSWORD = "password";
@@ -42,6 +49,11 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
+		if (!this.requestMatcher.matches(request)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		// 未配置密码密钥时，直接跳过
 		if (passwordSecretKey == null) {
 			log.warn("passwordSecretKey not configured, skip password decoder");
@@ -50,14 +62,19 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		}
 
 		// 非密码模式下，直接跳过
-		if (!request.getParameter(GRANT_TYPE).equals(PASSWORD)) {
+		String grantType = request.getParameter(GRANT_TYPE);
+		if (!PASSWORD.equals(grantType)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
+		// 获取当前客户端
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authentication);
+		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
+
 		// 测试客户端密码不加密，直接跳过（swagger 或 postman测试时使用）
-		ClientPrincipal clientPrincipal = SecurityUtils.getClientPrincipal();
-		if (clientPrincipal != null && clientPrincipal.getScope().contains("skip_password_decode")) {
+		if (registeredClient != null && registeredClient.getScopes().contains("skip_password_decode")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -83,6 +100,26 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		// SpringSecurity 默认从ParameterMap中获取密码参数
 		// 由于原生的request中对parameter加锁了，无法修改，所以使用包装类
 		filterChain.doFilter(new ModifyParamMapRequestWrapper(request, parameterMap), response);
+	}
+
+	private OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(
+			Authentication authentication) {
+
+		if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
+			return (OAuth2ClientAuthenticationToken) authentication;
+		}
+
+		OAuth2ClientAuthenticationToken clientPrincipal = null;
+
+		if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
+			clientPrincipal = (OAuth2ClientAuthenticationToken) authentication.getPrincipal();
+		}
+
+		if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
+			return clientPrincipal;
+		}
+
+		throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
 	}
 
 }
