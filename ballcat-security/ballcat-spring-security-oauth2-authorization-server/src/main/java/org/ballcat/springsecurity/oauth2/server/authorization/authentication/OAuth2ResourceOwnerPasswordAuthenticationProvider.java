@@ -83,7 +83,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 		this.authenticationManager = authenticationManager;
 		this.authorizationService = authorizationService;
 		this.tokenGenerator = tokenGenerator;
-		this.accessTokenResponseEnhancer = accessTokenResponseEnhancer;
+		this.accessTokenResponseEnhancer = accessTokenResponseEnhancer != null ? accessTokenResponseEnhancer
+				: DEFAULT_TOKEN_RESPONSE_ENHANCER;
 	}
 
 	@Override
