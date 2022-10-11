@@ -6,6 +6,7 @@ import org.ballcat.security.properties.SecurityProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -24,9 +25,11 @@ public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfi
 
 	private final SecurityProperties securityProperties;
 
-	private final List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizerList;
+	private final UserDetailsService userDetailsService;
 
 	private final CaptchaValidator captchaValidator;
+
+	private final List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizerList;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -42,10 +45,19 @@ public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfi
 
 		// @formatter:off
 		RequestMatcher endpointsMatcher = configurerWrapper.getEndpointsMatcher();
-		http.requestMatcher(endpointsMatcher)
+		http.requestMatchers()
+				.requestMatchers(endpointsMatcher)
+				.antMatchers("/login")
+				.and()
 				.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
 				.csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
 				.apply(configurerWrapper);
 		// @formatter:off
+
+		// 开启表单登录
+		http
+			.formLogin()
+			.and()
+			.userDetailsService(userDetailsService);
 	}
 }
