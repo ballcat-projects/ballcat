@@ -14,7 +14,7 @@ import com.hccake.ballcat.system.properties.SystemProperties;
 import com.hccake.ballcat.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.security.properties.SecurityProperties;
-import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2ResourceOwnerPasswordAuthenticationToken;
+import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2TokenRevocationResultAuthenticationToken;
 import org.ballcat.springsecurity.oauth2.server.resource.SharedStoredOpaqueTokenIntrospector;
 import org.ballcat.springsecurity.oauth2.server.resource.annotation.EnableOauth2ResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
@@ -29,10 +29,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
@@ -120,7 +123,7 @@ public class UpmsAutoConfiguration {
 	}
 
 	@Configuration(proxyBeanMethods = false)
-	@ConditionalOnClass(value = { OAuth2ResourceOwnerPasswordAuthenticationToken.class, LoginLogService.class })
+	@ConditionalOnClass(value = { OAuth2AccessTokenAuthenticationToken.class, LoginLogService.class })
 	@ConditionalOnBean(LoginLogService.class)
 	@RequiredArgsConstructor
 	static class LoginLogConfiguration {
@@ -138,6 +141,29 @@ public class UpmsAutoConfiguration {
 				String username = SecurityUtils.getAuthentication().getName();
 				LoginLog loginLog = prodLoginLog(username).setMsg("登陆成功").setStatus(LogStatusEnum.SUCCESS.getValue())
 						.setEventType(LoginEventTypeEnum.LOGIN.getValue());
+				loginLogService.save(loginLog);
+			}
+		}
+
+		/**
+		 * 登出成功事件监听
+		 * @param event the event
+		 */
+		@EventListener(LogoutSuccessEvent.class)
+		public void onLogoutSuccessEvent(LogoutSuccessEvent event) {
+			Object source = event.getSource();
+			String username = null;
+			if (source instanceof OAuth2TokenRevocationResultAuthenticationToken) {
+				OAuth2Authorization authorization = ((OAuth2TokenRevocationResultAuthenticationToken) source)
+						.getAuthorization();
+				username = authorization.getPrincipalName();
+			}
+			else if (source instanceof AbstractAuthenticationToken) {
+				username = ((AbstractAuthenticationToken) source).getName();
+			}
+			if (username != null) {
+				LoginLog loginLog = prodLoginLog(username).setMsg("登出成功")
+						.setEventType(LoginEventTypeEnum.LOGOUT.getValue());
 				loginLogService.save(loginLog);
 			}
 		}
