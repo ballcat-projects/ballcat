@@ -15,7 +15,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
  * @author hccake
  */
 @RequiredArgsConstructor
-public class PasswordAuthorizationServerConfigurerCustomizer implements OAuth2AuthorizationServerConfigurerCustomizer {
+public class OAuth2ResourceOwnerPasswordConfigurerCustomizer implements OAuth2AuthorizationServerConfigurerCustomizer {
 
 	private final AuthenticationManager authenticationManager;
 
