@@ -79,7 +79,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements Authe
 						&& !e.getKey().equals(OAuth2ParameterNames.SCOPE))
 				.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
 
-		return new OAuth2ResourceOwnerPasswordAuthenticationToken(clientPrincipal, requestedScopes,
+		return new OAuth2ResourceOwnerPasswordAuthenticationToken(username, clientPrincipal, requestedScopes,
 				additionalParameters);
 
 	}

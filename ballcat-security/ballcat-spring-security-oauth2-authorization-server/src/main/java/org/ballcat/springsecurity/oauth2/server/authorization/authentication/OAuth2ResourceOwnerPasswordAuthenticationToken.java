@@ -21,6 +21,8 @@ import java.util.Set;
  */
 public class OAuth2ResourceOwnerPasswordAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
 
+	private final String username;
+
 	private final Set<String> scopes;
 
 	/**
@@ -28,9 +30,10 @@ public class OAuth2ResourceOwnerPasswordAuthenticationToken extends OAuth2Author
 	 * parameters.
 	 * @param clientPrincipal the authenticated client principal
 	 */
-	public OAuth2ResourceOwnerPasswordAuthenticationToken(Authentication clientPrincipal, @Nullable Set<String> scopes,
-			@Nullable Map<String, Object> additionalParameters) {
+	public OAuth2ResourceOwnerPasswordAuthenticationToken(String username, Authentication clientPrincipal,
+			@Nullable Set<String> scopes, @Nullable Map<String, Object> additionalParameters) {
 		super(AuthorizationGrantType.PASSWORD, clientPrincipal, additionalParameters);
+		this.username = username;
 		this.scopes = Collections.unmodifiableSet(scopes != null ? new HashSet<>(scopes) : Collections.emptySet());
 	}
 
@@ -40,6 +43,11 @@ public class OAuth2ResourceOwnerPasswordAuthenticationToken extends OAuth2Author
 	 */
 	public Set<String> getScopes() {
 		return this.scopes;
+	}
+
+	@Override
+	public String getName() {
+		return username;
 	}
 
 }
