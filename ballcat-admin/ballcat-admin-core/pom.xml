@@ -47,10 +47,6 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-boot-starter-xss</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>com.hccake</groupId>
-            <artifactId>ballcat-auth-controller</artifactId>
-        </dependency>
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-system-controller</artifactId>
@@ -64,22 +60,25 @@
 			<artifactId>ballcat-log-controller</artifactId>
 		</dependency>
 
-		<!--mybatis plus-->
+		<!-- 已废弃，基于 spring oauth2 的授权服务器 -->
 		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-auth-controller</artifactId>
 		</dependency>
-		<!-- spring-security oauth -->
-		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
-		</dependency>
+		<!-- 基于 spring authorization server 的授权服务器 -->
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-security-oauth2-authorization-server</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!--mybatis plus-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>
