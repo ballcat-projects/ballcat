@@ -8,7 +8,6 @@ import com.hccake.ballcat.common.security.util.PasswordUtils;
 import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ballcat.springsecurity.oauth2.server.authorization.authentication.Oauth2ClientAuthenticationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -27,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient;
 
 /**
  * 前端传递过来的加密密码，需要在登陆之前先解密
@@ -68,8 +69,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
 		// 获取当前客户端
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		OAuth2ClientAuthenticationToken clientPrincipal = Oauth2ClientAuthenticationUtils
-				.getAuthenticatedClientElseThrowInvalidClient(authentication);
+		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authentication);
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
 		// 测试客户端密码不加密，直接跳过（swagger 或 postman测试时使用）

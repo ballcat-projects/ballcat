@@ -8,7 +8,6 @@ import com.hccake.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.security.captcha.CaptchaValidateResult;
 import org.ballcat.security.captcha.CaptchaValidator;
-import org.ballcat.springsecurity.oauth2.server.authorization.authentication.Oauth2ClientAuthenticationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -25,6 +24,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient;
 
 /**
  * @author Hccake 2021/1/11
@@ -55,8 +56,7 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 
 		// 获取当前客户端
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		OAuth2ClientAuthenticationToken clientPrincipal = Oauth2ClientAuthenticationUtils
-				.getAuthenticatedClientElseThrowInvalidClient(authentication);
+		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(authentication);
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
 		// 测试客户端 跳过验证码（swagger 或 postman测试时使用）

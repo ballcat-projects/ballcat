@@ -38,6 +38,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient;
+
 @Slf4j
 public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements AuthenticationProvider {
 
@@ -94,8 +96,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 		OAuth2ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthentication = (OAuth2ResourceOwnerPasswordAuthenticationToken) authentication;
 
-		OAuth2ClientAuthenticationToken clientPrincipal = Oauth2ClientAuthenticationUtils
-				.getAuthenticatedClientElseThrowInvalidClient(resourceOwnerPasswordAuthentication);
+		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(
+				resourceOwnerPasswordAuthentication);
 
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
