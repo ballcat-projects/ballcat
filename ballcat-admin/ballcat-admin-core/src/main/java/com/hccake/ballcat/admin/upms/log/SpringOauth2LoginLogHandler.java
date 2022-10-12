@@ -1,4 +1,4 @@
-package com.hccake.ballcat.log.handler;
+package com.hccake.ballcat.admin.upms.log;
 
 import com.hccake.ballcat.common.log.operation.enums.LogStatusEnum;
 import com.hccake.ballcat.log.enums.LoginEventTypeEnum;
@@ -23,8 +23,9 @@ import static com.hccake.ballcat.log.handler.LoginLogUtils.prodLoginLog;
  * @version 1.0
  * @date 2020 /6/9 20:52
  */
+@Deprecated
 @RequiredArgsConstructor
-public class LoginLogHandler {
+public class SpringOauth2LoginLogHandler implements LoginLogHandler {
 
 	private final LoginLogService loginLogService;
 
@@ -32,7 +33,7 @@ public class LoginLogHandler {
 	 * 登陆成功时间监听 记录用户登录日志
 	 * @param event 登陆成功 event
 	 */
-	@Deprecated
+
 	@EventListener(AuthenticationSuccessEvent.class)
 	public void onAuthenticationSuccessEvent(AuthenticationSuccessEvent event) {
 
