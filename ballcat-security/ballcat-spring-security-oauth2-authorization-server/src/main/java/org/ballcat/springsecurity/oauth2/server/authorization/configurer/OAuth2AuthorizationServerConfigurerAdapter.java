@@ -1,8 +1,6 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.configurer;
 
 import lombok.RequiredArgsConstructor;
-import org.ballcat.security.captcha.CaptchaValidator;
-import org.ballcat.security.properties.SecurityProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,13 +21,11 @@ import java.util.List;
 @Order(99)
 public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-	private final SecurityProperties securityProperties;
-
 	private final UserDetailsService userDetailsService;
 
-	private final CaptchaValidator captchaValidator;
-
 	private final List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizerList;
+
+	private final List<OAuth2AuthorizationServerExtensionConfigurer> oAuth2AuthorizationServerExtensionConfigurers;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -39,23 +35,24 @@ public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfi
 			customizer.customize(authorizationServerConfigurer, http);
 		}
 
-		// 授权服务器配置包装，添加验证码以及密码加解密处理
-		OAuth2AuthorizationServerConfigurerWrapper configurerWrapper = new OAuth2AuthorizationServerConfigurerWrapper(
-				authorizationServerConfigurer, securityProperties, captchaValidator);
-
 		// @formatter:off
-		RequestMatcher endpointsMatcher = configurerWrapper.getEndpointsMatcher();
+		RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 		http.requestMatchers()
 				.requestMatchers(endpointsMatcher)
-				.antMatchers("/login")
 				.and()
 				.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
 				.csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
-				.apply(configurerWrapper);
+				.apply(authorizationServerConfigurer);
 		// @formatter:off
 
+		for (OAuth2AuthorizationServerExtensionConfigurer configurer : oAuth2AuthorizationServerExtensionConfigurers) {
+			http.apply(configurer);
+		}
+
 		// 开启表单登录
-		http
+		http.requestMatchers()
+				.antMatchers("/login")
+			.and()
 			.formLogin()
 			.and()
 			.userDetailsService(userDetailsService);
