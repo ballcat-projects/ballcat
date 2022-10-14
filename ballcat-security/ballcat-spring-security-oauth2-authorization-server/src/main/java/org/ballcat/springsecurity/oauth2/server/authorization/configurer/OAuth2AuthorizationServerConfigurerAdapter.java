@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -20,8 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Order(99)
 public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfigurerAdapter {
-
-	private final UserDetailsService userDetailsService;
 
 	private final List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizerList;
 
@@ -48,13 +45,5 @@ public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfi
 		for (OAuth2AuthorizationServerExtensionConfigurer configurer : oAuth2AuthorizationServerExtensionConfigurers) {
 			http.apply(configurer);
 		}
-
-		// 开启表单登录
-		http.requestMatchers()
-				.antMatchers("/login")
-			.and()
-			.formLogin()
-			.and()
-			.userDetailsService(userDetailsService);
 	}
 }

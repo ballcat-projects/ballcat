@@ -16,6 +16,7 @@ public interface OAuth2AuthorizationServerConfigurerCustomizer {
 	 * @param oAuth2AuthorizationServerConfigurer OAuth2AuthorizationServerConfigurer
 	 * @param httpSecurity security configuration
 	 */
-	void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer, HttpSecurity httpSecurity);
+	void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer, HttpSecurity httpSecurity)
+			throws Exception;
 
 }
