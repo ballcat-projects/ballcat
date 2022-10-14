@@ -1,14 +1,18 @@
 package com.hccake.ballcat.auth.configuration;
 
 import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
+import com.hccake.ballcat.auth.filter.FilterWrapper;
 import com.hccake.ballcat.auth.filter.LoginCaptchaFilter;
 import com.hccake.ballcat.auth.filter.LoginPasswordDecoderFilter;
 import org.ballcat.security.captcha.CaptchaValidator;
 import org.ballcat.security.properties.SecurityProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+
+import java.util.List;
 
 /**
  * 授权服务器用到的一些过滤器
@@ -19,26 +23,16 @@ import org.springframework.context.annotation.Configuration;
 public class AuthorizationFilterConfiguration {
 
 	/**
-	 * 登陆地址
-	 */
-	private static final String LOGIN_URL = "/oauth/token";
-
-	/**
 	 * 登录验证码拦截判断
 	 * @param captchaValidator 验证码验证器
 	 * @return FilterRegistrationBean<LoginCaptchaFilter>
 	 */
 	@Bean
+	@Order(10)
 	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "login-captcha-enabled",
 			havingValue = "true", matchIfMissing = true)
-	public FilterRegistrationBean<LoginCaptchaFilter> loginCaptchaFilter(CaptchaValidator captchaValidator) {
-		FilterRegistrationBean<LoginCaptchaFilter> bean = new FilterRegistrationBean<>();
-		LoginCaptchaFilter filter = new LoginCaptchaFilter(captchaValidator);
-		bean.setFilter(filter);
-		// 比密码解密早一步
-		bean.setOrder(-501);
-		bean.addUrlPatterns(LOGIN_URL);
-		return bean;
+	public FilterWrapper loginCaptchaFilter(CaptchaValidator captchaValidator) {
+		return new FilterWrapper(new LoginCaptchaFilter(captchaValidator));
 	}
 
 	/**
@@ -47,15 +41,17 @@ public class AuthorizationFilterConfiguration {
 	 * @return FilterRegistrationBean<LoginPasswordDecoderFilter>
 	 */
 	@Bean
+	@Order(20)
 	@ConditionalOnProperty(prefix = SecurityProperties.PREFIX, name = "password-secret-key")
-	public FilterRegistrationBean<LoginPasswordDecoderFilter> loginPasswordDecoderFilter(
-			SecurityProperties securityProperties) {
-		FilterRegistrationBean<LoginPasswordDecoderFilter> bean = new FilterRegistrationBean<>();
-		LoginPasswordDecoderFilter filter = new LoginPasswordDecoderFilter(securityProperties.getPasswordSecretKey());
-		bean.setFilter(filter);
-		bean.setOrder(-500);
-		bean.addUrlPatterns(LOGIN_URL);
-		return bean;
+	public FilterWrapper loginPasswordDecoderFilter(SecurityProperties securityProperties) {
+		return new FilterWrapper(new LoginPasswordDecoderFilter(securityProperties.getPasswordSecretKey()));
+	}
+
+	@Bean
+	@ConditionalOnBean(FilterWrapper.class)
+	public AuthorizationServerSecurityConfigurationPostProcessor authorizationServerSecurityConfigurationPostProcessor(
+			List<FilterWrapper> filterWrapperList) {
+		return new AuthorizationServerSecurityConfigurationPostProcessor(filterWrapperList);
 	}
 
 }
