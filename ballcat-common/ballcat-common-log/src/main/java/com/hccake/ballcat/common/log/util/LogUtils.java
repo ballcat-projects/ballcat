@@ -1,6 +1,5 @@
 package com.hccake.ballcat.common.log.util;
 
-import com.hccake.ballcat.common.core.util.WebUtils;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
@@ -40,16 +39,6 @@ public class LogUtils {
 			}
 		}
 		return body;
-	}
-
-	/**
-	 * 获取响应体
-	 * @param response 响应信息
-	 * @return responseBody 响应体
-	 */
-	public String getResponseBody(HttpServletResponse response) {
-		HttpServletRequest request = WebUtils.getRequest();
-		return getResponseBody(request, response);
 	}
 
 	/**
