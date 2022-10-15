@@ -1,9 +1,8 @@
 package org.ballcat.springsecurity.oauth2.server.resource;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
-import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
 import lombok.RequiredArgsConstructor;
+import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,17 +51,6 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// 表单登录
-		if (oAuth2ResourceServerProperties.isEnableFormLogin()) {
-			String formLoginPage = oAuth2ResourceServerProperties.getFormLoginPage();
-			if (StrUtil.isNotEmpty(formLoginPage)) {
-				http.formLogin().loginPage(formLoginPage);
-			}
-			else {
-				http.formLogin();
-			}
-		}
-
 		// @formatter:off
         http
 			// 记住我

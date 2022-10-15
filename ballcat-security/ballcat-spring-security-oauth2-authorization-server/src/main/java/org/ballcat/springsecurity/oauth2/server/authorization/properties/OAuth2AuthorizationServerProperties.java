@@ -1,4 +1,4 @@
-package com.hccake.ballcat.auth;
+package org.ballcat.springsecurity.oauth2.server.authorization.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,11 +15,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class OAuth2AuthorizationServerProperties {
 
 	public static final String PREFIX = "ballcat.security.oauth2.authorizationserver";
-
-	/**
-	 * 登陆验证码开关
-	 */
-	private boolean loginCaptchaEnabled = true;
 
 	/**
 	 * 开启表单登录

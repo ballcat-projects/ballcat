@@ -6,13 +6,10 @@ import com.hccake.ballcat.auth.filter.LoginCaptchaFilter;
 import com.hccake.ballcat.auth.filter.LoginPasswordDecoderFilter;
 import org.ballcat.security.captcha.CaptchaValidator;
 import org.ballcat.security.properties.SecurityProperties;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-
-import java.util.List;
 
 /**
  * 授权服务器用到的一些过滤器
@@ -47,11 +44,15 @@ public class AuthorizationFilterConfiguration {
 		return new FilterWrapper(new LoginPasswordDecoderFilter(securityProperties.getPasswordSecretKey()));
 	}
 
-	@Bean
-	@ConditionalOnBean(FilterWrapper.class)
-	public AuthorizationServerSecurityConfigurationPostProcessor authorizationServerSecurityConfigurationPostProcessor(
-			List<FilterWrapper> filterWrapperList) {
-		return new AuthorizationServerSecurityConfigurationPostProcessor(filterWrapperList);
-	}
+	// @Bean
+	// @ConditionalOnBean(FilterWrapper.class)
+	// public AuthorizationServerSecurityConfigurationPostProcessor
+	// authorizationServerSecurityConfigurationPostProcessor(
+	// OAuth2AuthorizationServerProperties properties, Optional<UserDetailsService>
+	// userDetailsServiceOptional,
+	// List<FilterWrapper> filterWrapperList) {
+	// return new AuthorizationServerSecurityConfigurationPostProcessor(properties,
+	// userDetailsServiceOptional.orElse(null), filterWrapperList);
+	// }
 
 }
