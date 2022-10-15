@@ -13,6 +13,7 @@ import java.io.IOException;
  * @version 1.0
  * @date 2019/9/29 10:33
  */
+@Deprecated
 public class CustomOAuth2ExceptionSerializer extends StdSerializer<CustomOAuth2Exception> {
 
 	public CustomOAuth2ExceptionSerializer() {

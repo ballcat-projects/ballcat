@@ -33,6 +33,7 @@ import javax.sql.DataSource;
  *
  * @author hccake
  */
+@Deprecated
 @Import({ CustomAuthorizationServerConfigurer.class })
 @EnableConfigurationProperties({ OAuth2AuthorizationServerProperties.class })
 public class AuthorizationAutoConfiguration {

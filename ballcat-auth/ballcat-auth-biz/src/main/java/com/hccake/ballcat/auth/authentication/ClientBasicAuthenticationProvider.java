@@ -21,6 +21,7 @@ import java.util.HashMap;
  * @author hccake
  */
 @Slf4j
+@Deprecated
 @RequiredArgsConstructor
 public class ClientBasicAuthenticationProvider implements AuthenticationProvider {
 

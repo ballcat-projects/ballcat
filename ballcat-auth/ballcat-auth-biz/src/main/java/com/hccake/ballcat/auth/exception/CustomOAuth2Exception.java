@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
  * @version 1.0
  * @date 2019/9/29 10:31
  */
+@Deprecated
 @JsonSerialize(using = CustomOAuth2ExceptionSerializer.class)
 public class CustomOAuth2Exception extends OAuth2Exception {
 

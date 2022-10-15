@@ -14,6 +14,7 @@ import java.util.Collections;
  * @author hccake
  * @see AbstractAuthenticationToken
  */
+@Deprecated
 @EqualsAndHashCode(callSuper = true)
 public class OAuth2ClientAuthenticationToken extends AbstractAuthenticationToken {
 

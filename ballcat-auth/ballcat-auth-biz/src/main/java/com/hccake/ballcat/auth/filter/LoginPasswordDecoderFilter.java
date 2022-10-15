@@ -31,6 +31,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2019/9/28 16:57
  */
+@Deprecated
 @Slf4j
 @RequiredArgsConstructor
 public class LoginPasswordDecoderFilter extends OncePerRequestFilter {

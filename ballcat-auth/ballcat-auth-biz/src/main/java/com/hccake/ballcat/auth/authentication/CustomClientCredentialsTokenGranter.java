@@ -17,6 +17,7 @@ import java.util.HashMap;
  *
  * @author hccake
  */
+@Deprecated
 public class CustomClientCredentialsTokenGranter extends ClientCredentialsTokenGranter {
 
 	public CustomClientCredentialsTokenGranter(AuthorizationServerTokenServices tokenServices,

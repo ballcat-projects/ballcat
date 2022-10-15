@@ -5,6 +5,7 @@ import javax.servlet.Filter;
 /**
  * @author hccake
  */
+@Deprecated
 public class FilterWrapper {
 
 	private final Filter filter;

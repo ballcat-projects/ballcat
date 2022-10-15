@@ -22,6 +22,7 @@ import java.util.List;
  *
  * @author hccake
  */
+@Deprecated
 @RequiredArgsConstructor
 public class TokenGrantBuilder {
 

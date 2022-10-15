@@ -26,6 +26,7 @@ import java.io.IOException;
  * @author Hccake 2021/1/11
  * @version 1.0
  */
+@Deprecated
 @RequiredArgsConstructor
 public class LoginCaptchaFilter extends OncePerRequestFilter {
 

@@ -30,6 +30,7 @@ import java.util.Map;
  *
  * @author hccake
  */
+@Deprecated
 public class CheckEndpointPostProcessor implements BeanPostProcessor {
 
 	@SneakyThrows({ NoSuchFieldException.class, IllegalAccessException.class })

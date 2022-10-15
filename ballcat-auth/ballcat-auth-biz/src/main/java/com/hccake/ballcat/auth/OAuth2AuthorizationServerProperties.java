@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *
  * @author hccake
  */
+@Deprecated
 @Getter
 @Setter
 @ConfigurationProperties(prefix = OAuth2AuthorizationServerProperties.PREFIX)

@@ -10,6 +10,7 @@ import javax.sql.DataSource;
  *
  * @author hccake
  */
+@Deprecated
 @RequiredArgsConstructor
 public class JdbcOAuth2ClientConfigurer implements OAuth2ClientConfigurer {
 

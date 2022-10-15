@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
  * @version 1.0
  * @date 2019/9/25 22:04
  */
+@Deprecated
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override

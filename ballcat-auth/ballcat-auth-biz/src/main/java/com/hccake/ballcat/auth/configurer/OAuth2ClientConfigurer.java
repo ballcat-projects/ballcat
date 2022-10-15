@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
  *
  * @author hccake
  */
+@Deprecated
 public interface OAuth2ClientConfigurer {
 
 	/**

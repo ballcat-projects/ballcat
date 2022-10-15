@@ -16,6 +16,7 @@ import org.springframework.core.annotation.Order;
  *
  * @author hccake
  */
+@Deprecated
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationFilterConfiguration {
 

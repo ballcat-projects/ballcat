@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+@Deprecated
 @Import({ AuthorizationFilterConfiguration.class, AuthorizationAutoConfiguration.class,
 		CustomAuthorizationServerEndpointsConfiguration.class, CustomAuthorizationServerSecurityConfiguration.class })
 public @interface EnableOauth2AuthorizationServer {

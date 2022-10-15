@@ -22,6 +22,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  * @version 1.0
  * @date 2019/9/29 10:43
  */
+@Deprecated
 public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
 	private final ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();

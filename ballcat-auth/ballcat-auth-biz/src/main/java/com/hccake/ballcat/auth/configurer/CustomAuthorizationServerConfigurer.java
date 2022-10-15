@@ -32,6 +32,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  * @version 1.0
  * @date 2019/9/27 16:14
  */
+@Deprecated
 @RequiredArgsConstructor
 public class CustomAuthorizationServerConfigurer implements ICustomAuthorizationServerConfigurer {
 

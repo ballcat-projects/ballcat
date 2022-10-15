@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author Hccake
  */
+@Deprecated
 @RestController
 @RequestMapping("/oauth")
 @RequiredArgsConstructor

@@ -26,6 +26,7 @@ import java.util.*;
  *
  * @author hccake
  */
+@Deprecated
 @Slf4j
 @SuppressWarnings("all")
 public class CustomRedisTokenStore implements TokenStore {

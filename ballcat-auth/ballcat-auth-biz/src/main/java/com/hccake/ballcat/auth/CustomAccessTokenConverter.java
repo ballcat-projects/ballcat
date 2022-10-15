@@ -16,6 +16,7 @@ import java.util.Map;
 /**
  * @author hccake
  */
+@Deprecated
 @RequiredArgsConstructor
 public class CustomAccessTokenConverter extends DefaultAccessTokenConverter {
 
