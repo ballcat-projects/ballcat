@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -24,12 +23,6 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
 	private final BearerTokenResolver bearerTokenResolver;
-
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/login.html", "/css/**", "/js/**", "/images/**", "/venrdor/**", "/fonts/**",
-				"/favicon.ico", "/error");
-	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
