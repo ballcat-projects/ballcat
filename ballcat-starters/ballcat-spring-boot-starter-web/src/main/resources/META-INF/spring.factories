@@ -6,3 +6,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.hccake.ballcat.autoconfigure.web.validation.BallcatValidationAutoConfiguration
 
 
+org.springframework.context.ApplicationListener=\
+  com.hccake.ballcat.autoconfigure.web.event.ApplicationContextInitialized
