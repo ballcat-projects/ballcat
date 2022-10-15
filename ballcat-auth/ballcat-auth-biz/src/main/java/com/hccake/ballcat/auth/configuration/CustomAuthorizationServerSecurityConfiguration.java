@@ -6,7 +6,6 @@ import com.hccake.ballcat.auth.filter.FilterWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +16,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpointHandlerMapping;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,22 +56,8 @@ public class CustomAuthorizationServerSecurityConfiguration extends WebSecurityC
 	@Autowired(required = false)
 	private UserDetailsService userDetailsService;
 
-	@Autowired
-	private List<FilterWrapper> filterWrappers;
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		// Over-riding to make sure this.disableLocalConfigureAuthenticationBldr = false
-		// This will ensure that when this configurer builds the AuthenticationManager it
-		// will not attempt
-		// to find another 'Global' AuthenticationManager in the ApplicationContext (if
-		// available),
-		// and set that as the parent of this 'Local' AuthenticationManager.
-		// This AuthenticationManager should only be wired up with an
-		// AuthenticationProvider
-		// composed of the ClientDetailsService (wired in this configuration) for
-		// authenticating 'clients' only.
-	}
+	@Autowired(required = false)
+	private List<FilterWrapper> filterWrappers = new ArrayList<>();
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -129,5 +115,28 @@ public class CustomAuthorizationServerSecurityConfiguration extends WebSecurityC
 			configurer.configure(oauthServer);
 		}
 	}
+	//
+	// /**
+	// * 当和授权服务器一起时，需要注册 userDetailService，以便支持 UsernamePasswordAuthenticationToken
+	// * @param auth AuthenticationManagerBuilder
+	// * @throws Exception 异常
+	// */
+	// @Override
+	// protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	// // 添加多种授权模式
+	// for (AuthenticationProvider authenticationProvider : authenticationProviders) {
+	// auth.authenticationProvider(authenticationProvider);
+	// }
+	// // 注册 DaoAuthenticationProvider
+	// if (userDetailsService != null && passwordEncoder != null) {
+	// auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+	// }
+	// }
+	//
+	// @Bean(BeanIds.AUTHENTICATION_MANAGER)
+	// @Override
+	// public AuthenticationManager authenticationManagerBean() throws Exception {
+	// return super.authenticationManagerBean();
+	// }
 
 }
