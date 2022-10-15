@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.util;
 
+import lombok.Setter;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -14,11 +15,12 @@ import java.util.Map;
 @Component
 public class SpringUtils implements ApplicationContextAware {
 
+	@Setter
 	private static ApplicationContext context;
 
 	@Override
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
-		SpringUtils.context = context;
+		setContext(context);
 	}
 
 	@SuppressWarnings("unchecked")
