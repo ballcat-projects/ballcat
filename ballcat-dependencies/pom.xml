@@ -155,6 +155,12 @@
 				<artifactId>ballcat-common-websocket</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<!-- ballcat-security -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-security-core</artifactId>
+				<version>${revision}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-security-oauth2-core</artifactId>
@@ -162,7 +168,12 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-security-core</artifactId>
+				<artifactId>ballcat-spring-security-oauth2-authorization-server</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-security-oauth2-resource-server</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<!-- ballcat-stater -->
