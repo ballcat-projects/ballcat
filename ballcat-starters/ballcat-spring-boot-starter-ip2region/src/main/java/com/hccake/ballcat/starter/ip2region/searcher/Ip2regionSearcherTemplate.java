@@ -10,6 +10,8 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.ResourceLoader;
 
+import java.io.IOException;
+
 /**
  * Ip2region 搜索服务实现
  *
@@ -26,16 +28,16 @@ public abstract class Ip2regionSearcherTemplate implements DisposableBean, Initi
 	protected Searcher searcher;
 
 	@Override
-	@SneakyThrows
+	@SneakyThrows(value = IOException.class)
 	public IpInfo search(long ip) {
-		return IpInfoUtils.toIpInfo(searcher.search(ip));
+		return IpInfoUtils.toIpInfo(Searcher.long2ip(ip), searcher.search(ip));
 
 	}
 
 	@Override
-	@SneakyThrows
+	@SneakyThrows(value = Exception.class)
 	public IpInfo search(String ip) {
-		return IpInfoUtils.toIpInfo(searcher.search(ip));
+		return IpInfoUtils.toIpInfo(ip, searcher.search(ip));
 	}
 
 	@Override
@@ -44,8 +46,5 @@ public abstract class Ip2regionSearcherTemplate implements DisposableBean, Initi
 			this.searcher.close();
 		}
 	}
-
-	@Override
-	public abstract void afterPropertiesSet() throws Exception;
 
 }

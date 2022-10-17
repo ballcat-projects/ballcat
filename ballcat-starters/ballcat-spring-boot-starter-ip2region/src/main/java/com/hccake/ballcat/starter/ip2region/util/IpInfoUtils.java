@@ -2,6 +2,7 @@ package com.hccake.ballcat.starter.ip2region.util;
 
 import com.hccake.ballcat.starter.ip2region.core.IpInfo;
 import org.springframework.lang.Nullable;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -31,10 +32,21 @@ public class IpInfoUtils {
 	 */
 	@Nullable
 	public static IpInfo toIpInfo(@Nullable String dataBlock) {
+		return toIpInfo(null, dataBlock);
+	}
+
+	/**
+	 * 将 DataBlock 转化为 IpInfo
+	 * @param originIp 原始IP信息
+	 * @param dataBlock 数据块,格式为<code>国家|区域|省份|城市|ISP</code>
+	 * @return IpInfo
+	 */
+	@Nullable
+	public static IpInfo toIpInfo(@Nullable String originIp, @Nullable String dataBlock) {
 		if (dataBlock == null) {
 			return null;
 		}
-		IpInfo ipInfo = new IpInfo();
+		IpInfo ipInfo = new IpInfo(StringUtils.hasText(originIp) ? "" : originIp);
 		String[] tmp = SPLIT_PATTERN.split(dataBlock);
 		// 补齐5位
 		if (tmp.length < 5) {
