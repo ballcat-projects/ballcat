@@ -21,9 +21,9 @@ import org.springframework.core.io.ResourceLoader;
  * @author lishangbu
  * @date 2022/10/16
  */
-public class DirectIp2regionSearcher extends Ip2regionSearcherTemplate {
+public class NoneCacheIp2regionSearcher extends Ip2regionSearcherTemplate {
 
-	public DirectIp2regionSearcher(ResourceLoader resourceLoader, Ip2regionProperties properties) {
+	public NoneCacheIp2regionSearcher(ResourceLoader resourceLoader, Ip2regionProperties properties) {
 		super(resourceLoader, properties);
 	}
 

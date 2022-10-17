@@ -39,9 +39,22 @@ public class IpInfo implements Serializable {
 	private String isp;
 
 	/**
+	 * 原始IP
+	 */
+	private String originIp;
+
+	/**
 	 * No args constructor
 	 */
 	public IpInfo() {
+	}
+
+	/**
+	 * <code>originIp</code> arg constructor
+	 * @param originIp
+	 */
+	public IpInfo(String originIp) {
+		this.originIp = originIp;
 	}
 
 }
