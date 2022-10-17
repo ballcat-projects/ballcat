@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.resource;
+package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
 import cn.hutool.core.collection.CollUtil;
 import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;

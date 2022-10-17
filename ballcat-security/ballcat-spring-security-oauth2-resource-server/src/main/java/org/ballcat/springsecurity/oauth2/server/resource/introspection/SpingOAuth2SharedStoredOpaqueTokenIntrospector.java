@@ -1,4 +1,4 @@
-package org.ballcat.springsecurity.oauth2.server.resource;
+package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
@@ -30,8 +30,9 @@ import java.util.Set;
  * @author hccake
  */
 @Slf4j
+@Deprecated
 @RequiredArgsConstructor
-public class SharedStoredOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
+public class SpingOAuth2SharedStoredOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private final TokenStore tokenStore;
 
