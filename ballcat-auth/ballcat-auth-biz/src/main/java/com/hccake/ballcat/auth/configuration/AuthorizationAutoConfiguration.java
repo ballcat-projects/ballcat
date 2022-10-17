@@ -14,17 +14,11 @@ import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
@@ -32,7 +26,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
-import java.util.List;
 
 /**
  * 授权服务器需要的一些 Bean 信息注册
@@ -40,7 +33,8 @@ import java.util.List;
  * @author hccake
  */
 @Deprecated
-@Import({ SecurityConfiguration.class, CustomAuthorizationServerConfigurer.class })
+@Import({ SecurityConfiguration.class, CustomAuthorizationServerConfigurer.class,
+		AuthenticationManagerConfiguration.class })
 @EnableConfigurationProperties({ OAuth2AuthorizationServerProperties.class })
 @RequiredArgsConstructor
 public class AuthorizationAutoConfiguration {
@@ -49,8 +43,6 @@ public class AuthorizationAutoConfiguration {
 	 * 缓存 oauth 相关前缀
 	 */
 	private static final String OAUTH_PREFIX = "oauth:";
-
-	private final List<AuthenticationProvider> authenticationProviders;
 
 	/**
 	 * check_token 端点返回信息的处理类
@@ -125,27 +117,6 @@ public class AuthorizationAutoConfiguration {
 	@ConditionalOnMissingBean
 	public OAuth2ClientConfigurer oAuth2ClientConfigurer(DataSource dataSource) {
 		return new JdbcOAuth2ClientConfigurer(dataSource);
-	}
-
-	/**
-	 * 授权管理器
-	 */
-	@Bean
-	public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
-			PasswordEncoder passwordEncoder, AuthenticationConfiguration authenticationConfiguration,
-			ApplicationContext applicationContext) throws Exception {
-
-		AuthenticationManagerBuilder authBuilder = applicationContext.getBean(AuthenticationManagerBuilder.class);
-
-		// 添加多种授权模式
-		for (AuthenticationProvider authenticationProvider : authenticationProviders) {
-			authBuilder.authenticationProvider(authenticationProvider);
-		}
-		// 注册 DaoAuthenticationProvider
-		if (userDetailsService != null && passwordEncoder != null) {
-			authBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-		}
-		return authenticationConfiguration.getAuthenticationManager();
 	}
 
 }
