@@ -2,7 +2,6 @@ package com.hccake.ballcat.starter.ip2region.util;
 
 import com.hccake.ballcat.starter.ip2region.core.IpInfo;
 import org.springframework.lang.Nullable;
-import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -46,7 +45,7 @@ public class IpInfoUtils {
 		if (dataBlock == null) {
 			return null;
 		}
-		IpInfo ipInfo = new IpInfo(StringUtils.hasText(originIp) ? "" : originIp);
+		IpInfo ipInfo = new IpInfo(originIp);
 		String[] tmp = SPLIT_PATTERN.split(dataBlock);
 		// 补齐5位
 		if (tmp.length < 5) {
