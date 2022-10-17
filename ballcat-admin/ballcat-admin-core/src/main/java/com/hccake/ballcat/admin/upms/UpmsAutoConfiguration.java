@@ -35,7 +35,7 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 @EnableAsync
 @AutoConfiguration
 @MapperScan("com.hccake.ballcat.**.mapper")
-@ComponentScan({ "com.hccake.ballcat.admin.upms", "com.hccake.ballcat.auth", "com.hccake.ballcat.system",
+@ComponentScan({ "com.hccake.ballcat.admin.upms", "com.hccake.ballcat.auth.controller", "com.hccake.ballcat.system",
 		"com.hccake.ballcat.log", "com.hccake.ballcat.file", "com.hccake.ballcat.notify" })
 @EnableConfigurationProperties({ SystemProperties.class, SecurityProperties.class })
 @Import(LogConfiguration.class)
