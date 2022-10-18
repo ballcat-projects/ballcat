@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.idempotent.test;
 
 import com.hccake.ballcat.common.idempotent.exception.IdempotentException;
-import com.hccake.ballcat.common.idempotent.key.InMemoryIdempotentKeyStore;
+import com.hccake.ballcat.common.idempotent.key.store.InMemoryIdempotentKeyStore;
 import lombok.extern.slf4j.Slf4j;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
