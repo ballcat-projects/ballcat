@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.idempotent.key;
+package com.hccake.ballcat.common.idempotent.key.generator;
 
 import com.hccake.ballcat.common.idempotent.annotation.Idempotent;
 import org.aspectj.lang.JoinPoint;

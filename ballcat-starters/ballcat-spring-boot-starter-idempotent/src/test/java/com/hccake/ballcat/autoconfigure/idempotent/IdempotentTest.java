@@ -1,7 +1,7 @@
 package com.hccake.ballcat.autoconfigure.idempotent;
 
-import com.hccake.ballcat.common.idempotent.key.IdempotentKeyStore;
-import com.hccake.ballcat.common.idempotent.key.InMemoryIdempotentKeyStore;
+import com.hccake.ballcat.common.idempotent.key.store.IdempotentKeyStore;
+import com.hccake.ballcat.common.idempotent.key.store.InMemoryIdempotentKeyStore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

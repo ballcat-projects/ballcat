@@ -1,7 +1,11 @@
 package com.hccake.ballcat.autoconfigure.idempotent;
 
 import com.hccake.ballcat.common.idempotent.IdempotentAspect;
-import com.hccake.ballcat.common.idempotent.key.*;
+import com.hccake.ballcat.common.idempotent.key.generator.DefaultKeyGenerator;
+import com.hccake.ballcat.common.idempotent.key.generator.KeyGenerator;
+import com.hccake.ballcat.common.idempotent.key.store.IdempotentKeyStore;
+import com.hccake.ballcat.common.idempotent.key.store.InMemoryIdempotentKeyStore;
+import com.hccake.ballcat.common.idempotent.key.store.RedisIdempotentKeyStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
