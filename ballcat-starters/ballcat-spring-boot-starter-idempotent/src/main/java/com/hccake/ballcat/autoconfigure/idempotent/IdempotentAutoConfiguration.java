@@ -7,7 +7,6 @@ import com.hccake.ballcat.common.idempotent.key.store.IdempotentKeyStore;
 import com.hccake.ballcat.common.idempotent.key.store.InMemoryIdempotentKeyStore;
 import com.hccake.ballcat.common.idempotent.key.store.RedisIdempotentKeyStore;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,15 +18,14 @@ import org.springframework.context.annotation.Bean;
  * @author lishangbu
  * @date 2022/10/18
  */
-@Slf4j
 @AutoConfiguration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(IdempotentProperties.class)
 public class IdempotentAutoConfiguration {
 
 	/**
-	 * 提供默认幂等前缀生成器
-	 * @return
+	 * 默认的幂等前缀生成器
+	 * @return 幂等Key生成器
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -35,6 +33,11 @@ public class IdempotentAutoConfiguration {
 		return new DefaultKeyGenerator();
 	}
 
+	/**
+	 * 默认的幂等键存储器
+	 * @param properties 幂等属性配置
+	 * @return 幂等Key存储
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public IdempotentKeyStore idempotentKeyStore(IdempotentProperties properties) {
@@ -47,9 +50,14 @@ public class IdempotentAutoConfiguration {
 		}
 	}
 
+	/**
+	 * 幂等切面
+	 * @param idempotentKeyStore
+	 * @return
+	 */
 	@Bean
-	public IdempotentAspect idempotentAspect(IdempotentKeyStore idempotentKeyStore) {
-		return new IdempotentAspect(idempotentKeyStore, keyGenerator());
+	public IdempotentAspect idempotentAspect(IdempotentKeyStore idempotentKeyStore, KeyGenerator keyGenerator) {
+		return new IdempotentAspect(idempotentKeyStore, keyGenerator);
 	}
 
 }
