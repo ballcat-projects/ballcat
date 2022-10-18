@@ -16,6 +16,7 @@
 		<module>ballcat-spring-boot-starter-datascope</module>
 		<module>ballcat-spring-boot-starter-dingtalk</module>
 		<module>ballcat-spring-boot-starter-easyexcel</module>
+		<module>ballcat-spring-boot-starter-idempotent</module>
 		<module>ballcat-spring-boot-starter-ip2region</module>
 		<module>ballcat-spring-boot-starter-job</module>
 		<module>ballcat-spring-boot-starter-kafka</module>

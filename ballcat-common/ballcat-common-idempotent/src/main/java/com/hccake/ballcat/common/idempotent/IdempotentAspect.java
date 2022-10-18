@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Assert;
 import com.hccake.ballcat.common.idempotent.annotation.Idempotent;
 import com.hccake.ballcat.common.idempotent.exception.IdempotentException;
 import com.hccake.ballcat.common.idempotent.key.IdempotentKeyStore;
+import com.hccake.ballcat.common.idempotent.key.KeyPrefixGenerator;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.common.util.SpelUtils;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,6 +30,8 @@ import java.lang.reflect.Method;
 public class IdempotentAspect {
 
 	private final IdempotentKeyStore idempotentKeyStore;
+
+	private final KeyPrefixGenerator keyPrefixGenerator;
 
 	@Around("@annotation(idempotentAnnotation)")
 	public Object around(ProceedingJoinPoint joinPoint, Idempotent idempotentAnnotation) throws Throwable {
@@ -68,7 +72,7 @@ public class IdempotentAspect {
 		String uniqueExpression = idempotentAnnotation.uniqueExpression();
 		// 如果没有填写表达式，直接返回 prefix
 		if ("".equals(uniqueExpression)) {
-			return idempotentAnnotation.prefix();
+			return buildPrefix(idempotentAnnotation);
 		}
 
 		// 获取当前方法以及方法参数
@@ -87,7 +91,17 @@ public class IdempotentAspect {
 		// 解析出唯一标识
 		String uniqueStr = SpelUtils.parseValueToString(spelContext, uniqueExpression);
 		// 和 prefix 拼接获得完整的 key
-		return idempotentAnnotation.prefix() + ":" + uniqueStr;
+		return buildPrefix(idempotentAnnotation) + ":" + uniqueStr;
+	}
+
+	private String buildPrefix(Idempotent idempotentAnnotation) {
+		String generatePrefix = keyPrefixGenerator.generate();
+		if (StringUtils.hasText(generatePrefix)) {
+			return generatePrefix + ":" + idempotentAnnotation.prefix();
+		}
+		else {
+			return idempotentAnnotation.prefix();
+		}
 	}
 
 }
