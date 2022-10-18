@@ -1,10 +1,7 @@
 package com.hccake.ballcat.autoconfigure.idempotent;
 
 import com.hccake.ballcat.common.idempotent.IdempotentAspect;
-import com.hccake.ballcat.common.idempotent.key.IdempotentKeyStore;
-import com.hccake.ballcat.common.idempotent.key.InMemoryIdempotentKeyStore;
-import com.hccake.ballcat.common.idempotent.key.KeyPrefixGenerator;
-import com.hccake.ballcat.common.idempotent.key.RedisIdempotentKeyStore;
+import com.hccake.ballcat.common.idempotent.key.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -25,13 +22,13 @@ import org.springframework.context.annotation.Bean;
 public class IdempotentAutoConfiguration {
 
 	/**
-	 * 提供默认的全局前缀
+	 * 提供默认幂等前缀生成器
 	 * @return
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public KeyPrefixGenerator keyPrefixGenerator() {
-		return () -> "";
+	public KeyGenerator keyGenerator() {
+		return new DefaultKeyGenerator();
 	}
 
 	@Bean
@@ -48,7 +45,7 @@ public class IdempotentAutoConfiguration {
 
 	@Bean
 	public IdempotentAspect idempotentAspect(IdempotentKeyStore idempotentKeyStore) {
-		return new IdempotentAspect(idempotentKeyStore, keyPrefixGenerator());
+		return new IdempotentAspect(idempotentKeyStore, keyGenerator());
 	}
 
 }
