@@ -1,6 +1,7 @@
 package org.ballcat.springsecurity.oauth2.server.resource;
 
 import com.hccake.ballcat.common.security.component.CustomPermissionEvaluator;
+import org.ballcat.springsecurity.oauth2.server.resource.introspection.RemoteOpaqueTokenIntrospector;
 import org.ballcat.springsecurity.oauth2.server.resource.web.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;

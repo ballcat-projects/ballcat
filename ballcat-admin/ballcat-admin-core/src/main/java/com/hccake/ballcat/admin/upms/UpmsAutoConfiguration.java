@@ -9,7 +9,7 @@ import com.hccake.ballcat.system.authentication.UserInfoCoordinator;
 import com.hccake.ballcat.system.properties.SystemProperties;
 import com.hccake.ballcat.system.service.SysUserService;
 import org.ballcat.security.properties.SecurityProperties;
-import org.ballcat.springsecurity.oauth2.server.resource.SharedStoredOpaqueTokenIntrospector;
+import org.ballcat.springsecurity.oauth2.server.resource.introspection.SpingOAuth2SharedStoredOpaqueTokenIntrospector;
 import org.ballcat.springsecurity.oauth2.server.resource.annotation.EnableOauth2ResourceServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -104,7 +104,7 @@ public class UpmsAutoConfiguration {
 		@ConditionalOnProperty(prefix = "ballcat.security.oauth2.resourceserver", name = "shared-stored-token",
 				havingValue = "true", matchIfMissing = true)
 		public OpaqueTokenIntrospector sharedStoredOpaqueTokenIntrospector(TokenStore tokenStore) {
-			return new SharedStoredOpaqueTokenIntrospector(tokenStore);
+			return new SpingOAuth2SharedStoredOpaqueTokenIntrospector(tokenStore);
 		}
 
 	}

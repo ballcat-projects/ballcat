@@ -26,18 +26,15 @@
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-security-core</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-security-oauth2-core</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<!-- sas 授权服务器 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-oauth2-authorization-server</artifactId>
-			<version>0.4.0-M2</version>
 		</dependency>
 		<!-- slf4j日志 -->
 		<dependency>
@@ -51,12 +48,4 @@
 		</dependency>
 	</dependencies>
 
-
-	<repositories>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-		</repository>
-	</repositories>
 </project>
