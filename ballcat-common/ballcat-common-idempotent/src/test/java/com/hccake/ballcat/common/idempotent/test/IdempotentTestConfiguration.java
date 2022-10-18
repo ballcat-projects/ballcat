@@ -1,9 +1,9 @@
 package com.hccake.ballcat.common.idempotent.test;
 
 import com.hccake.ballcat.common.idempotent.IdempotentAspect;
-import com.hccake.ballcat.common.idempotent.key.DefaultKeyGenerator;
-import com.hccake.ballcat.common.idempotent.key.IdempotentKeyStore;
-import com.hccake.ballcat.common.idempotent.key.KeyGenerator;
+import com.hccake.ballcat.common.idempotent.key.generator.DefaultKeyGenerator;
+import com.hccake.ballcat.common.idempotent.key.generator.KeyGenerator;
+import com.hccake.ballcat.common.idempotent.key.store.IdempotentKeyStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
