@@ -7,7 +7,6 @@ import com.hccake.ballcat.common.idempotent.key.generator.KeyGenerator;
 import com.hccake.ballcat.common.idempotent.key.store.IdempotentKeyStore;
 import com.hccake.ballcat.common.model.result.BaseResultCode;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,7 +14,6 @@ import org.aspectj.lang.annotation.Aspect;
 /**
  * @author hccake
  */
-@Slf4j
 @Aspect
 @RequiredArgsConstructor
 public class IdempotentAspect {
