@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.idempotent.key;
+package com.hccake.ballcat.common.idempotent.key.store;
 
 import java.util.concurrent.TimeUnit;
 

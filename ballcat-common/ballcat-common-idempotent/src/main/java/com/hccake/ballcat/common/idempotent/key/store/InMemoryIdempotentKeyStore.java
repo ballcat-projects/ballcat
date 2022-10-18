@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.idempotent.key;
+package com.hccake.ballcat.common.idempotent.key.store;
 
 import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
