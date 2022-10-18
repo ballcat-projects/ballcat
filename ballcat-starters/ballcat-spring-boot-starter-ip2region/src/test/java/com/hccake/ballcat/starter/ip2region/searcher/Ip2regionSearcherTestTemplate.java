@@ -27,6 +27,10 @@ public class Ip2regionSearcherTestTemplate {
 		Assertions.assertEquals("内网IP", localIp.getCity());
 		Assertions.assertEquals("内网IP", localIp.getIsp());
 		Assertions.assertEquals("127.0.0.1", localIp.getOriginIp());
+		Assertions.assertEquals("内网IP", localIp.getAddress());
+		Assertions.assertEquals("内网IP", localIp.getAddress(","));
+		Assertions.assertEquals("内网IP", localIp.getAddressAndIsp());
+		Assertions.assertEquals("内网IP", localIp.getAddressAndIsp(","));
 
 		IpInfo remoteIp = ip2regionSearcher.search("39.188.108.178");
 		Assertions.assertEquals("中国", remoteIp.getCountry());
@@ -35,6 +39,10 @@ public class Ip2regionSearcherTestTemplate {
 		Assertions.assertEquals("宁波市", remoteIp.getCity());
 		Assertions.assertEquals("移动", remoteIp.getIsp());
 		Assertions.assertEquals("39.188.108.178", remoteIp.getOriginIp());
+		Assertions.assertEquals("中国浙江省宁波市", remoteIp.getAddress());
+		Assertions.assertEquals("中国 浙江省 宁波市", remoteIp.getAddress(" "));
+		Assertions.assertEquals("中国浙江省宁波市移动", remoteIp.getAddressAndIsp());
+		Assertions.assertEquals("中国 浙江省 宁波市 移动", remoteIp.getAddressAndIsp(" "));
 	}
 
 }
