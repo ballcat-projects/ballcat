@@ -112,7 +112,7 @@ public abstract class PageParamArgumentResolverSupport {
 				continue;
 			}
 
-			// 切割后必须是两位， a:b 的规则
+			// 切割后最多两位，第一位 field 第二位 order
 			String[] sortRuleArr = sortRule.split(",");
 
 			// 字段
