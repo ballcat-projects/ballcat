@@ -65,11 +65,9 @@ public final class WrappersX {
 	}
 
 	/**
-	 * 获取 LambdaUpdateWrapper&lt;T&gt;
-	 * 复制 com.baomidou.mybatisplus.core.toolkit.Wrappers
-	 *
+	 * 获取 LambdaUpdateWrapper&lt;T&gt; 复制 com.baomidou.mybatisplus.core.toolkit.Wrappers
 	 * @param entity 实体类
-	 * @param <T>    实体类泛型
+	 * @param <T> 实体类泛型
 	 * @return LambdaUpdateWrapper&lt;T&gt;
 	 */
 	public static <T> LambdaUpdateWrapper<T> lambdaUpdate(T entity) {
@@ -77,15 +75,14 @@ public final class WrappersX {
 	}
 
 	/**
-	 * 获取 LambdaUpdateWrapper&lt;T&gt;
-	 * 复制 com.baomidou.mybatisplus.core.toolkit.Wrappers
-	 *
+	 * 获取 LambdaUpdateWrapper&lt;T&gt; 复制 com.baomidou.mybatisplus.core.toolkit.Wrappers
 	 * @param entityClass 实体类class
-	 * @param <T>         实体类泛型
+	 * @param <T> 实体类泛型
 	 * @return LambdaUpdateWrapper&lt;T&gt;
 	 * @since 3.3.1
 	 */
 	public static <T> LambdaUpdateWrapper<T> lambdaUpdate(Class<T> entityClass) {
 		return new LambdaUpdateWrapper<>(entityClass);
 	}
+
 }
