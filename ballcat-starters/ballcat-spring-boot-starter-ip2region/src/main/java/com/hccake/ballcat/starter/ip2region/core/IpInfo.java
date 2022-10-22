@@ -61,11 +61,11 @@ public class IpInfo implements Serializable {
 		this.originIp = originIp;
 	}
 
-	// region 拼接完整的地址的几个方法
+	// region 拼接完整的IP区域信息的几个方法
 
 	/**
 	 * 拼接完整的地址
-	 * @return IP地址文本表达
+	 * @return 描述IP区域信息的文本
 	 */
 	public String getAddress() {
 		return getAddress("");
@@ -74,7 +74,7 @@ public class IpInfo implements Serializable {
 	/**
 	 * 拼接完整的地址
 	 * @param delimiter 拼接用的分隔符
-	 * @return IP地址文本表达
+	 * @return 描述IP区域信息的文本
 	 */
 	public String getAddress(String delimiter) {
 		Set<String> regionSet = new LinkedHashSet<>();
@@ -88,7 +88,7 @@ public class IpInfo implements Serializable {
 
 	/**
 	 * 拼接完整的地址(带服务提供商)
-	 * @return IP地址文本表达
+	 * @return 描述IP区域信息的文本
 	 */
 	public String getAddressAndIsp() {
 		return getAddressAndIsp("");
@@ -96,7 +96,8 @@ public class IpInfo implements Serializable {
 
 	/**
 	 * 拼接完整的地址(带服务提供商)
-	 * @return IP地址文本表达
+	 * @param delimiter 拼接用的分隔符
+	 * @return 描述IP区域信息的文本
 	 */
 	public String getAddressAndIsp(String delimiter) {
 		Set<String> regionSet = new LinkedHashSet<>();
