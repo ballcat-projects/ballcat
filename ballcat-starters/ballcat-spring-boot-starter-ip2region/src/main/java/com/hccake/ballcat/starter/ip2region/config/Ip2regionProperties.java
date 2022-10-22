@@ -17,7 +17,7 @@ public class Ip2regionProperties {
 	public static final String PREFIX = "ballcat.ip2region";
 
 	/**
-	 * ip2region.xdb 文件路径，默认： classpath:ip2region/ip2region.db
+	 * ip2region.xdb 文件路径，默认： classpath:ip2region/ip2region.xdb
 	 */
 	private String fileLocation = "classpath:ip2region/ip2region.xdb";
 

@@ -31,17 +31,12 @@ public class XxlExecutorProperties {
 	private Integer port = 0;
 
 	/**
-	 * 执行器通讯TOKEN [选填]：非空时启用；
-	 */
-	private String accessToken;
-
-	/**
 	 * 执行器运行日志文件存储磁盘路径 [选填] ：需要对该路径拥有读写权限；为空则使用默认路径；
 	 */
-	private String logPath = "logs/applogs/xxl-job/jobhandler";
+	private String logPath;
 
 	/**
-	 * 执行器日志保存天数 [选填] ：值大于3时生效，启用执行器Log文件定期清理功能，否则不生效；
+	 * 执行器日志保存天数 [选填] ：值大于3时生效，启用执行器Log文件定期清理功能，否则, 如-1, 关闭自动清理功能；
 	 */
 	private Integer logRetentionDays = 30;
 
