@@ -22,7 +22,6 @@ public class SysMenuCreateDTO {
 	/**
 	 * 菜单ID
 	 */
-	@NotNull(message = "id：{}")
 	@Schema(title = "菜单ID")
 	private Integer id;
 

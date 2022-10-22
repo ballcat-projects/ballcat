@@ -1,6 +1,6 @@
 package com.hccake.ballcat.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.common.core.exception.BusinessException;
@@ -60,10 +60,12 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 
 		SysMenu sysMenu = SysMenuConverter.INSTANCE.createDtoToPo(sysMenuCreateDTO);
 		Integer menuId = sysMenu.getId();
-		SysMenu existingMenu = baseMapper.selectById(menuId);
-		if (existingMenu != null) {
-			String errorMessage = String.format("ID [%s] 已被菜单 [%s] 使用，请更换其他菜单ID", menuId, existingMenu.getTitle());
-			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), errorMessage);
+		if (menuId != null) {
+			SysMenu existingMenu = baseMapper.selectById(menuId);
+			if (existingMenu != null) {
+				String errorMessage = String.format("ID [%s] 已被菜单 [%s] 使用，请更换其他菜单ID", menuId, existingMenu.getTitle());
+				throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), errorMessage);
+			}
 		}
 
 		boolean saveSuccess = SqlHelper.retBool(baseMapper.insert(sysMenu));
@@ -74,7 +76,7 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 
 		// 多语言保存事件发布
 		List<I18nMessage> i18nMessages = sysMenuCreateDTO.getI18nMessages();
-		if (CollectionUtil.isNotEmpty(i18nMessages)) {
+		if (CollUtil.isNotEmpty(i18nMessages)) {
 			eventPublisher.publishEvent(new I18nMessageCreateEvent(i18nMessages));
 		}
 
