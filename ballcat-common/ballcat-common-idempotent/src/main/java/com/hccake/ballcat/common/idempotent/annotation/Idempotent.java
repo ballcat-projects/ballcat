@@ -51,13 +51,13 @@ public @interface Idempotent {
 	String message() default "重复请求，请稍后重试";
 
 	/**
-	 * 否在业务完成后立刻清除，幂等 key
+	 * 是否在业务完成后立刻清除，幂等 key
 	 * @return boolean true: 立刻清除 false: 不处理
 	 */
 	boolean removeKeyWhenFinished() default false;
 
 	/**
-	 * 否在业务执行异常时立刻清除幂等 key
+	 * 是否在业务执行异常时立刻清除幂等 key
 	 * @return boolean true: 立刻清除 false: 不处理
 	 */
 	boolean removeKeyWhenError() default false;

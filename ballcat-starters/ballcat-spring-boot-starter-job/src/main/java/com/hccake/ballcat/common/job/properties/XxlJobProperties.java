@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @ConfigurationProperties(prefix = XxlJobProperties.PREFIX)
 public class XxlJobProperties {
 
-	public static final String PREFIX = "xxl.job";
+	public static final String PREFIX = "ballcat.xxl.job";
 
 	/**
 	 * 是否启用分布式调度任务，默认：开启
