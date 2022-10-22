@@ -5,25 +5,8 @@ import org.springframework.data.domain.Range;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStreamCommands;
 import org.springframework.data.redis.connection.RedisZSetCommands;
-import org.springframework.data.redis.connection.stream.Consumer;
-import org.springframework.data.redis.connection.stream.MapRecord;
-import org.springframework.data.redis.connection.stream.ReadOffset;
-import org.springframework.data.redis.connection.stream.Record;
-import org.springframework.data.redis.connection.stream.RecordId;
-import org.springframework.data.redis.connection.stream.StreamOffset;
-import org.springframework.data.redis.connection.stream.StreamReadOptions;
-import org.springframework.data.redis.connection.stream.StreamRecords;
-import org.springframework.data.redis.core.Cursor;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ScanOptions;
-import org.springframework.data.redis.core.SessionCallback;
-import org.springframework.data.redis.core.SetOperations;
-import org.springframework.data.redis.core.StreamOperations;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.connection.stream.*;
+import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -31,17 +14,7 @@ import org.springframework.lang.Nullable;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -194,7 +167,7 @@ public class RedisHelper {
 	 * @see <a href="http://redis.io/commands/expire">Expire Command</a>
 	 */
 	public static boolean expire(String key, long timeout) {
-		return Boolean.TRUE.equals(redisTemplate.expire(key, timeout, TimeUnit.SECONDS));
+		return expire(key, timeout, TimeUnit.SECONDS);
 	}
 
 	/**
@@ -328,7 +301,19 @@ public class RedisHelper {
 	 * @see <a href="http://redis.io/commands/getex/">GetEx Command</a>
 	 */
 	public static String getEx(String key, long timeout) {
-		return valueOps().getAndExpire(key, timeout, TimeUnit.SECONDS);
+		return getEx(key, timeout, TimeUnit.SECONDS);
+	}
+
+	/**
+	 * 获取指定 key 的 value 值，并对 key 设置指定的过期时间
+	 * @param key 指定的 key
+	 * @param timeout 过期时间，单位时间秒
+	 * @param timeUnit 时间单位
+	 * @return 当 key 不存在时返回 null
+	 * @see <a href="http://redis.io/commands/getex/">GetEx Command</a>
+	 */
+	public static String getEx(String key, long timeout, TimeUnit timeUnit) {
+		return valueOps().getAndExpire(key, timeout, timeUnit);
 	}
 
 	/**
@@ -500,7 +485,19 @@ public class RedisHelper {
 	 * @see #setEx(String, String, long)
 	 */
 	public static void set(String key, String value, long timeout) {
-		setEx(key, value, timeout);
+		set(key, value, timeout, TimeUnit.SECONDS);
+	}
+
+	/**
+	 * 设置 value for key, 同时为其设置过期时间
+	 * @param key key
+	 * @param value value
+	 * @param timeout 过期时间 单位：秒
+	 * @param timeUnit 过期时间单位
+	 * @see #setEx(String, String, long,TimeUnit)
+	 */
+	public static void set(String key, String value, long timeout, TimeUnit timeUnit) {
+		setEx(key, value, timeout, timeUnit);
 	}
 
 	/**
@@ -524,7 +521,19 @@ public class RedisHelper {
 	 * @see <a href="https://redis.io/commands/setex">SetEx Command</a>
 	 */
 	public static void setEx(String key, String value, long timeout) {
-		valueOps().set(key, value, timeout, TimeUnit.SECONDS);
+		setEx(key, value, timeout, TimeUnit.SECONDS);
+	}
+
+	/**
+	 * 设置 value for key, 同时为其设置过期时间
+	 * @param key 指定的 key
+	 * @param value 值
+	 * @param timeout 过期时间
+	 * @param timeUnit 时间单位
+	 * @see <a href="https://redis.io/commands/setex">SetEx Command</a>
+	 */
+	public static void setEx(String key, String value, long timeout, TimeUnit timeUnit) {
+		valueOps().set(key, value, timeout, timeUnit);
 	}
 
 	/**
@@ -567,11 +576,24 @@ public class RedisHelper {
 	 * @param key key
 	 * @param value value
 	 * @param timeout 过期时间
-	 * @return boolean
+	 * @return boolean 操作是否成功
 	 * @see <a href="https://redis.io/commands/setnx">SetNX Command</a>
 	 */
 	public static boolean setNxEx(String key, String value, long timeout) {
-		return Boolean.TRUE.equals(valueOps().setIfAbsent(key, value, timeout, TimeUnit.SECONDS));
+		return setNxEx(key, value, timeout, TimeUnit.SECONDS);
+	}
+
+	/**
+	 * 当 key 不存在时，进行 value 设置并添加过期时间，当 key 存在时不执行操作
+	 * @param key key
+	 * @param value value
+	 * @param timeout 过期时间
+	 * @param timeUnit 时间单位
+	 * @return boolean 操作是否成功
+	 * @see <a href="https://redis.io/commands/setnx">SetNX Command</a>
+	 */
+	public static boolean setNxEx(String key, String value, long timeout, TimeUnit timeUnit) {
+		return Boolean.TRUE.equals(valueOps().setIfAbsent(key, value, timeout, timeUnit));
 	}
 
 	/**
