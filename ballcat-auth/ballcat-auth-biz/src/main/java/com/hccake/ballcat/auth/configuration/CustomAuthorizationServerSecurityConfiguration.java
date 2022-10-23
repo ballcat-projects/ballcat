@@ -1,6 +1,5 @@
 package com.hccake.ballcat.auth.configuration;
 
-import com.hccake.ballcat.auth.OAuth2AuthorizationServerProperties;
 import com.hccake.ballcat.auth.configurer.CustomAuthorizationServerSecurityConfigurer;
 import com.hccake.ballcat.auth.filter.FilterWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configuration.ClientDetailsServiceConfiguration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -48,11 +48,6 @@ public class CustomAuthorizationServerSecurityConfiguration extends WebSecurityC
 		}
 	}
 
-	private static final String DEFAULT_LOGIN_URL = "/login";
-
-	@Autowired
-	private OAuth2AuthorizationServerProperties oAuth2AuthorizationServerProperties;
-
 	@Autowired(required = false)
 	private UserDetailsService userDetailsService;
 
@@ -81,7 +76,9 @@ public class CustomAuthorizationServerSecurityConfiguration extends WebSecurityC
 				.antMatchers(checkTokenPath).access(configurer.getCheckTokenAccess())
 				.and()
 				.requestMatchers()
-				.antMatchers(tokenEndpointPath, tokenKeyPath, checkTokenPath);
+				.antMatchers(tokenEndpointPath, tokenKeyPath, checkTokenPath)
+				.and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		// @formatter:on
 		http.setSharedObject(ClientDetailsService.class, clientDetailsService);
 
@@ -90,24 +87,8 @@ public class CustomAuthorizationServerSecurityConfiguration extends WebSecurityC
 			http.addFilterAfter(filterWrapper.getFilter(), BasicAuthenticationFilter.class);
 		}
 
-		// 表单登录支持
-		if (oAuth2AuthorizationServerProperties.isEnableFormLogin()) {
-			String formLoginPage = oAuth2AuthorizationServerProperties.getFormLoginPage();
-
-			HttpSecurity.RequestMatcherConfigurer requestMatcherConfigurer = http.requestMatchers();
-			if (formLoginPage == null) {
-				requestMatcherConfigurer.antMatchers(DEFAULT_LOGIN_URL);
-				http.formLogin();
-			}
-			else {
-				requestMatcherConfigurer.antMatchers(formLoginPage);
-				http.formLogin(form -> form.loginPage(formLoginPage).permitAll());
-			}
-
-			// 需要 userDetailsService 对应生成 DaoAuthenticationProvider
-			http.userDetailsService(this.userDetailsService);
-		}
-
+		// 需要 userDetailsService 对应生成 DaoAuthenticationProvider
+		http.userDetailsService(this.userDetailsService);
 	}
 
 	protected void configure(CustomAuthorizationServerSecurityConfigurer oauthServer) throws Exception {

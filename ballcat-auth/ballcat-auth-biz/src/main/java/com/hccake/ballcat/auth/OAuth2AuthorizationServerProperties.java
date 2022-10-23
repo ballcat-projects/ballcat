@@ -23,11 +23,6 @@ public class OAuth2AuthorizationServerProperties {
 	private boolean loginCaptchaEnabled = true;
 
 	/**
-	 * 开启表单登录
-	 */
-	private boolean enableFormLogin = false;
-
-	/**
 	 * 表单登录地址
 	 * <p>
 	 * - 不配置将使用 security 默认的登录页：/login <br>
