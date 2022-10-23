@@ -1,13 +1,17 @@
-package org.ballcat.springsecurity.oauth2.server.resource;
+package org.ballcat.springsecurity.oauth2.server.resource.configurer;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 资源服务器的配置
@@ -23,6 +27,12 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
 	private final BearerTokenResolver bearerTokenResolver;
+
+	@Autowired(required = false)
+	private List<OAuth2ResourceServerConfigurerCustomizer> configurerCustomizers = new ArrayList<>();
+
+	@Autowired(required = false)
+	private List<OAuth2ResourceServerExtensionConfigurer> extensionConfigurers = new ArrayList<>();
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -55,6 +65,17 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 		if (!oAuth2ResourceServerProperties.isIframeDeny()) {
 			http.headers().frameOptions().disable();
 		}
+
+		// 自定义处理
+		for (OAuth2ResourceServerConfigurerCustomizer configurerCustomizer : configurerCustomizers) {
+			configurerCustomizer.customize(http);
+		}
+
+		// 扩展配置
+		for (OAuth2ResourceServerExtensionConfigurer extensionConfigurer : extensionConfigurers) {
+			http.apply(extensionConfigurer);
+		}
+
 	}
 
 }
