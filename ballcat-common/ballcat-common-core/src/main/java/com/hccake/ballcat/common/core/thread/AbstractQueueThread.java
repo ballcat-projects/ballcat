@@ -1,14 +1,9 @@
 package com.hccake.ballcat.common.core.thread;
 
-import com.hccake.ballcat.common.util.JsonUtils;
+import com.hccake.ballcat.common.core.compose.ContextComponent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextClosedEvent;
-import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +13,7 @@ import java.util.List;
  * @author lingting 2021/3/2 15:07
  */
 @Slf4j
-public abstract class AbstractQueueThread<E> extends Thread
-		implements InitializingBean, ApplicationListener<ContextClosedEvent> {
+public abstract class AbstractQueueThread<E> extends Thread implements ContextComponent {
 
 	/**
 	 * 默认缓存数据数量
@@ -56,7 +50,7 @@ public abstract class AbstractQueueThread<E> extends Thread
 	 * 用于子类自定义 获取数据的超时时间
 	 * @return 返回时长，单位毫秒
 	 */
-	public long getPollTimeoutMs() {
+	public long getPollTimeout() {
 		return POLL_TIMEOUT_MS;
 	}
 
@@ -64,12 +58,12 @@ public abstract class AbstractQueueThread<E> extends Thread
 	 * 往队列插入数据
 	 * @param e 数据
 	 */
-	public abstract void put(@NotNull E e);
+	public abstract void put(E e);
 
 	/**
 	 * 运行前执行初始化
 	 */
-	public void init() {
+	protected void init() {
 	}
 
 	/**
@@ -84,7 +78,7 @@ public abstract class AbstractQueueThread<E> extends Thread
 	/**
 	 * 数据处理前执行
 	 */
-	public void preProcess() {
+	protected void preProcess() {
 	}
 
 	/**
@@ -93,25 +87,24 @@ public abstract class AbstractQueueThread<E> extends Thread
 	 * @return E
 	 * @throws InterruptedException 线程中断
 	 */
-	@Nullable
-	public abstract E poll(long time) throws InterruptedException;
+	protected abstract E poll(long time) throws InterruptedException;
 
 	/**
 	 * 处理接收的数据
 	 * @param list 当前所有数据
 	 * @param e 接收的数据
 	 */
-	public void receiveProcess(List<E> list, E e) {
+	protected void receiveProcess(List<E> list, E e) {
 		list.add(e);
 	}
 
 	/**
 	 * 处理所有已接收的数据
 	 * @param list 所有已接收的数据
-	 * @exception Exception 异常
+	 * @throws Exception 异常
 	 */
 	@SuppressWarnings("java:S112")
-	public abstract void process(List<E> list) throws Exception;
+	protected abstract void process(List<E> list) throws Exception;
 
 	@Override
 	@SuppressWarnings("java:S1181")
@@ -126,7 +119,7 @@ public abstract class AbstractQueueThread<E> extends Thread
 				fillList(list);
 
 				if (!isRun()) {
-					shutdownHandler(list);
+					shutdown(list);
 				}
 				else {
 					process(list);
@@ -148,7 +141,7 @@ public abstract class AbstractQueueThread<E> extends Thread
 		int count = 0;
 
 		while (count < getBatchSize()) {
-			E e = get();
+			E e = poll();
 
 			if (e != null) {
 				// 第一次插入数据
@@ -159,8 +152,9 @@ public abstract class AbstractQueueThread<E> extends Thread
 				receiveProcess(list, e);
 			}
 
-			// 无法继续运行 或 已有数据且超过设定的等待时间
+			// 无法继续运行
 			final boolean isBreak = !isRun()
+					// 或者 已有数据且超过设定的等待时间
 					|| (!CollectionUtils.isEmpty(list) && System.currentTimeMillis() - timestamp >= getBatchTimeout());
 			if (isBreak) {
 				break;
@@ -168,14 +162,14 @@ public abstract class AbstractQueueThread<E> extends Thread
 		}
 	}
 
-	private E get() {
+	public E poll() {
 		E e = null;
 		try {
-			e = poll(getPollTimeoutMs());
+			e = poll(getPollTimeout());
 		}
 		catch (InterruptedException ex) {
-			interrupt();
 			log.error("{} 类的poll线程被中断!id: {}", getClass().getSimpleName(), getId());
+			interrupt();
 		}
 		return e;
 	}
@@ -185,10 +179,18 @@ public abstract class AbstractQueueThread<E> extends Thread
 	 * @param e 异常
 	 * @param list 当时的数据
 	 */
-	public abstract void error(Throwable e, List<E> list);
+	protected abstract void error(Throwable e, List<E> list);
+
+	/**
+	 * 线程被中断后的处理. 如果有缓存手段可以让数据进入缓存.
+	 * @param list 当前数据
+	 */
+	protected void shutdown(List<E> list) {
+		log.warn("{} 线程: {} 被关闭. 数据:{}", this.getClass().getSimpleName(), getId(), list);
+	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void onApplicationStart() {
 		// 默认配置线程名. 用来方便查询
 		setName(this.getClass().getSimpleName());
 		if (!this.isAlive()) {
@@ -197,32 +199,10 @@ public abstract class AbstractQueueThread<E> extends Thread
 	}
 
 	@Override
-	public void onApplicationEvent(ContextClosedEvent event) {
-		log.warn("{} 类的线程开始关闭! id: {} ", getClass().getSimpleName(), getId());
-		// 执行关闭方法
-		shutdown();
-	}
-
-	/**
-	 * 线程关闭时执行
-	 */
-	public void shutdown() {
+	public void onApplicationStop() {
+		log.warn("{} 线程: {}; 开始关闭!", getClass().getSimpleName(), getId());
 		// 通过中断线程唤醒当前线程. 让线程进入 shutdownHandler 方法处理数据
-		this.interrupt();
-	}
-
-	/**
-	 * 线程被中断后的处理. 如果有缓存手段可以让数据进入缓存.
-	 * @param list 当前数据
-	 */
-	public void shutdownHandler(List<E> list) {
-		try {
-			log.error("{} 类 线程: {} 被关闭. 数据:{}", this.getClass().getSimpleName(), getId(), JsonUtils.toJson(list));
-		}
-		catch (Throwable e) {
-			log.error("{} 类 线程: {} 被关闭. 数据:{}", this.getClass().getSimpleName(), getId(), list);
-
-		}
+		interrupt();
 	}
 
 }
