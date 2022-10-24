@@ -1,14 +1,15 @@
 package com.hccake.ballcat.common.core.thread;
 
-import java.util.concurrent.TimeUnit;
+import com.hccake.ballcat.common.core.compose.ContextComponent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lingting 2022/6/27 20:26
  */
 @Slf4j
-public abstract class AbstractTimer extends Thread implements InitializingBean {
+public abstract class AbstractTimer extends Thread implements ContextComponent {
 
 	/**
 	 * 获取超时时间, 单位: 毫秒
@@ -21,32 +22,45 @@ public abstract class AbstractTimer extends Thread implements InitializingBean {
 		return !isInterrupted();
 	}
 
-	public abstract void process();
-
 	/**
-	 * 休眠中线程被中止触发.
+	 * 运行前执行初始化
 	 */
-	public void shutdown() {
-		log.error("{} 类 线程: {} 被关闭.", getClass().getSimpleName(), getId());
+	protected void init() {
 	}
 
-	public void error(Exception e) {
+	/**
+	 * 执行任务
+	 */
+	protected abstract void process();
+
+	/**
+	 * 线程被中断触发.
+	 */
+	protected void shutdown() {
+	}
+
+	protected void error(Exception e) {
 		log.error("{} 类 线程: {} 出现异常!", getClass().getSimpleName(), getId(), e);
 	}
 
 	@Override
 	public void run() {
+		init();
 		while (isRun()) {
 			try {
 				process();
-				try {
-					Thread.sleep(getTimeout());
-				}
-				catch (InterruptedException e) {
-					// sonar
-					Thread.currentThread().interrupt();
+
+				// 已经停止运行, 结束
+				if (!isRun()) {
 					shutdown();
+					return;
 				}
+
+				Thread.sleep(getTimeout());
+			}
+			catch (InterruptedException e) {
+				interrupt();
+				shutdown();
 			}
 			catch (Exception e) {
 				error(e);
@@ -55,11 +69,17 @@ public abstract class AbstractTimer extends Thread implements InitializingBean {
 	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void onApplicationStart() {
 		setName(getClass().getSimpleName());
 		if (!isAlive()) {
 			start();
 		}
+	}
+
+	@Override
+	public void onApplicationStop() {
+		log.warn("{} 线程: {}; 开始关闭!", getClass().getSimpleName(), getId());
+		interrupt();
 	}
 
 }

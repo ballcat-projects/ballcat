@@ -148,21 +148,9 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 	}
 
 	@Override
-	public void shutdown() {
+	protected void shutdown(List<E> list) {
 		// 修改运行标志
 		run = false;
-		lock.lock();
-		try {
-			condition.signalAll();
-		}
-		finally {
-			lock.unlock();
-		}
-	}
-
-	@Override
-	public void shutdownHandler(List<E> list) {
-		log.warn("{} 线程被关闭! id: {}", getClass().getSimpleName(), getId());
 		for (E e : list) {
 			// 所有数据插入redis
 			put(e);
