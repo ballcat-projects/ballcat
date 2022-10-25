@@ -42,15 +42,15 @@
 		<flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
 		<spring-javaformat-checkstyle.version>0.0.34</spring-javaformat-checkstyle.version>
 
-		<spring-boot.version>2.7.4</spring-boot.version>
+		<spring-boot.version>2.7.5</spring-boot.version>
 		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
 		<spring-authorization-server.version>0.4.0-M2</spring-authorization-server.version>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.5.21</swagger.version>
 		<io.swagger.v3.version>2.2.0</io.swagger.v3.version>
-		<springdoc-openapi.verison>1.6.11</springdoc-openapi.verison>
+		<springdoc-openapi.verison>1.6.12</springdoc-openapi.verison>
 		<kafka.version>2.6.3</kafka.version>
-		<hutool.version>5.8.5</hutool.version>
+		<hutool.version>5.8.9</hutool.version>
 		<fastjson.version>1.2.83</fastjson.version>
 		<mybatis-plus.version>3.5.2</mybatis-plus.version>
 		<mybatis.version>3.5.10</mybatis.version>
