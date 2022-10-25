@@ -70,6 +70,15 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- spring-openapi 依赖管理 -->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- spring boot 依赖管理 -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
@@ -421,62 +430,6 @@
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-models</artifactId>
 				<version>${swagger.version}</version>
-			</dependency>
-			<!-- SpringDoc -->
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-common</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-webmvc-core</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-webflux-core</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-kotlin</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-hateoas</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-data-rest</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-security</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-groovy</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-ui</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-webflux-ui</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-javadoc</artifactId>
-				<version>${springdoc-openapi.verison}</version>
 			</dependency>
 			<!-- SpringFox -->
 			<dependency>
