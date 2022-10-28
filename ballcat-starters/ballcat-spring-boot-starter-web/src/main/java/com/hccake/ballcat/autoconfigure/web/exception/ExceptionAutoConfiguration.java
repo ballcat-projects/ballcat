@@ -3,6 +3,7 @@ package com.hccake.ballcat.autoconfigure.web.exception;
 import com.hccake.ballcat.autoconfigure.web.exception.handler.DefaultGlobalExceptionHandler;
 import com.hccake.ballcat.autoconfigure.web.exception.handler.DingTalkGlobalExceptionHandler;
 import com.hccake.ballcat.autoconfigure.web.exception.handler.MailGlobalExceptionHandler;
+import com.hccake.ballcat.autoconfigure.web.exception.handler.MultiGlobalExceptionHandler;
 import com.hccake.ballcat.autoconfigure.web.exception.resolver.GlobalHandlerExceptionResolver;
 import com.hccake.ballcat.autoconfigure.web.exception.resolver.SecurityHandlerExceptionResolver;
 import com.hccake.ballcat.common.core.exception.handler.GlobalExceptionHandler;
@@ -18,6 +19,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @author Hccake
@@ -35,12 +37,47 @@ public class ExceptionAutoConfiguration {
 	/**
 	 * 默认的日志处理器
 	 * @return DefaultExceptionHandler
+	 * @deprecated 使用 enabled 来进行配置
 	 */
 	@Bean
+	@Deprecated
 	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
-	@ConditionalOnProperty(prefix = "ballcat.exception", matchIfMissing = true, name = "type", havingValue = "NONE")
+	@ConditionalOnProperty(prefix = ExceptionHandleProperties.PREFIX, matchIfMissing = true, name = "type",
+			havingValue = "NONE")
 	public GlobalExceptionHandler defaultGlobalExceptionHandler() {
 		return new DefaultGlobalExceptionHandler();
+	}
+
+	@Bean
+	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
+	public GlobalExceptionHandler multiGlobalExceptionHandler(ExceptionHandleProperties properties,
+			ApplicationContext context) {
+		// 旧代码逻辑
+		if (properties.getType() != null) {
+			switch (properties.getType()) {
+				case NONE:
+					return new DefaultGlobalExceptionHandler();
+				case MAIL:
+					return new MailGlobalExceptionHandler(properties, context.getBean(MailSender.class),
+							context.getApplicationName());
+				default:
+					return new DingTalkGlobalExceptionHandler(properties, context.getBean(DingTalkSender.class),
+							context.getApplicationName());
+			}
+		}
+		// 为空 或者 为 false
+		if (!Boolean.TRUE.equals(properties.getEnabled())) {
+			return new DefaultGlobalExceptionHandler();
+		}
+
+		final Object mailSender;
+		if (CollectionUtils.isEmpty(properties.getReceiveEmails())) {
+			mailSender = null;
+		}
+		else {
+			mailSender = context.getBean(MailSender.class);
+		}
+		return new MultiGlobalExceptionHandler(properties, context.getApplicationName(), mailSender);
 	}
 
 	/**

@@ -86,7 +86,8 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 		String key;
 		TimeInterval interval = new TimeInterval();
 		long threadId = Thread.currentThread().getId();
-		while (true) {
+		// 未被中断则一直运行
+		while (!isInterrupted()) {
 			int i = 0;
 			while (i < config.getMax() && interval.intervalSecond() < config.getTime()) {
 				Throwable t = null;
@@ -95,7 +96,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 					t = queue.poll(i == 0 ? TimeUnit.HOURS.toSeconds(1) : 10, TimeUnit.SECONDS);
 				}
 				catch (InterruptedException e) {
-					e.printStackTrace();
+					interrupt();
 				}
 				if (t != null) {
 					key = t.getMessage() == null ? NULL_MESSAGE_KEY : t.getMessage();
@@ -103,14 +104,14 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 					if (i++ == 0) {
 						// 第一次收到数据, 重置计时
 						interval.restart();
-						messages.put(key, init(t).setKey(key).setThreadId(threadId));
+						messages.put(key, toMessage(t).setKey(key).setThreadId(threadId));
 					}
 					else {
 						if (messages.containsKey(key)) {
 							messages.put(key, messages.get(key).increment());
 						}
 						else {
-							messages.put(key, init(t).setKey(key).setThreadId(threadId));
+							messages.put(key, toMessage(t).setKey(key).setThreadId(threadId));
 						}
 					}
 				}
@@ -135,7 +136,7 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 		}
 	}
 
-	public ExceptionMessage init(Throwable t) {
+	public ExceptionMessage toMessage(Throwable t) {
 		return new ExceptionMessage().setNumber(1).setMac(mac).setApplicationName(applicationName).setHostname(hostname)
 				.setIp(ip).setRequestUri(requestUri)
 				.setStack(ExceptionUtil.stacktraceToString(t, config.getLength()).replace("\\r", ""))
@@ -153,13 +154,32 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 	public void handle(Throwable throwable) {
 		try {
 			this.requestUri = WebUtils.getRequest().getRequestURI();
+			// 是否忽略该异常
+			boolean ignore = false;
+
 			// 只有不是忽略的异常类才会插入异常消息队列
-			if (!config.getIgnoreExceptions().contains(throwable.getClass())) {
+			if (Boolean.FALSE.equals(config.getIgnoreChild())) {
+				// 不忽略子类
+				ignore = config.getIgnoreExceptions().contains(throwable.getClass());
+			}
+			else {
+				// 忽略子类
+				for (Class<? extends Throwable> ignoreException : config.getIgnoreExceptions()) {
+					// 属于子类
+					if (ignoreException.isAssignableFrom(throwable.getClass())) {
+						ignore = true;
+						break;
+					}
+				}
+			}
+
+			// 不忽略则插入队列
+			if (!ignore) {
 				queue.put(throwable);
 			}
 		}
 		catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
+			interrupt();
 		}
 		catch (Exception e) {
 			log.error("往异常消息队列插入新异常时出错", e);

@@ -7,6 +7,7 @@ import com.hccake.extend.dingtalk.message.DingTalkMessage;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -75,7 +76,7 @@ public class DingTalkSender {
 	 */
 	@SneakyThrows(InvalidKeyException.class)
 	public DingTalkSender setSecret(String secret) {
-		if (CharSequenceUtil.isNotEmpty(secret)) {
+		if (StringUtils.hasText(secret)) {
 			this.secret = secret;
 			mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
 		}
