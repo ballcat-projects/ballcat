@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -14,16 +15,30 @@ import java.util.concurrent.TimeUnit;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "ballcat.exception")
+@ConfigurationProperties(prefix = ExceptionHandleProperties.PREFIX)
 public class ExceptionHandleProperties {
 
-	/**
-	 * 处理类型
-	 */
-	private ExceptionHandleTypeEnum type = ExceptionHandleTypeEnum.NONE;
+	public static final String PREFIX = "ballcat.exception";
 
 	/**
-	 * 忽略指定异常，请注意：只会忽略填写的异常类，而不会忽略该异常类的子类
+	 * 处理类型, 新版不需要指定异常处理类型了, 但是已经指定的旧配置依然按照旧配置的逻辑运行.
+	 * @deprecated 下版本删除
+	 */
+	@Deprecated
+	private ExceptionHandleTypeEnum type = null;
+
+	/**
+	 * 是否开启异常通知
+	 */
+	private Boolean enabled = false;
+
+	/**
+	 * 是否同时忽略 配置的忽略异常类的子类, 默认忽略子类
+	 */
+	private Boolean ignoreChild = true;
+
+	/**
+	 * 忽略指定异常
 	 */
 	private Set<Class<? extends Throwable>> ignoreExceptions = new HashSet<>();
 
@@ -45,6 +60,44 @@ public class ExceptionHandleProperties {
 	/**
 	 * 接收异常通知邮件的邮箱
 	 */
-	private Set<String> receiveEmails = new HashSet<>();
+	private Set<String> receiveEmails = new HashSet<>(0);
+
+	/**
+	 * 接收异常的钉钉配置
+	 */
+	private DingTalkProperties dingTalk;
+
+	/**
+	 * 异常通知 钉钉配置
+	 */
+	@Data
+	public static class DingTalkProperties {
+
+		/**
+		 * 是否艾特所有人
+		 */
+		private Boolean atAll = false;
+
+		/**
+		 * 发送配置
+		 */
+		private List<Sender> senders;
+
+		@Data
+		public static class Sender {
+
+			/**
+			 * Web hook 地址
+			 */
+			private String url;
+
+			/**
+			 * 密钥
+			 */
+			private String secret;
+
+		}
+
+	}
 
 }
