@@ -2,10 +2,12 @@ package com.hccake.ballcat.common.redis.core;
 
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
+import com.hccake.ballcat.common.redis.core.annotation.CacheDels;
 import com.hccake.ballcat.common.redis.core.annotation.CachePut;
 import com.hccake.ballcat.common.redis.core.annotation.Cached;
 import com.hccake.ballcat.common.redis.lock.DistributedLock;
 import com.hccake.ballcat.common.redis.operation.CacheDelOps;
+import com.hccake.ballcat.common.redis.operation.CacheDelsOps;
 import com.hccake.ballcat.common.redis.operation.CachePutOps;
 import com.hccake.ballcat.common.redis.operation.CachedOps;
 import com.hccake.ballcat.common.redis.operation.function.VoidMethod;
@@ -74,7 +76,7 @@ public class CacheStringAspect {
 
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 
-		// 获取注解对象
+		// 缓存处理
 		Cached cachedAnnotation = AnnotationUtils.getAnnotation(method, Cached.class);
 		if (cachedAnnotation != null) {
 			// 缓存key
@@ -89,6 +91,7 @@ public class CacheStringAspect {
 
 		}
 
+		// 缓存更新处理
 		CachePut cachePutAnnotation = AnnotationUtils.getAnnotation(method, CachePut.class);
 		if (cachePutAnnotation != null) {
 			// 缓存key
@@ -99,6 +102,7 @@ public class CacheStringAspect {
 			return cachePut(new CachePutOps(point, cachePut));
 		}
 
+		// 缓存删除处理
 		CacheDel cacheDelAnnotation = AnnotationUtils.getAnnotation(method, CacheDel.class);
 		if (cacheDelAnnotation != null) {
 			VoidMethod cacheDel;
@@ -112,6 +116,26 @@ public class CacheStringAspect {
 				cacheDel = () -> redisTemplate.delete(key);
 			}
 			return cacheDel(new CacheDelOps(point, cacheDel));
+		}
+
+		// 多个缓存删除处理
+		CacheDels cacheDelsAnnotation = AnnotationUtils.getAnnotation(method, CacheDels.class);
+		if (cacheDelsAnnotation != null) {
+			int annotationCount = cacheDelsAnnotation.value().length;
+			VoidMethod[] cacheDels = new VoidMethod[annotationCount];
+			for (int i = 0; i < annotationCount; i++) {
+				if (cacheDelAnnotation.multiDel()) {
+					Collection<String> keys = keyGenerator.getKeys(cacheDelAnnotation.key(),
+							cacheDelAnnotation.keyJoint());
+					cacheDels[i] = () -> redisTemplate.delete(keys);
+				}
+				else {
+					// 缓存key
+					String key = keyGenerator.getKey(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
+					cacheDels[i] = () -> redisTemplate.delete(key);
+				}
+			}
+			return cacheDels(new CacheDelsOps(point, cacheDels));
 		}
 
 		return point.proceed();
@@ -200,6 +224,20 @@ public class CacheStringAspect {
 		// 将删除缓存
 		ops.cacheDel().run();
 
+		return data;
+	}
+
+	/**
+	 * 缓存批量删除的模板方法 在目标方法执行后 执行删除
+	 */
+	public Object cacheDels(CacheDelsOps ops) throws Throwable {
+
+		// 先执行目标方法 并拿到返回值
+		Object data = ops.joinPoint().proceed();
+		// 将删除缓存
+		for (VoidMethod voidMethod : ops.cacheDel()) {
+			voidMethod.run();
+		}
 		return data;
 	}
 

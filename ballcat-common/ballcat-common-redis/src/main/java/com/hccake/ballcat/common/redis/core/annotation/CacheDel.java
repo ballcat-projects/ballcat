@@ -11,6 +11,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @MetaCacheAnnotation
+@Repeatable(CacheDels.class)
 public @interface CacheDel {
 
 	/**
