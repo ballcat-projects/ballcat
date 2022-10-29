@@ -39,8 +39,8 @@
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<flatten-maven-plugin.version>1.2.7</flatten-maven-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.34</spring-javaformat-checkstyle.version>
+		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+		<spring-javaformat-checkstyle.version>0.0.35</spring-javaformat-checkstyle.version>
 
 		<spring-boot.version>2.7.5</spring-boot.version>
 		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
@@ -57,14 +57,14 @@
 		<jsqlparser.version>4.3</jsqlparser.version>
 		<dynamic-datasource.version>3.5.1</dynamic-datasource.version>
 		<xxl-job.version>2.3.1</xxl-job.version>
-		<easyexcel.version>3.1.1</easyexcel.version>
+		<easyexcel.version>3.1.2</easyexcel.version>
 		<poi.version>4.1.2</poi.version>
 		<jasypt.version>3.0.4</jasypt.version>
 		<jsoup.version>1.15.3</jsoup.version>
 		<virtual-currency.version>0.4.2</virtual-currency.version>
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-		<software.amazon.awssdk.version>2.18.2</software.amazon.awssdk.version>
-		<software.amazon.awssdk-s3-transfer-manager.version>2.18.2-PREVIEW
+		<software.amazon.awssdk.version>2.18.6</software.amazon.awssdk.version>
+		<software.amazon.awssdk-s3-transfer-manager.version>2.18.6-PREVIEW
 		</software.amazon.awssdk-s3-transfer-manager.version>
 		<rocketmq.version>2.2.0</rocketmq.version>
 		<ip2region.version>2.6.5</ip2region.version>

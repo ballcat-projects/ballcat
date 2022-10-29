@@ -55,8 +55,8 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<maven-compiler-plugin.verison>3.8.0</maven-compiler-plugin.verison>
-		<flatten-maven-plugin.version>1.2.5</flatten-maven-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.34</spring-javaformat-checkstyle.version>
+		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+		<spring-javaformat-checkstyle.version>0.0.35</spring-javaformat-checkstyle.version>
 
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
@@ -64,11 +64,11 @@
 		<maven-source-plugin.version>3.1.0</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
 
-		<spring-boot.version>2.7.4</spring-boot.version>
+		<spring-boot.version>2.7.5</spring-boot.version>
 
 		<!-- mapstruct 和 lombok 等注解处理器 -->
-		<org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
-		<lombok.version>1.18.22</lombok.version>
+		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+		<lombok.version>1.18.24</lombok.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 	</properties>
 
