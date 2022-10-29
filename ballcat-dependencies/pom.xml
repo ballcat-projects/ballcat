@@ -63,7 +63,9 @@
 		<jsoup.version>1.15.3</jsoup.version>
 		<virtual-currency.version>0.4.2</virtual-currency.version>
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-		<software.amazon.awssdk.version>2.17.154</software.amazon.awssdk.version>
+		<software.amazon.awssdk.version>2.18.2</software.amazon.awssdk.version>
+		<software.amazon.awssdk-s3-transfer-manager.version>2.18.2-PREVIEW
+		</software.amazon.awssdk-s3-transfer-manager.version>
 		<rocketmq.version>2.2.0</rocketmq.version>
 		<ip2region.version>2.6.5</ip2region.version>
 	</properties>
@@ -93,6 +95,11 @@
 				<version>${software.amazon.awssdk.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>s3-transfer-manager</artifactId>
+				<version>${software.amazon.awssdk-s3-transfer-manager.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security.oauth</groupId>
