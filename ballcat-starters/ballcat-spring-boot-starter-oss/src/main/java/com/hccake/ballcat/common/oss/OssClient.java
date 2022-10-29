@@ -82,7 +82,6 @@ public class OssClient {
 		return getDownloadUrlByAbsolute(objectPrefixConverter.wrap(relativeKey));
 	}
 
-
 	/**
 	 * 获取 绝对路径 的下载url
 	 */

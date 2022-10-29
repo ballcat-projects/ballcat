@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.util.StringUtils;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.transfer.s3.FileUpload;
 
@@ -63,6 +64,53 @@ public class GlobalObjectPrefixOssTemplate extends DefaultOssTemplate {
 	public PutObjectResponse putObject(String bucket, String key, File file)
 			throws AwsServiceException, SdkClientException, S3Exception, IOException {
 		return super.putObject(bucket, objectPrefixConverter.wrap(key), file);
+	}
+
+	/**
+	 * 上传文件
+	 * @param putObjectRequest
+	 * @param requestBody
+	 * @return 文件服务器针对上传对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_PutObject.html">往存储桶中添加对象</a>
+	 */
+	@Override
+	public PutObjectResponse putObject(PutObjectRequest putObjectRequest, RequestBody requestBody)
+			throws AwsServiceException, SdkClientException, S3Exception {
+		if (StringUtils.hasText(putObjectRequest.key())) {
+			return super.putObject(PutObjectRequest.builder().acl(putObjectRequest.acl())
+					.contentType(putObjectRequest.contentType()).key(objectPrefixConverter.wrap(putObjectRequest.key()))
+					.bucket(putObjectRequest.bucket()).contentLength(putObjectRequest.contentLength())
+					.cacheControl(putObjectRequest.cacheControl()).metadata(putObjectRequest.metadata())
+					.checksumAlgorithm(putObjectRequest.checksumAlgorithm())
+					.checksumCRC32(putObjectRequest.checksumCRC32()).checksumCRC32C(putObjectRequest.checksumCRC32C())
+					.checksumSHA1(putObjectRequest.checksumSHA1()).checksumSHA256(putObjectRequest.checksumSHA256())
+					.bucketKeyEnabled(putObjectRequest.bucketKeyEnabled())
+					.contentEncoding(putObjectRequest.contentEncoding()).contentMD5(putObjectRequest.contentMD5())
+					.websiteRedirectLocation(putObjectRequest.websiteRedirectLocation())
+					.expectedBucketOwner(putObjectRequest.expectedBucketOwner()).expires(putObjectRequest.expires())
+					.grantFullControl(putObjectRequest.grantFullControl()).grantRead(putObjectRequest.grantRead())
+					.grantReadACP(putObjectRequest.grantReadACP()).grantWriteACP(putObjectRequest.grantWriteACP())
+					.contentLanguage(putObjectRequest.contentLanguage())
+					.objectLockMode(putObjectRequest.objectLockMode())
+					.objectLockLegalHoldStatus(putObjectRequest.objectLockLegalHoldStatus())
+					.objectLockRetainUntilDate(putObjectRequest.objectLockRetainUntilDate())
+					.overrideConfiguration(putObjectRequest.overrideConfiguration().isPresent()
+							? putObjectRequest.overrideConfiguration().get() : null)
+					.requestPayer(putObjectRequest.requestPayer())
+					.serverSideEncryption(putObjectRequest.serverSideEncryption())
+					.sseCustomerAlgorithm(putObjectRequest.sseCustomerAlgorithm())
+					.sseCustomerKey(putObjectRequest.sseCustomerKey())
+					.sseCustomerKeyMD5(putObjectRequest.sseCustomerKeyMD5())
+					.ssekmsEncryptionContext(putObjectRequest.ssekmsEncryptionContext())
+					.ssekmsKeyId(putObjectRequest.ssekmsKeyId())
+					.contentDisposition(putObjectRequest.contentDisposition()).tagging(putObjectRequest.tagging())
+					.build(), requestBody);
+		}
+		return super.putObject(putObjectRequest, requestBody);
 	}
 
 	/**
