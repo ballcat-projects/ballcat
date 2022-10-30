@@ -124,14 +124,15 @@ public class CacheStringAspect {
 			int annotationCount = cacheDelsAnnotation.value().length;
 			VoidMethod[] cacheDels = new VoidMethod[annotationCount];
 			for (int i = 0; i < annotationCount; i++) {
-				if (cacheDelAnnotation.multiDel()) {
-					Collection<String> keys = keyGenerator.getKeys(cacheDelAnnotation.key(),
-							cacheDelAnnotation.keyJoint());
+				CacheDel tmpCacheDelAnnotation = cacheDelsAnnotation.value()[i];
+				if (tmpCacheDelAnnotation.multiDel()) {
+					Collection<String> keys = keyGenerator.getKeys(tmpCacheDelAnnotation.key(),
+							tmpCacheDelAnnotation.keyJoint());
 					cacheDels[i] = () -> redisTemplate.delete(keys);
 				}
 				else {
 					// 缓存key
-					String key = keyGenerator.getKey(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
+					String key = keyGenerator.getKey(tmpCacheDelAnnotation.key(), tmpCacheDelAnnotation.keyJoint());
 					cacheDels[i] = () -> redisTemplate.delete(key);
 				}
 			}
