@@ -1,44 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>ballcat-starters</artifactId>
 		<groupId>com.hccake</groupId>
+		<artifactId>ballcat-starters</artifactId>
 		<version>${revision}</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-
 	<artifactId>ballcat-spring-boot-starter-file</artifactId>
-
-	<properties>
-		<maven.compiler.source>8</maven.compiler.source>
-		<maven.compiler.target>8</maven.compiler.target>
-	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-common-util</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-autoconfigure</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
-
 		<!-- apache ftp 文件上传的依赖 -->
 		<dependency>
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
 		</dependency>
-
 		<!-- apache ftp server 测试使用 -->
 		<dependency>
 			<groupId>org.apache.ftpserver</groupId>
@@ -46,6 +26,14 @@
 			<version>1.2.0</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 </project>

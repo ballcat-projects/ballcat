@@ -1,121 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hccake</groupId>
 	<artifactId>ballcat-dependencies</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
-
 	<name>ballcat-dependencies</name>
-	<description>Ballcat Dependencies</description>
 	<url>https://github.com/hccake/ballcat</url>
-
-	<developers>
-		<developer>
-			<name>hccake</name>
-			<email>chengbohua@foxmail.com</email>
-		</developer>
-	</developers>
-
-	<scm>
-		<url>https://github.com/hccake/ballcat</url>
-		<connection>https://github.com/hccake/ballcat.git</connection>
-		<developerConnection>https://github.com/hccake</developerConnection>
-	</scm>
-
-	<licenses>
-		<license>
-			<name>MIT License</name>
-			<url>http://www.opensource.org/licenses/mit-license.php</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+	<description>Ballcat Dependencies</description>
 
 	<properties>
-		<revision>1.0.0-SNAPSHOT</revision>
-
-		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-		<maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
-		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.35</spring-javaformat-checkstyle.version>
-
-		<spring-boot.version>2.7.5</spring-boot.version>
-		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
-		<spring-authorization-server.version>0.4.0-M2</spring-authorization-server.version>
-		<springfox.version>3.0.0</springfox.version>
-		<swagger.version>1.6.8</swagger.version>
-		<io.swagger.v3.version>2.2.4</io.swagger.v3.version>
-		<springdoc-openapi.verison>1.6.12</springdoc-openapi.verison>
-		<kafka.version>2.6.3</kafka.version>
-		<hutool.version>5.8.9</hutool.version>
-		<fastjson.version>1.2.83</fastjson.version>
-		<mybatis-plus.version>3.5.2</mybatis-plus.version>
-		<mybatis.version>3.5.10</mybatis.version>
-		<jsqlparser.version>4.3</jsqlparser.version>
+		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
 		<dynamic-datasource.version>3.5.1</dynamic-datasource.version>
-		<xxl-job.version>2.3.1</xxl-job.version>
 		<easyexcel.version>3.1.2</easyexcel.version>
-		<poi.version>4.1.2</poi.version>
+		<fastjson.version>1.2.83</fastjson.version>
+		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+		<hutool.version>5.8.9</hutool.version>
+		<io.swagger.v3.version>2.2.4</io.swagger.v3.version>
+		<ip2region.version>2.6.5</ip2region.version>
 		<jasypt.version>3.0.4</jasypt.version>
 		<jsoup.version>1.15.3</jsoup.version>
-		<virtual-currency.version>0.4.2</virtual-currency.version>
-		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-		<software.amazon.awssdk.version>2.18.6</software.amazon.awssdk.version>
+		<jsqlparser.version>4.3</jsqlparser.version>
+		<kafka.version>2.6.3</kafka.version>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
+		<mybatis-plus.version>3.5.2</mybatis-plus.version>
+		<mybatis.version>3.5.10</mybatis.version>
+		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+		<poi.version>4.1.2</poi.version>
+		<revision>1.0.0-SNAPSHOT</revision>
+		<rocketmq.version>2.2.0</rocketmq.version>
 		<software.amazon.awssdk-s3-transfer-manager.version>2.18.6-PREVIEW
 		</software.amazon.awssdk-s3-transfer-manager.version>
-		<rocketmq.version>2.2.0</rocketmq.version>
-		<ip2region.version>2.6.5</ip2region.version>
+		<software.amazon.awssdk.version>2.18.6</software.amazon.awssdk.version>
+		<spring-authorization-server.version>0.4.0-M2</spring-authorization-server.version>
+		<spring-boot.version>2.7.5</spring-boot.version>
+		<spring-javaformat-checkstyle.version>0.0.35</spring-javaformat-checkstyle.version>
+		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
+		<springdoc-openapi.verison>1.6.12</springdoc-openapi.verison>
+		<springfox.version>3.0.0</springfox.version>
+		<swagger.version>1.6.8</swagger.version>
+		<virtual-currency.version>0.4.2</virtual-currency.version>
+		<xxl-job.version>2.3.1</xxl-job.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- spring-openapi 依赖管理 -->
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- spring boot 依赖管理 -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${spring-boot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- 亚马逊云 Java sdk -->
-			<dependency>
-				<groupId>software.amazon.awssdk</groupId>
-				<artifactId>bom</artifactId>
-				<version>${software.amazon.awssdk.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>software.amazon.awssdk</groupId>
-				<artifactId>s3-transfer-manager</artifactId>
-				<version>${software.amazon.awssdk-s3-transfer-manager.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security.oauth</groupId>
-				<artifactId>spring-security-oauth2</artifactId>
-				<version>${spring-security-oauth2.version}</version>
-			</dependency>
-
 			<!-- hutool工具类 -->
 			<dependency>
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-bom</artifactId>
 				<version>${hutool.version}</version>
-				<type>pom</type>
 				<scope>import</scope>
+				<type>pom</type>
 			</dependency>
-
+			<!--easyExcel 处理-->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>easyexcel</artifactId>
+				<version>${easyexcel.version}</version>
+			</dependency>
+			<!-- fastjson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+				<optional>true</optional>
+			</dependency>
+			<!-- 支付宝支付 -->
+			<dependency>
+				<groupId>com.alipay.sdk</groupId>
+				<artifactId>alipay-sdk-java</artifactId>
+				<version>${alipay-sdk.version}</version>
+			</dependency>
+			<!--动态数据源-->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+				<version>${dynamic-datasource.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-annotation</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-core</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<!--mybatis plus extension,包含了mybatis plus core-->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-extension</artifactId>
+				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<!-- jsqlparser -->
+			<dependency>
+				<groupId>com.github.jsqlparser</groupId>
+				<artifactId>jsqlparser</artifactId>
+				<version>${jsqlparser.version}</version>
+			</dependency>
+			<!--配置文件加密-->
+			<dependency>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-spring-boot-starter</artifactId>
+				<version>${jasypt.version}</version>
+			</dependency>
 			<!-- ballcat 自身模块版本 -->
 			<dependency>
 				<groupId>com.hccake</groupId>
@@ -124,7 +121,23 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-admin-i18n</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-admin-websocket</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-auth-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<!-- auth 授权模块 -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-auth-controller</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -172,31 +185,104 @@
 				<artifactId>ballcat-common-websocket</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<!-- extends -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-dingtalk</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-kafka</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-kafka-stream</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-mybatis-plus</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-openapi</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-pay-ali</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-pay-virtual</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-pay-wx</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-extend-tesseract</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-i18n-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<!-- i18n 国际化模块 -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-i18n-controller</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-i18n-model</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-log-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<!-- log 日志模块 -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-log-controller</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-log-model</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-notify-biz</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<!-- notify 通知模块 -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-notify-controller</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-notify-model</artifactId>
+				<version>${revision}</version>
+			</dependency>
 			<!-- ballcat-security -->
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-security-core</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-security-oauth2-core</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-security-oauth2-authorization-server</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-security-oauth2-resource-server</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- ballcat-stater -->
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-web</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -216,12 +302,17 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-idempotent</artifactId>
+				<artifactId>ballcat-spring-boot-starter-file</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-boot-starter-i18n</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-idempotent</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -251,6 +342,16 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-oss</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-pay</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-boot-starter-redis</artifactId>
 				<version>${revision}</version>
 			</dependency>
@@ -261,17 +362,13 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-oss</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-file</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-boot-starter-swagger</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<!-- ballcat-stater -->
+			<dependency>
+				<groupId>com.hccake</groupId>
+				<artifactId>ballcat-spring-boot-starter-web</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -281,63 +378,27 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-pay</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-spring-boot-starter-xss</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-admin-i18n</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- extends -->
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-dingtalk</artifactId>
+				<artifactId>ballcat-spring-security-oauth2-authorization-server</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-mybatis-plus</artifactId>
+				<artifactId>ballcat-spring-security-oauth2-core</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-kafka</artifactId>
+				<artifactId>ballcat-spring-security-oauth2-resource-server</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-kafka-stream</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-pay-virtual</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-pay-ali</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-pay-wx</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-openapi</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-tesseract</artifactId>
+				<artifactId>ballcat-system-biz</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<!-- system 系统模块 -->
@@ -348,74 +409,47 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-system-biz</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-system-model</artifactId>
 				<version>${revision}</version>
 			</dependency>
-			<!-- auth 授权模块 -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-auth-controller</artifactId>
-				<version>${revision}</version>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>nimbus-jose-jwt</artifactId>
+				<version>9.15.2</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-auth-biz</artifactId>
-				<version>${revision}</version>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>oauth2-oidc-sdk</artifactId>
+				<version>9.20</version>
 			</dependency>
-			<!-- notify 通知模块 -->
+			<!--xxl-job-->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-notify-controller</artifactId>
-				<version>${revision}</version>
+				<groupId>com.xuxueli</groupId>
+				<artifactId>xxl-job-core</artifactId>
+				<version>${xxl-job.version}</version>
 			</dependency>
+			<!-- ftp用 -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-notify-biz</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-notify-model</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- log 日志模块 -->
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-log-controller</artifactId>
-				<version>${revision}</version>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>3.8.0</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-log-biz</artifactId>
-				<version>${revision}</version>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-boot-starter</artifactId>
+				<version>${springfox.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-log-model</artifactId>
-				<version>${revision}</version>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${springfox.version}</version>
 			</dependency>
-			<!-- i18n 国际化模块 -->
+			<!-- SpringFox -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-i18n-controller</artifactId>
-				<version>${revision}</version>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-i18n-biz</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-i18n-model</artifactId>
-				<version>${revision}</version>
-			</dependency>
-
 			<!--swagger v3-->
 			<dependency>
 				<groupId>io.swagger.core.v3</groupId>
@@ -438,99 +472,11 @@
 				<artifactId>swagger-models</artifactId>
 				<version>${swagger.version}</version>
 			</dependency>
-			<!-- SpringFox -->
+			<!-- 虚拟货币处理 -->
 			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${springfox.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger-ui</artifactId>
-				<version>${springfox.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-boot-starter</artifactId>
-				<version>${springfox.version}</version>
-			</dependency>
-
-			<!--xxl-job-->
-			<dependency>
-				<groupId>com.xuxueli</groupId>
-				<artifactId>xxl-job-core</artifactId>
-				<version>${xxl-job.version}</version>
-			</dependency>
-			<!-- mybatis -->
-			<dependency>
-				<groupId>org.mybatis</groupId>
-				<artifactId>mybatis</artifactId>
-				<version>${mybatis.version}</version>
-			</dependency>
-			<!-- jsqlparser -->
-			<dependency>
-				<groupId>com.github.jsqlparser</groupId>
-				<artifactId>jsqlparser</artifactId>
-				<version>${jsqlparser.version}</version>
-			</dependency>
-			<!--mybatis plus extension,包含了mybatis plus core-->
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-extension</artifactId>
-				<version>${mybatis-plus.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-core</artifactId>
-				<version>${mybatis-plus.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-annotation</artifactId>
-				<version>${mybatis-plus.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-boot-starter</artifactId>
-				<version>${mybatis-plus.version}</version>
-			</dependency>
-			<!--动态数据源-->
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-				<version>${dynamic-datasource.version}</version>
-			</dependency>
-			<!--easyExcel 处理-->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>easyexcel</artifactId>
-				<version>${easyexcel.version}</version>
-			</dependency>
-			<!--poi 依赖 处理-->
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml</artifactId>
-				<version>${poi.version}</version>
-			</dependency>
-
-			<!-- fastjson -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>fastjson</artifactId>
-				<version>${fastjson.version}</version>
-				<optional>true</optional>
-			</dependency>
-			<!--配置文件加密-->
-			<dependency>
-				<groupId>com.github.ulisesbocchio</groupId>
-				<artifactId>jasypt-spring-boot-starter</artifactId>
-				<version>${jasypt.version}</version>
-			</dependency>
-			<!--kafka MQ-->
-			<dependency>
-				<groupId>org.apache.kafka</groupId>
-				<artifactId>kafka_2.12</artifactId>
-				<version>${kafka.version}</version>
+				<groupId>live.lingting</groupId>
+				<artifactId>virtual-currency-all</artifactId>
+				<version>${virtual-currency.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.kafka</groupId>
@@ -542,71 +488,138 @@
 				<artifactId>kafka-streams</artifactId>
 				<version>${kafka.version}</version>
 			</dependency>
-			<!--jsoup-->
+			<!--kafka MQ-->
 			<dependency>
-				<groupId>org.jsoup</groupId>
-				<artifactId>jsoup</artifactId>
-				<version>${jsoup.version}</version>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka_2.12</artifactId>
+				<version>${kafka.version}</version>
 			</dependency>
-			<!-- 虚拟货币处理 -->
+			<!--poi 依赖 处理-->
 			<dependency>
-				<groupId>live.lingting</groupId>
-				<artifactId>virtual-currency-all</artifactId>
-				<version>${virtual-currency.version}</version>
-			</dependency>
-			<!-- 支付宝支付 -->
-			<dependency>
-				<groupId>com.alipay.sdk</groupId>
-				<artifactId>alipay-sdk-java</artifactId>
-				<version>${alipay-sdk.version}</version>
-			</dependency>
-			<!-- ftp用 -->
-			<dependency>
-				<groupId>commons-net</groupId>
-				<artifactId>commons-net</artifactId>
-				<version>3.8.0</version>
-			</dependency>
-
-
-			<!-- sas 授权服务器 -->
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-oauth2-authorization-server</artifactId>
-				<version>${spring-authorization-server.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.nimbusds</groupId>
-				<artifactId>oauth2-oidc-sdk</artifactId>
-				<version>9.20</version>
-			</dependency>
-			<dependency>
-				<groupId>com.nimbusds</groupId>
-				<artifactId>nimbus-jose-jwt</artifactId>
-				<version>9.15.2</version>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.rocketmq</groupId>
 				<artifactId>rocketmq-spring-boot-starter</artifactId>
 				<version>${rocketmq.version}</version>
 			</dependency>
+			<!--jsoup-->
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.lionsoul</groupId>
 				<artifactId>ip2region</artifactId>
 				<version>${ip2region.version}</version>
 			</dependency>
+			<!-- mybatis -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+			<!-- spring-openapi 依赖管理 -->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<!-- spring boot 依赖管理 -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security.oauth</groupId>
+				<artifactId>spring-security-oauth2</artifactId>
+				<version>${spring-security-oauth2.version}</version>
+			</dependency>
+			<!-- sas 授权服务器 -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-oauth2-authorization-server</artifactId>
+				<version>${spring-authorization-server.version}</version>
+			</dependency>
+			<!-- 亚马逊云 Java sdk -->
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>bom</artifactId>
+				<version>${software.amazon.awssdk.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>s3-transfer-manager</artifactId>
+				<version>${software.amazon.awssdk-s3-transfer-manager.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<!--环境变量-->
+
+	<profiles>
+		<profile>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>${maven-gpg-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>${maven-release-plugin.version}</version>
+						<configuration>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<goals>deploy</goals>
+							<releaseProfiles>release</releaseProfiles>
+							<useReleaseProfile>false</useReleaseProfile>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>${nexus-staging-maven-plugin.version}</version>
+						<configuration>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<serverId>ossrh</serverId>
+						</configuration>
+						<extensions>true</extensions>
+					</plugin>
+				</plugins>
+			</build>
+			<id>ossrh</id>
+		</profile>
+	</profiles>
 
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
 		<repository>
-			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>ossrh</id>
 		</repository>
+		<snapshotRepository>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<id>ossrh</id>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<build>
@@ -617,11 +630,11 @@
 				<version>${spring-javaformat-checkstyle.version}</version>
 				<executions>
 					<execution>
-						<phase>validate</phase>
-						<inherited>true</inherited>
 						<goals>
 							<goal>validate</goal>
 						</goals>
+						<inherited>true</inherited>
+						<phase>validate</phase>
 					</execution>
 				</executions>
 			</plugin>
@@ -630,75 +643,44 @@
 				<artifactId>flatten-maven-plugin</artifactId>
 				<version>${flatten-maven-plugin.version}</version>
 				<configuration>
-					<updatePomFile>true</updatePomFile>
 					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+					<updatePomFile>true</updatePomFile>
 				</configuration>
 				<executions>
 					<execution>
-						<id>flatten</id>
-						<phase>process-resources</phase>
 						<goals>
 							<goal>flatten</goal>
 						</goals>
+						<id>flatten</id>
+						<phase>process-resources</phase>
 					</execution>
 					<execution>
-						<id>flatten.clean</id>
-						<phase>clean</phase>
 						<goals>
 							<goal>clean</goal>
 						</goals>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-
-
-	<!--环境变量-->
-	<profiles>
-		<profile>
-			<id>ossrh</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>${nexus-staging-maven-plugin.version}</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-release-plugin</artifactId>
-						<version>${maven-release-plugin.version}</version>
-						<configuration>
-							<autoVersionSubmodules>true</autoVersionSubmodules>
-							<useReleaseProfile>false</useReleaseProfile>
-							<releaseProfiles>release</releaseProfiles>
-							<goals>deploy</goals>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>${maven-gpg-plugin.version}</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
+	<developers>
+		<developer>
+			<name>hccake</name>
+			<email>chengbohua@foxmail.com</email>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://github.com/hccake/ballcat</url>
+		<connection>https://github.com/hccake/ballcat.git</connection>
+		<developerConnection>https://github.com/hccake</developerConnection>
+	</scm>
 </project>

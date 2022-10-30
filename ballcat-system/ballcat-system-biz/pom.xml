@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>ballcat-system</artifactId>
 		<groupId>com.hccake</groupId>
+		<artifactId>ballcat-system</artifactId>
 		<version>${revision}</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-
 	<artifactId>ballcat-system-biz</artifactId>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-system-model</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-common-redis</artifactId>
@@ -26,11 +20,23 @@
 		</dependency>
 		<dependency>
 			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-spring-boot-starter-oss</artifactId>
+			<artifactId>ballcat-security-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-boot-starter-file</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-spring-boot-starter-oss</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-spring-security-oauth2-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-system-model</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -38,18 +44,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-security-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-spring-security-oauth2-core</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 </project>

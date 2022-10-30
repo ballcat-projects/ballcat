@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>ballcat</artifactId>
 		<groupId>com.hccake</groupId>
+		<artifactId>ballcat</artifactId>
 		<version>${revision}</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-
 	<artifactId>ballcat-log</artifactId>
 	<packaging>pom</packaging>
+
 	<modules>
-		<module>ballcat-log-model</module>
 		<module>ballcat-log-biz</module>
 		<module>ballcat-log-controller</module>
+		<module>ballcat-log-model</module>
 	</modules>
-
-
 </project>
