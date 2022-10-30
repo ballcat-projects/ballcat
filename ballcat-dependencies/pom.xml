@@ -36,7 +36,7 @@
 	<properties>
 		<revision>1.0.0-SNAPSHOT</revision>
 
-		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
@@ -46,8 +46,8 @@
 		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
 		<spring-authorization-server.version>0.4.0-M2</spring-authorization-server.version>
 		<springfox.version>3.0.0</springfox.version>
-		<swagger.version>1.5.21</swagger.version>
-		<io.swagger.v3.version>2.2.0</io.swagger.v3.version>
+		<swagger.version>1.6.8</swagger.version>
+		<io.swagger.v3.version>2.2.4</io.swagger.v3.version>
 		<springdoc-openapi.verison>1.6.12</springdoc-openapi.verison>
 		<kafka.version>2.6.3</kafka.version>
 		<hutool.version>5.8.9</hutool.version>

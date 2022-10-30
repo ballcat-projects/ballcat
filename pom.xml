@@ -51,18 +51,18 @@
 		<java.version>1.8</java.version>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<maven-compiler-plugin.verison>3.8.0</maven-compiler-plugin.verison>
+		<maven-compiler-plugin.verison>3.10.1</maven-compiler-plugin.verison>
 		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
 		<spring-javaformat-checkstyle.version>0.0.35</spring-javaformat-checkstyle.version>
 
-		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<maven-source-plugin.version>3.1.0</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+		<maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
 
 		<spring-boot.version>2.7.5</spring-boot.version>
 
