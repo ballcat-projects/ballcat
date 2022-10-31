@@ -1,7 +1,7 @@
 package com.ballcat.startes.oss.test;
 
 import com.hccake.ballcat.common.oss.DefaultOssTemplate;
-import com.hccake.ballcat.common.oss.GlobalObjectPrefixOssTemplate;
+import com.hccake.ballcat.common.oss.ObjectWithGlobalKeyPrefixOssTemplate;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -138,8 +138,8 @@ public class MinioOssTemplateTest extends AbstractOssTemplateTest {
 
 	@Test
 	public void testBean() {
-		if (objectPrefixConverter.match()) {
-			Assertions.assertInstanceOf(GlobalObjectPrefixOssTemplate.class, ossTemplate);
+		if (objectKeyPrefixConverter.match()) {
+			Assertions.assertInstanceOf(ObjectWithGlobalKeyPrefixOssTemplate.class, ossTemplate);
 		}
 		else {
 			Assertions.assertInstanceOf(DefaultOssTemplate.class, ossTemplate);

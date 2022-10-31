@@ -2,7 +2,7 @@ package com.ballcat.startes.oss.test;
 
 import com.hccake.ballcat.common.oss.OssAutoConfiguration;
 import com.hccake.ballcat.common.oss.OssTemplate;
-import com.hccake.ballcat.common.oss.prefix.ObjectPrefixConverter;
+import com.hccake.ballcat.common.oss.prefix.ObjectKeyPrefixConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,7 +19,7 @@ public abstract class AbstractOssTemplateTest {
 	protected OssTemplate ossTemplate;
 
 	@Autowired
-	protected ObjectPrefixConverter objectPrefixConverter;
+	protected ObjectKeyPrefixConverter objectKeyPrefixConverter;
 
 	protected void createBucket(String bucket) {
 		ossTemplate.createBucket(bucket);

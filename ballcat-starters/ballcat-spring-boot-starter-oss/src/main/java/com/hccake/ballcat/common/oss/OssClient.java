@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.oss;
 
-import com.hccake.ballcat.common.oss.prefix.ObjectPrefixConverter;
+import com.hccake.ballcat.common.oss.prefix.ObjectKeyPrefixConverter;
 import lombok.RequiredArgsConstructor;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
@@ -21,7 +21,7 @@ public class OssClient {
 
 	private final OssTemplate ossTemplate;
 
-	private final ObjectPrefixConverter objectPrefixConverter;
+	private final ObjectKeyPrefixConverter objectKeyPrefixConverter;
 
 	public boolean isEnable() {
 		return ossTemplate.getOssProperties().getEnabled();
@@ -62,7 +62,7 @@ public class OssClient {
 	 * @return java.lang.String
 	 */
 	public String upload(InputStream stream, String relativeKey, Long size, ObjectCannedACL acl) {
-		final String objectKey = objectPrefixConverter.wrap(relativeKey);
+		final String objectKey = objectKeyPrefixConverter.wrap(relativeKey);
 		final PutObjectRequest.Builder builder = PutObjectRequest.builder()
 				.bucket(ossTemplate.getOssProperties().getBucket()).key(objectKey);
 
@@ -79,7 +79,7 @@ public class OssClient {
 	 * 获取 相对路径 的下载url
 	 */
 	public String getDownloadUrl(String relativeKey) {
-		return getDownloadUrlByAbsolute(objectPrefixConverter.wrap(relativeKey));
+		return getDownloadUrlByAbsolute(objectKeyPrefixConverter.wrap(relativeKey));
 	}
 
 	/**

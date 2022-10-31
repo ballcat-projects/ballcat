@@ -16,8 +16,11 @@ import org.springframework.util.StringUtils;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class DefaultObjectPrefixConverter implements ObjectPrefixConverter, InitializingBean {
+public class DefaultObjectKeyPrefixConverter implements ObjectKeyPrefixConverter, InitializingBean {
 
+	/**
+	 * OSS属性配置
+	 */
 	private final OssProperties properties;
 
 	/**
@@ -53,7 +56,7 @@ public class DefaultObjectPrefixConverter implements ObjectPrefixConverter, Init
 	/**
 	 * 输出当前的路径标准化对象前缀信息 参考官方文档<a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/using-prefixes.html">使用前缀组织对象</a>
-	 * @throws Exception
+	 * @throws Exception 如果配置错误(例如设置基本属性失败)，或者初始化由于其他原因失败则抛出异常
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {

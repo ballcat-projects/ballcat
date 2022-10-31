@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.oss;
 
-import com.hccake.ballcat.common.oss.prefix.ObjectPrefixConverter;
+import com.hccake.ballcat.common.oss.prefix.ObjectKeyPrefixConverter;
 import lombok.Getter;
 import org.springframework.util.StringUtils;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
@@ -16,33 +16,39 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * OSS操作模板[启用全局前缀版]
+ * OSS操作模板[对象key带全局前缀]
  *
  * @author lishangbu
  * @date 2022/10/23
  */
-public class GlobalObjectPrefixOssTemplate extends DefaultOssTemplate {
+public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 
 	/**
 	 * 对象key前缀转换器
 	 */
 	@Getter
-	private final ObjectPrefixConverter objectPrefixConverter;
+	private final ObjectKeyPrefixConverter objectKeyPrefixConverter;
 
-	public GlobalObjectPrefixOssTemplate(OssProperties ossProperties, ObjectPrefixConverter objectPrefixConverter) {
+	/**
+	 * 构造器
+	 * @param ossProperties OSS属性配置文件
+	 * @param objectKeyPrefixConverter 对象全局键前缀转换器
+	 */
+	public ObjectWithGlobalKeyPrefixOssTemplate(OssProperties ossProperties,
+			ObjectKeyPrefixConverter objectKeyPrefixConverter) {
 		super(ossProperties);
-		this.objectPrefixConverter = objectPrefixConverter;
+		this.objectKeyPrefixConverter = objectKeyPrefixConverter;
 	}
 
 	@Override
 	public List<S3Object> listObjects(String bucket, String prefix, Integer maxKeys) {
 		// 构造API_ListObjects请求
 		List<S3Object> contents = s3Client.listObjects(ListObjectsRequest.builder().bucket(bucket).maxKeys(maxKeys)
-				.prefix(objectPrefixConverter.wrap(prefix)).build()).contents();
-		return objectPrefixConverter.match() ? contents.stream()
+				.prefix(objectKeyPrefixConverter.wrap(prefix)).build()).contents();
+		return objectKeyPrefixConverter.match() ? contents.stream()
 				.map(ele -> S3Object.builder().checksumAlgorithm(ele.checksumAlgorithm())
 						.checksumAlgorithmWithStrings(ele.checksumAlgorithmAsStrings()).eTag(ele.eTag())
-						.lastModified(ele.lastModified()).key(objectPrefixConverter.unwrap(ele.key()))
+						.lastModified(ele.lastModified()).key(objectKeyPrefixConverter.unwrap(ele.key()))
 						.owner(ele.owner()).size(ele.size()).storageClass(ele.storageClass()).build())
 				.collect(Collectors.toList()) : contents;
 	}
@@ -63,7 +69,7 @@ public class GlobalObjectPrefixOssTemplate extends DefaultOssTemplate {
 	@Override
 	public PutObjectResponse putObject(String bucket, String key, File file)
 			throws AwsServiceException, SdkClientException, S3Exception, IOException {
-		return super.putObject(bucket, objectPrefixConverter.wrap(key), file);
+		return super.putObject(bucket, objectKeyPrefixConverter.wrap(key), file);
 	}
 
 	/**
@@ -82,10 +88,10 @@ public class GlobalObjectPrefixOssTemplate extends DefaultOssTemplate {
 			throws AwsServiceException, SdkClientException, S3Exception {
 		if (StringUtils.hasText(putObjectRequest.key())) {
 			return super.putObject(PutObjectRequest.builder().acl(putObjectRequest.acl())
-					.contentType(putObjectRequest.contentType()).key(objectPrefixConverter.wrap(putObjectRequest.key()))
-					.bucket(putObjectRequest.bucket()).contentLength(putObjectRequest.contentLength())
-					.cacheControl(putObjectRequest.cacheControl()).metadata(putObjectRequest.metadata())
-					.checksumAlgorithm(putObjectRequest.checksumAlgorithm())
+					.contentType(putObjectRequest.contentType())
+					.key(objectKeyPrefixConverter.wrap(putObjectRequest.key())).bucket(putObjectRequest.bucket())
+					.contentLength(putObjectRequest.contentLength()).cacheControl(putObjectRequest.cacheControl())
+					.metadata(putObjectRequest.metadata()).checksumAlgorithm(putObjectRequest.checksumAlgorithm())
 					.checksumCRC32(putObjectRequest.checksumCRC32()).checksumCRC32C(putObjectRequest.checksumCRC32C())
 					.checksumSHA1(putObjectRequest.checksumSHA1()).checksumSHA256(putObjectRequest.checksumSHA256())
 					.bucketKeyEnabled(putObjectRequest.bucketKeyEnabled())
@@ -126,7 +132,7 @@ public class GlobalObjectPrefixOssTemplate extends DefaultOssTemplate {
 	 */
 	@Override
 	public DeleteObjectResponse deleteObject(String bucket, String key) {
-		return super.deleteObject(bucket, objectPrefixConverter.wrap(key));
+		return super.deleteObject(bucket, objectKeyPrefixConverter.wrap(key));
 	}
 
 	/**
@@ -139,11 +145,12 @@ public class GlobalObjectPrefixOssTemplate extends DefaultOssTemplate {
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObject.html">从存储桶中删除对象</a>
 	 */
+	@Override
 	public DeleteObjectResponse deleteObject(DeleteObjectRequest deleteObjectRequest) {
 
 		if (StringUtils.hasText(deleteObjectRequest.key())) {
 			return super.deleteObject(DeleteObjectRequest.builder().bucket(deleteObjectRequest.bucket())
-					.key(objectPrefixConverter.wrap(deleteObjectRequest.key()))
+					.key(objectKeyPrefixConverter.wrap(deleteObjectRequest.key()))
 					.bypassGovernanceRetention(deleteObjectRequest.bypassGovernanceRetention())
 					.expectedBucketOwner(deleteObjectRequest.expectedBucketOwner()).mfa(deleteObjectRequest.mfa())
 					.overrideConfiguration(deleteObjectRequest.overrideConfiguration().isPresent()
@@ -162,8 +169,9 @@ public class GlobalObjectPrefixOssTemplate extends DefaultOssTemplate {
 	 * @param key 文件名称
 	 * @return url
 	 */
+	@Override
 	public String getURL(String bucket, String key) {
-		return super.getURL(bucket, objectPrefixConverter.wrap(key));
+		return super.getURL(bucket, objectKeyPrefixConverter.wrap(key));
 	}
 
 	/**
@@ -177,7 +185,7 @@ public class GlobalObjectPrefixOssTemplate extends DefaultOssTemplate {
 	 */
 	@Override
 	public String getObjectPresignedUrl(String bucket, String key, Duration duration) {
-		return super.getObjectPresignedUrl(bucket, objectPrefixConverter.wrap(key), duration);
+		return super.getObjectPresignedUrl(bucket, objectKeyPrefixConverter.wrap(key), duration);
 	}
 
 	/**
@@ -202,8 +210,9 @@ public class GlobalObjectPrefixOssTemplate extends DefaultOssTemplate {
 	 * @return A new Upload object which can be used to check state of the upload, listen
 	 * for progress notifications, and otherwise manage the upload.
 	 */
+	@Override
 	public FileUpload uploadFile(String bucket, String key, File file) {
-		return super.uploadFile(bucket, objectPrefixConverter.wrap(key), file);
+		return super.uploadFile(bucket, objectKeyPrefixConverter.wrap(key), file);
 	}
 
 }

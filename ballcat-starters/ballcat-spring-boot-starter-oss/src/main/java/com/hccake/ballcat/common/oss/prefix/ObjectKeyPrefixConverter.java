@@ -6,7 +6,7 @@ package com.hccake.ballcat.common.oss.prefix;
  * @author lishangbu
  * @date 2022/10/23
  */
-public interface ObjectPrefixConverter {
+public interface ObjectKeyPrefixConverter {
 
 	/**
 	 * 生成前缀

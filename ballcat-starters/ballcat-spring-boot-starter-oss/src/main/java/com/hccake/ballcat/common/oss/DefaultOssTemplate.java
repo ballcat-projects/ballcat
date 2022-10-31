@@ -82,6 +82,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteBucket.html">删除存储桶</a>
 	 */
+	@Override
 	public DeleteBucketResponse deleteBucket(DeleteBucketRequest deleteBucketRequest) {
 		return s3Client.deleteBucket(deleteBucketRequest);
 	}
@@ -96,6 +97,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteBucket.html">删除存储桶</a>
 	 */
+	@Override
 	public DeleteBucketResponse deleteBucket(String bucket) {
 		return deleteBucket(DeleteBucketRequest.builder().bucket(bucket).build());
 	}
@@ -111,6 +113,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_ListObjects.html">罗列对象</a>
 	 */
+	@Override
 	public List<S3Object> listObjects(String prefix) {
 		return listObjects(ossProperties.getBucket(), prefix);
 	}
@@ -123,6 +126,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_ListObjects.html">罗列对象</a>
 	 */
+	@Override
 	public List<S3Object> listObjects(String bucket, String prefix) {
 		return listObjects(bucket, prefix, 1000);
 	}
@@ -136,6 +140,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_ListObjects.html">罗列对象</a>
 	 */
+	@Override
 	public List<S3Object> listObjects(String bucket, String prefix, Integer maxKeys) {
 		return s3Client.listObjects(ListObjectsRequest.builder().maxKeys(maxKeys).prefix(prefix).bucket(bucket).build())
 				.contents();
@@ -154,6 +159,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_PutObject.html">往存储桶中添加对象</a>
 	 */
+	@Override
 	public PutObjectResponse putObject(String bucket, String key, File file)
 			throws AwsServiceException, SdkClientException, S3Exception, IOException {
 		return s3Client.putObject(
@@ -172,6 +178,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObject.html">从存储桶中删除对象</a>
 	 */
+	@Override
 	public DeleteObjectResponse deleteObject(DeleteObjectRequest deleteObjectRequest) {
 		return s3Client.deleteObject(deleteObjectRequest);
 	}
@@ -186,6 +193,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObject.html">从存储桶中删除对象</a>
 	 */
+	@Override
 	public DeleteObjectResponse deleteObject(String key) {
 		return deleteObject(ossProperties.getBucket(), key);
 	}
@@ -201,6 +209,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObject.html">从存储桶中删除对象</a>
 	 */
+	@Override
 	public DeleteObjectResponse deleteObject(String bucket, String key) {
 		return deleteObject(DeleteObjectRequest.builder().bucket(bucket).key(key).build());
 	}
@@ -224,6 +233,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * @see <a href=
 	 * "https://github.com/awsdocs/aws-doc-sdk-examples/blob/master/javav2/example_code/s3/src/main/java/com/example/s3/GetObjectPresignedUrl.java">获取文件外链</a>
 	 */
+	@Override
 	public String getObjectPresignedUrl(String bucket, String key, Duration duration) {
 
 		GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucket).key(key).build();
