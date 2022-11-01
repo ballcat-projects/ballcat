@@ -1,5 +1,6 @@
 package com.hccake.ballcat.common.redis.core;
 
+import com.hccake.ballcat.common.redis.RedisHelper;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import com.hccake.ballcat.common.redis.core.annotation.CacheDel;
 import com.hccake.ballcat.common.redis.core.annotation.CacheDels;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -230,14 +232,28 @@ public class CacheStringAspect {
 	 */
 	private VoidMethod buildCacheDelExecution(CacheDel cacheDelAnnotation, KeyGenerator keyGenerator) {
 		VoidMethod cacheDel;
-		if (cacheDelAnnotation.multiDel()) {
-			Collection<String> keys = keyGenerator.getKeys(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
-			cacheDel = () -> redisTemplate.delete(keys);
+		if (cacheDelAnnotation.allEntries()) {
+			// 优先判断是否是删除名称空间下所有的键值对
+			cacheDel = () -> {
+				Cursor<String> scan = RedisHelper.scan(cacheDelAnnotation.key().concat("*"));
+				while (scan.hasNext()) {
+					redisTemplate.delete(scan.next());
+				}
+				if (!scan.isClosed()) {
+					scan.close();
+				}
+			};
 		}
 		else {
-			// 缓存key
-			String key = keyGenerator.getKey(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
-			cacheDel = () -> redisTemplate.delete(key);
+			if (cacheDelAnnotation.multiDel()) {
+				Collection<String> keys = keyGenerator.getKeys(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
+				cacheDel = () -> redisTemplate.delete(keys);
+			}
+			else {
+				// 缓存key
+				String key = keyGenerator.getKey(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
+				cacheDel = () -> redisTemplate.delete(key);
+			}
 		}
 		return cacheDel;
 	}
