@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -297,6 +298,29 @@ public class TreeUtils {
 		}
 		boolean nodeMatched = matcher.test(treeNode);
 		return (nodeMatched || childrenMatched) ? treeNode : null;
+	}
+
+	/**
+	 * 遍历树节点（深度优先）
+	 */
+	public <T extends TreeNode<I>, I> void forEachDFS(T treeNode, T parentTreeNode, BiConsumer<T, T> action) {
+		action.accept(treeNode, parentTreeNode);
+		List<T> children = treeNode.getChildren();
+		forEachDFS(children, parentTreeNode, action);
+	}
+
+	/**
+	 * 遍历树节点（深度优先）
+	 */
+	public <T extends TreeNode<I>, I> void forEachDFS(List<T> treeNodes, T parentTreeNode, BiConsumer<T, T> action) {
+		if (treeNodes == null || treeNodes.isEmpty()) {
+			return;
+		}
+		for (T treeNode : treeNodes) {
+			List<T> children = treeNode.getChildren();
+			action.accept(treeNode, parentTreeNode);
+			forEachDFS(children, treeNode, action);
+		}
 	}
 
 }
