@@ -90,4 +90,14 @@ public class SysOrganizationTree implements TreeNode<Integer> {
 		this.children = (List<SysOrganizationTree>) children;
 	}
 
+	@Override
+	public Integer getKey() {
+		return this.id;
+	}
+
+	@Override
+	public Integer getParentKey() {
+		return this.parentId;
+	}
+
 }

@@ -10,16 +10,16 @@ import java.util.List;
 public interface TreeNode<I> {
 
 	/**
-	 * 获取节点id
-	 * @return 树节点id
+	 * 获取节点 key
+	 * @return 树节点 key
 	 */
-	I getId();
+	I getKey();
 
 	/**
-	 * 获取该节点的父节点id
-	 * @return 父节点id
+	 * 获取该节点的父节点 key
+	 * @return 父节点 key
 	 */
-	I getParentId();
+	I getParentKey();
 
 	/**
 	 * 设置节点的子节点列表
