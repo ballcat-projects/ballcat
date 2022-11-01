@@ -1,13 +1,11 @@
 package com.hccake.ballcat.system.model.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldStrategy;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,7 +27,7 @@ public class SysMenu extends LogicDeletedBaseEntity {
 	/**
 	 * 菜单ID
 	 */
-	@TableId(type = IdType.INPUT)
+	@TableId
 	@Schema(title = "菜单ID")
 	private Integer id;
 

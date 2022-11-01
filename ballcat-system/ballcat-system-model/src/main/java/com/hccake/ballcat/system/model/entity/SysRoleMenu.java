@@ -1,10 +1,8 @@
 package com.hccake.ballcat.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import lombok.Data;
 
 /**
@@ -28,7 +26,7 @@ public class SysRoleMenu {
 		this.menuId = menuId;
 	}
 
-	@TableId(type = IdType.AUTO)
+	@TableId
 	private Long id;
 
 	/**

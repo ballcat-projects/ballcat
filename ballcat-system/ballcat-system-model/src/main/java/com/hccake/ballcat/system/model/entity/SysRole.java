@@ -1,11 +1,9 @@
 package com.hccake.ballcat.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hccake.ballcat.common.model.entity.LogicDeletedBaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,7 +26,7 @@ public class SysRole extends LogicDeletedBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId(value = "id", type = IdType.AUTO)
+	@TableId
 	@Schema(title = "角色编号")
 	private Integer id;
 
