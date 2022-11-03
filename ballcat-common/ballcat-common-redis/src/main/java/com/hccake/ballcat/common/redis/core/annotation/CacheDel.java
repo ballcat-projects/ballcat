@@ -30,4 +30,17 @@ public @interface CacheDel {
 	 */
 	boolean multiDel() default false;
 
+	/**
+	 * <p>
+	 * 是否删除缓存空间{@link #key}下的所有条目
+	 * </p>
+	 * <p>
+	 * 默认情况下，只删除相关键下的值。
+	 * </p>
+	 * <p>
+	 * 注意，设置该参数为{@code true}时，指定的 {@link #keyJoint}与{@link #multiDel} 将被忽略.
+	 * </p>
+	 */
+	boolean allEntries() default false;
+
 }
