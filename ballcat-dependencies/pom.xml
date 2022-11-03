@@ -47,6 +47,16 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- ================================ 第三方 bom 导入 ================================== -->
+			<!-- 注意 bom 导入有优先级顺序，写在前面的优先级高 -->
+			<!-- spring boot 依赖管理 -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
 			<!-- hutool工具类 -->
 			<dependency>
 				<groupId>cn.hutool</groupId>
@@ -55,6 +65,24 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
+			<!-- spring-openapi 依赖管理 -->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi</artifactId>
+				<version>${springdoc-openapi.verison}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<!-- 亚马逊云 Java sdk -->
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>bom</artifactId>
+				<version>${software.amazon.awssdk.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+
+			<!-- ================================ 第三方依赖 ================================== -->
 			<!--easyExcel 处理-->
 			<dependency>
 				<groupId>com.alibaba</groupId>
@@ -113,7 +141,135 @@
 				<artifactId>jasypt-spring-boot-starter</artifactId>
 				<version>${jasypt.version}</version>
 			</dependency>
-			<!-- ballcat 自身模块版本 -->
+			<dependency>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>nimbus-jose-jwt</artifactId>
+				<version>9.15.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>oauth2-oidc-sdk</artifactId>
+				<version>9.20</version>
+			</dependency>
+			<!--xxl-job-->
+			<dependency>
+				<groupId>com.xuxueli</groupId>
+				<artifactId>xxl-job-core</artifactId>
+				<version>${xxl-job.version}</version>
+			</dependency>
+			<!-- ftp用 -->
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>3.8.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-boot-starter</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<!-- SpringFox -->
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<!--swagger v3-->
+			<dependency>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${io.swagger.v3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-models</artifactId>
+				<version>${io.swagger.v3.version}</version>
+			</dependency>
+			<!--swagger v2-->
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-models</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+			<!-- 虚拟货币处理 -->
+			<dependency>
+				<groupId>live.lingting</groupId>
+				<artifactId>virtual-currency-all</artifactId>
+				<version>${virtual-currency.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka-clients</artifactId>
+				<version>${kafka.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka-streams</artifactId>
+				<version>${kafka.version}</version>
+			</dependency>
+			<!--kafka MQ-->
+			<dependency>
+				<groupId>org.apache.kafka</groupId>
+				<artifactId>kafka_2.12</artifactId>
+				<version>${kafka.version}</version>
+			</dependency>
+			<!--poi 依赖 处理-->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.rocketmq</groupId>
+				<artifactId>rocketmq-spring-boot-starter</artifactId>
+				<version>${rocketmq.version}</version>
+			</dependency>
+			<!--jsoup-->
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.lionsoul</groupId>
+				<artifactId>ip2region</artifactId>
+				<version>${ip2region.version}</version>
+			</dependency>
+			<!-- mybatis -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security.oauth</groupId>
+				<artifactId>spring-security-oauth2</artifactId>
+				<version>${spring-security-oauth2.version}</version>
+			</dependency>
+			<!-- sas 授权服务器 -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-oauth2-authorization-server</artifactId>
+				<version>${spring-authorization-server.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>s3-transfer-manager</artifactId>
+				<version>${software.amazon.awssdk-s3-transfer-manager.version}</version>
+			</dependency>
+
+
+			<!-- ================================ ballcat 自身模块版本 ================================== -->
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-admin-core</artifactId>
@@ -411,156 +567,6 @@
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-system-model</artifactId>
 				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.nimbusds</groupId>
-				<artifactId>nimbus-jose-jwt</artifactId>
-				<version>9.15.2</version>
-			</dependency>
-			<dependency>
-				<groupId>com.nimbusds</groupId>
-				<artifactId>oauth2-oidc-sdk</artifactId>
-				<version>9.20</version>
-			</dependency>
-			<!--xxl-job-->
-			<dependency>
-				<groupId>com.xuxueli</groupId>
-				<artifactId>xxl-job-core</artifactId>
-				<version>${xxl-job.version}</version>
-			</dependency>
-			<!-- ftp用 -->
-			<dependency>
-				<groupId>commons-net</groupId>
-				<artifactId>commons-net</artifactId>
-				<version>3.8.0</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-boot-starter</artifactId>
-				<version>${springfox.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger-ui</artifactId>
-				<version>${springfox.version}</version>
-			</dependency>
-			<!-- SpringFox -->
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${springfox.version}</version>
-			</dependency>
-			<!--swagger v3-->
-			<dependency>
-				<groupId>io.swagger.core.v3</groupId>
-				<artifactId>swagger-annotations</artifactId>
-				<version>${io.swagger.v3.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.swagger.core.v3</groupId>
-				<artifactId>swagger-models</artifactId>
-				<version>${io.swagger.v3.version}</version>
-			</dependency>
-			<!--swagger v2-->
-			<dependency>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-annotations</artifactId>
-				<version>${swagger.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-models</artifactId>
-				<version>${swagger.version}</version>
-			</dependency>
-			<!-- 虚拟货币处理 -->
-			<dependency>
-				<groupId>live.lingting</groupId>
-				<artifactId>virtual-currency-all</artifactId>
-				<version>${virtual-currency.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.kafka</groupId>
-				<artifactId>kafka-clients</artifactId>
-				<version>${kafka.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.kafka</groupId>
-				<artifactId>kafka-streams</artifactId>
-				<version>${kafka.version}</version>
-			</dependency>
-			<!--kafka MQ-->
-			<dependency>
-				<groupId>org.apache.kafka</groupId>
-				<artifactId>kafka_2.12</artifactId>
-				<version>${kafka.version}</version>
-			</dependency>
-			<!--poi 依赖 处理-->
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml</artifactId>
-				<version>${poi.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.rocketmq</groupId>
-				<artifactId>rocketmq-spring-boot-starter</artifactId>
-				<version>${rocketmq.version}</version>
-			</dependency>
-			<!--jsoup-->
-			<dependency>
-				<groupId>org.jsoup</groupId>
-				<artifactId>jsoup</artifactId>
-				<version>${jsoup.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.lionsoul</groupId>
-				<artifactId>ip2region</artifactId>
-				<version>${ip2region.version}</version>
-			</dependency>
-			<!-- mybatis -->
-			<dependency>
-				<groupId>org.mybatis</groupId>
-				<artifactId>mybatis</artifactId>
-				<version>${mybatis.version}</version>
-			</dependency>
-			<!-- spring-openapi 依赖管理 -->
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi</artifactId>
-				<version>${springdoc-openapi.verison}</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
-			<!-- spring boot 依赖管理 -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${spring-boot.version}</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.security.oauth</groupId>
-				<artifactId>spring-security-oauth2</artifactId>
-				<version>${spring-security-oauth2.version}</version>
-			</dependency>
-			<!-- sas 授权服务器 -->
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-oauth2-authorization-server</artifactId>
-				<version>${spring-authorization-server.version}</version>
-			</dependency>
-			<!-- 亚马逊云 Java sdk -->
-			<dependency>
-				<groupId>software.amazon.awssdk</groupId>
-				<artifactId>bom</artifactId>
-				<version>${software.amazon.awssdk.version}</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>software.amazon.awssdk</groupId>
-				<artifactId>s3-transfer-manager</artifactId>
-				<version>${software.amazon.awssdk-s3-transfer-manager.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
