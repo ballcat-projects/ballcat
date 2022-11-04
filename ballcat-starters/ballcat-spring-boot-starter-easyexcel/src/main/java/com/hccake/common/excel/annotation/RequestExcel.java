@@ -1,5 +1,6 @@
 package com.hccake.common.excel.annotation;
 
+import com.alibaba.excel.read.builder.AbstractExcelReaderParameterBuilder;
 import com.hccake.common.excel.handler.DefaultAnalysisEventListener;
 import com.hccake.common.excel.handler.ListAnalysisEventListener;
 
@@ -33,5 +34,14 @@ public @interface RequestExcel {
 	 * @return 默认跳过
 	 */
 	boolean ignoreEmptyRow() default false;
+
+	/**
+	 * Count the number of added heads when read sheet. 0 - This Sheet has no head ,since
+	 * the first row are the data 1 - This Sheet has one row head , this is the default 2
+	 * - This Sheet has two row head ,since the third row is the data
+	 * @see AbstractExcelReaderParameterBuilder#headRowNumber
+	 * @return headRowNumber
+	 */
+	int headRowNumber() default 1;
 
 }
