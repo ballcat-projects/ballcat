@@ -43,9 +43,9 @@ public class SelectData<T> {
 	private String type;
 
 	/**
-	 * 扩展对象
+	 * 附加属性
 	 */
-	@Schema(title = "扩展对象")
-	private T extendObj;
+	@Schema(title = "附加属性")
+	private T attributes;
 
 }
