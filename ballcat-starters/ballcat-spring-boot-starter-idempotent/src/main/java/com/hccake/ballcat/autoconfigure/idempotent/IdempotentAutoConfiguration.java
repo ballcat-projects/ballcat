@@ -1,8 +1,8 @@
 package com.hccake.ballcat.autoconfigure.idempotent;
 
 import com.hccake.ballcat.common.idempotent.IdempotentAspect;
-import com.hccake.ballcat.common.idempotent.key.generator.DefaultKeyGenerator;
-import com.hccake.ballcat.common.idempotent.key.generator.KeyGenerator;
+import com.hccake.ballcat.common.idempotent.key.generator.DefaultIdempotentKeyGenerator;
+import com.hccake.ballcat.common.idempotent.key.generator.IdempotentKeyGenerator;
 import com.hccake.ballcat.common.idempotent.key.store.IdempotentKeyStore;
 import com.hccake.ballcat.common.idempotent.key.store.InMemoryIdempotentKeyStore;
 import com.hccake.ballcat.common.idempotent.key.store.RedisIdempotentKeyStore;
@@ -29,8 +29,8 @@ public class IdempotentAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public KeyGenerator keyGenerator() {
-		return new DefaultKeyGenerator();
+	public IdempotentKeyGenerator idempotentKeyGenerator() {
+		return new DefaultIdempotentKeyGenerator();
 	}
 
 	/**
@@ -56,8 +56,8 @@ public class IdempotentAutoConfiguration {
 	 * @return
 	 */
 	@Bean
-	public IdempotentAspect idempotentAspect(IdempotentKeyStore idempotentKeyStore, KeyGenerator keyGenerator) {
-		return new IdempotentAspect(idempotentKeyStore, keyGenerator);
+	public IdempotentAspect idempotentAspect(IdempotentKeyStore idempotentKeyStore, IdempotentKeyGenerator idempotentKeyGenerator) {
+		return new IdempotentAspect(idempotentKeyStore, idempotentKeyGenerator);
 	}
 
 }

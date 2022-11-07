@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
  * @author lishangbu
  * @date 2022/10/18
  */
-public class DefaultKeyGenerator implements KeyGenerator {
+public class DefaultIdempotentKeyGenerator implements IdempotentKeyGenerator {
 
 	/**
 	 * 生成幂等 key

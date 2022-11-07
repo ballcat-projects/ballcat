@@ -11,7 +11,7 @@ import org.springframework.lang.NonNull;
  * @date 2022/10/18
  */
 @FunctionalInterface
-public interface KeyGenerator {
+public interface IdempotentKeyGenerator {
 
 	/**
 	 * 生成幂等 key
