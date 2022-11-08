@@ -58,8 +58,8 @@ public class SysDictItemDTO {
 	/**
 	 * 状态
 	 */
-	@NotNull(message = "status {}")
-	@OneOfInts(value = { 1, 0 }, message = "status {}")
+	@NotNull(message = "status {}", groups = CreateGroup.class)
+	@OneOfInts(value = { 1, 0 }, message = "status {}", allowNull = true)
 	@Schema(title = "状态", description = "1：启用 0：禁用")
 	private Integer status;
 

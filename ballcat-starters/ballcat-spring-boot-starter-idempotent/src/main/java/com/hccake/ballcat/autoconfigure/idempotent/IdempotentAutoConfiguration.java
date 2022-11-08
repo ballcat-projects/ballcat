@@ -52,11 +52,12 @@ public class IdempotentAutoConfiguration {
 
 	/**
 	 * 幂等切面
-	 * @param idempotentKeyStore
-	 * @return
+	 * @param idempotentKeyStore 幂等key仓库
+	 * @return IdempotentAspect
 	 */
 	@Bean
-	public IdempotentAspect idempotentAspect(IdempotentKeyStore idempotentKeyStore, IdempotentKeyGenerator idempotentKeyGenerator) {
+	public IdempotentAspect idempotentAspect(IdempotentKeyStore idempotentKeyStore,
+			IdempotentKeyGenerator idempotentKeyGenerator) {
 		return new IdempotentAspect(idempotentKeyStore, idempotentKeyGenerator);
 	}
 
