@@ -1,7 +1,6 @@
 package com.hccake.ballcat.admin.upms.config.task;
 
 import cn.hutool.core.map.MapUtil;
-import org.jboss.logging.NDC;
 import org.slf4j.MDC;
 import org.springframework.core.task.TaskDecorator;
 
@@ -16,20 +15,20 @@ public class MdcTaskDecorator implements TaskDecorator {
 
 	@Override
 	public Runnable decorate(Runnable runnable) {
-		final Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
-		return () -> {
-			if (MapUtil.isNotEmpty(copyOfContextMap)) {
-				// 现在：@Async线程上下文！ 恢复Web线程上下文的MDC数据
-				MDC.setContextMap(copyOfContextMap);
-			}
-
-			try {
+		try {
+			Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
+			return () -> {
+				// 现在：@Async线程上下文！
+				// 恢复Web线程上下文的MDC数据
+				if (MapUtil.isNotEmpty(copyOfContextMap)) {
+					MDC.setContextMap(copyOfContextMap);
+				}
 				runnable.run();
-			}
-			finally {
-				NDC.clear();
-			}
-		};
+			};
+		}
+		finally {
+			MDC.clear();
+		}
 	}
 
 }
