@@ -115,46 +115,49 @@ http://codegen.ballcat.cn/
 **目前提供的功能模块列表**
 
 ```
-|-- ballcat-common			-- 基础公用组件
-|   |-- ballcat-common-core				-- 核心组件
-|   |-- ballcat-common-desensitize		-- 脱敏基础组件
-|   |-- ballcat-common-i18n				-- 国际化基础组件
-|   |-- ballcat-common-idempoten		-- 幂等基础组件
-|   |-- ballcat-common-log		        -- 日志基础组件
-|   |-- ballcat-common-model			-- 公用的一些模型
-|   |-- ballcat-common-redis			-- redis基础组件
-|   |-- ballcat-common-security			-- 安全相关，以及资源服务器配置
-|   |-- ballcat-common-util				-- 公用的工具
-|   `-- ballcat-common-websocket		-- 对于 spring websocket 的一些抽象封装
-|-- ballcat-dependencies	       -- ballcat项目本身各子模块的依赖管理，以及第三方模块的依赖管理
-|-- ballcat-extends			       -- 扩展模块，大多是对于一些第三方组件的扩展处理
-|   |-- ballcat-extend-dingtalk			-- 钉钉的一些操作封装
-|   |-- ballcat-extend-kafka			-- kafka 的一些操作扩展
-|   |-- ballcat-extend-kafka-stream		-- kafka 流处理的一些操作扩展
-|   |-- ballcat-extend-mybatis-plus		-- 基于 mybatis-plus 相关的一些扩展
-|   |-- ballcat-extend-openapi			-- 对 springdoc-openapi 的一点封装扩展
-|   |-- ballcat-extend-pay-ali			-- 针对支付宝支付的一些操作封装
-|   |-- ballcat-extend-pay-virtual		-- 针对虚拟货币支付的一些操作封装
-|   |-- ballcat-extend-pay-wx			-- 针对微信支付的一些操作封装
-|   |-- ballcat-extend-redis-module		-- redis module 的扩展功能（暂时只有布隆过滤器）
-|   `-- ballcat-extend-tesseract		-- 对 OCR 文字识别工具的一个操作封装
-|-- ballcat-starters        
-|   |-- ballcat-spring-boot-starter-datascope	-- 数据权限控制
-|   |-- ballcat-spring-boot-starter-dingtalk	-- 钉钉集成工具
-|   |-- ballcat-spring-boot-starter-easyexcel	-- 通过注解快速导入导出excle（easyexcel）
-|   |-- ballcat-spring-boot-starter-file		-- 文件上传 FTP or Local
-|   |-- ballcat-spring-boot-starter-i18n		-- 国际化方案
-|   |-- ballcat-spring-boot-starter-job			-- 定时任务集成（目前仅xxl-job）
-|   |-- ballcat-spring-boot-starter-kafka		-- 消息队列 kafka 集成
-|   |-- ballcat-spring-boot-starter-log			-- 访问日志，操作日志，TraceId注入
-|   |-- ballcat-spring-boot-starter-mail		-- 邮件发送
-|   |-- ballcat-spring-boot-starter-oss			-- 对象存储（所有支持 AWS S3 协议的云存储，如阿里云，七牛云，腾讯云）
-|   |-- ballcat-spring-boot-starter-pay			-- 支付相关
-|   |-- ballcat-spring-boot-starter-redis		-- 提供注解使用 redis, 分布式锁，防击穿，全局key前缀等功能
-|   |-- ballcat-spring-boot-starter-sms			-- 短信接入 starter
-|   |-- ballcat-spring-boot-starter-swagger		-- swagger文档配置（提供无注册中心的文档聚合方案）
+|-- ballcat-common                 -- 基础公用组件
+|   |-- ballcat-common-core             -- 核心组件
+|   |-- ballcat-common-desensitize      -- 脱敏基础组件
+|   |-- ballcat-common-i18n	            -- 国际化基础组件
+|   |-- ballcat-common-idempoten        -- 幂等基础组件
+|   |-- ballcat-common-log              -- 日志基础组件
+|   |-- ballcat-common-model            -- 公用的一些模型
+|   |-- ballcat-common-redis            -- redis基础组件
+|   |-- ballcat-common-security         -- 安全相关，以及资源服务器配置
+|   |-- ballcat-common-util             -- 公用的工具
+|   `-- ballcat-common-websocket        -- 对于 spring websocket 的一些抽象封装
+|-- ballcat-dependencies           -- ballcat项目本身各子模块的依赖管理，以及第三方模块的依赖管理
+|-- ballcat-extends	               -- 扩展模块，大多是对于一些第三方组件的扩展处理
+|   |-- ballcat-extend-dingtalk	        -- 钉钉的一些操作封装
+|   |-- ballcat-extend-kafka            -- kafka 的一些操作扩展
+|   |-- ballcat-extend-kafka-stream	    -- kafka 流处理的一些操作扩展
+|   |-- ballcat-extend-mybatis-plus	    -- 基于 mybatis-plus 相关的一些扩展
+|   |-- ballcat-extend-openapi          -- 对 springdoc-openapi 的一点封装扩展
+|   |-- ballcat-extend-pay-ali          -- 针对支付宝支付的一些操作封装
+|   |-- ballcat-extend-pay-virtual      -- 针对虚拟货币支付的一些操作封装
+|   |-- ballcat-extend-pay-wx           -- 针对微信支付的一些操作封装
+|   |-- ballcat-extend-redis-module     -- redis module 的扩展功能（暂时只有布隆过滤器）
+|   `-- ballcat-extend-tesseract        -- 对 OCR 文字识别工具的一个操作封装
+|-- ballcat-starters                -- Spring Boot快速启动器      
+|   |-- ballcat-spring-boot-starter-datascope   -- 数据权限控制
+|   |-- ballcat-spring-boot-starter-dingtalk    -- 钉钉集成工具
+|   |-- ballcat-spring-boot-starter-easyexcel   -- 通过注解快速导入导出excle（easyexcel）
+|   |-- ballcat-spring-boot-starter-file        -- 文件上传 FTP or Local
+|   |-- ballcat-spring-boot-starter-i18n        -- 国际化方案
+|   |-- ballcat-spring-boot-starter-idempotent  -- 幂等处理方案
+|   |-- ballcat-spring-boot-starter-ip2region   -- 离线IP查询方案
+|   |-- ballcat-spring-boot-starter-job         -- 定时任务集成（目前仅xxl-job）
+|   |-- ballcat-spring-boot-starter-kafka       -- 消息队列 kafka 集成
+|   |-- ballcat-spring-boot-starter-log         -- 访问日志，操作日志，TraceId注入
+|   |-- ballcat-spring-boot-starter-mail        -- 邮件发送
+|   |-- ballcat-spring-boot-starter-oss	        -- 对象存储（所有支持 AWS S3 协议的云存储，如阿里云，七牛云，腾讯云）
+|   |-- ballcat-spring-boot-starter-pay	        -- 支付相关
+|   |-- ballcat-spring-boot-starter-redis       -- 提供注解使用 redis, 分布式锁，防击穿，全局key前缀等功能
+|   |-- ballcat-spring-boot-starter-sms	        -- 短信接入 starter
+|   |-- ballcat-spring-boot-starter-swagger     -- swagger文档配置（提供无注册中心的文档聚合方案）
+|   |-- ballcat-spring-boot-starter-web         -- Web工程封装
 |   |-- ballcat-spring-boot-starter-websocket	-- 基于 common-websocket 的自动配置
-|   `-- ballcat-spring-boot-starter-xss			-- xss 防注入相关
+|   `-- ballcat-spring-boot-starter-xss	        -- xss 防注入相关
 ```
 
 ## 快速上手
