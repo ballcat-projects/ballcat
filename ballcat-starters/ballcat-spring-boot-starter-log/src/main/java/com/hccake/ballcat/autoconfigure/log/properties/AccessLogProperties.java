@@ -7,13 +7,21 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Hccake
+ * 访问日志配置
+ *
+ * @author Hccake 2020/6/11 14:56
  * @version 1.0
- * @date 2020/6/11 14:56
  */
 @Data
-@ConfigurationProperties(prefix = "ballcat.log.access")
+@ConfigurationProperties(prefix = AccessLogProperties.PREFIX)
 public class AccessLogProperties {
+
+	public static final String PREFIX = "ballcat.log.access";
+
+	/**
+	 * 开启 access log 的记录
+	 */
+	private boolean enabled = true;
 
 	/**
 	 * 忽略的Url匹配规则，Ant风格
