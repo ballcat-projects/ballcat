@@ -1,14 +1,19 @@
 package com.hccake.extend.mybatis.plus.conditions.query;
 
+import com.baomidou.mybatisplus.core.conditions.SharedString;
+import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.hccake.extend.mybatis.plus.alias.TableAliasHelper;
+
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 生成可携带表别名的查询条件 当前实体必须被配置表列名注解
  *
- * @see com.hccake.extend.mybatis.plus.alias.TableAlias
  * @author Hccake 2021/1/14
  * @version 1.0
+ * @see com.hccake.extend.mybatis.plus.alias.TableAlias
  */
 public class LambdaAliasQueryWrapperX<T> extends LambdaQueryWrapperX<T> {
 
@@ -27,6 +32,17 @@ public class LambdaAliasQueryWrapperX<T> extends LambdaQueryWrapperX<T> {
 
 	public LambdaAliasQueryWrapperX(Class<T> entityClass) {
 		super(entityClass);
+		this.tableAlias = TableAliasHelper.tableAlias(getEntityClass());
+	}
+
+	/**
+	 * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(...)
+	 */
+	LambdaAliasQueryWrapperX(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
+			Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments, SharedString lastSql,
+			SharedString sqlComment, SharedString sqlFirst) {
+		super(entity, entityClass, sqlSelect, paramNameSeq, paramNameValuePairs, mergeSegments, lastSql, sqlComment,
+				sqlFirst);
 		this.tableAlias = TableAliasHelper.tableAlias(getEntityClass());
 	}
 
@@ -50,7 +66,9 @@ public class LambdaAliasQueryWrapperX<T> extends LambdaQueryWrapperX<T> {
 	 */
 	@Override
 	protected LambdaAliasQueryWrapperX<T> instance() {
-		return new LambdaAliasQueryWrapperX<>(getEntityClass());
+		return new LambdaAliasQueryWrapperX<>(getEntity(), getEntityClass(), null, paramNameSeq, paramNameValuePairs,
+				new MergeSegments(), SharedString.emptyString(), SharedString.emptyString(),
+				SharedString.emptyString());
 	}
 
 	/**
