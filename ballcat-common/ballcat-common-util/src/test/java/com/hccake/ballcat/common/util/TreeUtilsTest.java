@@ -1,6 +1,5 @@
 package com.hccake.ballcat.common.util;
 
-import com.hccake.ballcat.common.util.tree.AbstractIdTreeNode;
 import com.hccake.ballcat.common.util.tree.TreeNode;
 import com.hccake.ballcat.common.util.tree.TreeUtils;
 import org.junit.jupiter.api.Assertions;
@@ -59,7 +58,60 @@ class TreeUtilsTest {
 		Assertions.assertEquals(list, abstractIdTreeNodes);
 	}
 
-	static class TestTreeNode extends AbstractIdTreeNode<Integer> {
+	static class TestTreeNode implements TreeNode<Integer> {
+
+		/**
+		 * 节点ID
+		 */
+		private Integer id;
+
+		/**
+		 * 父节点ID
+		 */
+		private Integer parentId;
+
+		/**
+		 * 子节点集合
+		 */
+		private List<TestTreeNode> children;
+
+		@Override
+		public Integer getKey() {
+			return id;
+		}
+
+		@Override
+		public Integer getParentKey() {
+			return parentId;
+		}
+
+		@Override
+		@SuppressWarnings("unchecked")
+		public <T extends TreeNode<Integer>> void setChildren(List<T> children) {
+			this.children = (List<TestTreeNode>) children;
+		}
+
+		@Override
+		@SuppressWarnings("unchecked")
+		public <T extends TreeNode<Integer>> List<T> getChildren() {
+			return (List<T>) children;
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public Integer getParentId() {
+			return parentId;
+		}
+
+		public void setParentId(Integer parentId) {
+			this.parentId = parentId;
+		}
 
 	}
 
