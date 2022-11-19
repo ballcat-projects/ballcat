@@ -311,31 +311,6 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<!--重要 如果不设置resource 会导致application.yaml中的@@找不到pom文件中的配置-->
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<excludes>
-					<exclude>static/report/**</exclude>
-					<exclude>**/*.woff</exclude>
-					<exclude>**/*.woff2</exclude>
-					<exclude>**/*.ttf</exclude>
-					<exclude>**/*.ico</exclude>
-				</excludes>
-				<filtering>true</filtering>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<includes>
-					<include>static/report/**</include>
-					<include>**/*.woff</include>
-					<include>**/*.woff2</include>
-					<include>**/*.ttf</include>
-					<include>**/*.ico</include>
-				</includes>
-			</resource>
-		</resources>
 	</build>
 	<developers>
 		<developer>
