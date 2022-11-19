@@ -10,9 +10,9 @@ import lombok.Data;
 public class XxlExecutorProperties {
 
 	/**
-	 * 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
+	 * 执行器AppName [选填]：执行器心跳注册分组依据；为空则取spring应用名
 	 */
-	private String appname = "xxl-job-executor";
+	private String appname;
 
 	/**
 	 * 优先使用该配置作为注册地址，为空时使用内嵌服务 ”IP:PORT“ 作为注册地址 从而更灵活的支持容器类型执行器动态IP和动态映射端口问题。
@@ -26,7 +26,7 @@ public class XxlExecutorProperties {
 	private String ip;
 
 	/**
-	 * 执行器端口号 [选填]：小于等于0则自动获取；默认端口为9999，单机部署多个执行器时，注意要配置不同执行器端口；
+	 * 执行器端口号 [选填]：小于等于0则自动获取；单机部署多个执行器且非自动获取端口时，注意要配置不同执行器端口；
 	 */
 	private Integer port = 0;
 
