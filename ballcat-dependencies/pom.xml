@@ -16,9 +16,9 @@
 		<easyexcel.version>3.1.2</easyexcel.version>
 		<fastjson.version>1.2.83</fastjson.version>
 		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
-		<hutool.version>5.8.9</hutool.version>
+		<hutool.version>5.8.10</hutool.version>
 		<io.swagger.v3.version>2.2.4</io.swagger.v3.version>
-		<ip2region.version>2.6.5</ip2region.version>
+		<ip2region.version>2.6.6</ip2region.version>
 		<jasypt.version>3.0.4</jasypt.version>
 		<jsoup.version>1.15.3</jsoup.version>
 		<jsqlparser.version>4.3</jsqlparser.version>
@@ -31,9 +31,9 @@
 		<poi.version>4.1.2</poi.version>
 		<revision>1.0.1</revision>
 		<rocketmq.version>2.2.0</rocketmq.version>
-		<software.amazon.awssdk-s3-transfer-manager.version>2.18.6-PREVIEW
+		<software.amazon.awssdk-s3-transfer-manager.version>2.18.20-PREVIEW
 		</software.amazon.awssdk-s3-transfer-manager.version>
-		<software.amazon.awssdk.version>2.18.6</software.amazon.awssdk.version>
+		<software.amazon.awssdk.version>2.18.20</software.amazon.awssdk.version>
 		<spring-authorization-server.version>0.4.0-M2</spring-authorization-server.version>
 		<spring-boot.version>2.7.5</spring-boot.version>
 		<spring-javaformat-checkstyle.version>0.0.35</spring-javaformat-checkstyle.version>
