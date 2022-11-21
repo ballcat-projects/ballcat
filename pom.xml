@@ -25,6 +25,8 @@
 	</modules>
 
 	<properties>
+		<revision>1.0.2</revision>
+
 		<java.version>1.8</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
@@ -41,7 +43,6 @@
 		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<revision>1.0.1</revision>
 		<spring-boot.version>2.7.5</spring-boot.version>
 		<spring-javaformat-checkstyle.version>0.0.35</spring-javaformat-checkstyle.version>
 	</properties>
