@@ -22,7 +22,7 @@ public class OssAutoConfiguration {
 	 * OSS操作模板，单纯用来兼容老版本实现
 	 * @param properties 属性配置
 	 * @param objectKeyPrefixConverter S3对象全局键前缀转换器
-	 * @return
+	 * @return OssTemplate
 	 */
 	@Bean
 	@ConditionalOnMissingBean(OssTemplate.class)
@@ -50,7 +50,7 @@ public class OssAutoConfiguration {
 	 * OSS客户端，单纯用来兼容老版本实现
 	 * @param ossTemplate oss操作模板
 	 * @param objectKeyPrefixConverter S3对象全局键前缀转换器
-	 * @return
+	 * @return OssClient
 	 */
 	@Bean
 	@ConditionalOnMissingBean(OssClient.class)
