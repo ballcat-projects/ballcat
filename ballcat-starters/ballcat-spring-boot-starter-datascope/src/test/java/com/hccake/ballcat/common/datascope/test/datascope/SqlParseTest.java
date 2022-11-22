@@ -290,19 +290,33 @@ class SqlParseTest {
 	}
 
 	@Test
-	void selectInnerJoin() {
+	void testInnerJoin() {
 		// inner join
-		assertSql("SELECT * FROM entity e " + "inner join entity1 e1 on e1.id = e.id " + "WHERE e.id = ? OR e.name = ?",
+		assertSql("SELECT * FROM entity e inner join entity1 e1 on e1.id = e.id WHERE e.id = ? OR e.name = ?",
 				"SELECT * FROM entity e "
 						+ "INNER JOIN entity1 e1 ON e1.id = e.id AND e.tenant_id = 1 AND e1.tenant_id = 1 "
 						+ "WHERE e.id = ? OR e.name = ?");
 
-		assertSql(
-				"SELECT * FROM entity e " + "inner join entity1 e1 on e1.id = e.id " + "WHERE (e.id = ? OR e.name = ?)",
+		assertSql("SELECT * FROM entity e inner join entity1 e1 on e1.id = e.id WHERE (e.id = ? OR e.name = ?)",
 				"SELECT * FROM entity e "
 						+ "INNER JOIN entity1 e1 ON e1.id = e.id AND e.tenant_id = 1 AND e1.tenant_id = 1 "
 						+ "WHERE (e.id = ? OR e.name = ?)");
+	}
 
+	@Test
+	void testJoin() {
+		// inner join
+		assertSql("SELECT * FROM entity e join entity1 e1 on e1.id = e.id WHERE e.id = ? OR e.name = ?",
+				"SELECT * FROM entity e " + "JOIN entity1 e1 ON e1.id = e.id AND e.tenant_id = 1 AND e1.tenant_id = 1 "
+						+ "WHERE e.id = ? OR e.name = ?");
+
+		assertSql("SELECT * FROM entity e join entity1 e1 on e1.id = e.id WHERE (e.id = ? OR e.name = ?)",
+				"SELECT * FROM entity e " + "JOIN entity1 e1 ON e1.id = e.id AND e.tenant_id = 1 AND e1.tenant_id = 1 "
+						+ "WHERE (e.id = ? OR e.name = ?)");
+	}
+
+	@Test
+	void testSimpleJoin() {
 		// 隐式内连接
 		assertSql("SELECT * FROM entity,entity1 " + "WHERE entity.id = entity1.id", "SELECT * FROM entity, entity1 "
 				+ "WHERE entity.id = entity1.id AND entity.tenant_id = 1 AND entity1.tenant_id = 1");
@@ -327,7 +341,6 @@ class SqlParseTest {
 		assertSql("SELECT * FROM (((entity,entity1))) " + "WHERE entity.id = entity1.id",
 				"SELECT * FROM (((entity, entity1))) " + "WHERE entity.id = entity1.id "
 						+ "AND entity.tenant_id = 1 AND entity1.tenant_id = 1");
-
 	}
 
 	@Test

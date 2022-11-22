@@ -387,7 +387,8 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 				else if (join.isLeft()) {
 					onTables = Collections.singletonList(joinTable);
 				}
-				else if (join.isInner()) {
+				// JOIN 等同于 INNER JOIN
+				else if (join.isInner() || join.getASTNode().jjtGetFirstToken().toString().equalsIgnoreCase("JOIN")) {
 					if (mainTable == null) {
 						onTables = Collections.singletonList(joinTable);
 					}
@@ -396,6 +397,9 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 					}
 					mainTable = null;
 				}
+
+				// TODO 参看 net.sf.jsqlparser.statement.select.Join#ToString 的逻辑，实现其他的 JOIN
+
 				mainTables = new ArrayList<>();
 				if (mainTable != null) {
 					mainTables.add(mainTable);
