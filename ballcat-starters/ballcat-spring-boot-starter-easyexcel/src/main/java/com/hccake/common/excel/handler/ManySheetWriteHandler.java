@@ -6,11 +6,13 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.hccake.common.excel.annotation.ResponseExcel;
 import com.hccake.common.excel.annotation.Sheet;
 import com.hccake.common.excel.config.ExcelConfigProperties;
+import com.hccake.common.excel.domain.SheetBuildProperties;
 import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.kit.ExcelException;
 import org.springframework.beans.factory.ObjectProvider;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,18 +45,53 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 	@Override
 	public void write(Object obj, HttpServletResponse response, ResponseExcel responseExcel) {
 		List<?> objList = (List<?>) obj;
+		int objListSize = objList.size();
+
+		String template = responseExcel.template();
+
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
-		Sheet[] sheets = responseExcel.sheets();
-		WriteSheet sheet;
-		for (int i = 0; i < sheets.length; i++) {
-			List<?> eleList = (List<?>) objList.get(i);
-			Class<?> dataClass = eleList.get(0).getClass();
+		List<SheetBuildProperties> sheetBuildPropertiesList = getSheetBuildProperties(responseExcel, objListSize);
+
+		for (int i = 0; i < sheetBuildPropertiesList.size(); i++) {
+			SheetBuildProperties sheetBuildProperties = sheetBuildPropertiesList.get(i);
 			// 创建sheet
-			sheet = this.sheet(sheets[i], dataClass, responseExcel.template(), responseExcel.headGenerator());
+			WriteSheet sheet;
+			List<?> eleList;
+			if (objListSize <= i) {
+				eleList = new ArrayList<>();
+				sheet = this.emptySheet(sheetBuildProperties, template);
+			}
+			else {
+				eleList = (List<?>) objList.get(i);
+				if (eleList.isEmpty()) {
+					sheet = this.emptySheet(sheetBuildProperties, template);
+				}
+				else {
+					Class<?> dataClass = eleList.get(0).getClass();
+					sheet = this.emptySheet(sheetBuildProperties, dataClass, template, responseExcel.headGenerator());
+				}
+			}
 			// 写入sheet
 			excelWriter.write(eleList, sheet);
 		}
+
 		excelWriter.finish();
+	}
+
+	private static List<SheetBuildProperties> getSheetBuildProperties(ResponseExcel responseExcel, int objListSize) {
+		List<SheetBuildProperties> sheetBuildPropertiesList = new ArrayList<>();
+		Sheet[] sheets = responseExcel.sheets();
+		if (sheets != null && sheets.length > 0) {
+			for (Sheet sheet : sheets) {
+				sheetBuildPropertiesList.add(new SheetBuildProperties(sheet));
+			}
+		}
+		else {
+			for (int i = 0; i < objListSize; i++) {
+				sheetBuildPropertiesList.add(new SheetBuildProperties(i));
+			}
+		}
+		return sheetBuildPropertiesList;
 	}
 
 }

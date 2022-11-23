@@ -8,17 +8,16 @@ import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.alibaba.excel.write.handler.WriteHandler;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.hccake.common.excel.annotation.ResponseExcel;
-import com.hccake.common.excel.annotation.Sheet;
 import com.hccake.common.excel.aop.DynamicNameAspect;
 import com.hccake.common.excel.config.ExcelConfigProperties;
 import com.hccake.common.excel.converters.LocalDateStringConverter;
 import com.hccake.common.excel.converters.LocalDateTimeStringConverter;
 
+import com.hccake.common.excel.domain.SheetBuildProperties;
 import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.head.HeadGenerator;
 import com.hccake.common.excel.head.HeadMeta;
 import com.hccake.common.excel.head.I18nHeaderCellWriteHandler;
-import com.hccake.common.excel.kit.ExcelException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -73,9 +72,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 	@Override
 	public void check(ResponseExcel responseExcel) {
-		if (responseExcel.sheets().length == 0) {
-			throw new ExcelException("@ResponseExcel sheet 配置不合法");
-		}
+		// do nothing
 	}
 
 	@Override
@@ -165,19 +162,37 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	}
 
 	/**
+	 * 构建一个 空的 WriteSheet 对象
+	 * @param sheetBuildProperties sheet build 属性
+	 * @param template 模板信息
+	 * @return WriteSheet
+	 */
+	public WriteSheet emptySheet(SheetBuildProperties sheetBuildProperties, String template) {
+		// Sheet 编号和名称
+		Integer sheetNo = sheetBuildProperties.getSheetNo() >= 0 ? sheetBuildProperties.getSheetNo() : null;
+		String sheetName = sheetBuildProperties.getSheetName();
+
+		// 是否模板写入
+		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? EasyExcel.writerSheet(sheetNo)
+				: EasyExcel.writerSheet(sheetNo, sheetName);
+
+		return writerSheetBuilder.build();
+	}
+
+	/**
 	 * 获取 WriteSheet 对象
-	 * @param sheet sheet annotation info
+	 * @param sheetBuildProperties sheet annotation info
 	 * @param dataClass 数据类型
 	 * @param template 模板
 	 * @param bookHeadEnhancerClass 自定义头处理器
 	 * @return WriteSheet
 	 */
-	public WriteSheet sheet(Sheet sheet, Class<?> dataClass, String template,
+	public WriteSheet emptySheet(SheetBuildProperties sheetBuildProperties, Class<?> dataClass, String template,
 			Class<? extends HeadGenerator> bookHeadEnhancerClass) {
 
 		// Sheet 编号和名称
-		Integer sheetNo = sheet.sheetNo() >= 0 ? sheet.sheetNo() : null;
-		String sheetName = sheet.sheetName();
+		Integer sheetNo = sheetBuildProperties.getSheetNo() >= 0 ? sheetBuildProperties.getSheetNo() : null;
+		String sheetName = sheetBuildProperties.getSheetName();
 
 		// 是否模板写入
 		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? EasyExcel.writerSheet(sheetNo)
@@ -185,8 +200,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 		// 头信息增强 1. 优先使用 sheet 指定的头信息增强 2. 其次使用 @ResponseExcel 中定义的全局头信息增强
 		Class<? extends HeadGenerator> headGenerateClass = null;
-		if (isNotInterface(sheet.headGenerateClass())) {
-			headGenerateClass = sheet.headGenerateClass();
+		if (isNotInterface(sheetBuildProperties.getHeadGenerateClass())) {
+			headGenerateClass = sheetBuildProperties.getHeadGenerateClass();
 		}
 		else if (isNotInterface(bookHeadEnhancerClass)) {
 			headGenerateClass = bookHeadEnhancerClass;
@@ -197,11 +212,11 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 		else if (dataClass != null) {
 			writerSheetBuilder.head(dataClass);
-			if (sheet.excludes().length > 0) {
-				writerSheetBuilder.excludeColumnFiledNames(Arrays.asList(sheet.excludes()));
+			if (sheetBuildProperties.getExcludes().length > 0) {
+				writerSheetBuilder.excludeColumnFiledNames(Arrays.asList(sheetBuildProperties.getExcludes()));
 			}
-			if (sheet.includes().length > 0) {
-				writerSheetBuilder.includeColumnFiledNames(Arrays.asList(sheet.includes()));
+			if (sheetBuildProperties.getIncludes().length > 0) {
+				writerSheetBuilder.includeColumnFiledNames(Arrays.asList(sheetBuildProperties.getIncludes()));
 			}
 		}
 

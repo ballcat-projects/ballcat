@@ -4,7 +4,9 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.hccake.common.excel.annotation.ResponseExcel;
+import com.hccake.common.excel.annotation.Sheet;
 import com.hccake.common.excel.config.ExcelConfigProperties;
+import com.hccake.common.excel.domain.SheetBuildProperties;
 import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.kit.ExcelException;
 import org.springframework.beans.factory.ObjectProvider;
@@ -43,14 +45,33 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 
 	@Override
 	public void write(Object obj, HttpServletResponse response, ResponseExcel responseExcel) {
-		List<?> list = (List<?>) obj;
+		List<?> eleList = (List<?>) obj;
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
 
-		// 有模板则不指定sheet名
-		Class<?> dataClass = list.get(0).getClass();
-		WriteSheet sheet = this.sheet(responseExcel.sheets()[0], dataClass, responseExcel.template(),
-				responseExcel.headGenerator());
-		excelWriter.write(list, sheet);
+		// 获取 Sheet 配置
+		SheetBuildProperties sheetBuildProperties;
+		Sheet[] sheets = responseExcel.sheets();
+		if (sheets != null && sheets.length > 0) {
+			sheetBuildProperties = new SheetBuildProperties(sheets[0]);
+		}
+		else {
+			sheetBuildProperties = new SheetBuildProperties(0);
+		}
+
+		// 模板信息
+		String template = responseExcel.template();
+
+		// 创建sheet
+		WriteSheet sheet;
+		if (eleList.isEmpty()) {
+			sheet = this.emptySheet(sheetBuildProperties, template);
+		}
+		else {
+			Class<?> dataClass = eleList.get(0).getClass();
+			sheet = this.emptySheet(sheetBuildProperties, dataClass, template, responseExcel.headGenerator());
+		}
+
+		excelWriter.write(eleList, sheet);
 		excelWriter.finish();
 	}
 

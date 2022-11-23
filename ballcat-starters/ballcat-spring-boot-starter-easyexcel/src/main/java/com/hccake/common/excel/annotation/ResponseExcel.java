@@ -39,7 +39,7 @@ public @interface ResponseExcel {
 	 * sheet 名称，支持多个
 	 * @return String[]
 	 */
-	Sheet[] sheets() default @Sheet(sheetName = "sheet1");
+	Sheet[] sheets() default {};
 
 	/**
 	 * 内存操作

@@ -2,7 +2,7 @@ package com.hccake.common.excel.handler;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.hccake.common.excel.kit.Validators;
-import com.hccake.common.excel.vo.ErrorMessage;
+import com.hccake.common.excel.domain.ErrorMessage;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 

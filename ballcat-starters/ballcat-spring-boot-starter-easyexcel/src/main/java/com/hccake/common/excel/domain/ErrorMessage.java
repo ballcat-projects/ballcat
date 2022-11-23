@@ -1,4 +1,4 @@
-package com.hccake.common.excel.vo;
+package com.hccake.common.excel.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
