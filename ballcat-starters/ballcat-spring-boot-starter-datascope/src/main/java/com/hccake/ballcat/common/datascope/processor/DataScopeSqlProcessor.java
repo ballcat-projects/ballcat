@@ -7,11 +7,7 @@ import com.hccake.ballcat.common.datascope.util.CollectionUtils;
 import com.hccake.ballcat.common.datascope.util.SqlParseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.expression.BinaryExpression;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.Function;
-import net.sf.jsqlparser.expression.NotExpression;
-import net.sf.jsqlparser.expression.Parenthesis;
+import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.ExistsExpression;
@@ -20,30 +16,10 @@ import net.sf.jsqlparser.expression.operators.relational.InExpression;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.insert.Insert;
-import net.sf.jsqlparser.statement.select.FromItem;
-import net.sf.jsqlparser.statement.select.Join;
-import net.sf.jsqlparser.statement.select.LateralSubSelect;
-import net.sf.jsqlparser.statement.select.ParenthesisFromItem;
-import net.sf.jsqlparser.statement.select.PlainSelect;
-import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.select.SelectBody;
-import net.sf.jsqlparser.statement.select.SelectExpressionItem;
-import net.sf.jsqlparser.statement.select.SelectItem;
-import net.sf.jsqlparser.statement.select.SetOperationList;
-import net.sf.jsqlparser.statement.select.SubJoin;
-import net.sf.jsqlparser.statement.select.SubSelect;
-import net.sf.jsqlparser.statement.select.ValuesList;
-import net.sf.jsqlparser.statement.select.WithItem;
+import net.sf.jsqlparser.statement.select.*;
 import net.sf.jsqlparser.statement.update.Update;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -65,7 +41,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		List<DataScope> dataScopes = (List<DataScope>) obj;
 		try {
 			// dataScopes 放入 ThreadLocal 方便透传
-			DataScopeHolder.set(dataScopes);
+			DataScopeHolder.push(dataScopes);
 			processSelectBody(select.getSelectBody());
 			List<WithItem> withItemsList = select.getWithItemsList();
 			if (CollectionUtils.isNotEmpty(withItemsList)) {
@@ -74,7 +50,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		}
 		finally {
 			// 必须清空 ThreadLocal
-			DataScopeHolder.remove();
+			DataScopeHolder.poll();
 		}
 	}
 
@@ -116,12 +92,12 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		List<DataScope> dataScopes = (List<DataScope>) obj;
 		try {
 			// dataScopes 放入 ThreadLocal 方便透传
-			DataScopeHolder.set(dataScopes);
+			DataScopeHolder.push(dataScopes);
 			update.setWhere(this.injectExpression(update.getWhere(), update.getTable()));
 		}
 		finally {
 			// 必须清空 ThreadLocal
-			DataScopeHolder.remove();
+			DataScopeHolder.poll();
 		}
 	}
 
@@ -134,12 +110,12 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		List<DataScope> dataScopes = (List<DataScope>) obj;
 		try {
 			// dataScopes 放入 ThreadLocal 方便透传
-			DataScopeHolder.set(dataScopes);
+			DataScopeHolder.push(dataScopes);
 			delete.setWhere(this.injectExpression(delete.getWhere(), delete.getTable()));
 		}
 		finally {
 			// 必须清空 ThreadLocal
-			DataScopeHolder.remove();
+			DataScopeHolder.poll();
 		}
 	}
 
@@ -471,7 +447,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			String tableName = SqlParseUtils.getTableName(table.getName());
 
 			// 进行 dataScope 的表名匹配
-			List<DataScope> matchDataScopes = DataScopeHolder.get().stream()
+			List<DataScope> matchDataScopes = DataScopeHolder.peek().stream()
 					.filter(x -> x.getTableNames().contains(tableName)).collect(Collectors.toList());
 
 			if (CollectionUtils.isEmpty(matchDataScopes)) {
@@ -523,27 +499,47 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 		private DataScopeHolder() {
 		}
 
-		private static final ThreadLocal<List<DataScope>> DATA_SCOPES = new ThreadLocal<>();
+		/**
+		 * 使用栈存储 List<DataScope>，便于在方法嵌套调用时使用不同的数据权限控制。
+		 */
+		private static final ThreadLocal<Deque<List<DataScope>>> DATA_SCOPES = ThreadLocal.withInitial(ArrayDeque::new);
 
 		/**
-		 * get dataScope
-		 * @return dataScopes
+		 * 获取当前的 dataScopes
+		 * @return List<DataScope>
 		 */
-		public static List<DataScope> get() {
-			return DATA_SCOPES.get();
+		public static List<DataScope> peek() {
+			Deque<List<DataScope>> deque = DATA_SCOPES.get();
+			return deque == null ? new ArrayList<>() : deque.peek();
 		}
 
 		/**
-		 * 添加 dataScope
+		 * 入栈一组 dataScopes
 		 */
-		public static void set(List<DataScope> dataScopes) {
-			DATA_SCOPES.set(dataScopes);
+		public static void push(List<DataScope> dataScopes) {
+			Deque<List<DataScope>> deque = DATA_SCOPES.get();
+			if (deque == null) {
+				deque = new ArrayDeque<>();
+			}
+			deque.push(dataScopes);
 		}
 
 		/**
-		 * 删除 dataScope
+		 * 弹出最顶部 dataScopes
 		 */
-		public static void remove() {
+		public static void poll() {
+			Deque<List<DataScope>> deque = DATA_SCOPES.get();
+			deque.poll();
+			// 当没有元素时，清空 ThreadLocal
+			if (deque.isEmpty()) {
+				clear();
+			}
+		}
+
+		/**
+		 * 清除 TreadLocal
+		 */
+		private static void clear() {
 			DATA_SCOPES.remove();
 		}
 
