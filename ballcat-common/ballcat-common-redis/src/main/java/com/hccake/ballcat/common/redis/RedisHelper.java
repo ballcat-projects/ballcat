@@ -543,7 +543,7 @@ public class RedisHelper {
 	 * @param expireTime 在指定时间过期
 	 */
 	public static void setExAt(String key, String value, Instant expireTime) {
-		long timeout = (expireTime.getEpochSecond() - Instant.now().getEpochSecond()) / 1000;
+		long timeout = expireTime.getEpochSecond() - Instant.now().getEpochSecond();
 		setEx(key, value, timeout);
 	}
 
