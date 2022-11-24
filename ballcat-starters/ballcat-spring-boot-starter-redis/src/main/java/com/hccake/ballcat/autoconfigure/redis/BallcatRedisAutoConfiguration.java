@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
@@ -31,10 +32,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @version 1.0
  * @date 2019/9/2 14:13
  */
-@AutoConfiguration
+@AutoConfiguration(before = RedisAutoConfiguration.class)
 @RequiredArgsConstructor
 @EnableConfigurationProperties(CacheProperties.class)
-public class RedisAutoConfiguration {
+public class BallcatRedisAutoConfiguration {
 
 	private final RedisConnectionFactory redisConnectionFactory;
 
