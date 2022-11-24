@@ -60,6 +60,19 @@ class StudentMapperTest {
 	}
 
 	@Test
+	void testExclude() {
+		// 首次查询时排除部分 datascope，但是保留下来的 datascope 不会匹配中当前的 sql
+		DataPermissionRule dataPermissionRule = new DataPermissionRule()
+				.setExcludeResources(new String[] { ClassDataScope.RESOURCE_NAME, SchoolDataScope.RESOURCE_NAME });
+		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule,
+				() -> Assertions.assertEquals(10, studentService.listStudent().size()));
+
+		// 再使用完整的 datascope 规则进行查询
+		List<Student> studentList1 = studentService.listStudent();
+		Assertions.assertEquals(2, studentList1.size());
+	}
+
+	@Test
 	void testTeacherSelect() {
 		// 实验中学，一班总共有 2 名学生
 		List<Student> studentList1 = studentService.listStudent();

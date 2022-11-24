@@ -46,13 +46,13 @@ public class DataPermissionInterceptor implements Interceptor {
 		String mappedStatementId = ms.getId();
 
 		// 获取当前需要控制的 dataScope 集合
-		List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(mappedStatementId);
-		if (dataScopes == null || dataScopes.isEmpty()) {
+		List<DataScope> filterDataScopes = dataPermissionHandler.filterDataScopes(mappedStatementId);
+		if (filterDataScopes == null || filterDataScopes.isEmpty()) {
 			return invocation.proceed();
 		}
 
 		// 根据用户权限判断是否需要拦截，例如管理员可以查看所有，则直接放行
-		if (dataPermissionHandler.ignorePermissionControl(dataScopes, mappedStatementId)) {
+		if (dataPermissionHandler.ignorePermissionControl(filterDataScopes, mappedStatementId)) {
 			return invocation.proceed();
 		}
 
@@ -61,15 +61,16 @@ public class DataPermissionInterceptor implements Interceptor {
 		try {
 			// 根据 DataScopes 进行数据权限的 sql 处理
 			if (sct == SqlCommandType.SELECT) {
-				mpBs.sql(dataScopeSqlProcessor.parserSingle(mpBs.sql(), dataScopes));
+				mpBs.sql(dataScopeSqlProcessor.parserSingle(mpBs.sql(), filterDataScopes));
 			}
 			else if (sct == SqlCommandType.INSERT || sct == SqlCommandType.UPDATE || sct == SqlCommandType.DELETE) {
-				mpBs.sql(dataScopeSqlProcessor.parserMulti(mpBs.sql(), dataScopes));
+				mpBs.sql(dataScopeSqlProcessor.parserMulti(mpBs.sql(), filterDataScopes));
 			}
 			// 如果解析后发现当前 mappedStatementId 对应的 sql，没有任何数据权限匹配，则记录下来，后续可以直接跳过不解析
 			Integer matchNum = DataScopeMatchNumHolder.pollMatchNum();
-			if (matchNum != null && matchNum == 0) {
-				MappedStatementIdsWithoutDataScope.addToWithoutSet(dataScopes, mappedStatementId);
+			List<DataScope> allDataScopes = dataPermissionHandler.dataScopes();
+			if (allDataScopes.size() == filterDataScopes.size() && matchNum != null && matchNum == 0) {
+				MappedStatementIdsWithoutDataScope.addToWithoutSet(filterDataScopes, mappedStatementId);
 			}
 		}
 		finally {
