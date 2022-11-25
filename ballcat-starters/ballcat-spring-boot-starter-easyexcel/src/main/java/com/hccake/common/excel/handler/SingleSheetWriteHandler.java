@@ -71,7 +71,15 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 			sheet = this.emptySheet(sheetBuildProperties, dataClass, template, responseExcel.headGenerator());
 		}
 
-		excelWriter.write(eleList, sheet);
+		if (responseExcel.fill()) {
+			// 填充 sheet
+			excelWriter.fill(eleList, sheet);
+		}
+		else {
+			// 写入 sheet
+			excelWriter.write(eleList, sheet);
+		}
+
 		excelWriter.finish();
 	}
 

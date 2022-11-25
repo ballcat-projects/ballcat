@@ -71,8 +71,15 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 					sheet = this.emptySheet(sheetBuildProperties, dataClass, template, responseExcel.headGenerator());
 				}
 			}
-			// 写入sheet
-			excelWriter.write(eleList, sheet);
+
+			if (responseExcel.fill()) {
+				// 填充 sheet
+				excelWriter.fill(eleList, sheet);
+			}
+			else {
+				// 写入 sheet
+				excelWriter.write(eleList, sheet);
+			}
 		}
 
 		excelWriter.finish();
