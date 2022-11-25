@@ -88,4 +88,10 @@ public @interface ResponseExcel {
 	 */
 	boolean i18nHeader() default false;
 
+	/**
+	 * 填充模式
+	 * @return boolean
+	 */
+	boolean fill() default false;
+
 }
