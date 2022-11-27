@@ -18,6 +18,7 @@ import com.hccake.common.excel.enhance.WriterBuilderEnhancer;
 import com.hccake.common.excel.head.HeadGenerator;
 import com.hccake.common.excel.head.HeadMeta;
 import com.hccake.common.excel.head.I18nHeaderCellWriteHandler;
+import com.hccake.common.excel.kit.ExcelException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -72,7 +73,9 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 	@Override
 	public void check(ResponseExcel responseExcel) {
-		// do nothing
+		if (responseExcel.fill() && !StringUtils.hasText(responseExcel.template())) {
+			throw new ExcelException("@ResponseExcel fill 必须配合 template 使用");
+		}
 	}
 
 	@Override
