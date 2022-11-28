@@ -190,15 +190,6 @@
 			<id>prod</id>
 		</profile>
 	</profiles>
-	<!-- spring milestones repo -->
-
-	<repositories>
-		<repository>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<id>spring-milestones</id>
-		</repository>
-	</repositories>
 
 	<distributionManagement>
 		<repository>
