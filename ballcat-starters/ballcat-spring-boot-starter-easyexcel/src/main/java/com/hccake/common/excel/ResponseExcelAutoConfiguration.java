@@ -4,6 +4,7 @@ import com.hccake.common.excel.aop.DynamicNameAspect;
 import com.hccake.common.excel.aop.RequestExcelArgumentResolver;
 import com.hccake.common.excel.aop.ResponseExcelReturnValueHandler;
 import com.hccake.common.excel.config.ExcelConfigProperties;
+import com.hccake.common.excel.head.EmptyHeadGenerator;
 import com.hccake.common.excel.processor.NameProcessor;
 import com.hccake.common.excel.processor.NameSpelExpressionProcessor;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,16 @@ public class ResponseExcelAutoConfiguration {
 	@ConditionalOnMissingBean
 	public DynamicNameAspect dynamicNameAspect(NameProcessor nameProcessor) {
 		return new DynamicNameAspect(nameProcessor);
+	}
+
+	/**
+	 * 空的 Excel 头生成器
+	 * @return EmptyHeadGenerator
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public EmptyHeadGenerator emptyHeadGenerator() {
+		return new EmptyHeadGenerator();
 	}
 
 	/**
