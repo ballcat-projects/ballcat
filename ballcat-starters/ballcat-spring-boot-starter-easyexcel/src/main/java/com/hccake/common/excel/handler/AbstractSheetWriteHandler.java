@@ -53,6 +53,7 @@ import java.util.UUID;
 /**
  * @author lengleng
  * @author L.cm
+ * @author Hccake
  * @date 2020/3/31
  */
 @RequiredArgsConstructor
@@ -116,11 +117,11 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 
 		if (responseExcel.include().length != 0) {
-			writerBuilder.includeColumnFiledNames(Arrays.asList(responseExcel.include()));
+			writerBuilder.includeColumnFieldNames(Arrays.asList(responseExcel.include()));
 		}
 
 		if (responseExcel.exclude().length != 0) {
-			writerBuilder.excludeColumnFiledNames(Arrays.asList(responseExcel.exclude()));
+			writerBuilder.excludeColumnFieldNames(Arrays.asList(responseExcel.exclude()));
 		}
 
 		if (responseExcel.writeHandler().length != 0) {
@@ -216,10 +217,10 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		else if (dataClass != null) {
 			writerSheetBuilder.head(dataClass);
 			if (sheetBuildProperties.getExcludes().length > 0) {
-				writerSheetBuilder.excludeColumnFiledNames(Arrays.asList(sheetBuildProperties.getExcludes()));
+				writerSheetBuilder.excludeColumnFieldNames(Arrays.asList(sheetBuildProperties.getExcludes()));
 			}
 			if (sheetBuildProperties.getIncludes().length > 0) {
-				writerSheetBuilder.includeColumnFiledNames(Arrays.asList(sheetBuildProperties.getIncludes()));
+				writerSheetBuilder.includeColumnFieldNames(Arrays.asList(sheetBuildProperties.getIncludes()));
 			}
 		}
 
@@ -236,7 +237,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		Assert.notNull(headGenerator, "The header generated bean does not exist.");
 		HeadMeta head = headGenerator.head(dataClass);
 		writerSheetBuilder.head(head.getHead());
-		writerSheetBuilder.excludeColumnFiledNames(head.getIgnoreHeadFields());
+		writerSheetBuilder.excludeColumnFieldNames(head.getIgnoreHeadFields());
 	}
 
 	/**
