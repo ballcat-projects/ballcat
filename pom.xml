@@ -44,7 +44,7 @@
 		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<spring-boot.version>2.7.5</spring-boot.version>
+		<spring-boot.version>2.7.6</spring-boot.version>
 		<spring-javaformat-checkstyle.version>0.0.35</spring-javaformat-checkstyle.version>
 	</properties>
 
