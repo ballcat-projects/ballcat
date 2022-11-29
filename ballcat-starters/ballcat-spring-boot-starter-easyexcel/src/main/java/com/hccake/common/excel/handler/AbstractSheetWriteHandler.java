@@ -89,13 +89,14 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		if (name == null) {
 			name = UUID.randomUUID().toString();
 		}
-		String fileName = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue());
+		String fileName = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue())
+				.replaceAll("\\+", "%20");
 		// 根据实际的文件类型找到对应的 contentType
 		String contentType = MediaTypeFactory.getMediaType(fileName).map(MediaType::toString)
 				.orElse("application/vnd.ms-excel");
 		response.setContentType(contentType);
 		response.setCharacterEncoding("utf-8");
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileName);
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + fileName);
 		write(o, response, responseExcel);
 	}
 
