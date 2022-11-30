@@ -79,7 +79,7 @@ class DesensitisedTest {
 		String value = objectMapper.writeValueAsString(user);
 		log.info("脱敏后的数据：{}", value);
 
-		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"test\"}";
+		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"customer ruletest\"}";
 		Assertions.assertEquals(expected, value);
 	}
 

@@ -29,7 +29,7 @@ class LambdaAliasQueryXTest {
 		wrapperX.and(x -> x.like(Demo::getAge, 18));
 
 		Assertions.assertEquals(
-				"WHERE (d.name LIKE #{ew.paramNameValuePairs.MPGENVAL1} AND (d.age LIKE #{ew.paramNameValuePairs.MPGENVAL1}))",
+				"WHERE (d.name LIKE #{ew.paramNameValuePairs.MPGENVAL1} AND (d.age LIKE #{ew.paramNameValuePairs.MPGENVAL2}))",
 				wrapperX.getCustomSqlSegment());
 	}
 

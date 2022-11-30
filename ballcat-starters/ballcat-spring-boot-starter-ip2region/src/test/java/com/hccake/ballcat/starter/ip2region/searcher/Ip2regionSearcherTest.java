@@ -1,20 +1,19 @@
 package com.hccake.ballcat.starter.ip2region.searcher;
 
+import com.hccake.ballcat.starter.ip2region.config.Ip2regionAutoConfiguration;
 import com.hccake.ballcat.starter.ip2region.core.IpInfo;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * 测试
  *
  * @author lishangbu
- * @date 2022/10/16
+ * @since 2022/10/16
  */
-@SpringBootApplication(scanBasePackages = "com.hccake.ballcat.starter.ip2region")
-@SpringBootTest
-public class Ip2regionSearcherTestTemplate {
+@SpringBootTest(classes = Ip2regionAutoConfiguration.class)
+public abstract class Ip2regionSearcherTest {
 
 	@Autowired
 	protected Ip2regionSearcher ip2regionSearcher;

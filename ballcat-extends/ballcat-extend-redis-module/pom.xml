@@ -9,6 +9,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-extend-redis-module</artifactId>
 
+	<properties>
+		<skipTests>true</skipTests>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.hccake</groupId>

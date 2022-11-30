@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 
 /**
- * XDB文件缓存测试查询IP
+ * index缓存测试查询IP
  *
  * @author lishangbu
- * @date 2022/10/16
+ * @since 2022/10/16
  */
-@ActiveProfiles("xdb")
-public class XdbCacheIp2regionSearcherTestTemplate extends Ip2regionSearcherTestTemplate {
+@ActiveProfiles("index")
+public class IndexCacheIp2RegionSearcherTest extends Ip2regionSearcherTest {
 
 	@Test
 	public void testIpSearch() {
