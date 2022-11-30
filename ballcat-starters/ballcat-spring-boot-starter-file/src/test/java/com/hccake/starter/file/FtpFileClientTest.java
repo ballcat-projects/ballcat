@@ -38,7 +38,7 @@ class FtpFileClientTest {
 	static void init() {
 		String ftpUser = "ftpUser";
 		String ftpPass = "ftpPass";
-		int port = 21;
+		int port = 9999;
 
 		// 运行临时的 ftpServer
 		BaseUser user = new BaseUser();
