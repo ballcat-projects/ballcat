@@ -38,8 +38,8 @@ public class RedisHelper {
 	/**
 	 * 自增并设置过期时间的 lua 脚本
 	 */
-	private static final DefaultRedisScript<Long> INCRY_EXPIRE_LUA_SCRIPT = new DefaultRedisScript<>(
-			"local r = redis.call('INCR', KEYS[1], ARGV[1]) redis.call('EXPIRE', KEYS[1], ARGV[2]) return r",
+	private static final DefaultRedisScript<Long> INCR_BY_EXPIRE_LUA_SCRIPT = new DefaultRedisScript<>(
+			"local r = redis.call('INCRBY', KEYS[1], ARGV[1]) redis.call('EXPIRE', KEYS[1], ARGV[2]) return r",
 			Long.class);
 
 	static RedisTemplate<String, String> redisTemplate;
@@ -364,7 +364,8 @@ public class RedisHelper {
 	 * @return 自增后的 value 值
 	 */
 	public static long incrByAndExpire(String key, long delta, long timeout) {
-		return redisTemplate.execute(INCRY_EXPIRE_LUA_SCRIPT, Collections.singletonList(key), delta, timeout);
+		return redisTemplate.execute(INCR_BY_EXPIRE_LUA_SCRIPT, Collections.singletonList(key), String.valueOf(delta),
+				String.valueOf(timeout));
 	}
 
 	/**
