@@ -29,7 +29,7 @@
 		<mybatis.version>3.5.10</mybatis.version>
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<poi.version>4.1.2</poi.version>
-		<revision>1.0.2</revision>
+		<revision>1.0.3</revision>
 		<rocketmq.version>2.2.0</rocketmq.version>
 		<software.amazon.awssdk-s3-transfer-manager.version>2.18.20-PREVIEW
 		</software.amazon.awssdk-s3-transfer-manager.version>
