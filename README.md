@@ -5,7 +5,7 @@
 
 ![](https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-doc.png)
 
-[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/ballcat-projects/ballcat/blob/master/LICENSE)
+[![LICENSE](https://img.shields.io/badge/license-MIT-green)](https://github.com/ballcat-projects/ballcat/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/ballcat-projects/ballcat.svg?style=social&label=Stars)](https://github.com/ballcat-projects/ballcat/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/ballcat-projects/ballcat.svg?style=social&label=Fork)](https://github.com/ballcat-projects/ballcat/network/members)
 
@@ -294,8 +294,6 @@ npm run serve
 
 ## 交流群
 
-如果群二维码失效，可以扫右边我的个人微信二维码，或者添加我的微信号 `Hccake_`，我再邀请你入群
-
-<img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-wechat-group_20211203.jpg" alt="微信" width="35%"/>
+由于微信限制群人数超 200 无法通过扫码进群，可以扫我的个人微信二维码，或者添加我的微信号 `Hccake_`，备注 `BallCat 进群`，我再邀请你入群
 
 <img src="https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/wechat-hccake.jpg" alt="微信" width="35%"/>
