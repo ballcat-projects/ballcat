@@ -1,8 +1,14 @@
 
 
+
 ## 简介
 
 ![](https://hccake-img.oss-cn-shanghai.aliyuncs.com/ballcat/ballcat-doc.png)
+
+[![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/ballcat-projects/ballcat/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/ballcat-projects/ballcat.svg?style=social&label=Stars)](https://github.com/ballcat-projects/ballcat/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/ballcat-projects/ballcat.svg?style=social&label=Fork)](https://github.com/ballcat-projects/ballcat/network/members)
+
 
 > :tada::tada::tada: 基于 React 和 Ant Design 版本的前端 **ballcat-ui-react** 已发布，欢迎大家尝鲜使用
 
