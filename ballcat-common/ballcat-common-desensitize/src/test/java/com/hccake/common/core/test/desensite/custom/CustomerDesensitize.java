@@ -8,8 +8,8 @@ import java.lang.annotation.*;
 public @interface CustomerDesensitize {
 
 	/**
-	 * 类型
-	 * @return
+	 * 自定义属性示例，用户可以根据需求自定义注解属性
+	 * @return String
 	 */
 	String type();
 

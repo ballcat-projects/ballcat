@@ -1,6 +1,5 @@
 package com.hccake.common.core.test.desensite;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.desensitize.DesensitizationHandlerHolder;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
@@ -11,8 +10,7 @@ import com.hccake.ballcat.common.desensitize.handler.SixAsteriskDesensitizationH
 import com.hccake.ballcat.common.desensitize.handler.SlideDesensitizationHandler;
 import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializerModifier;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 /**
  * @author Hccake 2021/1/23
@@ -20,8 +18,6 @@ import org.junit.jupiter.api.Test;
  */
 @Slf4j
 class DesensitisedTest {
-
-	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Test
 	void testSimple() {
@@ -63,7 +59,9 @@ class DesensitisedTest {
 	}
 
 	@Test
-	void testJackson() throws JsonProcessingException {
+	void testJackson() throws Exception {
+		TestUtils.resetEnv();
+
 		// 指定DesensitizeHandler 若ignore方法为true 则忽略脱敏 false 则启用脱敏
 		JsonDesensitizeSerializerModifier modifier = new JsonDesensitizeSerializerModifier((fieldName) -> {
 			log.info("当前字段名称{}", fieldName);
@@ -71,7 +69,7 @@ class DesensitisedTest {
 		});
 		// 不指定 实现类 默认使用脱敏规则
 		// JsonSerializerModifier modifier = new JsonSerializerModifier();
-
+		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.setSerializerFactory(objectMapper.getSerializerFactory().withSerializerModifier(modifier));
 		DesensitizationUser user = new DesensitizationUser().setEmail("chengbohua@foxmail.com").setUsername("xiaoming")
 				.setPassword("admina123456").setPhoneNumber("15800000000").setTestField("这是测试属性")
@@ -79,7 +77,7 @@ class DesensitisedTest {
 		String value = objectMapper.writeValueAsString(user);
 		log.info("脱敏后的数据：{}", value);
 
-		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"customer ruletest\"}";
+		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"test\"}";
 		Assertions.assertEquals(expected, value);
 	}
 

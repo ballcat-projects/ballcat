@@ -1,11 +1,11 @@
 package com.hccake.common.core.test.desensite.custom;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.desensitize.AnnotationHandlerHolder;
 import com.hccake.ballcat.common.desensitize.DesensitizationHandlerHolder;
 import com.hccake.ballcat.common.desensitize.json.JsonDesensitizeSerializerModifier;
 import com.hccake.common.core.test.desensite.DesensitizationUser;
+import com.hccake.common.core.test.desensite.TestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,10 +17,12 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 class CustomDesensitisedTest {
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
-
 	@Test
-	void desensitizedExtend() throws JsonProcessingException {
+	void desensitizedExtend() throws Exception {
+		TestUtils.resetEnv();
+
+		ObjectMapper objectMapper = new ObjectMapper();
+
 		// 注册自定义脱敏类型处理器
 		CustomDesensitisedHandler customDesensitisedHandler = new CustomDesensitisedHandler();
 		DesensitizationHandlerHolder.addHandler(CustomDesensitisedHandler.class, customDesensitisedHandler);
@@ -28,7 +30,7 @@ class CustomDesensitisedTest {
 		AnnotationHandlerHolder.addHandleFunction(CustomerDesensitize.class, (annotation, value) -> {
 			CustomerDesensitize customerDesensitize = (CustomerDesensitize) annotation;
 			String type = customerDesensitize.type();
-			log.info("注解上的参数{}", type);
+			log.info("注解上的参数：{}", type);
 			CustomDesensitisedHandler handler = (CustomDesensitisedHandler) DesensitizationHandlerHolder
 					.getHandler(CustomDesensitisedHandler.class);
 			return handler.handle(value);

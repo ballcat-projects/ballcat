@@ -46,7 +46,10 @@ public class DesensitizationUser {
 	@JsonSimpleDesensitize(handler = TestDesensitizationHandler.class)
 	private String testField;
 
-	@CustomerDesensitize(type = "自定义注解")
+	/**
+	 * 测试自定义注解脱敏
+	 */
+	@CustomerDesensitize(type = "自定义注解示例")
 	private String customDesensitize;
 
 }
