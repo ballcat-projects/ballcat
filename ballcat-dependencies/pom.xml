@@ -11,6 +11,8 @@
 	<description>Ballcat Dependencies</description>
 
 	<properties>
+		<revision>1.1.0-SNAPSHOT</revision>
+
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
 		<dynamic-datasource.version>3.5.1</dynamic-datasource.version>
 		<easyexcel.version>3.1.2</easyexcel.version>
@@ -29,7 +31,6 @@
 		<mybatis.version>3.5.10</mybatis.version>
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<poi.version>4.1.2</poi.version>
-		<revision>1.0.3</revision>
 		<rocketmq.version>2.2.0</rocketmq.version>
 		<software.amazon.awssdk-s3-transfer-manager.version>2.18.20-PREVIEW
 		</software.amazon.awssdk-s3-transfer-manager.version>
