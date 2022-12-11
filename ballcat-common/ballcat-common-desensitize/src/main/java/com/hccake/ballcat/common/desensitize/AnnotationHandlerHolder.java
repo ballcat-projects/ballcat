@@ -12,29 +12,28 @@ import com.hccake.ballcat.common.desensitize.json.annotation.JsonSimpleDesensiti
 import com.hccake.ballcat.common.desensitize.json.annotation.JsonSlideDesensitize;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 注解处理方法 脱敏注解->处理逻辑
  *
  * @author Yakir
  */
-public class AnnotationHandlerHolder {
+public final class AnnotationHandlerHolder {
 
-	private AnnotationHandlerHolder() {
-
-	}
+	private static final AnnotationHandlerHolder INSTANCE = new AnnotationHandlerHolder();
 
 	/**
 	 * 注解类型 处理函数映射
 	 */
-	private static final Map<Class<? extends Annotation>, DesensitizeFunction> ANNOTATION_HANDLER = new HashMap<>();
+	private final Map<Class<? extends Annotation>, DesensitizeFunction> annotationHandlers;
 
-	static {
+	private AnnotationHandlerHolder() {
+		annotationHandlers = new ConcurrentHashMap<>();
 
-		ANNOTATION_HANDLER.put(JsonSimpleDesensitize.class, (annotation, value) -> {
+		annotationHandlers.put(JsonSimpleDesensitize.class, (annotation, value) -> {
 			// Simple 类型处理
 			JsonSimpleDesensitize an = (JsonSimpleDesensitize) annotation;
 			Class<? extends SimpleDesensitizationHandler> handlerClass = an.handler();
@@ -44,7 +43,7 @@ public class AnnotationHandlerHolder {
 			return desensitizationHandler.handle(value);
 		});
 
-		ANNOTATION_HANDLER.put(JsonRegexDesensitize.class, (annotation, value) -> {
+		annotationHandlers.put(JsonRegexDesensitize.class, (annotation, value) -> {
 			// 正则类型脱敏处理
 			JsonRegexDesensitize an = (JsonRegexDesensitize) annotation;
 			RegexDesensitizationTypeEnum type = an.type();
@@ -54,7 +53,8 @@ public class AnnotationHandlerHolder {
 					? regexDesensitizationHandler.handle(value, an.regex(), an.replacement())
 					: regexDesensitizationHandler.handle(value, type);
 		});
-		ANNOTATION_HANDLER.put(JsonSlideDesensitize.class, (annotation, value) -> {
+
+		annotationHandlers.put(JsonSlideDesensitize.class, (annotation, value) -> {
 			// 滑动类型脱敏处理
 			JsonSlideDesensitize an = (JsonSlideDesensitize) annotation;
 			SlideDesensitizationTypeEnum type = an.type();
@@ -72,7 +72,7 @@ public class AnnotationHandlerHolder {
 	 * @return {@link DesensitizeFunction}脱敏处理函数|null
 	 */
 	public static DesensitizeFunction getHandleFunction(Class<? extends Annotation> annotationType) {
-		return ANNOTATION_HANDLER.get(annotationType);
+		return INSTANCE.annotationHandlers.get(annotationType);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class AnnotationHandlerHolder {
 		Assert.notNull(annotationType, "annotation cannot be null");
 		Assert.notNull(desensitizeFunction, "desensitization function cannot be null");
 		// 加入注解处理映射
-		return ANNOTATION_HANDLER.put(annotationType, desensitizeFunction);
+		return INSTANCE.annotationHandlers.put(annotationType, desensitizeFunction);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class AnnotationHandlerHolder {
 	 * @return {@code 注解处理类列表}
 	 */
 	public static Set<Class<? extends Annotation>> getAnnotationClasses() {
-		return ANNOTATION_HANDLER.keySet();
+		return INSTANCE.annotationHandlers.keySet();
 	}
 
 }

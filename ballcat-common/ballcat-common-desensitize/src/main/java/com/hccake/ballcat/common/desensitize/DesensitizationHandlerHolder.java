@@ -21,21 +21,21 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class DesensitizationHandlerHolder {
 
+	private static final DesensitizationHandlerHolder INSTANCE = new DesensitizationHandlerHolder();
+
+	private final Map<Class<? extends DesensitizationHandler>, DesensitizationHandler> desensitizationHandlerMap;
+
 	private DesensitizationHandlerHolder() {
-	}
-
-	private static final Map<Class<? extends DesensitizationHandler>, DesensitizationHandler> MAP = new ConcurrentHashMap<>();
-
-	static {
+		desensitizationHandlerMap = new ConcurrentHashMap<>(16);
 		// 滑动脱敏处理器
-		MAP.put(SlideDesensitizationHandler.class, new SlideDesensitizationHandler());
+		desensitizationHandlerMap.put(SlideDesensitizationHandler.class, new SlideDesensitizationHandler());
 		// 正则脱敏处理器
-		MAP.put(RegexDesensitizationHandler.class, new RegexDesensitizationHandler());
+		desensitizationHandlerMap.put(RegexDesensitizationHandler.class, new RegexDesensitizationHandler());
 		// SPI 加载所有的 Simple脱敏类型处理
 		ServiceLoader<SimpleDesensitizationHandler> loadedDrivers = ServiceLoader
 				.load(SimpleDesensitizationHandler.class);
 		for (SimpleDesensitizationHandler desensitizationHandler : loadedDrivers) {
-			MAP.put(desensitizationHandler.getClass(), desensitizationHandler);
+			desensitizationHandlerMap.put(desensitizationHandler.getClass(), desensitizationHandler);
 		}
 	}
 
@@ -44,7 +44,7 @@ public final class DesensitizationHandlerHolder {
 	 * @return 处理器实例
 	 */
 	public static DesensitizationHandler getHandler(Class<? extends DesensitizationHandler> handlerClass) {
-		return MAP.get(handlerClass);
+		return INSTANCE.desensitizationHandlerMap.get(handlerClass);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public final class DesensitizationHandlerHolder {
 	 * @return 处理器实例
 	 */
 	public static RegexDesensitizationHandler getRegexDesensitizationHandler() {
-		return (RegexDesensitizationHandler) MAP.get(RegexDesensitizationHandler.class);
+		return (RegexDesensitizationHandler) INSTANCE.desensitizationHandlerMap.get(RegexDesensitizationHandler.class);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public final class DesensitizationHandlerHolder {
 	 * @return 处理器实例
 	 */
 	public static SlideDesensitizationHandler getSlideDesensitizationHandler() {
-		return (SlideDesensitizationHandler) MAP.get(SlideDesensitizationHandler.class);
+		return (SlideDesensitizationHandler) INSTANCE.desensitizationHandlerMap.get(SlideDesensitizationHandler.class);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public final class DesensitizationHandlerHolder {
 	 */
 	public static SimpleDesensitizationHandler getSimpleHandler(
 			Class<? extends SimpleDesensitizationHandler> handlerClass) {
-		return (SimpleDesensitizationHandler) MAP.get(handlerClass);
+		return (SimpleDesensitizationHandler) INSTANCE.desensitizationHandlerMap.get(handlerClass);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public final class DesensitizationHandlerHolder {
 	 */
 	public static DesensitizationHandler addHandler(Class<? extends DesensitizationHandler> handlerClass,
 			DesensitizationHandler handler) {
-		return MAP.put(handlerClass, handler);
+		return INSTANCE.desensitizationHandlerMap.put(handlerClass, handler);
 	}
 
 }
