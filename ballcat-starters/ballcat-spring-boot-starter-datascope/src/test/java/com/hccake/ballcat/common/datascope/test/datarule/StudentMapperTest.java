@@ -88,9 +88,7 @@ class StudentMapperTest {
 
 		/* 忽略权限控制，一共有 10 名学生 */
 		// === 编程式 ===
-		DataPermissionRule dataPermissionRule = new DataPermissionRule(true);
-		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule,
-				() -> Assertions.assertEquals(10, studentService.listStudent().size()));
+		DataPermissionUtils.executeAndIgnoreAll(() -> Assertions.assertEquals(10, studentService.listStudent().size()));
 		// === 注解 ====
 		List<Student> studentList4 = studentService.listStudentWithoutDataPermission();
 		Assertions.assertEquals(10, studentList4.size());
@@ -173,6 +171,11 @@ class StudentMapperTest {
 
 	@Test
 	void testExecuteWithDataPermissionRule() {
+
+		DataPermissionUtils.executeAndIgnoreAll(() -> {
+			List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(null);
+			Assertions.assertTrue(dataScopes.isEmpty());
+		});
 
 		DataPermissionRule dataPermissionRule = new DataPermissionRule(true);
 		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule, () -> {
