@@ -447,8 +447,8 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			String tableName = SqlParseUtils.getTableName(table.getName());
 
 			// 进行 dataScope 的表名匹配
-			List<DataScope> matchDataScopes = DataScopeHolder.peek().stream()
-					.filter(x -> x.getTableNames().contains(tableName)).collect(Collectors.toList());
+			List<DataScope> matchDataScopes = DataScopeHolder.peek().stream().filter(x -> x.includes(tableName))
+					.collect(Collectors.toList());
 
 			if (CollectionUtils.isEmpty(matchDataScopes)) {
 				continue;

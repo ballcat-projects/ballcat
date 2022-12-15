@@ -10,10 +10,8 @@ import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.schema.Column;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 学生的数据权限控制，学生只能看自己
@@ -24,16 +22,18 @@ public class StudentDataScope implements DataScope {
 
 	public static final String RESOURCE_NAME = "student";
 
+	private static final Pattern TABLE_NAME_PATTEN = Pattern.compile("^h2student*$");
+
 	@Override
 	public String getResource() {
 		return RESOURCE_NAME;
 	}
 
 	@Override
-	public Collection<String> getTableNames() {
-		Set<String> tableNames = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-		tableNames.addAll(Collections.singletonList("h2student"));
-		return tableNames;
+	public boolean includes(String tableName) {
+		// 可以利用正则做匹配
+		Matcher matcher = TABLE_NAME_PATTEN.matcher(tableName);
+		return matcher.matches();
 	}
 
 	@Override

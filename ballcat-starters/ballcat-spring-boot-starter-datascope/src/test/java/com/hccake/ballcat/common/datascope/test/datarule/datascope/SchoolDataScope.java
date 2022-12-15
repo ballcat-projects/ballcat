@@ -38,10 +38,9 @@ public class SchoolDataScope implements DataScope {
 	}
 
 	@Override
-	public Collection<String> getTableNames() {
-		Set<String> tableNames = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-		tableNames.addAll(Collections.singletonList("h2student"));
-		return tableNames;
+	public boolean includes(String tableName) {
+		// 可以利用表前缀做匹配
+		return tableName.toLowerCase().startsWith("h2student");
 	}
 
 	@Override

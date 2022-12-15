@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
@@ -26,8 +25,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  */
 class SqlParseTest {
 
-	DataScope tenantDataScope = new DataScope() {
+	static class TenantDataScope implements DataScope {
+
 		final String columnName = "tenant_id";
+
+		private static final Set<String> TABLE_NAMES = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+		static {
+			TABLE_NAMES.addAll(Arrays.asList("entity", "entity1", "entity2", "entity3", "t1", "t2"));
+		}
 
 		@Override
 		public String getResource() {
@@ -35,10 +40,8 @@ class SqlParseTest {
 		}
 
 		@Override
-		public Collection<String> getTableNames() {
-			Set<String> tableNames = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-			tableNames.addAll(Arrays.asList("entity", "entity1", "entity2", "entity3", "t1", "t2"));
-			return tableNames;
+		public boolean includes(String tableName) {
+			return TABLE_NAMES.contains(tableName);
 		}
 
 		@Override
@@ -46,7 +49,10 @@ class SqlParseTest {
 			Column column = SqlParseUtils.getAliasColumn(tableName, tableAlias, columnName);
 			return new EqualsTo(column, new LongValue("1"));
 		}
-	};
+
+	}
+
+	DataScope tenantDataScope = new TenantDataScope();
 
 	DataPermissionHandler dataPermissionHandler = new DefaultDataPermissionHandler(
 			Collections.singletonList(tenantDataScope));

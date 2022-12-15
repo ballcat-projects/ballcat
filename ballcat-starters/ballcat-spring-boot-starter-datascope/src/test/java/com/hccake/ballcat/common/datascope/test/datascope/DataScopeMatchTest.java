@@ -35,10 +35,8 @@ class DataScopeMatchTest {
 		}
 
 		@Override
-		public Collection<String> getTableNames() {
-			Set<String> tableNames = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-			tableNames.addAll(Arrays.asList("t_order", "t_order_info"));
-			return tableNames;
+		public boolean includes(String tableName) {
+			return "t_order".equalsIgnoreCase(tableName) || "t_order_info".equalsIgnoreCase(tableName);
 		}
 
 		@Override
