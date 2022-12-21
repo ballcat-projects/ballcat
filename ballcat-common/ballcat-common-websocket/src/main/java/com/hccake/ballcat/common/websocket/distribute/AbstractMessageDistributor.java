@@ -38,7 +38,7 @@ public abstract class AbstractMessageDistributor implements MessageDistributor {
 			sessionKeys = messageDO.getSessionKeys();
 		}
 		if (CollectionUtil.isEmpty(sessionKeys)) {
-			log.warn("发送 websocket 消息，确没有找到对应 sessionKeys, messageDo: {}", messageDO);
+			log.warn("发送 websocket 消息，却没有找到对应 sessionKeys, messageDo: {}", messageDO);
 			return;
 		}
 
