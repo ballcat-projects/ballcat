@@ -14,14 +14,12 @@
 		<revision>1.1.0-SNAPSHOT</revision>
 
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-		<dynamic-datasource.version>3.5.1</dynamic-datasource.version>
 		<easyexcel.version>3.1.2</easyexcel.version>
 		<fastjson.version>1.2.83</fastjson.version>
 		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
 		<hutool.version>5.8.10</hutool.version>
 		<io.swagger.v3.version>2.2.7</io.swagger.v3.version>
 		<ip2region.version>2.6.6</ip2region.version>
-		<jasypt.version>3.0.4</jasypt.version>
 		<jsoup.version>1.15.3</jsoup.version>
 		<jsqlparser.version>4.3</jsqlparser.version>
 		<kafka.version>2.6.3</kafka.version>
@@ -103,12 +101,6 @@
 				<artifactId>alipay-sdk-java</artifactId>
 				<version>${alipay-sdk.version}</version>
 			</dependency>
-			<!--动态数据源-->
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-				<version>${dynamic-datasource.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-annotation</artifactId>
@@ -135,12 +127,6 @@
 				<groupId>com.github.jsqlparser</groupId>
 				<artifactId>jsqlparser</artifactId>
 				<version>${jsqlparser.version}</version>
-			</dependency>
-			<!--配置文件加密-->
-			<dependency>
-				<groupId>com.github.ulisesbocchio</groupId>
-				<artifactId>jasypt-spring-boot-starter</artifactId>
-				<version>${jasypt.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.nimbusds</groupId>
