@@ -1,7 +1,6 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.configurer;
 
 import lombok.RequiredArgsConstructor;
-import org.ballcat.springsecurity.oauth2.server.authorization.authentication.AccessTokenResponseEnhancer;
 import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,16 +20,13 @@ public class OAuth2ResourceOwnerPasswordConfigurerCustomizer implements OAuth2Au
 
 	private final OAuth2AuthorizationService authorizationService;
 
-	private final AccessTokenResponseEnhancer accessTokenResponseEnhancer;
-
 	@Override
 	public void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer,
 			HttpSecurity httpSecurity) {
 		// 添加 resource owner password 模式支持
 		oAuth2AuthorizationServerConfigurer.tokenEndpoint(tokenEndpoint -> {
 			OAuth2ResourceOwnerPasswordAuthenticationProvider authenticationProvider = new OAuth2ResourceOwnerPasswordAuthenticationProvider(
-					authenticationManager, authorizationService, OAuth2ConfigurerUtils.getTokenGenerator(httpSecurity),
-					accessTokenResponseEnhancer);
+					authenticationManager, authorizationService, OAuth2ConfigurerUtils.getTokenGenerator(httpSecurity));
 			tokenEndpoint.authenticationProvider(authenticationProvider);
 			tokenEndpoint.accessTokenRequestConverter(new OAuth2ResourceOwnerPasswordAuthenticationConverter());
 		});
