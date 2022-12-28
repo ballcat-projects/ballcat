@@ -8,7 +8,6 @@
 		<relativePath>ballcat-dependencies/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.hccake</groupId>
 	<artifactId>ballcat</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
