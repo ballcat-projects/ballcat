@@ -1,8 +1,7 @@
 package com.hccake.ballcat.common.redis.core;
 
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 
@@ -15,9 +14,8 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * @date 2020/3/27 21:15 缓存锁的操作类
  */
+@Slf4j
 public class CacheLock {
-
-	private static final Logger log = LoggerFactory.getLogger(CacheLock.class);
 
 	private static StringRedisTemplate redisTemplate;
 
@@ -27,13 +25,38 @@ public class CacheLock {
 
 	/**
 	 * 上锁
+	 * @param lockKey 锁定标记
 	 * @param requestId 请求id
 	 * @return Boolean 是否成功获得锁
 	 */
 	public static Boolean lock(String lockKey, String requestId) {
-		log.trace("lock: {key:{}, clientId:{}}", lockKey, requestId);
-		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, CachePropertiesHolder.lockedTimeOut(),
-				TimeUnit.SECONDS);
+		return lock(lockKey, requestId, CachePropertiesHolder.lockedTimeOut(), TimeUnit.SECONDS);
+	}
+
+	/**
+	 * 上锁
+	 * @param lockKey 锁定标记
+	 * @param requestId 请求id
+	 * @param timeout 锁超时时间,单位秒
+	 * @return Boolean 是否成功获得锁
+	 */
+	public static Boolean lock(String lockKey, String requestId, long timeout) {
+		return lock(lockKey, requestId, timeout, TimeUnit.SECONDS);
+	}
+
+	/**
+	 * 上锁
+	 * @param lockKey 锁定标记
+	 * @param requestId 请求id
+	 * @param timeout 锁超时时间
+	 * @param timeUnit 时间过期单位
+	 * @return Boolean 是否成功获得锁
+	 */
+	public static Boolean lock(String lockKey, String requestId, long timeout, TimeUnit timeUnit) {
+		if (log.isTraceEnabled()) {
+			log.trace("lock: {key:{}, clientId:{}}", lockKey, requestId);
+		}
+		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, timeout, timeUnit);
 	}
 
 	/**
@@ -57,7 +80,9 @@ public class CacheLock {
 	 * @return 是否成功
 	 */
 	public static boolean releaseLock(String key, String requestId) {
-		log.trace("release lock: {key:{}, clientId:{}}", key, requestId);
+		if (log.isTraceEnabled()) {
+			log.trace("release lock: {key:{}, clientId:{}}", key, requestId);
+		}
 		Long result = redisTemplate.execute(RELEASE_LOCK_LUA_SCRIPT, Collections.singletonList(key), requestId);
 		return Objects.equals(result, RELEASE_LOCK_SUCCESS_RESULT);
 	}

@@ -69,7 +69,9 @@ public class CacheStringAspect {
 		MethodSignature signature = (MethodSignature) point.getSignature();
 		Method method = signature.getMethod();
 
-		log.trace("=======The string cache aop is executed! method : {}", method.getName());
+		if(log.isTraceEnabled()){
+			log.trace("=======The string cache aop is executed! method : {}", method.getName());
+		}
 
 		// 根据方法的参数 以及当前类对象获得 keyGenerator
 		Object target = point.getTarget();
