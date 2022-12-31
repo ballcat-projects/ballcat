@@ -69,7 +69,7 @@ public class CacheStringAspect {
 		MethodSignature signature = (MethodSignature) point.getSignature();
 		Method method = signature.getMethod();
 
-		if(log.isTraceEnabled()){
+		if (log.isTraceEnabled()) {
 			log.trace("=======The string cache aop is executed! method : {}", method.getName());
 		}
 
