@@ -1,9 +1,9 @@
 package com.hccake.ballcat.common.redis.lock;
 
-import cn.hutool.core.lang.Assert;
 import com.hccake.ballcat.common.redis.core.CacheLock;
 import com.hccake.ballcat.common.redis.lock.function.ExceptionHandler;
 import com.hccake.ballcat.common.redis.lock.function.ThrowingExecutor;
+import org.springframework.util.Assert;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -41,7 +41,7 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 	public StateHandler<T> action(String lockKey, long timeout, TimeUnit timeUnit, ThrowingExecutor<T> action) {
 		Assert.isTrue(this.executeAction == null, "execute action has been already set");
 		Assert.notNull(action, "execute action cant be null");
-		Assert.notBlank(lockKey, "lock key cant be blank");
+		Assert.hasText(lockKey, "lock key cant be blank");
 		this.executeAction = action;
 		this.key = lockKey;
 		this.timeout = timeout;
