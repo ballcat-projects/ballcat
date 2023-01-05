@@ -62,21 +62,6 @@ public class BallcatRedisAutoConfiguration {
 	}
 
 	/**
-	 * 缓存注解操作切面</br>
-	 * 必须在CacheLock初始化之后使用
-	 * @param stringRedisTemplate 字符串存储的Redis操作类
-	 * @param cacheSerializer 缓存序列化器
-	 * @return CacheStringAspect 缓存注解操作切面
-	 */
-	@Bean
-	@DependsOn("cacheLock")
-	@ConditionalOnMissingBean
-	public CacheStringAspect cacheStringAspect(StringRedisTemplate stringRedisTemplate,
-			CacheSerializer cacheSerializer) {
-		return new CacheStringAspect(stringRedisTemplate, cacheSerializer);
-	}
-
-	/**
 	 * redis key 前缀处理器
 	 * @return IRedisPrefixConverter
 	 */
@@ -113,6 +98,21 @@ public class BallcatRedisAutoConfiguration {
 	public RedisHelper redisHelper(StringRedisTemplate template) {
 		RedisHelper.setRedisTemplate(template);
 		return RedisHelper.INSTANCE;
+	}
+
+	/**
+	 * 缓存注解操作切面</br>
+	 * 必须在 redisHelper 初始化之后使用
+	 * @param stringRedisTemplate 字符串存储的Redis操作类
+	 * @param cacheSerializer 缓存序列化器
+	 * @return CacheStringAspect 缓存注解操作切面
+	 */
+	@Bean
+	@DependsOn("redisHelper")
+	@ConditionalOnMissingBean
+	public CacheStringAspect cacheStringAspect(StringRedisTemplate stringRedisTemplate,
+			CacheSerializer cacheSerializer) {
+		return new CacheStringAspect(stringRedisTemplate, cacheSerializer);
 	}
 
 }
