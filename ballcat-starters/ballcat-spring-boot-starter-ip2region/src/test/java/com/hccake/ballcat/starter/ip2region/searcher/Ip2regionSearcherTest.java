@@ -42,6 +42,11 @@ public abstract class Ip2regionSearcherTest {
 		Assertions.assertEquals("中国 浙江省 宁波市", remoteIp.getAddress(" "));
 		Assertions.assertEquals("中国浙江省宁波市移动", remoteIp.getAddressAndIsp());
 		Assertions.assertEquals("中国 浙江省 宁波市 移动", remoteIp.getAddressAndIsp(" "));
+
+		String errorIp = "BallCat.Is.N.B";
+		Assertions.assertNull(ip2regionSearcher.searchQuietly(errorIp));
+		Assertions.assertThrowsExactly(NumberFormatException.class, () -> ip2regionSearcher.search(errorIp));
+
 	}
 
 }
