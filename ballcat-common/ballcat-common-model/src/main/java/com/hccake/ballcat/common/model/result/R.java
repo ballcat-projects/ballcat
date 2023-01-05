@@ -2,7 +2,6 @@ package com.hccake.ballcat.common.model.result;
 
 import com.hccake.ballcat.common.i18n.I18nClass;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -40,8 +39,7 @@ public class R<T> implements Serializable {
 	}
 
 	public static <T> R<T> ok(T data) {
-		return new R<T>().setCode(SystemResultCode.SUCCESS.getCode()).setData(data)
-				.setMessage(SystemResultCode.SUCCESS.getMessage());
+		return ok(data, SystemResultCode.SUCCESS.getMessage());
 	}
 
 	public static <T> R<T> ok(T data, String message) {
@@ -53,11 +51,11 @@ public class R<T> implements Serializable {
 	}
 
 	public static <T> R<T> failed(ResultCode failMsg) {
-		return new R<T>().setCode(failMsg.getCode()).setMessage(failMsg.getMessage());
+		return failed(failMsg.getCode(), failMsg.getMessage());
 	}
 
 	public static <T> R<T> failed(ResultCode failMsg, String message) {
-		return new R<T>().setCode(failMsg.getCode()).setMessage(message);
+		return failed(failMsg.getCode(), message);
 	}
 
 }
