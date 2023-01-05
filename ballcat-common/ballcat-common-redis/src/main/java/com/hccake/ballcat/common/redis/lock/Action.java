@@ -19,7 +19,7 @@ public interface Action<T> {
 	 * @return 状态处理器
 	 */
 	default StateHandler<T> action(String lockKey, ThrowingExecutor<T> supplier) {
-		return action(lockKey, CachePropertiesHolder.lockedTimeOut(), TimeUnit.SECONDS, supplier);
+		return action(lockKey, CachePropertiesHolder.defaultLockTimeout(), TimeUnit.SECONDS, supplier);
 	}
 
 	/**

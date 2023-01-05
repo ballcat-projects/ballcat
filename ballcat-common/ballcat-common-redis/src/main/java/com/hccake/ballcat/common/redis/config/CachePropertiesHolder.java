@@ -33,8 +33,8 @@ public class CachePropertiesHolder {
 		return cacheProperties.getExpireTime();
 	}
 
-	public static long lockedTimeOut() {
-		return cacheProperties.getLockedTimeOut();
+	public static long defaultLockTimeout() {
+		return cacheProperties.getDefaultLockTimeout();
 	}
 
 }

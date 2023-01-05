@@ -38,6 +38,6 @@ public class CacheProperties {
 	/**
 	 * 默认锁的超时时间(s)
 	 */
-	private long lockedTimeOut = 1000L;
+	private long defaultLockTimeout = 10L;
 
 }

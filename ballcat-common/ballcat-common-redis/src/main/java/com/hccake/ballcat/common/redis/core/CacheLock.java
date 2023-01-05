@@ -10,9 +10,9 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/3/27 21:15 缓存锁的操作类
+ * 缓存锁的操作类
+ *
+ * @author Hccake 2020/3/27 21:15
  */
 @Slf4j
 public class CacheLock {
@@ -30,7 +30,7 @@ public class CacheLock {
 	 * @return Boolean 是否成功获得锁
 	 */
 	public static Boolean lock(String lockKey, String requestId) {
-		return lock(lockKey, requestId, CachePropertiesHolder.lockedTimeOut(), TimeUnit.SECONDS);
+		return lock(lockKey, requestId, CachePropertiesHolder.defaultLockTimeout(), TimeUnit.SECONDS);
 	}
 
 	/**
@@ -60,7 +60,6 @@ public class CacheLock {
 	}
 
 	/**
-	 *
 	 * 释放锁lua脚本 KEYS【1】：key值是为要加的锁定义的字符串常量 ARGV【1】：value值是 request id, 用来防止解除了不该解除的锁. 可用
 	 * UUID
 	 */
