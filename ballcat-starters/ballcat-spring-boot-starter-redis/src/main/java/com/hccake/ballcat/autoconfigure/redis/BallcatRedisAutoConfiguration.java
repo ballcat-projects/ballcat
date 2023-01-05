@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.ballcat.common.redis.RedisHelper;
 import com.hccake.ballcat.common.redis.config.CacheProperties;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
-import com.hccake.ballcat.common.redis.core.CacheLock;
 import com.hccake.ballcat.common.redis.core.CacheStringAspect;
 import com.hccake.ballcat.common.redis.prefix.IRedisPrefixConverter;
 import com.hccake.ballcat.common.redis.prefix.impl.DefaultRedisPrefixConverter;
@@ -60,19 +59,6 @@ public class BallcatRedisAutoConfiguration {
 	@ConditionalOnMissingBean
 	public CacheSerializer cacheSerializer(ObjectMapper objectMapper) {
 		return new JacksonSerializer(objectMapper);
-	}
-
-	/**
-	 * 初始化CacheLock
-	 * @param stringRedisTemplate 默认使用字符串类型操作，后续扩展
-	 * @return CacheLock
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public CacheLock cacheLock(StringRedisTemplate stringRedisTemplate) {
-		CacheLock cacheLock = new CacheLock();
-		cacheLock.setStringRedisTemplate(stringRedisTemplate);
-		return cacheLock;
 	}
 
 	/**

@@ -1,8 +1,8 @@
 package com.hccake.ballcat.common.redis.test;
 
+import com.hccake.ballcat.common.redis.RedisHelper;
 import com.hccake.ballcat.common.redis.config.CacheProperties;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
-import com.hccake.ballcat.common.redis.core.CacheLock;
 import com.hccake.ballcat.common.redis.prefix.IRedisPrefixConverter;
 import com.hccake.ballcat.common.redis.prefix.impl.DefaultRedisPrefixConverter;
 import com.hccake.ballcat.common.redis.serialize.PrefixStringRedisSerializer;
@@ -16,9 +16,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
- * @author huyuanzhi
- * @version 1.0
- * @date 2021/11/16
+ * @author huyuanzhi 2021/11/16
  */
 @Configuration
 @EnableConfigurationProperties(CacheProperties.class)
@@ -54,10 +52,9 @@ public class RedisConfiguration {
 	}
 
 	@Bean
-	public CacheLock cacheLock(StringRedisTemplate stringRedisTemplate) {
-		CacheLock cacheLock = new CacheLock();
-		cacheLock.setStringRedisTemplate(stringRedisTemplate);
-		return cacheLock;
+	public RedisHelper redisHelper(StringRedisTemplate template) {
+		RedisHelper.setRedisTemplate(template);
+		return RedisHelper.INSTANCE;
 	}
 
 	@Bean

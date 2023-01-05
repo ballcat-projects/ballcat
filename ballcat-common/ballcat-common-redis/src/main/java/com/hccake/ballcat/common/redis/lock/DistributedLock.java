@@ -1,6 +1,5 @@
 package com.hccake.ballcat.common.redis.lock;
 
-import com.hccake.ballcat.common.redis.core.CacheLock;
 import com.hccake.ballcat.common.redis.lock.function.ExceptionHandler;
 import com.hccake.ballcat.common.redis.lock.function.ThrowingExecutor;
 import org.springframework.util.Assert;

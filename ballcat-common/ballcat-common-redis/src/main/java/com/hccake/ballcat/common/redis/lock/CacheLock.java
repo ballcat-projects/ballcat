@@ -1,8 +1,8 @@
-package com.hccake.ballcat.common.redis.core;
+package com.hccake.ballcat.common.redis.lock;
 
+import com.hccake.ballcat.common.redis.RedisHelper;
 import com.hccake.ballcat.common.redis.config.CachePropertiesHolder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 
 import java.util.Collections;
@@ -17,11 +17,18 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class CacheLock {
 
-	private static StringRedisTemplate redisTemplate;
+	/**
+	 * 释放锁lua脚本 KEYS【1】：key值是为要加的锁定义的字符串常量 ARGV【1】：value值是 request id, 用来防止解除了不该解除的锁. 可用
+	 * UUID
+	 */
+	private static final DefaultRedisScript<Long> RELEASE_LOCK_LUA_SCRIPT = new DefaultRedisScript<>(
+			"if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end",
+			Long.class);
 
-	public void setStringRedisTemplate(StringRedisTemplate redisTemplate) {
-		CacheLock.redisTemplate = redisTemplate;
-	}
+	/**
+	 * 释放锁成功返回值
+	 */
+	private static final Long RELEASE_LOCK_SUCCESS_RESULT = 1L;
 
 	/**
 	 * 上锁
@@ -56,21 +63,8 @@ public class CacheLock {
 		if (log.isTraceEnabled()) {
 			log.trace("lock: {key:{}, clientId:{}}", lockKey, requestId);
 		}
-		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, timeout, timeUnit);
+		return RedisHelper.setNxEx(lockKey, requestId, timeout, timeUnit);
 	}
-
-	/**
-	 * 释放锁lua脚本 KEYS【1】：key值是为要加的锁定义的字符串常量 ARGV【1】：value值是 request id, 用来防止解除了不该解除的锁. 可用
-	 * UUID
-	 */
-	private static final DefaultRedisScript<Long> RELEASE_LOCK_LUA_SCRIPT = new DefaultRedisScript<>(
-			"if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end",
-			Long.class);
-
-	/**
-	 * 释放锁成功返回值
-	 */
-	private static final Long RELEASE_LOCK_SUCCESS_RESULT = 1L;
 
 	/**
 	 * 释放锁
@@ -82,7 +76,7 @@ public class CacheLock {
 		if (log.isTraceEnabled()) {
 			log.trace("release lock: {key:{}, clientId:{}}", key, requestId);
 		}
-		Long result = redisTemplate.execute(RELEASE_LOCK_LUA_SCRIPT, Collections.singletonList(key), requestId);
+		Long result = RedisHelper.execute(RELEASE_LOCK_LUA_SCRIPT, Collections.singletonList(key), requestId);
 		return Objects.equals(result, RELEASE_LOCK_SUCCESS_RESULT);
 	}
 
