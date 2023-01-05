@@ -4,9 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/3/20 16:56
+ * @author Hccake 2020/3/20 16:56
  */
 @Data
 @ConfigurationProperties(prefix = "ballcat.redis")
@@ -33,12 +31,12 @@ public class CacheProperties {
 	private String nullValue = "N_V";
 
 	/**
-	 * 默认超时时间(s)
+	 * 默认缓存数据的超时时间(s)
 	 */
 	private long expireTime = 86400L;
 
 	/**
-	 * 锁的超时时间(ms)
+	 * 默认锁的超时时间(s)
 	 */
 	private long lockedTimeOut = 1000L;
 
