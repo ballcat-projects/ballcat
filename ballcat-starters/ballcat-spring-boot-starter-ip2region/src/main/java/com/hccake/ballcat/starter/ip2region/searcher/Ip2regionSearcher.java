@@ -27,4 +27,20 @@ public interface Ip2regionSearcher {
 	@Nullable
 	IpInfo search(String ip);
 
+	/**
+	 * 静默ip 位置 搜索
+	 * @param ip ip
+	 * @return 位置
+	 */
+	@Nullable
+	IpInfo searchQuietly(long ip);
+
+	/**
+	 * 静默ip 位置 搜索
+	 * @param ip ip
+	 * @return 位置
+	 */
+	@Nullable
+	IpInfo searchQuietly(String ip);
+
 }

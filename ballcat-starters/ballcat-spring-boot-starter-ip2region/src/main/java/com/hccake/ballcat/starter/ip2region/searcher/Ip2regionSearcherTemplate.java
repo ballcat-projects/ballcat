@@ -41,6 +41,28 @@ public abstract class Ip2regionSearcherTemplate implements DisposableBean, Initi
 	}
 
 	@Override
+	public IpInfo searchQuietly(long ip) {
+		try {
+			return search(ip);
+		}
+		catch (Exception e) {
+			// do nothing
+			return null;
+		}
+	}
+
+	@Override
+	public IpInfo searchQuietly(String ip) {
+		try {
+			return search(ip);
+		}
+		catch (Exception e) {
+			// do nothing
+			return null;
+		}
+	}
+
+	@Override
 	public void destroy() throws Exception {
 		if (this.searcher != null) {
 			this.searcher.close();
