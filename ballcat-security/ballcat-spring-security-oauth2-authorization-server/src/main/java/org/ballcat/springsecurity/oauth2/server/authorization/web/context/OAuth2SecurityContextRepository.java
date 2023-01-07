@@ -26,22 +26,22 @@ public class OAuth2SecurityContextRepository implements SecurityContextRepositor
 
 	private final BearerTokenResolver bearerTokenResolver;
 
-	private final OAuth2AuthorizationService oAuth2AuthorizationService;
+	private final OAuth2AuthorizationService authorizationService;
 
-	public OAuth2SecurityContextRepository(OAuth2AuthorizationService oAuth2AuthorizationService) {
+	public OAuth2SecurityContextRepository(OAuth2AuthorizationService authorizationService) {
 		DefaultBearerTokenResolver tokenResolver = new DefaultBearerTokenResolver();
 		// 允许 url 携带 accessToken
 		tokenResolver.setAllowUriQueryParameter(true);
 		// 允许 表单传参
 		tokenResolver.setAllowFormEncodedBodyParameter(true);
 		this.bearerTokenResolver = tokenResolver;
-		this.oAuth2AuthorizationService = oAuth2AuthorizationService;
+		this.authorizationService = authorizationService;
 	}
 
 	public OAuth2SecurityContextRepository(BearerTokenResolver bearerTokenResolver,
-			OAuth2AuthorizationService oAuth2AuthorizationService) {
+			OAuth2AuthorizationService authorizationService) {
 		this.bearerTokenResolver = bearerTokenResolver;
-		this.oAuth2AuthorizationService = oAuth2AuthorizationService;
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class OAuth2SecurityContextRepository implements SecurityContextRepositor
 		if (!StringUtils.hasText(bearerToken)) {
 			return SecurityContextHolder.createEmptyContext();
 		}
-		OAuth2Authorization oAuth2Authorization = oAuth2AuthorizationService.findByToken(bearerToken,
+		OAuth2Authorization oAuth2Authorization = authorizationService.findByToken(bearerToken,
 				OAuth2TokenType.ACCESS_TOKEN);
 		if (oAuth2Authorization == null) {
 			return SecurityContextHolder.createEmptyContext();

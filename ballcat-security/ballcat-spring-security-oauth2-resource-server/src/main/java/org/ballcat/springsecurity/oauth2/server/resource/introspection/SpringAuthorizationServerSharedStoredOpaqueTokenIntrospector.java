@@ -32,11 +32,11 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 
 	private static final String AUTHORITY_SCOPE_PREFIX = "SCOPE_";
 
-	private final OAuth2AuthorizationService oAuth2AuthorizationService;
+	private final OAuth2AuthorizationService authorizationService;
 
 	public SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector(
-			OAuth2AuthorizationService oAuth2AuthorizationService) {
-		this.oAuth2AuthorizationService = oAuth2AuthorizationService;
+			OAuth2AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 	 */
 	@Override
 	public OAuth2AuthenticatedPrincipal introspect(String accessTokenValue) {
-		OAuth2Authorization oAuth2Authorization = oAuth2AuthorizationService.findByToken(accessTokenValue,
+		OAuth2Authorization oAuth2Authorization = authorizationService.findByToken(accessTokenValue,
 				OAuth2TokenType.ACCESS_TOKEN);
 		if (oAuth2Authorization == null) {
 			throw new BadOpaqueTokenException("Invalid access token: " + accessTokenValue);

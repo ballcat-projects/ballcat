@@ -2,7 +2,6 @@ package org.ballcat.springsecurity.oauth2.server.authorization.configurer;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenResponseEnhancer;
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
