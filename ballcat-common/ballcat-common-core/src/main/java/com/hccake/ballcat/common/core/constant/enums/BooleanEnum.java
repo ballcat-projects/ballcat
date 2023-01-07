@@ -4,23 +4,32 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/4/6 21:52
+ * Boolean 类型常量
+ *
+ * @author Hccake 2020/4/6 21:52
  */
-@Getter
 @AllArgsConstructor
 public enum BooleanEnum {
 
 	/**
 	 * 是
 	 */
-	TRUE(1),
+	TRUE(true, 1),
 	/**
 	 * 否
 	 */
-	FALSE(0);
+	FALSE(false, 0);
 
-	private final int value;
+	private final Boolean booleanValue;
+
+	private final Integer intValue;
+
+	public Boolean booleanValue() {
+		return booleanValue;
+	}
+
+	public Integer intValue() {
+		return intValue;
+	}
 
 }

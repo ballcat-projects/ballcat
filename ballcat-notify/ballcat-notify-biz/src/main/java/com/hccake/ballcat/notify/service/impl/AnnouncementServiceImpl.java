@@ -124,7 +124,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 		if (announcement.getStatus() != AnnouncementStatusEnum.UNPUBLISHED.getValue()) {
 			throw new BusinessException(SystemResultCode.BAD_REQUEST.getCode(), "不允许修改已经发布过的公告！");
 		}
-		if (BooleanEnum.TRUE.getValue() != announcement.getImmortal()
+		if (BooleanEnum.TRUE.intValue().equals(announcement.getImmortal())
 				&& LocalDateTime.now().isAfter(announcement.getDeadline())) {
 			throw new BusinessException(SystemResultCode.BAD_REQUEST.getCode(), "公告失效时间必须迟于当前时间！");
 		}
