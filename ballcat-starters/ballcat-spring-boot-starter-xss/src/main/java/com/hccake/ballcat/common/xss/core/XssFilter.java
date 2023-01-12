@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.xss.core;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.hccake.ballcat.common.xss.cleaner.XssCleaner;
 import com.hccake.ballcat.common.xss.config.XssProperties;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/17 20:28
+ * @author Hccake 2019/10/17 20:28
  */
 @RequiredArgsConstructor
 public class XssFilter extends OncePerRequestFilter {
@@ -59,14 +57,14 @@ public class XssFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+	protected boolean shouldNotFilter(HttpServletRequest request) {
 		// 关闭直接跳过
 		if (!xssProperties.isEnabled()) {
 			return true;
 		}
 
 		// 请求方法检查
-		if (!StrUtil.equalsAnyIgnoreCase(request.getMethod(),
+		if (!CharSequenceUtil.equalsAnyIgnoreCase(request.getMethod(),
 				xssProperties.getIncludeHttpMethods().toArray(new String[] {}))) {
 			return true;
 		}
