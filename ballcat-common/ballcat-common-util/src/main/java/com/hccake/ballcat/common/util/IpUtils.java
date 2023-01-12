@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.util;
 
+import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,7 +29,7 @@ public final class IpUtils {
 
 	/**
 	 * 获取客户端IP
-	 *
+	 * <p>
 	 * 参考 huTool 稍微调整了下headers 顺序
 	 */
 	public static String getIpAddr(HttpServletRequest request, String... otherHeaderNames) {
@@ -38,7 +38,32 @@ public final class IpUtils {
 		if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
 			headers = ArrayUtil.addAll(headers, otherHeaderNames);
 		}
-		return ServletUtil.getClientIPByHeader(request, headers);
+		return getClientIpByHeader(request, headers);
+	}
+
+	/**
+	 * 获取客户端IP
+	 *
+	 * <p>
+	 * headerNames参数用于自定义检测的Header<br>
+	 * 需要注意的是，使用此方法获取的客户IP地址必须在Http服务器（例如Nginx）中配置头信息，否则容易造成IP伪造。
+	 * </p>
+	 * @param request 请求对象{@link HttpServletRequest}
+	 * @param headerNames 自定义头，通常在Http服务器（例如Nginx）中配置
+	 * @return IP地址
+	 * @since 4.4.1
+	 */
+	public static String getClientIpByHeader(HttpServletRequest request, String... headerNames) {
+		String ip;
+		for (String header : headerNames) {
+			ip = request.getHeader(header);
+			if (!NetUtil.isUnknown(ip)) {
+				return NetUtil.getMultistageReverseProxyIp(ip);
+			}
+		}
+
+		ip = request.getRemoteAddr();
+		return NetUtil.getMultistageReverseProxyIp(ip);
 	}
 
 }
