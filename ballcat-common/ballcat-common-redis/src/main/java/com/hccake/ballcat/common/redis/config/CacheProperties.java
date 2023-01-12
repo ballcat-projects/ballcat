@@ -2,13 +2,16 @@ package com.hccake.ballcat.common.redis.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @author Hccake 2020/3/20 16:56
  */
 @Data
-@ConfigurationProperties(prefix = "ballcat.redis")
+@ConfigurationProperties(prefix = CacheProperties.PREFIX)
 public class CacheProperties {
+
+	public static final String PREFIX = "ballcat.redis";
 
 	/**
 	 * 通用的key前缀
@@ -39,5 +42,14 @@ public class CacheProperties {
 	 * 默认锁的超时时间(s)
 	 */
 	private long defaultLockTimeout = 10L;
+
+	@NestedConfigurationProperty
+	private KeyEventConfig keyExpiredEvent = new KeyEventConfig();
+
+	@NestedConfigurationProperty
+	private KeyEventConfig keyDeletedEvent = new KeyEventConfig();
+
+	@NestedConfigurationProperty
+	private KeyEventConfig keySetEvent = new KeyEventConfig();
 
 }
