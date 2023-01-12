@@ -13,7 +13,7 @@ import org.springframework.data.redis.listener.Topic;
  */
 public abstract class AbstractSetKeyEventMessageListener extends AbstractKeySpaceEventMessageListener {
 
-	private static final Topic KEYEVENT_DELETED_TOPIC = new PatternTopic("__keyevent@*__:set");
+	private static final Topic KEYEVENT_SET_TOPIC = new PatternTopic("__keyevent@*__:set");
 
 	/**
 	 * Creates new {@link MessageListener} for specific messages.
@@ -25,7 +25,7 @@ public abstract class AbstractSetKeyEventMessageListener extends AbstractKeySpac
 
 	@Override
 	public Topic getKeyEventTopic() {
-		return KEYEVENT_DELETED_TOPIC;
+		return KEYEVENT_SET_TOPIC;
 	}
 
 }
