@@ -39,6 +39,9 @@ public final class OAuth2AuthenticationProviderUtils {
 
 	public static OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(
 			Authentication authentication) {
+		if (authentication == null) {
+			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
+		}
 		if (OAuth2ClientAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
 			return (OAuth2ClientAuthenticationToken) authentication;
 		}
