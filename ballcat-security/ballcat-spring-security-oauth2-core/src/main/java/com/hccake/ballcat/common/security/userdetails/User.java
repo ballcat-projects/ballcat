@@ -11,9 +11,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/25 21:03
+ * @author Hccake 2019/9/25 21:03
  */
 @ToString
 @Getter
