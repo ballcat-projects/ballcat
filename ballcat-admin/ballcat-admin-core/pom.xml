@@ -15,11 +15,6 @@
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 		</dependency>
-		<!-- 已废弃，基于 spring oauth2 的授权服务器 -->
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-auth-controller</artifactId>
-		</dependency>
 		<!-- 脱敏工具 -->
 		<dependency>
 			<groupId>com.hccake</groupId>
@@ -58,11 +53,16 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-boot-starter-xss</artifactId>
 		</dependency>
+		<!-- 已废弃，基于 spring oauth2 的授权服务器 -->
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-auth-controller</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!-- 基于 spring authorization server 的授权服务器 -->
 		<dependency>
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-security-oauth2-authorization-server</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.hccake</groupId>

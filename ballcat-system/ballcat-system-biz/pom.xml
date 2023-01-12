@@ -46,7 +46,12 @@
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
-			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.hccake</groupId>
+            <artifactId>ballcat-spring-security-oauth2-authorization-server</artifactId>
+			<optional>true</optional>
+        </dependency>
+    </dependencies>
 </project>
