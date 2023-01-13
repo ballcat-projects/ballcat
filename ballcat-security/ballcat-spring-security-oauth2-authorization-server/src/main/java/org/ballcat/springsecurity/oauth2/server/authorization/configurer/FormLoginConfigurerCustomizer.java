@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 
+import static org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.DEFAULT_LOGIN_PAGE_URL;
+
 /**
  * 表单登录配置项
  *
@@ -18,18 +20,16 @@ public class FormLoginConfigurerCustomizer implements OAuth2AuthorizationServerC
 
 	private final UserDetailsService userDetailsService;
 
-	private static final String DEFAULT_LOGIN_URL = "/login";
-
 	@Override
 	public void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer,
 			HttpSecurity httpSecurity) throws Exception {
 
-		if (oAuth2AuthorizationServerProperties.isEnableFormLogin()) {
+		if (oAuth2AuthorizationServerProperties.isFormLoginEnabled()) {
 			String formLoginPage = oAuth2AuthorizationServerProperties.getFormLoginPage();
 
 			HttpSecurity.RequestMatcherConfigurer requestMatcherConfigurer = httpSecurity.requestMatchers();
 			if (formLoginPage == null) {
-				requestMatcherConfigurer.antMatchers(DEFAULT_LOGIN_URL);
+				requestMatcherConfigurer.antMatchers(DEFAULT_LOGIN_PAGE_URL);
 				httpSecurity.formLogin();
 			}
 			else {

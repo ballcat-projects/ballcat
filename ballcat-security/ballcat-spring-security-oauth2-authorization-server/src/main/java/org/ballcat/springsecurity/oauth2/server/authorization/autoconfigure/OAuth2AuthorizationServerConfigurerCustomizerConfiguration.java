@@ -36,7 +36,7 @@ public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "enable-form-login",
+	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "form-login-enabled",
 			havingValue = "true")
 	public FormLoginConfigurerCustomizer formLoginConfigurerCustomizer(UserDetailsService userDetailsService) {
 		return new FormLoginConfigurerCustomizer(oAuth2AuthorizationServerProperties, userDetailsService);

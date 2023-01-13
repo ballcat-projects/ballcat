@@ -17,9 +17,14 @@ public class OAuth2AuthorizationServerProperties {
 	public static final String PREFIX = "ballcat.security.oauth2.authorizationserver";
 
 	/**
-	 * 开启表单登录
+	 * 登陆验证码开关
 	 */
-	private boolean enableFormLogin = false;
+	private boolean loginCaptchaEnabled = true;
+
+	/**
+	 * 表单登录开关
+	 */
+	private boolean formLoginEnabled = false;
 
 	/**
 	 * 表单登录地址
