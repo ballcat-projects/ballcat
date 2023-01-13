@@ -31,7 +31,7 @@ public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfi
 
 	private final List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizerList;
 
-	private final List<OAuth2AuthorizationServerExtensionConfigurer> oAuth2AuthorizationServerExtensionConfigurers;
+	private final List<OAuth2AuthorizationServerExtensionConfigurer<?, HttpSecurity>> oAuth2AuthorizationServerExtensionConfigurers;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -51,7 +51,7 @@ public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfi
 				.apply(authorizationServerConfigurer);
 		// @formatter:off
 
-		for (OAuth2AuthorizationServerExtensionConfigurer configurer : oAuth2AuthorizationServerExtensionConfigurers) {
+		for (OAuth2AuthorizationServerExtensionConfigurer<?, HttpSecurity> configurer : oAuth2AuthorizationServerExtensionConfigurers) {
 			http.apply(configurer);
 		}
 	}

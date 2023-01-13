@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
@@ -57,7 +58,7 @@ public class OAuth2AuthorizationServerAutoConfiguration {
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	public OAuth2AuthorizationServerConfigurerAdapter oAuth2AuthorizationServerConfigurerAdapter(
 			List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizers,
-			List<OAuth2AuthorizationServerExtensionConfigurer> oAuth2AuthorizationServerExtensionConfigurers) {
+			List<OAuth2AuthorizationServerExtensionConfigurer<?, HttpSecurity>> oAuth2AuthorizationServerExtensionConfigurers) {
 		return new OAuth2AuthorizationServerConfigurerAdapter(oAuth2AuthorizationServerConfigurerCustomizers,
 				oAuth2AuthorizationServerExtensionConfigurers);
 	}
