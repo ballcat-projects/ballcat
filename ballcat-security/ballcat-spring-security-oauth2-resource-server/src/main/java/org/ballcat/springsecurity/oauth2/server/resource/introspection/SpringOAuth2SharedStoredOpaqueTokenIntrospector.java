@@ -32,7 +32,7 @@ import java.util.Set;
 @Slf4j
 @Deprecated
 @RequiredArgsConstructor
-public class SpingOAuth2SharedStoredOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
+public class SpringOAuth2SharedStoredOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private final TokenStore tokenStore;
 
