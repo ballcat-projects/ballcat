@@ -1,5 +1,6 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.web.context;
 
+import org.ballcat.springsecurity.oauth2.server.authorization.web.CookieBearerTokenResolver;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,7 +9,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
-import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.context.HttpRequestResponseHolder;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.util.StringUtils;
@@ -29,11 +29,7 @@ public class OAuth2SecurityContextRepository implements SecurityContextRepositor
 	private final OAuth2AuthorizationService authorizationService;
 
 	public OAuth2SecurityContextRepository(OAuth2AuthorizationService authorizationService) {
-		DefaultBearerTokenResolver tokenResolver = new DefaultBearerTokenResolver();
-		// 允许 url 携带 accessToken
-		tokenResolver.setAllowUriQueryParameter(true);
-		// 允许 表单传参
-		tokenResolver.setAllowFormEncodedBodyParameter(true);
+		CookieBearerTokenResolver tokenResolver = new CookieBearerTokenResolver();
 		this.bearerTokenResolver = tokenResolver;
 		this.authorizationService = authorizationService;
 	}
