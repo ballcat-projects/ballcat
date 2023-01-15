@@ -1,10 +1,10 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
 import lombok.RequiredArgsConstructor;
-import org.ballcat.springsecurity.oauth2.server.authorization.configurer.FormLoginConfigurerCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.configurer.OAuth2ResourceOwnerPasswordConfigurerCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.configurer.OAuth2TokenResponseEnhanceConfigurerCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.configurer.OAuth2TokenRevocationEndpointConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.FormLoginConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2ResourceOwnerPasswordConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2TokenResponseEnhanceConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2TokenRevocationEndpointConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenResponseEnhancer;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationResponseHandler;

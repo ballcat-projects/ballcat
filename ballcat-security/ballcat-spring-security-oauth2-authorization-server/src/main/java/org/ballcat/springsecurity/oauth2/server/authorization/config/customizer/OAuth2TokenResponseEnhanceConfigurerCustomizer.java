@@ -1,4 +1,4 @@
-package org.ballcat.springsecurity.oauth2.server.authorization.configurer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenResponseEnhancer;
 import org.springframework.http.converter.HttpMessageConverter;

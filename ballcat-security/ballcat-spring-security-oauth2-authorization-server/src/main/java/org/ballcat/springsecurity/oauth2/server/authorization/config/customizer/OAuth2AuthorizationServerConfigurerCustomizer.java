@@ -1,10 +1,10 @@
-package org.ballcat.springsecurity.oauth2.server.authorization.configurer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 
 /**
- * 授权服务器配置的自定义器
+ * 对 OAuth2授权服务器配置({@link OAuth2AuthorizationServerConfigurer}) 进行个性化配置的的定制器
  *
  * @author hccake
  */

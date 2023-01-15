@@ -1,7 +1,8 @@
-package org.ballcat.springsecurity.oauth2.server.authorization.configurer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2ResourceOwnerPasswordAuthenticationProvider;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2ConfigurerUtils;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

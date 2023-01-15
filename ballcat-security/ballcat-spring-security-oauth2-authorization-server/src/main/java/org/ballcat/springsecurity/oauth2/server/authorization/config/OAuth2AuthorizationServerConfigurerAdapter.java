@@ -1,6 +1,8 @@
-package org.ballcat.springsecurity.oauth2.server.authorization.configurer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config;
 
 import lombok.RequiredArgsConstructor;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerExtensionConfigurer;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

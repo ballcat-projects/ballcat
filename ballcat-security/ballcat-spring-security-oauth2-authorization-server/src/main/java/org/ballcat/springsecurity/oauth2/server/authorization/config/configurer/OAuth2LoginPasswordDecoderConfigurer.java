@@ -1,8 +1,7 @@
-package org.ballcat.springsecurity.oauth2.server.authorization.configurer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
 import cn.hutool.core.lang.Assert;
-import org.ballcat.security.captcha.CaptchaValidator;
-import org.ballcat.springsecurity.oauth2.server.authorization.web.filter.LoginCaptchaFilter;
+import org.ballcat.springsecurity.oauth2.server.authorization.web.filter.LoginPasswordDecoderFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,19 +10,19 @@ import org.springframework.security.oauth2.server.authorization.web.OAuth2Client
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
- * 登录验证码校验
+ * 登陆时的密码解密配置
  *
  * @author hccake
  */
-@Order(90)
-public class OAuth2LoginCaptchaConfigurer
-		extends OAuth2AuthorizationServerExtensionConfigurer<OAuth2LoginCaptchaConfigurer, HttpSecurity> {
+@Order(100)
+public class OAuth2LoginPasswordDecoderConfigurer
+		extends OAuth2AuthorizationServerExtensionConfigurer<OAuth2LoginPasswordDecoderConfigurer, HttpSecurity> {
 
-	private final CaptchaValidator captchaValidator;
+	private final String passwordSecretKey;
 
-	public OAuth2LoginCaptchaConfigurer(CaptchaValidator captchaValidator) {
-		Assert.notNull(captchaValidator, "captchaValidator can not be null");
-		this.captchaValidator = captchaValidator;
+	public OAuth2LoginPasswordDecoderConfigurer(String passwordSecretKey) {
+		Assert.notEmpty(passwordSecretKey, "passwordSecretKey can not be null");
+		this.passwordSecretKey = passwordSecretKey;
 	}
 
 	@Override
@@ -36,8 +35,8 @@ public class OAuth2LoginCaptchaConfigurer
 		AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(authorizationServerSettings.getTokenEndpoint(),
 				HttpMethod.POST.name());
 
-		// 验证码，必须在 OAuth2ClientAuthenticationFilter 过滤器之后，方便获取当前客户端
-		httpSecurity.addFilterAfter(new LoginCaptchaFilter(requestMatcher, captchaValidator),
+		// 密码解密，必须在 OAuth2ClientAuthenticationFilter 过滤器之后，方便获取当前客户端
+		httpSecurity.addFilterAfter(new LoginPasswordDecoderFilter(requestMatcher, passwordSecretKey),
 				OAuth2ClientAuthenticationFilter.class);
 	}
 
