@@ -24,17 +24,17 @@ public class FormLoginConfigurerCustomizer implements OAuth2AuthorizationServerC
 	public void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer,
 			HttpSecurity httpSecurity) throws Exception {
 
-		if (oAuth2AuthorizationServerProperties.isFormLoginEnabled()) {
-			String formLoginPage = oAuth2AuthorizationServerProperties.getFormLoginPage();
+		if (oAuth2AuthorizationServerProperties.isLoginPageEnabled()) {
+			String loginPage = oAuth2AuthorizationServerProperties.getLoginPage();
 
 			HttpSecurity.RequestMatcherConfigurer requestMatcherConfigurer = httpSecurity.requestMatchers();
-			if (formLoginPage == null) {
+			if (loginPage == null) {
 				requestMatcherConfigurer.antMatchers(DEFAULT_LOGIN_PAGE_URL);
 				httpSecurity.formLogin();
 			}
 			else {
-				requestMatcherConfigurer.antMatchers(formLoginPage);
-				httpSecurity.formLogin(form -> form.loginPage(formLoginPage).permitAll());
+				requestMatcherConfigurer.antMatchers(loginPage);
+				httpSecurity.formLogin(form -> form.loginPage(loginPage).permitAll());
 			}
 
 			// 需要 userDetailsService 对应生成 DaoAuthenticationProvider
