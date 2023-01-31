@@ -24,14 +24,14 @@ public class DefaultExpiredKeyEventMessageListener extends AbstractExpiredKeyEve
 
 	/**
 	 * Creates new {@link MessageListener} for specific messages.
-	 *
 	 * @param listenerContainer must not be {@literal null}.
 	 */
 	public DefaultExpiredKeyEventMessageListener(RedisMessageListenerContainer listenerContainer) {
 		super(listenerContainer);
 	}
 
-	public DefaultExpiredKeyEventMessageListener(RedisMessageListenerContainer listenerContainer, ObjectProvider<List<KeyExpiredEventMessageTemplate>> objectProvider) {
+	public DefaultExpiredKeyEventMessageListener(RedisMessageListenerContainer listenerContainer,
+			ObjectProvider<List<KeyExpiredEventMessageTemplate>> objectProvider) {
 		super(listenerContainer);
 		objectProvider.ifAvailable(templates -> this.keyExpiredEventMessageTemplates = new ArrayList<>(templates));
 	}
@@ -47,7 +47,8 @@ public class DefaultExpiredKeyEventMessageListener extends AbstractExpiredKeyEve
 		for (KeyExpiredEventMessageTemplate keyExpiredEventMessageTemplate : keyExpiredEventMessageTemplates) {
 			if (keyExpiredEventMessageTemplate.support(expiredKey)) {
 				if (log.isTraceEnabled()) {
-					log.trace("use template[{}]handle key expired event,the expired key is [{}]", keyExpiredEventMessageTemplate.getClass().getName(), expiredKey);
+					log.trace("use template[{}]handle key expired event,the expired key is [{}]",
+							keyExpiredEventMessageTemplate.getClass().getName(), expiredKey);
 				}
 				keyExpiredEventMessageTemplate.handleMessage(expiredKey);
 			}

@@ -24,7 +24,6 @@ public class DefaultSetKeyEventMessageListener extends AbstractSetKeyEventMessag
 
 	/**
 	 * Creates new {@link MessageListener} for specific messages.
-	 *
 	 * @param listenerContainer must not be {@literal null}.
 	 */
 	public DefaultSetKeyEventMessageListener(RedisMessageListenerContainer listenerContainer) {
@@ -32,7 +31,7 @@ public class DefaultSetKeyEventMessageListener extends AbstractSetKeyEventMessag
 	}
 
 	public DefaultSetKeyEventMessageListener(RedisMessageListenerContainer listenerContainer,
-											 ObjectProvider<List<KeySetEventMessageTemplate>> objectProvider) {
+			ObjectProvider<List<KeySetEventMessageTemplate>> objectProvider) {
 		super(listenerContainer);
 		objectProvider.ifAvailable(templates -> this.keySetEventMessageTemplates = new ArrayList<>(templates));
 	}

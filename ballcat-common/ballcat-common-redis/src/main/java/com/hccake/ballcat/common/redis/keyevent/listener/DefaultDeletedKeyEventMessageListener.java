@@ -24,7 +24,6 @@ public class DefaultDeletedKeyEventMessageListener extends AbstractDeletedKeyEve
 
 	/**
 	 * Creates new {@link MessageListener} for specific messages.
-	 *
 	 * @param listenerContainer must not be {@literal null}.
 	 */
 	public DefaultDeletedKeyEventMessageListener(RedisMessageListenerContainer listenerContainer) {
@@ -32,7 +31,7 @@ public class DefaultDeletedKeyEventMessageListener extends AbstractDeletedKeyEve
 	}
 
 	public DefaultDeletedKeyEventMessageListener(RedisMessageListenerContainer listenerContainer,
-												 ObjectProvider<List<KeyDeletedEventMessageTemplate>> objectProvider) {
+			ObjectProvider<List<KeyDeletedEventMessageTemplate>> objectProvider) {
 		super(listenerContainer);
 		objectProvider.ifAvailable(templates -> this.keyDeletedEventMessageTemplates = new ArrayList<>(templates));
 	}
