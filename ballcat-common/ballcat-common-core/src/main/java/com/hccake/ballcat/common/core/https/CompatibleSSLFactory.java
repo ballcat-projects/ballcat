@@ -28,7 +28,7 @@ public class CompatibleSSLFactory extends SSLSocketFactory {
 	private final SSLSocketFactory factory;
 
 	public CompatibleSSLFactory(String... protocols) throws NoSuchAlgorithmException, KeyManagementException {
-		this(HttpsConstants.TLS, HttpsConstants.KEY_MANAGERS, HttpsConstants.trustManagers(), new SecureRandom(),
+		this(HttpsConstants.TLS, HttpsConstants.KEY_MANAGERS, HttpsConstants.TRUST_MANAGERS, new SecureRandom(),
 				protocols);
 	}
 
