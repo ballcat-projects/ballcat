@@ -128,7 +128,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-release-plugin</artifactId>
