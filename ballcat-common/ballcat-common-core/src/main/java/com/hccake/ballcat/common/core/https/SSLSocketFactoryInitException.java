@@ -8,4 +8,5 @@ public class SSLSocketFactoryInitException extends RuntimeException {
 	public SSLSocketFactoryInitException(String message, Throwable cause) {
 		super(message, cause);
 	}
+
 }
