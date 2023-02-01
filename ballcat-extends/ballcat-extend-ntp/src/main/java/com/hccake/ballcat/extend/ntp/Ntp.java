@@ -16,6 +16,22 @@ public class Ntp {
 
 	private final long diff;
 
+	/**
+	 * 计算时差
+	 */
+	public static long diff(String host) {
+		try {
+			NTPUDPClient client = new NTPUDPClient();
+			TimeInfo time = client.getTime(InetAddress.getByName(host));
+			long systemMillis = System.currentTimeMillis();
+			long ntpMillis = time.getMessage().getTransmitTimeStamp().getTime();
+			return ntpMillis - systemMillis;
+		}
+		catch (Exception e) {
+			throw new NtpException("ntp初始化异常!", e);
+		}
+	}
+
 	public Ntp(String host) {
 		try {
 			diff = diff(host);
@@ -36,22 +52,6 @@ public class Ntp {
 	 */
 	public Ntp use(String host) {
 		return new Ntp(host);
-	}
-
-	/**
-	 * 计算时差
-	 */
-	public long diff(String host) {
-		try {
-			NTPUDPClient client = new NTPUDPClient();
-			TimeInfo time = client.getTime(InetAddress.getByName(host));
-			long systemMillis = System.currentTimeMillis();
-			long ntpMillis = time.getMessage().getTransmitTimeStamp().getTime();
-			return ntpMillis - systemMillis;
-		}
-		catch (Exception e) {
-			throw new NtpException("ntp初始化异常!", e);
-		}
 	}
 
 }
