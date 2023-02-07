@@ -35,7 +35,7 @@ public class Ntp {
 	public Ntp(String host) {
 		try {
 			diff = diff(host);
-			log.warn("系统时间比ntp时间差为{}毫秒", diff);
+			log.warn("授时中心时间与系统时间差为 {} 毫秒", diff);
 		}
 		catch (Exception e) {
 			throw new NtpException("ntp初始化异常!", e);
