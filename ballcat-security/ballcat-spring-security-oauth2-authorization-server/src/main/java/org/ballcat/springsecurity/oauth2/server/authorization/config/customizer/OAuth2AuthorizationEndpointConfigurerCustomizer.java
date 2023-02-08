@@ -1,7 +1,6 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
 import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2ConfigurerUtils;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2LoginUrlAuthenticationEntryPoint;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.context.OAuth2SecurityContextRepository;

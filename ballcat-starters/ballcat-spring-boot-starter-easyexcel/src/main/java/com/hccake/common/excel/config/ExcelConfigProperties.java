@@ -4,8 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author lengleng
- * @date 2020/3/29
+ * @author lengleng 2020/3/29
  */
 @Data
 @ConfigurationProperties(prefix = ExcelConfigProperties.PREFIX)

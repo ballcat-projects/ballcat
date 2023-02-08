@@ -96,28 +96,5 @@ public class CustomAuthorizationServerSecurityConfiguration extends WebSecurityC
 			configurer.configure(oauthServer);
 		}
 	}
-	//
-	// /**
-	// * 当和授权服务器一起时，需要注册 userDetailService，以便支持 UsernamePasswordAuthenticationToken
-	// * @param auth AuthenticationManagerBuilder
-	// * @throws Exception 异常
-	// */
-	// @Override
-	// protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	// // 添加多种授权模式
-	// for (AuthenticationProvider authenticationProvider : authenticationProviders) {
-	// auth.authenticationProvider(authenticationProvider);
-	// }
-	// // 注册 DaoAuthenticationProvider
-	// if (userDetailsService != null && passwordEncoder != null) {
-	// auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-	// }
-	// }
-	//
-	// @Bean(BeanIds.AUTHENTICATION_MANAGER)
-	// @Override
-	// public AuthenticationManager authenticationManagerBean() throws Exception {
-	// return super.authenticationManagerBean();
-	// }
 
 }

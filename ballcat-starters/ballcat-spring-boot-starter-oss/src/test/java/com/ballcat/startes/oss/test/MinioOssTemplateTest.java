@@ -23,13 +23,12 @@ import java.util.stream.Collectors;
 /**
  * MINIO OSS测试工具
  *
- * @author lishangbu
- * @date 2022/10/22
+ * @author lishangbu 2022/10/22
  */
 
 @ActiveProfiles("minio")
 @RequiredArgsConstructor
-public class MinioOssTemplateTest extends AbstractOssTemplateTest {
+class MinioOssTemplateTest extends AbstractOssTemplateTest {
 
 	/**
 	 * 测试用OSS名字
@@ -45,7 +44,7 @@ public class MinioOssTemplateTest extends AbstractOssTemplateTest {
 	 * 测试创建存储桶
 	 */
 	@Test
-	public void createBucket() {
+	void createBucket() {
 		String bucket = UUID.randomUUID().toString();
 		CreateBucketResponse bucketResponse = ossTemplate.createBucket(bucket);
 		Assertions.assertTrue(bucketResponse.location().endsWith(bucket));
@@ -56,7 +55,7 @@ public class MinioOssTemplateTest extends AbstractOssTemplateTest {
 	 * 测试罗列存储桶
 	 */
 	@Test
-	public void listBuckets() {
+	void listBuckets() {
 		String bucket = UUID.randomUUID().toString();
 		createBucket(bucket);
 		List<Bucket> newBuckets = ossTemplate.listBuckets().buckets();
@@ -69,25 +68,25 @@ public class MinioOssTemplateTest extends AbstractOssTemplateTest {
 	 * 测试删除存储桶
 	 */
 	@Test
-	public void deleteBucket() {
+	void deleteBucket() {
 		ossTemplate.deleteBucket(TEST_BUCKET_NAME);
 	}
 
 	@Test
-	public void getObjectPresignedUrl() {
+	void getObjectPresignedUrl() {
 		String objectPresignedUrl = ossTemplate.getObjectPresignedUrl(ossTemplate.getOssProperties().getBucket(),
 				TEST_OBJECT_NAME, Duration.ofDays(1));
 		System.out.println(objectPresignedUrl);
 	}
 
 	@Test
-	public void getUrl() {
+	void getUrl() {
 		String url = ossTemplate.getURL(ossTemplate.getOssProperties().getBucket(), TEST_OBJECT_NAME);
 		System.out.println(url);
 	}
 
 	@Test
-	public void getUrlWithCustomPrefix() {
+	void getUrlWithCustomPrefix() {
 		URL url = ossTemplate.getS3Client().utilities()
 				.getUrl(GetUrlRequest.builder().bucket(ossTemplate.getOssProperties().getBucket()).key(TEST_OBJECT_NAME)
 						.endpoint(URI.create(ossTemplate.getOssProperties().getEndpoint() + "/测试/"))
@@ -100,7 +99,7 @@ public class MinioOssTemplateTest extends AbstractOssTemplateTest {
 	 * 测试获取对象
 	 */
 	@Test
-	public void listObjects() {
+	void listObjects() {
 		// 使用上传时自己构建的的对象名字查询
 		List<S3Object> s3ObjectsWithUploadKey = ossTemplate.listObjects(ossTemplate.getOssProperties().getBucket(),
 				TEST_OBJECT_NAME);
@@ -112,7 +111,7 @@ public class MinioOssTemplateTest extends AbstractOssTemplateTest {
 	 * 测试文件上传 上传后的文件名和当前文件名保持一致
 	 */
 	@Test
-	public void putObject() throws IOException {
+	void putObject() throws IOException {
 		PutObjectResponse putObjectResponse = ossTemplate.putObject(ossTemplate.getOssProperties().getBucket(),
 				TEST_OBJECT_NAME, ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "test.txt"));
 		System.out.println(putObjectResponse);
@@ -120,7 +119,7 @@ public class MinioOssTemplateTest extends AbstractOssTemplateTest {
 	}
 
 	@Test
-	public void upload() throws FileNotFoundException {
+	void upload() throws FileNotFoundException {
 		String bucket = UUID.randomUUID().toString();
 		String key = UUID.randomUUID().toString();
 		createBucket(bucket);
@@ -130,14 +129,14 @@ public class MinioOssTemplateTest extends AbstractOssTemplateTest {
 		List<S3Object> s3Objects = ossTemplate.listObjects(key);
 		Assertions.assertEquals(1, s3Objects.size());
 		S3Object s3Object = s3Objects.get(0);
-		Assertions.assertEquals(s3Object.key(), key);
-		Assertions.assertEquals(s3Object.size(), 13);
+		Assertions.assertEquals(key, s3Object.key());
+		Assertions.assertEquals(13, s3Object.size());
 		ossTemplate.deleteObject(key);
 		deleteBucket(bucket);
 	}
 
 	@Test
-	public void testBean() {
+	void testBean() {
 		if (objectKeyPrefixConverter.match()) {
 			Assertions.assertInstanceOf(ObjectWithGlobalKeyPrefixOssTemplate.class, ossTemplate);
 		}

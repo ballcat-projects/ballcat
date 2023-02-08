@@ -1,8 +1,8 @@
 package com.hccake.starter.sms.impl;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.URLUtil;
+import cn.hutool.core.net.URLEncodeUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.crypto.digest.MD5;
 import cn.hutool.http.HttpRequest;
 import com.hccake.starter.sms.SmsSender;
@@ -40,15 +40,15 @@ public class TianYiHongSenderImpl extends BaseServiceImpl implements SmsSender<S
 			TianYiHong ty = sp.getTianYiHong();
 			String dateTime = DateUtil.format(LocalDateTime.now(), "yyyyMMddHHmmss");
 
-			String req = StrUtil.format("account={}&sign={}&datetime={}&content={}{}{}", account.getUsername(),
+			String req = CharSequenceUtil.format("account={}&sign={}&datetime={}&content={}{}{}", account.getUsername(),
 					account.getPassword(), md5.digestHex(account.getUsername() + account.getPassword() + dateTime),
 					dateTime, p.getContent()
 					// sender id
 					, ty.getSenderIdCountry().contains(p.getCountry()) ? "&senderid=" + ty.getSenderId() : ""
 					// numbers
-					, StrUtil.join(",", p.getPhoneNumbers().toArray()));
+					, CharSequenceUtil.join(",", p.getPhoneNumbers().toArray()));
 
-			String res = request.setUrl(URLUtil.encode(req)).execute().body();
+			String res = request.setUrl(URLEncodeUtil.encode(req)).execute().body();
 			return SmsSenderResult.generateTianYiHong(res, "方法参数:" + p.toString() + " ;请求: " + req,
 					p.getPhoneNumbers());
 		}

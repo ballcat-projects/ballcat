@@ -8,8 +8,7 @@ import org.springframework.data.redis.listener.Topic;
 /**
  * key deleted event
  *
- * @author lishangbu
- * @date 2023/1/12
+ * @author lishangbu 2023/1/12
  */
 public abstract class AbstractDeletedKeyEventMessageListener extends AbstractKeySpaceEventMessageListener {
 
@@ -19,7 +18,7 @@ public abstract class AbstractDeletedKeyEventMessageListener extends AbstractKey
 	 * Creates new {@link MessageListener} for specific messages.
 	 * @param listenerContainer must not be {@literal null}.
 	 */
-	public AbstractDeletedKeyEventMessageListener(RedisMessageListenerContainer listenerContainer) {
+	protected AbstractDeletedKeyEventMessageListener(RedisMessageListenerContainer listenerContainer) {
 		super(listenerContainer);
 	}
 

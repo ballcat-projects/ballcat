@@ -32,7 +32,7 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 	private List<OAuth2ResourceServerConfigurerCustomizer> configurerCustomizers = new ArrayList<>();
 
 	@Autowired(required = false)
-	private List<OAuth2ResourceServerExtensionConfigurer> extensionConfigurers = new ArrayList<>();
+	private List<OAuth2ResourceServerExtensionConfigurer<?>> extensionConfigurers = new ArrayList<>();
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

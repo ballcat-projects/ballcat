@@ -1,19 +1,20 @@
 package com.hccake.extend.kafka;
 
-import static com.hccake.extend.kafka.KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER;
-
 import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.StrUtil;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
-import java.util.function.Function;
+import cn.hutool.core.text.CharSequenceUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.Deserializer;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
+import java.util.function.Function;
+
+import static com.hccake.extend.kafka.KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER;
 
 /**
  * 消费者 具体的配置请参考 {@link ConsumerConfig} 这里只提供一些常用配置
@@ -112,8 +113,8 @@ public class KafkaConsumerBuilder {
 	}
 
 	public Properties getProperties() {
-		String nowServes = properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, StrUtil.EMPTY);
-		if (StrUtil.isNotBlank(nowServes)) {
+		String nowServes = properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CharSequenceUtil.EMPTY);
+		if (CharSequenceUtil.isNotBlank(nowServes)) {
 			// 仅在存在配置时才插入
 			bootstrapServers.addAll(ListUtil.toList(nowServes.split(BOOTSTRAP_SERVERS_DELIMITER)));
 		}

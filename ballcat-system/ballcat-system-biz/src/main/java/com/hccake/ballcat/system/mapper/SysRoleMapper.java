@@ -1,17 +1,17 @@
 package com.hccake.ballcat.system.mapper;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.hccake.ballcat.common.model.domain.PageParam;
+import com.hccake.ballcat.common.model.domain.PageResult;
+import com.hccake.ballcat.common.model.domain.SelectData;
 import com.hccake.ballcat.system.converter.SysRoleConverter;
 import com.hccake.ballcat.system.model.entity.SysRole;
 import com.hccake.ballcat.system.model.qo.SysRoleQO;
 import com.hccake.ballcat.system.model.vo.SysRolePageVO;
-import com.hccake.ballcat.common.model.domain.PageParam;
-import com.hccake.ballcat.common.model.domain.PageResult;
-import com.hccake.ballcat.common.model.domain.SelectData;
+import com.hccake.extend.mybatis.plus.conditions.query.LambdaQueryWrapperX;
 import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
+import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
 
 import java.util.List;
 
@@ -33,10 +33,9 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 	 */
 	default PageResult<SysRolePageVO> queryPage(PageParam pageParam, SysRoleQO qo) {
 		IPage<SysRole> page = this.prodPage(pageParam);
-		LambdaQueryWrapper<SysRole> wrapper = Wrappers.<SysRole>lambdaQuery()
-				.like(StrUtil.isNotBlank(qo.getName()), SysRole::getName, qo.getName())
-				.like(StrUtil.isNotBlank(qo.getCode()), SysRole::getCode, qo.getCode())
-				.between(StrUtil.isNotBlank(qo.getStartTime()) && StrUtil.isNotBlank(qo.getEndTime()),
+		LambdaQueryWrapperX<SysRole> wrapper = WrappersX.lambdaQueryX(SysRole.class)
+				.likeIfPresent(SysRole::getName, qo.getName()).like(SysRole::getCode, qo.getCode())
+				.between(CharSequenceUtil.isNotBlank(qo.getStartTime()) && CharSequenceUtil.isNotBlank(qo.getEndTime()),
 						SysRole::getCreateTime, qo.getStartTime(), qo.getEndTime());
 		this.selectPage(page, wrapper);
 		IPage<SysRolePageVO> voPage = page.convert(SysRoleConverter.INSTANCE::poToPageVo);

@@ -1,7 +1,9 @@
 package com.hccake.ballcat.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -55,7 +57,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 
 		// 如果有名称的查询条件，则进行剪枝操作
 		String name = sysOrganizationQO.getName();
-		if (StrUtil.isNotEmpty(name)) {
+		if (CharSequenceUtil.isNotEmpty(name)) {
 			return TreeUtils.pruneTree(tree, node -> node.getName() != null && node.getName().contains(name));
 		}
 
@@ -184,7 +186,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 			String hierarchy) {
 		// 获取对应 parentId 下的所有子节点
 		List<SysOrganization> sysOrganizations = map.get(parentId);
-		if (CollectionUtil.isEmpty(sysOrganizations)) {
+		if (CollUtil.isEmpty(sysOrganizations)) {
 			return;
 		}
 		// 递归更新子节点数据

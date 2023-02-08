@@ -15,7 +15,10 @@ import java.util.concurrent.TimeUnit;
  * @author Hccake 2020/3/27 21:15
  */
 @Slf4j
-public class CacheLock {
+public final class CacheLock {
+
+	private CacheLock() {
+	}
 
 	/**
 	 * 释放锁lua脚本 KEYS【1】：key值是为要加的锁定义的字符串常量 ARGV【1】：value值是 request id, 用来防止解除了不该解除的锁. 可用

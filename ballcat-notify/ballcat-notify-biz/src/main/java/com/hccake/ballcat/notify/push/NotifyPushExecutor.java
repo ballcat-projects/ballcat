@@ -1,6 +1,6 @@
 package com.hccake.ballcat.notify.push;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.hccake.ballcat.notify.model.domain.NotifyInfo;
 import com.hccake.ballcat.notify.recipient.RecipientHandler;
 import com.hccake.ballcat.system.model.entity.SysUser;
@@ -27,7 +27,7 @@ public class NotifyPushExecutor {
 
 	public NotifyPushExecutor(RecipientHandler recipientHandler, List<NotifyPusher> notifyPusherList) {
 		this.recipientHandler = recipientHandler;
-		if (CollectionUtil.isNotEmpty(notifyPusherList)) {
+		if (CollUtil.isNotEmpty(notifyPusherList)) {
 			for (NotifyPusher notifyPusher : notifyPusherList) {
 				this.addNotifyPusher(notifyPusher);
 			}

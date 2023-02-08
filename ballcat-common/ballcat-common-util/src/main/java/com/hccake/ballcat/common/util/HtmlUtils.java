@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.util;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -21,7 +21,7 @@ public final class HtmlUtils {
 	 * @return 保留换行格式的纯文本
 	 */
 	public static String toText(String html, boolean mergeLineBreak) {
-		if (StrUtil.isBlank(html)) {
+		if (CharSequenceUtil.isBlank(html)) {
 			return html;
 		}
 		Document document = Jsoup.parse(html);

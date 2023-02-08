@@ -1,6 +1,6 @@
 package com.hccake.ballcat.i18n.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import com.hccake.ballcat.common.model.domain.PageResult;
@@ -131,7 +131,7 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 		// 删除已存在的数据
 		list.removeAll(existsI18nData);
 		// 落库
-		if (CollectionUtil.isNotEmpty(list)) {
+		if (CollUtil.isNotEmpty(list)) {
 			baseMapper.insertBatchSomeColumn(list);
 		}
 		return existsI18nData;
@@ -200,7 +200,7 @@ public class I18nDataServiceImpl extends ExtendServiceImpl<I18nDataMapper, I18nD
 		@Transactional(rollbackFor = Exception.class)
 		public void saveAndUpdate(List<I18nData> insertList, List<I18nDataDTO> updateList) {
 			// 插入不存的数据
-			if (CollectionUtil.isNotEmpty(insertList)) {
+			if (CollUtil.isNotEmpty(insertList)) {
 				i18nDataMapper.insertBatchSomeColumn(insertList);
 			}
 			// 更新已有数据

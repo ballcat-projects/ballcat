@@ -27,8 +27,7 @@ import java.util.List;
  * same bean name if that behavior can make them happy
  * </p>
  *
- * @author lishangbu
- * @date 2023/1/12
+ * @author lishangbu 2023/1/12
  */
 @AutoConfiguration
 public class RedisKeyEventAutoConfiguration {

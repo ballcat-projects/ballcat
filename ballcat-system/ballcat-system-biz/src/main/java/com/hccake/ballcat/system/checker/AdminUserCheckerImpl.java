@@ -1,6 +1,6 @@
 package com.hccake.ballcat.system.checker;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import com.hccake.ballcat.system.properties.SystemProperties;
@@ -24,7 +24,7 @@ public class AdminUserCheckerImpl implements AdminUserChecker {
 		if (administrator.getUserId() == user.getUserId()) {
 			return true;
 		}
-		return StrUtil.isNotEmpty(administrator.getUsername())
+		return CharSequenceUtil.isNotEmpty(administrator.getUsername())
 				&& administrator.getUsername().equals(user.getUsername());
 	}
 

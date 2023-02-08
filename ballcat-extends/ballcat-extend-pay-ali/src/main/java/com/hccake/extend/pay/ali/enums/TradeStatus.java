@@ -1,10 +1,9 @@
 package com.hccake.extend.pay.ali.enums;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.var;
 
 /**
  * 交易状态
@@ -40,11 +39,11 @@ public enum TradeStatus {
 
 	@JsonCreator
 	public static TradeStatus of(String status) {
-		if (StrUtil.isBlank(status)) {
+		if (CharSequenceUtil.isBlank(status)) {
 			return ERROR;
 		}
 
-		for (var e : values()) {
+		for (TradeStatus e : values()) {
 			if (e.getStr().equals(status)) {
 				return e;
 			}

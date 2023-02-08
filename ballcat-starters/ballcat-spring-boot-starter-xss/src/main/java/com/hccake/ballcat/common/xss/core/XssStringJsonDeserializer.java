@@ -12,9 +12,7 @@ import java.io.IOException;
 /**
  * XSS过滤 jackson 反序列化器
  *
- * @author Hccake
- * @version 1.0
- * @date 2019/10/17 22:23
+ * @author Hccake 2019/10/17 22:23
  */
 @Slf4j
 public class XssStringJsonDeserializer extends StringDeserializer {

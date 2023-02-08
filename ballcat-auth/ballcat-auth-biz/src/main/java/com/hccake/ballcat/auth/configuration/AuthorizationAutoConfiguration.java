@@ -31,6 +31,7 @@ import javax.sql.DataSource;
  * 授权服务器需要的一些 Bean 信息注册
  *
  * @author hccake
+ * @deprecated 迁移使用 sas
  */
 @Deprecated
 @Import({ SecurityConfiguration.class, CustomAuthorizationServerConfigurer.class,

@@ -29,8 +29,7 @@ public class OAuth2SecurityContextRepository implements SecurityContextRepositor
 	private final OAuth2AuthorizationService authorizationService;
 
 	public OAuth2SecurityContextRepository(OAuth2AuthorizationService authorizationService) {
-		CookieBearerTokenResolver tokenResolver = new CookieBearerTokenResolver();
-		this.bearerTokenResolver = tokenResolver;
+		this.bearerTokenResolver = new CookieBearerTokenResolver();
 		this.authorizationService = authorizationService;
 	}
 

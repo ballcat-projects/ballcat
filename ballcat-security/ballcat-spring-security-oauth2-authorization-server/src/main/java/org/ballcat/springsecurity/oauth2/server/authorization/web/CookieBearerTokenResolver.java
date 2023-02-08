@@ -1,6 +1,5 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.web;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.util.Assert;

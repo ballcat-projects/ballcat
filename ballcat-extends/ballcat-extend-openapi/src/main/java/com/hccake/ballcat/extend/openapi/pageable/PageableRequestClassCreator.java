@@ -20,8 +20,10 @@ import java.util.Objects;
  *
  * @author hccake
  */
-@RequiredArgsConstructor
-public class PageableRequestClassCreator {
+public final class PageableRequestClassCreator {
+
+	private PageableRequestClassCreator() {
+	}
 
 	public static class ModifyFieldNameAdapter extends ClassVisitor {
 

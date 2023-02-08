@@ -1,40 +1,46 @@
 package com.hccake.ballcat.common.redis.config;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/3/20 16:56 缓存配置持有者，方便静态获取配置信息
+ * 缓存配置持有者，方便静态获取配置信息
+ *
+ * @author Hccake 2020/3/20 16:56
  */
-public class CachePropertiesHolder {
+public final class CachePropertiesHolder {
 
-	private static CacheProperties cacheProperties;
+	private static final CachePropertiesHolder INSTANCE = new CachePropertiesHolder();
+
+	private CacheProperties cacheProperties;
 
 	public void setCacheProperties(CacheProperties cacheProperties) {
-		CachePropertiesHolder.cacheProperties = cacheProperties;
+		INSTANCE.cacheProperties = cacheProperties;
+	}
+
+	private static CacheProperties cacheProperties() {
+		return INSTANCE.cacheProperties;
 	}
 
 	public static String keyPrefix() {
-		return cacheProperties.getKeyPrefix();
+		return cacheProperties().getKeyPrefix();
 	}
 
 	public static String lockKeySuffix() {
-		return cacheProperties.getLockKeySuffix();
+		return cacheProperties().getLockKeySuffix();
 	}
 
 	public static String delimiter() {
-		return cacheProperties.getDelimiter();
+		return cacheProperties().getDelimiter();
 	}
 
 	public static String nullValue() {
-		return cacheProperties.getNullValue();
+		return cacheProperties().getNullValue();
 	}
 
 	public static long expireTime() {
-		return cacheProperties.getExpireTime();
+		return cacheProperties().getExpireTime();
 	}
 
 	public static long defaultLockTimeout() {
-		return cacheProperties.getDefaultLockTimeout();
+		return cacheProperties().getDefaultLockTimeout();
 	}
 
 }

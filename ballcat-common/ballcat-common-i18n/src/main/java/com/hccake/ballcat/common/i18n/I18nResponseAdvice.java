@@ -1,9 +1,9 @@
 package com.hccake.ballcat.common.i18n;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -125,7 +125,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 
 				// 国际化条件判断
 				String conditionExpression = i18nField.condition();
-				if (StrUtil.isNotEmpty(conditionExpression)) {
+				if (CharSequenceUtil.isNotEmpty(conditionExpression)) {
 					Expression expression = EXPRESSION_CACHE.computeIfAbsent(conditionExpression,
 							PARSER::parseExpression);
 					Boolean needI18n = expression.getValue(source, Boolean.class);
@@ -136,7 +136,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 
 				// 获取国际化标识
 				String code = parseMessageCode(source, (String) fieldValue, i18nField);
-				if (StrUtil.isEmpty(code)) {
+				if (CharSequenceUtil.isEmpty(code)) {
 					continue;
 				}
 
@@ -148,7 +148,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 			else if (fieldValue instanceof Collection) {
 				@SuppressWarnings("unchecked")
 				Collection<Object> elements = (Collection<Object>) fieldValue;
-				if (CollectionUtil.isEmpty(elements)) {
+				if (CollUtil.isEmpty(elements)) {
 					continue;
 				}
 				// 集合属性 递归处理
@@ -187,7 +187,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 	private String parseMessageCode(Object source, String fieldValue, I18nField i18nField) {
 		// 如果没有指定 spel，则直接返回属性值
 		String codeExpression = i18nField.code();
-		if (StrUtil.isEmpty(codeExpression)) {
+		if (CharSequenceUtil.isEmpty(codeExpression)) {
 			return fieldValue;
 		}
 

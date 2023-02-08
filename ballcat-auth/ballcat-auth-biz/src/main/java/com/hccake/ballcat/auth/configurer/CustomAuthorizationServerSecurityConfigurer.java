@@ -194,8 +194,7 @@ public final class CustomAuthorizationServerSecurityConfigurer
 
 			@Override
 			public boolean matches(CharSequence rawPassword, String encodedPassword) {
-				return StringUtils.hasText(encodedPassword) ? passwordEncoder.matches(rawPassword, encodedPassword)
-						: true;
+				return !StringUtils.hasText(encodedPassword) || passwordEncoder.matches(rawPassword, encodedPassword);
 			}
 
 			@Override
@@ -283,7 +282,7 @@ public final class CustomAuthorizationServerSecurityConfigurer
 	 */
 	public void tokenEndpointAuthenticationFilters(List<Filter> filters) {
 		Assert.notNull(filters, "Custom authentication filter list must not be null");
-		this.tokenEndpointAuthenticationFilters = new ArrayList<Filter>(filters);
+		this.tokenEndpointAuthenticationFilters = new ArrayList<>(filters);
 	}
 
 }

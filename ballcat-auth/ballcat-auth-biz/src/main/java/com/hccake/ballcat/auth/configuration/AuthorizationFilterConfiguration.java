@@ -45,15 +45,4 @@ public class AuthorizationFilterConfiguration {
 		return new FilterWrapper(new LoginPasswordDecoderFilter(securityProperties.getPasswordSecretKey()));
 	}
 
-	// @Bean
-	// @ConditionalOnBean(FilterWrapper.class)
-	// public AuthorizationServerSecurityConfigurationPostProcessor
-	// authorizationServerSecurityConfigurationPostProcessor(
-	// OAuth2AuthorizationServerProperties properties, Optional<UserDetailsService>
-	// userDetailsServiceOptional,
-	// List<FilterWrapper> filterWrapperList) {
-	// return new AuthorizationServerSecurityConfigurationPostProcessor(properties,
-	// userDetailsServiceOptional.orElse(null), filterWrapperList);
-	// }
-
 }

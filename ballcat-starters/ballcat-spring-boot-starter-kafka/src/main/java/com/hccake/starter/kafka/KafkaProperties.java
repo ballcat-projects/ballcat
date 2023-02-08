@@ -1,6 +1,6 @@
 package com.hccake.starter.kafka;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import lombok.Data;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
@@ -75,28 +75,28 @@ public class KafkaProperties {
 	private Map<String, Object> extend = new HashMap<>();
 
 	public String getKeyDeserializerClassName() {
-		if (StrUtil.isNotEmpty(keyDeserializerClassName)) {
+		if (CharSequenceUtil.isNotEmpty(keyDeserializerClassName)) {
 			return keyDeserializerClassName;
 		}
 		return getKeyDeserializer().getName();
 	}
 
 	public String getValueDeserializerClassName() {
-		if (StrUtil.isNotEmpty(valueDeserializerClassName)) {
+		if (CharSequenceUtil.isNotEmpty(valueDeserializerClassName)) {
 			return valueDeserializerClassName;
 		}
 		return getValueDeserializer().getName();
 	}
 
 	public String getKeySerializerClassName() {
-		if (StrUtil.isNotEmpty(keySerializerClassName)) {
+		if (CharSequenceUtil.isNotEmpty(keySerializerClassName)) {
 			return keySerializerClassName;
 		}
 		return getKeySerializer().getName();
 	}
 
 	public String getValueSerializerClassName() {
-		if (StrUtil.isNotEmpty(valueSerializerClassName)) {
+		if (CharSequenceUtil.isNotEmpty(valueSerializerClassName)) {
 			return valueSerializerClassName;
 		}
 		return getValueSerializer().getName();

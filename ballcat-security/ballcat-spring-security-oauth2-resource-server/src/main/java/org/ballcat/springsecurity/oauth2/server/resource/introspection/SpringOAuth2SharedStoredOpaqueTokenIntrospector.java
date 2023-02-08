@@ -1,6 +1,6 @@
 package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,7 +78,7 @@ public class SpringOAuth2SharedStoredOpaqueTokenIntrospector implements OpaqueTo
 			Collection<? extends GrantedAuthority> requestAuthorities = oAuth2Request.getAuthorities();
 			Collection<GrantedAuthority> authorities = new ArrayList<>(requestAuthorities);
 			Set<String> scopes = oAuth2Request.getScope();
-			if (CollectionUtil.isNotEmpty(scopes)) {
+			if (CollUtil.isNotEmpty(scopes)) {
 				for (String scope : scopes) {
 					authorities.add(new SimpleGrantedAuthority(AUTHORITY_SCOPE_PREFIX + scope));
 				}

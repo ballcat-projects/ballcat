@@ -1,6 +1,5 @@
 package com.hccake.ballcat.system.controller;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.hccake.ballcat.common.core.validation.group.CreateGroup;
 import com.hccake.ballcat.common.core.validation.group.UpdateGroup;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
@@ -30,6 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -176,7 +176,7 @@ public class SysUserController {
 		List<SysRole> roleList = sysUserRoleService.listRoles(userId);
 
 		List<String> roleCodes = new ArrayList<>();
-		if (CollectionUtil.isNotEmpty(roleList)) {
+		if (!CollectionUtils.isEmpty(roleList)) {
 			roleList.forEach(role -> roleCodes.add(role.getCode()));
 		}
 

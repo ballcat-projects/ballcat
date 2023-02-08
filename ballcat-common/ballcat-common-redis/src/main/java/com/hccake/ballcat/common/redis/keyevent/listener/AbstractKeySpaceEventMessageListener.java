@@ -17,8 +17,7 @@ import org.springframework.lang.Nullable;
  * {@link ApplicationEventPublisher} by listening to Redis keyspace notifications for
  * specific key event.
  *
- * @author lishangbu
- * @date 2023/1/12
+ * @author lishangbu 2023/1/12
  */
 public abstract class AbstractKeySpaceEventMessageListener extends KeyspaceEventMessageListener
 		implements ApplicationEventPublisherAware {
@@ -30,7 +29,7 @@ public abstract class AbstractKeySpaceEventMessageListener extends KeyspaceEvent
 	 * Creates new {@link MessageListener} for specific messages.
 	 * @param listenerContainer must not be {@literal null}.
 	 */
-	public AbstractKeySpaceEventMessageListener(@NonNull RedisMessageListenerContainer listenerContainer) {
+	protected AbstractKeySpaceEventMessageListener(@NonNull RedisMessageListenerContainer listenerContainer) {
 		super(listenerContainer);
 	}
 
@@ -49,15 +48,14 @@ public abstract class AbstractKeySpaceEventMessageListener extends KeyspaceEvent
 	 */
 	@Override
 	protected void doHandleMessage(@NonNull Message message) {
-		publishEvent(new RedisKeyExpiredEvent(message.getBody()));
+		publishEvent(new RedisKeyExpiredEvent<>(message.getBody()));
 	}
 
 	/**
 	 * Publish the event in case an {@link ApplicationEventPublisher} is set.
 	 * @param event can be {@literal null}.
 	 */
-	protected void publishEvent(RedisKeyExpiredEvent event) {
-
+	protected void publishEvent(RedisKeyExpiredEvent<?> event) {
 		if (publisher != null) {
 			this.publisher.publishEvent(event);
 		}
@@ -70,7 +68,7 @@ public abstract class AbstractKeySpaceEventMessageListener extends KeyspaceEvent
 
 	/**
 	 * Creates new {@link Topic} for listening
-	 * @return
+	 * @return Topic
 	 */
 	public abstract Topic getKeyEventTopic();
 

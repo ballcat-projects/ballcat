@@ -1,6 +1,7 @@
 package com.hccake.extend.pay.wx.utils;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.hccake.extend.pay.wx.constants.WxPayConstant;
@@ -159,7 +160,7 @@ public final class WxPayUtil {
 			}
 			// 参数值为空，则不参与签名
 			val = params.get(k);
-			if (StrUtil.isNotBlank(val)) {
+			if (CharSequenceUtil.isNotBlank(val)) {
 				paramsStr.append(k).append("=").append(val.trim()).append("&");
 			}
 		}

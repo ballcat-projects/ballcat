@@ -8,8 +8,7 @@ import org.springframework.data.redis.listener.Topic;
 /**
  * key set event
  *
- * @author lishangbu
- * @date 2023/1/12
+ * @author lishangbu 2023/1/12
  */
 public abstract class AbstractSetKeyEventMessageListener extends AbstractKeySpaceEventMessageListener {
 
@@ -19,7 +18,7 @@ public abstract class AbstractSetKeyEventMessageListener extends AbstractKeySpac
 	 * Creates new {@link MessageListener} for specific messages.
 	 * @param listenerContainer must not be {@literal null}.
 	 */
-	public AbstractSetKeyEventMessageListener(RedisMessageListenerContainer listenerContainer) {
+	protected AbstractSetKeyEventMessageListener(RedisMessageListenerContainer listenerContainer) {
 		super(listenerContainer);
 	}
 

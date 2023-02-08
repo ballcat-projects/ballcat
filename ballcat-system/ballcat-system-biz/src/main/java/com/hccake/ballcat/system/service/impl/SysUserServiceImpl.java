@@ -1,8 +1,8 @@
 package com.hccake.ballcat.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -37,25 +37,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
  * 系统用户表
  *
- * @author ballcat code generator
- * @date 2019-09-12 20:39:31
+ * @author ballcat code generator 2019-09-12 20:39:31
  */
 @Slf4j
 @Service
@@ -164,7 +159,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 		// 新增用户角色关联
 		List<String> roleCodes = sysUserDto.getRoleCodes();
-		if (CollectionUtil.isNotEmpty(roleCodes)) {
+		if (!CollectionUtils.isEmpty(roleCodes)) {
 			boolean addUserRoleSuccess = sysUserRoleService.addUserRoles(sysUser.getUserId(), roleCodes);
 			Assert.isTrue(addUserRoleSuccess, () -> {
 				log.error("[addSysUser] 更新用户角色信息失败，user：{}， roleCodes: {}", sysUserDto, roleCodes);
@@ -278,7 +273,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		Assert.isTrue(adminUserChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		// 获取系统用户头像的文件名
 		String objectName = "sysuser/" + userId + "/avatar/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
-				+ StrUtil.SLASH + IdUtil.fastSimpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+				+ StrPool.SLASH + IdUtil.fastSimpleUUID() + StrPool.DOT + FileUtil.extName(file.getOriginalFilename());
 		objectName = fileService.upload(file.getInputStream(), objectName, file.getSize());
 
 		SysUser sysUser = new SysUser();

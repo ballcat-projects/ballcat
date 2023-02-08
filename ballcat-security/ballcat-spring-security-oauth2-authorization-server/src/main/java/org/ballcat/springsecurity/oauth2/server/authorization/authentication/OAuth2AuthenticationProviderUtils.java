@@ -59,23 +59,21 @@ public final class OAuth2AuthenticationProviderUtils {
 
 		// @formatter:off
 		OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.from(authorization)
-				.token(token,
-						(metadata) ->
-								metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, true));
+				.token(token, metadata -> metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, true));
 
 		if (OAuth2RefreshToken.class.isAssignableFrom(token.getClass())) {
 			authorizationBuilder.token(
-					authorization.getAccessToken().getToken(),
-					(metadata) ->
-							metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, true));
+				authorization.getAccessToken().getToken(),
+				metadata -> metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, true)
+			);
 
 			OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode =
 					authorization.getToken(OAuth2AuthorizationCode.class);
 			if (authorizationCode != null && !authorizationCode.isInvalidated()) {
 				authorizationBuilder.token(
-						authorizationCode.getToken(),
-						(metadata) ->
-								metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, true));
+					authorizationCode.getToken(),
+					metadata -> metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, true)
+				);
 			}
 		}
 		// @formatter:on

@@ -9,10 +9,12 @@ import java.util.regex.Pattern;
 /**
  * ip 信息详情
  *
- * @author lishangbu
- * @date 2022/10/16
+ * @author lishangbu 2022/10/16
  */
-public class IpInfoUtils {
+public final class IpInfoUtils {
+
+	private IpInfoUtils() {
+	}
 
 	/**
 	 * 缓存正则表达式，提升编译速度

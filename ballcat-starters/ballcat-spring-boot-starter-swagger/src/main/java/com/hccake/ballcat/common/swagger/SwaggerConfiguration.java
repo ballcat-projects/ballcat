@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.swagger;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.hccake.ballcat.common.swagger.builder.DocketBuildHelper;
 import com.hccake.ballcat.common.swagger.builder.MultiRequestHandlerSelectors;
 import com.hccake.ballcat.common.swagger.property.SwaggerProperties;
@@ -43,7 +43,7 @@ public class SwaggerConfiguration {
 		// 3. 文档筛选
 		String basePackage = swaggerProperties.getBasePackage();
 		ApiSelectorBuilder select = docket.select();
-		if(StrUtil.isEmpty(basePackage)){
+		if(CharSequenceUtil.isEmpty(basePackage)){
 			select.apis(MultiRequestHandlerSelectors.any());
 		}else {
 			select.apis(MultiRequestHandlerSelectors.basePackage(basePackage));

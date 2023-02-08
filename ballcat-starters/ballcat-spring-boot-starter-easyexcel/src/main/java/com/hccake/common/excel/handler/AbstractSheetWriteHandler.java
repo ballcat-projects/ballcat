@@ -125,10 +125,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 			writerBuilder.excludeColumnFieldNames(Arrays.asList(responseExcel.exclude()));
 		}
 
-		if (responseExcel.writeHandler().length != 0) {
-			for (Class<? extends WriteHandler> clazz : responseExcel.writeHandler()) {
-				writerBuilder.registerWriteHandler(BeanUtils.instantiateClass(clazz));
-			}
+		for (Class<? extends WriteHandler> clazz : responseExcel.writeHandler()) {
+			writerBuilder.registerWriteHandler(BeanUtils.instantiateClass(clazz));
 		}
 
 		// 开启国际化头信息处理
@@ -139,10 +137,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		// 自定义注入的转换器
 		registerCustomConverter(writerBuilder);
 
-		if (responseExcel.converter().length != 0) {
-			for (Class<? extends Converter> clazz : responseExcel.converter()) {
-				writerBuilder.registerConverter(BeanUtils.instantiateClass(clazz));
-			}
+		for (Class<? extends Converter> clazz : responseExcel.converter()) {
+			writerBuilder.registerConverter(BeanUtils.instantiateClass(clazz));
 		}
 
 		String templatePath = configProperties.getTemplatePath();

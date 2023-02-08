@@ -1,5 +1,6 @@
 package com.hccake.ballcat.autoconfigure.web.actuate;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.hccake.ballcat.common.core.constant.HeaderConstants;
@@ -77,7 +78,8 @@ public class ActuatorSecurityFilter extends OncePerRequestFilter {
 	 * @return boolean 通过返回true
 	 */
 	private boolean verifySign(String reqSecretId, String sign, String reqTime) {
-		if (StrUtil.isNotBlank(sign) && StrUtil.isNotBlank(reqTime) && StrUtil.isNotBlank(reqSecretId)) {
+		if (CharSequenceUtil.isNotBlank(sign) && CharSequenceUtil.isNotBlank(reqTime)
+				&& CharSequenceUtil.isNotBlank(reqSecretId)) {
 			if (!reqSecretId.equals(this.secretId)) {
 				return false;
 			}
@@ -87,7 +89,7 @@ public class ActuatorSecurityFilter extends OncePerRequestFilter {
 			if (nowTime - Long.parseLong(reqTime) <= expireTime) {
 				String reverse = StrUtil.reverse(reqTime);
 				String checkSign = SecureUtil.md5(reverse + this.secretId + this.secretKey);
-				return StrUtil.equalsIgnoreCase(checkSign, sign);
+				return CharSequenceUtil.equalsIgnoreCase(checkSign, sign);
 			}
 		}
 		return false;

@@ -1,6 +1,6 @@
 package com.hccake.ballcat.system.controller;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.UpdateOperationLogging;
@@ -19,27 +19,14 @@ import com.hccake.ballcat.system.model.vo.SysMenuGrantVO;
 import com.hccake.ballcat.system.model.vo.SysMenuPageVO;
 import com.hccake.ballcat.system.model.vo.SysMenuRouterVO;
 import com.hccake.ballcat.system.service.SysMenuService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -73,7 +60,7 @@ public class SysMenuController {
 
 		@SuppressWarnings("unchecked")
 		Collection<String> roleCodes = (Collection<String>) rolesObject;
-		if (CollectionUtil.isEmpty(roleCodes)) {
+		if (CollUtil.isEmpty(roleCodes)) {
 			return R.ok(new ArrayList<>());
 		}
 
@@ -100,7 +87,7 @@ public class SysMenuController {
 	@Operation(summary = "查询菜单列表", description = "查询菜单列表")
 	public R<List<SysMenuPageVO>> getSysMenuPage(SysMenuQO sysMenuQO) {
 		List<SysMenu> sysMenus = sysMenuService.listOrderBySort(sysMenuQO);
-		if (CollectionUtil.isEmpty(sysMenus)) {
+		if (CollUtil.isEmpty(sysMenus)) {
 			R.ok(new ArrayList<>());
 		}
 		List<SysMenuPageVO> voList = sysMenus.stream().map(SysMenuConverter.INSTANCE::poToPageVo)
@@ -117,7 +104,7 @@ public class SysMenuController {
 	@Operation(summary = "查询授权菜单列表", description = "查询授权菜单列表")
 	public R<List<SysMenuGrantVO>> getSysMenuGrantList() {
 		List<SysMenu> sysMenus = sysMenuService.list();
-		if (CollectionUtil.isEmpty(sysMenus)) {
+		if (CollUtil.isEmpty(sysMenus)) {
 			R.ok(new ArrayList<>());
 		}
 		List<SysMenuGrantVO> voList = sysMenus.stream().map(SysMenuConverter.INSTANCE::poToGrantVo)

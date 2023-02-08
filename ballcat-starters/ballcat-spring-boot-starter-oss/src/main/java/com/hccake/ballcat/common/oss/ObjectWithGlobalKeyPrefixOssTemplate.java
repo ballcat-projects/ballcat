@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 /**
  * OSS操作模板[对象key带全局前缀]
  *
- * @author lishangbu
- * @date 2022/10/23
+ * @author lishangbu 2022/10/23
  */
 public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 
@@ -74,8 +73,8 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 
 	/**
 	 * 上传文件
-	 * @param putObjectRequest
-	 * @param requestBody
+	 * @param putObjectRequest PutObjectRequest
+	 * @param requestBody RequestBody
 	 * @return 文件服务器针对上传对象操作的返回结果
 	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
 	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
@@ -104,8 +103,7 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 					.objectLockMode(putObjectRequest.objectLockMode())
 					.objectLockLegalHoldStatus(putObjectRequest.objectLockLegalHoldStatus())
 					.objectLockRetainUntilDate(putObjectRequest.objectLockRetainUntilDate())
-					.overrideConfiguration(putObjectRequest.overrideConfiguration().isPresent()
-							? putObjectRequest.overrideConfiguration().get() : null)
+					.overrideConfiguration(putObjectRequest.overrideConfiguration().orElse(null))
 					.requestPayer(putObjectRequest.requestPayer())
 					.serverSideEncryption(putObjectRequest.serverSideEncryption())
 					.sseCustomerAlgorithm(putObjectRequest.sseCustomerAlgorithm())
@@ -153,8 +151,7 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 					.key(objectKeyPrefixConverter.wrap(deleteObjectRequest.key()))
 					.bypassGovernanceRetention(deleteObjectRequest.bypassGovernanceRetention())
 					.expectedBucketOwner(deleteObjectRequest.expectedBucketOwner()).mfa(deleteObjectRequest.mfa())
-					.overrideConfiguration(deleteObjectRequest.overrideConfiguration().isPresent()
-							? deleteObjectRequest.overrideConfiguration().get() : null)
+					.overrideConfiguration(deleteObjectRequest.overrideConfiguration().orElse(null))
 					.requestPayer(deleteObjectRequest.requestPayer()).versionId(deleteObjectRequest.versionId())
 					.build());
 		}

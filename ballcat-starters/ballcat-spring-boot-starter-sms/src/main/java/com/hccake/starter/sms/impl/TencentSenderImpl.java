@@ -17,6 +17,7 @@ import com.tencentcloudapi.sms.v20190711.SmsClient;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsRequest;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class TencentSenderImpl extends BaseServiceImpl implements SmsSender<SmsS
 				json.put("TemplateID", tencent.getTemplateId());
 			}
 
-			if (StrUtil.isNotEmpty(tencent.getSign())) {
+			if (StringUtils.hasText(tencent.getSign())) {
 				json.put("Sign", tencent.getSign());
 			}
 			if (!sp.getTemplateParam().isEmpty()) {

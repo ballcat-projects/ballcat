@@ -18,10 +18,6 @@ public class EmptyCurlyToDefaultMessageInterpolator extends ResourceBundleMessag
 
 	private static final String EMPTY_CURLY_BRACES = "{}";
 
-	private static final String LEFT_CURLY_BRACES = "{";
-
-	private static final String RIGHT_CURLY_BRACES = "}";
-
 	public EmptyCurlyToDefaultMessageInterpolator() {
 	}
 

@@ -1,7 +1,7 @@
 package com.hccake.ballcat.common.core.markdown;
 
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,7 @@ public class MarkdownBuilder {
 	 * @param url 图片链接
 	 */
 	public MarkdownBuilder pic(String url) {
-		return pic(StrUtil.EMPTY, url);
+		return pic(CharSequenceUtil.EMPTY, url);
 	}
 
 	/**

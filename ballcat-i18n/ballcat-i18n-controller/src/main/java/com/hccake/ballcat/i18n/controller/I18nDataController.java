@@ -1,6 +1,6 @@
 package com.hccake.ballcat.i18n.controller;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.hccake.ballcat.common.core.constant.enums.ImportModeEnum;
 import com.hccake.ballcat.common.log.operation.annotation.CreateOperationLogging;
 import com.hccake.ballcat.common.log.operation.annotation.DeleteOperationLogging;
@@ -24,14 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -140,7 +133,7 @@ public class I18nDataController {
 	public R<List<I18nData>> importI18nData(@RequestExcel List<I18nDataExcelVO> excelVos,
 			@RequestParam("importMode") ImportModeEnum importModeEnum) {
 
-		if (CollectionUtil.isEmpty(excelVos)) {
+		if (CollUtil.isEmpty(excelVos)) {
 			return R.ok();
 		}
 
@@ -173,7 +166,7 @@ public class I18nDataController {
 	@Operation(summary = "导出国际化信息", description = "导出国际化信息")
 	public List<I18nDataExcelVO> exportI18nData(I18nDataQO i18nDataQO) {
 		List<I18nData> list = i18nDataService.queryList(i18nDataQO);
-		if (CollectionUtil.isEmpty(list)) {
+		if (CollUtil.isEmpty(list)) {
 			return new ArrayList<>();
 		}
 		// 转换为 excel vo 对象

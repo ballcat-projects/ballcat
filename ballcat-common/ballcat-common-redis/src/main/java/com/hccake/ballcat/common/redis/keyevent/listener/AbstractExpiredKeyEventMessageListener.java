@@ -12,8 +12,7 @@ import org.springframework.data.redis.listener.Topic;
  * similar with {@link KeyExpirationEventMessageListener}
  * </p>
  *
- * @author lishangbu
- * @date 2023/1/12
+ * @author lishangbu 2023/1/12
  */
 public abstract class AbstractExpiredKeyEventMessageListener extends AbstractKeySpaceEventMessageListener {
 
@@ -23,7 +22,7 @@ public abstract class AbstractExpiredKeyEventMessageListener extends AbstractKey
 	 * Creates new {@link MessageListener} for specific messages.
 	 * @param listenerContainer must not be {@literal null}.
 	 */
-	public AbstractExpiredKeyEventMessageListener(RedisMessageListenerContainer listenerContainer) {
+	protected AbstractExpiredKeyEventMessageListener(RedisMessageListenerContainer listenerContainer) {
 		super(listenerContainer);
 	}
 

@@ -1,16 +1,17 @@
 package com.hccake.extend.pay.ali.domain;
 
-import static com.hccake.extend.pay.ali.constants.AliPayConstant.CODE_SUCCESS;
-
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.hccake.extend.pay.ali.enums.TradeStatus;
-import java.math.BigDecimal;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+
+import java.math.BigDecimal;
+
+import static com.hccake.extend.pay.ali.constants.AliPayConstant.CODE_SUCCESS;
 
 /**
  * 简化查询结果
@@ -39,7 +40,7 @@ public class AliPayQuery {
 		}
 
 		// 金额
-		if (StrUtil.isBlank(raw.getTotalAmount())) {
+		if (CharSequenceUtil.isBlank(raw.getTotalAmount())) {
 			query.setAmount(BigDecimal.ZERO);
 		}
 		else {

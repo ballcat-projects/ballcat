@@ -1,6 +1,6 @@
 package com.hccake.ballcat.notify.recipient;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.hccake.ballcat.notify.enums.NotifyRecipientFilterTypeEnum;
 import com.hccake.ballcat.system.model.entity.SysUser;
 import com.hccake.ballcat.system.service.SysUserService;
@@ -64,7 +64,7 @@ public class SpecifyRoleRecipientFilter implements RecipientFilter {
 			return false;
 		}
 		List<String> roleCodes = (List<String>) filterAttr;
-		if (CollectionUtil.isEmpty(roleCodes)) {
+		if (CollUtil.isEmpty(roleCodes)) {
 			return false;
 		}
 		for (Object roleCode : roleCodes) {

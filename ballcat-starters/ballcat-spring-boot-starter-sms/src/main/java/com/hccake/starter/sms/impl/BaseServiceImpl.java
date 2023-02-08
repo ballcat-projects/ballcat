@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author lingting 2020/4/26 13:45
  */
+@SuppressWarnings("java:S1610")
 @Slf4j
 public abstract class BaseServiceImpl {
 

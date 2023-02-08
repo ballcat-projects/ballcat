@@ -123,7 +123,7 @@ public class DefaultAnalysisEventProcessor implements AnalysisEventProcessor {
 		Map<Integer, String> dataMap = ConverterUtils.convertToStringMap(cellDataMap, analysisContext);
 		ExcelReadHeadProperty excelHeadPropertyData = analysisContext.readSheetHolder().excelReadHeadProperty();
 		Map<Integer, Head> headMapData = excelHeadPropertyData.getHeadMap();
-		Map<Integer, Head> tmpHeadMap = new HashMap<Integer, Head>(headMapData.size() * 4 / 3 + 1);
+		Map<Integer, Head> tmpHeadMap = new HashMap<>(headMapData.size() * 4 / 3 + 1);
 		for (Map.Entry<Integer, Head> entry : headMapData.entrySet()) {
 			Head headData = entry.getValue();
 			if (headData.getForceIndex() || !headData.getForceName()) {
