@@ -1,8 +1,5 @@
 package com.hccake.extend.mybatis.plus.conditions.query;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.query.Query;
@@ -12,9 +9,12 @@ import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
@@ -149,21 +149,29 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 	 * @param obj 值
 	 * @return boolean 不为空返回true
 	 */
-	@SuppressWarnings("rawtypes")
 	private boolean isPresent(Object obj) {
-		if (null == obj) {
+		if (obj == null) {
 			return false;
 		}
-		else if (obj instanceof CharSequence) {
-			// 字符串比较特殊，如果是空字符串也不行
-			return StrUtil.isNotBlank((CharSequence) obj);
+
+		if (obj instanceof Optional) {
+			return ((Optional<?>) obj).isPresent();
 		}
-		else if (obj instanceof Collection) {
-			return CollectionUtil.isNotEmpty((Collection) obj);
+		if (obj instanceof CharSequence) {
+			// 字符串比较特殊，如果是空字符串也不行
+			return StringUtils.hasText((CharSequence) obj);
+		}
+		if (obj instanceof Collection) {
+			return !((Collection<?>) obj).isEmpty();
 		}
 		if (obj.getClass().isArray()) {
-			return ArrayUtil.isNotEmpty(obj);
+			return Array.getLength(obj) != 0;
 		}
+		if (obj instanceof Map) {
+			return !((Map<?, ?>) obj).isEmpty();
+		}
+
+		// else
 		return true;
 	}
 
