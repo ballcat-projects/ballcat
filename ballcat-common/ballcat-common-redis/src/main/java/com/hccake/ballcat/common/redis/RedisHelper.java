@@ -1553,6 +1553,19 @@ public class RedisHelper {
 	}
 
 	/**
+	 * 返回 Sorted Set 中指定 member 的分数。如果指定的 member 在 Sorted Set 中不存在，或者 Key 根本不存在，则返回 null。
+	 * <p>
+	 * <b>Time complexity:</b> O(1)
+	 * @param key Sorted Set Key
+	 * @param member Sorted Set Member
+	 * @return the score
+	 * @see <a href="https://redis.io/commands/zscore/">ZSCORE Commad</a>
+	 */
+	public static Double zScore(String key, String member) {
+		return zSetOps().score(key, member);
+	}
+
+	/**
 	 * 在有序集合中的排名, 从小到大
 	 * @deprecated {@link #zRange(String, long, long)}
 	 */
