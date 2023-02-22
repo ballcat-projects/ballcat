@@ -44,7 +44,7 @@
 		<software.amazon.awssdk-s3-transfer-manager.version>2.18.20-PREVIEW
 		</software.amazon.awssdk-s3-transfer-manager.version>
 		<software.amazon.awssdk.version>2.18.20</software.amazon.awssdk.version>
-		<spring-authorization-server.version>0.4.0</spring-authorization-server.version>
+		<spring-authorization-server.version>0.4.1</spring-authorization-server.version>
 		<spring-boot.version>2.7.8</spring-boot.version>
 		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
 		<springdoc-openapi.verison>1.6.14</springdoc-openapi.verison>
