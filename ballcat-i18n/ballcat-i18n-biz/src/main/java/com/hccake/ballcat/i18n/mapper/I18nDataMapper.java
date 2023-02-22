@@ -47,8 +47,9 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 	 */
 	default Wrapper<I18nData> buildQueryWrapper(I18nDataQO qo) {
 		LambdaQueryWrapperX<I18nData> wrapper = WrappersX.lambdaQueryX(I18nData.class);
-		wrapper.likeIfPresent(I18nData::getCode, qo.getCode()).likeIfPresent(I18nData::getMessage, qo.getMessage())
-				.eqIfPresent(I18nData::getLanguageTag, qo.getLanguageTag());
+		wrapper.likeIfPresent(I18nData::getCode, qo.getCode())
+			.likeIfPresent(I18nData::getMessage, qo.getMessage())
+			.eqIfPresent(I18nData::getLanguageTag, qo.getLanguageTag());
 		return wrapper;
 	}
 
@@ -79,8 +80,9 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 	 * @return I18nData
 	 */
 	default I18nData selectByCodeAndLanguageTag(String code, String languageTag) {
-		LambdaQueryWrapper<I18nData> wrapper = Wrappers.lambdaQuery(I18nData.class).eq(I18nData::getCode, code)
-				.eq(I18nData::getLanguageTag, languageTag);
+		LambdaQueryWrapper<I18nData> wrapper = Wrappers.lambdaQuery(I18nData.class)
+			.eq(I18nData::getCode, code)
+			.eq(I18nData::getLanguageTag, languageTag);
 		return this.selectOne(wrapper);
 	}
 
@@ -91,8 +93,8 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 	 */
 	default boolean updateByCodeAndLanguageTag(I18nDataDTO i18nDataDTO) {
 		LambdaUpdateWrapper<I18nData> wrapper = Wrappers.lambdaUpdate(I18nData.class)
-				.eq(I18nData::getCode, i18nDataDTO.getCode())
-				.eq(I18nData::getLanguageTag, i18nDataDTO.getLanguageTag());
+			.eq(I18nData::getCode, i18nDataDTO.getCode())
+			.eq(I18nData::getLanguageTag, i18nDataDTO.getLanguageTag());
 
 		I18nData entity = new I18nData();
 		entity.setMessage(i18nDataDTO.getMessage());
@@ -108,8 +110,9 @@ public interface I18nDataMapper extends ExtendMapper<I18nData> {
 	 * @return I18nData
 	 */
 	default boolean deleteByCodeAndLanguageTag(String code, String languageTag) {
-		LambdaQueryWrapper<I18nData> wrapper = Wrappers.lambdaQuery(I18nData.class).eq(I18nData::getCode, code)
-				.eq(I18nData::getLanguageTag, languageTag);
+		LambdaQueryWrapper<I18nData> wrapper = Wrappers.lambdaQuery(I18nData.class)
+			.eq(I18nData::getCode, code)
+			.eq(I18nData::getLanguageTag, languageTag);
 		return SqlHelper.retBool(this.delete(wrapper));
 	}
 

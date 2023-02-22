@@ -4,6 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * 数据权限注解，注解在 Mapper类 或者 对应方法上 用于提供该 mapper 对应表，所需控制的实体信息
+ *
  * @author Hccake 2020/9/27
  * @version 1.0
  */

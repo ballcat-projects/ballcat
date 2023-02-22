@@ -48,8 +48,9 @@ public class SysOrganizationController {
 		if (CollUtil.isEmpty(list)) {
 			return R.ok(new ArrayList<>());
 		}
-		List<SysOrganizationVO> voList = list.stream().map(SysOrganizationConverter.INSTANCE::poToVo)
-				.collect(Collectors.toList());
+		List<SysOrganizationVO> voList = list.stream()
+			.map(SysOrganizationConverter.INSTANCE::poToVo)
+			.collect(Collectors.toList());
 		return R.ok(voList);
 	}
 

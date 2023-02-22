@@ -46,7 +46,8 @@ public class SpringOauth2LoginLogHandler implements LoginLogHandler {
 		// https://github.com/spring-projects-experimental/spring-authorization-server
 		if ("password".equals(((HashMap) details).get("grant_type"))) {
 			LoginLog loginLog = prodLoginLog(source.getName()).setMsg("登陆成功")
-					.setStatus(LogStatusEnum.SUCCESS.getValue()).setEventType(LoginEventTypeEnum.LOGIN.getValue());
+				.setStatus(LogStatusEnum.SUCCESS.getValue())
+				.setEventType(LoginEventTypeEnum.LOGIN.getValue());
 			loginLogService.save(loginLog);
 		}
 	}
@@ -60,7 +61,8 @@ public class SpringOauth2LoginLogHandler implements LoginLogHandler {
 		AbstractAuthenticationToken source = (AbstractAuthenticationToken) event.getSource();
 		if (source instanceof UsernamePasswordAuthenticationToken) {
 			LoginLog loginLog = prodLoginLog(source.getName()).setMsg(event.getException().getMessage())
-					.setEventType(LoginEventTypeEnum.LOGIN.getValue()).setStatus(LogStatusEnum.FAIL.getValue());
+				.setEventType(LoginEventTypeEnum.LOGIN.getValue())
+				.setStatus(LogStatusEnum.FAIL.getValue());
 			loginLogService.save(loginLog);
 		}
 	}
@@ -73,7 +75,7 @@ public class SpringOauth2LoginLogHandler implements LoginLogHandler {
 	public void onLogoutSuccessEvent(LogoutSuccessEvent event) {
 		AbstractAuthenticationToken source = (AbstractAuthenticationToken) event.getSource();
 		LoginLog loginLog = prodLoginLog(source.getName()).setMsg("登出成功")
-				.setEventType(LoginEventTypeEnum.LOGOUT.getValue());
+			.setEventType(LoginEventTypeEnum.LOGOUT.getValue());
 		loginLogService.save(loginLog);
 	}
 

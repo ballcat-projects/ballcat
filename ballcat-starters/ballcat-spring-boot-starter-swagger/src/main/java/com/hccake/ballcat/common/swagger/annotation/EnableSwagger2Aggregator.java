@@ -7,6 +7,7 @@ import java.lang.annotation.*;
 
 /**
  * 聚合者的swagger开启注解
+ *
  * @author Hccake
  * @version 1.0
  * @date 2019/11/1 19:43

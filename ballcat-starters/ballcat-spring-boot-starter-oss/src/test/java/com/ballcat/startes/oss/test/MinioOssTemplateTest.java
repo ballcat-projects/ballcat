@@ -87,10 +87,14 @@ class MinioOssTemplateTest extends AbstractOssTemplateTest {
 
 	@Test
 	void getUrlWithCustomPrefix() {
-		URL url = ossTemplate.getS3Client().utilities()
-				.getUrl(GetUrlRequest.builder().bucket(ossTemplate.getOssProperties().getBucket()).key(TEST_OBJECT_NAME)
-						.endpoint(URI.create(ossTemplate.getOssProperties().getEndpoint() + "/测试/"))
-						.region(Region.of(ossTemplate.getOssProperties().getRegion())).build());
+		URL url = ossTemplate.getS3Client()
+			.utilities()
+			.getUrl(GetUrlRequest.builder()
+				.bucket(ossTemplate.getOssProperties().getBucket())
+				.key(TEST_OBJECT_NAME)
+				.endpoint(URI.create(ossTemplate.getOssProperties().getEndpoint() + "/测试/"))
+				.region(Region.of(ossTemplate.getOssProperties().getRegion()))
+				.build());
 
 		System.out.println(url);
 	}

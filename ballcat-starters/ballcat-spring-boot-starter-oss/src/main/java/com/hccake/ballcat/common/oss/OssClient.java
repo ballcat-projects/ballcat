@@ -64,7 +64,8 @@ public class OssClient {
 	public String upload(InputStream stream, String relativeKey, Long size, ObjectCannedACL acl) {
 		final String objectKey = objectKeyPrefixConverter.wrap(relativeKey);
 		final PutObjectRequest.Builder builder = PutObjectRequest.builder()
-				.bucket(ossTemplate.getOssProperties().getBucket()).key(objectKey);
+			.bucket(ossTemplate.getOssProperties().getBucket())
+			.key(objectKey);
 
 		if (acl != null) {
 			// 配置权限

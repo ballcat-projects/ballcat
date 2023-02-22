@@ -59,9 +59,11 @@ public class AnnouncementLoginEventListener {
 			Map<Integer, Object> filterAttrs = recipientHandler.getFilterAttrs(sysUser);
 			// 获取符合当前用户条件的，且接收类型包含站内的公告，保存其关联关系
 			List<UserAnnouncement> userAnnouncements = announcements.stream()
-					.filter(x -> x.getReceiveMode().contains(NotifyChannelEnum.STATION.getValue()))
-					.filter(x -> filterMatched(x, filterAttrs)).map(Announcement::getId)
-					.map(id -> userAnnouncementService.prodUserAnnouncement(userId, id)).collect(Collectors.toList());
+				.filter(x -> x.getReceiveMode().contains(NotifyChannelEnum.STATION.getValue()))
+				.filter(x -> filterMatched(x, filterAttrs))
+				.map(Announcement::getId)
+				.map(id -> userAnnouncementService.prodUserAnnouncement(userId, id))
+				.collect(Collectors.toList());
 			try {
 				userAnnouncementService.saveBatch(userAnnouncements);
 			}

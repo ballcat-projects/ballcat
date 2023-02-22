@@ -42,7 +42,8 @@ public class BloomRedisModuleHelper extends AbstractRedisModuleHelper {
 	 */
 	public boolean createFilter(String key, double errorRate, long initCapacity) {
 		return execute(key, BloomCommandEnum.RESERVE, new BooleanOutput<>(codec), String.valueOf(errorRate),
-				String.valueOf(initCapacity)).orElse(false);
+				String.valueOf(initCapacity))
+			.orElse(false);
 	}
 
 	/**

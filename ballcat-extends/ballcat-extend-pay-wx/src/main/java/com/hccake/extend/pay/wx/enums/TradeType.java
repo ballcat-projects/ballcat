@@ -2,6 +2,7 @@ package com.hccake.extend.pay.wx.enums;
 
 /**
  * 微信支付类型
+ *
  * @author lingting 2021/2/25 10:15
  */
 public enum TradeType {

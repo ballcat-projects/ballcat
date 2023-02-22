@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * 通知接收方式
+ *
  * @author Hccake 2020/12/21
  * @version 1.0
  */

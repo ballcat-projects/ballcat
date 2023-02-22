@@ -52,7 +52,8 @@ public class OAuth2SecurityContextRepository implements SecurityContextRepositor
 			return SecurityContextHolder.createEmptyContext();
 		}
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) oAuth2Authorization
-				.getAttributes().get("java.security.Principal");
+			.getAttributes()
+			.get("java.security.Principal");
 		return new SecurityContextImpl(usernamePasswordAuthenticationToken);
 	}
 

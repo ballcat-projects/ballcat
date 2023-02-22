@@ -89,7 +89,7 @@ public class TreeUtils {
 		}
 		// 根据 parentId 进行分组
 		Map<I, List<T>> childrenMap = tStream
-				.collect(Collectors.groupingBy(T::getParentKey, LinkedHashMap::new, Collectors.toList()));
+			.collect(Collectors.groupingBy(T::getParentKey, LinkedHashMap::new, Collectors.toList()));
 
 		// 根据根节点ID拿到一级节点
 		List<T> treeList = childrenMap.get(rootId);
@@ -253,8 +253,10 @@ public class TreeUtils {
 	 * @return 所有树节点组成的列表
 	 */
 	public <T extends TreeNode<I>, I, R> List<R> treeToList(List<T> treeNodes, Function<T, R> converter) {
-		return treeNodes.stream().map(node -> treeToList(node, converter)).flatMap(Collection::stream)
-				.collect(Collectors.toList());
+		return treeNodes.stream()
+			.map(node -> treeToList(node, converter))
+			.flatMap(Collection::stream)
+			.collect(Collectors.toList());
 	}
 
 	/**

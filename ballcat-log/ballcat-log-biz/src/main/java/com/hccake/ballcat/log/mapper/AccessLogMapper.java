@@ -28,11 +28,14 @@ public interface AccessLogMapper extends ExtendMapper<AccessLog> {
 	default PageResult<AccessLogPageVO> queryPage(PageParam pageParam, AccessLogQO qo) {
 		IPage<AccessLog> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<AccessLog> wrapperX = WrappersX.lambdaQueryX(AccessLog.class)
-				.eqIfPresent(AccessLog::getUserId, qo.getUserId()).eqIfPresent(AccessLog::getTraceId, qo.getTraceId())
-				.eqIfPresent(AccessLog::getMatchingPattern, qo.getMatchingPattern())
-				.eqIfPresent(AccessLog::getUri, qo.getUri()).eqIfPresent(AccessLog::getHttpStatus, qo.getHttpStatus())
-				.eqIfPresent(AccessLog::getIp, qo.getIp()).gtIfPresent(AccessLog::getCreateTime, qo.getStartTime())
-				.ltIfPresent(AccessLog::getCreateTime, qo.getEndTime());
+			.eqIfPresent(AccessLog::getUserId, qo.getUserId())
+			.eqIfPresent(AccessLog::getTraceId, qo.getTraceId())
+			.eqIfPresent(AccessLog::getMatchingPattern, qo.getMatchingPattern())
+			.eqIfPresent(AccessLog::getUri, qo.getUri())
+			.eqIfPresent(AccessLog::getHttpStatus, qo.getHttpStatus())
+			.eqIfPresent(AccessLog::getIp, qo.getIp())
+			.gtIfPresent(AccessLog::getCreateTime, qo.getStartTime())
+			.ltIfPresent(AccessLog::getCreateTime, qo.getEndTime());
 		this.selectPage(page, wrapperX);
 		IPage<AccessLogPageVO> voPage = page.convert(AccessLogConverter.INSTANCE::poToPageVo);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());

@@ -325,8 +325,9 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 		}
 
 		builder.username(info.getAsString(UserInfoFiledNameConstants.USERNAME))
-				.nickname(info.getAsString(UserInfoFiledNameConstants.NICKNAME))
-				.avatar(info.getAsString(UserInfoFiledNameConstants.AVATAR)).status(1);
+			.nickname(info.getAsString(UserInfoFiledNameConstants.NICKNAME))
+			.avatar(info.getAsString(UserInfoFiledNameConstants.AVATAR))
+			.status(1);
 
 		Collection<? extends GrantedAuthority> authorities = null;
 		Object authoritiesJsonArray = responseBody.get("authorities");
@@ -342,11 +343,13 @@ public class RemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 			// 暂时做下兼容，SAS 不返回 authorities 信息了
 			if (CollUtil.isEmpty(authorities)) {
 				Collection<String> roleCodes = (Collection) attributes
-						.getOrDefault(UserAttributeNameConstants.ROLE_CODES, Collections.emptySet());
+					.getOrDefault(UserAttributeNameConstants.ROLE_CODES, Collections.emptySet());
 				Collection<String> permissions = (Collection) attributes
-						.getOrDefault(UserAttributeNameConstants.PERMISSIONS, Collections.emptySet());
-				authorities = Stream.of(roleCodes, permissions).flatMap(Collection::stream)
-						.map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+					.getOrDefault(UserAttributeNameConstants.PERMISSIONS, Collections.emptySet());
+				authorities = Stream.of(roleCodes, permissions)
+					.flatMap(Collection::stream)
+					.map(SimpleGrantedAuthority::new)
+					.collect(Collectors.toSet());
 				builder.authorities(authorities);
 			}
 		}

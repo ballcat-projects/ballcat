@@ -28,7 +28,7 @@ public final class DataPermissionFinder {
 	 * 提供一个默认的空值注解，用于缓存空值占位使用
 	 */
 	private static final DataPermission EMPTY_DATA_PERMISSION = DataPermissionFinder.class
-			.getAnnotation(DataPermission.class);
+		.getAnnotation(DataPermission.class);
 
 	/**
 	 * 缓存的 key 值

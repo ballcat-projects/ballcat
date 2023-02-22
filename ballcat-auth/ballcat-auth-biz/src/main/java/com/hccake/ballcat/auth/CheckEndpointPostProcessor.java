@@ -59,7 +59,7 @@ public class CheckEndpointPostProcessor implements BeanPostProcessor {
 			enhancer.setSuperclass(CheckTokenEndpoint.class);
 			enhancer.setCallback(this);
 			Field resourceServerTokenServices = CheckTokenEndpoint.class
-					.getDeclaredField("resourceServerTokenServices");
+				.getDeclaredField("resourceServerTokenServices");
 			resourceServerTokenServices.setAccessible(true);
 			return enhancer.create(new Class[] { ResourceServerTokenServices.class },
 					new Object[] { resourceServerTokenServices.get(this.target) });

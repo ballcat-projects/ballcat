@@ -172,7 +172,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 		// 组织机构一般数据量不多，一次性查询出来缓存到内存中，减少查询开销
 		List<SysOrganization> sysOrganizations = baseMapper.selectList(Wrappers.emptyWrapper());
 		Map<Integer, List<SysOrganization>> map = sysOrganizations.stream()
-				.collect(Collectors.groupingBy(SysOrganization::getParentId));
+			.collect(Collectors.groupingBy(SysOrganization::getParentId));
 		// 默认的父节点为根节点，
 		Integer parentId = GlobalConstants.TREE_ROOT_ID;
 		int depth = 1;

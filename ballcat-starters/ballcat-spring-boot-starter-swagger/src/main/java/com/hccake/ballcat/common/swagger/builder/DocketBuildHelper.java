@@ -63,9 +63,10 @@ public class DocketBuildHelper {
 	public List<SecurityScheme> securitySchema() {
 		SwaggerProperties.Authorization authorizationProps = swaggerProperties.getAuthorization();
 
-		List<AuthorizationScope> authorizationScopeList = authorizationProps.getAuthorizationScopeList().stream()
-				.map(scope -> new AuthorizationScope(scope.getScope(), scope.getDescription()))
-				.collect(Collectors.toList());
+		List<AuthorizationScope> authorizationScopeList = authorizationProps.getAuthorizationScopeList()
+			.stream()
+			.map(scope -> new AuthorizationScope(scope.getScope(), scope.getDescription()))
+			.collect(Collectors.toList());
 
 		String tokenUrl = authorizationProps.getTokenUrl();
 
@@ -79,7 +80,9 @@ public class DocketBuildHelper {
 		else {
 			// Swagger3 Oauth2
 			securityScheme = OAuth2Scheme.OAUTH2_PASSWORD_FLOW_BUILDER.name(authorizationProps.getName())
-					.tokenUrl(tokenUrl).scopes(authorizationScopeList).build();
+				.tokenUrl(tokenUrl)
+				.scopes(authorizationScopeList)
+				.build();
 		}
 
 		return Collections.singletonList(securityScheme);
@@ -105,14 +108,17 @@ public class DocketBuildHelper {
 	 */
 	public List<SecurityReference> defaultAuth() {
 		SwaggerProperties.Authorization authorization = swaggerProperties.getAuthorization();
-		List<AuthorizationScope> authorizationScopeList = authorization.getAuthorizationScopeList().stream()
-				.map(scope -> new AuthorizationScope(scope.getScope(), scope.getDescription()))
-				.collect(Collectors.toList());
+		List<AuthorizationScope> authorizationScopeList = authorization.getAuthorizationScopeList()
+			.stream()
+			.map(scope -> new AuthorizationScope(scope.getScope(), scope.getDescription()))
+			.collect(Collectors.toList());
 
 		AuthorizationScope[] authorizationScopes = new AuthorizationScope[authorizationScopeList.size()];
 
-		SecurityReference securityReference = SecurityReference.builder().reference(authorization.getName())
-				.scopes(authorizationScopeList.toArray(authorizationScopes)).build();
+		SecurityReference securityReference = SecurityReference.builder()
+			.reference(authorization.getName())
+			.scopes(authorizationScopeList.toArray(authorizationScopes))
+			.build();
 
 		return Collections.singletonList(securityReference);
 	}

@@ -46,8 +46,12 @@ public class InsertOrUpdateByBatch extends BaseInsertBatch {
 					sql.append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn()).append("),");
 				}
 				else {
-					ignore.append(",").append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn())
-							.append(")");
+					ignore.append(",")
+						.append(field.getColumn())
+						.append("=")
+						.append("VALUES(")
+						.append(field.getColumn())
+						.append(")");
 				}
 			}
 		});

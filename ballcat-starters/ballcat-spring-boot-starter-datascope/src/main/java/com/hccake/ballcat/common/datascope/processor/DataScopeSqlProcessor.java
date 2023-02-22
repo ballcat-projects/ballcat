@@ -447,8 +447,10 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			String tableName = SqlParseUtils.getTableName(table.getName());
 
 			// 进行 dataScope 的表名匹配
-			List<DataScope> matchDataScopes = DataScopeHolder.peek().stream().filter(x -> x.includes(tableName))
-					.collect(Collectors.toList());
+			List<DataScope> matchDataScopes = DataScopeHolder.peek()
+				.stream()
+				.filter(x -> x.includes(tableName))
+				.collect(Collectors.toList());
 
 			if (CollectionUtils.isEmpty(matchDataScopes)) {
 				continue;
@@ -458,8 +460,11 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			DataScopeMatchNumHolder.incrementMatchNumIfPresent();
 
 			// 获取到数据权限过滤的表达式
-			matchDataScopes.stream().map(x -> x.getExpression(tableName, table.getAlias())).filter(Objects::nonNull)
-					.reduce(AndExpression::new).ifPresent(dataFilterExpressions::add);
+			matchDataScopes.stream()
+				.map(x -> x.getExpression(tableName, table.getAlias()))
+				.filter(Objects::nonNull)
+				.reduce(AndExpression::new)
+				.ifPresent(dataFilterExpressions::add);
 		}
 
 		if (dataFilterExpressions.isEmpty()) {

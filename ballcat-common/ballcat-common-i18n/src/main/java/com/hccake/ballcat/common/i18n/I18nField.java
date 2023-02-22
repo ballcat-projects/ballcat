@@ -6,6 +6,7 @@ import java.lang.annotation.*;
 
 /**
  * 用于标注在需要国际化的 String 类型的属性上，用于标记其需要国际化。 必须在拥有 {@link I18nClass} 注解标记的类上
+ *
  * @author hccake
  */
 @Target(ElementType.FIELD)

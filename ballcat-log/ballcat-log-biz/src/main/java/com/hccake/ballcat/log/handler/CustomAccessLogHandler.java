@@ -115,8 +115,8 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 			for (String paramKey : needDesensitizeParams) {
 				String[] values = parameterMap.get(paramKey);
 				if (values != null && values.length != 0) {
-					String value = DesensitizationHandlerHolder.getRegexDesensitizationHandler().handle(values[0],
-							RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD);
+					String value = DesensitizationHandlerHolder.getRegexDesensitizationHandler()
+						.handle(values[0], RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD);
 					parameterMap.put(paramKey, new String[] { value });
 				}
 			}

@@ -25,7 +25,7 @@ public class OAuth2TokenRevocationEndpointConfigurerCustomizer
 			HttpSecurity httpSecurity) {
 		oAuth2AuthorizationServerConfigurer.tokenRevocationEndpoint(
 				tokenRevocation -> tokenRevocation.revocationResponseHandler(oAuth2TokenRevocationResponseHandler)
-						.authenticationProvider(new OAuth2TokenRevocationAuthenticationProvider(authorizationService)));
+					.authenticationProvider(new OAuth2TokenRevocationAuthenticationProvider(authorizationService)));
 	}
 
 }

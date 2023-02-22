@@ -138,8 +138,9 @@ public class I18nDataController {
 		}
 
 		// 转换结构
-		List<I18nData> list = excelVos.stream().map(I18nDataConverter.INSTANCE::excelVoToPo)
-				.collect(Collectors.toList());
+		List<I18nData> list = excelVos.stream()
+			.map(I18nDataConverter.INSTANCE::excelVoToPo)
+			.collect(Collectors.toList());
 
 		// 跳过已有数据，返回已有数据列表
 		if (importModeEnum == ImportModeEnum.SKIP_EXISTING) {

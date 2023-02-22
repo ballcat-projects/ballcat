@@ -42,8 +42,9 @@ public abstract class AbstractNotifyInfoHandler<T extends NotifyInfo, M extends 
 		String msg = JsonUtils.toJson(message);
 		List<Object> sessionKeys = userList.stream().map(SysUser::getUserId).collect(Collectors.toList());
 		persistMessage(userList, notifyInfo);
-		MessageDO messageDO = new MessageDO().setMessageText(msg).setSessionKeys(sessionKeys)
-				.setNeedBroadcast(CollUtil.isEmpty(sessionKeys));
+		MessageDO messageDO = new MessageDO().setMessageText(msg)
+			.setSessionKeys(sessionKeys)
+			.setNeedBroadcast(CollUtil.isEmpty(sessionKeys));
 		messageDistributor.distribute(messageDO);
 	}
 

@@ -42,7 +42,7 @@ public class DefaultIdempotentKeyGenerator implements IdempotentKeyGenerator {
 		StandardEvaluationContext spelContext = SpelUtils.getSpelContext(joinPoint.getTarget(), method, args);
 		// 如果在 servlet 环境下，则将 request 信息放入上下文，便于获取请求参数
 		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes();
+			.getRequestAttributes();
 		if (requestAttributes != null) {
 			spelContext.setVariable(RequestAttributes.REFERENCE_REQUEST, requestAttributes.getRequest());
 		}

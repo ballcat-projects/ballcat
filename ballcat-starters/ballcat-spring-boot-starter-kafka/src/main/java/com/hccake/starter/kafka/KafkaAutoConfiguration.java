@@ -22,7 +22,8 @@ public class KafkaAutoConfiguration {
 	@ConditionalOnMissingBean(KafkaExtendProducer.class)
 	public KafkaExtendProducer<String, String> stringKafkaExtendProducer(KafkaProperties properties) {
 		KafkaProducerBuilder builder = new KafkaProducerBuilder()
-				.addAllBootstrapServers(properties.getBootstrapServers()).putAll(properties.getExtend());
+			.addAllBootstrapServers(properties.getBootstrapServers())
+			.putAll(properties.getExtend());
 
 		builder.keySerializer(properties.getKeySerializerClassName());
 		builder.valueSerializer(properties.getValueSerializerClassName());
@@ -34,8 +35,9 @@ public class KafkaAutoConfiguration {
 	@ConditionalOnMissingBean(KafkaConsumerBuilder.class)
 	public KafkaConsumerBuilder consumerBuilder(KafkaProperties properties) {
 		return new KafkaConsumerBuilder().addAllBootstrapServers(properties.getBootstrapServers())
-				.keyDeserializer(properties.getKeyDeserializerClassName())
-				.valueDeserializer(properties.getValueDeserializerClassName()).groupId(properties.getGroupId());
+			.keyDeserializer(properties.getKeyDeserializerClassName())
+			.valueDeserializer(properties.getValueDeserializerClassName())
+			.groupId(properties.getGroupId());
 	}
 
 }

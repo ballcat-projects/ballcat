@@ -25,7 +25,7 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 	 */
 	default List<SysOrganization> listSubOrganization(Integer organizationId) {
 		LambdaQueryWrapper<SysOrganization> wrapper = Wrappers.<SysOrganization>lambdaQuery()
-				.eq(SysOrganization::getParentId, organizationId);
+			.eq(SysOrganization::getParentId, organizationId);
 		return this.selectList(wrapper);
 	}
 
@@ -50,8 +50,9 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 	 */
 	default void updateHierarchyAndPathBatch(int depth, String hierarchy, List<Integer> organizationIds) {
 		LambdaUpdateWrapper<SysOrganization> wrapper = Wrappers.lambdaUpdate(SysOrganization.class)
-				.set(SysOrganization::getDepth, depth).set(SysOrganization::getHierarchy, hierarchy)
-				.in(SysOrganization::getId, organizationIds);
+			.set(SysOrganization::getDepth, depth)
+			.set(SysOrganization::getHierarchy, hierarchy)
+			.in(SysOrganization::getId, organizationIds);
 		this.update(null, wrapper);
 
 	}

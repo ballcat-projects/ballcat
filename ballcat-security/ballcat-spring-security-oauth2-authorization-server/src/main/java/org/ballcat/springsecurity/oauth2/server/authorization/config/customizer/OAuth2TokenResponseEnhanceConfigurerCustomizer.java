@@ -60,7 +60,7 @@ public class OAuth2TokenResponseEnhanceConfigurerCustomizer implements OAuth2Aut
 	public void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer,
 			HttpSecurity httpSecurity) {
 		oAuth2AuthorizationServerConfigurer.tokenEndpoint(oAuth2TokenEndpointConfigurer -> oAuth2TokenEndpointConfigurer
-				.accessTokenResponseHandler(this::sendAccessTokenResponse));
+			.accessTokenResponseHandler(this::sendAccessTokenResponse));
 	}
 
 	private void sendAccessTokenResponse(HttpServletRequest request, HttpServletResponse response,
@@ -72,7 +72,8 @@ public class OAuth2TokenResponseEnhanceConfigurerCustomizer implements OAuth2Aut
 		OAuth2RefreshToken refreshToken = accessTokenAuthentication.getRefreshToken();
 
 		OAuth2AccessTokenResponse.Builder builder = OAuth2AccessTokenResponse.withToken(accessToken.getTokenValue())
-				.tokenType(accessToken.getTokenType()).scopes(accessToken.getScopes());
+			.tokenType(accessToken.getTokenType())
+			.scopes(accessToken.getScopes());
 		if (accessToken.getIssuedAt() != null && accessToken.getExpiresAt() != null) {
 			builder.expiresIn(ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt()));
 		}

@@ -33,7 +33,7 @@ public final class DesensitizationHandlerHolder {
 		desensitizationHandlerMap.put(RegexDesensitizationHandler.class, new RegexDesensitizationHandler());
 		// SPI 加载所有的 Simple脱敏类型处理
 		ServiceLoader<SimpleDesensitizationHandler> loadedDrivers = ServiceLoader
-				.load(SimpleDesensitizationHandler.class);
+			.load(SimpleDesensitizationHandler.class);
 		for (SimpleDesensitizationHandler desensitizationHandler : loadedDrivers) {
 			desensitizationHandlerMap.put(desensitizationHandler.getClass(), desensitizationHandler);
 		}

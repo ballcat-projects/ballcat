@@ -74,10 +74,11 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements Authe
 					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 
-		Map<String, Object> additionalParameters = parameters.entrySet().stream()
-				.filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE)
-						&& !e.getKey().equals(OAuth2ParameterNames.SCOPE))
-				.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
+		Map<String, Object> additionalParameters = parameters.entrySet()
+			.stream()
+			.filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE)
+					&& !e.getKey().equals(OAuth2ParameterNames.SCOPE))
+			.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
 
 		return new OAuth2ResourceOwnerPasswordAuthenticationToken(username, clientPrincipal, requestedScopes,
 				additionalParameters);

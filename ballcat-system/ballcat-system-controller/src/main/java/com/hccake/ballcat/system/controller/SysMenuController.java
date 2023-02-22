@@ -70,9 +70,10 @@ public class SysMenuController {
 
 		// 筛选出菜单
 		List<SysMenuRouterVO> menuVOList = all.stream()
-				.filter(menuVo -> SysMenuType.BUTTON.getValue() != menuVo.getType())
-				.sorted(Comparator.comparingInt(SysMenu::getSort)).map(SysMenuConverter.INSTANCE::poToRouterVo)
-				.collect(Collectors.toList());
+			.filter(menuVo -> SysMenuType.BUTTON.getValue() != menuVo.getType())
+			.sorted(Comparator.comparingInt(SysMenu::getSort))
+			.map(SysMenuConverter.INSTANCE::poToRouterVo)
+			.collect(Collectors.toList());
 
 		return R.ok(menuVOList);
 	}
@@ -90,8 +91,9 @@ public class SysMenuController {
 		if (CollUtil.isEmpty(sysMenus)) {
 			R.ok(new ArrayList<>());
 		}
-		List<SysMenuPageVO> voList = sysMenus.stream().map(SysMenuConverter.INSTANCE::poToPageVo)
-				.collect(Collectors.toList());
+		List<SysMenuPageVO> voList = sysMenus.stream()
+			.map(SysMenuConverter.INSTANCE::poToPageVo)
+			.collect(Collectors.toList());
 		return R.ok(voList);
 	}
 
@@ -107,8 +109,9 @@ public class SysMenuController {
 		if (CollUtil.isEmpty(sysMenus)) {
 			R.ok(new ArrayList<>());
 		}
-		List<SysMenuGrantVO> voList = sysMenus.stream().map(SysMenuConverter.INSTANCE::poToGrantVo)
-				.collect(Collectors.toList());
+		List<SysMenuGrantVO> voList = sysMenus.stream()
+			.map(SysMenuConverter.INSTANCE::poToGrantVo)
+			.collect(Collectors.toList());
 		return R.ok(voList);
 	}
 

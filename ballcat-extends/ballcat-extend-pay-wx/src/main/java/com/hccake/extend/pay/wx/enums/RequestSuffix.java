@@ -5,6 +5,7 @@ import lombok.Getter;
 
 /**
  * 请求后缀
+ *
  * @author lingting 2021/1/29 18:01
  */
 @Getter

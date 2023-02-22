@@ -45,7 +45,8 @@ public class CustomAccessTokenConverter extends DefaultAccessTokenConverter {
 		// 如果是自己系统内部认可的远程 资源服务器，在拥有权限的情况下，把所有的属性都返回回去
 		// 因为实际业务中，可能会在 attributes 中存放一些敏感信息，比如数据权限相关属性
 		Collection<? extends GrantedAuthority> requestClientAuthorities = SecurityContextHolder.getContext()
-				.getAuthentication().getAuthorities();
+			.getAuthentication()
+			.getAuthorities();
 		if (CollUtil.isEmpty(requestClientAuthorities)) {
 			return response;
 		}

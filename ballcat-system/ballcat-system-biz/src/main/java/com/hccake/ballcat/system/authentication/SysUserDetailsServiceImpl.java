@@ -62,7 +62,7 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 
 		}
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
-				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+			.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
 		// 默认将角色和权限放入属性中
 		HashMap<String, Object> attributes = new HashMap<>(8);

@@ -15,6 +15,7 @@ import java.lang.annotation.Target;
 
 /**
  * 开启 Oauth2 授权服务器
+ *
  * @author hccake
  */
 @Target({ ElementType.TYPE })

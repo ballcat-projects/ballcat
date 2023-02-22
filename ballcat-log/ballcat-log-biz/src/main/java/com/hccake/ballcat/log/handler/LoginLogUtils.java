@@ -28,9 +28,11 @@ public final class LoginLogUtils {
 	public static LoginLog prodLoginLog(String username) {
 		// 获取 Request
 		HttpServletRequest request = WebUtils.getRequest();
-		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now()).setIp(IpUtils.getIpAddr(request))
-				.setStatus(LogStatusEnum.SUCCESS.getValue()).setTraceId(MDC.get(LogConstant.TRACE_ID))
-				.setUsername(username);
+		LoginLog loginLog = new LoginLog().setLoginTime(LocalDateTime.now())
+			.setIp(IpUtils.getIpAddr(request))
+			.setStatus(LogStatusEnum.SUCCESS.getValue())
+			.setTraceId(MDC.get(LogConstant.TRACE_ID))
+			.setUsername(username);
 		// 根据 ua 获取浏览器和操作系统
 		UserAgent ua = UserAgentUtil.parse(request.getHeader("user-agent"));
 		if (ua != null) {

@@ -125,8 +125,10 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		for (String roleCode : roleCodes) {
 			List<SysMenu> sysMenuList = sysMenuService.listByRoleCode(roleCode);
 			menus.addAll(sysMenuList);
-			List<String> permissionList = sysMenuList.stream().map(SysMenu::getPermission).filter(StrUtil::isNotEmpty)
-					.collect(Collectors.toList());
+			List<String> permissionList = sysMenuList.stream()
+				.map(SysMenu::getPermission)
+				.filter(StrUtil::isNotEmpty)
+				.collect(Collectors.toList());
 			permissions.addAll(permissionList);
 		}
 		userInfoDTO.setMenus(menus);
@@ -203,7 +205,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		// 如果修改了组织且修改成功，则发送用户组织更新事件
 		if (isUpdateSuccess && organizationIdModified) {
 			publisher
-					.publishEvent(new UserOrganizationChangeEvent(userId, originOrganizationId, currentOrganizationId));
+				.publishEvent(new UserOrganizationChangeEvent(userId, originOrganizationId, currentOrganizationId));
 		}
 
 		return isUpdateSuccess;
@@ -260,7 +262,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 		// 移除无权限更改的用户id
 		Map<Integer, SysUser> userMap = userList.stream()
-				.collect(Collectors.toMap(SysUser::getUserId, Function.identity()));
+			.collect(Collectors.toMap(SysUser::getUserId, Function.identity()));
 		userIds.removeIf(id -> !adminUserChecker.hasModifyPermission(userMap.get(id)));
 		Assert.notEmpty(userIds, "更新用户状态失败，无权限更新用户");
 

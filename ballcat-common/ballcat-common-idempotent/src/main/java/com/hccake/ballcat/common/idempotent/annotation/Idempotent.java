@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 幂等控制注解
+ *
  * @author hccake
  */
 @Target(ElementType.METHOD)

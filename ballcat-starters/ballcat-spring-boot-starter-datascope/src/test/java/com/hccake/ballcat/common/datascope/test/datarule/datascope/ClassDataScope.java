@@ -66,8 +66,10 @@ public class ClassDataScope implements DataScope {
 		}
 
 		// 提取当前登录用户拥有的班级权限
-		List<Expression> list = loginUser.getClassNameList().stream().map(StringValue::new)
-				.collect(Collectors.toList());
+		List<Expression> list = loginUser.getClassNameList()
+			.stream()
+			.map(StringValue::new)
+			.collect(Collectors.toList());
 		Column column = new Column(tableAlias == null ? columnId : tableAlias.getName() + "." + columnId);
 		ExpressionList expressionList = new ExpressionList();
 		expressionList.setExpressions(list);

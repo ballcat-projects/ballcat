@@ -42,14 +42,25 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 	@Override
 	public List<S3Object> listObjects(String bucket, String prefix, Integer maxKeys) {
 		// 构造API_ListObjects请求
-		List<S3Object> contents = s3Client.listObjects(ListObjectsRequest.builder().bucket(bucket).maxKeys(maxKeys)
-				.prefix(objectKeyPrefixConverter.wrap(prefix)).build()).contents();
+		List<S3Object> contents = s3Client
+			.listObjects(ListObjectsRequest.builder()
+				.bucket(bucket)
+				.maxKeys(maxKeys)
+				.prefix(objectKeyPrefixConverter.wrap(prefix))
+				.build())
+			.contents();
 		return objectKeyPrefixConverter.match() ? contents.stream()
-				.map(ele -> S3Object.builder().checksumAlgorithm(ele.checksumAlgorithm())
-						.checksumAlgorithmWithStrings(ele.checksumAlgorithmAsStrings()).eTag(ele.eTag())
-						.lastModified(ele.lastModified()).key(objectKeyPrefixConverter.unwrap(ele.key()))
-						.owner(ele.owner()).size(ele.size()).storageClass(ele.storageClass()).build())
-				.collect(Collectors.toList()) : contents;
+			.map(ele -> S3Object.builder()
+				.checksumAlgorithm(ele.checksumAlgorithm())
+				.checksumAlgorithmWithStrings(ele.checksumAlgorithmAsStrings())
+				.eTag(ele.eTag())
+				.lastModified(ele.lastModified())
+				.key(objectKeyPrefixConverter.unwrap(ele.key()))
+				.owner(ele.owner())
+				.size(ele.size())
+				.storageClass(ele.storageClass())
+				.build())
+			.collect(Collectors.toList()) : contents;
 	}
 
 	/**
@@ -86,33 +97,44 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 	public PutObjectResponse putObject(PutObjectRequest putObjectRequest, RequestBody requestBody)
 			throws AwsServiceException, SdkClientException, S3Exception {
 		if (StringUtils.hasText(putObjectRequest.key())) {
-			return super.putObject(PutObjectRequest.builder().acl(putObjectRequest.acl())
-					.contentType(putObjectRequest.contentType())
-					.key(objectKeyPrefixConverter.wrap(putObjectRequest.key())).bucket(putObjectRequest.bucket())
-					.contentLength(putObjectRequest.contentLength()).cacheControl(putObjectRequest.cacheControl())
-					.metadata(putObjectRequest.metadata()).checksumAlgorithm(putObjectRequest.checksumAlgorithm())
-					.checksumCRC32(putObjectRequest.checksumCRC32()).checksumCRC32C(putObjectRequest.checksumCRC32C())
-					.checksumSHA1(putObjectRequest.checksumSHA1()).checksumSHA256(putObjectRequest.checksumSHA256())
-					.bucketKeyEnabled(putObjectRequest.bucketKeyEnabled())
-					.contentEncoding(putObjectRequest.contentEncoding()).contentMD5(putObjectRequest.contentMD5())
-					.websiteRedirectLocation(putObjectRequest.websiteRedirectLocation())
-					.expectedBucketOwner(putObjectRequest.expectedBucketOwner()).expires(putObjectRequest.expires())
-					.grantFullControl(putObjectRequest.grantFullControl()).grantRead(putObjectRequest.grantRead())
-					.grantReadACP(putObjectRequest.grantReadACP()).grantWriteACP(putObjectRequest.grantWriteACP())
-					.contentLanguage(putObjectRequest.contentLanguage())
-					.objectLockMode(putObjectRequest.objectLockMode())
-					.objectLockLegalHoldStatus(putObjectRequest.objectLockLegalHoldStatus())
-					.objectLockRetainUntilDate(putObjectRequest.objectLockRetainUntilDate())
-					.overrideConfiguration(putObjectRequest.overrideConfiguration().orElse(null))
-					.requestPayer(putObjectRequest.requestPayer())
-					.serverSideEncryption(putObjectRequest.serverSideEncryption())
-					.sseCustomerAlgorithm(putObjectRequest.sseCustomerAlgorithm())
-					.sseCustomerKey(putObjectRequest.sseCustomerKey())
-					.sseCustomerKeyMD5(putObjectRequest.sseCustomerKeyMD5())
-					.ssekmsEncryptionContext(putObjectRequest.ssekmsEncryptionContext())
-					.ssekmsKeyId(putObjectRequest.ssekmsKeyId())
-					.contentDisposition(putObjectRequest.contentDisposition()).tagging(putObjectRequest.tagging())
-					.build(), requestBody);
+			return super.putObject(PutObjectRequest.builder()
+				.acl(putObjectRequest.acl())
+				.contentType(putObjectRequest.contentType())
+				.key(objectKeyPrefixConverter.wrap(putObjectRequest.key()))
+				.bucket(putObjectRequest.bucket())
+				.contentLength(putObjectRequest.contentLength())
+				.cacheControl(putObjectRequest.cacheControl())
+				.metadata(putObjectRequest.metadata())
+				.checksumAlgorithm(putObjectRequest.checksumAlgorithm())
+				.checksumCRC32(putObjectRequest.checksumCRC32())
+				.checksumCRC32C(putObjectRequest.checksumCRC32C())
+				.checksumSHA1(putObjectRequest.checksumSHA1())
+				.checksumSHA256(putObjectRequest.checksumSHA256())
+				.bucketKeyEnabled(putObjectRequest.bucketKeyEnabled())
+				.contentEncoding(putObjectRequest.contentEncoding())
+				.contentMD5(putObjectRequest.contentMD5())
+				.websiteRedirectLocation(putObjectRequest.websiteRedirectLocation())
+				.expectedBucketOwner(putObjectRequest.expectedBucketOwner())
+				.expires(putObjectRequest.expires())
+				.grantFullControl(putObjectRequest.grantFullControl())
+				.grantRead(putObjectRequest.grantRead())
+				.grantReadACP(putObjectRequest.grantReadACP())
+				.grantWriteACP(putObjectRequest.grantWriteACP())
+				.contentLanguage(putObjectRequest.contentLanguage())
+				.objectLockMode(putObjectRequest.objectLockMode())
+				.objectLockLegalHoldStatus(putObjectRequest.objectLockLegalHoldStatus())
+				.objectLockRetainUntilDate(putObjectRequest.objectLockRetainUntilDate())
+				.overrideConfiguration(putObjectRequest.overrideConfiguration().orElse(null))
+				.requestPayer(putObjectRequest.requestPayer())
+				.serverSideEncryption(putObjectRequest.serverSideEncryption())
+				.sseCustomerAlgorithm(putObjectRequest.sseCustomerAlgorithm())
+				.sseCustomerKey(putObjectRequest.sseCustomerKey())
+				.sseCustomerKeyMD5(putObjectRequest.sseCustomerKeyMD5())
+				.ssekmsEncryptionContext(putObjectRequest.ssekmsEncryptionContext())
+				.ssekmsKeyId(putObjectRequest.ssekmsKeyId())
+				.contentDisposition(putObjectRequest.contentDisposition())
+				.tagging(putObjectRequest.tagging())
+				.build(), requestBody);
 		}
 		return super.putObject(putObjectRequest, requestBody);
 	}
@@ -147,13 +169,16 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 	public DeleteObjectResponse deleteObject(DeleteObjectRequest deleteObjectRequest) {
 
 		if (StringUtils.hasText(deleteObjectRequest.key())) {
-			return super.deleteObject(DeleteObjectRequest.builder().bucket(deleteObjectRequest.bucket())
-					.key(objectKeyPrefixConverter.wrap(deleteObjectRequest.key()))
-					.bypassGovernanceRetention(deleteObjectRequest.bypassGovernanceRetention())
-					.expectedBucketOwner(deleteObjectRequest.expectedBucketOwner()).mfa(deleteObjectRequest.mfa())
-					.overrideConfiguration(deleteObjectRequest.overrideConfiguration().orElse(null))
-					.requestPayer(deleteObjectRequest.requestPayer()).versionId(deleteObjectRequest.versionId())
-					.build());
+			return super.deleteObject(DeleteObjectRequest.builder()
+				.bucket(deleteObjectRequest.bucket())
+				.key(objectKeyPrefixConverter.wrap(deleteObjectRequest.key()))
+				.bypassGovernanceRetention(deleteObjectRequest.bypassGovernanceRetention())
+				.expectedBucketOwner(deleteObjectRequest.expectedBucketOwner())
+				.mfa(deleteObjectRequest.mfa())
+				.overrideConfiguration(deleteObjectRequest.overrideConfiguration().orElse(null))
+				.requestPayer(deleteObjectRequest.requestPayer())
+				.versionId(deleteObjectRequest.versionId())
+				.build());
 		}
 		else {
 			return super.deleteObject(deleteObjectRequest);

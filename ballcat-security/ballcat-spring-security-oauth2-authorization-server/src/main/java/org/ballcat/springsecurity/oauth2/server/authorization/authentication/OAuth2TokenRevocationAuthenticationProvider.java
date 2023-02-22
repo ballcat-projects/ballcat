@@ -64,7 +64,7 @@ public final class OAuth2TokenRevocationAuthenticationProvider implements Authen
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
 		OAuth2Authorization authorization = this.authorizationService
-				.findByToken(tokenRevocationAuthentication.getToken(), null);
+			.findByToken(tokenRevocationAuthentication.getToken(), null);
 		if (authorization == null) {
 			// Return the authentication request when token not found
 			return tokenRevocationAuthentication;

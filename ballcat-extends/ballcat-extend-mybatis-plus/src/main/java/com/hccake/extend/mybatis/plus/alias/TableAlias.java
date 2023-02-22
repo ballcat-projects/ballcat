@@ -5,6 +5,7 @@ import java.lang.annotation.*;
 
 /**
  * 表别名注解，注解在 entity 上，便于构建带别名的查询条件或者查询列
+ *
  * @see LambdaAliasQueryWrapperX
  * @see TableAliasHelper
  * @author Hccake 2021/1/14

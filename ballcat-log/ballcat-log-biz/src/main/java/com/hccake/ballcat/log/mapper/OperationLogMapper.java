@@ -28,12 +28,15 @@ public interface OperationLogMapper extends ExtendMapper<OperationLog> {
 	default PageResult<OperationLogPageVO> queryPage(PageParam pageParam, OperationLogQO qo) {
 		IPage<OperationLog> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<OperationLog> wrapperX = WrappersX.lambdaQueryX(OperationLog.class)
-				.eqIfPresent(OperationLog::getOperator, qo.getUserId())
-				.eqIfPresent(OperationLog::getTraceId, qo.getTraceId()).eqIfPresent(OperationLog::getUri, qo.getUri())
-				.eqIfPresent(OperationLog::getIp, qo.getIp()).eqIfPresent(OperationLog::getStatus, qo.getStatus())
-				.eqIfPresent(OperationLog::getType, qo.getType()).likeIfPresent(OperationLog::getMsg, qo.getMsg())
-				.gtIfPresent(OperationLog::getCreateTime, qo.getStartTime())
-				.ltIfPresent(OperationLog::getCreateTime, qo.getEndTime());
+			.eqIfPresent(OperationLog::getOperator, qo.getUserId())
+			.eqIfPresent(OperationLog::getTraceId, qo.getTraceId())
+			.eqIfPresent(OperationLog::getUri, qo.getUri())
+			.eqIfPresent(OperationLog::getIp, qo.getIp())
+			.eqIfPresent(OperationLog::getStatus, qo.getStatus())
+			.eqIfPresent(OperationLog::getType, qo.getType())
+			.likeIfPresent(OperationLog::getMsg, qo.getMsg())
+			.gtIfPresent(OperationLog::getCreateTime, qo.getStartTime())
+			.ltIfPresent(OperationLog::getCreateTime, qo.getEndTime());
 		this.selectPage(page, wrapperX);
 		IPage<OperationLogPageVO> voPage = page.convert(OperationLogConverter.INSTANCE::poToPageVo);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());

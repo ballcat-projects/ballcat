@@ -36,12 +36,12 @@ public class VirtualPayAutoConfiguration {
 			EtherscanProperties properties) {
 		EtherscanProperties.Infura infura = properties.getInfura();
 		return new live.lingting.virtual.currency.etherscan.properties.EtherscanProperties()
-				// 节点
-				.setEndpoints(properties.getEndpoints())
-				// project id
-				.setProjectId(infura.getProjectId())
-				// project secret
-				.setProjectSecret(infura.getProjectSecret());
+			// 节点
+			.setEndpoints(properties.getEndpoints())
+			// project id
+			.setProjectId(infura.getProjectId())
+			// project secret
+			.setProjectSecret(infura.getProjectSecret());
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class VirtualPayAutoConfiguration {
 	public live.lingting.virtual.currency.tronscan.properties.TronscanProperties tronscanProperties(
 			TronscanProperties properties) {
 		return new live.lingting.virtual.currency.tronscan.properties.TronscanProperties()
-				// 节点
-				.setEndpoints(properties.getEndpoints());
+			// 节点
+			.setEndpoints(properties.getEndpoints());
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class VirtualPayAutoConfiguration {
 	public live.lingting.virtual.currency.bitcoin.properties.BitcoinProperties bitcoinProperties(
 			BitcoinProperties properties) {
 		return new live.lingting.virtual.currency.bitcoin.properties.BitcoinProperties()
-				// 比特节点
-				.setEndpoints(properties.getEndpoints());
+			// 比特节点
+			.setEndpoints(properties.getEndpoints());
 	}
 
 	/**

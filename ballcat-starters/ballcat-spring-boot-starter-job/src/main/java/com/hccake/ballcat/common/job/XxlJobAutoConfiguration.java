@@ -85,8 +85,10 @@ public class XxlJobAutoConfiguration {
 		if (StringUtils.hasText(logPath)) {
 			return logPath;
 		}
-		return environment.getProperty("logging.file.path", "logs").concat("/")
-				.concat(environment.getProperty("spring.application.name")).concat("/jobs");
+		return environment.getProperty("logging.file.path", "logs")
+			.concat("/")
+			.concat(environment.getProperty("spring.application.name"))
+			.concat("/jobs");
 	}
 
 }

@@ -57,7 +57,8 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 		}
 
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) oAuth2Authorization
-				.getAttributes().get("java.security.Principal");
+			.getAttributes()
+			.get("java.security.Principal");
 		return (OAuth2AuthenticatedPrincipal) usernamePasswordAuthenticationToken.getPrincipal();
 	}
 

@@ -30,9 +30,9 @@ public interface SysConfigMapper extends ExtendMapper<SysConfig> {
 	default PageResult<SysConfigPageVO> queryPage(PageParam pageParam, SysConfigQO sysConfigQO) {
 		IPage<SysConfig> page = this.prodPage(pageParam);
 		Wrapper<SysConfig> wrapper = WrappersX.lambdaQueryX(SysConfig.class)
-				.likeIfPresent(SysConfig::getConfKey, sysConfigQO.getConfKey())
-				.likeIfPresent(SysConfig::getName, sysConfigQO.getName())
-				.likeIfPresent(SysConfig::getCategory, sysConfigQO.getCategory());
+			.likeIfPresent(SysConfig::getConfKey, sysConfigQO.getConfKey())
+			.likeIfPresent(SysConfig::getName, sysConfigQO.getName())
+			.likeIfPresent(SysConfig::getCategory, sysConfigQO.getCategory());
 		this.selectPage(page, wrapper);
 		IPage<SysConfigPageVO> voPage = page.convert(SysConfigConverter.INSTANCE::poToPageVo);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
@@ -53,8 +53,8 @@ public interface SysConfigMapper extends ExtendMapper<SysConfig> {
 	 * @return 更新是否成功
 	 */
 	default boolean updateByKey(SysConfig sysConfig) {
-		Wrapper<SysConfig> wrapper = Wrappers.lambdaUpdate(SysConfig.class).eq(SysConfig::getConfKey,
-				sysConfig.getConfKey());
+		Wrapper<SysConfig> wrapper = Wrappers.lambdaUpdate(SysConfig.class)
+			.eq(SysConfig::getConfKey, sysConfig.getConfKey());
 		int flag = this.update(sysConfig, wrapper);
 		return SqlHelper.retBool(flag);
 	}

@@ -40,8 +40,9 @@ public class SysRoleMenuServiceImpl extends ExtendServiceImpl<SysRoleMenuMapper,
 		}
 
 		// 2、再批量插入新数据
-		List<SysRoleMenu> list = Arrays.stream(menuIds).map(menuId -> new SysRoleMenu(roleCode, menuId))
-				.collect(Collectors.toList());
+		List<SysRoleMenu> list = Arrays.stream(menuIds)
+			.map(menuId -> new SysRoleMenu(roleCode, menuId))
+			.collect(Collectors.toList());
 		int i = baseMapper.insertBatchSomeColumn(list);
 		return SqlHelper.retBool(i);
 	}

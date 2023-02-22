@@ -31,8 +31,9 @@ public class EmptyCurlyToDefaultMessageInterpolator extends ResourceBundleMessag
 		// 如果包含花括号占位符
 		if (message.contains(EMPTY_CURLY_BRACES)) {
 			// 获取注解类型
-			Class<? extends Annotation> annotationType = context.getConstraintDescriptor().getAnnotation()
-					.annotationType();
+			Class<? extends Annotation> annotationType = context.getConstraintDescriptor()
+				.getAnnotation()
+				.annotationType();
 
 			Method messageMethod;
 			try {

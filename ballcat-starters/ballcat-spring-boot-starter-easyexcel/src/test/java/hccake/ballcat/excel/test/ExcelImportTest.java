@@ -54,8 +54,12 @@ class ExcelImportTest {
 		ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
 		MockMultipartFile multipartFile = new MockMultipartFile("file", bis);
 
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.multipart("/import/simple").file(multipartFile)
-				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
+		MvcResult mvcResult = mockMvc
+			.perform(MockMvcRequestBuilders.multipart("/import/simple")
+				.file(multipartFile)
+				.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andReturn();
 
 		String contentAsString = mvcResult.getResponse().getContentAsString();
 		List<DemoData> demoDataList = objectMapper.readValue(contentAsString, new TypeReference<List<DemoData>>() {

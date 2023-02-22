@@ -2,6 +2,7 @@ package com.hccake.ballcat.common.datascope.test.datarule.user;
 
 /**
  * 登录用户角色
+ *
  * @author hccake
  */
 public enum UserRoleType {

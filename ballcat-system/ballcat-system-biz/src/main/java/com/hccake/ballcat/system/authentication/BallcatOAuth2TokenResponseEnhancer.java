@@ -24,7 +24,9 @@ public class BallcatOAuth2TokenResponseEnhancer implements OAuth2TokenResponseEn
 	@Override
 	public Map<String, Object> enhance(OAuth2AccessTokenAuthenticationToken accessTokenAuthentication) {
 		Object principal = Optional.ofNullable(SecurityContextHolder.getContext())
-				.map(SecurityContext::getAuthentication).map(Authentication::getPrincipal).orElse(null);
+			.map(SecurityContext::getAuthentication)
+			.map(Authentication::getPrincipal)
+			.orElse(null);
 
 		// token 附属信息
 		Map<String, Object> additionalParameters = accessTokenAuthentication.getAdditionalParameters();

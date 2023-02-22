@@ -32,8 +32,8 @@ public class SecurityHandlerExceptionResolver {
 	@ExceptionHandler(AccessDeniedException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	public R<String> handleAccessDeniedException(AccessDeniedException e) {
-		String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
-				e.getMessage());
+		String msg = SpringSecurityMessageSource.getAccessor()
+			.getMessage("AbstractAccessDecisionManager.accessDenied", e.getMessage());
 		log.error("拒绝授权异常信息 ex={}", msg);
 		globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());

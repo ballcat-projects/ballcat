@@ -45,7 +45,7 @@ public class JsonDesensitizeSerializer extends JsonSerializer<Object> {
 				return;
 			}
 			DesensitizeFunction handleFunction = AnnotationHandlerHolder
-					.getHandleFunction(jsonDesensitizeAnnotation.annotationType());
+				.getHandleFunction(jsonDesensitizeAnnotation.annotationType());
 			if (handleFunction == null) {
 				jsonGenerator.writeString(str);
 				return;

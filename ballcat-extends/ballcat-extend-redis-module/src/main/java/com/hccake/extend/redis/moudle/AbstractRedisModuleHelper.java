@@ -50,11 +50,13 @@ public abstract class AbstractRedisModuleHelper {
 	protected <T> Optional<T> execute(String key, ProtocolKeyword type, CommandOutput<byte[], byte[], T> output,
 			String... args) {
 
-		List<byte[]> extraArgs = Arrays.stream(args).filter(StringUtils::hasLength)
-				.map(arg -> valueSerializer.serialize(arg)).collect(Collectors.toList());
+		List<byte[]> extraArgs = Arrays.stream(args)
+			.filter(StringUtils::hasLength)
+			.map(arg -> valueSerializer.serialize(arg))
+			.collect(Collectors.toList());
 
 		CommandArgs<byte[], byte[]> commandArgs = new CommandArgs<>(codec).addKey(keySerializer.serialize(key))
-				.addValues(extraArgs);
+			.addValues(extraArgs);
 
 		try (LettuceConnection connection = (LettuceConnection) connectionFactory.getConnection()) {
 			RedisFuture<T> future = connection.getNativeConnection().dispatch(type, output, commandArgs);

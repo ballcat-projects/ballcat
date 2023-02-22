@@ -5,6 +5,7 @@ import lombok.Getter;
 
 /**
  * 公告状态
+ *
  * @author Hccake 2020/12/17
  * @version 1.0
  */

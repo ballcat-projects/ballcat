@@ -19,15 +19,20 @@ class DistributeLockTest {
 
 	@Test
 	void testSuccess() {
-		String value = DistributedLock.<String>instance().action(lockKey, () -> "value")
-				.onSuccess(ret -> ret + "Success").lock();
+		String value = DistributedLock.<String>instance()
+			.action(lockKey, () -> "value")
+			.onSuccess(ret -> ret + "Success")
+			.lock();
 		Assertions.assertEquals("valueSuccess", value);
 	}
 
 	@Test
 	void testHandleException() {
-		String value = DistributedLock.<String>instance().action(lockKey, this::throwIOException)
-				.onSuccess(ret -> ret + ret).onException(e -> System.out.println("发生异常了")).lock();
+		String value = DistributedLock.<String>instance()
+			.action(lockKey, this::throwIOException)
+			.onSuccess(ret -> ret + ret)
+			.onException(e -> System.out.println("发生异常了"))
+			.lock();
 		Assertions.assertNull(value);
 	}
 

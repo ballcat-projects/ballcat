@@ -53,8 +53,9 @@ public interface SysUserRoleMapper extends ExtendMapper<SysUserRole> {
 	 * @return 存在：true
 	 */
 	default boolean existsRoleBind(Integer userId, String roleCode) {
-		Long num = this.selectCount(WrappersX.lambdaQueryX(SysUserRole.class).eq(SysUserRole::getUserId, userId)
-				.eqIfPresent(SysUserRole::getRoleCode, roleCode));
+		Long num = this.selectCount(WrappersX.lambdaQueryX(SysUserRole.class)
+			.eq(SysUserRole::getUserId, userId)
+			.eqIfPresent(SysUserRole::getRoleCode, roleCode));
 		return SqlHelper.retBool(num);
 	}
 
@@ -79,8 +80,9 @@ public interface SysUserRoleMapper extends ExtendMapper<SysUserRole> {
 	 * @return 删除成功：true
 	 */
 	default boolean deleteUserRole(Integer userId, String roleCode) {
-		int i = this.delete(Wrappers.lambdaQuery(SysUserRole.class).eq(SysUserRole::getUserId, userId)
-				.eq(SysUserRole::getRoleCode, roleCode));
+		int i = this.delete(Wrappers.lambdaQuery(SysUserRole.class)
+			.eq(SysUserRole::getUserId, userId)
+			.eq(SysUserRole::getRoleCode, roleCode));
 		return SqlHelper.retBool(i);
 	}
 

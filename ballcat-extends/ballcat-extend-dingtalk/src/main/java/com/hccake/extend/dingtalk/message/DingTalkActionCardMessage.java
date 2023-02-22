@@ -64,8 +64,9 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 
 	@Override
 	public DingTalkParams put(DingTalkParams params) {
-		DingTalkParams.ActionCard card = new DingTalkParams.ActionCard().setTitle(title).setText(text.build())
-				.setBtnOrientation(orientation.getVal());
+		DingTalkParams.ActionCard card = new DingTalkParams.ActionCard().setTitle(title)
+			.setText(text.build())
+			.setBtnOrientation(orientation.getVal());
 
 		// 当 单按钮的 文本和链接都不为空时
 		if (buttons.isEmpty()) {

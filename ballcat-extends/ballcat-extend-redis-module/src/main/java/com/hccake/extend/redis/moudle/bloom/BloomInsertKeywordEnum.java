@@ -2,6 +2,7 @@ package com.hccake.extend.redis.moudle.bloom;
 
 /**
  * redisBloom 中 BF.INSERT 命令的附属参数 Keyword
+ *
  * @author hccake
  */
 public enum BloomInsertKeywordEnum {

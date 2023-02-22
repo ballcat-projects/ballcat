@@ -29,8 +29,8 @@ public interface SysDictItemMapper extends ExtendMapper<SysDictItem> {
 	 */
 	default PageResult<SysDictItemPageVO> queryPage(PageParam pageParam, String dictCode) {
 		IPage<SysDictItem> page = this.prodPage(pageParam);
-		LambdaQueryWrapper<SysDictItem> wrapper = Wrappers.lambdaQuery(SysDictItem.class).eq(SysDictItem::getDictCode,
-				dictCode);
+		LambdaQueryWrapper<SysDictItem> wrapper = Wrappers.lambdaQuery(SysDictItem.class)
+			.eq(SysDictItem::getDictCode, dictCode);
 		this.selectPage(page, wrapper);
 		IPage<SysDictItemPageVO> voPage = page.convert(SysDictItemConverter.INSTANCE::poToPageVo);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());

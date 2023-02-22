@@ -268,7 +268,7 @@ public class CustomRedisTokenStore implements TokenStore {
 					Date expiration = expiringRefreshToken.getExpiration();
 					if (expiration != null) {
 						int seconds = Long.valueOf((expiration.getTime() - System.currentTimeMillis()) / 1000L)
-								.intValue();
+							.intValue();
 						conn.expire(refreshToAccessKey, seconds);
 						conn.expire(accessToRefreshKey, seconds);
 					}

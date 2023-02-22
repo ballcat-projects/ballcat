@@ -57,7 +57,7 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 		}
 
 		ase = (HttpRequestMethodNotSupportedException) throwableAnalyzer
-				.getFirstThrowableOfType(HttpRequestMethodNotSupportedException.class, causeChain);
+			.getFirstThrowableOfType(HttpRequestMethodNotSupportedException.class, causeChain);
 		if (ase != null) {
 			return handleOAuth2Exception(new MethodNotAllowed(ase.getMessage(), ase));
 		}

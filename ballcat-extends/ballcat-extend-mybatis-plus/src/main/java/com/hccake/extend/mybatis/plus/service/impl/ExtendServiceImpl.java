@@ -129,7 +129,7 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 				(sqlSession, entity) -> {
 					Object idVal = tableInfo.getPropertyValue(entity, keyProperty);
 					return StringUtils.checkValNull(idVal) || CollectionUtils
-							.isEmpty(sqlSession.selectList(getSqlStatement(SqlMethod.SELECT_BY_ID), entity));
+						.isEmpty(sqlSession.selectList(getSqlStatement(SqlMethod.SELECT_BY_ID), entity));
 				}, (sqlSession, entity) -> {
 					MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
 					param.put(Constants.ENTITY, entity);

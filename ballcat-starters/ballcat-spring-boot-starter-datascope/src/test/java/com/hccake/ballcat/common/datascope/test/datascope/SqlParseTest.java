@@ -364,7 +364,7 @@ class SqlParseTest {
 				+ "sys_user_role ur\n" + "left join\n" + "sys_role r\n" + "on r.code = ur.role_code\n"
 				+ "WHERE ur.user_id = ?\n" + "and r.deleted = 0";
 		Assertions
-				.assertDoesNotThrow(() -> dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes()));
+			.assertDoesNotThrow(() -> dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes()));
 
 	}
 

@@ -1288,8 +1288,10 @@ public class RedisHelper {
 	 * @see <a href="https://redis.io/commands/zadd/">ZAdd Command</a>
 	 */
 	public static long zAdd(String key, Map<String, Double> scoreMembers) {
-		Set<ZSetOperations.TypedTuple<String>> tuples = scoreMembers.entrySet().stream()
-				.map(x -> ZSetOperations.TypedTuple.of(x.getKey(), x.getValue())).collect(Collectors.toSet());
+		Set<ZSetOperations.TypedTuple<String>> tuples = scoreMembers.entrySet()
+			.stream()
+			.map(x -> ZSetOperations.TypedTuple.of(x.getKey(), x.getValue()))
+			.collect(Collectors.toSet());
 		return zSetOps().add(key, tuples);
 	}
 
@@ -1742,7 +1744,7 @@ public class RedisHelper {
 		}
 
 		return redisTemplate.execute((RedisConnection conn) -> conn.streamCommands()
-				.xAdd(Record.of(rawContent).withStreamKey(rawKey), xAddOptions));
+			.xAdd(Record.of(rawContent).withStreamKey(rawKey), xAddOptions));
 	}
 
 	/**
@@ -1771,8 +1773,8 @@ public class RedisHelper {
 		RedisSerializer<String> keySerializer = getKeySerializer();
 		byte[] rawKey = keySerializer.serialize(key);
 
-		return redisTemplate.execute((RedisConnection conn) -> conn.streamCommands().xGroupCreate(rawKey, groupName,
-				readOffset, makeStream));
+		return redisTemplate.execute((RedisConnection conn) -> conn.streamCommands()
+			.xGroupCreate(rawKey, groupName, readOffset, makeStream));
 	}
 
 	public static String xGroupCreate(String key, String groupName) {

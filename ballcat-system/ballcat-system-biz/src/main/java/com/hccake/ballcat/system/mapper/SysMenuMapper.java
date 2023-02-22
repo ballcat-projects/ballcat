@@ -26,9 +26,10 @@ public interface SysMenuMapper extends ExtendMapper<SysMenu> {
 	 */
 	default List<SysMenu> listOrderBySort(SysMenuQO sysMenuQO) {
 		LambdaQueryWrapperX<SysMenu> wrapper = WrappersX.lambdaQueryX(SysMenu.class)
-				.likeIfPresent(SysMenu::getId, sysMenuQO.getId()).likeIfPresent(SysMenu::getTitle, sysMenuQO.getTitle())
-				.likeIfPresent(SysMenu::getPermission, sysMenuQO.getPermission())
-				.likeIfPresent(SysMenu::getPath, sysMenuQO.getPath());
+			.likeIfPresent(SysMenu::getId, sysMenuQO.getId())
+			.likeIfPresent(SysMenu::getTitle, sysMenuQO.getTitle())
+			.likeIfPresent(SysMenu::getPermission, sysMenuQO.getPermission())
+			.likeIfPresent(SysMenu::getPath, sysMenuQO.getPath());
 		wrapper.orderByAsc(SysMenu::getSort);
 		return this.selectList(wrapper);
 	}

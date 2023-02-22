@@ -89,8 +89,8 @@ public class DingTalkSender {
 	 */
 	@SneakyThrows(UnsupportedEncodingException.class)
 	public String secret(long timestamp) {
-		return url + "&timestamp=" + timestamp + "&sign=" + URLEncoder.encode(
-				Base64.encode(mac.doFinal((timestamp + "\n" + secret).getBytes(StandardCharsets.UTF_8))), "UTF-8");
+		return url + "&timestamp=" + timestamp + "&sign=" + URLEncoder
+			.encode(Base64.encode(mac.doFinal((timestamp + "\n" + secret).getBytes(StandardCharsets.UTF_8))), "UTF-8");
 	}
 
 	/**
@@ -102,12 +102,13 @@ public class DingTalkSender {
 	public DingTalkResponse request(DingTalkMessage message, boolean isSecret) {
 		if (isSecret) {
 			return DingTalkResponse.of(HttpRequest.post(url)
-					// 设置新的请求路径
-					.setUrl(secret(System.currentTimeMillis()))
-					// 请求体
-					.body(message.generate())
-					// 获取返回值
-					.execute().body());
+				// 设置新的请求路径
+				.setUrl(secret(System.currentTimeMillis()))
+				// 请求体
+				.body(message.generate())
+				// 获取返回值
+				.execute()
+				.body());
 		}
 		else {
 			return DingTalkResponse.of(HttpRequest.post(url).body(message.generate()).execute().body());

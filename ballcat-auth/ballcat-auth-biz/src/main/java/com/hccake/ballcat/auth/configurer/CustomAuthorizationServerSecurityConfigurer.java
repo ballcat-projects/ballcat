@@ -171,7 +171,7 @@ public final class CustomAuthorizationServerSecurityConfigurer
 		if (authenticationProviders.isEmpty()) {
 			if (passwordEncoder != null) {
 				builder.userDetailsService(new ClientDetailsUserDetailsService(clientDetailsService()))
-						.passwordEncoder(passwordEncoder());
+					.passwordEncoder(passwordEncoder());
 			}
 			else {
 				builder.userDetailsService(new ClientDetailsUserDetailsService(clientDetailsService()));
@@ -207,7 +207,7 @@ public final class CustomAuthorizationServerSecurityConfigurer
 	@SuppressWarnings("unchecked")
 	private void registerDefaultAuthenticationEntryPoint(HttpSecurity http) {
 		ExceptionHandlingConfigurer<HttpSecurity> exceptionHandling = http
-				.getConfigurer(ExceptionHandlingConfigurer.class);
+			.getConfigurer(ExceptionHandlingConfigurer.class);
 		if (exceptionHandling == null) {
 			return;
 		}
@@ -248,7 +248,7 @@ public final class CustomAuthorizationServerSecurityConfigurer
 		ClientCredentialsTokenEndpointFilter clientCredentialsTokenEndpointFilter = new ClientCredentialsTokenEndpointFilter(
 				frameworkEndpointHandlerMapping().getServletPath("/oauth/token"));
 		clientCredentialsTokenEndpointFilter
-				.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
+			.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
 		OAuth2AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
 		authenticationEntryPoint.setTypeName("Form");
 		authenticationEntryPoint.setRealmName(realm);

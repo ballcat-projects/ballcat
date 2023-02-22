@@ -30,8 +30,9 @@ public class I18nMessageCreateListener {
 	@EventListener(I18nMessageCreateEvent.class)
 	public void saveOnI18nMessageCreateEvent(I18nMessageCreateEvent event) {
 		List<I18nMessage> i18nMessages = event.getI18nMessages();
-		List<I18nData> list = i18nMessages.stream().map(I18nDataConverter.INSTANCE::messageToPo)
-				.collect(Collectors.toList());
+		List<I18nData> list = i18nMessages.stream()
+			.map(I18nDataConverter.INSTANCE::messageToPo)
+			.collect(Collectors.toList());
 		i18nDataService.saveBatch(list);
 	}
 

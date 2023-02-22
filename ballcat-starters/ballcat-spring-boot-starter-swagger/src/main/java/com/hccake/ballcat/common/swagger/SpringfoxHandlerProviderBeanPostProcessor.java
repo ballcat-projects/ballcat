@@ -31,8 +31,9 @@ public class SpringfoxHandlerProviderBeanPostProcessor implements BeanPostProces
 	}
 
 	private <T extends RequestMappingInfoHandlerMapping> void customizeSpringfoxHandlerMappings(List<T> mappings) {
-		List<T> copy = mappings.stream().filter(mapping -> mapping.getPatternParser() == null)
-				.collect(Collectors.toList());
+		List<T> copy = mappings.stream()
+			.filter(mapping -> mapping.getPatternParser() == null)
+			.collect(Collectors.toList());
 		mappings.clear();
 		mappings.addAll(copy);
 	}

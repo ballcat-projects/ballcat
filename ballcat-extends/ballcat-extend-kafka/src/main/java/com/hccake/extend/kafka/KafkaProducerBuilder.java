@@ -94,7 +94,7 @@ public class KafkaProducerBuilder {
 	public Properties getProperties() {
 		bootstrapServers.addAll(
 				ListUtil.toList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CharSequenceUtil.EMPTY)
-						.split(BOOTSTRAP_SERVERS_DELIMITER)));
+					.split(BOOTSTRAP_SERVERS_DELIMITER)));
 		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
 				String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
 		return properties;

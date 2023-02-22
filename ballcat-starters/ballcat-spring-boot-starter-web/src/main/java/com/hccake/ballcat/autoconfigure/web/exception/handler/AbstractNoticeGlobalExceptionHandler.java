@@ -137,10 +137,14 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 	}
 
 	public ExceptionMessage toMessage(Throwable t) {
-		return new ExceptionMessage().setNumber(1).setMac(mac).setApplicationName(applicationName).setHostname(hostname)
-				.setIp(ip).setRequestUri(requestUri)
-				.setStack(ExceptionUtil.stacktraceToString(t, config.getLength()).replace("\\r", ""))
-				.setTime(DateUtil.now());
+		return new ExceptionMessage().setNumber(1)
+			.setMac(mac)
+			.setApplicationName(applicationName)
+			.setHostname(hostname)
+			.setIp(ip)
+			.setRequestUri(requestUri)
+			.setStack(ExceptionUtil.stacktraceToString(t, config.getLength()).replace("\\r", ""))
+			.setTime(DateUtil.now());
 	}
 
 	/**

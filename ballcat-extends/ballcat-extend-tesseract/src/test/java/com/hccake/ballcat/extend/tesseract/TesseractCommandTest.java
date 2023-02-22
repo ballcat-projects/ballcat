@@ -26,8 +26,11 @@ class TesseractCommandTest {
 
 	@Test
 	void string() {
-		final TesseractCommand.TesseractCommandBuilder builder = TesseractCommand.builder().tesseract("tesseract")
-				.lang(TesseractLang.EN.getVal()).image(image).psm(3);
+		final TesseractCommand.TesseractCommandBuilder builder = TesseractCommand.builder()
+			.tesseract("tesseract")
+			.lang(TesseractLang.EN.getVal())
+			.image(image)
+			.psm(3);
 
 		final List<String> string = builder.build().run();
 		Assertions.assertTrue(string.size() > 0);
@@ -36,8 +39,12 @@ class TesseractCommandTest {
 
 	@Test
 	void boxes() {
-		final TesseractCommand.TesseractCommandBuilder builder = TesseractCommand.builder().tesseract("tesseract")
-				.lang(TesseractLang.EN.getVal()).image(image).boxes(true).psm(3);
+		final TesseractCommand.TesseractCommandBuilder builder = TesseractCommand.builder()
+			.tesseract("tesseract")
+			.lang(TesseractLang.EN.getVal())
+			.image(image)
+			.boxes(true)
+			.psm(3);
 
 		final List<String> string = builder.build().run();
 		Assertions.assertTrue(string.size() > 0);

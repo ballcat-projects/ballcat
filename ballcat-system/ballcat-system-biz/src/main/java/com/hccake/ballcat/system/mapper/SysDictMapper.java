@@ -32,7 +32,8 @@ public interface SysDictMapper extends ExtendMapper<SysDict> {
 	default PageResult<SysDictPageVO> queryPage(PageParam pageParam, SysDictQO qo) {
 		IPage<SysDict> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<SysDict> wrapper = WrappersX.lambdaQueryX(SysDict.class)
-				.likeIfPresent(SysDict::getCode, qo.getCode()).likeIfPresent(SysDict::getTitle, qo.getTitle());
+			.likeIfPresent(SysDict::getCode, qo.getCode())
+			.likeIfPresent(SysDict::getTitle, qo.getTitle());
 		this.selectPage(page, wrapper);
 		IPage<SysDictPageVO> voPage = page.convert(SysDictConverter.INSTANCE::poToPageVo);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());

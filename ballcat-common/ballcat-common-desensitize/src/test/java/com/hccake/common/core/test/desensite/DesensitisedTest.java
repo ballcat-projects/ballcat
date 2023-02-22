@@ -23,7 +23,7 @@ class DesensitisedTest {
 	void testSimple() {
 		// 获取简单脱敏处理器
 		SimpleDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
-				.getSimpleHandler(SixAsteriskDesensitizationHandler.class);
+			.getSimpleHandler(SixAsteriskDesensitizationHandler.class);
 		String origin = "你好吗？"; // 原始字符串
 		String target = desensitizationHandler.handle(origin); // 替换处理
 		Assertions.assertEquals("******", target);
@@ -33,7 +33,7 @@ class DesensitisedTest {
 	void testRegex() {
 		// 获取正则脱敏处理器
 		RegexDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
-				.getRegexDesensitizationHandler();
+			.getRegexDesensitizationHandler();
 		String origin = "12123124213@qq.com"; // 原始字符串
 		String regex = "(^.)[^@]*(@.*$)"; // 正则表达式
 		String replacement = "$1****$2"; // 占位替换表达式
@@ -49,7 +49,7 @@ class DesensitisedTest {
 	void testSlide() {
 		// 获取滑动脱敏处理器
 		SlideDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
-				.getSlideDesensitizationHandler();
+			.getSlideDesensitizationHandler();
 		String origin = "15805516789"; // 原始字符串
 		String target1 = desensitizationHandler.handle(origin, 3, 2); // 替换处理
 		Assertions.assertEquals("158******89", target1);
@@ -71,9 +71,12 @@ class DesensitisedTest {
 		// JsonSerializerModifier modifier = new JsonSerializerModifier();
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.setSerializerFactory(objectMapper.getSerializerFactory().withSerializerModifier(modifier));
-		DesensitizationUser user = new DesensitizationUser().setEmail("chengbohua@foxmail.com").setUsername("xiaoming")
-				.setPassword("admina123456").setPhoneNumber("15800000000").setTestField("这是测试属性")
-				.setCustomDesensitize("test");
+		DesensitizationUser user = new DesensitizationUser().setEmail("chengbohua@foxmail.com")
+			.setUsername("xiaoming")
+			.setPassword("admina123456")
+			.setPhoneNumber("15800000000")
+			.setTestField("这是测试属性")
+			.setCustomDesensitize("test");
 		String value = objectMapper.writeValueAsString(user);
 		log.info("脱敏后的数据：{}", value);
 

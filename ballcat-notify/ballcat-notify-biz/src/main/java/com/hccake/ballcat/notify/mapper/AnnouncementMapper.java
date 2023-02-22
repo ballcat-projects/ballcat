@@ -35,10 +35,10 @@ public interface AnnouncementMapper extends ExtendMapper<Announcement> {
 	default PageResult<AnnouncementPageVO> queryPage(PageParam pageParam, AnnouncementQO qo) {
 		IPage<Announcement> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<Announcement> wrapperX = WrappersX.lambdaAliasQueryX(Announcement.class)
-				.likeIfPresent(Announcement::getTitle, qo.getTitle())
-				.inIfPresent(Announcement::getStatus, (Object[]) qo.getStatus())
-				.eqIfPresent(Announcement::getRecipientFilterType, qo.getRecipientFilterType())
-				.eq(Announcement::getDeleted, GlobalConstants.NOT_DELETED_FLAG);
+			.likeIfPresent(Announcement::getTitle, qo.getTitle())
+			.inIfPresent(Announcement::getStatus, (Object[]) qo.getStatus())
+			.eqIfPresent(Announcement::getRecipientFilterType, qo.getRecipientFilterType())
+			.eq(Announcement::getDeleted, GlobalConstants.NOT_DELETED_FLAG);
 		IPage<AnnouncementPageVO> voPage = this.selectByPage(page, wrapperX);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());
 	}
@@ -59,8 +59,9 @@ public interface AnnouncementMapper extends ExtendMapper<Announcement> {
 	 */
 	default boolean updateIfUnpublished(Announcement announcement) {
 		int flag = this.update(announcement,
-				Wrappers.<Announcement>lambdaUpdate().eq(Announcement::getId, announcement.getId())
-						.eq(Announcement::getStatus, AnnouncementStatusEnum.UNPUBLISHED.getValue()));
+				Wrappers.<Announcement>lambdaUpdate()
+					.eq(Announcement::getId, announcement.getId())
+					.eq(Announcement::getStatus, AnnouncementStatusEnum.UNPUBLISHED.getValue()));
 		return SqlHelper.retBool(flag);
 	}
 

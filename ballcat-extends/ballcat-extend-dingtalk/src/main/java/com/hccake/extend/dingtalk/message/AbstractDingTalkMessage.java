@@ -52,7 +52,7 @@ public abstract class AbstractDingTalkMessage implements DingTalkMessage {
 	@Override
 	public String generate() {
 		DingTalkParams params = put(new DingTalkParams().setType(getType().getVal())
-				.setAt(new DingTalkParams.At().setAtAll(atAll).setAtMobiles(atPhones)));
+			.setAt(new DingTalkParams.At().setAtAll(atAll).setAtMobiles(atPhones)));
 		return params.toString();
 	}
 

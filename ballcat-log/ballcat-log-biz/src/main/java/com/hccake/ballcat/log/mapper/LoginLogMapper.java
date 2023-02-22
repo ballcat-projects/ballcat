@@ -27,10 +27,13 @@ public interface LoginLogMapper extends ExtendMapper<LoginLog> {
 	default PageResult<LoginLogPageVO> queryPage(PageParam pageParam, LoginLogQO qo) {
 		IPage<LoginLog> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<LoginLog> wrapperX = WrappersX.lambdaQueryX(LoginLog.class)
-				.eqIfPresent(LoginLog::getUsername, qo.getUsername()).eqIfPresent(LoginLog::getTraceId, qo.getTraceId())
-				.eqIfPresent(LoginLog::getIp, qo.getIp()).eqIfPresent(LoginLog::getEventType, qo.getEventType())
-				.eqIfPresent(LoginLog::getStatus, qo.getStatus()).gtIfPresent(LoginLog::getLoginTime, qo.getStartTime())
-				.ltIfPresent(LoginLog::getLoginTime, qo.getEndTime());
+			.eqIfPresent(LoginLog::getUsername, qo.getUsername())
+			.eqIfPresent(LoginLog::getTraceId, qo.getTraceId())
+			.eqIfPresent(LoginLog::getIp, qo.getIp())
+			.eqIfPresent(LoginLog::getEventType, qo.getEventType())
+			.eqIfPresent(LoginLog::getStatus, qo.getStatus())
+			.gtIfPresent(LoginLog::getLoginTime, qo.getStartTime())
+			.ltIfPresent(LoginLog::getLoginTime, qo.getEndTime());
 		this.selectPage(page, wrapperX);
 		IPage<LoginLogPageVO> voPage = page.convert(LoginLogConverter.INSTANCE::poToPageVo);
 		return new PageResult<>(voPage.getRecords(), voPage.getTotal());

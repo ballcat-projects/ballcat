@@ -57,8 +57,9 @@ public class SpringAuthorizationServerLoginLogHandler implements LoginLogHandler
 		}
 
 		if (username != null) {
-			LoginLog loginLog = prodLoginLog(username).setMsg("登陆成功").setStatus(LogStatusEnum.SUCCESS.getValue())
-					.setEventType(LoginEventTypeEnum.LOGIN.getValue());
+			LoginLog loginLog = prodLoginLog(username).setMsg("登陆成功")
+				.setStatus(LogStatusEnum.SUCCESS.getValue())
+				.setEventType(LoginEventTypeEnum.LOGIN.getValue());
 			loginLogService.save(loginLog);
 		}
 	}
@@ -90,7 +91,8 @@ public class SpringAuthorizationServerLoginLogHandler implements LoginLogHandler
 
 		if (username != null) {
 			LoginLog loginLog = prodLoginLog(username).setMsg(event.getException().getMessage())
-					.setEventType(LoginEventTypeEnum.LOGIN.getValue()).setStatus(LogStatusEnum.FAIL.getValue());
+				.setEventType(LoginEventTypeEnum.LOGIN.getValue())
+				.setStatus(LogStatusEnum.FAIL.getValue());
 			loginLogService.save(loginLog);
 		}
 	}
@@ -111,7 +113,7 @@ public class SpringAuthorizationServerLoginLogHandler implements LoginLogHandler
 		// Oauth2撤销令牌 和表单登出 处理分开
 		if (isOauth2Login && source instanceof OAuth2TokenRevocationResultAuthenticationToken) {
 			OAuth2Authorization authorization = ((OAuth2TokenRevocationResultAuthenticationToken) source)
-					.getAuthorization();
+				.getAuthorization();
 			username = authorization.getPrincipalName();
 		}
 		else if (!isOauth2Login && source instanceof UsernamePasswordAuthenticationToken) {
@@ -120,7 +122,7 @@ public class SpringAuthorizationServerLoginLogHandler implements LoginLogHandler
 
 		if (username != null) {
 			LoginLog loginLog = prodLoginLog(username).setMsg("登出成功")
-					.setEventType(LoginEventTypeEnum.LOGOUT.getValue());
+				.setEventType(LoginEventTypeEnum.LOGOUT.getValue());
 			loginLogService.save(loginLog);
 		}
 	}

@@ -38,8 +38,9 @@ class ExcelFillTest {
 	 */
 	@Test
 	void simpleFill() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/fill/simple")).andExpect(status().isOk())
-				.andReturn();
+		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/fill/simple"))
+			.andExpect(status().isOk())
+			.andReturn();
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray());
 		DefaultAnalysisEventListener readListener = new DefaultAnalysisEventListener();
 		EasyExcel.read(inputStream, DemoData.class, readListener).sheet().doRead();

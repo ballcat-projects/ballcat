@@ -36,7 +36,7 @@ public final class OAuth2ConfigurerUtils {
 
 	public static RegisteredClientRepository getRegisteredClientRepository(HttpSecurity httpSecurity) {
 		RegisteredClientRepository registeredClientRepository = httpSecurity
-				.getSharedObject(RegisteredClientRepository.class);
+			.getSharedObject(RegisteredClientRepository.class);
 		if (registeredClientRepository == null) {
 			registeredClientRepository = getBean(httpSecurity, RegisteredClientRepository.class);
 			httpSecurity.setSharedObject(RegisteredClientRepository.class, registeredClientRepository);
@@ -46,7 +46,7 @@ public final class OAuth2ConfigurerUtils {
 
 	public static OAuth2AuthorizationService getAuthorizationService(HttpSecurity httpSecurity) {
 		OAuth2AuthorizationService authorizationService = httpSecurity
-				.getSharedObject(OAuth2AuthorizationService.class);
+			.getSharedObject(OAuth2AuthorizationService.class);
 		if (authorizationService == null) {
 			authorizationService = getOptionalBean(httpSecurity, OAuth2AuthorizationService.class);
 			if (authorizationService == null) {
@@ -59,7 +59,7 @@ public final class OAuth2ConfigurerUtils {
 
 	public static OAuth2AuthorizationConsentService getAuthorizationConsentService(HttpSecurity httpSecurity) {
 		OAuth2AuthorizationConsentService authorizationConsentService = httpSecurity
-				.getSharedObject(OAuth2AuthorizationConsentService.class);
+			.getSharedObject(OAuth2AuthorizationConsentService.class);
 		if (authorizationConsentService == null) {
 			authorizationConsentService = getOptionalBean(httpSecurity, OAuth2AuthorizationConsentService.class);
 			if (authorizationConsentService == null) {
@@ -73,7 +73,7 @@ public final class OAuth2ConfigurerUtils {
 	@SuppressWarnings("unchecked")
 	public static OAuth2TokenGenerator<? extends OAuth2Token> getTokenGenerator(HttpSecurity httpSecurity) {
 		OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator = httpSecurity
-				.getSharedObject(OAuth2TokenGenerator.class);
+			.getSharedObject(OAuth2TokenGenerator.class);
 		if (tokenGenerator == null) {
 			tokenGenerator = getOptionalBean(httpSecurity, OAuth2TokenGenerator.class);
 			if (tokenGenerator == null) {
@@ -158,7 +158,7 @@ public final class OAuth2ConfigurerUtils {
 
 	public static AuthorizationServerSettings getAuthorizationServerSettings(HttpSecurity httpSecurity) {
 		AuthorizationServerSettings authorizationServerSettings = httpSecurity
-				.getSharedObject(AuthorizationServerSettings.class);
+			.getSharedObject(AuthorizationServerSettings.class);
 		if (authorizationServerSettings == null) {
 			authorizationServerSettings = getBean(httpSecurity, AuthorizationServerSettings.class);
 			httpSecurity.setSharedObject(AuthorizationServerSettings.class, authorizationServerSettings);
@@ -185,7 +185,7 @@ public final class OAuth2ConfigurerUtils {
 
 	public static <T> T getOptionalBean(HttpSecurity httpSecurity, Class<T> type) {
 		Map<String, T> beansMap = BeanFactoryUtils
-				.beansOfTypeIncludingAncestors(httpSecurity.getSharedObject(ApplicationContext.class), type);
+			.beansOfTypeIncludingAncestors(httpSecurity.getSharedObject(ApplicationContext.class), type);
 		if (beansMap.size() > 1) {
 			throw new NoUniqueBeanDefinitionException(type, beansMap.size(),
 					"Expected single matching bean of type '" + type.getName() + "' but found " + beansMap.size() + ": "

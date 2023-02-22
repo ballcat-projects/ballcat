@@ -92,8 +92,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 		Set<String> requestedScopes = resourceOwnerPasswordAuthentication.getScopes();
 		if (!CollectionUtils.isEmpty(requestedScopes)) {
 			Set<String> unauthorizedScopes = requestedScopes.stream()
-					.filter(requestedScope -> !registeredClient.getScopes().contains(requestedScope))
-					.collect(Collectors.toSet());
+				.filter(requestedScope -> !registeredClient.getScopes().contains(requestedScope))
+				.collect(Collectors.toSet());
 			if (!CollectionUtils.isEmpty(unauthorizedScopes)) {
 				throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
 			}

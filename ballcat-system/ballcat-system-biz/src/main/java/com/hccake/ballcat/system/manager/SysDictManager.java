@@ -219,8 +219,10 @@ public class SysDictManager {
 		for (SysDict sysDict : sysDictList) {
 			List<SysDictItem> dictItems = sysDictItemService.listByDictCode(sysDict.getCode());
 			// 排序并转换为VO
-			List<DictItemVO> setDictItems = dictItems.stream().sorted(Comparator.comparingInt(SysDictItem::getSort))
-					.map(SysDictItemConverter.INSTANCE::poToItemVo).collect(Collectors.toList());
+			List<DictItemVO> setDictItems = dictItems.stream()
+				.sorted(Comparator.comparingInt(SysDictItem::getSort))
+				.map(SysDictItemConverter.INSTANCE::poToItemVo)
+				.collect(Collectors.toList());
 			// 组装DataVO
 			DictDataVO dictDataVO = new DictDataVO();
 			dictDataVO.setValueType(sysDict.getValueType());

@@ -38,7 +38,7 @@ public final class AnnotationHandlerHolder {
 			JsonSimpleDesensitize an = (JsonSimpleDesensitize) annotation;
 			Class<? extends SimpleDesensitizationHandler> handlerClass = an.handler();
 			SimpleDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
-					.getSimpleHandler(handlerClass);
+				.getSimpleHandler(handlerClass);
 			Assert.notNull(desensitizationHandler, "SimpleDesensitizationHandler can not be Null");
 			return desensitizationHandler.handle(value);
 		});
@@ -48,7 +48,7 @@ public final class AnnotationHandlerHolder {
 			JsonRegexDesensitize an = (JsonRegexDesensitize) annotation;
 			RegexDesensitizationTypeEnum type = an.type();
 			RegexDesensitizationHandler regexDesensitizationHandler = DesensitizationHandlerHolder
-					.getRegexDesensitizationHandler();
+				.getRegexDesensitizationHandler();
 			return RegexDesensitizationTypeEnum.CUSTOM.equals(type)
 					? regexDesensitizationHandler.handle(value, an.regex(), an.replacement())
 					: regexDesensitizationHandler.handle(value, type);
@@ -59,7 +59,7 @@ public final class AnnotationHandlerHolder {
 			JsonSlideDesensitize an = (JsonSlideDesensitize) annotation;
 			SlideDesensitizationTypeEnum type = an.type();
 			SlideDesensitizationHandler slideDesensitizationHandler = DesensitizationHandlerHolder
-					.getSlideDesensitizationHandler();
+				.getSlideDesensitizationHandler();
 			return SlideDesensitizationTypeEnum.CUSTOM.equals(type) ? slideDesensitizationHandler.handle(value,
 					an.leftPlainTextLen(), an.rightPlainTextLen(), an.maskString())
 					: slideDesensitizationHandler.handle(value, type);

@@ -22,7 +22,7 @@ public final class DataPermissionRuleHolder {
 	 * 使用栈存储 DataPermissionRule，便于在方法嵌套调用时使用不同的数据权限控制。
 	 */
 	private static final ThreadLocal<Deque<DataPermissionRule>> DATA_PERMISSION_RULES = ThreadLocal
-			.withInitial(ArrayDeque::new);
+		.withInitial(ArrayDeque::new);
 
 	/**
 	 * 获取当前的 DataPermissionRule 注解

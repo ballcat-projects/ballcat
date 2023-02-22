@@ -39,8 +39,9 @@ class ExcelExportTest {
 	 */
 	@Test
 	void simpleExport() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/export/simple")).andExpect(status().isOk())
-				.andReturn();
+		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/export/simple"))
+			.andExpect(status().isOk())
+			.andReturn();
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray());
 		DefaultAnalysisEventListener readListener = new DefaultAnalysisEventListener();
 		EasyExcel.read(inputStream, DemoData.class, readListener).sheet().doRead();
@@ -63,7 +64,8 @@ class ExcelExportTest {
 	@Test
 	void templateExportIgnoreHeader() throws Exception {
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/export/templateExportIgnoreHeader"))
-				.andExpect(status().isOk()).andReturn();
+			.andExpect(status().isOk())
+			.andReturn();
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray());
 		DefaultAnalysisEventListener readListener = new DefaultAnalysisEventListener();
 		EasyExcel.read(inputStream, DemoData.class, readListener).sheet().doRead();

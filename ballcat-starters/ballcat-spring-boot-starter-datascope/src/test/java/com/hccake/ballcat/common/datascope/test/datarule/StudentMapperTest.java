@@ -63,7 +63,7 @@ class StudentMapperTest {
 	void testExclude() {
 		// 首次查询时排除部分 datascope，但是保留下来的 datascope 不会匹配中当前的 sql
 		DataPermissionRule dataPermissionRule = new DataPermissionRule()
-				.setExcludeResources(new String[] { ClassDataScope.RESOURCE_NAME, SchoolDataScope.RESOURCE_NAME });
+			.setExcludeResources(new String[] { ClassDataScope.RESOURCE_NAME, SchoolDataScope.RESOURCE_NAME });
 		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule,
 				() -> Assertions.assertEquals(10, studentService.listStudent().size()));
 
@@ -96,7 +96,7 @@ class StudentMapperTest {
 		/* 只控制班级的数据权限，实验中学 + 德高中学 一班总共有 5 名学生 */
 		// === 编程式 ===
 		DataPermissionRule dataPermissionRule1 = new DataPermissionRule()
-				.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
+			.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
 		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule1,
 				() -> Assertions.assertEquals(5, studentService.listStudent().size()));
 		// === 注解 ====
@@ -106,7 +106,7 @@ class StudentMapperTest {
 		/* 只控制学校的数据权限，"德高中学"、一班、二班 总共有 6 名学生 */
 		// === 编程式 ===
 		DataPermissionRule dataPermissionRule2 = new DataPermissionRule()
-				.setIncludeResources(new String[] { SchoolDataScope.RESOURCE_NAME });
+			.setIncludeResources(new String[] { SchoolDataScope.RESOURCE_NAME });
 		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule2,
 				() -> Assertions.assertEquals(6, studentService.listStudent().size()));
 		// === 注解 ====
@@ -146,7 +146,7 @@ class StudentMapperTest {
 
 		// 编程式数据权限，
 		DataPermissionRule dataPermissionRule = new DataPermissionRule()
-				.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
+			.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
 		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule, () -> {
 			// 编程式数据权限内部方法，走指定的规则
 			List<Student> studentList2 = studentService.listStudent();
@@ -184,7 +184,7 @@ class StudentMapperTest {
 		});
 
 		DataPermissionRule dataPermissionRule1 = new DataPermissionRule()
-				.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
+			.setIncludeResources(new String[] { ClassDataScope.RESOURCE_NAME });
 		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule1, () -> {
 			List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(null);
 			Assertions.assertFalse(dataScopes.isEmpty());
@@ -193,7 +193,7 @@ class StudentMapperTest {
 		});
 
 		DataPermissionRule dataPermissionRule2 = new DataPermissionRule()
-				.setExcludeResources(new String[] { SchoolDataScope.RESOURCE_NAME, StudentDataScope.RESOURCE_NAME });
+			.setExcludeResources(new String[] { SchoolDataScope.RESOURCE_NAME, StudentDataScope.RESOURCE_NAME });
 		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule2, () -> {
 			List<DataScope> dataScopes = dataPermissionHandler.filterDataScopes(null);
 			Assertions.assertFalse(dataScopes.isEmpty());

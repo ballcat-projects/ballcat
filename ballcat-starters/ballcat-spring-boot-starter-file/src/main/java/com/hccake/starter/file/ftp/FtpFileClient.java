@@ -24,9 +24,11 @@ public class FtpFileClient extends AbstractFileClient {
 	private final Ftp client;
 
 	public FtpFileClient(FtpProperties properties) {
-		FtpConfig config = new FtpConfig().setHost(properties.getIp()).setPort(properties.getPort())
-				.setUser(properties.getUsername()).setPassword(properties.getPassword())
-				.setCharset(Charset.forName(properties.getEncoding()));
+		FtpConfig config = new FtpConfig().setHost(properties.getIp())
+			.setPort(properties.getPort())
+			.setUser(properties.getUsername())
+			.setPassword(properties.getPassword())
+			.setCharset(Charset.forName(properties.getEncoding()));
 
 		final FtpMode mode = properties.getMode();
 		if (mode == FtpMode.ACTIVE) {

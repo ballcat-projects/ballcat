@@ -39,11 +39,14 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		IPage<SysUserPageVO> page = this.prodPage(pageParam);
 		LambdaAliasQueryWrapperX<SysUser> wrapperX = WrappersX.lambdaAliasQueryX(SysUser.class);
 		wrapperX.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
-				.likeIfPresent(SysUser::getUsername, qo.getUsername()).likeIfPresent(SysUser::getEmail, qo.getEmail())
-				.likeIfPresent(SysUser::getPhone, qo.getPhone()).likeIfPresent(SysUser::getNickname, qo.getNickname())
-				.eqIfPresent(SysUser::getStatus, qo.getStatus()).eqIfPresent(SysUser::getSex, qo.getSex())
-				.eqIfPresent(SysUser::getType, qo.getType())
-				.inIfPresent(SysUser::getOrganizationId, qo.getOrganizationId());
+			.likeIfPresent(SysUser::getUsername, qo.getUsername())
+			.likeIfPresent(SysUser::getEmail, qo.getEmail())
+			.likeIfPresent(SysUser::getPhone, qo.getPhone())
+			.likeIfPresent(SysUser::getNickname, qo.getNickname())
+			.eqIfPresent(SysUser::getStatus, qo.getStatus())
+			.eqIfPresent(SysUser::getSex, qo.getSex())
+			.eqIfPresent(SysUser::getType, qo.getType())
+			.inIfPresent(SysUser::getOrganizationId, qo.getOrganizationId());
 		if (StringUtils.isNotBlank(qo.getStartTime()) && StringUtils.isNotBlank(qo.getEndTime())) {
 			wrapperX.between(SysUser::getCreateTime, qo.getStartTime(), qo.getEndTime());
 		}
@@ -139,8 +142,8 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @return boolean 存在返回 true
 	 */
 	default boolean existsForOrganization(Integer organizationId) {
-		LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery(SysUser.class).eq(SysUser::getOrganizationId,
-				organizationId);
+		LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery(SysUser.class)
+			.eq(SysUser::getOrganizationId, organizationId);
 		Long count = this.selectCount(wrapper);
 		return SqlHelper.retBool(count);
 	}

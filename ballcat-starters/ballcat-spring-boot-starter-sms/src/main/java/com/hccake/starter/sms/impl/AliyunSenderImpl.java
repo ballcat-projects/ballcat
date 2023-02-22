@@ -31,12 +31,12 @@ public class AliyunSenderImpl extends BaseServiceImpl implements SmsSender<SmsSe
 	public AliyunSenderImpl(SmsProperties properties, ObjectMapper om) {
 		aliyun = properties.getAliyun();
 		Config config = new Config()
-				// 您的AccessKey ID
-				.setAccessKeyId(aliyun.getAccessKeyId())
-				// 您的AccessKey Secret
-				.setAccessKeySecret(aliyun.getAccessKeySecret())
-				// 访问的域名
-				.setEndpoint(aliyun.getEndpoint());
+			// 您的AccessKey ID
+			.setAccessKeyId(aliyun.getAccessKeyId())
+			// 您的AccessKey Secret
+			.setAccessKeySecret(aliyun.getAccessKeySecret())
+			// 访问的域名
+			.setEndpoint(aliyun.getEndpoint());
 		client = new Client(config);
 		this.om = om;
 	}
@@ -45,8 +45,9 @@ public class AliyunSenderImpl extends BaseServiceImpl implements SmsSender<SmsSe
 	public SmsSenderResult send(SmsSenderParams sp) {
 		try {
 			SendSmsRequest req = new SendSmsRequest().setPhoneNumbers(CollUtil.join(sp.getPhoneNumbers(), ","))
-					.setSignName(aliyun.getSignName()).setTemplateCode(aliyun.getTemplateId())
-					.setTemplateParam(om.writeValueAsString(sp.getAliyunTemplateParam()));
+				.setSignName(aliyun.getSignName())
+				.setTemplateCode(aliyun.getTemplateId())
+				.setTemplateParam(om.writeValueAsString(sp.getAliyunTemplateParam()));
 
 			SendSmsResponse resp = client.sendSms(req);
 			return SmsSenderResult.generateAliyun(om.writeValueAsString(resp), sp.toString(), sp.getPhoneNumbers());

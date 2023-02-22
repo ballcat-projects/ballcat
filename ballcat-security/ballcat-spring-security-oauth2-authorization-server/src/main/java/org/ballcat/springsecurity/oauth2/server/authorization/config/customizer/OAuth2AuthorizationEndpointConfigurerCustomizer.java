@@ -38,15 +38,15 @@ public class OAuth2AuthorizationEndpointConfigurerCustomizer implements OAuth2Au
 		if (properties.isStateless()) {
 			httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 			httpSecurity
-					.securityContext(security -> security.securityContextRepository(oAuth2SecurityContextRepository));
+				.securityContext(security -> security.securityContextRepository(oAuth2SecurityContextRepository));
 		}
 
 		// 设置鉴权失败时的跳转地址
 		String loginPage = properties.getLoginPage();
 		AuthorizationServerSettings authorizationServerSettings = OAuth2ConfigurerUtils
-				.getAuthorizationServerSettings(httpSecurity);
+			.getAuthorizationServerSettings(httpSecurity);
 		ExceptionHandlingConfigurer<?> exceptionHandling = httpSecurity
-				.getConfigurer(ExceptionHandlingConfigurer.class);
+			.getConfigurer(ExceptionHandlingConfigurer.class);
 		if (exceptionHandling != null) {
 			exceptionHandling.defaultAuthenticationEntryPointFor(new OAuth2LoginUrlAuthenticationEntryPoint(loginPage),
 					new AntPathRequestMatcher(authorizationServerSettings.getAuthorizationEndpoint(),
@@ -57,7 +57,7 @@ public class OAuth2AuthorizationEndpointConfigurerCustomizer implements OAuth2Au
 		String consentPage = properties.getConsentPage();
 		if (consentPage != null) {
 			oAuth2AuthorizationServerConfigurer
-					.authorizationEndpoint(configurer -> configurer.consentPage(consentPage));
+				.authorizationEndpoint(configurer -> configurer.consentPage(consentPage));
 		}
 	}
 

@@ -139,8 +139,9 @@ public interface OssTemplate {
 	default CreateBucketResponse createBucket(String bucket, String region) throws BucketAlreadyExistsException,
 			BucketAlreadyOwnedByYouException, AwsServiceException, SdkClientException, S3Exception {
 		return createBucket(CreateBucketRequest.builder()
-				.createBucketConfiguration(CreateBucketConfiguration.builder().locationConstraint(region).build())
-				.bucket(bucket).build());
+			.createBucketConfiguration(CreateBucketConfiguration.builder().locationConstraint(region).build())
+			.bucket(bucket)
+			.build());
 	}
 
 	/**
@@ -394,7 +395,9 @@ public interface OssTemplate {
 	 */
 	default FileUpload uploadFile(String bucket, String key, File file) {
 		return getS3TransferManager().uploadFile(UploadFileRequest.builder()
-				.putObjectRequest(PutObjectRequest.builder().bucket(bucket).key(key).build()).source(file).build());
+			.putObjectRequest(PutObjectRequest.builder().bucket(bucket).key(key).build())
+			.source(file)
+			.build());
 	}
 
 	/**

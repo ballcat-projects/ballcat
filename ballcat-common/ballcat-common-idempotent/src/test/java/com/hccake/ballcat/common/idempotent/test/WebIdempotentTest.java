@@ -39,13 +39,16 @@ class WebIdempotentTest {
 
 	@Test
 	void shouldReturnDefaultMessage() throws Exception {
-		this.mockMvc.perform(get("/").header("formId", "formId1")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("hello word")));
+		this.mockMvc.perform(get("/").header("formId", "formId1"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(content().string(containsString("hello word")));
 
 		Throwable exception = null;
 		try {
-			this.mockMvc.perform(get("/").header("formId", "formId1")).andDo(print())
-					.andExpect(status().is5xxServerError());
+			this.mockMvc.perform(get("/").header("formId", "formId1"))
+				.andDo(print())
+				.andExpect(status().is5xxServerError());
 		}
 		catch (NestedServletException nestedServletException) {
 			Throwable cause = nestedServletException.getCause();
@@ -63,8 +66,10 @@ class WebIdempotentTest {
 		Assertions.assertTrue(tryExecute("bbb"));
 		Assertions.assertFalse(tryExecute("bbb"));
 
-		Awaitility.await().atMost(1100, TimeUnit.MILLISECONDS).pollDelay(1000, TimeUnit.MILLISECONDS)
-				.untilAsserted(() -> assertTrue(tryExecute("bbb")));
+		Awaitility.await()
+			.atMost(1100, TimeUnit.MILLISECONDS)
+			.pollDelay(1000, TimeUnit.MILLISECONDS)
+			.untilAsserted(() -> assertTrue(tryExecute("bbb")));
 	}
 
 	private boolean tryExecute(String key) {

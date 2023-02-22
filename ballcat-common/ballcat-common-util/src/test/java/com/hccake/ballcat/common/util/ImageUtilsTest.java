@@ -16,7 +16,7 @@ class ImageUtilsTest {
 	@Test
 	void resolveClone() {
 		InputStream svg = FileUtils
-				.getInputStreamByUrlPath("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png");
+			.getInputStreamByUrlPath("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png");
 		ImageUtils.ImageInfo info = ImageUtils.resolveClone(svg);
 		Assertions.assertEquals("image/png", info.getType());
 	}
@@ -25,7 +25,7 @@ class ImageUtilsTest {
 	@Test
 	void quickResolveClone() {
 		final InputStream svg = FileUtils
-				.getInputStreamByUrlPath("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png");
+			.getInputStreamByUrlPath("https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png");
 		final ImageUtils.ImageInfo info = ImageUtils.quickResolveClone(svg);
 		Assertions.assertEquals("image/png", info.getType());
 	}

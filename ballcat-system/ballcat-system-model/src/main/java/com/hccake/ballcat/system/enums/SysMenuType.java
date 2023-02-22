@@ -5,6 +5,7 @@ import lombok.Getter;
 
 /**
  * 系统菜单类型
+ *
  * @author cheng
  */
 @Getter

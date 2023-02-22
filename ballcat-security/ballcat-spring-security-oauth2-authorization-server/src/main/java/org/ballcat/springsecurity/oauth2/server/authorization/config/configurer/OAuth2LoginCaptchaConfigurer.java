@@ -30,7 +30,7 @@ public class OAuth2LoginCaptchaConfigurer
 	public void configure(HttpSecurity httpSecurity) {
 		// 获取授权服务器配置
 		AuthorizationServerSettings authorizationServerSettings = httpSecurity
-				.getSharedObject(AuthorizationServerSettings.class);
+			.getSharedObject(AuthorizationServerSettings.class);
 
 		// 只处理登录接口
 		AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(authorizationServerSettings.getTokenEndpoint(),

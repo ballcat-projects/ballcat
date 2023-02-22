@@ -51,9 +51,12 @@ public class AliPayQuery {
 		query.setCode(raw.getCode()).setMsg(raw.getMsg()).setSubCode(raw.getSubCode()).setSubMsg(raw.getSubMsg());
 
 		// 基础数据
-		return query.setTradeNo(raw.getTradeNo()).setSn(raw.getOutTradeNo()).setId(raw.getBuyerLogonId())
-				.setUserId(raw.getBuyerUserId()).setUserName(raw.getBuyerUserName())
-				.setUserType(raw.getBuyerUserType());
+		return query.setTradeNo(raw.getTradeNo())
+			.setSn(raw.getOutTradeNo())
+			.setId(raw.getBuyerLogonId())
+			.setUserId(raw.getBuyerUserId())
+			.setUserName(raw.getBuyerUserName())
+			.setUserType(raw.getBuyerUserType());
 	}
 
 	/**

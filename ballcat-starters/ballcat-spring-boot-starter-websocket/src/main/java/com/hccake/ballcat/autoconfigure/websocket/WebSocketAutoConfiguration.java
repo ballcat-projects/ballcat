@@ -47,8 +47,8 @@ public class WebSocketAutoConfiguration {
 			@Autowired(required = false) SockJsServiceConfigurer sockJsServiceConfigurer) {
 		return registry -> {
 			WebSocketHandlerRegistration registration = registry
-					.addHandler(webSocketHandler, webSocketProperties.getPath())
-					.addInterceptors(handshakeInterceptor.toArray(new HandshakeInterceptor[0]));
+				.addHandler(webSocketHandler, webSocketProperties.getPath())
+				.addInterceptors(handshakeInterceptor.toArray(new HandshakeInterceptor[0]));
 
 			String[] allowedOrigins = webSocketProperties.getAllowedOrigins();
 			if (allowedOrigins != null && allowedOrigins.length > 0) {
