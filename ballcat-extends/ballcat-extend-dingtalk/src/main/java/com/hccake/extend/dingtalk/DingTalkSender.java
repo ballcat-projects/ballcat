@@ -2,15 +2,24 @@ package com.hccake.extend.dingtalk;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.http.HttpRequest;
 import com.hccake.extend.dingtalk.message.DingTalkMessage;
+import com.sun.nio.sctp.IllegalReceiveException;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +34,19 @@ import java.security.NoSuchAlgorithmException;
 @Getter
 @Accessors(chain = true)
 public class DingTalkSender {
+
+	/**
+	 * 默认的请求发起客户端
+	 */
+	private static final OkHttpClient HTTP_CLIENT = new OkHttpClient.Builder().build();
+
+	/**
+	 * 请求content-type
+	 */
+	private static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
+
+	@Setter
+	private OkHttpClient client = HTTP_CLIENT;
 
 	/**
 	 * 请求路径
@@ -89,29 +111,36 @@ public class DingTalkSender {
 	 */
 	@SneakyThrows(UnsupportedEncodingException.class)
 	public String secret(long timestamp) {
-		return url + "&timestamp=" + timestamp + "&sign=" + URLEncoder
-			.encode(Base64.encode(mac.doFinal((timestamp + "\n" + secret).getBytes(StandardCharsets.UTF_8))), "UTF-8");
+		byte[] secretBytes = (timestamp + "\n" + secret).getBytes(StandardCharsets.UTF_8);
+		String secretBase64 = Base64.encode(mac.doFinal(secretBytes));
+		String sign = URLEncoder.encode(secretBase64, "UTF-8");
+		return String.format("%s&timestamp=%s&sign=%s", url, timestamp, sign);
 	}
 
 	/**
 	 * 发起消息请求
-	 * @param message 消息内容
+	 * @param dingTalkMessage 消息内容
 	 * @param isSecret 是否签名 true 签名
 	 * @return java.lang.String
 	 */
-	public DingTalkResponse request(DingTalkMessage message, boolean isSecret) {
-		if (isSecret) {
-			return DingTalkResponse.of(HttpRequest.post(url)
-				// 设置新的请求路径
-				.setUrl(secret(System.currentTimeMillis()))
-				// 请求体
-				.body(message.generate())
-				// 获取返回值
-				.execute()
-				.body());
-		}
-		else {
-			return DingTalkResponse.of(HttpRequest.post(url).body(message.generate()).execute().body());
+	@SneakyThrows(IOException.class)
+	public DingTalkResponse request(DingTalkMessage dingTalkMessage, boolean isSecret) {
+		String message = dingTalkMessage.generate();
+
+		String requestUrl = isSecret ? secret(System.currentTimeMillis()) : getUrl();
+		RequestBody requestBody = RequestBody.create(message, MEDIA_TYPE);
+
+		Request request = new Request.Builder().url(requestUrl).post(requestBody).build();
+
+		Call call = client.newCall(request);
+
+		try (Response response = call.execute()) {
+			ResponseBody responseBody = response.body();
+			if (responseBody == null) {
+				throw new IllegalReceiveException("钉钉发送消息接口返回值为 null!");
+			}
+			String dingTalkResponse = responseBody.string();
+			return DingTalkResponse.of(dingTalkResponse);
 		}
 	}
 
