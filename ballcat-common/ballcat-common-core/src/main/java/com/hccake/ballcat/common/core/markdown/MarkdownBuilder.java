@@ -142,7 +142,7 @@ public class MarkdownBuilder {
 	 */
 	public MarkdownBuilder quote(String content) {
 		lineBreak();
-		this.content.add(QUOTE_PREFIX + content);
+		lineTextBuilder.append(QUOTE_PREFIX).append(content);
 		return this;
 	}
 
