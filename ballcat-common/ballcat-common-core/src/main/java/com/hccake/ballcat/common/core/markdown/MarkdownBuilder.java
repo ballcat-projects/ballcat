@@ -155,6 +155,16 @@ public class MarkdownBuilder {
 	}
 
 	/**
+	 * 添加引用后, 换行, 用于写入下一行引用
+	 */
+	public MarkdownBuilder quoteBreak(String content) {
+		// 当前行引用内容
+		quote(content);
+		// 空引用行
+		return quote("");
+	}
+
+	/**
 	 * 强制换行
 	 */
 	public MarkdownBuilder forceLineBreak() {
