@@ -20,7 +20,7 @@ public class OAuth2AuthorizationServerProperties {
 	/**
 	 * 登陆验证码开关
 	 */
-	private boolean loginCaptchaEnabled = true;
+	private boolean loginCaptchaEnabled = false;
 
 	/**
 	 * 表单登录地址
