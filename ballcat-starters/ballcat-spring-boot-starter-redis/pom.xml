@@ -34,6 +34,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+		<dependency>
+    		<groupId>org.yaml</groupId>
+    		<artifactId>snakeyaml</artifactId>
+    		<version>1.33</version>
+		</dependency>
+
 		<!--spring data redis 依赖 common-pool2-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
