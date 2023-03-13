@@ -125,6 +125,10 @@ public abstract class AbstractQueueThread<E> extends Thread implements ContextCo
 					process(list);
 				}
 			}
+			catch (InterruptedException e) {
+				shutdown(list);
+				Thread.currentThread().interrupt();
+			}
 			catch (Exception e) {
 				error(e, list);
 			}
