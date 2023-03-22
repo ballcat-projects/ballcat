@@ -24,7 +24,7 @@ public class OAuth2AuthorizationServerExtensionConfigurerConfiguration {
 	 */
 	@Bean
 	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "login-captcha-enabled",
-			havingValue = "true", matchIfMissing = true)
+			havingValue = "true")
 	public OAuth2LoginCaptchaConfigurer oAuth2LoginCaptchaConfigurer(CaptchaValidator captchaValidator) {
 		return new OAuth2LoginCaptchaConfigurer(captchaValidator);
 	}
