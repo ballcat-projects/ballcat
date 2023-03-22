@@ -8,9 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.resource.introspection.BadOpaqueTokenException;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
@@ -45,18 +45,28 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 	 */
 	@Override
 	public OAuth2AuthenticatedPrincipal introspect(String accessTokenValue) {
-		OAuth2Authorization oAuth2Authorization = authorizationService.findByToken(accessTokenValue,
-				OAuth2TokenType.ACCESS_TOKEN);
-		if (oAuth2Authorization == null) {
+		OAuth2Authorization authorization = authorizationService.findByToken(accessTokenValue, null);
+		if (authorization == null) {
+			if (log.isTraceEnabled()) {
+				log.trace("Did not authenticate token introspection request since token was not found");
+			}
 			throw new BadOpaqueTokenException("Invalid access token: " + accessTokenValue);
 		}
 
-		AuthorizationGrantType authorizationGrantType = oAuth2Authorization.getAuthorizationGrantType();
-		if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(authorizationGrantType)) {
-			return getClientPrincipal(oAuth2Authorization);
+		OAuth2Authorization.Token<OAuth2Token> authorizedToken = authorization.getToken(accessTokenValue);
+		if (authorizedToken == null || !authorizedToken.isActive()) {
+			if (log.isTraceEnabled()) {
+				log.trace("Did not validate token since it is inactive");
+			}
+			throw new BadOpaqueTokenException("Provided token isn't active");
 		}
 
-		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) oAuth2Authorization
+		AuthorizationGrantType authorizationGrantType = authorization.getAuthorizationGrantType();
+		if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(authorizationGrantType)) {
+			return getClientPrincipal(authorization);
+		}
+
+		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) authorization
 			.getAttributes()
 			.get("java.security.Principal");
 		return (OAuth2AuthenticatedPrincipal) usernamePasswordAuthenticationToken.getPrincipal();
