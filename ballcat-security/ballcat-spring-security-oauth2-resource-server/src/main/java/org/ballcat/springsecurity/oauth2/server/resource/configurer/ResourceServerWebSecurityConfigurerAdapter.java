@@ -3,14 +3,14 @@ package org.ballcat.springsecurity.oauth2.server.resource.configurer;
 import cn.hutool.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,11 +28,9 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 
 	private final BearerTokenResolver bearerTokenResolver;
 
-	@Autowired(required = false)
-	private List<OAuth2ResourceServerConfigurerCustomizer> configurerCustomizers = new ArrayList<>();
+	private final ObjectProvider<List<OAuth2ResourceServerConfigurerCustomizer>> configurerCustomizersProvider;
 
-	@Autowired(required = false)
-	private List<OAuth2ResourceServerExtensionConfigurer<?>> extensionConfigurers = new ArrayList<>();
+	private final ObjectProvider<List<OAuth2ResourceServerExtensionConfigurer<HttpSecurity>>> extensionConfigurersProvider;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -67,12 +65,16 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 		}
 
 		// 自定义处理
+		List<OAuth2ResourceServerConfigurerCustomizer> configurerCustomizers = configurerCustomizersProvider
+			.getIfAvailable(Collections::emptyList);
 		for (OAuth2ResourceServerConfigurerCustomizer configurerCustomizer : configurerCustomizers) {
 			configurerCustomizer.customize(http);
 		}
 
 		// 扩展配置
-		for (OAuth2ResourceServerExtensionConfigurer extensionConfigurer : extensionConfigurers) {
+		List<OAuth2ResourceServerExtensionConfigurer<HttpSecurity>> extensionConfigurers = extensionConfigurersProvider
+			.getIfAvailable(Collections::emptyList);
+		for (OAuth2ResourceServerExtensionConfigurer<HttpSecurity> extensionConfigurer : extensionConfigurers) {
 			http.apply(extensionConfigurer);
 		}
 
