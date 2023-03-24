@@ -16,8 +16,7 @@ import java.util.List;
 /**
  * 字典项
  *
- * @author hccake
- * @date 2020-03-26 18:40:20
+ * @author hccake 2020-03-26 18:40:20
  */
 public interface SysDictItemMapper extends ExtendMapper<SysDictItem> {
 

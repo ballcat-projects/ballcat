@@ -35,7 +35,7 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 		IPage<SysRole> page = this.prodPage(pageParam);
 		LambdaQueryWrapperX<SysRole> wrapper = WrappersX.lambdaQueryX(SysRole.class)
 			.likeIfPresent(SysRole::getName, qo.getName())
-			.like(SysRole::getCode, qo.getCode())
+			.likeIfPresent(SysRole::getCode, qo.getCode())
 			.between(CharSequenceUtil.isNotBlank(qo.getStartTime()) && CharSequenceUtil.isNotBlank(qo.getEndTime()),
 					SysRole::getCreateTime, qo.getStartTime(), qo.getEndTime());
 		this.selectPage(page, wrapper);
