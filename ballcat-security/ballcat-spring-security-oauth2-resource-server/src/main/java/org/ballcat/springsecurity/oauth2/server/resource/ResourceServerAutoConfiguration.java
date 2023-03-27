@@ -2,7 +2,7 @@ package org.ballcat.springsecurity.oauth2.server.resource;
 
 import com.hccake.ballcat.common.security.component.CustomPermissionEvaluator;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.ResourceServerWebSecurityConfigurerAdapter;
-import org.ballcat.springsecurity.oauth2.server.resource.introspection.RemoteOpaqueTokenIntrospector;
+import org.ballcat.springsecurity.oauth2.server.resource.introspection.BallcatRemoteOpaqueTokenIntrospector;
 import org.ballcat.springsecurity.oauth2.server.resource.web.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
@@ -52,7 +52,7 @@ public class ResourceServerAutoConfiguration {
 	public OpaqueTokenIntrospector opaqueTokenIntrospector(
 			OAuth2ResourceServerProperties oAuth2ResourceServerProperties) {
 		OAuth2ResourceServerProperties.Opaquetoken opaqueToken = oAuth2ResourceServerProperties.getOpaqueToken();
-		return new RemoteOpaqueTokenIntrospector(opaqueToken.getIntrospectionUri(), opaqueToken.getClientId(),
+		return new BallcatRemoteOpaqueTokenIntrospector(opaqueToken.getIntrospectionUri(), opaqueToken.getClientId(),
 				opaqueToken.getClientSecret());
 	}
 

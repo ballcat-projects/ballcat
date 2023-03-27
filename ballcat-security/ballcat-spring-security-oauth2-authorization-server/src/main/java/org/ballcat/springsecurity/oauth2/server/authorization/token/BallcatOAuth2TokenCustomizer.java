@@ -4,6 +4,7 @@ import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
 import com.hccake.ballcat.common.security.constant.UserInfoFiledNameConstants;
 import com.hccake.ballcat.common.security.userdetails.User;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsSet;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
@@ -23,6 +24,13 @@ public class BallcatOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAuth
 	public void customize(OAuth2TokenClaimsContext context) {
 		OAuth2TokenClaimsSet.Builder claims = context.getClaims();
 		Authentication authentication = context.getPrincipal();
+
+		// client token
+		if (authentication instanceof OAuth2ClientAuthenticationToken) {
+			claims.claim(TokenAttributeNameConstants.IS_CLIENT, true);
+			return;
+		}
+
 		Object principal = authentication.getPrincipal();
 		if (principal instanceof User) {
 			User user = (User) principal;
@@ -30,6 +38,7 @@ public class BallcatOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAuth
 			claims.claim(TokenAttributeNameConstants.ATTRIBUTES, attributes);
 			HashMap<String, Object> userInfoMap = getUserInfoMap(user);
 			claims.claim(TokenAttributeNameConstants.INFO, userInfoMap);
+			claims.claim(TokenAttributeNameConstants.IS_CLIENT, false);
 		}
 	}
 

@@ -18,4 +18,9 @@ public final class TokenAttributeNameConstants {
 	 */
 	public static final String ATTRIBUTES = "attributes";
 
+	/**
+	 * 是否是客户端
+	 */
+	public static final String IS_CLIENT = "is_client";
+
 }
