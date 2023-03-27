@@ -10,6 +10,7 @@ import org.ballcat.springsecurity.oauth2.server.authorization.config.OAuth2Autho
 import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerExtensionConfigurer;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
+import org.ballcat.springsecurity.oauth2.server.authorization.token.BallcatOAuth2TokenCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationResponseHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -31,6 +32,8 @@ import org.springframework.security.oauth2.server.authorization.client.JdbcRegis
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 
 import java.util.List;
 
@@ -142,6 +145,15 @@ public class OAuth2AuthorizationServerAutoConfiguration {
 	@ConditionalOnMissingBean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordUtils.createDelegatingPasswordEncoder();
+	}
+
+	/**
+	 * 对于使用不透明令牌的 client，需要存储对应的用户信息，以便在后续的请求中获取用户信息
+	 */
+	@Bean
+	@ConditionalOnMissingBean(OAuth2TokenCustomizer.class)
+	public OAuth2TokenCustomizer<OAuth2TokenClaimsContext> oAuth2TokenCustomizer() {
+		return new BallcatOAuth2TokenCustomizer();
 	}
 
 }
