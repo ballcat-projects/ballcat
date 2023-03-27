@@ -60,6 +60,14 @@ public class BallcatRemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospe
 
 	private Converter<String, RequestEntity<?>> requestEntityConverter;
 
+	private static final List<String> INTROSPECTION_CLAIM_NAMES = Arrays.asList(
+			OAuth2TokenIntrospectionClaimNames.ACTIVE, OAuth2TokenIntrospectionClaimNames.USERNAME,
+			OAuth2TokenIntrospectionClaimNames.CLIENT_ID, OAuth2TokenIntrospectionClaimNames.SCOPE,
+			OAuth2TokenIntrospectionClaimNames.TOKEN_TYPE, OAuth2TokenIntrospectionClaimNames.EXP,
+			OAuth2TokenIntrospectionClaimNames.IAT, OAuth2TokenIntrospectionClaimNames.NBF,
+			OAuth2TokenIntrospectionClaimNames.SUB, OAuth2TokenIntrospectionClaimNames.AUD,
+			OAuth2TokenIntrospectionClaimNames.ISS, OAuth2TokenIntrospectionClaimNames.JTI);
+
 	/**
 	 * Creates a {@code OpaqueTokenAuthenticationProvider} with the provided parameters
 	 * @param introspectionUri The introspection endpoint uri
@@ -298,7 +306,12 @@ public class BallcatRemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospe
 			}
 		}
 
-		return builder.attributes(claims).build();
+		// 从 claims 中提取 oauth2 中的必须属性
+		for (String claimName : INTROSPECTION_CLAIM_NAMES) {
+			attributesMap.put(claimName, claims.get(claimName));
+		}
+
+		return builder.attributes(attributesMap).build();
 	}
 
 }
