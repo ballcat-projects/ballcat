@@ -1,14 +1,12 @@
 package com.hccake.ballcat.admin.upms;
 
 import com.hccake.ballcat.admin.upms.log.LogConfiguration;
-import com.hccake.ballcat.auth.annotation.EnableOauth2AuthorizationServer;
 import com.hccake.ballcat.system.authentication.*;
 import com.hccake.ballcat.system.properties.SystemProperties;
 import com.hccake.ballcat.system.service.SysUserService;
 import org.ballcat.security.properties.SecurityProperties;
-import org.ballcat.springsecurity.oauth2.server.resource.introspection.SpringOAuth2SharedStoredOpaqueTokenIntrospector;
-import org.ballcat.springsecurity.oauth2.server.resource.annotation.EnableOauth2ResourceServer;
 import org.ballcat.springsecurity.oauth2.server.resource.introspection.SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector;
+import org.ballcat.springsecurity.oauth2.server.resource.introspection.SpringOAuth2SharedStoredOpaqueTokenIntrospector;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -28,9 +26,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/5/25 21:01
+ * @author Hccake 2020/5/25 21:01
  */
 @EnableAsync
 @AutoConfiguration
@@ -39,8 +35,6 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 		"com.hccake.ballcat.log", "com.hccake.ballcat.file", "com.hccake.ballcat.notify" })
 @EnableConfigurationProperties({ SystemProperties.class, SecurityProperties.class })
 @Import(LogConfiguration.class)
-@EnableOauth2AuthorizationServer
-@EnableOauth2ResourceServer
 public class UpmsAutoConfiguration {
 
 	/**
