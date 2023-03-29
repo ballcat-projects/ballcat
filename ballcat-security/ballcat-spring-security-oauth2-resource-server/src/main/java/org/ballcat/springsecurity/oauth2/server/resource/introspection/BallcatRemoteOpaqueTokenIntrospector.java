@@ -290,7 +290,7 @@ public class BallcatRemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospe
 
 		Map<String, Object> attributesMap = (Map<String, Object>) claims
 			.getOrDefault(TokenAttributeNameConstants.ATTRIBUTES, new HashMap<>(0));
-		if (CollectionUtils.isEmpty(attributesMap)) {
+		if (!CollectionUtils.isEmpty(attributesMap)) {
 			claims.putAll(attributesMap);
 			// 暂时做下兼容，SAS 不返回 authorities 信息了
 			if (CollUtil.isEmpty(authorities)) {
