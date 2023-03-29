@@ -1,7 +1,7 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.annotation;
 
 import org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure.OAuth2AuthorizationServerAutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 
 import java.lang.annotation.*;
 
@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import(OAuth2AuthorizationServerAutoConfiguration.class)
+@ImportAutoConfiguration(OAuth2AuthorizationServerAutoConfiguration.class)
 public @interface EnableOauth2AuthorizationServer {
 
 }
