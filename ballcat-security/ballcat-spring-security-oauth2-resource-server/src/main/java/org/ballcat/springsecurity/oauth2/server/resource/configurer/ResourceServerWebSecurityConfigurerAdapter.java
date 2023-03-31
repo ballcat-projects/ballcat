@@ -54,9 +54,7 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 			// bearToken 解析器
 			.bearerTokenResolver(bearerTokenResolver)
 			// 不透明令牌，
-			.opaqueToken()
-			// 鉴权管理器
-			.authenticationManager(authenticationManagerBean());
+			.opaqueToken();
 		// @formatter:on
 
 		// 允许嵌入iframe
