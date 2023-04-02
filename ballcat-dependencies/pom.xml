@@ -47,7 +47,7 @@
 		<spring-authorization-server.version>0.4.1</spring-authorization-server.version>
 		<spring-boot.version>2.7.10</spring-boot.version>
 		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
-		<springdoc-openapi.verison>1.6.15</springdoc-openapi.verison>
+		<springdoc-openapi.verison>1.7.0</springdoc-openapi.verison>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.6.8</swagger.version>
 		<virtual-currency.version>0.4.2</virtual-currency.version>
