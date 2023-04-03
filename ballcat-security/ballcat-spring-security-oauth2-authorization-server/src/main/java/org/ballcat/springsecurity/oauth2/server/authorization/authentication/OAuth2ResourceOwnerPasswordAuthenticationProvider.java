@@ -59,6 +59,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 	public OAuth2ResourceOwnerPasswordAuthenticationProvider(AuthenticationManager authenticationManager,
 			OAuth2AuthorizationService authorizationService,
 			OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
+		Assert.notNull(authenticationManager, "authenticationManager cannot be null");
 		Assert.notNull(authorizationService, "authorizationService cannot be null");
 		Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
 		this.authenticationManager = authenticationManager;
@@ -180,9 +181,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 	}
 
 	private Authentication getUsernamePasswordAuthentication(
-			OAuth2ResourceOwnerPasswordAuthenticationToken resouceOwnerPasswordAuthentication) {
+			OAuth2ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthentication) {
 
-		Map<String, Object> additionalParameters = resouceOwnerPasswordAuthentication.getAdditionalParameters();
+		Map<String, Object> additionalParameters = resourceOwnerPasswordAuthentication.getAdditionalParameters();
 
 		String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
 		String password = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
