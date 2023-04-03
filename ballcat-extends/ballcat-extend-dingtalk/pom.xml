@@ -20,4 +20,25 @@
 			<artifactId>okhttp</artifactId>
 		</dependency>
 	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<id>ci</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven-surefire-plugin.version}</version>
+						<configuration>
+							<systemPropertyVariables>
+								<test.dingtalk.enabled>true</test.dingtalk.enabled>
+							</systemPropertyVariables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
