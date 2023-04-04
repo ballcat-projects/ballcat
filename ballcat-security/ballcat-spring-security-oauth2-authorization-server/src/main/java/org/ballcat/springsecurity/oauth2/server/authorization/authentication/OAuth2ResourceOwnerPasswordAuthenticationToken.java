@@ -1,14 +1,14 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationGrantAuthenticationToken;
+import org.springframework.util.Assert;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An {@link Authentication} implementation used for the OAuth 2.0 Resource Owner Password
@@ -19,6 +19,8 @@ import java.util.Set;
  * @see OAuth2AuthorizationGrantAuthenticationToken
  * @see OAuth2ResourceOwnerPasswordAuthenticationProvider
  */
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class OAuth2ResourceOwnerPasswordAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
 
 	private final String username;
@@ -33,6 +35,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationToken extends OAuth2Author
 	public OAuth2ResourceOwnerPasswordAuthenticationToken(String username, Authentication clientPrincipal,
 			@Nullable Set<String> scopes, @Nullable Map<String, Object> additionalParameters) {
 		super(AuthorizationGrantType.PASSWORD, clientPrincipal, additionalParameters);
+		Assert.hasText(username, "username cannot be empty");
 		this.username = username;
 		this.scopes = Collections.unmodifiableSet(scopes != null ? new HashSet<>(scopes) : Collections.emptySet());
 	}

@@ -15,6 +15,7 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -24,7 +25,6 @@ import org.springframework.security.oauth2.core.OAuth2Token;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2TokenRevocationAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.util.Assert;
 
@@ -36,11 +36,12 @@ import static org.ballcat.springsecurity.oauth2.server.authorization.authenticat
  * @author Vivek Babu
  * @author Joe Grandja
  * @since 0.0.3
- * @see OAuth2TokenRevocationResultAuthenticationToken
+ * @see OAuth2TokenRevocationAuthenticationToken
  * @see OAuth2AuthorizationService
  * @see <a target="_blank" href="https://tools.ietf.org/html/rfc7009#section-2.1">Section
  * 2.1 Revocation Request</a>
  */
+@Slf4j
 public final class OAuth2TokenRevocationAuthenticationProvider implements AuthenticationProvider {
 
 	private final OAuth2AuthorizationService authorizationService;
@@ -66,6 +67,9 @@ public final class OAuth2TokenRevocationAuthenticationProvider implements Authen
 		OAuth2Authorization authorization = this.authorizationService
 			.findByToken(tokenRevocationAuthentication.getToken(), null);
 		if (authorization == null) {
+			if (log.isTraceEnabled()) {
+				log.trace("Did not authenticate token revocation request since token was not found");
+			}
 			// Return the authentication request when token not found
 			return tokenRevocationAuthentication;
 		}
@@ -78,8 +82,14 @@ public final class OAuth2TokenRevocationAuthenticationProvider implements Authen
 		authorization = OAuth2AuthenticationProviderUtils.invalidate(authorization, token.getToken());
 		this.authorizationService.save(authorization);
 
+		if (log.isTraceEnabled()) {
+			log.trace("Saved authorization with revoked token");
+			// This log is kept separate for consistency with other providers
+			log.trace("Authenticated token revocation request");
+		}
+
 		// 返回自定义的 token，携带上注销的 token 对应的 authorization
-		return new OAuth2TokenRevocationResultAuthenticationToken(authorization, token.getToken(), clientPrincipal);
+		return new OAuth2TokenRevocationAuthenticationToken(authorization, token.getToken(), clientPrincipal);
 	}
 
 	@Override

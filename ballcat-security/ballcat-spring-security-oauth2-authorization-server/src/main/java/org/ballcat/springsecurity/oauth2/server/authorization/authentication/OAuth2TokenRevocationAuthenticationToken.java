@@ -15,6 +15,8 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,7 +38,9 @@ import java.util.Collections;
  * @see AbstractAuthenticationToken
  * @see OAuth2TokenRevocationAuthenticationProvider
  */
-public class OAuth2TokenRevocationResultAuthenticationToken extends AbstractAuthenticationToken {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class OAuth2TokenRevocationAuthenticationToken extends AbstractAuthenticationToken {
 
 	private static final long serialVersionUID = SpringAuthorizationServerVersion.SERIAL_VERSION_UID;
 
@@ -55,7 +59,7 @@ public class OAuth2TokenRevocationResultAuthenticationToken extends AbstractAuth
 	 * @param clientPrincipal the authenticated client principal
 	 * @param tokenTypeHint the token type hint
 	 */
-	public OAuth2TokenRevocationResultAuthenticationToken(String token, Authentication clientPrincipal,
+	public OAuth2TokenRevocationAuthenticationToken(String token, Authentication clientPrincipal,
 			@Nullable String tokenTypeHint) {
 		super(Collections.emptyList());
 		Assert.hasText(token, "token cannot be empty");
@@ -72,7 +76,7 @@ public class OAuth2TokenRevocationResultAuthenticationToken extends AbstractAuth
 	 * @param revokedToken the revoked token
 	 * @param clientPrincipal the authenticated client principal
 	 */
-	public OAuth2TokenRevocationResultAuthenticationToken(OAuth2Authorization authorization, OAuth2Token revokedToken,
+	public OAuth2TokenRevocationAuthenticationToken(OAuth2Authorization authorization, OAuth2Token revokedToken,
 			Authentication clientPrincipal) {
 		super(Collections.emptyList());
 		Assert.notNull(authorization, "authorization cannot be null");

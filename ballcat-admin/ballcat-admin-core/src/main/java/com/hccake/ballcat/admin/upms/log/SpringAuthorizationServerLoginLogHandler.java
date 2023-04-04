@@ -7,7 +7,7 @@ import com.hccake.ballcat.log.enums.LoginEventTypeEnum;
 import com.hccake.ballcat.log.model.entity.LoginLog;
 import com.hccake.ballcat.log.service.LoginLogService;
 import lombok.RequiredArgsConstructor;
-import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2TokenRevocationResultAuthenticationToken;
+import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2TokenRevocationAuthenticationToken;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.ProviderNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -111,9 +111,8 @@ public class SpringAuthorizationServerLoginLogHandler implements LoginLogHandler
 		boolean isOauth2Login = request.getRequestURI().equals(tokenRevocationEndpoint);
 
 		// Oauth2撤销令牌 和表单登出 处理分开
-		if (isOauth2Login && source instanceof OAuth2TokenRevocationResultAuthenticationToken) {
-			OAuth2Authorization authorization = ((OAuth2TokenRevocationResultAuthenticationToken) source)
-				.getAuthorization();
+		if (isOauth2Login && source instanceof OAuth2TokenRevocationAuthenticationToken) {
+			OAuth2Authorization authorization = ((OAuth2TokenRevocationAuthenticationToken) source).getAuthorization();
 			username = authorization.getPrincipalName();
 		}
 		else if (!isOauth2Login && source instanceof UsernamePasswordAuthenticationToken) {
