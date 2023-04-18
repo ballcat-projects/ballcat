@@ -1,8 +1,6 @@
 package com.hccake.ballcat.auth.controller;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.text.StrPool;
-import cn.hutool.core.util.StrUtil;
 import com.hccake.ballcat.common.model.result.R;
 import com.hccake.ballcat.common.model.result.SystemResultCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
