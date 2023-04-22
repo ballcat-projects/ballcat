@@ -12,11 +12,32 @@ import java.nio.charset.Charset;
 public class SystemUtils {
 
 	/**
-	 * 当前系统是否为Windows系统
+	 * 当前系统是否为Windows系统, 参考以下系统API
+	 * @see sun.awt.OSInfo#getOSType()
 	 * @return boolean
 	 */
 	public static boolean isWindows() {
-		return System.getProperty("os.name").contains("Windows");
+		return osName().contains("Windows");
+	}
+
+	public static boolean isLinux() {
+		return osName().contains("Linux");
+	}
+
+	public static boolean isMacX() {
+		return osName().contains("OS X");
+	}
+
+	public static boolean isMac() {
+		return osName().contains("Mac OS");
+	}
+
+	public static boolean isAix() {
+		return osName().contains("AIX");
+	}
+
+	public static String osName() {
+		return System.getProperty("os.name");
 	}
 
 	/**
@@ -34,8 +55,37 @@ public class SystemUtils {
 		return File.separator;
 	}
 
+	/**
+	 * @see SystemUtils#tmpDir()
+	 * @deprecated 更换了方法名
+	 */
+	@Deprecated
 	public static File tempDir() {
+		return tmpDir();
+	}
+
+	public static File tmpDir() {
 		return new File(System.getProperty("java.io.tmpdir"));
+	}
+
+	public static File tmpDirBallcat() {
+		return new File(System.getProperty("java.io.tmpdir"), "ballcat");
+	}
+
+	public static File homeDir() {
+		return new File(System.getProperty("user.home"));
+	}
+
+	public static File homeDirBallcat() {
+		return new File(System.getProperty("user.home"), ".ballcat");
+	}
+
+	public static File workDir() {
+		return new File(System.getProperty("user.dir"));
+	}
+
+	public static String username() {
+		return System.getProperty("user.name");
 	}
 
 }

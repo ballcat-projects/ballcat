@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -22,30 +23,16 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtils {
 
-	private static final File SYSTEM_TEMP_DIR = SystemUtils.tempDir();
-
 	/**
 	 * 系统的临时文件夹
 	 */
-	private static File tempDir;
-
-	static {
-		updateTmpDir("ballcat");
-	}
-
-	/**
-	 * use {@link SystemUtils#tempDir()}
-	 */
-	@Deprecated
-	public static File getSystemTempDir() {
-		return new File(System.getProperty("java.io.tmpdir"));
-	}
+	private static File tempDir = SystemUtils.tmpDirBallcat();
 
 	/**
 	 * 更新临时文件路径
 	 */
 	public static void updateTmpDir(String dirName) {
-		tempDir = new File(SYSTEM_TEMP_DIR, dirName);
+		tempDir = new File(SystemUtils.tmpDir(), dirName);
 	}
 
 	/**
@@ -119,6 +106,83 @@ public class FileUtils {
 	}
 
 	/**
+	 * 创建指定文件夹, 已存在时不会重新创建
+	 * @param dir 文件夹.
+	 * @throws IOException 创建失败时抛出
+	 */
+	public static void createDir(File dir) throws IOException {
+		if (dir.exists()) {
+			return;
+		}
+
+		if (!dir.mkdirs()) {
+			throw new IOException("文件夹创建失败! 文件夹路径: " + dir.getAbsolutePath());
+		}
+	}
+
+	/**
+	 * 创建指定文件, 已存在时不会重新创建
+	 * @param file 文件.
+	 * @throws IOException 创建失败时抛出
+	 */
+	public static void createFile(File file) throws IOException {
+		if (file.exists()) {
+			return;
+		}
+
+		if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
+			throw new IOException("父文件创建失败! 文件路径: " + file.getAbsolutePath());
+		}
+
+		if (!file.createNewFile()) {
+			throw new IOException("文件创建失败! 文件路径: " + file.getAbsolutePath());
+		}
+	}
+
+	/**
+	 * 创建临时文件
+	 */
+	public static File createTemp() throws IOException {
+		return createTemp("ballcat");
+	}
+
+	/**
+	 * 创建临时文件
+	 * @param trait 文件特征
+	 * @return 临时文件对象
+	 */
+	public static File createTemp(String trait) throws IOException {
+		return createTemp(trait, tempDir);
+	}
+
+	/**
+	 * 创建临时文件
+	 * @param trait 文件特征
+	 * @param dir 文件存放位置
+	 * @return 临时文件对象
+	 */
+	public static File createTemp(String trait, File dir) throws IOException {
+		try {
+			createDir(dir);
+		}
+		catch (IOException e) {
+			throw new IOException("临时文件夹创建失败! 文件夹地址: " + dir.getAbsolutePath(), e);
+		}
+
+		return File.createTempFile(trait, "tmp", dir);
+	}
+
+	public static File createTemp(InputStream in) throws IOException {
+		File file = createTemp();
+
+		try (FileOutputStream out = new FileOutputStream(file)) {
+			StreamUtils.write(in, out);
+		}
+
+		return file;
+	}
+
+	/**
 	 * 复制文件
 	 * @param source 源文件
 	 * @param target 目标文件
@@ -137,6 +201,16 @@ public class FileUtils {
 		}
 
 		return Files.copy(source.toPath(), target.toPath(), list.toArray(new CopyOption[0]));
+	}
+
+	public static boolean delete(File file) {
+		try {
+			Files.delete(file.toPath());
+			return true;
+		}
+		catch (IOException e) {
+			return false;
+		}
 	}
 
 }
