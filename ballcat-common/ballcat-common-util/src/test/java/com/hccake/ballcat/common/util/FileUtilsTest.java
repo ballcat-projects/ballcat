@@ -1,9 +1,10 @@
 package com.hccake.ballcat.common.util;
 
-import java.io.File;
-import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author lingting
@@ -12,7 +13,7 @@ class FileUtilsTest {
 
 	@Test
 	void getTemplate() throws IOException {
-		final File file = FileUtils.getTemplateFile("jjk");
+		final File file = FileUtils.createTemp("jjk");
 		Assertions.assertNotNull(file);
 	}
 
