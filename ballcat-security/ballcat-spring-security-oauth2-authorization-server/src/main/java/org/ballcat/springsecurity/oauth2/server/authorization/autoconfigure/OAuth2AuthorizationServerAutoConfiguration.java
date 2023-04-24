@@ -6,12 +6,14 @@ import com.hccake.ballcat.common.security.jackson2.UserMixin;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
+import org.ballcat.springsecurity.oauth2.server.authorization.OAuth2AuthorizationObjectMapperCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.OAuth2AuthorizationServerConfigurerAdapter;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerExtensionConfigurer;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.token.BallcatOAuth2TokenCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationResponseHandler;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationEventPublisher;
@@ -81,7 +83,8 @@ public class OAuth2AuthorizationServerAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
-			RegisteredClientRepository registeredClientRepository) {
+			RegisteredClientRepository registeredClientRepository,
+			ObjectProvider<OAuth2AuthorizationObjectMapperCustomizer> objectMapperCustomizerObjectProvider) {
 		JdbcOAuth2AuthorizationService oAuth2AuthorizationService = new JdbcOAuth2AuthorizationService(jdbcTemplate,
 				registeredClientRepository);
 
@@ -99,6 +102,10 @@ public class OAuth2AuthorizationServerAutoConfiguration {
 
 		// You will need to write the Mixin for your class so Jackson can marshall it.
 		objectMapper.addMixIn(User.class, UserMixin.class);
+
+		// 定制 objectMapper
+		objectMapperCustomizerObjectProvider.ifAvailable(customizer -> customizer.customize(objectMapper));
+
 		rowMapper.setObjectMapper(objectMapper);
 
 		oAuth2AuthorizationService.setAuthorizationRowMapper(rowMapper);
