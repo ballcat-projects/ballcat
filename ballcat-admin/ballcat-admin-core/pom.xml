@@ -53,12 +53,6 @@
 			<groupId>com.hccake</groupId>
 			<artifactId>ballcat-spring-boot-starter-xss</artifactId>
 		</dependency>
-		<!-- 已废弃，基于 spring oauth2 的授权服务器 -->
-		<dependency>
-			<groupId>com.hccake</groupId>
-			<artifactId>ballcat-auth-controller</artifactId>
-			<scope>provided</scope>
-		</dependency>
 		<!-- 基于 spring authorization server 的授权服务器 -->
 		<dependency>
 			<groupId>com.hccake</groupId>

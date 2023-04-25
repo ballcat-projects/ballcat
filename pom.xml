@@ -17,7 +17,6 @@
 
 	<modules>
 		<module>ballcat-admin</module>
-		<module>ballcat-auth</module>
 		<module>ballcat-common</module>
 		<module>ballcat-dependencies</module>
 		<module>ballcat-extends</module>
