@@ -1,6 +1,6 @@
 package org.ballcat.springsecurity.oauth2.server.resource.annotation;
 
-import org.ballcat.springsecurity.oauth2.server.resource.ResourceServerAutoConfiguration;
+import org.ballcat.springsecurity.oauth2.server.resource.OAuth2ResourceServerAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 
 import java.lang.annotation.*;
@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@ImportAutoConfiguration(ResourceServerAutoConfiguration.class)
+@ImportAutoConfiguration(OAuth2ResourceServerAutoConfiguration.class)
 public @interface EnableOauth2ResourceServer {
 
 }
