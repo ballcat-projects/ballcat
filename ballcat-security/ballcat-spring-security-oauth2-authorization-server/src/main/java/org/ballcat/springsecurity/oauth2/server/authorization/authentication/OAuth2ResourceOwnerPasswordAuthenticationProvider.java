@@ -1,22 +1,16 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClaimAccessor;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
-import org.springframework.security.oauth2.core.OAuth2RefreshToken;
-import org.springframework.security.oauth2.core.OAuth2Token;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -32,7 +26,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient;
@@ -45,29 +42,35 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 	private static final String ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
 
-	private final AuthenticationManager authenticationManager;
-
 	private final OAuth2AuthorizationService authorizationService;
 
 	private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
 
+	private final DaoAuthenticationProvider daoAuthenticationProvider;
+
 	/**
 	 * Constructs an {@code OAuth2ResourceOwnerPasswordAuthenticationProviderNew} using
 	 * the provided parameters.
-	 * @param authenticationManager the authentication manager
+	 * @param userDetailsService the userDetails service
 	 * @param authorizationService the authorization service
 	 * @param tokenGenerator the token generator
 	 * @since 1.0.0
 	 */
-	public OAuth2ResourceOwnerPasswordAuthenticationProvider(AuthenticationManager authenticationManager,
-			OAuth2AuthorizationService authorizationService,
-			OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
-		Assert.notNull(authenticationManager, "authenticationManager cannot be null");
+	public OAuth2ResourceOwnerPasswordAuthenticationProvider(OAuth2AuthorizationService authorizationService,
+			OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator, UserDetailsService userDetailsService) {
 		Assert.notNull(authorizationService, "authorizationService cannot be null");
 		Assert.notNull(tokenGenerator, "tokenGenerator cannot be null");
-		this.authenticationManager = authenticationManager;
+		Assert.notNull(userDetailsService, "userDetailsService cannot be null");
 		this.authorizationService = authorizationService;
 		this.tokenGenerator = tokenGenerator;
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(userDetailsService);
+		this.daoAuthenticationProvider = provider;
+	}
+
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		Assert.notNull(passwordEncoder, "passwordEncoder cannot be null");
+		this.daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
 	}
 
 	@Override
@@ -195,7 +198,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 				username, password);
 		log.debug("got usernamePasswordAuthenticationToken={}", usernamePasswordAuthenticationToken);
 
-		return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+		return daoAuthenticationProvider.authenticate(usernamePasswordAuthenticationToken);
 	}
 
 }
