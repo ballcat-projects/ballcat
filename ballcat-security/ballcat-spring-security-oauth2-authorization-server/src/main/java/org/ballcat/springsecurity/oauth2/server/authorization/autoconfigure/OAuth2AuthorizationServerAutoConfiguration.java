@@ -45,7 +45,7 @@ import java.util.List;
  *
  * @author Hccake
  */
-@Import({ AuthenticationManagerConfiguration.class, OAuth2AuthorizationServerConfigurerCustomizerConfiguration.class,
+@Import({ OAuth2AuthorizationServerConfigurerCustomizerConfiguration.class,
 		OAuth2AuthorizationServerExtensionConfigurerConfiguration.class })
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
