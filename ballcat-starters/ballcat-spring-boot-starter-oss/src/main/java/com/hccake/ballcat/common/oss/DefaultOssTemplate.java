@@ -263,8 +263,10 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 		this.s3Client = S3Client.builder()
 			.credentialsProvider(awsCredentialsProvider)
 			.region(Region.of(ossProperties.getRegion()))
-			.serviceConfiguration(
-					S3Configuration.builder().pathStyleAccessEnabled(ossProperties.getPathStyleAccess()).build())
+			.serviceConfiguration(S3Configuration.builder()
+				.pathStyleAccessEnabled(ossProperties.getPathStyleAccess())
+				.chunkedEncodingEnabled(ossProperties.getChunkedEncoding())
+				.build())
 			.endpointOverride(URI.create(ossProperties.getEndpoint()))
 			.build();
 

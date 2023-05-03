@@ -138,4 +138,9 @@ public class OssProperties {
 	 */
 	private Boolean pathStyleAccess = true;
 
+	/**
+	 * 是否将数据进行分块传输 aliyun 不支持分块传输
+	 */
+	private Boolean chunkedEncoding = true;
+
 }
