@@ -263,11 +263,12 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 		this.s3Client = S3Client.builder()
 			.credentialsProvider(awsCredentialsProvider)
 			.region(Region.of(ossProperties.getRegion()))
-			.serviceConfiguration(
-					S3Configuration.builder().pathStyleAccessEnabled(ossProperties.getPathStyleAccess())
-							.chunkedEncodingEnabled(ossProperties.getChunkedEncoding()).build())
+			.serviceConfiguration(S3Configuration.builder()
+				.pathStyleAccessEnabled(ossProperties.getPathStyleAccess())
+				.chunkedEncodingEnabled(ossProperties.getChunkedEncoding())
+				.build())
 			.endpointOverride(URI.create(ossProperties.getEndpoint()))
-				.build();
+			.build();
 
 		// 构建预签名工具
 		this.s3Presigner = S3Presigner.builder()
