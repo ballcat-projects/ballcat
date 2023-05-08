@@ -11,9 +11,9 @@ import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 
@@ -44,13 +44,13 @@ public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 
 	/**
 	 * 添加 resource owner password 模式支持配置定制器
-	 * @param authenticationManager 授权管理器
+	 * @param applicationContext spring 容器
 	 * @return OAuth2ResourceOwnerPasswordConfigurerCustomizer
 	 */
 	@Bean
 	public OAuth2ResourceOwnerPasswordConfigurerCustomizer oAuth2ResourceOwnerPasswordConfigurerCustomizer(
-			AuthenticationManager authenticationManager) {
-		return new OAuth2ResourceOwnerPasswordConfigurerCustomizer(authenticationManager, oAuth2AuthorizationService);
+			ApplicationContext applicationContext) {
+		return new OAuth2ResourceOwnerPasswordConfigurerCustomizer(applicationContext);
 	}
 
 	/**

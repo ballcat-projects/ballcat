@@ -11,7 +11,7 @@
 	<description>Ballcat Dependencies</description>
 
 	<properties>
-		<revision>1.1.0</revision>
+		<revision>1.2.0-SNAPSHOT</revision>
 
 		<!-- 插件版本 -->
 		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
@@ -46,7 +46,6 @@
 		<software.amazon.awssdk.version>2.18.20</software.amazon.awssdk.version>
 		<spring-authorization-server.version>0.4.2</spring-authorization-server.version>
 		<spring-boot.version>2.7.11</spring-boot.version>
-		<spring-security-oauth2.version>2.5.2.RELEASE</spring-security-oauth2.version>
 		<springdoc-openapi.verison>1.7.0</springdoc-openapi.verison>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.6.8</swagger.version>
@@ -260,11 +259,6 @@
 				<artifactId>lombok</artifactId>
 				<version>${lombok.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.springframework.security.oauth</groupId>
-				<artifactId>spring-security-oauth2</artifactId>
-				<version>${spring-security-oauth2.version}</version>
-			</dependency>
 			<!-- sas 授权服务器 -->
 			<dependency>
 				<groupId>org.springframework.security</groupId>
@@ -292,17 +286,6 @@
 			<dependency>
 				<groupId>com.hccake</groupId>
 				<artifactId>ballcat-admin-websocket</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-auth-biz</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- auth 授权模块 -->
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-auth-controller</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>

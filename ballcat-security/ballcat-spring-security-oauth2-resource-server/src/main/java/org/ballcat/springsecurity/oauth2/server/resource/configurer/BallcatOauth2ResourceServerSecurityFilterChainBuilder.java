@@ -4,11 +4,10 @@ import cn.hutool.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,9 +17,9 @@ import java.util.List;
  *
  * @author hccake
  */
-@Configuration
 @RequiredArgsConstructor
-public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+public class BallcatOauth2ResourceServerSecurityFilterChainBuilder
+		implements Oauth2ResourceServerSecurityFilterChainBuilder {
 
 	private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
 
@@ -33,18 +32,14 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 	private final ObjectProvider<List<OAuth2ResourceServerExtensionConfigurer<HttpSecurity>>> extensionConfigurersProvider;
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	public SecurityFilterChain build(HttpSecurity http) throws Exception {
 		// @formatter:off
-        http
-			// 记住我
-			.rememberMe()
-
+		http
 			// 拦截 url 配置
-			.and()
-				.authorizeRequests()
-				.antMatchers(ArrayUtil.toArray(oAuth2ResourceServerProperties.getIgnoreUrls(), String.class))
-				.permitAll()
-				.anyRequest().authenticated()
+			.authorizeRequests()
+			.antMatchers(ArrayUtil.toArray(oAuth2ResourceServerProperties.getIgnoreUrls(), String.class))
+			.permitAll()
+			.anyRequest().authenticated()
 
 			// 关闭 csrf 跨站攻击防护
 			.and().csrf().disable()
@@ -76,6 +71,7 @@ public class ResourceServerWebSecurityConfigurerAdapter extends WebSecurityConfi
 			http.apply(extensionConfigurer);
 		}
 
+		return http.build();
 	}
 
 }

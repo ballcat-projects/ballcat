@@ -6,8 +6,7 @@ import org.ballcat.springsecurity.oauth2.server.authorization.context.TestAuthor
 import org.ballcat.springsecurity.oauth2.server.authorization.user.TestUsers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -27,11 +26,10 @@ import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-/**
- * Tests for {@link OAuth2ResourceOwnerPasswordAuthenticationProvider}.
+/***
+ * Tests for{@link OAuth2ResourceOwnerPasswordAuthenticationProvider}.
  *
  * @author Hccake
  */
@@ -41,7 +39,7 @@ class OAuth2ResourceOwnerPasswordAuthenticationProviderTests {
 
 	private static final String STATE = "state";
 
-	private AuthenticationManager authenticationManager;
+	private UserDetailsService userDetailsService;
 
 	private OAuth2AuthorizationService authorizationService;
 
@@ -57,7 +55,7 @@ class OAuth2ResourceOwnerPasswordAuthenticationProviderTests {
 
 	@BeforeEach
 	void setUp() {
-		this.authenticationManager = mock(AuthenticationManager.class);
+		this.userDetailsService = mock(UserDetailsService.class);
 		this.authorizationService = mock(OAuth2AuthorizationService.class);
 
 		this.jwtEncoder = mock(JwtEncoder.class);
@@ -77,8 +75,8 @@ class OAuth2ResourceOwnerPasswordAuthenticationProviderTests {
 			}
 		});
 
-		this.authenticationProvider = new OAuth2ResourceOwnerPasswordAuthenticationProvider(this.authenticationManager,
-				this.authorizationService, this.tokenGenerator);
+		this.authenticationProvider = new OAuth2ResourceOwnerPasswordAuthenticationProvider(this.authorizationService,
+				this.tokenGenerator, this.userDetailsService);
 		AuthorizationServerSettings authorizationServerSettings = AuthorizationServerSettings.builder()
 			.issuer("https://provider.com")
 			.build();
@@ -87,27 +85,35 @@ class OAuth2ResourceOwnerPasswordAuthenticationProviderTests {
 	}
 
 	@Test
-	void constructorWhenAuthenticationManagerNullThenThrowIllegalArgumentException() {
-		assertThatThrownBy(() -> new OAuth2ResourceOwnerPasswordAuthenticationProvider(null, this.authorizationService,
-				this.tokenGenerator))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessage("authenticationManager cannot be null");
-	}
-
-	@Test
 	void constructorWhenAuthorizationServiceNullThenThrowIllegalArgumentException() {
-		assertThatThrownBy(() -> new OAuth2ResourceOwnerPasswordAuthenticationProvider(this.authenticationManager, null,
-				this.tokenGenerator))
+		assertThatThrownBy(() -> new OAuth2ResourceOwnerPasswordAuthenticationProvider(null, this.tokenGenerator,
+				this.userDetailsService))
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("authorizationService cannot be null");
 	}
 
 	@Test
 	void constructorWhenOAuth2TokenGeneratorNullThenThrowIllegalArgumentException() {
-		assertThatThrownBy(() -> new OAuth2ResourceOwnerPasswordAuthenticationProvider(this.authenticationManager,
-				this.authorizationService, null))
+		assertThatThrownBy(() -> new OAuth2ResourceOwnerPasswordAuthenticationProvider(this.authorizationService, null,
+				userDetailsService))
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("tokenGenerator cannot be null");
+	}
+
+	@Test
+	void constructorWhenUserServiceNullThenThrowIllegalArgumentException() {
+		assertThatThrownBy(() -> new OAuth2ResourceOwnerPasswordAuthenticationProvider(this.authorizationService,
+				this.tokenGenerator, null))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("userDetailsService cannot be null");
+	}
+
+	@Test
+	void setWhenPasswordUtilsNullThenThrowIllegalArgumentException() {
+		OAuth2ResourceOwnerPasswordAuthenticationProvider provider = new OAuth2ResourceOwnerPasswordAuthenticationProvider(
+				this.authorizationService, this.tokenGenerator, this.userDetailsService);
+		assertThatThrownBy(() -> provider.setPasswordEncoder(null)).isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("passwordEncoder cannot be null");
 	}
 
 	@Test
@@ -145,7 +151,7 @@ class OAuth2ResourceOwnerPasswordAuthenticationProviderTests {
 		OAuth2ClientAuthenticationToken clientPrincipal = new OAuth2ClientAuthenticationToken(registeredClient,
 				ClientAuthenticationMethod.CLIENT_SECRET_BASIC, registeredClient.getClientId());
 
-		User user = TestUsers.user1().build();
+		User user = TestUsers.user1().password("{noop}password1").build();
 
 		HashMap<String, Object> additionalParameters = new HashMap<>();
 		additionalParameters.put(OAuth2ParameterNames.USERNAME, "user1");
@@ -153,8 +159,7 @@ class OAuth2ResourceOwnerPasswordAuthenticationProviderTests {
 		OAuth2ResourceOwnerPasswordAuthenticationToken authentication = new OAuth2ResourceOwnerPasswordAuthenticationToken(
 				"user1", clientPrincipal, new HashSet<>(), additionalParameters);
 
-		when(this.authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
-			.thenReturn(new UsernamePasswordAuthenticationToken(user, user.getUsername(), user.getAuthorities()));
+		when(this.userDetailsService.loadUserByUsername("user1")).thenReturn(user);
 
 		OAuth2AccessTokenAuthenticationToken authenticationResult = (OAuth2AccessTokenAuthenticationToken) this.authenticationProvider
 			.authenticate(authentication);

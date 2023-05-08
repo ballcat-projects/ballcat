@@ -3,11 +3,10 @@ package org.ballcat.springsecurity.oauth2.server.authorization.config;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerExtensionConfigurer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerCustomizer;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
@@ -28,15 +27,15 @@ import java.util.List;
  * @author hccake
  */
 @RequiredArgsConstructor
-@Order(99)
-public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfigurerAdapter {
+public class BallcatOAuth2AuthorizationServerSecurityFilterChainBuilder
+		implements OAuth2AuthorizationServerSecurityFilterChainBuilder {
 
 	private final List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizerList;
 
 	private final List<OAuth2AuthorizationServerExtensionConfigurer<?, HttpSecurity>> oAuth2AuthorizationServerExtensionConfigurers;
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	public SecurityFilterChain build(HttpSecurity http) throws Exception {
 		// 授权服务器配置
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
 		for (OAuth2AuthorizationServerConfigurerCustomizer customizer : oAuth2AuthorizationServerConfigurerCustomizerList) {
@@ -56,6 +55,8 @@ public class OAuth2AuthorizationServerConfigurerAdapter extends WebSecurityConfi
 		for (OAuth2AuthorizationServerExtensionConfigurer<?, HttpSecurity> configurer : oAuth2AuthorizationServerExtensionConfigurers) {
 			http.apply(configurer);
 		}
+
+		return http.build();
 	}
 
 
