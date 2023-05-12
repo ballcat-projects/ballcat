@@ -46,7 +46,7 @@ class OAuth2ResourceOwnerPasswordAuthenticationTokenTests {
 		String username = "user1";
 
 		OAuth2ResourceOwnerPasswordAuthenticationToken authentication = new OAuth2ResourceOwnerPasswordAuthenticationToken(
-				username, CLIENT_PRINCIPAL, requestedScopes, additionalParameters);
+				username, CLIENT_PRINCIPAL, additionalParameters, requestedScopes);
 
 		assertThat(authentication.getPrincipal()).isEqualTo(CLIENT_PRINCIPAL);
 		assertThat(authentication.getCredentials()).isEqualTo("");

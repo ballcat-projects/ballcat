@@ -79,7 +79,7 @@ class BallcatOAuth2TokenCustomizerTests {
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken
 			.authenticated(user, user.getUsername(), user.getAuthorities());
 		OAuth2ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthentication = new OAuth2ResourceOwnerPasswordAuthenticationToken(
-				user.getUsername(), clientPrincipal, authorizedScopes, additionalParameters);
+				user.getUsername(), clientPrincipal, additionalParameters, authorizedScopes);
 
 		// @formatter:off
 		OAuth2TokenContext tokenContext = DefaultOAuth2TokenContext.builder()

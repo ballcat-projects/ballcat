@@ -2,6 +2,8 @@ package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hccake.ballcat.common.security.authentication.OAuth2UserAuthenticationToken;
+import com.hccake.ballcat.common.security.jackson2.OAuth2UserAuthenticationTokenMixin;
 import com.hccake.ballcat.common.security.jackson2.UserMixin;
 import com.hccake.ballcat.common.security.userdetails.User;
 import com.hccake.ballcat.common.security.util.PasswordUtils;
@@ -117,6 +119,7 @@ public class OAuth2AuthorizationServerAutoConfiguration {
 
 		// You will need to write the Mixin for your class so Jackson can marshall it.
 		objectMapper.addMixIn(User.class, UserMixin.class);
+		objectMapper.addMixIn(OAuth2UserAuthenticationToken.class, OAuth2UserAuthenticationTokenMixin.class);
 
 		// 定制 objectMapper
 		objectMapperCustomizerObjectProvider.ifAvailable(customizer -> customizer.customize(objectMapper));

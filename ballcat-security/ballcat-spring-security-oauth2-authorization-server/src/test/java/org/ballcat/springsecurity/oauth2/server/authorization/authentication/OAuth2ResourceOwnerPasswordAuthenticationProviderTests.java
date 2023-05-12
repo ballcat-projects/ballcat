@@ -129,7 +129,7 @@ class OAuth2ResourceOwnerPasswordAuthenticationProviderTests {
 				ClientAuthenticationMethod.CLIENT_SECRET_BASIC, registeredClient.getClientId());
 
 		OAuth2ResourceOwnerPasswordAuthenticationToken authentication = new OAuth2ResourceOwnerPasswordAuthenticationToken(
-				"user1", clientPrincipal, new HashSet<>(), new HashMap<>());
+				"user1", clientPrincipal, new HashMap<>(), new HashSet<>());
 		assertThatThrownBy(() -> this.authenticationProvider.authenticate(authentication))
 			.isInstanceOf(OAuth2AuthenticationException.class)
 			.satisfies(ex -> assertAuthenticationException((OAuth2AuthenticationException) ex,
@@ -157,7 +157,7 @@ class OAuth2ResourceOwnerPasswordAuthenticationProviderTests {
 		additionalParameters.put(OAuth2ParameterNames.USERNAME, "user1");
 		additionalParameters.put(OAuth2ParameterNames.PASSWORD, "password1");
 		OAuth2ResourceOwnerPasswordAuthenticationToken authentication = new OAuth2ResourceOwnerPasswordAuthenticationToken(
-				"user1", clientPrincipal, new HashSet<>(), additionalParameters);
+				"user1", clientPrincipal, additionalParameters, new HashSet<>());
 
 		when(this.userDetailsService.loadUserByUsername("user1")).thenReturn(user);
 
