@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.hccake</groupId>
+		<artifactId>ballcat-starters</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<artifactId>ballcat-spring-boot-starter-grpc</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hccake</groupId>
+			<artifactId>ballcat-common-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-protobuf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-stub</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-netty</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>
