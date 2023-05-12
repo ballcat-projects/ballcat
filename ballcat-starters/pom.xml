@@ -30,5 +30,6 @@
 		<module>ballcat-spring-boot-starter-web</module>
 		<module>ballcat-spring-boot-starter-websocket</module>
 		<module>ballcat-spring-boot-starter-xss</module>
-	</modules>
+        <module>ballcat-spring-boot-starter-grpc</module>
+    </modules>
 </project>
