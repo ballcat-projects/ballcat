@@ -20,6 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +50,7 @@ public class SysOrganizationController {
 			return R.ok(new ArrayList<>());
 		}
 		List<SysOrganizationVO> voList = list.stream()
+			.sorted(Comparator.comparingInt(SysOrganization::getSort))
 			.map(SysOrganizationConverter.INSTANCE::poToVo)
 			.collect(Collectors.toList());
 		return R.ok(voList);
