@@ -97,15 +97,19 @@ public abstract class AbstractOAuth2ResourceOwnerAuthenticationProvider<T extend
 			authorizedScopes = new LinkedHashSet<>(requestedScopes);
 		}
 
-		// @formatter:off
 		DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
-				.registeredClient(registeredClient)
-				.principal(authenticatedAuthentication)
-				.authorizationServerContext(AuthorizationServerContextHolder.getContext())
-				.authorizedScopes(authorizedScopes)
-				.authorizationGrantType(grantType)
-				.authorizationGrant(resourceOwnerAuthentication);
-		// @formatter:on
+			.registeredClient(registeredClient)
+			.principal(authenticatedAuthentication)
+			.authorizationServerContext(AuthorizationServerContextHolder.getContext())
+			.authorizedScopes(authorizedScopes)
+			.authorizationGrantType(grantType)
+			.authorizationGrant(resourceOwnerAuthentication);
+
+		OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
+			.principalName(authenticatedAuthentication.getName())
+			.authorizationGrantType(grantType)
+			.authorizedScopes(authorizedScopes)
+			.attribute(Principal.class.getName(), authenticatedAuthentication);
 
 		// ----- Access token -----
 		OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
@@ -119,6 +123,15 @@ public abstract class AbstractOAuth2ResourceOwnerAuthenticationProvider<T extend
 		OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
 				generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
 				generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
+
+		if (generatedAccessToken instanceof ClaimAccessor) {
+			authorizationBuilder.token(accessToken,
+					metadata -> metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
+							((ClaimAccessor) generatedAccessToken).getClaims()));
+		}
+		else {
+			authorizationBuilder.accessToken(accessToken);
+		}
 
 		// ----- Refresh token -----
 		OAuth2RefreshToken refreshToken = null;
@@ -134,23 +147,7 @@ public abstract class AbstractOAuth2ResourceOwnerAuthenticationProvider<T extend
 				throw new OAuth2AuthenticationException(error);
 			}
 			refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
-
-		}
-
-		// @formatter:off
-		OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
-				.principalName(authenticatedAuthentication.getName())
-				.authorizationGrantType(grantType)
-				.authorizedScopes(authorizedScopes)
-				.attribute(Principal.class.getName(), authenticatedAuthentication);
-		// @formatter:on
-		if (generatedAccessToken instanceof ClaimAccessor) {
-			authorizationBuilder.token(accessToken,
-					metadata -> metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
-							((ClaimAccessor) generatedAccessToken).getClaims()));
-		}
-		else {
-			authorizationBuilder.accessToken(accessToken);
+			authorizationBuilder.refreshToken(refreshToken);
 		}
 
 		OAuth2Authorization authorization = authorizationBuilder.build();
