@@ -34,4 +34,18 @@ public interface SysRoleService extends ExtendService<SysRole> {
 	 */
 	List<SelectData<Void>> listSelectData();
 
+	/**
+	 * 是否存在角色code
+	 * @param roleCode 角色code
+	 * @return boolean 是否存在
+	 */
+	boolean existsRoleCode(String roleCode);
+
+	/**
+	 * 新增角色
+	 * @param sysRole 角色对象
+	 * @return boolean 是否新增成功
+	 */
+	boolean roleSave(SysRole sysRole);
+
 }
