@@ -49,4 +49,15 @@ public interface SysRoleMapper extends ExtendMapper<SysRole> {
 	 */
 	List<SelectData<Void>> listSelectData();
 
+	/**
+	 * 是否存在角色code
+	 * @param roleCode 角色code
+	 * @return boolean 是否存在
+	 */
+	default boolean existsRoleCode(String roleCode) {
+		LambdaQueryWrapperX<SysRole> wrapperX = new LambdaQueryWrapperX<>();
+		wrapperX.eq(SysRole::getCode, roleCode);
+		return this.selectCount(wrapperX) > 0L;
+	}
+
 }

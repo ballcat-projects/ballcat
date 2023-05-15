@@ -75,7 +75,7 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	 */
 	@Override
 	public boolean existsRoleCode(String roleCode) {
-		return baseMapper.exists(Wrappers.lambdaQuery(SysRole.class).eq(SysRole::getCode, roleCode));
+		return baseMapper.existsRoleCode(roleCode);
 	}
 
 	/**
@@ -84,11 +84,11 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	 * @return boolean 是否新增成功
 	 */
 	@Override
-	public boolean roleSave(SysRole sysRole) {
+	public boolean save(SysRole sysRole) {
 		if (existsRoleCode(sysRole.getCode())) {
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR, "角色标识已存在！");
 		}
-		return this.save(sysRole);
+		return SqlHelper.retBool(getBaseMapper().insert(sysRole));
 	}
 
 }

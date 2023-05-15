@@ -41,11 +41,4 @@ public interface SysRoleService extends ExtendService<SysRole> {
 	 */
 	boolean existsRoleCode(String roleCode);
 
-	/**
-	 * 新增角色
-	 * @param sysRole 角色对象
-	 * @return boolean 是否新增成功
-	 */
-	boolean roleSave(SysRole sysRole);
-
 }
