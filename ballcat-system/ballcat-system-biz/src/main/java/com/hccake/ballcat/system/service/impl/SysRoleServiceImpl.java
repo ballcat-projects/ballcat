@@ -1,6 +1,9 @@
 package com.hccake.ballcat.system.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.hccake.ballcat.common.core.exception.BusinessException;
+import com.hccake.ballcat.common.model.result.BaseResultCode;
 import com.hccake.ballcat.system.mapper.SysRoleMapper;
 import com.hccake.ballcat.system.model.entity.SysRole;
 import com.hccake.ballcat.system.model.qo.SysRoleQO;
@@ -63,6 +66,29 @@ public class SysRoleServiceImpl extends ExtendServiceImpl<SysRoleMapper, SysRole
 	@Override
 	public List<SelectData<Void>> listSelectData() {
 		return baseMapper.listSelectData();
+	}
+
+	/**
+	 * 是否存在角色code
+	 * @param roleCode 角色code
+	 * @return boolean 是否存在
+	 */
+	@Override
+	public boolean existsRoleCode(String roleCode) {
+		return baseMapper.existsRoleCode(roleCode);
+	}
+
+	/**
+	 * 新增角色
+	 * @param sysRole 角色对象
+	 * @return boolean 是否新增成功
+	 */
+	@Override
+	public boolean save(SysRole sysRole) {
+		if (existsRoleCode(sysRole.getCode())) {
+			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR, "角色标识已存在！");
+		}
+		return SqlHelper.retBool(getBaseMapper().insert(sysRole));
 	}
 
 }

@@ -89,7 +89,7 @@ public class SysRoleController {
 	@PreAuthorize("@per.hasPermission('system:role:add')")
 	@Operation(summary = "新增系统角色", description = "新增系统角色")
 	public R<Boolean> save(@Valid @RequestBody SysRole sysRole) {
-		return R.ok(sysRoleService.save(sysRole));
+		return sysRoleService.save(sysRole) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "新建角色失败");
 	}
 
 	/**
