@@ -1,31 +1,31 @@
 -- 添加字典属性字段
-ALTER TABLE `ballcat`.`sys_dict_item`
+ALTER TABLE `sys_dict_item`
 ADD COLUMN `attributes` json NULL COMMENT '附加属性' AFTER `name`;
 
-INSERT INTO `ballcat`.`sys_dict`(`code`, `title`, `remarks`, `editable`, `value_type`, `hash_code`, `deleted`, `create_time`, `update_time`) VALUES ('login_event_type', '登陆事件类型', '1：登陆  2：登出', 0, 1, '6fe465274208421eb0619a516875e270', 0, '2020-09-17 14:44:00', NULL);
-INSERT INTO `ballcat`.`sys_dict_item`(`dict_code`, `value`, `name`, `attributes`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('login_event_type', '1', '登陆', '{\"tagColor\": \"cyan\"}', 0, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:18');
-INSERT INTO `ballcat`.`sys_dict_item`(`dict_code`, `value`, `name`, `attributes`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('login_event_type', '2', '登出', '{\"tagColor\": \"pink\"}', 1, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
+INSERT INTO `sys_dict`(`code`, `title`, `remarks`, `editable`, `value_type`, `hash_code`, `deleted`, `create_time`, `update_time`) VALUES ('login_event_type', '登陆事件类型', '1：登陆  2：登出', 0, 1, '6fe465274208421eb0619a516875e270', 0, '2020-09-17 14:44:00', NULL);
+INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `attributes`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('login_event_type', '1', '登陆', '{\"tagColor\": \"cyan\"}', 0, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:18');
+INSERT INTO `sys_dict_item`(`dict_code`, `value`, `name`, `attributes`, `sort`, `remarks`, `deleted`, `create_time`, `update_time`) VALUES ('login_event_type', '2', '登出', '{\"tagColor\": \"pink\"}', 1, '', 0, '2020-03-27 01:05:52', '2019-03-25 12:49:13');
 
 -- 更新已有字典项的属性
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "orange"}' WHERE `dict_code` = "dict_property" and `value` =  0;
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "green"}' WHERE `dict_code` = "dict_property" and `value` =  1;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "orange"}' WHERE `dict_code` = "dict_property" and `value` =  0;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "green"}' WHERE `dict_code` = "dict_property" and `value` =  1;
 
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"textColor": "#34890A"}' WHERE `dict_code` = "log_status" and `value` =  1;
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"textColor": "red"}' WHERE `dict_code` = "log_status" and `value` =  0;
+UPDATE `sys_dict_item` SET `attributes` = '{"textColor": "#34890A"}' WHERE `dict_code` = "log_status" and `value` =  1;
+UPDATE `sys_dict_item` SET `attributes` = '{"textColor": "red"}' WHERE `dict_code` = "log_status" and `value` =  0;
 
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "cyan"}' WHERE `dict_code` = "login_event_type" and `value` =  1;
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "pink"}' WHERE `dict_code` = "login_event_type" and `value` =  2;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "cyan"}' WHERE `dict_code` = "login_event_type" and `value` =  1;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "pink"}' WHERE `dict_code` = "login_event_type" and `value` =  2;
 
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "purple"}' WHERE `dict_code` = "operation_type" and `value` =  3;
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "cyan"}' WHERE `dict_code` = "operation_type" and `value` =  4;
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "orange"}' WHERE `dict_code` = "operation_type" and `value` =  5;
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "pink"}' WHERE `dict_code` = "operation_type" and `value` =  6;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "purple"}' WHERE `dict_code` = "operation_type" and `value` =  3;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "cyan"}' WHERE `dict_code` = "operation_type" and `value` =  4;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "orange"}' WHERE `dict_code` = "operation_type" and `value` =  5;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "pink"}' WHERE `dict_code` = "operation_type" and `value` =  6;
 
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "orange"}' WHERE `dict_code` = "role_type" and `value` =  1;
-UPDATE `ballcat`.`sys_dict_item` SET `attributes` = '{"tagColor": "green"}' WHERE `dict_code` = "role_type" and `value` =  2;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "orange"}' WHERE `dict_code` = "role_type" and `value` =  1;
+UPDATE `sys_dict_item` SET `attributes` = '{"tagColor": "green"}' WHERE `dict_code` = "role_type" and `value` =  2;
 
 -- 删除弃用的字典项
-delete from `ballcat`.`sys_dict_item` WHERE `dict_code` = "operation_type" and ( `value` =  1 or `value` = 2 );
+delete from `sys_dict_item` WHERE `dict_code` = "operation_type" and ( `value` =  1 or `value` = 2 );
 
 -- 登陆日志表
 CREATE TABLE `admin_login_log` (
@@ -48,8 +48,8 @@ CREATE TABLE `admin_login_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='登陆日志';
 
 -- 登录日志权限数据
-INSERT INTO `ballcat`.`sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (110200, '登陆日志', NULL, '/log/adminloginlog', 'adminLoginLog', 'log/adminloginlog/AdminLoginLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
-INSERT INTO `ballcat`.`sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (110201, '登陆日志查询', 'log:adminloginlog:read', NULL, NULL, NULL, NULL, NULL, 110200, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (110200, '登陆日志', NULL, '/log/adminloginlog', 'adminLoginLog', 'log/adminloginlog/AdminLoginLogPage', NULL, NULL, 110000, NULL, 1, 0, 0, 1, 0, NULL, '2019-10-13 22:00:24');
+INSERT INTO `sys_permission`(`id`, `title`, `code`, `path`, `router_name`, `component`, `redirect`, `target`, `parent_id`, `icon`, `sort`, `keep_alive`, `hidden`, `type`, `deleted`, `create_time`, `update_time`) VALUES (110201, '登陆日志查询', 'log:adminloginlog:read', NULL, NULL, NULL, NULL, NULL, 110200, NULL, 0, 0, 0, 2, 0, '2019-10-13 22:00:24', NULL);
 
 -- lov 模块
 DROP TABLE IF EXISTS `sys_lov`;

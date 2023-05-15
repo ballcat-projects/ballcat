@@ -31,5 +31,5 @@ update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.textColor", "#
 
 
 -- 提高 title 的容量，防止国际化 code 不够存储
-ALTER TABLE `ballcat`.`sys_menu`
+ALTER TABLE `sys_menu`
     MODIFY COLUMN `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单名称' AFTER `parent_id`;
