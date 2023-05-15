@@ -39,8 +39,7 @@ import java.util.Map;
 /**
  * 字典表
  *
- * @author hccake
- * @date 2020-03-26 18:40:20
+ * @author hccake 2020-03-26 18:40:20
  */
 @Validated
 @RestController
@@ -120,7 +119,7 @@ public class SysDictController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
 	@Operation(summary = "通过id删除字典表", description = "通过id删除字典表")
-	public R<Void> removeById(@PathVariable("id") Integer id) {
+	public R<Void> removeById(@PathVariable("id") Long id) {
 		sysDictManager.removeDictById(id);
 		return R.ok();
 	}
@@ -178,7 +177,7 @@ public class SysDictController {
 	@DeleteMapping("/item/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:del')")
 	@Operation(summary = "通过id删除字典项", description = "通过id删除字典项")
-	public R<Void> removeItemById(@PathVariable("id") Integer id) {
+	public R<Void> removeItemById(@PathVariable("id") Long id) {
 		return sysDictManager.removeDictItemById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除字典项失败");
 	}
@@ -192,7 +191,7 @@ public class SysDictController {
 	@PatchMapping("/item/{id}")
 	@PreAuthorize("@per.hasPermission('system:dict:edit')")
 	@Operation(summary = "通过id修改字典项状态", description = "通过id修改字典项状态")
-	public R<Void> updateDictItemStatusById(@PathVariable("id") Integer id, @RequestParam("status") Integer status) {
+	public R<Void> updateDictItemStatusById(@PathVariable("id") Long id, @RequestParam("status") Integer status) {
 		sysDictManager.updateDictItemStatusById(id, status);
 		return R.ok();
 	}

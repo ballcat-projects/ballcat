@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 /**
  * 字典表
  *
- * @author hccake
- * @date 2020-03-26 18:40:20
+ * @author hccake 2020-03-26 18:40:20
  */
 @Data
 @Schema(title = "字典表")
@@ -21,7 +20,7 @@ public class SysDictPageVO {
 	 * 编号
 	 */
 	@Schema(title = "编号")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 标识

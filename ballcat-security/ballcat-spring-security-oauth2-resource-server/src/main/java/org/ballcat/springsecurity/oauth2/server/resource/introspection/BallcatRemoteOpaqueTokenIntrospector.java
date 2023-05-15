@@ -261,25 +261,24 @@ public class BallcatRemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospe
 		LinkedHashMap<String, Object> info = (LinkedHashMap<String, Object>) claims
 			.getOrDefault(TokenAttributeNameConstants.INFO, new LinkedHashMap<>());
 
-		Integer userId = (Integer) info.getOrDefault(UserInfoFiledNameConstants.USER_ID, null);
-		if (userId != null) {
-			builder.userId(userId);
+		Object userIdObject = info.get(UserInfoFiledNameConstants.USER_ID);
+		if (userIdObject != null) {
+			builder.userId(Long.parseLong(userIdObject.toString()));
 		}
 
-		Integer type = (Integer) info.getOrDefault(UserInfoFiledNameConstants.TYPE, null);
-		if (type != null) {
-			builder.type(type);
+		Object organizationIdObject = info.get(UserInfoFiledNameConstants.ORGANIZATION_ID);
+		if (organizationIdObject != null) {
+			builder.organizationId(Long.parseLong(organizationIdObject.toString()));
 		}
 
-		Integer organizationId = (Integer) info.getOrDefault(UserInfoFiledNameConstants.ORGANIZATION_ID, null);
-		if (organizationId != null) {
-			builder.organizationId(organizationId);
-		}
-
-		builder.username(info.getOrDefault(UserInfoFiledNameConstants.USERNAME, "").toString())
-			.nickname(info.getOrDefault(UserInfoFiledNameConstants.NICKNAME, "").toString())
-			.avatar(info.getOrDefault(UserInfoFiledNameConstants.AVATAR, "").toString())
-			.status(1);
+		builder.username(getOrDefault(info, UserInfoFiledNameConstants.USERNAME, ""))
+			.nickname(getOrDefault(info, UserInfoFiledNameConstants.NICKNAME, ""))
+			.avatar(getOrDefault(info, UserInfoFiledNameConstants.AVATAR, ""))
+			.email(getOrDefault(info, UserInfoFiledNameConstants.EMAIL, ""))
+			.phoneNumber(getOrDefault(info, UserInfoFiledNameConstants.PHONE_NUMBER, ""))
+			.gender(getOrDefault(info, UserInfoFiledNameConstants.GENDER, null))
+			.type(getOrDefault(info, UserInfoFiledNameConstants.TYPE, null))
+			.status(getOrDefault(info, UserInfoFiledNameConstants.STATUS, null));
 
 		Collection<? extends GrantedAuthority> authorities = null;
 		List<String> authoritiesJsonArray = (List<String>) claims.getOrDefault("authorities", new ArrayList<>());
@@ -312,6 +311,11 @@ public class BallcatRemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospe
 		}
 
 		return builder.attributes(attributesMap).build();
+	}
+
+	private static <T> T getOrDefault(LinkedHashMap<String, Object> info, String key, T defaultValue) {
+		Object value = info.get(key);
+		return value == null ? defaultValue : (T) value;
 	}
 
 }

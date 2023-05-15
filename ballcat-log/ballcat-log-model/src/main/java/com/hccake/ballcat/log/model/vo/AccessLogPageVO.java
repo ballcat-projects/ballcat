@@ -34,7 +34,7 @@ public class AccessLogPageVO {
 	 * 用户ID
 	 */
 	@Schema(title = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 用户名

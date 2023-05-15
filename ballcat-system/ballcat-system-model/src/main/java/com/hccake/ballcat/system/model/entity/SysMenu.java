@@ -29,13 +29,13 @@ public class SysMenu extends LogicDeletedBaseEntity {
 	 */
 	@TableId
 	@Schema(title = "菜单ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 父级ID
 	 */
 	@Schema(title = "父级ID")
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 菜单名称

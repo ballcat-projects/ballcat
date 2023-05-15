@@ -8,9 +8,7 @@ import org.springdoc.api.annotations.ParameterObject;
 import java.util.List;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/22 17:22
+ * @author Hccake 2019/9/22 17:22
  */
 @Data
 @Schema(title = "系统用户查询对象")
@@ -33,7 +31,7 @@ public class SysUserQO {
 	 * 性别(0-默认未知,1-男,2-女)
 	 */
 	@Parameter(description = "性别(0-默认未知,1-男,2-女)")
-	private Integer sex;
+	private Integer gender;
 
 	/**
 	 * 电子邮件
@@ -42,10 +40,10 @@ public class SysUserQO {
 	private String email;
 
 	/**
-	 * 电话
+	 * 手机号
 	 */
-	@Parameter(description = "电话")
-	private String phone;
+	@Parameter(description = "手机号")
+	private String phoneNumber;
 
 	/**
 	 * 状态(1-正常,2-冻结)
@@ -57,7 +55,7 @@ public class SysUserQO {
 	 * 组织机构ID
 	 */
 	@Parameter(description = "organizationId")
-	private List<Integer> organizationId;
+	private List<Long> organizationId;
 
 	@Parameter(description = "用户类型:1:系统用户， 2：客户用户")
 	private Integer type;

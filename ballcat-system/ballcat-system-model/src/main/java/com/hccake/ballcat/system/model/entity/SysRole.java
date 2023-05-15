@@ -14,8 +14,7 @@ import java.util.Objects;
 /**
  * 角色
  *
- * @author ballcat code generator
- * @date 2019-10-14 17:42:23
+ * @author ballcat code generator 2019-10-14 17:42:23
  */
 @Getter
 @Setter
@@ -28,7 +27,7 @@ public class SysRole extends LogicDeletedBaseEntity {
 
 	@TableId
 	@Schema(title = "角色编号")
-	private Integer id;
+	private Long id;
 
 	@NotBlank(message = "角色名称不能为空")
 	@Schema(title = "角色名称")

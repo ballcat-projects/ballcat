@@ -56,7 +56,7 @@ public interface SysMenuMapper extends ExtendMapper<SysMenu> {
 	 * @param originalId 原菜单ID
 	 * @return 更新成功返回 true
 	 */
-	default boolean updateMenuAndId(Integer originalId, SysMenu sysMenu) {
+	default boolean updateMenuAndId(Long originalId, SysMenu sysMenu) {
 		// @formatter:off
 		LambdaUpdateWrapper<SysMenu> wrapper = Wrappers.lambdaUpdate(SysMenu.class)
 				.set(SysMenu::getId, sysMenu.getId())
@@ -72,7 +72,7 @@ public interface SysMenuMapper extends ExtendMapper<SysMenu> {
 	 * @param parentId 现 parentId
 	 * @return 更新条数不为 0 时，返回 true
 	 */
-	default boolean updateParentId(Integer originalParentId, Integer parentId) {
+	default boolean updateParentId(Long originalParentId, Long parentId) {
 		// @formatter:off
 		LambdaUpdateWrapper<SysMenu> wrapper = Wrappers.lambdaUpdate(SysMenu.class)
 				.set(SysMenu::getParentId, parentId)

@@ -188,7 +188,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 	 * @return List<Announcement>
 	 */
 	@Override
-	public List<Announcement> listUnPulled(Integer userId) {
+	public List<Announcement> listUnPulled(Long userId) {
 		return baseMapper.listUserAnnouncements(userId, false);
 	}
 
@@ -198,7 +198,7 @@ public class AnnouncementServiceImpl extends ExtendServiceImpl<AnnouncementMappe
 	 * @return List<Announcement>
 	 */
 	@Override
-	public List<Announcement> listActiveAnnouncements(Integer userId) {
+	public List<Announcement> listActiveAnnouncements(Long userId) {
 		return baseMapper.listUserAnnouncements(userId, true);
 	}
 

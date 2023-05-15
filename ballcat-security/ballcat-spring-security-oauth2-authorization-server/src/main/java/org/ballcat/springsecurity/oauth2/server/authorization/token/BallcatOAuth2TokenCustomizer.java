@@ -50,6 +50,10 @@ public class BallcatOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAuth
 		userInfo.put(UserInfoFiledNameConstants.USERNAME, user.getUsername());
 		userInfo.put(UserInfoFiledNameConstants.NICKNAME, user.getNickname());
 		userInfo.put(UserInfoFiledNameConstants.AVATAR, user.getAvatar());
+		userInfo.put(UserInfoFiledNameConstants.EMAIL, user.getEmail());
+		userInfo.put(UserInfoFiledNameConstants.GENDER, user.getGender());
+		userInfo.put(UserInfoFiledNameConstants.PHONE_NUMBER, user.getPhoneNumber());
+		userInfo.put(UserInfoFiledNameConstants.STATUS, user.getStatus());
 		return userInfo;
 	}
 

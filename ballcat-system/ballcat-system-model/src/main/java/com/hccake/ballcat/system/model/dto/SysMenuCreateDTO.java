@@ -23,7 +23,7 @@ public class SysMenuCreateDTO {
 	 * 菜单ID
 	 */
 	@Schema(title = "菜单ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 父级ID

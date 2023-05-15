@@ -8,8 +8,7 @@ import lombok.Data;
 /**
  * 角色菜单表
  *
- * @author ballcat code generator
- * @date 2019-10-14 17:42:23
+ * @author ballcat code generator 2019-10-14 17:42:23
  */
 @Data
 @TableName("sys_role_menu")
@@ -21,7 +20,7 @@ public class SysRoleMenu {
 	public SysRoleMenu() {
 	}
 
-	public SysRoleMenu(String roleCode, Integer menuId) {
+	public SysRoleMenu(String roleCode, Long menuId) {
 		this.roleCode = roleCode;
 		this.menuId = menuId;
 	}
@@ -39,6 +38,6 @@ public class SysRoleMenu {
 	 * 权限ID
 	 */
 	@Schema(title = "菜单id")
-	private Integer menuId;
+	private Long menuId;
 
 }

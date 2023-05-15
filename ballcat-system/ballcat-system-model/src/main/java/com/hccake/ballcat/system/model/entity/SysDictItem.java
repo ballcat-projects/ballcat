@@ -15,8 +15,7 @@ import java.util.Map;
 /**
  * 字典项
  *
- * @author hccake
- * @date 2020-03-26 18:40:20
+ * @author hccake 2020-03-26 18:40:20
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -31,7 +30,7 @@ public class SysDictItem extends LogicDeletedBaseEntity {
 	 */
 	@TableId
 	@Schema(title = "ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 字典标识

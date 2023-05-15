@@ -15,7 +15,7 @@ public class LoginUser {
 	/**
 	 * 登录用户 id
 	 */
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 用户角色

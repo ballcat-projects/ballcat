@@ -21,7 +21,7 @@ public class SysMenuQO {
 	 * 菜单ID
 	 */
 	@Parameter(description = "菜单ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 菜单名称

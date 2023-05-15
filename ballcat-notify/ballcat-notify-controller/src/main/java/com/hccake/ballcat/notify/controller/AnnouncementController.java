@@ -141,7 +141,7 @@ public class AnnouncementController {
 	@PreAuthorize("@per.hasPermission('notify:userannouncement:read')")
 	@Operation(summary = "用户公告信息", description = "用户公告信息")
 	public R<List<Announcement>> getUserAnnouncements() {
-		Integer userId = SecurityUtils.getUser().getUserId();
+		Long userId = SecurityUtils.getUser().getUserId();
 		return R.ok(announcementService.listActiveAnnouncements(userId));
 	}
 

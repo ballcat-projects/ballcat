@@ -17,8 +17,7 @@ import java.util.Map;
 /**
  * 字典项
  *
- * @author hccake
- * @date 2020-03-26 18:40:20
+ * @author hccake 2020-03-26 18:40:20
  */
 @Data
 @Schema(title = "字典项")
@@ -32,7 +31,7 @@ public class SysDictItemDTO {
 	@Null(message = "id {}", groups = CreateGroup.class)
 	@NotNull(message = "id {}", groups = UpdateGroup.class)
 	@Schema(title = "ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 字典标识

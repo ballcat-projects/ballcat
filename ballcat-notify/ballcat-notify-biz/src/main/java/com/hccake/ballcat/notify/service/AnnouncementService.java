@@ -66,13 +66,13 @@ public interface AnnouncementService extends ExtendService<Announcement> {
 	 * @param userId 用户id
 	 * @return List<Announcement>
 	 */
-	List<Announcement> listUnPulled(Integer userId);
+	List<Announcement> listUnPulled(Long userId);
 
 	/**
 	 * 获取用户拉取过的发布中，且满足失效时间的公告信息
 	 * @param userId 用户id
 	 * @return List<Announcement>
 	 */
-	List<Announcement> listActiveAnnouncements(Integer userId);
+	List<Announcement> listActiveAnnouncements(Long userId);
 
 }

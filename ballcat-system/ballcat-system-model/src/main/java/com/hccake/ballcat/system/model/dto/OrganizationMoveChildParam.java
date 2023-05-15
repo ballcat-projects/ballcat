@@ -13,7 +13,7 @@ public class OrganizationMoveChildParam {
 	/**
 	 * 父级id
 	 */
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 父级节点原始的层级信息

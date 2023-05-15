@@ -38,7 +38,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	 * @return boolean
 	 */
 	@Override
-	public boolean deleteByUserId(Integer userId) {
+	public boolean deleteByUserId(Long userId) {
 		return baseMapper.deleteByUserId(userId);
 	}
 
@@ -49,7 +49,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean updateUserRoles(@NonNull Integer userId, @NonNull List<String> roleCodes) {
+	public boolean updateUserRoles(@NonNull Long userId, @NonNull List<String> roleCodes) {
 		// 是否存在用户角色绑定关系，存在则先清空
 		boolean existsRoleBind = baseMapper.existsRoleBind(userId, null);
 		if (existsRoleBind) {
@@ -76,7 +76,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	 * @return boolean
 	 */
 	@Override
-	public boolean addUserRoles(@NonNull Integer userId, @NonNull List<String> roleCodes) {
+	public boolean addUserRoles(@NonNull Long userId, @NonNull List<String> roleCodes) {
 		List<SysUserRole> list = prodSysUserRoles(userId, roleCodes);
 		// 批量插入
 		boolean insertSuccess = SqlHelper.retBool(baseMapper.insertBatchSomeColumn(list));
@@ -93,7 +93,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	 * @param roleCodes 角色标识集合
 	 * @return List<SysUserRole>
 	 */
-	private List<SysUserRole> prodSysUserRoles(Integer userId, List<String> roleCodes) {
+	private List<SysUserRole> prodSysUserRoles(Long userId, List<String> roleCodes) {
 		// 转换为 SysUserRole 实体集合
 		List<SysUserRole> list = new ArrayList<>();
 		for (String roleCode : roleCodes) {
@@ -111,7 +111,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	 * @return 用户拥有的角色集合
 	 */
 	@Override
-	public List<SysRole> listRoles(Integer userId) {
+	public List<SysRole> listRoles(Long userId) {
 		return baseMapper.listRoleByUserId(userId);
 	}
 
@@ -133,7 +133,7 @@ public class SysUserRoleServiceImpl extends ExtendServiceImpl<SysUserRoleMapper,
 	 * @return 解绑成功：true
 	 */
 	@Override
-	public boolean unbindRoleUser(Integer userId, String roleCode) {
+	public boolean unbindRoleUser(Long userId, String roleCode) {
 		// 不存在则不需要进行删除，直接返回true
 		return !baseMapper.existsRoleBind(userId, roleCode) || baseMapper.deleteUserRole(userId, roleCode);
 	}

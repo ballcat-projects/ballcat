@@ -27,8 +27,7 @@ import java.util.Optional;
 /**
  * 访问日志
  *
- * @author hccake
- * @date 2019-10-16 16:09:25
+ * @author hccake 2019-10-16 16:09:25
  */
 @Slf4j
 public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {

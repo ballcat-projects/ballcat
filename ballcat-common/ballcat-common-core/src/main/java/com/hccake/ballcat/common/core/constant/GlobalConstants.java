@@ -1,9 +1,7 @@
 package com.hccake.ballcat.common.core.constant;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/6/9 17:17
+ * @author Hccake 2020/6/9 17:17
  */
 public final class GlobalConstants {
 
@@ -25,5 +23,10 @@ public final class GlobalConstants {
 	 * 树根节点ID
 	 */
 	public static final Integer TREE_ROOT_ID = 0;
+
+	/**
+	 * 树根节点ID
+	 */
+	public static final Long TREE_ROOT_ID_LONG = Long.valueOf(TREE_ROOT_ID);
 
 }

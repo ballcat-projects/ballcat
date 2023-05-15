@@ -21,9 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/5/25 20:38
+ * @author Hccake 2020/5/25 20:38
  */
 @RequiredArgsConstructor
 public class CustomOperationLogHandler extends AbstractOperationLogHandler<OperationLog> {

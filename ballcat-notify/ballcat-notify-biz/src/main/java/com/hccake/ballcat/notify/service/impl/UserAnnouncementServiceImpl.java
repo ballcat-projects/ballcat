@@ -40,7 +40,7 @@ public class UserAnnouncementServiceImpl extends ExtendServiceImpl<UserAnnouncem
 	 * @return UserAnnouncement
 	 */
 	@Override
-	public UserAnnouncement prodUserAnnouncement(Integer userId, Long announcementId) {
+	public UserAnnouncement prodUserAnnouncement(Long userId, Long announcementId) {
 		UserAnnouncement userAnnouncement = new UserAnnouncement();
 		userAnnouncement.setUserId(userId);
 		userAnnouncement.setAnnouncementId(announcementId);
@@ -55,7 +55,7 @@ public class UserAnnouncementServiceImpl extends ExtendServiceImpl<UserAnnouncem
 	 * @param announcementId 公告id
 	 */
 	@Override
-	public void readAnnouncement(Integer userId, Long announcementId) {
+	public void readAnnouncement(Long userId, Long announcementId) {
 		baseMapper.updateToReadState(userId, announcementId);
 	}
 

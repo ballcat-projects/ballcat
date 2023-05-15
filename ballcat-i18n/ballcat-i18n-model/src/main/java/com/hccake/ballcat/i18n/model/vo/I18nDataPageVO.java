@@ -21,7 +21,7 @@ public class I18nDataPageVO {
 	 * ID
 	 */
 	@Schema(title = "ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 语言标签

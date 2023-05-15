@@ -50,13 +50,16 @@ public class UserDeserializer extends JsonDeserializer<User> {
 		JsonNode jsonNode = mapper.readTree(jp);
 
 		JsonNode passwordNode = readJsonNode(jsonNode, "password");
-		int userId = readJsonNode(jsonNode, "userId").asInt();
-		String username = readJsonNode(jsonNode, "username").asText();
-		String nickname = readJsonNode(jsonNode, "nickname").asText();
-		String avatar = readJsonNode(jsonNode, "avatar").asText();
+		long userId = readJsonNode(jsonNode, "userId").asLong();
+		String username = readJsonNode(jsonNode, "username").asText("");
+		String nickname = readJsonNode(jsonNode, "nickname").asText("");
+		String avatar = readJsonNode(jsonNode, "avatar").asText("");
 		int status = readJsonNode(jsonNode, "status").asInt();
-		int organizationId = readJsonNode(jsonNode, "organizationId").asInt();
+		long organizationId = readJsonNode(jsonNode, "organizationId").asLong();
 		int type = readJsonNode(jsonNode, "type").asInt();
+		String email = readJsonNode(jsonNode, "email").asText("");
+		String phoneNumber = readJsonNode(jsonNode, "phoneNumber").asText("");
+		int gender = readJsonNode(jsonNode, "gender").asInt();
 
 		String password = passwordNode.asText("");
 		if (passwordNode.asText(null) == null) {
@@ -68,8 +71,21 @@ public class UserDeserializer extends JsonDeserializer<User> {
 
 		Map<String, Object> attributes = mapper.convertValue(jsonNode.get("attributes"), ATTRIBUTE_MAP);
 
-		return new User(userId, username, password, nickname, avatar, status, organizationId, type, authorities,
-				attributes);
+		return User.builder()
+			.userId(userId)
+			.username(username)
+			.password(password)
+			.nickname(nickname)
+			.avatar(avatar)
+			.status(status)
+			.organizationId(organizationId)
+			.email(email)
+			.phoneNumber(phoneNumber)
+			.gender(gender)
+			.type(type)
+			.authorities(authorities)
+			.attributes(attributes)
+			.build();
 	}
 
 	private JsonNode readJsonNode(JsonNode jsonNode, String field) {

@@ -41,10 +41,10 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 		wrapperX.eq(SysUser::getDeleted, GlobalConstants.NOT_DELETED_FLAG)
 			.likeIfPresent(SysUser::getUsername, qo.getUsername())
 			.likeIfPresent(SysUser::getEmail, qo.getEmail())
-			.likeIfPresent(SysUser::getPhone, qo.getPhone())
+			.likeIfPresent(SysUser::getPhoneNumber, qo.getPhoneNumber())
 			.likeIfPresent(SysUser::getNickname, qo.getNickname())
 			.eqIfPresent(SysUser::getStatus, qo.getStatus())
-			.eqIfPresent(SysUser::getSex, qo.getSex())
+			.eqIfPresent(SysUser::getGender, qo.getGender())
 			.eqIfPresent(SysUser::getType, qo.getType())
 			.inIfPresent(SysUser::getOrganizationId, qo.getOrganizationId());
 		if (StringUtils.isNotBlank(qo.getStartTime()) && StringUtils.isNotBlank(qo.getEndTime())) {
@@ -68,7 +68,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param status 状态
 	 * @return 是否更新成功
 	 */
-	default boolean updateUserStatusBatch(Collection<Integer> userIds, Integer status) {
+	default boolean updateUserStatusBatch(Collection<Long> userIds, Integer status) {
 		int i = this.update(null,
 				Wrappers.lambdaUpdate(SysUser.class).set(SysUser::getStatus, status).in(SysUser::getUserId, userIds));
 		return SqlHelper.retBool(i);
@@ -89,7 +89,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param password 密码
 	 * @return 更新条数
 	 */
-	default boolean updatePassword(Integer userId, String password) {
+	default boolean updatePassword(Long userId, String password) {
 		int i = this.update(null,
 				Wrappers.<SysUser>lambdaUpdate().eq(SysUser::getUserId, userId).set(SysUser::getPassword, password));
 		return SqlHelper.retBool(i);
@@ -100,7 +100,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param organizationIds 组织机构id集合
 	 * @return 用户集合
 	 */
-	default List<SysUser> listByOrganizationIds(Collection<Integer> organizationIds) {
+	default List<SysUser> listByOrganizationIds(Collection<Long> organizationIds) {
 		return this.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getOrganizationId, organizationIds));
 	}
 
@@ -118,7 +118,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param userIds 用户Id集合
 	 * @return 用户集合
 	 */
-	default List<SysUser> listByUserIds(Collection<Integer> userIds) {
+	default List<SysUser> listByUserIds(Collection<Long> userIds) {
 		return this.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userIds));
 	}
 
@@ -141,7 +141,7 @@ public interface SysUserMapper extends ExtendMapper<SysUser> {
 	 * @param organizationId 组织 id
 	 * @return boolean 存在返回 true
 	 */
-	default boolean existsForOrganization(Integer organizationId) {
+	default boolean existsForOrganization(Long organizationId) {
 		LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery(SysUser.class)
 			.eq(SysUser::getOrganizationId, organizationId);
 		Long count = this.selectCount(wrapper);

@@ -21,7 +21,7 @@ public interface SysRoleMenuService extends ExtendService<SysRoleMenu> {
 	 * @param menuIds 权限ID数组
 	 * @return 更新角色权限关联关系是否成功
 	 */
-	Boolean saveRoleMenus(String roleCode, Integer[] menuIds);
+	Boolean saveRoleMenus(String roleCode, Long[] menuIds);
 
 	/**
 	 * 根据权限ID删除角色权限关联数据
@@ -41,6 +41,6 @@ public interface SysRoleMenuService extends ExtendService<SysRoleMenu> {
 	 * @param menuId 修改后的菜单Id
 	 * @return 被更新的菜单数
 	 */
-	int updateMenuId(Integer originalId, Integer menuId);
+	int updateMenuId(Long originalId, Long menuId);
 
 }

@@ -53,7 +53,7 @@ public class AnnouncementLoginEventListener {
 			SysUser sysUser = getSysUser(user);
 
 			// 获取当前用户未拉取过的公告信息
-			Integer userId = sysUser.getUserId();
+			Long userId = sysUser.getUserId();
 			List<Announcement> announcements = announcementService.listUnPulled(userId);
 			// 获取当前用户的各个过滤属性
 			Map<Integer, Object> filterAttrs = recipientHandler.getFilterAttrs(sysUser);

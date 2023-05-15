@@ -19,8 +19,7 @@ import java.util.List;
 /**
  * 系统用户表
  *
- * @author ballcat code generator
- * @date 2019-09-12 20:39:31
+ * @author ballcat code generator 2019-09-12 20:39:31
  */
 public interface SysUserService extends ExtendService<SysUser> {
 
@@ -66,14 +65,14 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param sysUserScope 用户权限域
 	 * @return boolean
 	 */
-	boolean updateUserScope(Integer userId, SysUserScope sysUserScope);
+	boolean updateUserScope(Long userId, SysUserScope sysUserScope);
 
 	/**
 	 * 根据userId删除 用户
 	 * @param userId 用户ID
 	 * @return boolean
 	 */
-	boolean deleteByUserId(Integer userId);
+	boolean deleteByUserId(Long userId);
 
 	/**
 	 * 修改用户密码
@@ -81,7 +80,7 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param password 明文密码
 	 * @return boolean
 	 */
-	boolean updatePassword(Integer userId, String password);
+	boolean updatePassword(Long userId, String password);
 
 	/**
 	 * 批量修改用户状态
@@ -89,7 +88,7 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param status 状态
 	 * @return boolean
 	 */
-	boolean updateUserStatusBatch(Collection<Integer> userIds, Integer status);
+	boolean updateUserStatusBatch(Collection<Long> userIds, Integer status);
 
 	/**
 	 * 修改系统用户头像
@@ -98,7 +97,7 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @return 文件相对路径
 	 * @throws IOException IO异常
 	 */
-	String updateAvatar(MultipartFile file, Integer userId) throws IOException;
+	String updateAvatar(MultipartFile file, Long userId) throws IOException;
 
 	/**
 	 * 根据角色查询用户
@@ -119,7 +118,7 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param organizationIds 组织机构id集合
 	 * @return 用户集合
 	 */
-	List<SysUser> listByOrganizationIds(Collection<Integer> organizationIds);
+	List<SysUser> listByOrganizationIds(Collection<Long> organizationIds);
 
 	/**
 	 * 根据用户类型查询用户
@@ -133,7 +132,7 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param userIds 用户Id集合
 	 * @return 用户集合
 	 */
-	List<SysUser> listByUserIds(Collection<Integer> userIds);
+	List<SysUser> listByUserIds(Collection<Long> userIds);
 
 	/**
 	 * 返回用户的select数据
@@ -147,13 +146,13 @@ public interface SysUserService extends ExtendService<SysUser> {
 	 * @param userId 用户id
 	 * @return List<String>
 	 */
-	List<String> listRoleCodes(Integer userId);
+	List<String> listRoleCodes(Long userId);
 
 	/**
 	 * 是否存在指定组织的用户
 	 * @param organizationId 组织 id
 	 * @return boolean 存在返回 true
 	 */
-	boolean existsForOrganization(Integer organizationId);
+	boolean existsForOrganization(Long organizationId);
 
 }

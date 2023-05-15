@@ -9,8 +9,7 @@ import org.springdoc.api.annotations.ParameterObject;
 /**
  * 系统配置表
  *
- * @author ballcat code generator
- * @date 2019-10-14 17:42:23
+ * @author ballcat code generator 2019-10-14 17:42:23
  */
 @Data
 @Schema(title = "基础配置")

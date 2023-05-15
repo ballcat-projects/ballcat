@@ -9,8 +9,7 @@ import java.io.Serializable;
 /**
  * 系统用户信息
  *
- * @author ballcat code generator
- * @date 2019-09-12 20:39:31
+ * @author ballcat code generator 2019-09-12 20:39:31
  */
 @Data
 @Schema(title = "系统用户信息")
@@ -22,7 +21,7 @@ public class SysUserInfo implements Serializable {
 	 * 用户ID
 	 */
 	@Schema(title = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 登录账号
@@ -46,7 +45,25 @@ public class SysUserInfo implements Serializable {
 	 * 组织机构ID
 	 */
 	@Schema(title = "组织机构ID")
-	private Integer organizationId;
+	private Long organizationId;
+
+	/**
+	 * 性别(0-默认未知,1-男,2-女)
+	 */
+	@Schema(title = "性别(0-默认未知,1-男,2-女)")
+	private Integer gender;
+
+	/**
+	 * 电子邮件
+	 */
+	@Schema(title = "电子邮件")
+	private String email;
+
+	/**
+	 * 手机号
+	 */
+	@Schema(title = "手机号")
+	private String phoneNumber;
 
 	/**
 	 * 用户类型

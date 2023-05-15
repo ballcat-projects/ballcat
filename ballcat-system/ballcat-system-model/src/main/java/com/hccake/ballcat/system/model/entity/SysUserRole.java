@@ -9,8 +9,7 @@ import lombok.Data;
 /**
  * 用户角色表
  *
- * @author ballcat code generator
- * @date 2019-10-14 17:42:23
+ * @author ballcat code generator 2019-10-14 17:42:23
  */
 @Data
 @TableAlias("ur")
@@ -27,7 +26,7 @@ public class SysUserRole {
 	 * 用户ID
 	 */
 	@Schema(title = "用户id")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 角色Code

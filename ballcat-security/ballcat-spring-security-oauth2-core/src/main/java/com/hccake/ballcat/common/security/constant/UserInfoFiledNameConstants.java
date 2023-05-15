@@ -38,4 +38,24 @@ public final class UserInfoFiledNameConstants {
 	 */
 	public static final String AVATAR = "avatar";
 
+	/**
+	 * 用户邮箱
+	 */
+	public static final String EMAIL = "email";
+
+	/**
+	 * 用户性别
+	 */
+	public static final String GENDER = "gender";
+
+	/**
+	 * 用户手机号
+	 */
+	public static final String PHONE_NUMBER = "phoneNumber";
+
+	/**
+	 * 用户状态
+	 */
+	public static final String STATUS = "status";
+
 }

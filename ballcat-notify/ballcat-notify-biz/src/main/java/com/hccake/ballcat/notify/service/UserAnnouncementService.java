@@ -28,13 +28,13 @@ public interface UserAnnouncementService extends ExtendService<UserAnnouncement>
 	 * @param announcementId 公告ID
 	 * @return UserAnnouncement
 	 */
-	UserAnnouncement prodUserAnnouncement(Integer userId, Long announcementId);
+	UserAnnouncement prodUserAnnouncement(Long userId, Long announcementId);
 
 	/**
 	 * 对用户公告进行已读标记
 	 * @param userId 用户id
 	 * @param announcementId 公告id
 	 */
-	void readAnnouncement(Integer userId, Long announcementId);
+	void readAnnouncement(Long userId, Long announcementId);
 
 }

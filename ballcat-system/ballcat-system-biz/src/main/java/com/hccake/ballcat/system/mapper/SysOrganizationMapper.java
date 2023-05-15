@@ -23,7 +23,7 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 	 * @param organizationId 组织机构ID
 	 * @return List<SysOrganization> 该组织的儿子组织
 	 */
-	default List<SysOrganization> listSubOrganization(Integer organizationId) {
+	default List<SysOrganization> listSubOrganization(Long organizationId) {
 		LambdaQueryWrapper<SysOrganization> wrapper = Wrappers.<SysOrganization>lambdaQuery()
 			.eq(SysOrganization::getParentId, organizationId);
 		return this.selectList(wrapper);
@@ -40,7 +40,7 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 	 * @param organizationId 组织机构ID
 	 * @return 子部门集合
 	 */
-	List<SysOrganization> listChildOrganization(@Param("organizationId") Integer organizationId);
+	List<SysOrganization> listChildOrganization(@Param("organizationId") Long organizationId);
 
 	/**
 	 * 批量更新节点层级和深度
@@ -48,7 +48,7 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 	 * @param hierarchy 层级
 	 * @param organizationIds 组织id集合
 	 */
-	default void updateHierarchyAndPathBatch(int depth, String hierarchy, List<Integer> organizationIds) {
+	default void updateHierarchyAndPathBatch(int depth, String hierarchy, List<Long> organizationIds) {
 		LambdaUpdateWrapper<SysOrganization> wrapper = Wrappers.lambdaUpdate(SysOrganization.class)
 			.set(SysOrganization::getDepth, depth)
 			.set(SysOrganization::getHierarchy, hierarchy)
@@ -63,6 +63,6 @@ public interface SysOrganizationMapper extends ExtendMapper<SysOrganization> {
 	 * @return 存在返回 true
 	 */
 	@Nullable
-	Boolean existsChildOrganization(Integer organizationId);
+	Boolean existsChildOrganization(Long organizationId);
 
 }

@@ -52,7 +52,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	@Override
 	public List<SysOrganizationTree> listTree(SysOrganizationQO sysOrganizationQO) {
 		List<SysOrganization> list = this.list();
-		List<SysOrganizationTree> tree = TreeUtils.buildTree(list, GlobalConstants.TREE_ROOT_ID,
+		List<SysOrganizationTree> tree = TreeUtils.buildTree(list, GlobalConstants.TREE_ROOT_ID_LONG,
 				SysOrganizationConverter.INSTANCE::poToTree);
 
 		// 如果有名称的查询条件，则进行剪枝操作
@@ -75,7 +75,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 		SysOrganization sysOrganization = SysOrganizationConverter.INSTANCE.dtoToPo(sysOrganizationDTO);
 
 		// 如果父级为根节点则直接设置深度和层级，否则根据父节点数据动态设置
-		Integer parentId = sysOrganizationDTO.getParentId();
+		Long parentId = sysOrganizationDTO.getParentId();
 		// 填充层级和深度
 		fillDepthAndHierarchy(sysOrganization, parentId);
 
@@ -92,11 +92,11 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	public boolean update(SysOrganizationDTO sysOrganizationDTO) {
 		// TODO 防止并发问题
 		SysOrganization newSysOrganization = SysOrganizationConverter.INSTANCE.dtoToPo(sysOrganizationDTO);
-		Integer organizationId = newSysOrganization.getId();
+		Long organizationId = newSysOrganization.getId();
 		SysOrganization originSysOrganization = baseMapper.selectById(organizationId);
 
 		// 如果没有移动父节点，则直接更新
-		Integer targetParentId = sysOrganizationDTO.getParentId();
+		Long targetParentId = sysOrganizationDTO.getParentId();
 		if (originSysOrganization.getParentId().equals(targetParentId)) {
 			return SqlHelper.retBool(baseMapper.updateById(newSysOrganization));
 		}
@@ -104,7 +104,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 		// 移动了父节点，先判断不是选择自己作为父节点
 		Assert.isFalse(targetParentId.equals(organizationId), "父节点不能是自己！");
 		// 再判断是否是自己的子节点，根节点跳过判断
-		if (!GlobalConstants.TREE_ROOT_ID.equals(targetParentId)) {
+		if (!GlobalConstants.TREE_ROOT_ID_LONG.equals(targetParentId)) {
 			SysOrganization targetParentOrganization = baseMapper.selectById(targetParentId);
 			String[] targetParentHierarchy = targetParentOrganization.getHierarchy().split("-");
 			if (ArrayUtil.contains(targetParentHierarchy, String.valueOf(organizationId))) {
@@ -124,7 +124,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	private OrganizationMoveChildParam getOrganizationMoveChildParam(SysOrganization newSysOrganization,
 			SysOrganization originSysOrganization) {
 		// 父组织 id
-		Integer parentId = newSysOrganization.getId();
+		Long parentId = newSysOrganization.getId();
 		// 父节点原来的层级
 		String originParentHierarchy = originSysOrganization.getHierarchy();
 		// 修改后的父节点层级
@@ -148,7 +148,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	 * @return List<SysOrganization> 该组织的儿子组织
 	 */
 	@Override
-	public List<SysOrganization> listSubOrganization(Integer organizationId) {
+	public List<SysOrganization> listSubOrganization(Long organizationId) {
 		return baseMapper.listSubOrganization(organizationId);
 	}
 
@@ -158,7 +158,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	 * @return List<SysOrganization> 该组织的孩子组织
 	 */
 	@Override
-	public List<SysOrganization> listChildOrganization(Integer organizationId) {
+	public List<SysOrganization> listChildOrganization(Long organizationId) {
 		return baseMapper.listChildOrganization(organizationId);
 	}
 
@@ -171,10 +171,10 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	public boolean revisedHierarchyAndPath() {
 		// 组织机构一般数据量不多，一次性查询出来缓存到内存中，减少查询开销
 		List<SysOrganization> sysOrganizations = baseMapper.selectList(Wrappers.emptyWrapper());
-		Map<Integer, List<SysOrganization>> map = sysOrganizations.stream()
+		Map<Long, List<SysOrganization>> map = sysOrganizations.stream()
 			.collect(Collectors.groupingBy(SysOrganization::getParentId));
 		// 默认的父节点为根节点，
-		Integer parentId = GlobalConstants.TREE_ROOT_ID;
+		Long parentId = GlobalConstants.TREE_ROOT_ID_LONG;
 		int depth = 1;
 		String hierarchy = "0";
 		updateChildHierarchyAndPath(map, parentId, depth, hierarchy);
@@ -182,7 +182,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 		return true;
 	}
 
-	private void updateChildHierarchyAndPath(Map<Integer, List<SysOrganization>> map, Integer parentId, int depth,
+	private void updateChildHierarchyAndPath(Map<Long, List<SysOrganization>> map, Long parentId, int depth,
 			String hierarchy) {
 		// 获取对应 parentId 下的所有子节点
 		List<SysOrganization> sysOrganizations = map.get(parentId);
@@ -190,9 +190,9 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 			return;
 		}
 		// 递归更新子节点数据
-		List<Integer> childrenIds = new ArrayList<>();
+		List<Long> childrenIds = new ArrayList<>();
 		for (SysOrganization sysOrganization : sysOrganizations) {
-			Integer organizationId = sysOrganization.getId();
+			Long organizationId = sysOrganization.getId();
 			updateChildHierarchyAndPath(map, organizationId, depth + 1, hierarchy + "-" + organizationId);
 			childrenIds.add(organizationId);
 		}
@@ -206,7 +206,7 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	 */
 	@Override
 	public boolean removeById(Serializable id) {
-		Integer organizationId = (Integer) id;
+		Long organizationId = (Long) id;
 		Boolean existsChildOrganization = baseMapper.existsChildOrganization(organizationId);
 		if (Boolean.TRUE.equals(existsChildOrganization)) {
 			throw new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "该组织机构拥有下级组织，不能删除！");
@@ -222,10 +222,10 @@ public class SysOrganizationServiceImpl extends ExtendServiceImpl<SysOrganizatio
 	 * @param sysOrganization 组织机构实体
 	 * @param parentId 父级ID
 	 */
-	private void fillDepthAndHierarchy(SysOrganization sysOrganization, Integer parentId) {
-		if (GlobalConstants.TREE_ROOT_ID.equals(parentId)) {
+	private void fillDepthAndHierarchy(SysOrganization sysOrganization, Long parentId) {
+		if (GlobalConstants.TREE_ROOT_ID_LONG.equals(parentId)) {
 			sysOrganization.setDepth(1);
-			sysOrganization.setHierarchy(GlobalConstants.TREE_ROOT_ID.toString());
+			sysOrganization.setHierarchy(GlobalConstants.TREE_ROOT_ID_LONG.toString());
 		}
 		else {
 			SysOrganization parentSysOrganization = baseMapper.selectById(parentId);

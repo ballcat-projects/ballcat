@@ -21,7 +21,7 @@ public class SysRolePageVO {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(title = "角色编号")
-	private Integer id;
+	private Long id;
 
 	@Schema(title = "角色名称")
 	private String name;

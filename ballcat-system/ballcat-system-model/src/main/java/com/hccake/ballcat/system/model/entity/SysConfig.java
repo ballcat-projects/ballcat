@@ -11,8 +11,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 系统配置表
  *
- * @author ballcat code generator
- * @date 2019-10-14 17:42:23
+ * @author ballcat code generator 2019-10-14 17:42:23
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -25,7 +24,7 @@ public class SysConfig extends LogicDeletedBaseEntity {
 	 */
 	@TableId
 	@Schema(title = "主键ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 配置名称

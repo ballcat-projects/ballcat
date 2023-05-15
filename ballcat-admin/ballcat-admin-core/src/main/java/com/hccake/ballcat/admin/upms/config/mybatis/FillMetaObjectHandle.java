@@ -10,9 +10,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import java.time.LocalDateTime;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/7/26 14:41
+ * @author Hccake 2019/7/26 14:41
  */
 @Slf4j
 public class FillMetaObjectHandle implements MetaObjectHandler {
@@ -26,7 +24,7 @@ public class FillMetaObjectHandle implements MetaObjectHandler {
 		// 创建人
 		User user = SecurityUtils.getUser();
 		if (user != null) {
-			this.strictInsertFill(metaObject, "createBy", Integer.class, user.getUserId());
+			this.strictInsertFill(metaObject, "createBy", Long.class, user.getUserId());
 		}
 	}
 
@@ -37,7 +35,7 @@ public class FillMetaObjectHandle implements MetaObjectHandler {
 		// 修改人
 		User user = SecurityUtils.getUser();
 		if (user != null) {
-			this.strictUpdateFill(metaObject, "updateBy", Integer.class, user.getUserId());
+			this.strictUpdateFill(metaObject, "updateBy", Long.class, user.getUserId());
 		}
 	}
 

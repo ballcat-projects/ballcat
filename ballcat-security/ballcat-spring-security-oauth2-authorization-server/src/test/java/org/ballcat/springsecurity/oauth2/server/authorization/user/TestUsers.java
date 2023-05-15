@@ -31,14 +31,14 @@ public class TestUsers {
 		attributes.put(UserAttributeNameConstants.PERMISSIONS, permissions);
 
 		return User.builder()
-			.userId(1)
+			.userId(1L)
 			.type(1)
 			.username("user1")
 			.password("password1")
 			.nickname("用户1")
 			.status(1)
 			.avatar("http://s.com")
-			.organizationId(1)
+			.organizationId(1L)
 			.authorities(authorities)
 			.attributes(attributes);
 	}

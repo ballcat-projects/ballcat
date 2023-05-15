@@ -25,7 +25,7 @@ public class SysOrganization extends LogicDeletedBaseEntity {
 	 */
 	@TableId
 	@Schema(title = "ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 组织名称
@@ -37,7 +37,7 @@ public class SysOrganization extends LogicDeletedBaseEntity {
 	 * 父级ID
 	 */
 	@Schema(title = "父级ID")
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 层级信息，从根节点到当前节点的最短路径，使用-分割节点ID

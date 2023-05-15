@@ -43,7 +43,7 @@ public class UserAnnouncement {
 	 * 用户ID
 	 */
 	@Schema(title = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 状态，已读(1)|未读(0)

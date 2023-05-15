@@ -47,7 +47,7 @@ public class SmsSenderParams {
 	private String country;
 
 	/**
-	 * 添加电话
+	 * 添加手机号
 	 */
 	public SmsSenderParams addPhone(String phone) {
 		this.phoneNumbers.add(phone);

@@ -39,7 +39,7 @@ public interface SysRoleMenuMapper extends ExtendMapper<SysRoleMenu> {
 	 * @param menuId 修改后的菜单Id
 	 * @return 被更新的条数
 	 */
-	default int updateMenuId(Integer originalId, Integer menuId) {
+	default int updateMenuId(Long originalId, Long menuId) {
 		// @formatter:off
 		LambdaUpdateWrapper<SysRoleMenu> wrapper = Wrappers.lambdaUpdate(SysRoleMenu.class)
 				.set(SysRoleMenu::getMenuId, menuId)

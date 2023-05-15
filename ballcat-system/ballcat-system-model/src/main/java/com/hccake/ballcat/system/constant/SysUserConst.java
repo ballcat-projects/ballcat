@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/17 14:54
+ * @author Hccake 2019/9/17 14:54
  */
 public final class SysUserConst {
 

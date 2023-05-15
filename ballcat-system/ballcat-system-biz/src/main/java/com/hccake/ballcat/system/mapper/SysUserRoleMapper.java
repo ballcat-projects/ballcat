@@ -31,7 +31,7 @@ public interface SysUserRoleMapper extends ExtendMapper<SysUserRole> {
 	 * @param userId 用户ID
 	 * @return boolean 删除是否成功
 	 */
-	default boolean deleteByUserId(Integer userId) {
+	default boolean deleteByUserId(Long userId) {
 		int i = this.delete(Wrappers.lambdaQuery(SysUserRole.class).eq(SysUserRole::getUserId, userId));
 		return SqlHelper.retBool(i);
 	}
@@ -52,7 +52,7 @@ public interface SysUserRoleMapper extends ExtendMapper<SysUserRole> {
 	 * @param roleCode 角色标识，可为空
 	 * @return 存在：true
 	 */
-	default boolean existsRoleBind(Integer userId, String roleCode) {
+	default boolean existsRoleBind(Long userId, String roleCode) {
 		Long num = this.selectCount(WrappersX.lambdaQueryX(SysUserRole.class)
 			.eq(SysUserRole::getUserId, userId)
 			.eqIfPresent(SysUserRole::getRoleCode, roleCode));
@@ -79,7 +79,7 @@ public interface SysUserRoleMapper extends ExtendMapper<SysUserRole> {
 	 * @param roleCode 角色标识
 	 * @return 删除成功：true
 	 */
-	default boolean deleteUserRole(Integer userId, String roleCode) {
+	default boolean deleteUserRole(Long userId, String roleCode) {
 		int i = this.delete(Wrappers.lambdaQuery(SysUserRole.class)
 			.eq(SysUserRole::getUserId, userId)
 			.eq(SysUserRole::getRoleCode, roleCode));
@@ -91,7 +91,7 @@ public interface SysUserRoleMapper extends ExtendMapper<SysUserRole> {
 	 * @param userId 用户ID
 	 * @return 用户拥有的角色集合
 	 */
-	List<SysRole> listRoleByUserId(Integer userId);
+	List<SysRole> listRoleByUserId(Long userId);
 
 	/**
 	 * 通过角色标识，查询用户列表

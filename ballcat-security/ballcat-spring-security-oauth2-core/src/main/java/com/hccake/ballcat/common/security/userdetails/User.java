@@ -21,7 +21,7 @@ public class User implements UserDetails, OAuth2User {
 	/**
 	 * 用户ID
 	 */
-	private final Integer userId;
+	private final Long userId;
 
 	/**
 	 * 登录账号
@@ -51,7 +51,22 @@ public class User implements UserDetails, OAuth2User {
 	/**
 	 * 组织机构ID
 	 */
-	private final Integer organizationId;
+	private final Long organizationId;
+
+	/**
+	 * 性别(0-默认未知,1-男,2-女)
+	 */
+	private final Integer gender;
+
+	/**
+	 * 电子邮件
+	 */
+	private final String email;
+
+	/**
+	 * 手机号
+	 */
+	private final String phoneNumber;
 
 	/**
 	 * 用户类型
@@ -67,21 +82,6 @@ public class User implements UserDetails, OAuth2User {
 	 * OAuth2User 必须有属性字段
 	 */
 	private final Map<String, Object> attributes;
-
-	public User(Integer userId, String username, String password, String nickname, String avatar, Integer status,
-			Integer organizationId, Integer type, Collection<? extends GrantedAuthority> authorities,
-			Map<String, Object> attributes) {
-		this.userId = userId;
-		this.username = username;
-		this.password = password;
-		this.nickname = nickname;
-		this.avatar = avatar;
-		this.status = status;
-		this.organizationId = organizationId;
-		this.type = type;
-		this.authorities = authorities;
-		this.attributes = attributes;
-	}
 
 	@Override
 	public boolean isAccountNonExpired() {

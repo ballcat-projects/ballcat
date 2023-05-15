@@ -23,7 +23,7 @@ public class RoleBindUserQO {
 	private String roleCode;
 
 	@Parameter(description = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	@Parameter(description = "用户名")
 	private String username;

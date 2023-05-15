@@ -11,8 +11,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 字典表
  *
- * @author hccake
- * @date 2020-03-26 18:40:20
+ * @author hccake 2020-03-26 18:40:20
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -27,7 +26,7 @@ public class SysDict extends LogicDeletedBaseEntity {
 	 */
 	@TableId
 	@Schema(title = "编号")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 标识

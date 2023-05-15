@@ -152,7 +152,7 @@ public class SysMenuController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:menu:del')")
 	@Operation(summary = "通过id删除菜单权限", description = "通过id删除菜单权限")
-	public R<Void> removeById(@PathVariable("id") Integer id) {
+	public R<Void> removeById(@PathVariable("id") Long id) {
 		return sysMenuService.removeById(id) ? R.ok() : R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除菜单权限失败");
 	}
 

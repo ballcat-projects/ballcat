@@ -11,7 +11,6 @@ import javax.validation.constraints.NotBlank;
  * 用户密码传输DTO，字段序列化时忽略，防止记录
  *
  * @author Hccake 2021/1/22
- * @version 1.0
  */
 @Data
 @Schema(title = "系统用户密码传输实体")

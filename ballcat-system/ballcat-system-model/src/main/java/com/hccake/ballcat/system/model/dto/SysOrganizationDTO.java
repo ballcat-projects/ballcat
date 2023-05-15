@@ -19,7 +19,7 @@ public class SysOrganizationDTO {
 	 * ID
 	 */
 	@Schema(title = "ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 组织名称
@@ -31,7 +31,7 @@ public class SysOrganizationDTO {
 	 * 父级ID
 	 */
 	@Schema(title = "父级ID")
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 排序字段，由小到大

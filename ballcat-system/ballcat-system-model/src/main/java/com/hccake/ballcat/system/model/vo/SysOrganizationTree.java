@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Data
 @Schema(title = "组织架构")
-public class SysOrganizationTree implements TreeNode<Integer> {
+public class SysOrganizationTree implements TreeNode<Long> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +24,7 @@ public class SysOrganizationTree implements TreeNode<Integer> {
 	 * ID
 	 */
 	@Schema(title = "ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 组织名称
@@ -36,7 +36,7 @@ public class SysOrganizationTree implements TreeNode<Integer> {
 	 * 父级ID
 	 */
 	@Schema(title = "父级ID")
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 层级信息，从根节点到当前节点的最短路径，使用-分割节点ID
@@ -86,17 +86,17 @@ public class SysOrganizationTree implements TreeNode<Integer> {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T extends TreeNode<Integer>> void setChildren(List<T> children) {
+	public <T extends TreeNode<Long>> void setChildren(List<T> children) {
 		this.children = (List<SysOrganizationTree>) children;
 	}
 
 	@Override
-	public Integer getKey() {
+	public Long getKey() {
 		return this.id;
 	}
 
 	@Override
-	public Integer getParentKey() {
+	public Long getParentKey() {
 		return this.parentId;
 	}
 

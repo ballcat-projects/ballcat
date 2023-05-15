@@ -31,9 +31,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/3/27 19:50
+ * @author Hccake 2020/3/27 19:50
  */
 @Service
 @RequiredArgsConstructor
@@ -86,7 +84,7 @@ public class SysDictManager {
 	 * @param id 字典id
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public void removeDictById(Integer id) {
+	public void removeDictById(Long id) {
 		// 查询现有数据
 		SysDict dict = sysDictService.getById(id);
 		// 字典标识
@@ -106,7 +104,7 @@ public class SysDictManager {
 	 * @param itemId 字典项id
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public void updateDictItemStatusById(Integer itemId, Integer status) {
+	public void updateDictItemStatusById(Long itemId, Integer status) {
 		// 获取字典项
 		SysDictItem dictItem = sysDictItemService.getById(itemId);
 		Assert.notNull(dictItem,
@@ -187,7 +185,7 @@ public class SysDictManager {
 	 * @return 执行是否成功
 	 */
 	@Transactional(rollbackFor = Exception.class)
-	public boolean removeDictItemById(Integer id) {
+	public boolean removeDictItemById(Long id) {
 		// 根据ID查询字典
 		SysDictItem dictItem = sysDictItemService.getById(id);
 		String dictCode = dictItem.getDictCode();

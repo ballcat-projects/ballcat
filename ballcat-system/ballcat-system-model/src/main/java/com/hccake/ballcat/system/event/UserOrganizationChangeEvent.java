@@ -14,10 +14,10 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class UserOrganizationChangeEvent {
 
-	private final Integer userId;
+	private final Long userId;
 
-	private final Integer originOrganizationId;
+	private final Long originOrganizationId;
 
-	private final Integer currentOrganizationId;
+	private final Long currentOrganizationId;
 
 }

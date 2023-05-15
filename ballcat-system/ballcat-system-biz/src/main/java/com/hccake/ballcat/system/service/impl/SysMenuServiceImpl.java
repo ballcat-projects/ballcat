@@ -45,7 +45,7 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 	 */
 	@Override
 	public boolean save(SysMenu sysMenu) {
-		Integer menuId = sysMenu.getId();
+		Long menuId = sysMenu.getId();
 		SysMenu existingMenu = baseMapper.selectById(menuId);
 		if (existingMenu != null) {
 			String errorMessage = String.format("ID [%s] 已被菜单 [%s] 使用，请更换其他菜单ID", menuId, existingMenu.getTitle());
@@ -59,7 +59,7 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 	public boolean create(SysMenuCreateDTO sysMenuCreateDTO) {
 
 		SysMenu sysMenu = SysMenuConverter.INSTANCE.createDtoToPo(sysMenuCreateDTO);
-		Integer menuId = sysMenu.getId();
+		Long menuId = sysMenu.getId();
 		if (menuId != null) {
 			SysMenu existingMenu = baseMapper.selectById(menuId);
 			if (existingMenu != null) {
@@ -101,7 +101,7 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 	@Transactional(rollbackFor = Exception.class)
 	public void update(SysMenuUpdateDTO sysMenuUpdateDTO) {
 		// 原来的菜单 Id
-		Integer originalId = sysMenuUpdateDTO.getOriginalId();
+		Long originalId = sysMenuUpdateDTO.getOriginalId();
 		SysMenu sysMenu = SysMenuConverter.INSTANCE.updateDtoToPo(sysMenuUpdateDTO);
 
 		// 更新菜单信息
@@ -112,7 +112,7 @@ public class SysMenuServiceImpl extends ExtendServiceImpl<SysMenuMapper, SysMenu
 		});
 
 		// 如果未修改过 菜单id 直接返回
-		Integer menuId = sysMenuUpdateDTO.getId();
+		Long menuId = sysMenuUpdateDTO.getId();
 		if (originalId.equals(menuId)) {
 			return;
 		}

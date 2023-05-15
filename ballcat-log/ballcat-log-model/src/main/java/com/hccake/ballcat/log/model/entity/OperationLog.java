@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 /**
  * 操作日志
  *
- * @author hccake
- * @date 2019-10-15 20:42:32
+ * @author hccake 2019-10-15 20:42:32
  */
 @Data
 @TableName("log_operation_log")

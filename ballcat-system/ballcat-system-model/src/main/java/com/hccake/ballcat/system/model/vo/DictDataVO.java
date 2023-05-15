@@ -6,9 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/4/9 15:48
+ * @author Hccake 2020/4/9 15:48
  */
 @Data
 @Schema(title = "字典数据VO")

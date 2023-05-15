@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 /**
  * 系统用户表
  *
- * @author ballcat code generator
- * @date 2019-09-12 20:39:31
+ * @author ballcat code generator 2019-09-12 20:39:31
  */
 @Data
 @Schema(title = "系统用户VO")
@@ -23,7 +22,7 @@ public class SysUserPageVO implements Serializable {
 	 * 用户ID
 	 */
 	@Schema(title = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 登录账号
@@ -47,7 +46,7 @@ public class SysUserPageVO implements Serializable {
 	 * 性别(0-默认未知,1-男,2-女)
 	 */
 	@Schema(title = "性别(0-默认未知,1-男,2-女)")
-	private Integer sex;
+	private Integer gender;
 
 	/**
 	 * 电子邮件
@@ -56,10 +55,10 @@ public class SysUserPageVO implements Serializable {
 	private String email;
 
 	/**
-	 * 电话
+	 * 手机号
 	 */
-	@Schema(title = "电话")
-	private String phone;
+	@Schema(title = "手机号")
+	private String phoneNumber;
 
 	/**
 	 * 状态(1-正常,0-冻结)

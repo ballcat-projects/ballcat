@@ -105,7 +105,7 @@ public class SysOrganizationController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@per.hasPermission('system:organization:del')")
 	@Operation(summary = "通过id删除组织架构")
-	public R<Void> removeById(@PathVariable("id") Integer id) {
+	public R<Void> removeById(@PathVariable("id") Long id) {
 		return sysOrganizationService.removeById(id) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "通过id删除组织架构失败");
 	}

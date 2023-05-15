@@ -71,6 +71,6 @@ public interface AnnouncementMapper extends ExtendMapper<Announcement> {
 	 * @param pulled 当前用户是否拉取过
 	 * @return 公告信息列表
 	 */
-	List<Announcement> listUserAnnouncements(@Param("userId") Integer userId, @Param("pulled") boolean pulled);
+	List<Announcement> listUserAnnouncements(@Param("userId") Long userId, @Param("pulled") boolean pulled);
 
 }

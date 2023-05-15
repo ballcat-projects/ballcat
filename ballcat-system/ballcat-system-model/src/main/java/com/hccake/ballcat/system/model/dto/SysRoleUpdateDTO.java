@@ -20,7 +20,7 @@ public class SysRoleUpdateDTO {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(title = "角色编号")
-	private Integer id;
+	private Long id;
 
 	@NotBlank(message = "角色名称不能为空")
 	@Schema(title = "角色名称")

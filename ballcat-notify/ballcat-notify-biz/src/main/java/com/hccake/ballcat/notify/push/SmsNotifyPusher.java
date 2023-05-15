@@ -32,7 +32,7 @@ public class SmsNotifyPusher implements NotifyPusher {
 	@Override
 	public void push(NotifyInfo notifyInfo, List<SysUser> userList) {
 		List<String> phoneList = userList.stream()
-			.map(SysUser::getPhone)
+			.map(SysUser::getPhoneNumber)
 			.filter(StrUtil::isNotBlank)
 			.collect(Collectors.toList());
 		// 短信文本去除 html 标签

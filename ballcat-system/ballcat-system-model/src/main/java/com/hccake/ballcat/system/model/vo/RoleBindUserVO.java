@@ -9,8 +9,7 @@ import java.io.Serializable;
 /**
  * 角色绑定的用户
  *
- * @author ballcat code generator
- * @date 2019-09-12 20:39:31
+ * @author ballcat code generator 2019-09-12 20:39:31
  */
 @Data
 @Schema(title = "角色绑定的用户VO")
@@ -19,7 +18,7 @@ public class RoleBindUserVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(title = "用户ID")
-	private Integer userId;
+	private Long userId;
 
 	@Schema(title = "登录账号")
 	private String username;
@@ -31,7 +30,7 @@ public class RoleBindUserVO implements Serializable {
 	private Integer type;
 
 	@Schema(title = "组织机构ID")
-	private Integer organizationId;
+	private Long organizationId;
 
 	@Schema(title = "组织机构名称")
 	private String organizationName;

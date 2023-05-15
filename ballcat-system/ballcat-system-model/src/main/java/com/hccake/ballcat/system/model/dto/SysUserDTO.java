@@ -16,8 +16,7 @@ import java.util.List;
 /**
  * 系统用户表
  *
- * @author ballcat code generator
- * @date 2019-09-12 20:39:31
+ * @author ballcat code generator 2019-09-12 20:39:31
  */
 @Data
 @Schema(title = "系统用户DTO")
@@ -28,7 +27,7 @@ public class SysUserDTO {
 	 */
 	@NotNull(message = "userId {}", groups = UpdateGroup.class)
 	@Schema(title = "主键id")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 前端传入密码
@@ -68,7 +67,7 @@ public class SysUserDTO {
 	 * 性别(0-默认未知,1-男,2-女)
 	 */
 	@Schema(title = "性别(0-默认未知,1-男,2-女)")
-	private Integer sex;
+	private Integer gender;
 
 	/**
 	 * 电子邮件
@@ -77,10 +76,10 @@ public class SysUserDTO {
 	private String email;
 
 	/**
-	 * 电话
+	 * 手机号
 	 */
-	@Schema(title = "电话")
-	private String phone;
+	@Schema(title = "手机号")
+	private String phoneNumber;
 
 	/**
 	 * 状态(1-正常,2-冻结)

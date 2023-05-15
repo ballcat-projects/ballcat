@@ -187,18 +187,18 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 		Assert.isTrue(adminUserChecker.hasModifyPermission(entity), "当前用户不允许修改!");
 
 		// 如果不更新组织，直接执行
-		Integer currentOrganizationId = entity.getOrganizationId();
+		Long currentOrganizationId = entity.getOrganizationId();
 		if (currentOrganizationId == null) {
 			return SqlHelper.retBool(baseMapper.updateById(entity));
 		}
 
 		// 查询出当前库中用户
-		Integer userId = entity.getUserId();
+		Long userId = entity.getUserId();
 		SysUser oldUser = baseMapper.selectById(userId);
 		Assert.notNull(oldUser, "修改用户失败，当前用户不存在：{}", userId);
 
 		// 是否修改了组织
-		Integer originOrganizationId = oldUser.getOrganizationId();
+		Long originOrganizationId = oldUser.getOrganizationId();
 		boolean organizationIdModified = !currentOrganizationId.equals(originOrganizationId);
 		// 是否更改成功
 		boolean isUpdateSuccess = SqlHelper.retBool(baseMapper.updateById(entity));
@@ -219,7 +219,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean updateUserScope(Integer userId, SysUserScope sysUserScope) {
+	public boolean updateUserScope(Long userId, SysUserScope sysUserScope) {
 		// 更新用户角色关联关系
 		return sysUserRoleService.updateUserRoles(userId, sysUserScope.getRoleCodes());
 	}
@@ -230,7 +230,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 删除成功：true
 	 */
 	@Override
-	public boolean deleteByUserId(Integer userId) {
+	public boolean deleteByUserId(Long userId) {
 		Assert.isFalse(adminUserChecker.isAdminUser(getById(userId)), "管理员不允许删除!");
 		return SqlHelper.retBool(baseMapper.deleteById(userId));
 	}
@@ -242,7 +242,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 更新成功：true
 	 */
 	@Override
-	public boolean updatePassword(Integer userId, String rawPassword) {
+	public boolean updatePassword(Long userId, String rawPassword) {
 		Assert.isTrue(adminUserChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		// 密码加密加密
 		String encodedPassword = passwordHelper.encode(rawPassword);
@@ -255,13 +255,13 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 更新成功：true
 	 */
 	@Override
-	public boolean updateUserStatusBatch(Collection<Integer> userIds, Integer status) {
+	public boolean updateUserStatusBatch(Collection<Long> userIds, Integer status) {
 
 		List<SysUser> userList = baseMapper.listByUserIds(userIds);
 		Assert.notEmpty(userList, "更新用户状态失败，待更新用户列表为空");
 
 		// 移除无权限更改的用户id
-		Map<Integer, SysUser> userMap = userList.stream()
+		Map<Long, SysUser> userMap = userList.stream()
 			.collect(Collectors.toMap(SysUser::getUserId, Function.identity()));
 		userIds.removeIf(id -> !adminUserChecker.hasModifyPermission(userMap.get(id)));
 		Assert.notEmpty(userIds, "更新用户状态失败，无权限更新用户");
@@ -271,7 +271,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public String updateAvatar(MultipartFile file, Integer userId) throws IOException {
+	public String updateAvatar(MultipartFile file, Long userId) throws IOException {
 		Assert.isTrue(adminUserChecker.hasModifyPermission(getById(userId)), "当前用户不允许修改!");
 		// 获取系统用户头像的文件名
 		String objectName = "sysuser/" + userId + "/avatar/" + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE)
@@ -312,7 +312,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 用户集合
 	 */
 	@Override
-	public List<SysUser> listByOrganizationIds(Collection<Integer> organizationIds) {
+	public List<SysUser> listByOrganizationIds(Collection<Long> organizationIds) {
 		return baseMapper.listByOrganizationIds(organizationIds);
 	}
 
@@ -332,7 +332,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return 用户集合
 	 */
 	@Override
-	public List<SysUser> listByUserIds(Collection<Integer> userIds) {
+	public List<SysUser> listByUserIds(Collection<Long> userIds) {
 		return baseMapper.listByUserIds(userIds);
 
 	}
@@ -353,7 +353,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return List<String>
 	 */
 	@Override
-	public List<String> listRoleCodes(Integer userId) {
+	public List<String> listRoleCodes(Long userId) {
 		return sysUserRoleService.listRoles(userId).stream().map(SysRole::getCode).collect(Collectors.toList());
 	}
 
@@ -363,7 +363,7 @@ public class SysUserServiceImpl extends ExtendServiceImpl<SysUserMapper, SysUser
 	 * @return boolean 存在返回 true
 	 */
 	@Override
-	public boolean existsForOrganization(Integer organizationId) {
+	public boolean existsForOrganization(Long organizationId) {
 		return baseMapper.existsForOrganization(organizationId);
 	}
 

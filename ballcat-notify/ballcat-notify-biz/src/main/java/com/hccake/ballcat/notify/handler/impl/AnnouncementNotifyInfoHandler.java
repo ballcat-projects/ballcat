@@ -28,7 +28,7 @@ public class AnnouncementNotifyInfoHandler
 		List<UserAnnouncement> userAnnouncements = new ArrayList<>(userList.size());
 		// 向指定用户推送
 		for (SysUser sysUser : userList) {
-			Integer userId = sysUser.getUserId();
+			Long userId = sysUser.getUserId();
 			UserAnnouncement userAnnouncement = userAnnouncementService.prodUserAnnouncement(userId,
 					announcementNotifyInfo.getId());
 			userAnnouncements.add(userAnnouncement);

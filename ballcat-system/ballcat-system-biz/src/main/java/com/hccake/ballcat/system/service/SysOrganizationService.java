@@ -41,14 +41,14 @@ public interface SysOrganizationService extends ExtendService<SysOrganization> {
 	 * @param organizationId 组织机构ID
 	 * @return List<SysOrganization> 该组织的儿子组织
 	 */
-	List<SysOrganization> listSubOrganization(Integer organizationId);
+	List<SysOrganization> listSubOrganization(Long organizationId);
 
 	/**
 	 * 根据组织ID 查询除该组织下的所有孩子（子孙）组织
 	 * @param organizationId 组织机构ID
 	 * @return List<SysOrganization> 该组织的孩子组织
 	 */
-	List<SysOrganization> listChildOrganization(Integer organizationId);
+	List<SysOrganization> listChildOrganization(Long organizationId);
 
 	/**
 	 * 校正组织机构层级和深度

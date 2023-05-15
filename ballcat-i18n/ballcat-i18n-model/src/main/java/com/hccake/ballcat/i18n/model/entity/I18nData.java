@@ -30,7 +30,7 @@ public class I18nData extends BaseEntity {
 	 */
 	@TableId
 	@Schema(title = "ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 语言标签

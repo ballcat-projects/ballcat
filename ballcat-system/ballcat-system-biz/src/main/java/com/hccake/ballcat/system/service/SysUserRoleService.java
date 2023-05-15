@@ -22,7 +22,7 @@ public interface SysUserRoleService extends ExtendService<SysUserRole> {
 	 * @param userId 用户ID
 	 * @return 删除是否程
 	 */
-	boolean deleteByUserId(Integer userId);
+	boolean deleteByUserId(Long userId);
 
 	/**
 	 * 更新用户关联关系
@@ -30,7 +30,7 @@ public interface SysUserRoleService extends ExtendService<SysUserRole> {
 	 * @param roleCodes 角色标识集合
 	 * @return boolean
 	 */
-	boolean updateUserRoles(Integer userId, List<String> roleCodes);
+	boolean updateUserRoles(Long userId, List<String> roleCodes);
 
 	/**
 	 * 添加用户角色关联关系
@@ -38,14 +38,14 @@ public interface SysUserRoleService extends ExtendService<SysUserRole> {
 	 * @param roleCodes 角色标识集合
 	 * @return 插入是否成功
 	 */
-	boolean addUserRoles(Integer userId, List<String> roleCodes);
+	boolean addUserRoles(Long userId, List<String> roleCodes);
 
 	/**
 	 * 通过用户ID，查询角色列表
 	 * @param userId 用户ID
 	 * @return List<SysRole>
 	 */
-	List<SysRole> listRoles(Integer userId);
+	List<SysRole> listRoles(Long userId);
 
 	/**
 	 * 通过角色标识，查询用户列表
@@ -61,6 +61,6 @@ public interface SysUserRoleService extends ExtendService<SysUserRole> {
 	 * @param roleCode 角色标识
 	 * @return 解绑成功：true
 	 */
-	boolean unbindRoleUser(Integer userId, String roleCode);
+	boolean unbindRoleUser(Long userId, String roleCode);
 
 }

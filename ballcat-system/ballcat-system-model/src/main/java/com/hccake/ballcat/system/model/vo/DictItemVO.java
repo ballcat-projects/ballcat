@@ -9,8 +9,7 @@ import java.util.Map;
 /**
  * 字典项
  *
- * @author hccake
- * @date 2020-03-26 18:40:20
+ * @author hccake 2020-03-26 18:40:20
  */
 @Data
 @Schema(title = "字典项VO")
@@ -19,7 +18,7 @@ public class DictItemVO {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(title = "id")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 数据值

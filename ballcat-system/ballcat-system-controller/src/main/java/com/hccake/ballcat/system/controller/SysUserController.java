@@ -101,7 +101,7 @@ public class SysUserController {
 	@GetMapping("/{userId}")
 	@PreAuthorize("@per.hasPermission('system:user:read')")
 	@Operation(summary = "获取指定用户的基本信息")
-	public R<SysUserInfo> getSysUserInfo(@PathVariable("userId") Integer userId) {
+	public R<SysUserInfo> getSysUserInfo(@PathVariable("userId") Long userId) {
 		SysUser sysUser = sysUserService.getById(userId);
 		if (sysUser == null) {
 			return R.ok();
@@ -160,7 +160,7 @@ public class SysUserController {
 	@DeleteOperationLogging(msg = "通过id删除系统用户")
 	@PreAuthorize("@per.hasPermission('system:user:del')")
 	@Operation(summary = "通过id删除系统用户", description = "通过id删除系统用户")
-	public R<Void> deleteByUserId(@PathVariable("userId") Integer userId) {
+	public R<Void> deleteByUserId(@PathVariable("userId") Long userId) {
 		return sysUserService.deleteByUserId(userId) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "删除系统用户失败");
 	}
@@ -171,7 +171,7 @@ public class SysUserController {
 	 */
 	@GetMapping("/scope/{userId}")
 	@PreAuthorize("@per.hasPermission('system:user:grant')")
-	public R<SysUserScope> getUserRoleIds(@PathVariable("userId") Integer userId) {
+	public R<SysUserScope> getUserRoleIds(@PathVariable("userId") Long userId) {
 
 		List<SysRole> roleList = sysUserRoleService.listRoles(userId);
 
@@ -195,7 +195,7 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "系统用户授权")
 	@PreAuthorize("@per.hasPermission('system:user:grant')")
 	@Operation(summary = "系统用户授权", description = "系统用户授权")
-	public R<Void> updateUserScope(@PathVariable("userId") Integer userId, @RequestBody SysUserScope sysUserScope) {
+	public R<Void> updateUserScope(@PathVariable("userId") Long userId, @RequestBody SysUserScope sysUserScope) {
 		return sysUserService.updateUserScope(userId, sysUserScope) ? R.ok()
 				: R.failed(BaseResultCode.UPDATE_DATABASE_ERROR, "系统用户授权失败");
 	}
@@ -207,7 +207,7 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "修改系统用户密码")
 	@PreAuthorize("@per.hasPermission('system:user:pass')")
 	@Operation(summary = "修改系统用户密码", description = "修改系统用户密码")
-	public R<Void> updateUserPass(@PathVariable("userId") Integer userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
+	public R<Void> updateUserPass(@PathVariable("userId") Long userId, @RequestBody SysUserPassDTO sysUserPassDTO) {
 		String pass = sysUserPassDTO.getPass();
 		if (!pass.equals(sysUserPassDTO.getConfirmPass())) {
 			return R.failed(SystemResultCode.BAD_REQUEST, "两次密码输入不一致!");
@@ -232,7 +232,7 @@ public class SysUserController {
 	@UpdateOperationLogging(msg = "批量修改用户状态")
 	@PreAuthorize("@per.hasPermission('system:user:edit')")
 	@Operation(summary = "批量修改用户状态", description = "批量修改用户状态")
-	public R<Void> updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Integer> userIds,
+	public R<Void> updateUserStatus(@NotEmpty(message = "用户ID不能为空") @RequestBody List<Long> userIds,
 			@NotNull(message = "用户状态不能为空") @RequestParam("status") Integer status) {
 
 		if (!SysUserConst.Status.NORMAL.getValue().equals(status)
@@ -247,7 +247,7 @@ public class SysUserController {
 	@PreAuthorize("@per.hasPermission('system:user:edit')")
 	@PostMapping("/avatar")
 	@Operation(summary = "修改系统用户头像", description = "修改系统用户头像")
-	public R<String> updateAvatar(@RequestParam("file") MultipartFile file, @RequestParam("userId") Integer userId) {
+	public R<String> updateAvatar(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId) {
 		String objectName;
 		try {
 			objectName = sysUserService.updateAvatar(file, userId);

@@ -43,7 +43,7 @@ public interface UserAnnouncementMapper extends ExtendMapper<UserAnnouncement> {
 	 * @param userId 用户ID
 	 * @param announcementId 公告ID
 	 */
-	default void updateToReadState(Integer userId, Long announcementId) {
+	default void updateToReadState(Long userId, Long announcementId) {
 		LambdaUpdateWrapper<UserAnnouncement> wrapper = Wrappers.<UserAnnouncement>lambdaUpdate()
 			.set(UserAnnouncement::getState, UserAnnouncementStateEnum.READ.getValue())
 			.set(UserAnnouncement::getReadTime, LocalDateTime.now())
