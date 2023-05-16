@@ -8,6 +8,7 @@ import com.hccake.ballcat.system.authentication.UserInfoCoordinator;
 import com.hccake.ballcat.system.properties.SystemProperties;
 import com.hccake.ballcat.system.service.SysUserService;
 import org.ballcat.security.properties.SecurityProperties;
+import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenResponseEnhancer;
 import org.ballcat.springsecurity.oauth2.server.resource.introspection.SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -83,7 +84,7 @@ public class UpmsAutoConfiguration {
 		 */
 		@Bean
 		@ConditionalOnMissingBean
-		public BallcatOAuth2TokenResponseEnhancer oAuth2TokenResponseEnhancer() {
+		public OAuth2TokenResponseEnhancer oAuth2TokenResponseEnhancer() {
 			return new BallcatOAuth2TokenResponseEnhancer();
 		}
 
