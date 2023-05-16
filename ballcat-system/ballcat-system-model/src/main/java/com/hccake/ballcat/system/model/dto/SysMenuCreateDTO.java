@@ -30,7 +30,7 @@ public class SysMenuCreateDTO {
 	 */
 	@NotNull(message = "parentId：{}")
 	@Schema(title = "父级ID")
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 菜单名称
