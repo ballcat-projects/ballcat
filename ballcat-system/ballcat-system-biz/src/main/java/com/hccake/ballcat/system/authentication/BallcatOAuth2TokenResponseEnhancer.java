@@ -66,6 +66,9 @@ public class BallcatOAuth2TokenResponseEnhancer implements OAuth2TokenResponseEn
 		sysUserInfo.setAvatar(user.getAvatar());
 		sysUserInfo.setOrganizationId(user.getOrganizationId());
 		sysUserInfo.setType(user.getType());
+		sysUserInfo.setPhoneNumber(user.getPhoneNumber());
+		sysUserInfo.setEmail(user.getEmail());
+		sysUserInfo.setGender(user.getGender());
 		return sysUserInfo;
 	}
 
