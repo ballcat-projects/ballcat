@@ -29,6 +29,6 @@ public class RoleBindUserQO {
 	private String username;
 
 	@Parameter(description = "组织ID")
-	private Integer organizationId;
+	private Long organizationId;
 
 }

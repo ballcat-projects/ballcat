@@ -92,7 +92,7 @@ public class SysUserDTO {
 	 * 组织机构ID
 	 */
 	@Schema(title = "组织机构ID")
-	private Integer organizationId;
+	private Long organizationId;
 
 	/**
 	 * 角色标识列表

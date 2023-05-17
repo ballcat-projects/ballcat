@@ -28,7 +28,7 @@ public class SysMenuUpdateDTO {
 	 * 父级ID
 	 */
 	@Schema(title = "父级ID")
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 菜单名称
