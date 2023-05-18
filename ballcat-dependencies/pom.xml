@@ -45,7 +45,7 @@
 		</software.amazon.awssdk-s3-transfer-manager.version>
 		<software.amazon.awssdk.version>2.18.20</software.amazon.awssdk.version>
 		<spring-authorization-server.version>0.4.2</spring-authorization-server.version>
-		<spring-boot.version>2.7.11</spring-boot.version>
+		<spring-boot.version>2.7.12</spring-boot.version>
 		<springdoc-openapi.verison>1.7.0</springdoc-openapi.verison>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.6.8</swagger.version>
