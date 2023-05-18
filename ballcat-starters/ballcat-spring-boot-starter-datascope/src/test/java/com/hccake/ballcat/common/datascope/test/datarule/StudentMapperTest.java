@@ -67,6 +67,10 @@ class StudentMapperTest {
 		DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule,
 				() -> Assertions.assertEquals(10, studentService.listStudent().size()));
 
+		Integer size = DataPermissionUtils.executeWithDataPermissionRule(dataPermissionRule,
+				() -> studentService.listStudent().size());
+		Assertions.assertEquals(10, size);
+
 		// 再使用完整的 datascope 规则进行查询
 		List<Student> studentList1 = studentService.listStudent();
 		Assertions.assertEquals(2, studentList1.size());

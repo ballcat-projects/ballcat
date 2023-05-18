@@ -1,16 +1,16 @@
 package com.hccake.ballcat.common.datascope.function;
 
 /**
- * 任务接口
+ * 有返回值的操作接口
  *
  * @author hccake
  */
 @FunctionalInterface
-public interface Task {
+public interface ResultAction<T> {
 
 	/**
-	 * 执行任务
+	 * 执行操作
 	 */
-	void perform();
+	T execute();
 
 }
