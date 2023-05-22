@@ -4,7 +4,7 @@ import com.hccake.ballcat.common.core.lock.JavaReentrantLock;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,9 +16,16 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 
 	private final JavaReentrantLock lock = new JavaReentrantLock();
 
-	protected final PriorityQueue<T> queue = new PriorityQueue<>(comparator());
+	protected final PriorityBlockingQueue<T> queue = new PriorityBlockingQueue<>(defaultCapacity(), comparator());
 
 	public abstract Comparator<T> comparator();
+
+	/**
+	 * 默认大小
+	 */
+	protected int defaultCapacity() {
+		return 11;
+	}
 
 	/**
 	 * 还有多久要处理该对象
@@ -44,7 +51,6 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 		catch (Exception e) {
 			log.error("{} put error, param: {}", this.getClass().toString(), t, e);
 		}
-
 	}
 
 	@Override
