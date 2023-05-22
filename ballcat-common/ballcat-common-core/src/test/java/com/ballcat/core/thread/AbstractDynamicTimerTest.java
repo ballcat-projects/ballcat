@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lingting 2023-04-22 11:18
@@ -48,6 +49,7 @@ class AbstractDynamicTimerTest {
 		timer.put(a5);
 		timer.put(a30);
 
+		TimeUnit.SECONDS.sleep(3);
 		sleep(3);
 		timer.put(a2);
 
