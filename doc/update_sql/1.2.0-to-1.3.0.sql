@@ -77,3 +77,8 @@ ALTER TABLE `sys_config`
     MODIFY COLUMN `deleted` bigint(20) NOT NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `remarks`,
     MODIFY COLUMN `create_by` bigint(20) NULL DEFAULT NULL COMMENT '创建人' AFTER `deleted`,
     MODIFY COLUMN `update_by` bigint(20) NULL DEFAULT NULL COMMENT '修改人' AFTER `create_by`;
+
+
+ALTER TABLE `i18n_data`
+    MODIFY COLUMN `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID' FIRST,
+    MODIFY COLUMN `deleted` bigint NOT NULL DEFAULT 0 COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间' AFTER `remarks`;

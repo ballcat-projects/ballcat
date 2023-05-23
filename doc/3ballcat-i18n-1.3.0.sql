@@ -1,18 +1,18 @@
 -- 国际化信息表
 CREATE TABLE `i18n_data` (
-                             `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                             `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
                              `language_tag` varchar(10) NOT NULL COMMENT '语言标签',
                              `code` varchar(60) NOT NULL COMMENT '唯一标识 = 业务:关键词',
                              `message` varchar(255) NOT NULL COMMENT '文本值，可以使用 { } 加角标，作为占位符',
                              `remarks` varchar(256) DEFAULT NULL COMMENT '备注',
-                             `deleted` bigint(20) DEFAULT '0' COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间',
+                             `deleted` bigint(20) NOT NULL DEFAULT '0' COMMENT '逻辑删除标识，未删除为 0，已删除为删除时间',
                              `create_by` int(11) DEFAULT NULL COMMENT '创建人',
                              `update_by` int(11) DEFAULT NULL COMMENT '修改人',
                              `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                              `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
                              PRIMARY KEY (`id`),
                              UNIQUE KEY `udx_laguage_tag_code` (`language_tag`,`code`,`deleted`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci  COMMENT='国际化信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci  COMMENT='国际化信息';
 
 -- 插入菜单的国际化信息配置
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (1, 'zh-CN', 'menu.account', '个人页', '', '2021-08-06 11:46:52', NULL);
