@@ -12,13 +12,18 @@ import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
-import software.amazon.awssdk.transfer.s3.*;
+import software.amazon.awssdk.transfer.s3.S3TransferManager;
+import software.amazon.awssdk.transfer.s3.model.FileUpload;
+import software.amazon.awssdk.transfer.s3.model.Upload;
+import software.amazon.awssdk.transfer.s3.model.UploadFileRequest;
+import software.amazon.awssdk.transfer.s3.model.UploadRequest;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
@@ -280,7 +285,7 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 			.build();
 		// 构建S3高级传输工具
 		this.s3TransferManager = S3TransferManager.builder()
-			.s3ClientConfiguration(S3ClientConfiguration.builder()
+			.s3Client(S3AsyncClient.builder()
 				.credentialsProvider(getAwsCredentialsProvider())
 				.region(Region.of(getOssProperties().getRegion()))
 				.endpointOverride(URI.create(getOssProperties().getEndpoint()))
