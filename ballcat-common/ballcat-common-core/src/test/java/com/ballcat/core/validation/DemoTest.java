@@ -38,7 +38,7 @@ public class DemoTest {
 		Set<ConstraintViolation<Demo>> constraintViolations = validator.validate(demo);
 
 		for (ConstraintViolation<Demo> constraintViolation : constraintViolations) {
-			log.error("field: [{}], 校验异常：{}", constraintViolation.getPropertyPath(), constraintViolation.getMessage());
+			log.debug("field: [{}], 校验异常：{}", constraintViolation.getPropertyPath(), constraintViolation.getMessage());
 		}
 
 		assertEquals(4, constraintViolations.size());
