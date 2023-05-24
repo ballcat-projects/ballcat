@@ -1,10 +1,10 @@
 package com.hccake.ballcat.log.handler;
 
 import cn.hutool.core.util.URLUtil;
+import com.hccake.ballcat.common.core.constant.MDCConstants;
 import com.hccake.ballcat.common.desensitize.DesensitizationHandlerHolder;
 import com.hccake.ballcat.common.desensitize.enums.RegexDesensitizationTypeEnum;
 import com.hccake.ballcat.common.log.access.handler.AccessLogHandler;
-import com.hccake.ballcat.common.log.constant.LogConstant;
 import com.hccake.ballcat.common.log.util.LogUtils;
 import com.hccake.ballcat.common.security.util.SecurityUtils;
 import com.hccake.ballcat.common.util.IpUtils;
@@ -64,7 +64,7 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 		// @formatter:off
 		String uri = URLUtil.getPath(request.getRequestURI());
 		AccessLog accessLog = new AccessLog()
-				.setTraceId(MDC.get(LogConstant.TRACE_ID))
+				.setTraceId(MDC.get(MDCConstants.TRACE_ID_KEY))
 				.setCreateTime(LocalDateTime.now())
 				.setTime(time)
 				.setIp(IpUtils.getIpAddr(request))

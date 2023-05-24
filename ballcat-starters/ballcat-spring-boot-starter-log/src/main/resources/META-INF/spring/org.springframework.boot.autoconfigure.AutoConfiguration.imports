@@ -1,3 +1,2 @@
 com.hccake.ballcat.autoconfigure.log.AccessLogAutoConfiguration
 com.hccake.ballcat.autoconfigure.log.OperationLogAutoConfiguration
-com.hccake.ballcat.autoconfigure.log.TraceIdAutoConfiguration

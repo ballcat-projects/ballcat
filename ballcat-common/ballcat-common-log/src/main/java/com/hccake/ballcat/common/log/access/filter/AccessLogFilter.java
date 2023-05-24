@@ -1,8 +1,8 @@
 package com.hccake.ballcat.common.log.access.filter;
 
+import com.hccake.ballcat.common.core.constant.MDCConstants;
 import com.hccake.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
 import com.hccake.ballcat.common.log.access.handler.AccessLogHandler;
-import com.hccake.ballcat.common.log.constant.LogConstant;
 import com.hccake.ballcat.common.log.util.LogUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -78,7 +78,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
 		// 开始时间
 		Long startTime = System.currentTimeMillis();
 		Throwable myThrowable = null;
-		final String traceId = MDC.get(LogConstant.TRACE_ID);
+		final String traceId = MDC.get(MDCConstants.TRACE_ID_KEY);
 		try {
 			filterChain.doFilter(requestWrapper, responseWrapper);
 		}
@@ -89,8 +89,8 @@ public class AccessLogFilter extends OncePerRequestFilter {
 		}
 		finally {
 			// 这里抛BusinessException后会丢失traceId，需要重新设置
-			if (StringUtils.isBlank(MDC.get(LogConstant.TRACE_ID))) {
-				MDC.put(LogConstant.TRACE_ID, traceId);
+			if (StringUtils.isBlank(MDC.get(MDCConstants.TRACE_ID_KEY))) {
+				MDC.put(MDCConstants.TRACE_ID_KEY, traceId);
 			}
 			// 结束时间
 			Long endTime = System.currentTimeMillis();

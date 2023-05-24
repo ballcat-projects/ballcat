@@ -1,8 +1,8 @@
 package com.hccake.ballcat.log.handler;
 
 import cn.hutool.core.util.URLUtil;
+import com.hccake.ballcat.common.core.constant.MDCConstants;
 import com.hccake.ballcat.common.core.util.WebUtils;
-import com.hccake.ballcat.common.log.constant.LogConstant;
 import com.hccake.ballcat.common.log.operation.annotation.OperationLogging;
 import com.hccake.ballcat.common.log.operation.enums.LogStatusEnum;
 import com.hccake.ballcat.common.log.operation.handler.AbstractOperationLogHandler;
@@ -42,7 +42,7 @@ public class CustomOperationLogHandler extends AbstractOperationLogHandler<Opera
 				.setUri(URLUtil.getPath(request.getRequestURI()))
 				.setType(operationLogging.type())
 				.setMsg(operationLogging.msg())
-				.setTraceId(MDC.get(LogConstant.TRACE_ID));
+				.setTraceId(MDC.get(MDCConstants.TRACE_ID_KEY));
 		// @formatter:on
 
 		// 请求参数
