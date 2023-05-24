@@ -81,7 +81,15 @@ public abstract class AbstractOAuth2ResourceOwnerAuthenticationProvider<T extend
 		}
 
 		// 获取认证后的 Authentication
-		Authentication authenticatedAuthentication = getAuthenticatedAuthentication(resourceOwnerAuthentication);
+		Authentication authenticatedAuthentication;
+		try {
+			authenticatedAuthentication = getAuthenticatedAuthentication(resourceOwnerAuthentication);
+		}
+		catch (AuthenticationException ex) {
+			log.error("OAuth2 authentication error by grant type: " + grantType.getValue() + ", reason: "
+					+ ex.getMessage());
+			throw new OAuth2AuthenticationException(ex.getMessage());
+		}
 
 		// Default to configured scopes
 		Set<String> authorizedScopes = registeredClient.getScopes();
