@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 登陆日志
+ * 登录日志
  *
  * @author hccake 2020-09-16 20:21:10
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/log/login-log")
-@Tag(name = "登陆日志管理")
+@Tag(name = "登录日志管理")
 public class LoginLogController {
 
 	private final LoginLogService loginLogService;
@@ -31,7 +31,7 @@ public class LoginLogController {
 	/**
 	 * 分页查询
 	 * @param pageParam 分页参数
-	 * @param loginLogQO 登陆日志查询对象
+	 * @param loginLogQO 登录日志查询对象
 	 * @return R 通用返回体
 	 */
 	@GetMapping("/page")

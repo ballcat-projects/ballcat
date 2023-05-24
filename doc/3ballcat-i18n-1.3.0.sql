@@ -47,7 +47,7 @@ INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `cr
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (30, 'en-US', 'menu.log', 'Log', NULL, '2021-08-06 11:46:52', NULL);
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (31, 'zh-CN', 'menu.log.operationLog', '操作日志', NULL, '2021-08-06 11:46:52', NULL);
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (32, 'en-US', 'menu.log.operationLog', 'Operation Log', NULL, '2021-08-06 11:46:52', NULL);
-INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (33, 'zh-CN', 'menu.log.loginLog', '登陆日志', NULL, '2021-08-06 11:46:52', NULL);
+INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (33, 'zh-CN', 'menu.log.loginLog', '登录日志', NULL, '2021-08-06 11:46:52', NULL);
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (34, 'en-US', 'menu.log.loginLog', 'Login Log', NULL, '2021-08-06 11:46:52', NULL);
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (35, 'zh-CN', 'menu.log.accessLog', '访问日志', NULL, '2021-08-06 11:46:52', NULL);
 INSERT INTO `i18n_data` (`id`, `language_tag`, `code`, `message`, `remarks`, `create_time`, `update_time`) VALUES (36, 'en-US', 'menu.log.accessLog', 'Access Log', NULL, '2021-08-06 11:46:52', NULL);
@@ -132,7 +132,7 @@ update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.languages", '{
 update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.languages", '{"en-US": "Male", "zh-CN": "男"}') where dict_code = 'gender' and value = '1';
 update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.languages", '{"en-US": "Female", "zh-CN": "女"}') where dict_code = 'gender' and value = '2';
 update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.languages", '{"en-US": "Unknown", "zh-CN": "未知"}') where dict_code = 'gender' and value = '3';
-update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.languages", '{"en-US": "Login", "zh-CN": "登陆"}') where dict_code = 'login_event_type' and value = '1';
+update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.languages", '{"en-US": "Login", "zh-CN": "登录"}') where dict_code = 'login_event_type' and value = '1';
 update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.languages", '{"en-US": "Logout", "zh-CN": "登出"}') where dict_code = 'login_event_type' and value = '2';
 update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.languages", '{"en-US": "Read", "zh-CN": "查看"}') where dict_code = 'operation_type' and value = '3';
 update sys_dict_item set `attributes` = JSON_SET(`attributes`, "$.languages", '{"en-US": "Create", "zh-CN": "新建"}') where dict_code = 'operation_type' and value = '4';

@@ -12,7 +12,7 @@ import com.hccake.extend.mybatis.plus.mapper.ExtendMapper;
 import com.hccake.extend.mybatis.plus.toolkit.WrappersX;
 
 /**
- * 登陆日志
+ * 登录日志
  *
  * @author hccake 2020-09-16 20:21:10
  */

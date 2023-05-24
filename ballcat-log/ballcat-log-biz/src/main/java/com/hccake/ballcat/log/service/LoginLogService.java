@@ -8,7 +8,7 @@ import com.hccake.ballcat.common.model.domain.PageResult;
 import com.hccake.extend.mybatis.plus.service.ExtendService;
 
 /**
- * 登陆日志
+ * 登录日志
  *
  * @author hccake 2020-09-16 20:21:10
  */

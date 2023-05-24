@@ -36,8 +36,8 @@ public class AnnouncementLoginEventListener {
 	private final UserAnnouncementService userAnnouncementService;
 
 	/**
-	 * 登陆成功时间监听 用户未读公告生成
-	 * @param event 登陆成功 event
+	 * 登录成功时间监听 用户未读公告生成
+	 * @param event 登录成功 event
 	 */
 	@EventListener(AuthenticationSuccessEvent.class)
 	public void onAuthenticationSuccessEvent(AuthenticationSuccessEvent event) throws InterruptedException {

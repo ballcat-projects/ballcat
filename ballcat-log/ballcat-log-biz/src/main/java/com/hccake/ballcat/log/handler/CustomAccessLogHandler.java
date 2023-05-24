@@ -93,7 +93,7 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 			accessLog.setResult(LogUtils.getResponseBody(request, response));
 		}
 
-		// 如果登陆用户 则记录用户名和用户id
+		// 如果登录用户 则记录用户名和用户id
 		Optional.ofNullable(SecurityUtils.getUser()).ifPresent(x -> {
 			accessLog.setUserId(x.getUserId());
 			accessLog.setUsername(x.getUsername());

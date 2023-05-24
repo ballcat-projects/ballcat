@@ -11,7 +11,7 @@ import com.hccake.extend.mybatis.plus.service.impl.ExtendServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
- * 登陆日志
+ * 登录日志
  *
  * @author hccake 2020-09-16 20:21:10
  */

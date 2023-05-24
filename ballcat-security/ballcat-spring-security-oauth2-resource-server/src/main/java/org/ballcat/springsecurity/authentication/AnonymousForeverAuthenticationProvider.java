@@ -26,7 +26,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * 于控制部分接口，需要同时支持匿名登陆和授权登陆的场景。
+ * 于控制部分接口，需要同时支持匿名登录和授权登录的场景。
  * <p>
  * 与 SpringSecurity 提供的 AnonymousAuthenticationProvider 不同的是，该类不管任何类型的
  * Authentication，都返回匿名对象，以便用户携带了过期或者错误的 token 时转换为匿名用户身份兜底, 可配合

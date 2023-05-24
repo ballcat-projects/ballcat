@@ -36,8 +36,8 @@ public class SpringAuthorizationServerLoginLogHandler implements LoginLogHandler
 	private final AuthorizationServerSettings authorizationServerSettings;
 
 	/**
-	 * 登陆成功事件监听 记录用户登录日志
-	 * @param event 登陆成功 event
+	 * 登录成功事件监听 记录用户登录日志
+	 * @param event 登录成功 event
 	 */
 	@EventListener(AuthenticationSuccessEvent.class)
 	public void onAuthenticationSuccessEvent(AuthenticationSuccessEvent event) {
@@ -57,7 +57,7 @@ public class SpringAuthorizationServerLoginLogHandler implements LoginLogHandler
 		}
 
 		if (username != null) {
-			LoginLog loginLog = prodLoginLog(username).setMsg("登陆成功")
+			LoginLog loginLog = prodLoginLog(username).setMsg("登录成功")
 				.setStatus(LogStatusEnum.SUCCESS.getValue())
 				.setEventType(LoginEventTypeEnum.LOGIN.getValue());
 			loginLogService.save(loginLog);

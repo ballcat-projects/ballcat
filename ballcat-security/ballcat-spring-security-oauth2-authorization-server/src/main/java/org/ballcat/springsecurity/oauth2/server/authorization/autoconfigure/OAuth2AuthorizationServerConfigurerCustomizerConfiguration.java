@@ -31,7 +31,7 @@ public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 	private final OAuth2AuthorizationService oAuth2AuthorizationService;
 
 	/**
-	 * 表单登陆支持
+	 * 表单登录支持
 	 * @return FormLoginConfigurerCustomizer
 	 */
 	@Bean

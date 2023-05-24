@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 登陆事件
+ * 登录事件
  *
  * @author Hccake 2020/9/17
  * @version 1.0

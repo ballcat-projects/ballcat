@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.server.authorization.web.OAuth2Client
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
- * 登陆时的密码解密配置
+ * 登录时的密码解密配置
  *
  * @author hccake
  */

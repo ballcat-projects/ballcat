@@ -30,7 +30,7 @@ import java.util.Map;
 import static org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2AuthenticationProviderUtils.getAuthenticatedClientElseThrowInvalidClient;
 
 /**
- * 前端传递过来的加密密码，需要在登陆之前先解密
+ * 前端传递过来的加密密码，需要在登录之前先解密
  *
  * @author Hccake
  * @version 1.0

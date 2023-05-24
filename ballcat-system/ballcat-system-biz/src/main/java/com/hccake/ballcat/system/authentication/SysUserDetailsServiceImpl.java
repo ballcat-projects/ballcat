@@ -33,7 +33,7 @@ public class SysUserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		SysUser sysUser = sysUserService.getByUsername(username);
 		if (sysUser == null) {
-			log.error("登陆：用户名错误，用户名：{}", username);
+			log.error("登录：用户名错误，用户名：{}", username);
 			throw new UsernameNotFoundException("username error!");
 		}
 		UserInfoDTO userInfoDTO = sysUserService.findUserInfo(sysUser);

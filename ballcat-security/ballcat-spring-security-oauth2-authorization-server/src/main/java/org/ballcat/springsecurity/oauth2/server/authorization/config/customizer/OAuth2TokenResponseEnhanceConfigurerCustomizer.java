@@ -87,7 +87,7 @@ public class OAuth2TokenResponseEnhanceConfigurerCustomizer implements OAuth2Aut
 		OAuth2AccessTokenResponse accessTokenResponse = builder.build();
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
 
-		// 添加 cookie, 配合无状态登陆使用
+		// 添加 cookie, 配合无状态登录使用
 		if (setAccessTokenCookie) {
 			setCookie(request, response, OAuth2TokenType.ACCESS_TOKEN.getValue(), accessToken.getTokenValue(), 86400);
 		}

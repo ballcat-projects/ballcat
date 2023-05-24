@@ -126,7 +126,7 @@ public class SwaggerProperties {
 		private List<AuthorizationScope> authorizationScopeList = new ArrayList<>();
 
 		/**
-		 * token请求地址，如需开启OAuth2 password 类型登陆则必传此参数
+		 * token请求地址，如需开启OAuth2 password 类型登录则必传此参数
 		 */
 		private String tokenUrl = "";
 

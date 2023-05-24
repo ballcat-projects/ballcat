@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 import static cn.hutool.core.date.DatePattern.NORM_DATETIME_PATTERN;
 
 /**
- * 登陆日志 查询对象
+ * 登录日志 查询对象
  *
  * @author hccake 2020-09-16 20:21:10
  */
 @Data
-@Schema(title = "登陆日志查询对象")
+@Schema(title = "登录日志查询对象")
 @ParameterObject
 public class LoginLogQO {
 
@@ -48,7 +48,7 @@ public class LoginLogQO {
 	private Integer status;
 
 	/**
-	 * 事件类型 登陆/登出
+	 * 事件类型 登录/登出
 	 *
 	 * @see LoginEventTypeEnum
 	 */
@@ -56,17 +56,17 @@ public class LoginLogQO {
 	private Integer eventType;
 
 	/**
-	 * 登陆时间区间（开始时间）
+	 * 登录时间区间（开始时间）
 	 */
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
-	@Parameter(description = "开始时间（登陆时间区间）")
+	@Parameter(description = "开始时间（登录时间区间）")
 	private LocalDateTime startTime;
 
 	/**
-	 * 登陆时间区间（结束时间）
+	 * 登录时间区间（结束时间）
 	 */
 	@DateTimeFormat(pattern = NORM_DATETIME_PATTERN)
-	@Parameter(description = "结束时间（登陆时间区间）")
+	@Parameter(description = "结束时间（登录时间区间）")
 	private LocalDateTime endTime;
 
 }

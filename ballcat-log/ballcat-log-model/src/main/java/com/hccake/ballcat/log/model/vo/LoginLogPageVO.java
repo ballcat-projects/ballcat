@@ -7,12 +7,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 登陆日志
+ * 登录日志
  *
  * @author hccake 2020-09-16 20:21:10
  */
 @Data
-@Schema(title = "登陆日志")
+@Schema(title = "登录日志")
 public class LoginLogPageVO {
 
 	private static final long serialVersionUID = 1L;
@@ -60,13 +60,13 @@ public class LoginLogPageVO {
 	private String msg;
 
 	/**
-	 * 登陆地点
+	 * 登录地点
 	 */
-	@Schema(title = "登陆地点")
+	@Schema(title = "登录地点")
 	private String location;
 
 	/**
-	 * 事件类型 登陆/登出
+	 * 事件类型 登录/登出
 	 * @see LoginEventTypeEnum
 	 */
 	@Schema(title = "事件类型")

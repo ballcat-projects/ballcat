@@ -21,9 +21,9 @@ public final class LoginLogUtils {
 	}
 
 	/**
-	 * 根据token和请求信息产生一个登陆日志
+	 * 根据token和请求信息产生一个登录日志
 	 * @param username 用户名
-	 * @return LoginLog 登陆日志
+	 * @return LoginLog 登录日志
 	 */
 	public static LoginLog prodLoginLog(String username) {
 		// 获取 Request

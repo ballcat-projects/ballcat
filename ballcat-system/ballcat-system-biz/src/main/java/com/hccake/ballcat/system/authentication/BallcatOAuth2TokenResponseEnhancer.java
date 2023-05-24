@@ -40,7 +40,7 @@ public class BallcatOAuth2TokenResponseEnhancer implements OAuth2TokenResponseEn
 			SysUserInfo sysUserInfo = getSysUserInfo(user);
 			additionalParameters.put(TokenAttributeNameConstants.INFO, sysUserInfo);
 
-			// 默认在登陆时只把角色和权限的信息返回
+			// 默认在登录时只把角色和权限的信息返回
 			Map<String, Object> resultAttributes = new HashMap<>(2);
 			Map<String, Object> attributes = user.getAttributes();
 			resultAttributes.put(UserAttributeNameConstants.ROLE_CODES,

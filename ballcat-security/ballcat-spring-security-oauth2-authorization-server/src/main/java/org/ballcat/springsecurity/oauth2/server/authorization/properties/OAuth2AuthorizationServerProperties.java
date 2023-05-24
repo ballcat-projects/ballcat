@@ -18,7 +18,7 @@ public class OAuth2AuthorizationServerProperties {
 	public static final String PREFIX = "ballcat.security.oauth2.authorizationserver";
 
 	/**
-	 * 登陆验证码开关
+	 * 登录验证码开关
 	 */
 	private boolean loginCaptchaEnabled = false;
 
@@ -43,7 +43,7 @@ public class OAuth2AuthorizationServerProperties {
 	private String consentPage;
 
 	/**
-	 * 无状态登陆
+	 * 无状态登录
 	 */
 	private boolean stateless = false;
 
