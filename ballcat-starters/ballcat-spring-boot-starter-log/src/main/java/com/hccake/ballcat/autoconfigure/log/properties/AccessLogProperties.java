@@ -24,6 +24,12 @@ public class AccessLogProperties {
 	private boolean enabled = true;
 
 	/**
+	 * access log filter 的优先级
+	 * @see org.springframework.core.Ordered
+	 */
+	private Integer filterOrder = -1000;
+
+	/**
 	 * 忽略的Url匹配规则，Ant风格
 	 */
 	private List<String> ignoreUrlPatterns = Arrays.asList("/actuator/**", "/webjars/**", "/favicon.ico",

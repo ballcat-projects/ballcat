@@ -33,7 +33,7 @@ public class AccessLogAutoConfiguration {
 		log.debug("access log 记录拦截器已开启====");
 		FilterRegistrationBean<AccessLogFilter> registrationBean = new FilterRegistrationBean<>(
 				new AccessLogFilter(accessLogService, accessLogProperties.getIgnoreUrlPatterns()));
-		registrationBean.setOrder(-1000);
+		registrationBean.setOrder(accessLogProperties.getFilterOrder());
 		return registrationBean;
 	}
 

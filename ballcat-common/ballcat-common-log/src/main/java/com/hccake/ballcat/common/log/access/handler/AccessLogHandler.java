@@ -4,9 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/15 22:21
+ * 访问日志处理器
+ *
+ * @author Hccake 2019/10/15 22:21
  */
 public interface AccessLogHandler<T> {
 
