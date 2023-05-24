@@ -42,12 +42,12 @@ CREATE TABLE `log_login_log`  (
                                   `id` bigint(64) NOT NULL AUTO_INCREMENT COMMENT '编号',
                                   `trace_id` char(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '追踪ID',
                                   `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
-                                  `ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登陆IP',
+                                  `ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登录IP',
                                   `os` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作系统',
                                   `status` tinyint(1) NOT NULL COMMENT '状态',
                                   `event_type` tinyint(1) NULL DEFAULT NULL COMMENT '事件类型，1：登录 2：登出',
                                   `msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作信息',
-                                  `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登陆地点',
+                                  `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '登录地点',
                                   `browser` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '浏览器',
                                   `login_time` datetime NULL DEFAULT NULL COMMENT '登录/登出时间',
                                   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -55,7 +55,7 @@ CREATE TABLE `log_login_log`  (
                                   INDEX `username`(`username`) USING BTREE,
                                   INDEX `status`(`status`) USING BTREE,
                                   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3291 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登陆日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3291 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of log_login_log
@@ -191,7 +191,7 @@ INSERT INTO `sys_dict` VALUES (4, 'grant_types', '授权类型', 1, 'e5316daadb4
 INSERT INTO `sys_dict` VALUES (5, 'operation_type', '操作类型', 1, '6b375bba88f649caa38e95d8e5c5c5c9', '操作日志的操作类型', 0, NULL, NULL, '2020-07-14 20:28:54', NULL);
 INSERT INTO `sys_dict` VALUES (6, 'role_type', '角色类型', 1, '90875dc38a154b9d810e8556f8972d9b', '角色类型，系统保留角色不允许删除', 0, NULL, NULL, '2020-07-14 21:16:45', '2021-08-09 00:26:30');
 INSERT INTO `sys_dict` VALUES (7, 'dict_value_type', '字典数据类型', 1, '886c8965bdaa4c1e91ffcd5fb20ea84f', 'Number、String、Boolean', 0, NULL, NULL, '2020-08-14 17:16:47', NULL);
-INSERT INTO `sys_dict` VALUES (8, 'login_event_type', '登陆事件类型', 1, '56f191fa64ad42b5948e9dcb331cded9', '1：登陆  2：登出', 0, NULL, NULL, '2020-09-17 14:44:00', NULL);
+INSERT INTO `sys_dict` VALUES (8, 'login_event_type', '登录事件类型', 1, '56f191fa64ad42b5948e9dcb331cded9', '1：登录  2：登出', 0, NULL, NULL, '2020-09-17 14:44:00', NULL);
 INSERT INTO `sys_dict` VALUES (9, 'yes_or_no', '是否', 1, 'aa22893ca4d243cb8eb198e0f7d66824', NULL, 0, NULL, NULL, '2021-08-16 16:16:43', NULL);
 INSERT INTO `sys_dict` VALUES (13, 'user_type', '用户类型', 1, 'a2730f33f24045578ebe7786282e1955', '用户类型', 0, NULL, NULL, '2020-12-16 13:44:37', '2021-04-12 10:54:01');
 INSERT INTO `sys_dict` VALUES (14, 'recipient_filter_type', '消息接收人筛选方式', 1, '54f95affca9e4c53aa679bca2855351f', '接收人筛选方式', 0, NULL, NULL, '2020-12-15 17:36:24', '2021-07-01 16:27:05');
@@ -235,7 +235,7 @@ INSERT INTO `sys_dict_item` VALUES (9, 'grant_types', 'authorization_code', '授
 INSERT INTO `sys_dict_item` VALUES (10, 'grant_types', 'client_credentials', '客户端模式', 1, '{}', 2, NULL, 0, NULL, NULL, '2020-03-27 01:05:52', '2019-08-13 07:36:30');
 INSERT INTO `sys_dict_item` VALUES (11, 'grant_types', 'refresh_token', '刷新模式', 1, '{}', 3, NULL, 0, NULL, NULL, '2020-03-27 01:05:52', '2019-08-13 07:36:54');
 INSERT INTO `sys_dict_item` VALUES (12, 'grant_types', 'implicit', '简化模式', 1, '{}', 4, NULL, 0, NULL, NULL, '2020-03-27 01:05:52', '2019-08-13 07:39:32');
-INSERT INTO `sys_dict_item` VALUES (13, 'login_event_type', '1', '登陆', 1, '{\"tagColor\": \"cyan\", \"languages\": {\"en-US\": \"Login\", \"zh-CN\": \"登陆\"}, \"textColor\": \"\"}', 0, '', 0, NULL, NULL, '2020-03-27 01:05:52', '2021-12-03 11:57:31');
+INSERT INTO `sys_dict_item` VALUES (13, 'login_event_type', '1', '登录', 1, '{\"tagColor\": \"cyan\", \"languages\": {\"en-US\": \"Login\", \"zh-CN\": \"登录\"}, \"textColor\": \"\"}', 0, '', 0, NULL, NULL, '2020-03-27 01:05:52', '2021-12-03 11:57:31');
 INSERT INTO `sys_dict_item` VALUES (14, 'login_event_type', '2', '登出', 1, '{\"tagColor\": \"pink\", \"languages\": {\"en-US\": \"Logout\", \"zh-CN\": \"登出\"}, \"textColor\": \"\"}', 1, '', 0, NULL, NULL, '2020-03-27 01:05:52', '2021-12-03 11:57:31');
 INSERT INTO `sys_dict_item` VALUES (15, 'operation_type', '3', '查看', 1, '{\"tagColor\": \"purple\", \"languages\": {\"en-US\": \"Read\", \"zh-CN\": \"查看\"}, \"textColor\": \"\"}', 3, '', 0, NULL, NULL, '2020-03-27 01:05:52', '2021-12-03 11:57:31');
 INSERT INTO `sys_dict_item` VALUES (16, 'operation_type', '4', '新建', 1, '{\"tagColor\": \"cyan\", \"languages\": {\"en-US\": \"Create\", \"zh-CN\": \"新建\"}, \"textColor\": \"\"}', 4, '', 0, NULL, NULL, '2020-03-27 01:05:52', '2021-12-03 11:57:31');
@@ -342,8 +342,8 @@ INSERT INTO `sys_menu` VALUES (100804, 100800, '菜单权限删除', NULL, 'syst
 INSERT INTO `sys_menu` VALUES (110000, 0, '日志管理', 'file-search', NULL, 'log', 1, NULL, 2, 0, 0, 0, NULL, 0, NULL, NULL, NULL, '2021-12-03 11:57:30');
 INSERT INTO `sys_menu` VALUES (110100, 110000, '操作日志', NULL, NULL, 'operation-log', 1, 'log/operation-log/OperationLogPage', 2, 0, 0, 1, NULL, 0, NULL, NULL, NULL, '2021-12-03 11:57:30');
 INSERT INTO `sys_menu` VALUES (110101, 110100, '操作日志查询', NULL, 'log:operation-log:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, NULL, NULL, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
-INSERT INTO `sys_menu` VALUES (110200, 110000, '登陆日志', NULL, NULL, 'login-log', 1, 'log/login-log/LoginLogPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, NULL, '2021-12-03 11:57:31');
-INSERT INTO `sys_menu` VALUES (110201, 110200, '登陆日志查询', NULL, 'log:login-log:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, NULL, NULL, '2019-10-13 22:00:24', NULL);
+INSERT INTO `sys_menu` VALUES (110200, 110000, '登录日志', NULL, NULL, 'login-log', 1, 'log/login-log/LoginLogPage', 1, 0, 0, 1, NULL, 0, NULL, NULL, NULL, '2021-12-03 11:57:31');
+INSERT INTO `sys_menu` VALUES (110201, 110200, '登录日志查询', NULL, 'log:login-log:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, NULL, NULL, '2019-10-13 22:00:24', NULL);
 INSERT INTO `sys_menu` VALUES (110300, 110000, '访问日志', NULL, NULL, 'access-log', 1, 'log/access-log/AccessLogPage', 3, 0, 0, 1, NULL, 0, NULL, NULL, NULL, '2021-12-03 11:57:31');
 INSERT INTO `sys_menu` VALUES (110301, 110300, '访问日志查询', NULL, 'log:access-log:read', NULL, 1, NULL, 0, 0, 0, 2, NULL, 0, NULL, NULL, '2019-10-13 22:00:24', '2019-10-15 14:14:03');
 INSERT INTO `sys_menu` VALUES (120000, 0, '消息通知', 'message', NULL, 'notify', 1, NULL, 3, 0, 0, 0, NULL, 0, NULL, NULL, '2020-12-15 16:47:53', '2021-12-03 11:57:31');
