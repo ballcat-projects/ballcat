@@ -80,16 +80,13 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 		String params = getParams(request);
 		accessLog.setReqParams(params);
 
-		// 非文件上传请求，记录body，用户改密时不记录body
-		// TODO 使用注解控制此次请求是否记录body，更方便个性化定制
-		if (!LogUtils.isMultipartContent(request) && !"/system/user/pass/{userId}".equals(matchingPattern)) {
+		// 记录请求体
+		if (shouldRecordRequestBody(request, uri)) {
 			accessLog.setReqBody(LogUtils.getRequestBody(request));
 		}
 
-		// 只记录响应头为 application/json 的返回数据
-		// 后台日志对于分页数据请求，不记录返回值
-		if (!uri.endsWith("/page") && response.getContentType() != null
-				&& response.getContentType().contains(APPLICATION_JSON)) {
+		// 只记录响应体
+		if (shouldRecordResponseBody(response, uri)) {
 			accessLog.setResult(LogUtils.getResponseBody(request, response));
 		}
 
@@ -100,6 +97,31 @@ public class CustomAccessLogHandler implements AccessLogHandler<AccessLog> {
 		});
 
 		return accessLog;
+	}
+
+	/**
+	 * 是否应该记录请求体
+	 * @param request 请求信息
+	 * @param uri 当前请求的uri
+	 * @return 记录返回 true，否则返回 false
+	 */
+	protected boolean shouldRecordRequestBody(HttpServletRequest request, String uri) {
+		// TODO 使用注解控制此次请求是否记录body，更方便个性化定制
+		// 文件上传请求、用户改密时、验证码请求不记录body
+		return !LogUtils.isMultipartContent(request) && !uri.matches("^/system/user/pass/[^/]+/?$")
+				&& !uri.matches("^/captcha/.*$");
+	}
+
+	/**
+	 * 是否应该记录响应体
+	 * @param response 响应信息
+	 * @param uri 当前请求的uri
+	 * @return 记录返回 true，否则返回 false
+	 */
+	protected boolean shouldRecordResponseBody(HttpServletResponse response, String uri) {
+		// 只对 content-type 为 application/json 的响应记录响应体（分页请求除外）
+		return !uri.endsWith("/page") && response.getContentType() != null
+				&& response.getContentType().contains(APPLICATION_JSON);
 	}
 
 	/**

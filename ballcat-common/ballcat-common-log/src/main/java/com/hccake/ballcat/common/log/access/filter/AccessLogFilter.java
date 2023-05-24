@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/15 21:53
+ * @author Hccake 2019/10/15 21:53
  */
 @RequiredArgsConstructor
 public class AccessLogFilter extends OncePerRequestFilter {
