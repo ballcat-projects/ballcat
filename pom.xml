@@ -16,16 +16,11 @@
 	<description>项目基本脚手架</description>
 
 	<modules>
-		<module>ballcat-admin</module>
 		<module>ballcat-common</module>
 		<module>ballcat-dependencies</module>
 		<module>ballcat-extends</module>
-		<module>ballcat-i18n</module>
-		<module>ballcat-log</module>
-		<module>ballcat-notify</module>
 		<module>ballcat-security</module>
 		<module>ballcat-starters</module>
-		<module>ballcat-system</module>
 	</modules>
 
 	<properties>
