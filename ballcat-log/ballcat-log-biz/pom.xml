@@ -2,7 +2,7 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<groupId>com.hccake</groupId>
+		<groupId>org.ballcat</groupId>
 		<artifactId>ballcat-log</artifactId>
 		<version>${revision}</version>
 	</parent>
@@ -11,23 +11,23 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.hccake</groupId>
+			<groupId>org.ballcat</groupId>
 			<artifactId>ballcat-common-desensitize</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.hccake</groupId>
+			<groupId>org.ballcat</groupId>
 			<artifactId>ballcat-common-log</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.hccake</groupId>
+			<groupId>org.ballcat</groupId>
 			<artifactId>ballcat-extend-mybatis-plus</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.hccake</groupId>
+			<groupId>org.ballcat</groupId>
 			<artifactId>ballcat-log-model</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.hccake</groupId>
+			<groupId>org.ballcat</groupId>
 			<artifactId>ballcat-spring-security-oauth2-core</artifactId>
 		</dependency>
 		<dependency>
