@@ -27,7 +27,7 @@
 
 		<!-- 依赖版本 -->
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-		<easyexcel.version>3.1.5</easyexcel.version>
+		<easyexcel.version>3.3.2</easyexcel.version>
 		<fastjson.version>1.2.83</fastjson.version>
 		<hutool.version>5.8.16</hutool.version>
 		<io.swagger.v3.version>2.2.7</io.swagger.v3.version>
