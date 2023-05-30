@@ -400,54 +400,7 @@
 				<artifactId>ballcat-extend-tesseract</artifactId>
 				<version>${revision}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-i18n-biz</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- i18n 国际化模块 -->
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-i18n-controller</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-i18n-model</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-log-biz</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- log 日志模块 -->
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-log-controller</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-log-model</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-notify-biz</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- notify 通知模块 -->
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-notify-controller</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-notify-model</artifactId>
-				<version>${revision}</version>
-			</dependency>
+
 			<!-- ballcat-security -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
@@ -568,22 +521,6 @@
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security-oauth2-resource-server</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- system 系统模块 -->
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-system-biz</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-system-controller</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-system-model</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<!--endregion ============= 结束定义ballcat 自身模块版本 =========== -->
