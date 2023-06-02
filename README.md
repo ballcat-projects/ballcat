@@ -29,7 +29,9 @@
 
 - Github 地址 ：https://github.com/ballcat-projects/ballcat
 - Gitee 地址：https://gitee.com/ballcat-projects/ballcat （如果 Github 访问速度比较慢的话，可以访问 Gitee ）
-- 文档地址：http://www.ballcat.cn/
+- 文档地址：http://www.ballcat.cn/ (域名备案中：暂时先使用 http://49.234.30.188/ 访问文档)
+
+
 
 
 
