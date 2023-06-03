@@ -6,7 +6,10 @@ import org.springframework.util.StringUtils;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.transfer.s3.S3TransferManager;
 import software.amazon.awssdk.transfer.s3.model.FileUpload;
 
 import java.io.File;
@@ -33,9 +36,9 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 	 * @param ossProperties OSS属性配置文件
 	 * @param objectKeyPrefixConverter 对象全局键前缀转换器
 	 */
-	public ObjectWithGlobalKeyPrefixOssTemplate(OssProperties ossProperties,
-			ObjectKeyPrefixConverter objectKeyPrefixConverter) {
-		super(ossProperties);
+	public ObjectWithGlobalKeyPrefixOssTemplate(OssProperties ossProperties, S3Client s3Client, S3Presigner s3Presigner,
+			S3TransferManager s3TransferManager, ObjectKeyPrefixConverter objectKeyPrefixConverter) {
+		super(ossProperties, s3Client, s3Presigner, s3TransferManager);
 		this.objectKeyPrefixConverter = objectKeyPrefixConverter;
 	}
 

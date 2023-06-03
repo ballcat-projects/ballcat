@@ -45,13 +45,6 @@ public interface OssTemplate {
 	S3Client getS3Client();
 
 	/**
-	 * 获取AWS凭证管理器
-	 * @return
-	 */
-	@NonNull
-	AwsCredentialsProvider getAwsCredentialsProvider();
-
-	/**
 	 * 获取S3预签名工具
 	 * @return
 	 */

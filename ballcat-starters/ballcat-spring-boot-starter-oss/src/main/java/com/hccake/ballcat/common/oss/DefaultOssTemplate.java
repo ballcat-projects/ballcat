@@ -2,19 +2,11 @@ package com.hccake.ballcat.common.oss;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
@@ -28,7 +20,6 @@ import software.amazon.awssdk.transfer.s3.model.UploadRequest;
 import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
@@ -46,7 +37,7 @@ import java.util.List;
  * @date 2022/10/22
  */
 @RequiredArgsConstructor
-public class DefaultOssTemplate implements InitializingBean, DisposableBean, OssTemplate {
+public class DefaultOssTemplate implements OssTemplate {
 
 	/**
 	 * 对象存储服务配置
@@ -58,22 +49,16 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	 * S3客户端
 	 */
 	@Getter
-	protected S3Client s3Client;
+	protected final S3Client s3Client;
 
 	/**
 	 * S3预签名工具
 	 */
 	@Getter
-	protected S3Presigner s3Presigner;
-
-	/**
-	 * aws凭证管理器
-	 */
-	@Getter
-	protected AwsCredentialsProvider awsCredentialsProvider;
+	protected final S3Presigner s3Presigner;
 
 	@Getter
-	protected S3TransferManager s3TransferManager;
+	protected final S3TransferManager s3TransferManager;
 
 	// region 存储桶相关操作
 
@@ -256,54 +241,5 @@ public class DefaultOssTemplate implements InitializingBean, DisposableBean, Oss
 	}
 
 	// endregion
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-
-		// 构造S3客户端
-		AwsCredentials awsCredentials = AwsBasicCredentials.create(ossProperties.getAccessKey(),
-				ossProperties.getAccessSecret());
-		this.awsCredentialsProvider = StaticCredentialsProvider.create(awsCredentials);
-
-		this.s3Client = S3Client.builder()
-			.credentialsProvider(awsCredentialsProvider)
-			.region(Region.of(ossProperties.getRegion()))
-			.serviceConfiguration(S3Configuration.builder()
-				.pathStyleAccessEnabled(ossProperties.getPathStyleAccess())
-				.chunkedEncodingEnabled(ossProperties.getChunkedEncoding())
-				.build())
-			.endpointOverride(URI.create(ossProperties.getEndpoint()))
-			.build();
-
-		// 构建预签名工具
-		this.s3Presigner = S3Presigner.builder()
-			.serviceConfiguration(
-					S3Configuration.builder().pathStyleAccessEnabled(ossProperties.getPathStyleAccess()).build())
-			.region(Region.of(ossProperties.getRegion()))
-			.endpointOverride(URI.create(ossProperties.getEndpoint()))
-			.credentialsProvider(awsCredentialsProvider)
-			.build();
-		// 构建S3高级传输工具
-		this.s3TransferManager = S3TransferManager.builder()
-			.s3Client(S3AsyncClient.builder()
-				.credentialsProvider(getAwsCredentialsProvider())
-				.region(Region.of(getOssProperties().getRegion()))
-				.endpointOverride(URI.create(getOssProperties().getEndpoint()))
-				.build())
-			.build();
-	}
-
-	@Override
-	public void destroy() throws Exception {
-		if (this.s3Client != null) {
-			this.s3Client.close();
-		}
-		if (this.s3Presigner != null) {
-			this.s3Presigner.close();
-		}
-		if (this.s3TransferManager != null) {
-			this.s3TransferManager.close();
-		}
-	}
 
 }

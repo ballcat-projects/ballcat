@@ -7,6 +7,16 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3AsyncClient;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3Configuration;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.transfer.s3.S3TransferManager;
+
+import java.net.URI;
 
 /**
  * oss 自动配置类
@@ -19,6 +29,70 @@ import org.springframework.context.annotation.Bean;
 public class OssAutoConfiguration {
 
 	/**
+	 * S3客户端
+	 * @param ossProperties
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean(S3Client.class)
+	public S3Client s3Client(OssProperties ossProperties) {
+		// 构造S3客户端
+		return S3Client.builder()
+			.credentialsProvider(StaticCredentialsProvider
+				.create(AwsBasicCredentials.create(ossProperties.getAccessKey(), ossProperties.getAccessSecret())))
+			.region(Region.of(ossProperties.getRegion()))
+			.serviceConfiguration(S3Configuration.builder()
+				.pathStyleAccessEnabled(ossProperties.getPathStyleAccess())
+				.chunkedEncodingEnabled(ossProperties.getChunkedEncoding())
+				.build())
+			.endpointOverride(URI.create(ossProperties.getEndpoint()))
+			.build();
+	}
+
+	/**
+	 * S3预签名工具
+	 * @param ossProperties
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean(S3Presigner.class)
+	public S3Presigner s3Presigner(OssProperties ossProperties) {
+		return S3Presigner.builder()
+			.credentialsProvider(StaticCredentialsProvider
+				.create(AwsBasicCredentials.create(ossProperties.getAccessKey(), ossProperties.getAccessSecret())))
+			.region(Region.of(ossProperties.getRegion()))
+			.serviceConfiguration(S3Configuration.builder()
+				.pathStyleAccessEnabled(ossProperties.getPathStyleAccess())
+				.chunkedEncodingEnabled(ossProperties.getChunkedEncoding())
+				.build())
+			.endpointOverride(URI.create(ossProperties.getEndpoint()))
+			.build();
+	}
+
+	/**
+	 * S3高级传输工具
+	 * @param ossProperties
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean(S3TransferManager.class)
+	public S3TransferManager s3TransferManager(OssProperties ossProperties) {
+		return S3TransferManager.builder()
+			.s3Client(S3AsyncClient.builder()
+				.credentialsProvider(StaticCredentialsProvider
+					.create(AwsBasicCredentials.create(ossProperties.getAccessKey(), ossProperties.getAccessSecret())))
+				.region(Region.of(ossProperties.getRegion()))
+				.serviceConfiguration(S3Configuration.builder()
+					.pathStyleAccessEnabled(ossProperties.getPathStyleAccess())
+					.chunkedEncodingEnabled(ossProperties.getChunkedEncoding())
+					.build())
+				.endpointOverride(URI.create(ossProperties.getEndpoint()))
+				.build())
+			.build();
+
+	}
+
+	/**
 	 * OSS操作模板，单纯用来兼容老版本实现
 	 * @param properties 属性配置
 	 * @param objectKeyPrefixConverter S3对象全局键前缀转换器
@@ -26,12 +100,14 @@ public class OssAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(OssTemplate.class)
-	public OssTemplate ossTemplate(OssProperties properties, ObjectKeyPrefixConverter objectKeyPrefixConverter) {
+	public OssTemplate ossTemplate(OssProperties properties, S3Client s3Client, S3Presigner s3Presigner,
+			S3TransferManager s3TransferManager, ObjectKeyPrefixConverter objectKeyPrefixConverter) {
 		if (objectKeyPrefixConverter.match()) {
-			return new ObjectWithGlobalKeyPrefixOssTemplate(properties, objectKeyPrefixConverter);
+			return new ObjectWithGlobalKeyPrefixOssTemplate(properties, s3Client, s3Presigner, s3TransferManager,
+					objectKeyPrefixConverter);
 		}
 		else {
-			return new DefaultOssTemplate(properties);
+			return new DefaultOssTemplate(properties, s3Client, s3Presigner, s3TransferManager);
 		}
 	}
 
