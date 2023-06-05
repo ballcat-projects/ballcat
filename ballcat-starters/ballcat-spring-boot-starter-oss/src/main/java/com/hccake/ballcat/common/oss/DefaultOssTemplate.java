@@ -2,7 +2,6 @@ package com.hccake.ballcat.common.oss;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -11,6 +10,8 @@ import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
 import software.amazon.awssdk.transfer.s3.model.FileUpload;
 import software.amazon.awssdk.transfer.s3.model.Upload;
@@ -23,6 +24,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * OSS操作模板
@@ -34,7 +37,7 @@ import java.util.List;
  * </p>
  *
  * @author lishangbu
- * @date 2022/10/22
+ * @author evil0th
  */
 @RequiredArgsConstructor
 public class DefaultOssTemplate implements OssTemplate {
@@ -176,6 +179,21 @@ public class DefaultOssTemplate implements OssTemplate {
 	}
 
 	/**
+	 * 删除多个对象
+	 * @param deleteObjectsRequest 通用删除对象请求
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObjects.html">从存储桶中删除对象</a>
+	 */
+	@Override
+	public DeleteObjectsResponse deleteObjects(DeleteObjectsRequest deleteObjectsRequest) {
+		return s3Client.deleteObjects(deleteObjectsRequest);
+	}
+
+	/**
 	 * 删除对象
 	 * @param key 对象键
 	 * @return 文件服务器针对删除对象操作的返回结果
@@ -188,6 +206,21 @@ public class DefaultOssTemplate implements OssTemplate {
 	@Override
 	public DeleteObjectResponse deleteObject(String key) {
 		return deleteObject(ossProperties.getBucket(), key);
+	}
+
+	/**
+	 * 删除多个对象
+	 * @param keys 对象键
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObjects.html">从存储桶中删除对象</a>
+	 */
+	@Override
+	public DeleteObjectsResponse deleteObjects(Set<String> keys) {
+		return deleteObjects(ossProperties.getBucket(), keys);
 	}
 
 	/**
@@ -204,6 +237,82 @@ public class DefaultOssTemplate implements OssTemplate {
 	@Override
 	public DeleteObjectResponse deleteObject(String bucket, String key) {
 		return deleteObject(DeleteObjectRequest.builder().bucket(bucket).key(key).build());
+	}
+
+	/**
+	 * 删除多个对象
+	 * @param bucket 存储桶
+	 * @param keys 对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObjects.html">从存储桶中删除对象</a>
+	 */
+	@Override
+	public DeleteObjectsResponse deleteObjects(String bucket, Set<String> keys) {
+		List<ObjectIdentifier> toDelete = keys.stream()
+			.map(e -> ObjectIdentifier.builder().key(e).build())
+			.collect(Collectors.toList());
+		return deleteObjects(DeleteObjectsRequest.builder()
+			.bucket(bucket)
+			.delete(Delete.builder().objects(toDelete).build())
+			.build());
+	}
+
+	/**
+	 * 复制对象
+	 * @param sourceKey 原对象键
+	 * @param destinationKey 目标对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_CopyObject.html">从存储桶中删除对象</a>
+	 */
+	@Override
+	public CopyObjectResponse copyObject(String sourceKey, String destinationKey) {
+		return copyObject(ossProperties.getBucket(), sourceKey, destinationKey);
+	}
+
+	/**
+	 * 复制对象
+	 * @param sourceKey 原对象键
+	 * @param destinationKey 目标对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_CopyObject.html">从存储桶中删除对象</a>
+	 */
+	@Override
+	public CopyObjectResponse copyObject(String bucket, String sourceKey, String destinationKey) {
+		return copyObject(bucket, sourceKey, bucket, destinationKey);
+	}
+
+	/**
+	 * 复制对象
+	 * @param sourceKey 原对象键
+	 * @param destinationKey 目标对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_CopyObject.html">从存储桶中删除对象</a>
+	 */
+	@Override
+	public CopyObjectResponse copyObject(String sourceBucket, String sourceKey, String destinationBucket,
+			String destinationKey) {
+		return s3Client.copyObject(CopyObjectRequest.builder()
+			.sourceBucket(sourceBucket)
+			.sourceKey(sourceKey)
+			.destinationBucket(destinationBucket)
+			.destinationKey(destinationKey)
+			.build());
 	}
 
 	@Override
@@ -236,6 +345,29 @@ public class DefaultOssTemplate implements OssTemplate {
 			.build();
 
 		PresignedGetObjectRequest presignedGetObjectRequest = s3Presigner.presignGetObject(getObjectPresignRequest);
+		URL url = presignedGetObjectRequest.url();
+		return url.toString();
+	}
+
+	/**
+	 * 获取文件预签名外链（上传）
+	 * @param bucket bucket名称
+	 * @param key 文件名称
+	 * @param duration 过期时间
+	 * @return url的文本表示
+	 * @see <a href=
+	 * "https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javav2/example_code/s3/src/main/java/com/example/s3/GeneratePresignedUrlAndUploadObject.java">获取文件预授权外链</a>
+	 */
+	@Override
+	public String putObjectPresignedUrl(String bucket, String key, Duration duration) {
+		PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(bucket).key(key).build();
+
+		PutObjectPresignRequest getObjectPresignRequest = PutObjectPresignRequest.builder()
+			.signatureDuration(duration)
+			.putObjectRequest(putObjectRequest)
+			.build();
+
+		PresignedPutObjectRequest presignedGetObjectRequest = s3Presigner.presignPutObject(getObjectPresignRequest);
 		URL url = presignedGetObjectRequest.url();
 		return url.toString();
 	}
