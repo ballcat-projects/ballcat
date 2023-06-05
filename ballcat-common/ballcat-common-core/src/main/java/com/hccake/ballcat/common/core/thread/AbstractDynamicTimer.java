@@ -53,6 +53,13 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 		}
 	}
 
+	/**
+	 * 将取出的元素重新放入队列
+	 */
+	protected void replay(T t) {
+		put(t);
+	}
+
 	@Override
 	public void run() {
 		init();
@@ -70,7 +77,7 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 					if (sleepTime > 0) {
 						// 如果是被唤醒
 						if (lock.await(sleepTime, TimeUnit.MILLISECONDS)) {
-							put(t);
+							replay(t);
 							return;
 						}
 					}
