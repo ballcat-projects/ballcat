@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.lock;
+package com.hccake.ballcat.common.lock;
 
 /**
  * @author lingting 2023-04-22 11:35

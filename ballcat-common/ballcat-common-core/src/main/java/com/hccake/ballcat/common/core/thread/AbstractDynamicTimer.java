@@ -1,6 +1,6 @@
 package com.hccake.ballcat.common.core.thread;
 
-import com.hccake.ballcat.common.core.lock.JavaReentrantLock;
+import com.hccake.ballcat.common.lock.JavaReentrantLock;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;

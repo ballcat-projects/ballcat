@@ -5,6 +5,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 等待队列
+ *
  * @author lingting 2023/1/29 10:52
  */
 public class WaitQueue<V> {

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.markdown;
+package com.hccake.ballcat.common.markdown;
 
 import cn.hutool.core.convert.Convert;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package com.hccake.ballcat.common.core.lock;
+package com.hccake.ballcat.common.lock;
 
 import lombok.Getter;
 

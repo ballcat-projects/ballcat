@@ -1,6 +1,6 @@
 package com.hccake.extend.dingtalk.message;
 
-import com.hccake.ballcat.common.core.markdown.MarkdownBuilder;
+import com.hccake.ballcat.common.markdown.MarkdownBuilder;
 import com.hccake.extend.dingtalk.DingTalkParams;
 import com.hccake.extend.dingtalk.enums.ActionBtnOrientationEnum;
 import com.hccake.extend.dingtalk.enums.MessageTypeEnum;
