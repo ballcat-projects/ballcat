@@ -37,6 +37,7 @@ public abstract class AbstractTimer extends Thread implements ContextComponent {
 	 * 线程被中断触发.
 	 */
 	protected void shutdown() {
+		log.warn("{} 类 线程: {} 被中断!", getClass().getSimpleName(), getId());
 	}
 
 	protected void error(Exception e) {
@@ -46,25 +47,30 @@ public abstract class AbstractTimer extends Thread implements ContextComponent {
 	@Override
 	public void run() {
 		init();
-		while (isRun()) {
-			try {
-				process();
-
-				// 已经停止运行, 结束
-				if (!isRun()) {
-					shutdown();
-					return;
-				}
-
-				Thread.sleep(getTimeout());
+		try {
+			while (isRun()) {
+				doRun();
 			}
-			catch (InterruptedException e) {
-				interrupt();
+		}
+		catch (InterruptedException e) {
+			interrupt();
+			shutdown();
+		}
+	}
+
+	protected void doRun() throws InterruptedException {
+		try {
+			process();
+			// 已经停止运行, 结束
+			if (!isRun()) {
 				shutdown();
 			}
-			catch (Exception e) {
-				error(e);
-			}
+		}
+		catch (Exception e) {
+			error(e);
+		}
+		finally {
+			Thread.sleep(getTimeout());
 		}
 	}
 
