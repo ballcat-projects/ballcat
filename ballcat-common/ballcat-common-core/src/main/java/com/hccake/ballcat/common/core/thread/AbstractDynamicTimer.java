@@ -40,7 +40,7 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 		}
 
 		try {
-			lock.runLockInterruptibly(() -> {
+			lock.runByInterruptibly(() -> {
 				queue.add(t);
 				lock.signalAll();
 			});
@@ -59,7 +59,7 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 		while (isRun()) {
 			try {
 				T t = pool();
-				lock.runLockInterruptibly(() -> {
+				lock.runByInterruptibly(() -> {
 					if (t == null) {
 						lock.await(24, TimeUnit.HOURS);
 						return;

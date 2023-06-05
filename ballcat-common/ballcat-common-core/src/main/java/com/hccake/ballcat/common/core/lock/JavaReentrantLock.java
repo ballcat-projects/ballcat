@@ -34,7 +34,7 @@ public class JavaReentrantLock {
 		getLock().lockInterruptibly();
 	}
 
-	public void runLock(Runnable runnable) throws InterruptedException {
+	public void run(LockRunnable runnable) throws InterruptedException {
 		ReentrantLock reentrantLock = getLock();
 		reentrantLock.lock();
 		try {
@@ -45,11 +45,33 @@ public class JavaReentrantLock {
 		}
 	}
 
-	public void runLockInterruptibly(Runnable runnable) throws InterruptedException {
+	public void runByInterruptibly(LockRunnable supplier) throws InterruptedException {
 		ReentrantLock reentrantLock = getLock();
 		reentrantLock.lockInterruptibly();
 		try {
-			runnable.run();
+			supplier.run();
+		}
+		finally {
+			reentrantLock.unlock();
+		}
+	}
+
+	public <R> R get(LockSupplier<R> runnable) throws InterruptedException {
+		ReentrantLock reentrantLock = getLock();
+		reentrantLock.lock();
+		try {
+			return runnable.get();
+		}
+		finally {
+			reentrantLock.unlock();
+		}
+	}
+
+	public <R> R getByInterruptibly(LockSupplier<R> runnable) throws InterruptedException {
+		ReentrantLock reentrantLock = getLock();
+		reentrantLock.lockInterruptibly();
+		try {
+			return runnable.get();
 		}
 		finally {
 			reentrantLock.unlock();
@@ -60,32 +82,23 @@ public class JavaReentrantLock {
 		getLock().unlock();
 	}
 
-	public void signal() {
-		getDefaultCondition().signal();
+	public void signal() throws InterruptedException {
+		runByInterruptibly(() -> getDefaultCondition().signal());
 	}
 
-	public void signalAll() {
-		getDefaultCondition().signalAll();
+	public void signalAll() throws InterruptedException {
+		runByInterruptibly(() -> getDefaultCondition().signalAll());
 	}
 
 	public void await() throws InterruptedException {
-		getDefaultCondition().await();
+		runByInterruptibly(() -> getDefaultCondition().await());
 	}
 
 	/**
 	 * @return 是否被唤醒
 	 */
 	public boolean await(long time, TimeUnit timeUnit) throws InterruptedException {
-		return getDefaultCondition().await(time, timeUnit);
-	}
-
-	/**
-	 * @author lingting 2023-04-22 11:35
-	 */
-	public interface Runnable {
-
-		void run() throws InterruptedException;
-
+		return getByInterruptibly(() -> getDefaultCondition().await(time, timeUnit));
 	}
 
 }
