@@ -2,6 +2,7 @@ package com.hccake.ballcat.common.oss;
 
 import com.hccake.ballcat.common.oss.prefix.ObjectKeyPrefixConverter;
 import lombok.Getter;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
@@ -16,12 +17,14 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * OSS操作模板[对象key带全局前缀]
  *
  * @author lishangbu 2022/10/23
+ * @author evil0th
  */
 public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 
@@ -159,6 +162,23 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 	}
 
 	/**
+	 * 删除多个对象
+	 * @param bucket 存储桶
+	 * @param keys 对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObjects.html">从存储桶中删除对象</a>
+	 */
+	@Override
+	public DeleteObjectsResponse deleteObjects(String bucket, Set<String> keys) {
+		return super.deleteObjects(bucket,
+				keys.stream().map(objectKeyPrefixConverter::wrap).collect(Collectors.toSet()));
+	}
+
+	/**
 	 * 删除对象
 	 * @param deleteObjectRequest 通用删除对象请求,如果包含key，则对key进行包装
 	 * @return 文件服务器针对删除对象操作的返回结果
@@ -189,6 +209,57 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 	}
 
 	/**
+	 * 删除多个对象
+	 * @param deleteObjectsRequest 通用删除对象请求
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObjects.html">从存储桶中删除对象</a>
+	 */
+	@Override
+	public DeleteObjectsResponse deleteObjects(DeleteObjectsRequest deleteObjectsRequest) {
+		if (!CollectionUtils.isEmpty(deleteObjectsRequest.delete().objects())) {
+			List<ObjectIdentifier> toDelete = deleteObjectsRequest.delete()
+				.objects()
+				.stream()
+				.map(e -> ObjectIdentifier.builder().key(objectKeyPrefixConverter.wrap(e.key())).build())
+				.collect(Collectors.toList());
+			return super.deleteObjects(DeleteObjectsRequest.builder()
+				.bucket(deleteObjectsRequest.bucket())
+				.delete(Delete.builder().objects(toDelete).build())
+				.bypassGovernanceRetention(deleteObjectsRequest.bypassGovernanceRetention())
+				.expectedBucketOwner(deleteObjectsRequest.expectedBucketOwner())
+				.mfa(deleteObjectsRequest.mfa())
+				.overrideConfiguration(deleteObjectsRequest.overrideConfiguration().orElse(null))
+				.requestPayer(deleteObjectsRequest.requestPayer())
+				.build());
+		}
+		else {
+			return super.deleteObjects(deleteObjectsRequest);
+		}
+	}
+
+	/**
+	 * 复制对象
+	 * @param sourceKey 原对象键
+	 * @param destinationKey 目标对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_CopyObject.html">从存储桶中删除对象</a>
+	 */
+	@Override
+	public CopyObjectResponse copyObject(String bucket, String sourceKey, String destinationBucket,
+			String destinationKey) {
+		return super.copyObject(bucket, objectKeyPrefixConverter.wrap(sourceKey), destinationBucket,
+				objectKeyPrefixConverter.wrap(destinationKey));
+	}
+
+	/**
 	 * 获取文件URL,需保证有访问权限
 	 * @param bucket bucket名称
 	 * @param key 文件名称
@@ -211,6 +282,20 @@ public class ObjectWithGlobalKeyPrefixOssTemplate extends DefaultOssTemplate {
 	@Override
 	public String getObjectPresignedUrl(String bucket, String key, Duration duration) {
 		return super.getObjectPresignedUrl(bucket, objectKeyPrefixConverter.wrap(key), duration);
+	}
+
+	/**
+	 * 获取文件预签名外链（上传）
+	 * @param bucket bucket名称
+	 * @param key 文件名称
+	 * @param duration 过期时间
+	 * @return url的文本表示
+	 * @see <a href=
+	 * "https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javav2/example_code/s3/src/main/java/com/example/s3/GeneratePresignedUrlAndUploadObject.java">获取文件预授权外链</a>
+	 */
+	@Override
+	public String putObjectPresignedUrl(String bucket, String key, Duration duration) {
+		return super.putObjectPresignedUrl(bucket, objectKeyPrefixConverter.wrap(key), duration);
 	}
 
 	/**

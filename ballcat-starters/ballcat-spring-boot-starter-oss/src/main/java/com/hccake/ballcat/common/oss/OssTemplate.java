@@ -1,7 +1,6 @@
 package com.hccake.ballcat.common.oss;
 
 import org.springframework.lang.NonNull;
-import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.core.exception.SdkClientException;
@@ -20,13 +19,15 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * OSS操作
  *
  * @author lishangbu
- * @date 2022/10/28
+ * @author evil0th
  */
 public interface OssTemplate {
 
@@ -39,21 +40,18 @@ public interface OssTemplate {
 
 	/**
 	 * 获取S3客户端
-	 * @return
 	 */
 	@NonNull
 	S3Client getS3Client();
 
 	/**
 	 * 获取S3预签名工具
-	 * @return
 	 */
 	@NonNull
 	S3Presigner getS3Presigner();
 
 	/**
 	 * 获取S3传输管理器
-	 * @return
 	 */
 	@NonNull
 	S3TransferManager getS3TransferManager();
@@ -254,8 +252,8 @@ public interface OssTemplate {
 
 	/**
 	 * 上传文件
-	 * @param putObjectRequest
-	 * @param requestBody
+	 * @param putObjectRequest PutObjectRequest对象
+	 * @param requestBody RequestBody对象
 	 * @return 文件服务器针对上传对象操作的返回结果
 	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
 	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
@@ -283,6 +281,20 @@ public interface OssTemplate {
 	}
 
 	/**
+	 * 删除多个对象
+	 * @param deleteObjectsRequest 通用删除对象请求
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObjects.html">从存储桶中删除对象</a>
+	 */
+	default DeleteObjectsResponse deleteObjects(DeleteObjectsRequest deleteObjectsRequest) {
+		return getS3Client().deleteObjects(deleteObjectsRequest);
+	}
+
+	/**
 	 * 删除对象
 	 * @param key 对象键
 	 * @return 文件服务器针对删除对象操作的返回结果
@@ -294,6 +306,20 @@ public interface OssTemplate {
 	 */
 	default DeleteObjectResponse deleteObject(String key) {
 		return deleteObject(getOssProperties().getBucket(), key);
+	}
+
+	/**
+	 * 删除多个对象
+	 * @param keys 对象键
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObjects.html">从存储桶中删除对象</a>
+	 */
+	default DeleteObjectsResponse deleteObjects(Set<String> keys) {
+		return deleteObjects(getOssProperties().getBucket(), keys);
 	}
 
 	/**
@@ -309,6 +335,78 @@ public interface OssTemplate {
 	 */
 	default DeleteObjectResponse deleteObject(String bucket, String key) {
 		return getS3Client().deleteObject(DeleteObjectRequest.builder().bucket(bucket).key(key).build());
+	}
+
+	/**
+	 * 删除多个对象
+	 * @param bucket 存储桶
+	 * @param keys 对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_DeleteObjects.html">从存储桶中删除对象</a>
+	 */
+	default DeleteObjectsResponse deleteObjects(String bucket, Set<String> keys) {
+		List<ObjectIdentifier> toDelete = keys.stream()
+			.map(e -> ObjectIdentifier.builder().key(e).build())
+			.collect(Collectors.toList());
+		return getS3Client().deleteObjects(DeleteObjectsRequest.builder()
+			.bucket(bucket)
+			.delete(Delete.builder().objects(toDelete).build())
+			.build());
+	}
+
+	/**
+	 * 复制对象
+	 * @param sourceKey 原对象键
+	 * @param destinationKey 目标对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_CopyObject.html">从存储桶中删除对象</a>
+	 */
+	default CopyObjectResponse copyObject(String sourceKey, String destinationKey) {
+		return copyObject(getOssProperties().getBucket(), sourceKey, destinationKey);
+	}
+
+	/**
+	 * 复制对象
+	 * @param sourceKey 原对象键
+	 * @param destinationKey 目标对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_CopyObject.html">从存储桶中删除对象</a>
+	 */
+	default CopyObjectResponse copyObject(String bucket, String sourceKey, String destinationKey) {
+		return copyObject(bucket, sourceKey, bucket, destinationKey);
+	}
+
+	/**
+	 * 复制对象
+	 * @param sourceKey 原对象键
+	 * @param destinationKey 目标对象键,支持静默全局前缀键操作
+	 * @return 文件服务器针对删除对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_CopyObject.html">从存储桶中删除对象</a>
+	 */
+	default CopyObjectResponse copyObject(String sourceBucket, String sourceKey, String destinationBucket,
+			String destinationKey) {
+		return getS3Client().copyObject(CopyObjectRequest.builder()
+			.sourceBucket(sourceBucket)
+			.sourceKey(sourceKey)
+			.destinationBucket(destinationBucket)
+			.destinationKey(destinationKey)
+			.build());
 	}
 
 	/**
@@ -342,6 +440,17 @@ public interface OssTemplate {
 	String getObjectPresignedUrl(String bucket, String key, Duration duration);
 
 	/**
+	 * 获取文件预签名外链(上传)
+	 * @param bucket bucket名称
+	 * @param key 文件名称
+	 * @param duration 过期时间
+	 * @return url的文本表示
+	 * @see <a href=
+	 * "https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javav2/example_code/s3/src/main/java/com/example/s3/GeneratePresignedUrlAndUploadObject.java">获取文件预授权外链</a>
+	 */
+	String putObjectPresignedUrl(String bucket, String key, Duration duration);
+
+	/**
 	 * 获取文件外链,默认2小时后过期
 	 * @param bucket bucket名称
 	 * @param keyName 文件名称
@@ -362,6 +471,66 @@ public interface OssTemplate {
 	 */
 	default String getObjectPresignedUrl(String keyName) {
 		return getObjectPresignedUrl(getOssProperties().getBucket(), keyName, Duration.ofHours(2));
+	}
+
+	/**
+	 * 获取文件预签名外链(上传),默认2小时后过期
+	 * @param bucket bucket名称
+	 * @param key 文件名称
+	 * @return url的文本表示
+	 * @see <a href=
+	 * "https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javav2/example_code/s3/src/main/java/com/example/s3/GeneratePresignedUrlAndUploadObject.java">获取文件预授权外链</a>
+	 */
+	default String putObjectPresignedUrl(String bucket, String key) {
+		return putObjectPresignedUrl(bucket, key, Duration.ofMinutes(2));
+	}
+
+	/**
+	 * 获取文件预签名外链(上传),默认2小时后过期
+	 * @param key 文件名称
+	 * @return url的文本表示
+	 * @see <a href=
+	 * "https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javav2/example_code/s3/src/main/java/com/example/s3/GeneratePresignedUrlAndUploadObject.java">获取文件预授权外链</a>
+	 */
+	default String putObjectPresignedUrl(String key) {
+		return putObjectPresignedUrl(getOssProperties().getBucket(), key);
+	}
+
+	/**
+	 * 获取文件预签名外链(上传,不含域名+bucket部分用于前端)
+	 * @param bucket bucket名称
+	 * @param key 文件名称
+	 * @param duration 过期时间
+	 * @return url的文本表示
+	 * @see <a href=
+	 * "https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javav2/example_code/s3/src/main/java/com/example/s3/GeneratePresignedUrlAndUploadObject.java">获取文件预授权外链</a>
+	 */
+	default String putObjectPresignedUri(String bucket, String key, Duration duration) {
+		String url = putObjectPresignedUrl(bucket, key, duration);
+		return url.substring(url.indexOf(key));
+	}
+
+	/**
+	 * 获取文件预签名外链(上传,不含域名+bucket部分用于前端),默认2小时后过期
+	 * @param bucket bucket名称
+	 * @param key 文件名称
+	 * @return url的文本表示
+	 * @see <a href=
+	 * "https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javav2/example_code/s3/src/main/java/com/example/s3/GeneratePresignedUrlAndUploadObject.java">获取文件预授权外链</a>
+	 */
+	default String putObjectPresignedUri(String bucket, String key) {
+		return putObjectPresignedUri(bucket, key, Duration.ofMinutes(2));
+	}
+
+	/**
+	 * 获取文件预签名外链(上传,不含域名+bucket部分用于前端),默认2小时后过期
+	 * @param key 文件名称
+	 * @return url的文本表示
+	 * @see <a href=
+	 * "https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javav2/example_code/s3/src/main/java/com/example/s3/GeneratePresignedUrlAndUploadObject.java">获取文件预授权外链</a>
+	 */
+	default String putObjectPresignedUri(String key) {
+		return putObjectPresignedUri(getOssProperties().getBucket(), key);
 	}
 
 	// endregion
