@@ -84,7 +84,7 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 				shutdown();
 			}
 			catch (Exception e) {
-				log.error("类: {}; 线程: {}; 运行异常! ", getSimpleName(), getId(), e);
+				error(e);
 			}
 		}
 	}
@@ -94,6 +94,10 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 	}
 
 	protected abstract void process(T t);
+
+	protected void error(Exception e) {
+		log.error("类: {}; 线程: {}; 运行异常! ", getSimpleName(), getId(), e);
+	}
 
 	protected void shutdown() {
 		log.warn("类: {}; 线程: {}; 被中断! 剩余数据: {}", getSimpleName(), getId(), queue.size());
