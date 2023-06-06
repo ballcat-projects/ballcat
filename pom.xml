@@ -16,11 +16,77 @@
 	<description>项目基本脚手架</description>
 
 	<modules>
-		<module>ballcat-common</module>
 		<module>ballcat-dependencies</module>
-		<module>ballcat-extends</module>
-		<module>ballcat-security</module>
-		<module>ballcat-starters</module>
+		<module>ballcat-spring-boot-starter-swagger</module>
+
+		<module>common/ballcat-common-core</module>
+		<module>common/ballcat-common-model</module>
+		<module>common/ballcat-common-util</module>
+
+		<module>datascope/ballcat-spring-boot-starter-datascope</module>
+
+		<module>desensitize/ballcat-desensitize</module>
+
+		<module>dingtalk/ballcat-dingtalk</module>
+		<module>dingtalk/ballcat-spring-boot-starter-dingtalk</module>
+
+		<module>excel/ballcat-spring-boot-starter-easyexcel</module>
+
+		<module>file/ballcat-spring-boot-starter-file</module>
+
+		<module>grpc/ballcat-spring-boot-starter-grpc</module>
+
+		<module>i18n/ballcat-i18n</module>
+		<module>i18n/ballcat-spring-boot-starter-i18n</module>
+
+		<module>idempotent/ballcat-idempotent</module>
+		<module>idempotent/ballcat-spring-boot-starter-idempotent</module>
+
+		<module>ip/ballcat-spring-boot-starter-ip2region</module>
+
+		<module>job/ballcat-spring-boot-starter-job</module>
+
+		<module>kafka/ballcat-kafka</module>
+		<module>kafka/ballcat-kafka-stream</module>
+		<module>kafka/ballcat-spring-boot-starter-kafka</module>
+
+		<module>log/ballcat-log</module>
+		<module>log/ballcat-spring-boot-starter-log</module>
+
+		<module>mail/ballcat-spring-boot-starter-mail</module>
+
+		<module>mybatis-plus/ballcat-mybatis-plus</module>
+
+		<module>ntp/ballcat-ntp</module>
+
+		<module>openapi/ballcat-spring-boot-starter-openapi</module>
+
+		<module>oss/ballcat-spring-boot-starter-oss</module>
+
+		<module>pay/ballcat-pay-ali</module>
+		<module>pay/ballcat-pay-virtual</module>
+		<module>pay/ballcat-pay-wx</module>
+		<module>pay/ballcat-spring-boot-starter-pay</module>
+
+		<module>redis/ballcat-redis</module>
+		<module>redis/ballcat-redis-module</module>
+		<module>redis/ballcat-spring-boot-starter-redis</module>
+
+		<module>security/ballcat-security-core</module>
+		<module>security/ballcat-spring-security-oauth2-authorization-server</module>
+		<module>security/ballcat-spring-security-oauth2-core</module>
+		<module>security/ballcat-spring-security-oauth2-resource-server</module>
+
+		<module>sms/ballcat-spring-boot-starter-sms</module>
+
+		<module>tesseract/ballcat-tesseract</module>
+
+		<module>web/ballcat-spring-boot-starter-web</module>
+
+		<module>websocket/ballcat-websocket</module>
+		<module>websocket/ballcat-spring-boot-starter-websocket</module>
+
+		<module>xss/ballcat-spring-boot-starter-xss</module>
 	</modules>
 
 	<properties>

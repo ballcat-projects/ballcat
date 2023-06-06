@@ -287,46 +287,11 @@
 				<version>${grpc.version}</version>
 			</dependency>
 
-
 			<!--region ============= 定义ballcat 自身模块版本 ================== -->
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-admin-core</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-admin-i18n</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-admin-websocket</artifactId>
-				<version>${revision}</version>
-			</dependency>
+			<!-- common 基础 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-common-core</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-common-desensitize</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-common-i18n</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-common-idempotent</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-common-log</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -336,80 +301,28 @@
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-common-redis</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-common-util</artifactId>
 				<version>${revision}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-common-websocket</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- extends -->
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-ntp</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-dingtalk</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-kafka</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-kafka-stream</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-mybatis-plus</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-openapi</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-pay-ali</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-pay-virtual</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-pay-wx</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-extend-tesseract</artifactId>
-				<version>${revision}</version>
-			</dependency>
 
-			<!-- ballcat-security -->
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-security-core</artifactId>
-				<version>${revision}</version>
-			</dependency>
+			<!-- datascope 数据权限 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-datascope</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- desensitize 脱敏 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-desensitize</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- dingtalk 钉钉 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-dingtalk</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -417,14 +330,32 @@
 				<artifactId>ballcat-spring-boot-starter-dingtalk</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- excel -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-easyexcel</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- file 文件 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-file</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- grpc -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-grpc</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- i18n 国际化 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-i18n</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -432,19 +363,42 @@
 				<artifactId>ballcat-spring-boot-starter-i18n</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- idempotent 幂等 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-idempotent</artifactId>
+				<version>${revision}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-idempotent</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- ip 解析 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-ip2region</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- job 定时任务 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-job</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- kafka 消息队列 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-kafka</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-kafka-stream</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -452,19 +406,67 @@
 				<artifactId>ballcat-spring-boot-starter-kafka</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- log 日志 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-log</artifactId>
+				<version>${revision}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-log</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- maill 邮件 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-mail</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- ntp 时间同步 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-mybatis-plus</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-ntp</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- swagger openapi 文档 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-openapi</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- oss 对象存储 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-oss</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- pay 支付 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-pay-ali</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-pay-virtual</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-pay-wx</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -472,40 +474,23 @@
 				<artifactId>ballcat-spring-boot-starter-pay</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- redis -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-redis</artifactId>
+				<version>${revision}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-redis</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- security 安全 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-sms</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-swagger</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- ballcat-stater -->
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-web</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-websocket</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-xss</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-grpc</artifactId>
+				<artifactId>ballcat-security-core</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -521,6 +506,52 @@
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security-oauth2-resource-server</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- sms 短信 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-sms</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- tesseract OCR 文字识别 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-tesseract</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- web -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-web</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- websocket -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-websocket</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-websocket</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- xss 防注入 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-xss</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-swagger</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<!--endregion ============= 结束定义ballcat 自身模块版本 =========== -->
