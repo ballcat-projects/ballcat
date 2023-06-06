@@ -17,6 +17,7 @@ package com.hccake.ballcat.common.websocket.session;
 
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -34,7 +35,7 @@ public interface WebSocketSessionStore {
 	 * 删除一个 session
 	 * @param session WebSocketSession
 	 */
-	void removeSession(WebSocketSession session);
+	void removeSession(WebSocketSession session) throws Exception;
 
 	/**
 	 * 获取当前所有在线的 wsSessions

@@ -18,6 +18,7 @@ package com.hccake.ballcat.common.websocket.session;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -61,16 +62,19 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	 * @param session WebSocketSession
 	 */
 	@Override
-	public void removeSession(WebSocketSession session) {
+	public void removeSession(WebSocketSession session) throws IOException {
 		Object sessionKey = sessionKeyGenerator.sessionKey(session);
 		String wsSessionId = session.getId();
 
 		Map<String, WebSocketSession> sessions = this.sessionKeyToWsSessions.get(sessionKey);
 		if (sessions != null) {
-			boolean result = sessions.remove(wsSessionId) != null;
-			if (log.isDebugEnabled()) {
-				log.debug("Removal of " + wsSessionId + " was " + result);
+			try (WebSocketSession webSocketSession = sessions.remove(wsSessionId)) {
+				boolean result = webSocketSession != null;
+				if (log.isDebugEnabled()) {
+					log.debug("Removal of " + wsSessionId + " was " + result);
+				}
 			}
+
 			if (sessions.isEmpty()) {
 				this.sessionKeyToWsSessions.remove(sessionKey);
 				if (log.isDebugEnabled()) {

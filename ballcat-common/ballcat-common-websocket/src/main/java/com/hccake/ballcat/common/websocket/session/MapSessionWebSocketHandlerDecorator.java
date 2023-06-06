@@ -22,6 +22,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator;
 import org.springframework.web.socket.handler.WebSocketHandlerDecorator;
 
+import java.io.IOException;
+
 /**
  * WebSocketHandler 装饰器，该装饰器主要用于在开启和关闭连接时，进行session的映射存储与释放
  *
@@ -63,7 +65,7 @@ public class MapSessionWebSocketHandlerDecorator extends WebSocketHandlerDecorat
 	 * @param closeStatus 关闭状态对象
 	 */
 	@Override
-	public void afterConnectionClosed(WebSocketSession wsSession, CloseStatus closeStatus) {
+	public void afterConnectionClosed(WebSocketSession wsSession, CloseStatus closeStatus) throws Exception {
 		webSocketSessionStore.removeSession(wsSession);
 	}
 
