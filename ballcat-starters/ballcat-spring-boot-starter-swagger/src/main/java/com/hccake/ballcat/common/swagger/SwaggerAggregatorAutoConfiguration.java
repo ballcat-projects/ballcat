@@ -32,9 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/11/1 20:03
+ * @author Hccake 2019/11/1 20:03
  */
 @Import(SwaggerConfiguration.class)
 @ConditionalOnProperty(prefix = SwaggerProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)

@@ -19,9 +19,9 @@ import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/8/31 16:08 利用Aop, 在方法调用前先查询缓存 若缓存中没有数据，则调用方法本身，并将方法返回值放置入缓存中
+ * 利用Aop, 在方法调用前先查询缓存 若缓存中没有数据，则调用方法本身，并将方法返回值放置入缓存中
+ *
+ * @author Hccake 2019/8/31 16:08
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

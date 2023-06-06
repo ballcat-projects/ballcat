@@ -16,8 +16,7 @@
 package com.hccake.common.excel.kit;
 
 /**
- * @author lengleng
- * @date 2020/3/31
+ * @author lengleng 2020/3/31
  */
 public class ExcelException extends RuntimeException {
 

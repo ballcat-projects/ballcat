@@ -35,9 +35,7 @@ import java.util.Map;
  * 前后端交互中密码使用 AES 加密，模式: CBC，padding: PKCS5，偏移量暂不定制和密钥相同。 <br/>
  * 服务端OAuth2中，密码使用BCrypt方式加密
  *
- * @author Hccake
- * @version 1.0
- * @date 2019/9/25 15:14
+ * @author Hccake 2019/9/25 15:14
  */
 public final class PasswordUtils {
 

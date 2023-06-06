@@ -15,7 +15,6 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
-import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;

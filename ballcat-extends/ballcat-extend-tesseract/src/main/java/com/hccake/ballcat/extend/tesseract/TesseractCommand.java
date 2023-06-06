@@ -47,7 +47,7 @@ public class TesseractCommand {
 
 	/**
 	 * 页面分割模式. 值范围 1-13; 默认 3
-	 *
+	 * <p>
 	 * 小文本可以调大.
 	 */
 	private Integer psm;

@@ -29,9 +29,9 @@ import org.springframework.util.Assert;
 import java.lang.reflect.Method;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/15 18:16 操作日志切面类
+ * 操作日志切面类
+ *
+ * @author Hccake 2019/10/15 18:16
  */
 @Slf4j
 @Aspect

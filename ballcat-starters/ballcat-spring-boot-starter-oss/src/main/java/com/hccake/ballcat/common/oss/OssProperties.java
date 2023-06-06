@@ -20,9 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import software.amazon.awssdk.regions.Region;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/7/16 15:34
+ * @author Hccake 2019/7/16 15:34
  */
 
 @Data

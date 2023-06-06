@@ -19,9 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/11/1 20:03
+ * @author Hccake 2019/11/1 20:03
  */
 public final class SwaggerConstants {
 

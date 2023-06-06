@@ -34,7 +34,7 @@ public class EtherscanProperties {
 	private EtherscanEndpoints endpoints;
 
 	/**
-	 * 使用 infura 平台. 网址 https://infura.io/dashboard
+	 * 使用 <a href="https://infura.io/dashboard">infura 平台</a>
 	 */
 	private Infura infura;
 

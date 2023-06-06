@@ -97,7 +97,7 @@ public class WebSocketProperties {
 		/**
 		 * 自定义，用户自己实现一个 MessageDistributor
 		 */
-		CUSTOM;
+		CUSTOM
 
 	}
 

@@ -25,7 +25,7 @@ import org.apache.kafka.common.header.Header;
 
 /**
  * 生产者扩展 提供了一些更加方便使用 生产者的方法
- *
+ * <p>
  * 忽略sonar异常. record 方法名需要与 kafka默认提供的方法名保持同名. 避免误导
  *
  * @author lingting 2020/6/23 17:11

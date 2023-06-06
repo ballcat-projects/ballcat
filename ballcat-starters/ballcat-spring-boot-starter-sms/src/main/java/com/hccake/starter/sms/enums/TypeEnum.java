@@ -31,8 +31,6 @@ public enum TypeEnum {
 
 	TIAN_YI_HONG,
 
-	ALIYUN,
-
-	;
+	ALIYUN
 
 }

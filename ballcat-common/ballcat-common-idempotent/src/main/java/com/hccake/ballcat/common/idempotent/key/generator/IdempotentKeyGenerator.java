@@ -22,8 +22,7 @@ import org.springframework.lang.NonNull;
 /**
  * 幂等key生成器
  *
- * @author lishangbu
- * @date 2022/10/18
+ * @author lishangbu 2022/10/18
  */
 @FunctionalInterface
 public interface IdempotentKeyGenerator {

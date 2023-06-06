@@ -20,6 +20,7 @@ import com.hccake.ballcat.common.util.SpelUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.lang.NonNull;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -29,8 +30,7 @@ import java.lang.reflect.Method;
 /**
  * 默认幂等key生成器
  *
- * @author lishangbu
- * @date 2022/10/18
+ * @author lishangbu 2022/10/18
  */
 public class DefaultIdempotentKeyGenerator implements IdempotentKeyGenerator {
 
@@ -40,6 +40,7 @@ public class DefaultIdempotentKeyGenerator implements IdempotentKeyGenerator {
 	 * @param idempotentAnnotation 幂等注解
 	 * @return String 幂等标识
 	 */
+	@NonNull
 	@Override
 	public String generate(JoinPoint joinPoint, Idempotent idempotentAnnotation) {
 		String uniqueExpression = idempotentAnnotation.uniqueExpression();

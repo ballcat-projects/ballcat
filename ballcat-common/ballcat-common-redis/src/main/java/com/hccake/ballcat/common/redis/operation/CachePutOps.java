@@ -20,9 +20,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import java.util.function.Consumer;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/2 15:19
+ * @author Hccake 2019/9/2 15:19
  */
 public class CachePutOps extends AbstractCacheOps {
 

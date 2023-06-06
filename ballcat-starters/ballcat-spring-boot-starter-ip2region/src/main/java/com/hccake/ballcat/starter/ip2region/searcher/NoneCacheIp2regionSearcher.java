@@ -21,20 +21,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 /**
- *
- * 不缓存,直接检索
- *
- * <p>
- * 完全基于文件的查询
- * </p>
- *
+ * 完全基于文件的查询,不缓存,直接检索
  * <p>
  * 参考<a href=
  * "https://gitee.com/lionsoul/ip2region/tree/master/binding/java">ip2region</a>魔改
- * </p>
  *
- * @author lishangbu
- * @date 2022/10/16
+ * @author lishangbu 2022/10/16
  */
 public class NoneCacheIp2regionSearcher extends Ip2regionSearcherTemplate {
 

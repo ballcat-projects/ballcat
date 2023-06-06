@@ -32,9 +32,7 @@ import java.util.Map;
 /**
  * Request包装类：允许 body 重复读取
  *
- * @author Hccake
- * @version 1.0
- * @date 2019/10/16 10:14
+ * @author Hccake 2019/10/16 10:14
  */
 @Slf4j
 public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {

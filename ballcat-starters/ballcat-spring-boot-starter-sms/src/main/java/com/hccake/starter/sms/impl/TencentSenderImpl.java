@@ -15,7 +15,6 @@
  */
 package com.hccake.starter.sms.impl;
 
-import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hccake.starter.sms.SmsSender;
@@ -43,8 +42,6 @@ import java.util.Map;
 @ConditionalOnProperty(name = "ballcat.sms.type", havingValue = "TENCENT")
 public class TencentSenderImpl extends BaseServiceImpl implements SmsSender<SmsSenderParams, SmsSenderResult> {
 
-	private final SmsProperties properties;
-
 	private final Credential cred;
 
 	private final Tencent tencent;
@@ -52,7 +49,6 @@ public class TencentSenderImpl extends BaseServiceImpl implements SmsSender<SmsS
 	private final ObjectMapper om;
 
 	public TencentSenderImpl(SmsProperties properties, ObjectMapper om) {
-		this.properties = properties;
 		tencent = properties.getTencent();
 		cred = new Credential(properties.getId(), properties.getKey());
 		this.om = om;

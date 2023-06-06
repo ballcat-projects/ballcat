@@ -45,8 +45,8 @@ public class OssAutoConfiguration {
 
 	/**
 	 * S3客户端
-	 * @param ossProperties
-	 * @return
+	 * @param ossProperties oss 配置
+	 * @return S3Client
 	 */
 	@Bean
 	@ConditionalOnMissingBean(S3Client.class)
@@ -66,8 +66,8 @@ public class OssAutoConfiguration {
 
 	/**
 	 * S3预签名工具
-	 * @param ossProperties
-	 * @return
+	 * @param ossProperties oss 配置
+	 * @return S3Presigner
 	 */
 	@Bean
 	@ConditionalOnMissingBean(S3Presigner.class)
@@ -86,8 +86,8 @@ public class OssAutoConfiguration {
 
 	/**
 	 * S3高级传输工具
-	 * @param ossProperties
-	 * @return
+	 * @param ossProperties oss 配置
+	 * @return S3TransferManager
 	 */
 	@Bean
 	@ConditionalOnMissingBean(S3TransferManager.class)

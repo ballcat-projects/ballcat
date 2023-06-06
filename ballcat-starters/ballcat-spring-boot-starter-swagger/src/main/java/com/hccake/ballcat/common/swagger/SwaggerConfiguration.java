@@ -27,9 +27,7 @@ import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/11/1 19:43
+ * @author Hccake 2019/11/1 19:43
  */
 @RequiredArgsConstructor
 @EnableConfigurationProperties(SwaggerProperties.class)

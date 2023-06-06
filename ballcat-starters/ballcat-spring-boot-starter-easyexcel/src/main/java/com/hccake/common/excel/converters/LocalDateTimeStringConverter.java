@@ -41,7 +41,7 @@ public enum LocalDateTimeStringConverter implements Converter<LocalDateTime> {
 	private static final String MINUS = "-";
 
 	@Override
-	public Class supportJavaTypeKey() {
+	public Class<?> supportJavaTypeKey() {
 		return LocalDateTime.class;
 	}
 

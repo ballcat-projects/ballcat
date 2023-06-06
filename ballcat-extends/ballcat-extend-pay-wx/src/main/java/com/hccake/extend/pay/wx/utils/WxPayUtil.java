@@ -18,7 +18,6 @@ package com.hccake.extend.pay.wx.utils;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.StrUtil;
 import com.hccake.extend.pay.wx.constants.WxPayConstant;
 import com.hccake.extend.pay.wx.enums.SignType;
 import lombok.SneakyThrows;

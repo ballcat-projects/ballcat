@@ -20,8 +20,7 @@ import java.lang.annotation.*;
 /**
  * 删除
  *
- * @author lishangbu
- * @date 2022/10/29
+ * @author lishangbu 2022/10/29
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

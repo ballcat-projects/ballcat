@@ -44,10 +44,9 @@ public class MapSessionWebSocketHandlerDecorator extends WebSocketHandlerDecorat
 	/**
 	 * websocket 连接时执行的动作
 	 * @param wsSession websocket session 对象
-	 * @throws Exception 异常对象
 	 */
 	@Override
-	public void afterConnectionEstablished(WebSocketSession wsSession) throws Exception {
+	public void afterConnectionEstablished(WebSocketSession wsSession) {
 		// 包装一层，防止并发发送出现问题
 		if (Boolean.TRUE.equals(concurrentWebSocketSessionOptions.isEnable())) {
 			wsSession = new ConcurrentWebSocketSessionDecorator(wsSession,
@@ -62,10 +61,9 @@ public class MapSessionWebSocketHandlerDecorator extends WebSocketHandlerDecorat
 	 * websocket 关闭连接时执行的动作
 	 * @param wsSession websocket session 对象
 	 * @param closeStatus 关闭状态对象
-	 * @throws Exception 异常对象
 	 */
 	@Override
-	public void afterConnectionClosed(WebSocketSession wsSession, CloseStatus closeStatus) throws Exception {
+	public void afterConnectionClosed(WebSocketSession wsSession, CloseStatus closeStatus) {
 		webSocketSessionStore.removeSession(wsSession);
 	}
 

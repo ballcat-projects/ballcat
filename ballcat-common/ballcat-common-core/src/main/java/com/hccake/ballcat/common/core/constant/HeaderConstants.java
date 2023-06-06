@@ -16,9 +16,7 @@
 package com.hccake.ballcat.common.core.constant;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/31 11:55
+ * @author Hccake 2019/10/31 11:55
  */
 public final class HeaderConstants {
 

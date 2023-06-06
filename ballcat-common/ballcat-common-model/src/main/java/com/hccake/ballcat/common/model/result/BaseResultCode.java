@@ -19,9 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/12 12:19
+ * @author Hccake 2019/9/12 12:19
  */
 @Getter
 @AllArgsConstructor

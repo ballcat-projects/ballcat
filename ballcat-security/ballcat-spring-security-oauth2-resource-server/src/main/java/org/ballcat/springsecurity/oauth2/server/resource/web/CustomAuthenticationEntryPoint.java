@@ -30,15 +30,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/25 22:04
+ * @author Hccake 2019/9/25 22:04
  */
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
 	public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-			AuthenticationException e) throws IOException, ServletException {
+			AuthenticationException e) throws IOException {
 
 		String utf8 = StandardCharsets.UTF_8.toString();
 

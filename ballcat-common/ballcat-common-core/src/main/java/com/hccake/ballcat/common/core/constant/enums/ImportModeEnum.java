@@ -35,6 +35,6 @@ public enum ImportModeEnum {
 	/**
 	 * 覆盖已存在的数据
 	 */
-	OVERWRITE_EXISTING;
+	OVERWRITE_EXISTING
 
 }

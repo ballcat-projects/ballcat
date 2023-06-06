@@ -80,7 +80,7 @@ public class LocalFileClient extends AbstractFileClient {
 	 * @return java.io.FileOutputStream 文件流
 	 */
 	@Override
-	public File download(String relativePath) throws IOException {
+	public File download(String relativePath) {
 		return new File(parentDir, relativePath);
 	}
 
@@ -90,7 +90,7 @@ public class LocalFileClient extends AbstractFileClient {
 	 * @return boolean
 	 */
 	@Override
-	public boolean delete(String relativePath) throws IOException {
+	public boolean delete(String relativePath) {
 		final File file = new File(parentDir, relativePath);
 		return file.exists() && file.delete();
 	}

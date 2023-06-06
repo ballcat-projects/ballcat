@@ -37,6 +37,6 @@ public enum BloomInsertKeywordEnum {
 	/**
 	 * 插入过滤器的元素
 	 */
-	ITEMS;
+	ITEMS
 
 }

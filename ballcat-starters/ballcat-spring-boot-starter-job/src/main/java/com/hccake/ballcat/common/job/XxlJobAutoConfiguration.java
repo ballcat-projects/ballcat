@@ -27,11 +27,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
+import java.util.Objects;
+
 /**
- * @author lengleng
- * @date 2019-09-18
- * <p>
  * xxl 初始化
+ *
+ * @author lengleng 2019-09-18
  */
 @Slf4j
 @AutoConfiguration
@@ -78,7 +79,7 @@ public class XxlJobAutoConfiguration {
 	/**
 	 * 获取xxl-job执行器通讯令牌
 	 * @param properties 主配置文件
-	 * @return
+	 * @return accessToken
 	 */
 	private String getAccessToken(XxlJobProperties properties) {
 		if (StringUtils.hasText(properties.getAccessToken())) {
@@ -93,7 +94,7 @@ public class XxlJobAutoConfiguration {
 	/**
 	 * 获取日志路径
 	 * @param properties 执行器配置文件
-	 * @return
+	 * @return log path
 	 */
 	private String getLogPath(XxlExecutorProperties properties) {
 		String logPath = properties.getLogPath();
@@ -102,7 +103,7 @@ public class XxlJobAutoConfiguration {
 		}
 		return environment.getProperty("logging.file.path", "logs")
 			.concat("/")
-			.concat(environment.getProperty("spring.application.name"))
+			.concat(Objects.requireNonNull(environment.getProperty("spring.application.name")))
 			.concat("/jobs");
 	}
 

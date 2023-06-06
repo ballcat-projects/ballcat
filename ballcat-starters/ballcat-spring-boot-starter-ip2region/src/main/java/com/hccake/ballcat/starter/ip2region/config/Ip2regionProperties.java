@@ -22,8 +22,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * IP2region配置项
  *
- * @author lishangbu
- * @date 2022/10/16
+ * @author lishangbu 2022/10/16
  */
 @ConfigurationProperties(Ip2regionProperties.PREFIX)
 @Data

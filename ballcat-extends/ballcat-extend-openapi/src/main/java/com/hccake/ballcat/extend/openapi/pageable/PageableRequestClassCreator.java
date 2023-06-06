@@ -16,7 +16,6 @@
 package com.hccake.ballcat.extend.openapi.pageable;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import lombok.RequiredArgsConstructor;
 import org.springframework.asm.ClassReader;
 import org.springframework.asm.ClassVisitor;
 import org.springframework.asm.ClassWriter;

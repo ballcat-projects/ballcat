@@ -20,9 +20,7 @@ import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/2/27 18:00
+ * @author Hccake 2020/2/27 18:00
  */
 @ToString
 public class MailSendEvent extends ApplicationEvent {

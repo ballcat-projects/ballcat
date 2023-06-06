@@ -30,8 +30,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * 幂等自动装配
  *
- * @author lishangbu
- * @date 2022/10/18
+ * @author lishangbu 2022/10/18
  */
 @AutoConfiguration
 @RequiredArgsConstructor

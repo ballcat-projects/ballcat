@@ -27,9 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/15 22:53
+ * @author Hccake 2019/10/15 22:53
  */
 @Slf4j
 @UtilityClass

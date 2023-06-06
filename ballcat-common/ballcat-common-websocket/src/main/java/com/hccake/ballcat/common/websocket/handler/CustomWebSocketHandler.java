@@ -78,7 +78,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 
 	private void handleWithJson(WebSocketSession session, String payload) {
 		// 消息类型必有一属性type，先解析，获取该属性
-		JsonNode jsonNode = null;
+		JsonNode jsonNode;
 		try {
 			jsonNode = MAPPER.readTree(payload);
 		}

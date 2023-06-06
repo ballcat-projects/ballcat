@@ -30,7 +30,8 @@ public final class HtmlUtils {
 
 	/**
 	 * html 转字符串，保留换行样式
-	 * @link https://stackoverflow.com/questions/5640334/how-do-i-preserve-line-breaks-when-using-jsoup-to-convert-html-to-plain-text
+	 * @link <a href=
+	 * "https://stackoverflow.com/questions/5640334/how-do-i-preserve-line-breaks-when-using-jsoup-to-convert-html-to-plain-text">how-do-i-preserve-line-breaks</a>
 	 * @param html html字符串
 	 * @param mergeLineBreak 是否合并换行符
 	 * @return 保留换行格式的纯文本

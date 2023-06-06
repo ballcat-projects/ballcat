@@ -21,8 +21,7 @@ import lombok.Setter;
 /**
  * redis key event common config
  *
- * @author lishangbu
- * @date 2023/1/12
+ * @author lishangbu 2023/1/12
  */
 @Getter
 @Setter

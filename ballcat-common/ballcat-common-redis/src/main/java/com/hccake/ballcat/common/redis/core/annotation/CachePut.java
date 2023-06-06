@@ -19,9 +19,9 @@ import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/8/31 16:08 利用Aop, 在方法执行后执行缓存put操作 将方法的返回值置入缓存中，若方法返回null，则会默认置入一个nullValue
+ * 利用Aop, 在方法执行后执行缓存put操作 将方法的返回值置入缓存中，若方法返回null，则会默认置入一个nullValue
+ *
+ * @author Hccake 2019/8/31 16:08
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

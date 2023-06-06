@@ -34,6 +34,4 @@ public enum FtpMode {
 	 */
 	PASSIVE
 
-	;
-
 }

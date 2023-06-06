@@ -20,11 +20,9 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Map;
 
 /**
- * 修改parameterMap
+ * 用于修改 ParameterMap 的 HttpServletRequestWrapper
  *
- * @author Hccake
- * @version 1.0
- * @date 2019/10/17 21:57
+ * @author Hccake 2019/10/17 21:57
  */
 public class ModifyParamMapRequestWrapper extends HttpServletRequestWrapper {
 

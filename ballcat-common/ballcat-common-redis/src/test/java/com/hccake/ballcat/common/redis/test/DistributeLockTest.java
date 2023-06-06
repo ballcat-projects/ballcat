@@ -23,9 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.io.IOException;
 
 /**
- * @author huyuanzhi
- * @version 1.0
- * @date 2021/11/16
+ * @author huyuanzhi 2021/11/16
  */
 @SpringJUnitConfig(RedisConfiguration.class)
 class DistributeLockTest {

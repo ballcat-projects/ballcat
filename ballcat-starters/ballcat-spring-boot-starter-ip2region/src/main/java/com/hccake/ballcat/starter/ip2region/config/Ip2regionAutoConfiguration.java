@@ -30,8 +30,7 @@ import org.springframework.core.io.ResourceLoader;
 /**
  * Ip2region自动配置
  *
- * @author lishangbu
- * @date 2022/10/16
+ * @author lishangbu 2022/10/16
  */
 @AutoConfiguration
 @EnableConfigurationProperties(Ip2regionProperties.class)

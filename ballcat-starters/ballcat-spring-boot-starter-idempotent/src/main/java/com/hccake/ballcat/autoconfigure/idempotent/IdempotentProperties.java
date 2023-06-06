@@ -22,8 +22,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * 幂等属性配置
  *
- * @author lishangbu
- * @date 2022/10/18
+ * @author lishangbu 2022/10/18
  */
 @Setter
 @Getter

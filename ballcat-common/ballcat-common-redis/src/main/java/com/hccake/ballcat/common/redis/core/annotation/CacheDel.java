@@ -18,9 +18,9 @@ package com.hccake.ballcat.common.redis.core.annotation;
 import java.lang.annotation.*;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/8/31 16:08 利用Aop, 在方法执行后执行缓存删除操作
+ * 利用Aop, 在方法执行后执行缓存删除操作
+ *
+ * @author Hccake 2019/8/31 16:08
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

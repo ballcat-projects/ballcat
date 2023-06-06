@@ -22,9 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/9 11:07
+ * @author Hccake 2019/9/9 11:07
  */
 @RequiredArgsConstructor
 public class JacksonSerializer implements CacheSerializer {

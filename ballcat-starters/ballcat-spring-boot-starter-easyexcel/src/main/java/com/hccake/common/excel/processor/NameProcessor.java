@@ -18,8 +18,7 @@ package com.hccake.common.excel.processor;
 import java.lang.reflect.Method;
 
 /**
- * @author lengleng
- * @date 2020/3/29
+ * @author lengleng 2020/3/29
  */
 public interface NameProcessor {
 

@@ -53,9 +53,7 @@ import java.util.function.Supplier;
 /**
  * 为保证缓存更新无异常，该切面优先级必须高于事务切面
  *
- * @author Hccake
- * @date 2019/8/31 18:01
- * @version 1.0
+ * @author Hccake 2019/8/31 18:01
  */
 @Aspect
 @Order(Ordered.LOWEST_PRECEDENCE - 1)

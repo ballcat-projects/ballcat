@@ -31,8 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lengleng
- * @date 2020/3/29
+ * @author lengleng 2020/3/29
  */
 public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 

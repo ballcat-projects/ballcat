@@ -19,9 +19,7 @@ import com.hccake.ballcat.common.redis.operation.function.VoidMethod;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/2 15:19
+ * @author Hccake 2019/9/2 15:19
  */
 public class CacheDelOps extends AbstractCacheOps {
 

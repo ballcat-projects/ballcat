@@ -18,8 +18,7 @@ package com.hccake.ballcat.common.oss.prefix;
 /**
  * 存储对象 key前缀生成器
  *
- * @author lishangbu
- * @date 2022/10/23
+ * @author lishangbu 2022/10/23
  */
 public interface ObjectKeyPrefixConverter {
 

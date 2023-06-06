@@ -42,9 +42,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 /**
  * Redis 自动配置类
  *
- * @author Hccake
- * @version 1.0
- * @date 2019/9/2 14:13
+ * @author Hccake 2019/9/2 14:13
  */
 @AutoConfiguration(before = RedisAutoConfiguration.class)
 @RequiredArgsConstructor

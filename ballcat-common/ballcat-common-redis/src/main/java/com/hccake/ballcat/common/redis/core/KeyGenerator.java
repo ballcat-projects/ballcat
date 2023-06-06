@@ -29,9 +29,7 @@ import java.util.stream.Collectors;
 /**
  * 缓存key的生成工具类，主要用于解析spel, 进行拼接key的生成
  *
- * @author Hccake
- * @version 1.0
- * @date 2019/9/3 9:58
+ * @author Hccake 2019/9/3 9:58
  */
 public class KeyGenerator {
 

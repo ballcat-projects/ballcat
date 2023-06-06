@@ -18,6 +18,7 @@ package com.hccake.ballcat.autoconfigure.web.pageable;
 import com.hccake.ballcat.common.model.domain.PageParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
@@ -26,8 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author lengleng
- * @author hccake
- * @date 2019-06-24
+ * @author hccake 2019-06-24
  * <p>
  * 解决Mybatis Plus Order By SQL注入问题
  */
@@ -62,6 +62,7 @@ public class DefaultPageParamArgumentResolver extends PageParamArgumentResolverS
 	 * <p>
 	 * page 只支持查询 GET .如需解析POST获取请求报文体处理
 	 */
+	@NonNull
 	@Override
 	public PageParam resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {

@@ -37,7 +37,8 @@ import java.util.stream.Collectors;
 /**
  * 抽象的 Redis module 操作类 实现方式基于 org.springframework.data.redis.connection.lettuce
  *
- * @link https://stackoverflow.com/questions/61062171/spring-data-redis-support-for-modules
+ * @link <a href=
+ * "https://stackoverflow.com/questions/61062171/spring-data-redis-support-for-modules">spring-data-redis-support-for-modules</a>
  */
 @Slf4j
 @Getter

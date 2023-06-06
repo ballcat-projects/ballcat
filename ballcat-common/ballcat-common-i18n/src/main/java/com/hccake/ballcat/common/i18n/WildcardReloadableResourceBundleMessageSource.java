@@ -27,7 +27,7 @@ import java.util.Locale;
 
 /**
  * 通配符支持的 ResourceBundleMessageSource，方便读取多个 jar 包中的资源文件.
- *
+ * <p>
  * 默认的 ReloadableResourceBundleMessageSource，对于多个同名文件，只会读取找到的第一个。
  *
  * @see <a href=

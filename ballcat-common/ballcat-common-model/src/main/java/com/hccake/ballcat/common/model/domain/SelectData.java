@@ -18,6 +18,8 @@ package com.hccake.ballcat.common.model.domain;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.*;
+
 /**
  * 下拉框所对应的视图类
  *
@@ -30,13 +32,13 @@ public class SelectData<T> {
 	/**
 	 * 显示的数据
 	 */
-	@Schema(title = "显示的数据", required = true)
+	@Schema(title = "显示的数据", requiredMode = REQUIRED)
 	private String name;
 
 	/**
 	 * 选中获取的属性
 	 */
-	@Schema(title = "选中获取的属性", required = true)
+	@Schema(title = "选中获取的属性", requiredMode = REQUIRED)
 	private Object value;
 
 	/**

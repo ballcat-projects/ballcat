@@ -21,8 +21,7 @@ import org.springframework.lang.Nullable;
 /**
  * IP 搜索
  *
- * @author lishangbu
- * @date 2022/10/16
+ * @author lishangbu 2022/10/16
  */
 public interface Ip2regionSearcher {
 

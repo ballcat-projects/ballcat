@@ -39,7 +39,7 @@ public enum LocalDateStringConverter implements Converter<LocalDate> {
 	INSTANCE;
 
 	@Override
-	public Class supportJavaTypeKey() {
+	public Class<?> supportJavaTypeKey() {
 		return LocalDate.class;
 	}
 

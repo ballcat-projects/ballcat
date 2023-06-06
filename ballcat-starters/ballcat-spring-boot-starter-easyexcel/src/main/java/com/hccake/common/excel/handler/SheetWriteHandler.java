@@ -20,10 +20,9 @@ import com.hccake.common.excel.annotation.ResponseExcel;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author lengleng
- * @date 2020/3/29
- * <p>
  * sheet 写出处理器
+ *
+ * @author lengleng 2020/3/29
  */
 public interface SheetWriteHandler {
 

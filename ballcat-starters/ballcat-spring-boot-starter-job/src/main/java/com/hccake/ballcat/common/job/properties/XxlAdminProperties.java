@@ -18,8 +18,7 @@ package com.hccake.ballcat.common.job.properties;
 import lombok.Data;
 
 /**
- * @author lengleng
- * @date 2019-09-18
+ * @author lengleng 2019-09-18
  * <p>
  * xxl 管控台相关属性
  */

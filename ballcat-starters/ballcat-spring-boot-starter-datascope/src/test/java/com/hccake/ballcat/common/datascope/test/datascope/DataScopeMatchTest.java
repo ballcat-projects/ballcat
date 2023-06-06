@@ -30,14 +30,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @author Hccake 2020/9/28
- * @version 1.0
  */
 class DataScopeMatchTest {
 

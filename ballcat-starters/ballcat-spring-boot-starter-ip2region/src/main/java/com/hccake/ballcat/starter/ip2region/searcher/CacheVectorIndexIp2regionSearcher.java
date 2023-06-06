@@ -34,8 +34,7 @@ import org.springframework.core.io.ResourceLoader;
  * "https://gitee.com/lionsoul/ip2region/tree/master/binding/java">ip2region</a>魔改
  * </p>
  *
- * @author lishangbu
- * @date 2022/10/16
+ * @author lishangbu 2022/10/16
  */
 public class CacheVectorIndexIp2regionSearcher extends Ip2regionSearcherTemplate {
 

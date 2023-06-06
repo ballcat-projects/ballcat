@@ -26,9 +26,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/3 10:29
+ * @author Hccake 2019/9/3 10:29
  */
 @SuppressWarnings("SpellCheckingInspection")
 public final class SpelUtils {

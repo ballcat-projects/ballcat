@@ -44,8 +44,7 @@ import java.util.List;
  * 上传excel 解析注解
  *
  * @author lengleng
- * @author L.cm
- * @date 2021/4/16
+ * @author L.cm 2021/4/16
  */
 @Slf4j
 public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolver {

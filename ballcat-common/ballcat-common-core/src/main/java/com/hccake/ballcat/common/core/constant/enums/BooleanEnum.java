@@ -16,7 +16,6 @@
 package com.hccake.ballcat.common.core.constant.enums;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 /**
  * Boolean 类型常量

@@ -22,7 +22,7 @@ import java.util.Deque;
 
 /**
  * 数据权限规则的持有者，使用栈存储调用链中的数据权限规则
- *
+ * <p>
  * 区别于{@link com.hccake.ballcat.common.datascope.annotation.DataPermission}
  * {@link DataPermissionRule} 是编程式数据权限控制的使用，优先级高于注解
  *

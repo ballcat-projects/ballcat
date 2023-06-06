@@ -29,9 +29,9 @@ import javax.servlet.http.HttpServletResponse;
  * OAuth2 撤销令牌成功的处理，发布登出事件，以及响应 200
  *
  * @author hccake
- * @see <a target="_blank" href="https://tools.ietf.org/html/rfc7009#section-2">Section 2
+ * @link <a target="_blank" href="https://tools.ietf.org/html/rfc7009#section-2">Section 2
  * Token Revocation</a>
- * @see <a target="_blank" href="https://tools.ietf.org/html/rfc7009#section-2.1">Section
+ * @link <a target="_blank" href="https://tools.ietf.org/html/rfc7009#section-2.1">Section
  * 2.1 Revocation Request</a>
  */
 @RequiredArgsConstructor

@@ -20,9 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/3/27 22:57 自定义Key序列化工具，添加全局key前缀
+ * 自定义 JDK Key 序列化工具，添加全局key前缀
+ *
+ * @author Hccake 2020/3/27 22:57
  */
 @Slf4j
 public class PrefixJdkRedisSerializer extends JdkSerializationRedisSerializer {

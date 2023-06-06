@@ -21,8 +21,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Bloom Filter Insert 命令的参数 copyFrom
- * https://github.com/RedisBloom/JRedisBloom/blob/HEAD/src/main/java/io/rebloom/client/InsertOptions.java
+ * Bloom Filter Insert 命令的参数 copyFrom <a href=
+ * "https://github.com/RedisBloom/JRedisBloom/blob/HEAD/src/main/java/io/rebloom/client/InsertOptions.java">RedisBloom
+ * InsertOptions</a>
  */
 public class BloomInsertOptions {
 

@@ -18,8 +18,7 @@ package com.hccake.ballcat.starter.ip2region.core;
 /**
  * 搜索服务实现
  *
- * @author lishangbu
- * @date 2022/10/16
+ * @author lishangbu 2022/10/16
  */
 public enum CacheType {
 

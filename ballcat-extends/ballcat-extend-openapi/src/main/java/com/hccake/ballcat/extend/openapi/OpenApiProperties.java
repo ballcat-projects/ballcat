@@ -33,9 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/11/1 19:37
+ * @author Hccake 2019/11/1 19:37
  */
 @Data
 @ConfigurationProperties(OpenApiProperties.PREFIX)
@@ -92,8 +90,9 @@ public class OpenApiProperties {
 
 	/**
 	 * 扩展信息
-	 *
-	 * map 没有提示：https://github.com/spring-projects/spring-boot/issues/9945
+	 * <p>
+	 * map 类型属性没有 IDE
+	 * 提示，<a href="https://github.com/spring-projects/spring-boot/issues/9945">gh-9945</a>
 	 */
 	private Map<String, Object> extensions = null;
 

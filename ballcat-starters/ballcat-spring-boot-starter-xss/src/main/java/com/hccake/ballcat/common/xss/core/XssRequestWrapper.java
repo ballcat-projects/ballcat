@@ -26,9 +26,7 @@ import java.util.Map;
 /**
  * Request包装类: 用于 XSS 过滤
  *
- * @author Hccake
- * @version 1.0
- * @date 2019/10/16 10:29
+ * @author Hccake 2019/10/16 10:29
  */
 @Slf4j
 public class XssRequestWrapper extends HttpServletRequestWrapper {

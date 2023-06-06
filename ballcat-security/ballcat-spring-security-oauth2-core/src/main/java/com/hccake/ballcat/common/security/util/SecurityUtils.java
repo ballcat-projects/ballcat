@@ -22,9 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/15 11:19
+ * @author Hccake 2019/10/15 11:19
  */
 @UtilityClass
 public class SecurityUtils {

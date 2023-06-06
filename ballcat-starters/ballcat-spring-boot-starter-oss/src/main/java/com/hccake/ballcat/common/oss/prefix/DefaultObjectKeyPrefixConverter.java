@@ -26,8 +26,7 @@ import org.springframework.util.StringUtils;
 /**
  * 默认对象前缀处理器
  *
- * @author lishangbu
- * @date 2022/10/23
+ * @author lishangbu 2022/10/23
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -71,10 +70,9 @@ public class DefaultObjectKeyPrefixConverter implements ObjectKeyPrefixConverter
 	/**
 	 * 输出当前的路径标准化对象前缀信息 参考官方文档<a href=
 	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/using-prefixes.html">使用前缀组织对象</a>
-	 * @throws Exception 如果配置错误(例如设置基本属性失败)，或者初始化由于其他原因失败则抛出异常
 	 */
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		String configPrefix = getPrefix();
 		if (ObjectUtils.isEmpty(configPrefix)) {
 			log.info("未配置全局前缀配置,全局前缀组织对象功能不启用");

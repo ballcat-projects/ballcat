@@ -21,9 +21,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 /**
  * 操作日志业务类
  *
- * @author Hccake
- * @version 1.0
- * @date 2019/10/15 19:57
+ * @author Hccake 2019/10/15 19:57
  */
 public interface OperationLogHandler<T> {
 

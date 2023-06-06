@@ -22,9 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/11/1 19:37
+ * @author Hccake 2019/11/1 19:37
  */
 @Data
 @ConfigurationProperties(SwaggerProperties.PREFIX)

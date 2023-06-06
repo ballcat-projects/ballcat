@@ -38,7 +38,7 @@ import static org.ballcat.springsecurity.oauth2.server.authorization.authenticat
  * @since 0.0.3
  * @see OAuth2TokenRevocationAuthenticationToken
  * @see OAuth2AuthorizationService
- * @see <a target="_blank" href="https://tools.ietf.org/html/rfc7009#section-2.1">Section
+ * @link <a target="_blank" href="https://tools.ietf.org/html/rfc7009#section-2.1">Section
  * 2.1 Revocation Request</a>
  */
 @Slf4j

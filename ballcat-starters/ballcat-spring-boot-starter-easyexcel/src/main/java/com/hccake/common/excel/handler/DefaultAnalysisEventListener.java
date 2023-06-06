@@ -31,8 +31,7 @@ import java.util.stream.Collectors;
  * 默认的 AnalysisEventListener
  *
  * @author lengleng
- * @author L.cm
- * @date 2021/4/16
+ * @author L.cm 2021/4/16
  */
 @Slf4j
 public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Object> {

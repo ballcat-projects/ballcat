@@ -258,7 +258,7 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	 * <p>
 	 * fixed gitee pulls/141
 	 * </p>
-	 * @param function
+	 * @param function 待处理函数
 	 */
 	protected void processFunction(Function function) {
 		ExpressionList parameters = function.getParameters();

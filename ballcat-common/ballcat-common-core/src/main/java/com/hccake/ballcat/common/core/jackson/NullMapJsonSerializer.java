@@ -25,9 +25,7 @@ import java.io.Serializable;
 /**
  * 空 Map 序列化处理器 Map 为 null，则序列化为 {}
  *
- * @author Hccake
- * @version 1.0
- * @date 2019/10/17 23:17
+ * @author Hccake 2019/10/17 23:17
  */
 public class NullMapJsonSerializer extends JsonSerializer<Object> implements Serializable {
 

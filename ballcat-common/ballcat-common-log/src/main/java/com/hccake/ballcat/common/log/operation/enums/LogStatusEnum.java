@@ -19,9 +19,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/5/15 16:47 操作状态枚举
+ * 日志状态枚举
+ *
+ * @author Hccake 2020/5/15 16:47
  */
 @Getter
 @AllArgsConstructor

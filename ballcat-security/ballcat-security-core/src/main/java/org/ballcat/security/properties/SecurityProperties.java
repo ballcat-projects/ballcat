@@ -20,9 +20,9 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2020/2/18 10:55 安全相关配置
+ * 安全相关配置
+ *
+ * @author Hccake 2020/2/18 10:55
  */
 @Getter
 @Setter

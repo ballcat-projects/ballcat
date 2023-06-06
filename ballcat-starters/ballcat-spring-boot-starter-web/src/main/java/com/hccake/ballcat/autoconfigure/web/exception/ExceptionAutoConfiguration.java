@@ -37,9 +37,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.CollectionUtils;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/15 18:20
+ * @author Hccake 2019/10/15 18:20
  */
 @RequiredArgsConstructor
 @AutoConfiguration

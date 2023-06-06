@@ -40,8 +40,6 @@ public enum TradeType {
 	/**
 	 * h5
 	 */
-	MWEB,
-
-	;
+	MWEB
 
 }

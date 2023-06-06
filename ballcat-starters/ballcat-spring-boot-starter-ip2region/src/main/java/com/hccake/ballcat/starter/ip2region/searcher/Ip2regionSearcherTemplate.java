@@ -30,8 +30,7 @@ import java.io.IOException;
 /**
  * Ip2region 搜索服务实现
  *
- * @author lishangbu
- * @date 2022/10/16
+ * @author lishangbu 2022/10/16
  */
 @RequiredArgsConstructor
 public abstract class Ip2regionSearcherTemplate implements DisposableBean, InitializingBean, Ip2regionSearcher {

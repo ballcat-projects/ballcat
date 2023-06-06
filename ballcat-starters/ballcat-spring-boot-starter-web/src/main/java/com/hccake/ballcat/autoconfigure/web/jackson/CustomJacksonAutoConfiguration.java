@@ -34,9 +34,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/17 22:14
+ * @author Hccake 2019/10/17 22:14
  */
 @AutoConfiguration(before = JacksonAutoConfiguration.class)
 public class CustomJacksonAutoConfiguration {

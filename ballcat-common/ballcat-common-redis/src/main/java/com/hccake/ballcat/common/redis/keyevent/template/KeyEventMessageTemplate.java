@@ -20,8 +20,7 @@ import org.springframework.lang.Nullable;
 /**
  * common key event message template
  *
- * @author lishangbu
- * @date 2023/1/12
+ * @author lishangbu 2023/1/12
  */
 public interface KeyEventMessageTemplate {
 

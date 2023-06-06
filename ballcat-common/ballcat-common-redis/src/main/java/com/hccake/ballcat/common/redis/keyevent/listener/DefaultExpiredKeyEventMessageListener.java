@@ -29,8 +29,7 @@ import java.util.List;
 /**
  * default key expired event handler
  *
- * @author lishangbu
- * @date 2023/1/12
+ * @author lishangbu 2023/1/12
  */
 @Slf4j
 public class DefaultExpiredKeyEventMessageListener extends AbstractExpiredKeyEventMessageListener {

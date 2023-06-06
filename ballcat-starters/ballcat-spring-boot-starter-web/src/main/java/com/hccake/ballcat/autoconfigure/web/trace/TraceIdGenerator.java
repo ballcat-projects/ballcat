@@ -15,8 +15,6 @@
  */
 package com.hccake.ballcat.autoconfigure.web.trace;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * TraceId 转换器
  *

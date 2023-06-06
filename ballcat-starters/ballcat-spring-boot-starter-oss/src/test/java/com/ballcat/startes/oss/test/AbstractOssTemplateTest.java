@@ -24,8 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * 抽象OSS操作测试模板
  *
- * @author lishangbu
- * @date 2022/10/27
+ * @author lishangbu 2022/10/27
  */
 @SpringBootTest(classes = OssAutoConfiguration.class)
 public abstract class AbstractOssTemplateTest {

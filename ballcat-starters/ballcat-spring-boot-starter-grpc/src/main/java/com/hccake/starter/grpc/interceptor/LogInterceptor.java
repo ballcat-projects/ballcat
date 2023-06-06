@@ -37,7 +37,7 @@ import java.util.function.Supplier;
  * @author lingting 2023-04-13 13:29
  */
 @Slf4j
-@Order(GrpcConstants.ORDER_LOG)
+@Order
 @RequiredArgsConstructor
 public class LogInterceptor implements ServerInterceptor, ClientInterceptor {
 

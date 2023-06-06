@@ -16,9 +16,7 @@
 package com.hccake.ballcat.common.redis.operation.function;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/9/2 20:22
+ * @author Hccake 2019/9/2 20:22
  */
 @FunctionalInterface
 public interface ResultMethod<T> {

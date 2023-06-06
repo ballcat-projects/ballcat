@@ -37,10 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lengleng
- * @date 2020/3/29
- * <p>
  * 配置初始化
+ *
+ * @author lengleng 2020/3/29
  */
 @AutoConfiguration
 @Import(ExcelHandlerConfiguration.class)

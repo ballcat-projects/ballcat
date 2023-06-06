@@ -35,9 +35,7 @@ import java.io.IOException;
 /**
  * Actuator 安全过滤器，做一个签名认证，校验通过才允许访问
  *
- * @author Hccake
- * @version 1.0
- * @date 2019 /10/17 20:28
+ * @author Hccake 2019/10/17 20:28
  */
 public class ActuatorSecurityFilter extends OncePerRequestFilter {
 

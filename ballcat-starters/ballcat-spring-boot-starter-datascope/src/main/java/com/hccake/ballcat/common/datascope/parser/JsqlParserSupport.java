@@ -26,7 +26,7 @@ import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.update.Update;
 
 /**
- * https://github.com/JSQLParser/JSqlParser
+ * <a href="https://github.com/JSQLParser/JSqlParser">JSqlParser</a>
  *
  * @author miemie hccake
  * @since 2020-06-22

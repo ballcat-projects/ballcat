@@ -25,9 +25,9 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
- * @author huyuanzhi
- * @version 1.0
- * @date 2021/11/16 分布式锁操作类
+ * 分布式锁操作类
+ *
+ * @author huyuanzhi 2021/11/16
  */
 public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 

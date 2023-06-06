@@ -26,8 +26,7 @@ import java.util.Set;
 /**
  * IP信息
  *
- * @author lishangbu
- * @date 2022/10/16
+ * @author lishangbu 2022/10/16
  */
 @Data
 public class IpInfo implements Serializable {
@@ -70,7 +69,7 @@ public class IpInfo implements Serializable {
 
 	/**
 	 * <code>originIp</code> arg constructor
-	 * @param originIp
+	 * @param originIp 原始IP
 	 */
 	public IpInfo(String originIp) {
 		this.originIp = originIp;

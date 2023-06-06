@@ -32,8 +32,6 @@ public enum GrpcLogType {
 	/**
 	 * 收到
 	 */
-	RECEIVE,
-
-	;
+	RECEIVE
 
 }

@@ -30,10 +30,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * @author lengleng
- * @date 2020/3/29
- * <p>
  * 处理单sheet 页面
+ *
+ * @author lengleng 2020/3/29
  */
 public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 

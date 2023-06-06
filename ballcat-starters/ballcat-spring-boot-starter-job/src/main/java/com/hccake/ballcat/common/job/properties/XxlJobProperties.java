@@ -20,8 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
- * @author lengleng
- * @date 2019-09-18
+ * @author lengleng 2019-09-18
  */
 @Data
 @ConfigurationProperties(prefix = XxlJobProperties.PREFIX)

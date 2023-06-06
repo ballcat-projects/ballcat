@@ -25,9 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author Hccake
- * @version 1.0
- * @date 2019/10/15 18:09
+ * @author Hccake 2019/10/15 18:09
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
