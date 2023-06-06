@@ -548,12 +548,6 @@
 				<artifactId>ballcat-spring-boot-starter-xss</artifactId>
 				<version>${revision}</version>
 			</dependency>
-
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-swagger</artifactId>
-				<version>${revision}</version>
-			</dependency>
 			<!--endregion ============= 结束定义ballcat 自身模块版本 =========== -->
 		</dependencies>
 	</dependencyManagement>

@@ -17,7 +17,6 @@
 
 	<modules>
 		<module>ballcat-dependencies</module>
-		<module>ballcat-spring-boot-starter-swagger</module>
 
 		<module>common/ballcat-common-core</module>
 		<module>common/ballcat-common-model</module>
