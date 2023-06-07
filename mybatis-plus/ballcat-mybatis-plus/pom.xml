@@ -11,11 +11,6 @@
 	<artifactId>ballcat-mybatis-plus</artifactId>
 
 	<dependencies>
-		<!-- hutool 工具库 -->
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-core</artifactId>
-		</dependency>
 		<!-- mybatis-plus -->
 		<dependency>
 			<groupId>com.baomidou</groupId>

@@ -15,7 +15,6 @@
  */
 package org.ballcat.dingtalk;
 
-import cn.hutool.core.convert.Convert;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,8 +42,8 @@ public class DingTalkResponse {
 	public DingTalkResponse(String res) {
 		Map<?, ?> resMap = new ObjectMapper().readValue(res.getBytes(), Map.class);
 		this.response = res;
-		this.code = Convert.toLong(resMap.get("errcode"));
-		this.message = Convert.toStr(resMap.get("errmsg"));
+		this.code = resMap.containsKey("errcode") ? (Long) resMap.get("errcode") : null;
+		this.message = resMap.containsKey("errmsg") ? (String) resMap.get("errmsg") : null;
 		this.success = SUCCESS_CODE.equals(this.code);
 	}
 

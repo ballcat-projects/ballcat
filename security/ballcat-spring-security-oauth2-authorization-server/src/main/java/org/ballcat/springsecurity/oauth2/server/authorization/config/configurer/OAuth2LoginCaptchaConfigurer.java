@@ -15,7 +15,6 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
-import cn.hutool.core.lang.Assert;
 import org.ballcat.security.captcha.CaptchaValidator;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.filter.LoginCaptchaFilter;
 import org.springframework.core.annotation.Order;
@@ -24,6 +23,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.web.OAuth2ClientAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.Assert;
 
 /**
  * 登录验证码校验

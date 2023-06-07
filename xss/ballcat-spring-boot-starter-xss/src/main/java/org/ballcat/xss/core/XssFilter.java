@@ -15,10 +15,9 @@
  */
 package org.ballcat.xss.core;
 
-import cn.hutool.core.text.CharSequenceUtil;
+import lombok.RequiredArgsConstructor;
 import org.ballcat.xss.cleaner.XssCleaner;
 import org.ballcat.xss.config.XssProperties;
-import lombok.RequiredArgsConstructor;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -79,8 +78,7 @@ public class XssFilter extends OncePerRequestFilter {
 		}
 
 		// 请求方法检查
-		if (!CharSequenceUtil.equalsAnyIgnoreCase(request.getMethod(),
-				xssProperties.getIncludeHttpMethods().toArray(new String[] {}))) {
+		if (xssProperties.getIncludeHttpMethods().stream().noneMatch(request.getMethod()::equalsIgnoreCase)) {
 			return true;
 		}
 

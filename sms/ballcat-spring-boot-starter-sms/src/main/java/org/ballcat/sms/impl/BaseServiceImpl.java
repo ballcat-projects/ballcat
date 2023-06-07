@@ -15,11 +15,12 @@
  */
 package org.ballcat.sms.impl;
 
-import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.ballcat.sms.SmsSenderResult;
 import org.ballcat.sms.enums.TypeEnum;
+import org.bson.types.ObjectId;
+
 import java.util.Set;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lingting 2020/4/26 13:45
@@ -32,7 +33,7 @@ public abstract class BaseServiceImpl {
 	 * b 异常返回处理
 	 */
 	public SmsSenderResult errRet(TypeEnum platform, Set<String> phoneNumbers, String msg, Exception e) {
-		String id = StrUtil.uuid();
+		String id = ObjectId.get().toString();
 		log.error(msg + "\nerror_id: " + id, e);
 		return SmsSenderResult.generateException(platform, phoneNumbers, id, e);
 	}

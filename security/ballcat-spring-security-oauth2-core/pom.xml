@@ -11,10 +11,9 @@
 	<artifactId>ballcat-spring-security-oauth2-core</artifactId>
 
 	<dependencies>
-		<!-- hutool 加解密模块 -->
 		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-crypto</artifactId>
+			<groupId>org.ballcat</groupId>
+			<artifactId>ballcat-common-util</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

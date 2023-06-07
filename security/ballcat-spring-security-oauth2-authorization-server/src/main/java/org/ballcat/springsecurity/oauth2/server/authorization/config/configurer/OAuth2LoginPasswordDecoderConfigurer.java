@@ -15,7 +15,6 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
-import cn.hutool.core.lang.Assert;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.filter.LoginPasswordDecoderFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
@@ -23,6 +22,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.web.OAuth2ClientAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.Assert;
 
 /**
  * 登录时的密码解密配置
@@ -36,7 +36,7 @@ public class OAuth2LoginPasswordDecoderConfigurer
 	private final String passwordSecretKey;
 
 	public OAuth2LoginPasswordDecoderConfigurer(String passwordSecretKey) {
-		Assert.notEmpty(passwordSecretKey, "passwordSecretKey can not be null");
+		Assert.hasText(passwordSecretKey, "passwordSecretKey can not be null");
 		this.passwordSecretKey = passwordSecretKey;
 	}
 

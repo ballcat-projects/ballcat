@@ -15,8 +15,7 @@
  */
 package org.ballcat.pay.wx;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.text.CharSequenceUtil;
+import lombok.Data;
 import org.ballcat.pay.wx.constants.WxPayConstant;
 import org.ballcat.pay.wx.domain.DefaultWxDomain;
 import org.ballcat.pay.wx.domain.WxDomain;
@@ -27,7 +26,6 @@ import org.ballcat.pay.wx.response.WxPayCallback;
 import org.ballcat.pay.wx.response.WxPayOrderQueryResponse;
 import org.ballcat.pay.wx.response.WxPayResponse;
 import org.ballcat.pay.wx.utils.WxPayUtil;
-import lombok.Data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -168,7 +166,9 @@ public class WxPay {
 	 * @return 微信订单查询结果
 	 */
 	public WxPayOrderQueryResponse query(String sn, String wxSn) {
-		Assert.isFalse(CharSequenceUtil.isBlank(sn) && CharSequenceUtil.isBlank(wxSn), "参数 sn 和 wxSn 不能同时为空!");
+		if (null == sn && null == wxSn) {
+			throw new IllegalArgumentException("参数 sn 和 wxSn 不能同时为空!");
+		}
 		Map<String, String> params = new HashMap<>(6);
 		params.put("out_trade_no", sn);
 		params.put("transaction_id", wxSn);
@@ -211,8 +211,9 @@ public class WxPay {
 	 * @return java.lang.Boolean
 	 */
 	public boolean checkSign(WxPayCallback callback) {
+		String sign = callback.getSign();
 		// 原签名不存在时, 直接失败
-		if (CharSequenceUtil.isBlank(callback.getSign())) {
+		if (null == sign || sign.length() == 0) {
 			return false;
 		}
 
@@ -220,15 +221,15 @@ public class WxPay {
 
 		// 存在签名类型, 直接验签
 		if (params.containsKey(WxPayConstant.FIELD_SIGN_TYPE)) {
-			return WxPayUtil.sign(params, mckKey).equals(callback.getSign());
+			return WxPayUtil.sign(params, mckKey).equals(sign);
 		}
 
 		// 两种签名类型都试一次
-		if (WxPayUtil.sign(params, SignType.HMAC_SHA256, mckKey).equals(callback.getSign())) {
+		if (WxPayUtil.sign(params, SignType.HMAC_SHA256, mckKey).equals(sign)) {
 			return true;
 		}
 
-		return WxPayUtil.sign(params, SignType.MD5, mckKey).equals(callback.getSign());
+		return WxPayUtil.sign(params, SignType.MD5, mckKey).equals(sign);
 	}
 
 }

@@ -15,10 +15,10 @@
  */
 package org.ballcat.kafka.stream.store;
 
-import cn.hutool.core.util.IdUtil;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.state.KeyValueIterator;
 import org.apache.kafka.streams.state.KeyValueStore;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +42,7 @@ public class KafkaKeyValueStore<K, V> implements KafkaWindow<V, KeyValueStore<K,
 
 	@SuppressWarnings("unchecked")
 	public static <K, V> KafkaKeyValueStore<K, V> init(KeyValueStore<K, V> store) {
-		return init(store, () -> (K) IdUtil.simpleUUID());
+		return init(store, () -> (K) ObjectId.get().toString());
 	}
 
 	/**

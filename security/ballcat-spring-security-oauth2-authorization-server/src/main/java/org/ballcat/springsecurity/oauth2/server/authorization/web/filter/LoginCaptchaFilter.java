@@ -15,14 +15,13 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.web.filter;
 
-import cn.hutool.core.text.CharSequenceUtil;
+import lombok.RequiredArgsConstructor;
 import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;
-import org.ballcat.springsecurity.oauth2.ScopeNames;
 import org.ballcat.common.util.JsonUtils;
-import lombok.RequiredArgsConstructor;
 import org.ballcat.security.captcha.CaptchaValidateResult;
 import org.ballcat.security.captcha.CaptchaValidator;
+import org.ballcat.springsecurity.oauth2.ScopeNames;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -32,6 +31,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -88,7 +88,8 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED,
-					CharSequenceUtil.blankToDefault(captchaValidateResult.getMessage(), "Captcha code error"));
+					StringUtils.hasText(captchaValidateResult.getMessage()) ? captchaValidateResult.getMessage()
+							: "Captcha code error");
 			response.getWriter().write(JsonUtils.toJson(r));
 		}
 

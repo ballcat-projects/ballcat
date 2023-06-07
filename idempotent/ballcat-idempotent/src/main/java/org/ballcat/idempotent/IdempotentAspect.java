@@ -15,7 +15,7 @@
  */
 package org.ballcat.idempotent;
 
-import cn.hutool.core.lang.Assert;
+import org.ballcat.common.util.Assert;
 import org.ballcat.idempotent.annotation.Idempotent;
 import org.ballcat.idempotent.exception.IdempotentException;
 import org.ballcat.idempotent.key.generator.IdempotentKeyGenerator;

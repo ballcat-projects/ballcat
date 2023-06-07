@@ -15,7 +15,6 @@
  */
 package org.ballcat.common.util;
 
-import cn.hutool.core.util.ClassUtil;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -40,7 +39,7 @@ import java.util.jar.JarFile;
 /**
  * @author lingting 2021/2/25 21:17
  */
-public class ClassUtils extends ClassUtil {
+public class ClassUtils {
 
 	private static final Map<String, Boolean> CACHE = new ConcurrentHashMap<>(8);
 

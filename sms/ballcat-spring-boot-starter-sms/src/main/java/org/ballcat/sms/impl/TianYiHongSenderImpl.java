@@ -15,11 +15,11 @@
  */
 package org.ballcat.sms.impl;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.net.URLEncodeUtil;
-import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.crypto.digest.MD5;
-import cn.hutool.http.HttpRequest;
+import lombok.Setter;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.ballcat.sms.SmsSender;
 import org.ballcat.sms.SmsSenderParams;
 import org.ballcat.sms.SmsSenderResult;
@@ -28,8 +28,12 @@ import org.ballcat.sms.properties.SmsProperties;
 import org.ballcat.sms.properties.extra.Account;
 import org.ballcat.sms.properties.extra.TianYiHong;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * @author lingting 2020/4/26 10:03
@@ -39,13 +43,17 @@ public class TianYiHongSenderImpl extends BaseServiceImpl implements SmsSender<S
 
 	private final SmsProperties sp;
 
-	private final MD5 md5 = new MD5();
+	/**
+	 * 默认的请求发起客户端
+	 */
+	private static final OkHttpClient HTTP_CLIENT = new OkHttpClient.Builder().build();
 
-	private final HttpRequest request;
+	// TODO: (by evil0th) 2023/6/6 JDK11+后考虑采用java.net.http.HttpClient
+	@Setter
+	private OkHttpClient client = HTTP_CLIENT;
 
 	public TianYiHongSenderImpl(SmsProperties sp) {
 		this.sp = sp;
-		this.request = HttpRequest.get(sp.getUrl());
 	}
 
 	@Override
@@ -53,19 +61,30 @@ public class TianYiHongSenderImpl extends BaseServiceImpl implements SmsSender<S
 		try {
 			Account account = sp.getAccounts().get(p.getCountry());
 			TianYiHong ty = sp.getTianYiHong();
-			String dateTime = DateUtil.format(LocalDateTime.now(), "yyyyMMddHHmmss");
+			String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 
-			String req = CharSequenceUtil.format("account={}&sign={}&datetime={}&content={}{}{}", account.getUsername(),
-					account.getPassword(), md5.digestHex(account.getUsername() + account.getPassword() + dateTime),
-					dateTime, p.getContent()
-					// sender id
-					, ty.getSenderIdCountry().contains(p.getCountry()) ? "&senderid=" + ty.getSenderId() : ""
-					// numbers
-					, CharSequenceUtil.join(",", p.getPhoneNumbers().toArray()));
-
-			String res = request.setUrl(URLEncodeUtil.encode(req)).execute().body();
-			return SmsSenderResult.generateTianYiHong(res, "方法参数:" + p.toString() + " ;请求: " + req,
-					p.getPhoneNumbers());
+			final HttpUrl.Builder httpUrlBuilder = Objects.requireNonNull(HttpUrl.parse(sp.getUrl()))
+				.newBuilder()
+				.addQueryParameter("account", account.getUsername())
+				.addQueryParameter("sign",
+						DigestUtils.md5DigestAsHex((account.getUsername() + account.getPassword() + dateTime)
+							.getBytes(StandardCharsets.UTF_8)))
+				.addQueryParameter("datetime", dateTime)
+				.addQueryParameter("content", p.getContent());
+			// FIXME: (by evil0th) 2023/6/6
+			// 原代码format参数个数对应不上，应该是无法调用成功的。天一弘已更名也提供SDK，考虑是否移除，有需要时再重构接入
+			if (ty.getSenderIdCountry().contains(p.getCountry())) {
+				httpUrlBuilder.addQueryParameter("senderid", ty.getSenderId());
+			}
+			HttpUrl url = httpUrlBuilder.build();
+			String res = null;
+			Request request = new Request.Builder().get().url(url).build();
+			try (Response execute = client.newCall(request).execute()) {
+				if (execute.isSuccessful() && null != execute.body()) {
+					res = execute.body().string();
+				}
+			}
+			return SmsSenderResult.generateTianYiHong(res, "方法参数:" + p + " ;请求: " + url, p.getPhoneNumbers());
 		}
 		catch (Exception e) {
 			return errRet(TypeEnum.TIAN_YI_HONG, p.getPhoneNumbers(), "码平台发送短信出现异常!", e);

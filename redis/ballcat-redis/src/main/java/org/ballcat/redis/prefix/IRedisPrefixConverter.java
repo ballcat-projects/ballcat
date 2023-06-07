@@ -15,9 +15,9 @@
  */
 package org.ballcat.redis.prefix;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -53,7 +53,7 @@ public interface IRedisPrefixConverter {
 			return bytes;
 		}
 		String prefix = getPrefix();
-		if (CharSequenceUtil.isBlank(prefix)) {
+		if (!StringUtils.hasText(prefix)) {
 			LOGGER.warn("prefix converter is enabled,but method getPrefix returns blank result,check your implement!");
 			return bytes;
 		}
@@ -76,7 +76,7 @@ public interface IRedisPrefixConverter {
 			return bytes;
 		}
 		String prefix = getPrefix();
-		if (CharSequenceUtil.isBlank(prefix)) {
+		if (!StringUtils.hasText(prefix)) {
 			LOGGER.warn("prefix converter is enabled,but method getPrefix returns blank result,check your implement!");
 			return bytes;
 		}

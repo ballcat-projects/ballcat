@@ -15,9 +15,8 @@
  */
 package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
-import cn.hutool.core.collection.CollUtil;
-import org.ballcat.springsecurity.oauth2.userdetails.ClientPrincipal;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.springsecurity.oauth2.userdetails.ClientPrincipal;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,6 +27,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.introspection.BadOpaqueTokenException;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,7 +93,7 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 		Set<String> authorizedScopes = oAuth2Authentication.getAuthorizedScopes();
 
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		if (CollUtil.isNotEmpty(authorizedScopes)) {
+		if (!CollectionUtils.isEmpty(authorizedScopes)) {
 			for (String scope : authorizedScopes) {
 				authorities.add(new SimpleGrantedAuthority(AUTHORITY_SCOPE_PREFIX + scope));
 			}

@@ -15,7 +15,6 @@
  */
 package org.ballcat.desensitize;
 
-import cn.hutool.core.lang.Assert;
 import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
 import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
 import org.ballcat.desensitize.functions.DesensitizeFunction;
@@ -54,7 +53,9 @@ public final class AnnotationHandlerHolder {
 			Class<? extends SimpleDesensitizationHandler> handlerClass = an.handler();
 			SimpleDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
 				.getSimpleHandler(handlerClass);
-			Assert.notNull(desensitizationHandler, "SimpleDesensitizationHandler can not be Null");
+			if (null == desensitizationHandler) {
+				throw new IllegalArgumentException("SimpleDesensitizationHandler can not be Null");
+			}
 			return desensitizationHandler.handle(value);
 		});
 
@@ -98,8 +99,12 @@ public final class AnnotationHandlerHolder {
 	 */
 	public static DesensitizeFunction addHandleFunction(Class<? extends Annotation> annotationType,
 			DesensitizeFunction desensitizeFunction) {
-		Assert.notNull(annotationType, "annotation cannot be null");
-		Assert.notNull(desensitizeFunction, "desensitization function cannot be null");
+		if (null == annotationType) {
+			throw new IllegalArgumentException("annotation cannot be null");
+		}
+		if (null == desensitizeFunction) {
+			throw new IllegalArgumentException("desensitization function cannot be null");
+		}
 		// 加入注解处理映射
 		return INSTANCE.annotationHandlers.put(annotationType, desensitizeFunction);
 	}

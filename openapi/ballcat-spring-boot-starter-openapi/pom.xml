@@ -12,10 +12,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-core</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.ballcat</groupId>
 			<artifactId>ballcat-common-model</artifactId>
 		</dependency>

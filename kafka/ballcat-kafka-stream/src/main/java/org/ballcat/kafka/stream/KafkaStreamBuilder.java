@@ -15,8 +15,6 @@
  */
 package org.ballcat.kafka.stream;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.text.CharSequenceUtil;
 import lombok.Getter;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -302,9 +300,8 @@ public class KafkaStreamBuilder {
 	}
 
 	public Properties getProperties() {
-		bootstrapServers.addAll(
-				ListUtil.toList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CharSequenceUtil.EMPTY)
-					.split(BOOTSTRAP_SERVERS_DELIMITER)));
+		bootstrapServers.addAll(Arrays.asList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "")
+			.split(BOOTSTRAP_SERVERS_DELIMITER)));
 		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
 				String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
 		return properties;

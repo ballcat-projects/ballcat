@@ -15,7 +15,6 @@
  */
 package org.ballcat.autoconfigure.openapi;
 
-import cn.hutool.core.collection.ListUtil;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.Paths;
@@ -29,8 +28,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.web.cors.CorsConfiguration;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Hccake 2019/11/1 19:37
@@ -185,17 +183,17 @@ public class OpenApiProperties {
 		/**
 		 * 允许跨域的方法列表
 		 */
-		private List<String> allowedMethods = ListUtil.toList(CorsConfiguration.ALL);
+		private List<String> allowedMethods = new ArrayList<>(Collections.singletonList(CorsConfiguration.ALL));
 
 		/**
 		 * 允许跨域的头信息
 		 */
-		private List<String> allowedHeaders = ListUtil.toList(CorsConfiguration.ALL);
+		private List<String> allowedHeaders = new ArrayList<>(Collections.singletonList(CorsConfiguration.ALL));
 
 		/**
 		 * 额外允许跨域请求方获取的 response header 信息
 		 */
-		private List<String> exposedHeaders = ListUtil.toList("traceId");
+		private List<String> exposedHeaders = new ArrayList<>(Collections.singletonList("traceId"));
 
 		/**
 		 * 是否允许跨域发送 Cookie

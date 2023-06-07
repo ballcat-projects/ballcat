@@ -15,8 +15,6 @@
  */
 package org.ballcat.kafka.stream.store;
 
-import cn.hutool.core.text.CharSequenceUtil;
-
 /**
  * kafka 数据缓存类的接口
  *
@@ -61,11 +59,14 @@ public interface KafkaWindow<V, Values> {
 	default boolean check(V value) {
 		if (!isInsertNull()) {
 			// 不能插入空值，进行校验
-			if (value instanceof String && CharSequenceUtil.isEmpty((String) value)) {
-				// 空值, 结束方法
+			if (null == value) {
 				return false;
 			}
-			return value != null;
+			if (value instanceof String) {
+				// 空值, 结束方法
+				return ((String) value).length() > 0;
+			}
+			return true;
 		}
 		return true;
 	}

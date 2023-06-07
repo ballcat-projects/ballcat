@@ -15,11 +15,10 @@
  */
 package org.ballcat.redis.thread;
 
-import cn.hutool.core.text.CharSequenceUtil;
-import org.ballcat.common.core.thread.AbstractQueueThread;
-import org.ballcat.redis.RedisHelper;
-import org.ballcat.common.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.common.core.thread.AbstractQueueThread;
+import org.ballcat.common.util.JsonUtils;
+import org.ballcat.redis.RedisHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
@@ -87,7 +86,7 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 	 */
 	@Nullable
 	protected E convertToObj(String str) {
-		if (CharSequenceUtil.isBlank(str)) {
+		if (!StringUtils.hasText(str)) {
 			return null;
 		}
 		return JsonUtils.toObj(str, getObjType());

@@ -12,19 +12,6 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
-		<!--hutool-->
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-crypto</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-http</artifactId>
-		</dependency>
 		<!--json模块-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

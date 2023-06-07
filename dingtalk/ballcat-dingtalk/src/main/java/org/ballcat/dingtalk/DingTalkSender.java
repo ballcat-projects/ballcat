@@ -15,9 +15,6 @@
  */
 package org.ballcat.dingtalk;
 
-import cn.hutool.core.codec.Base64;
-import cn.hutool.core.text.CharSequenceUtil;
-import org.ballcat.dingtalk.message.DingTalkMessage;
 import com.sun.nio.sctp.IllegalReceiveException;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +27,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import org.ballcat.dingtalk.message.DingTalkMessage;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.Mac;
@@ -86,7 +84,7 @@ public class DingTalkSender {
 	 *
 	 */
 	public DingTalkResponse sendMessage(DingTalkMessage message) {
-		if (CharSequenceUtil.isEmpty(secret)) {
+		if (!StringUtils.hasText(secret)) {
 			return sendNormalMessage(message);
 		}
 		else {
@@ -127,7 +125,7 @@ public class DingTalkSender {
 	@SneakyThrows(UnsupportedEncodingException.class)
 	public String secret(long timestamp) {
 		byte[] secretBytes = (timestamp + "\n" + secret).getBytes(StandardCharsets.UTF_8);
-		String secretBase64 = Base64.encode(mac.doFinal(secretBytes));
+		String secretBase64 = java.util.Base64.getEncoder().encodeToString(mac.doFinal(secretBytes));
 		String sign = URLEncoder.encode(secretBase64, "UTF-8");
 		return String.format("%s&timestamp=%s&sign=%s", url, timestamp, sign);
 	}

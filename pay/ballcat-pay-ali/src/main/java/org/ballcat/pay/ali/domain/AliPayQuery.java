@@ -15,7 +15,6 @@
  */
 package org.ballcat.pay.ali.domain;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import org.ballcat.pay.ali.enums.TradeStatus;
 import lombok.AccessLevel;
@@ -54,7 +53,7 @@ public class AliPayQuery {
 		}
 
 		// 金额
-		if (CharSequenceUtil.isBlank(raw.getTotalAmount())) {
+		if (null == raw.getTotalAmount() || raw.getTotalAmount().length() == 0) {
 			query.setAmount(BigDecimal.ZERO);
 		}
 		else {

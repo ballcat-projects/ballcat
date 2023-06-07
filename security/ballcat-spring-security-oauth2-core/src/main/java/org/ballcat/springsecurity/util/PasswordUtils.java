@@ -15,10 +15,7 @@
  */
 package org.ballcat.springsecurity.util;
 
-import cn.hutool.core.codec.Base64;
-import cn.hutool.crypto.Mode;
-import cn.hutool.crypto.Padding;
-import cn.hutool.crypto.symmetric.AES;
+import org.ballcat.common.util.AesUtils;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -28,6 +25,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 
 import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,11 +75,11 @@ public final class PasswordUtils {
 	 * @param secretKey 密钥
 	 * @return 明文密码
 	 */
-	public static String decodeAES(String aesPass, String secretKey) {
-		byte[] secretKeyBytes = secretKey.getBytes();
-		AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, secretKeyBytes, secretKeyBytes);
-		byte[] result = aes.decrypt(Base64.decode(aesPass.getBytes(StandardCharsets.UTF_8)));
-		return new String(result, StandardCharsets.UTF_8);
+	public static String decodeAES(String aesPass, String secretKey) throws GeneralSecurityException {
+		final byte[] secretKeyBytes = secretKey.getBytes();
+		final byte[] passBytes = java.util.Base64.getDecoder().decode(aesPass);
+		final byte[] bytes = AesUtils.cbcDecrypt(passBytes, secretKeyBytes, secretKeyBytes);
+		return new String(bytes, StandardCharsets.UTF_8);
 	}
 
 	/**
@@ -90,10 +88,11 @@ public final class PasswordUtils {
 	 * @param secretKey 密钥
 	 * @return AES加密后的密文
 	 */
-	public static String encodeAESBase64(String password, String secretKey) {
-		byte[] secretKeyBytes = secretKey.getBytes();
-		AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, secretKeyBytes, secretKeyBytes);
-		return aes.encryptBase64(password, StandardCharsets.UTF_8);
+	public static String encodeAESBase64(String password, String secretKey) throws GeneralSecurityException {
+		final byte[] secretKeyBytes = secretKey.getBytes();
+		final byte[] passwordBytes = password.getBytes(StandardCharsets.UTF_8);
+		final byte[] bytes = AesUtils.cbcEncrypt(passwordBytes, secretKeyBytes, secretKeyBytes);
+		return java.util.Base64.getEncoder().encodeToString(bytes);
 	}
 
 }

@@ -15,19 +15,21 @@
  */
 package org.ballcat.autoconfigure.web.exception.handler;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.date.TimeInterval;
-import cn.hutool.core.exceptions.ExceptionUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.StopWatch;
 import org.ballcat.autoconfigure.web.exception.ExceptionHandleProperties;
 import org.ballcat.autoconfigure.web.exception.domain.ExceptionMessage;
 import org.ballcat.autoconfigure.web.exception.domain.ExceptionNoticeResponse;
 import org.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import org.ballcat.common.core.util.WebUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.ballcat.common.util.LocalDateTimeUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.FastByteArrayOutputStream;
 
+import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -99,12 +101,12 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 	@SuppressWarnings("all")
 	public void run() {
 		String key;
-		TimeInterval interval = new TimeInterval();
+		StopWatch watch = StopWatch.createStarted();
 		long threadId = Thread.currentThread().getId();
 		// 未被中断则一直运行
 		while (!isInterrupted()) {
 			int i = 0;
-			while (i < config.getMax() && interval.intervalSecond() < config.getTime()) {
+			while (i < config.getMax() && watch.getTime(TimeUnit.SECONDS) < config.getTime()) {
 				Throwable t = null;
 				try {
 					// 如果 i=0,即 当前未处理异常，则等待超时时间为 1 小时， 否则为 10 秒
@@ -118,7 +120,8 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 					// i++
 					if (i++ == 0) {
 						// 第一次收到数据, 重置计时
-						interval.restart();
+						watch.reset();
+						watch.start();
 						messages.put(key, toMessage(t).setKey(key).setThreadId(threadId));
 					}
 					else {
@@ -147,19 +150,26 @@ public abstract class AbstractNoticeGlobalExceptionHandler extends Thread
 				});
 				messages.clear();
 			}
-			interval.restart();
+			watch.reset();
+			watch.start();
+		}
+		if (watch.isStarted()) {
+			watch.stop();
 		}
 	}
 
 	public ExceptionMessage toMessage(Throwable t) {
+		final FastByteArrayOutputStream stream = new FastByteArrayOutputStream();
+		t.printStackTrace(new PrintStream(stream));
+		final String e = stream.toString();
 		return new ExceptionMessage().setNumber(1)
 			.setMac(mac)
 			.setApplicationName(applicationName)
 			.setHostname(hostname)
 			.setIp(ip)
 			.setRequestUri(requestUri)
-			.setStack(ExceptionUtil.stacktraceToString(t, config.getLength()).replace("\\r", ""))
-			.setTime(DateUtil.now());
+			.setStack((e.length() > config.getLength() ? e.substring(0, config.getLength()) : e).replace("\\r", ""))
+			.setTime(LocalDateTime.now().format(LocalDateTimeUtils.FORMATTER_YMD_HMS));
 	}
 
 	/**

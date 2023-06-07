@@ -15,7 +15,6 @@
  */
 package org.ballcat.grpc.interceptor;
 
-import cn.hutool.core.convert.Convert;
 import org.ballcat.common.system.StopWatch;
 import io.grpc.*;
 import org.ballcat.grpc.enums.GrpcLogType;
@@ -96,7 +95,7 @@ public class LogInterceptor implements ServerInterceptor, ClientInterceptor {
 			InetSocketAddress socketAddress = (InetSocketAddress) address;
 			InetAddress inetAddress = socketAddress.getAddress();
 			grpcLog.setHost(inetAddress.getHostAddress());
-			grpcLog.setPort(Convert.toStr(socketAddress.getPort()));
+			grpcLog.setPort(String.valueOf(socketAddress.getPort()));
 		}
 	}
 

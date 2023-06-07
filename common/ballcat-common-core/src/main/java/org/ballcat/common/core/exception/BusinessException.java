@@ -15,9 +15,10 @@
  */
 package org.ballcat.common.core.exception;
 
-import cn.hutool.core.text.CharSequenceUtil;
-import org.ballcat.common.model.result.ResultCode;
 import lombok.Getter;
+import org.ballcat.common.model.result.ResultCode;
+
+import java.text.MessageFormat;
 
 /**
  * 通用业务异常
@@ -41,7 +42,7 @@ public class BusinessException extends RuntimeException {
 	 * 用于需要format返回结果的异常
 	 */
 	public BusinessException(ResultCode resultCode, Object... args) {
-		this(resultCode.getCode(), CharSequenceUtil.format(resultCode.getMessage(), args));
+		this(resultCode.getCode(), MessageFormat.format(resultCode.getMessage(), args));
 	}
 
 	public BusinessException(ResultCode resultCode, Throwable e) {
@@ -54,7 +55,7 @@ public class BusinessException extends RuntimeException {
 	 * 用于需要format返回结果的异常
 	 */
 	public BusinessException(ResultCode resultCode, Throwable e, Object... args) {
-		this(resultCode.getCode(), CharSequenceUtil.format(resultCode.getMessage(), args), e);
+		this(resultCode.getCode(), MessageFormat.format(resultCode.getMessage(), args), e);
 	}
 
 	public BusinessException(int code, String message) {

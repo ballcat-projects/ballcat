@@ -15,7 +15,6 @@
  */
 package org.ballcat.springsecurity.oauth2.server.resource.configurer;
 
-import cn.hutool.core.util.ArrayUtil;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
 import org.springframework.beans.factory.ObjectProvider;
@@ -52,7 +51,7 @@ public class BallcatOauth2ResourceServerSecurityFilterChainBuilder
 		http
 			// 拦截 url 配置
 			.authorizeRequests()
-			.antMatchers(ArrayUtil.toArray(oAuth2ResourceServerProperties.getIgnoreUrls(), String.class))
+			.antMatchers(oAuth2ResourceServerProperties.getIgnoreUrls().toArray(new String[0]))
 			.permitAll()
 			.anyRequest().authenticated()
 

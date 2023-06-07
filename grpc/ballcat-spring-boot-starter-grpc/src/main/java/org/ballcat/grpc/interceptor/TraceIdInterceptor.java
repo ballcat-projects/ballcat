@@ -15,12 +15,12 @@
  */
 package org.ballcat.grpc.interceptor;
 
-import cn.hutool.core.util.IdUtil;
-import org.ballcat.grpc.constant.GrpcConstants;
 import io.grpc.Metadata;
 import io.grpc.ServerCall;
 import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
+import org.ballcat.grpc.constant.GrpcConstants;
+import org.bson.types.ObjectId;
 import org.slf4j.MDC;
 import org.springframework.core.annotation.Order;
 
@@ -53,7 +53,7 @@ public class TraceIdInterceptor implements ServerInterceptor {
 	}
 
 	protected String traceId() {
-		return IdUtil.fastSimpleUUID();
+		return ObjectId.get().toString();
 	}
 
 }

@@ -15,7 +15,6 @@
  */
 package org.ballcat.springsecurity.component;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,7 +33,7 @@ public class CustomPermissionEvaluator {
 	 * @return {boolean}
 	 */
 	public boolean hasPermission(String permission) {
-		if (CharSequenceUtil.isBlank(permission)) {
+		if (!StringUtils.hasText(permission)) {
 			return false;
 		}
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
