@@ -1,1 +1,1 @@
-com.hccake.starter.dingtalk.DingTalkAutoConfiguration
+org.ballcat.autoconfigure.dingtalk.DingTalkAutoConfiguration

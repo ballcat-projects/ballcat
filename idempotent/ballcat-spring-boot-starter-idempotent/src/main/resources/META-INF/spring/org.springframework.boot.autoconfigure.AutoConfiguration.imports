@@ -1,1 +1,1 @@
-com.hccake.ballcat.autoconfigure.idempotent.IdempotentAutoConfiguration
+org.ballcat.autoconfigure.idempotent.IdempotentAutoConfiguration

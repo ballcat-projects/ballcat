@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.hccake.ballcat.common.mail.MailAutoConfiguration
+    org.ballcat.mail.MailAutoConfiguration

@@ -1,1 +1,1 @@
-com.hccake.ballcat.common.xss.XssAutoConfiguration
+org.ballcat.xss.XssAutoConfiguration

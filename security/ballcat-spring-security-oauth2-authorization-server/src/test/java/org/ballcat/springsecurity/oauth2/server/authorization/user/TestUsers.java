@@ -15,8 +15,8 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.user;
 
-import com.hccake.ballcat.common.security.constant.UserAttributeNameConstants;
-import com.hccake.ballcat.common.security.userdetails.User;
+import org.ballcat.security.oauth2.constant.UserAttributeNameConstants;
+import org.ballcat.security.oauth2.userdetails.User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;

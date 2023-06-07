@@ -15,15 +15,14 @@
  */
 package org.ballcat.springsecurity.oauth2.server.resource.web;
 
-import com.hccake.ballcat.common.model.result.R;
-import com.hccake.ballcat.common.model.result.SystemResultCode;
-import com.hccake.ballcat.common.util.JsonUtils;
+import org.ballcat.common.model.result.R;
+import org.ballcat.common.model.result.SystemResultCode;
+import org.ballcat.common.util.JsonUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

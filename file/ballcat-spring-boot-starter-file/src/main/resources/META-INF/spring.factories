@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.hccake.starter.file.FileAutoConfiguration
+  org.ballcat.file.FileAutoConfiguration

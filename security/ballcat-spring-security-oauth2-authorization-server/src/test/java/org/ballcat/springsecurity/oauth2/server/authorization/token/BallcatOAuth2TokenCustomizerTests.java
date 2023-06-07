@@ -15,9 +15,9 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.token;
 
-import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
-import com.hccake.ballcat.common.security.constant.UserInfoFiledNameConstants;
-import com.hccake.ballcat.common.security.userdetails.User;
+import org.ballcat.security.oauth2.constant.TokenAttributeNameConstants;
+import org.ballcat.security.oauth2.constant.UserInfoFiledNameConstants;
+import org.ballcat.security.oauth2.userdetails.User;
 import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2ResourceOwnerPasswordAuthenticationToken;
 import org.ballcat.springsecurity.oauth2.server.authorization.client.TestRegisteredClients;
 import org.ballcat.springsecurity.oauth2.server.authorization.context.TestAuthorizationServerContext;

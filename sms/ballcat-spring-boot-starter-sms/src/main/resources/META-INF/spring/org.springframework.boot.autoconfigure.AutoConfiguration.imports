@@ -1,1 +1,1 @@
-com.hccake.starter.sms.SmsAutoConfiguration
+org.ballcat.sms.SmsAutoConfiguration

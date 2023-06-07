@@ -1,1 +1,1 @@
-com.hccake.ballcat.common.mail.MailAutoConfiguration
+org.ballcat.mail.MailAutoConfiguration

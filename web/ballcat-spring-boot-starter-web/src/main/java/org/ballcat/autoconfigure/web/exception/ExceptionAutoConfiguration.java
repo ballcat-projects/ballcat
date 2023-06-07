@@ -1,0 +1,150 @@
+/*
+ * Copyright 2023 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.ballcat.autoconfigure.web.exception;
+
+import lombok.RequiredArgsConstructor;
+import org.ballcat.autoconfigure.web.exception.handler.DefaultGlobalExceptionHandler;
+import org.ballcat.autoconfigure.web.exception.handler.DingTalkGlobalExceptionHandler;
+import org.ballcat.autoconfigure.web.exception.handler.MailGlobalExceptionHandler;
+import org.ballcat.autoconfigure.web.exception.handler.MultiGlobalExceptionHandler;
+import org.ballcat.autoconfigure.web.exception.resolver.GlobalHandlerExceptionResolver;
+import org.ballcat.autoconfigure.web.exception.resolver.SecurityHandlerExceptionResolver;
+import org.ballcat.common.core.exception.handler.GlobalExceptionHandler;
+import org.ballcat.dingtalk.DingTalkSender;
+import org.ballcat.mail.sender.MailSender;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.util.CollectionUtils;
+
+/**
+ * @author Hccake 2019/10/15 18:20
+ */
+@RequiredArgsConstructor
+@AutoConfiguration
+@EnableConfigurationProperties(ExceptionHandleProperties.class)
+public class ExceptionAutoConfiguration {
+
+	@Value("${spring.application.name: unknown-application}")
+	private String applicationName;
+
+	/**
+	 * 默认的日志处理器
+	 * @return DefaultExceptionHandler
+	 * @deprecated 使用 enabled 来进行配置
+	 */
+	@Bean
+	@Deprecated
+	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
+	@ConditionalOnProperty(prefix = ExceptionHandleProperties.PREFIX, matchIfMissing = true, name = "type",
+			havingValue = "NONE")
+	public GlobalExceptionHandler defaultGlobalExceptionHandler() {
+		return new DefaultGlobalExceptionHandler();
+	}
+
+	@Bean
+	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
+	public GlobalExceptionHandler multiGlobalExceptionHandler(ExceptionHandleProperties properties,
+			ApplicationContext context) {
+		// 旧代码逻辑
+		if (properties.getType() != null) {
+			switch (properties.getType()) {
+				case NONE:
+					return new DefaultGlobalExceptionHandler();
+				case MAIL:
+					return new MailGlobalExceptionHandler(properties, context.getBean(MailSender.class),
+							context.getApplicationName());
+				default:
+					return new DingTalkGlobalExceptionHandler(properties, context.getBean(DingTalkSender.class),
+							context.getApplicationName());
+			}
+		}
+		// 为空 或者 为 false
+		if (!Boolean.TRUE.equals(properties.getEnabled())) {
+			return new DefaultGlobalExceptionHandler();
+		}
+
+		final Object mailSender;
+		if (CollectionUtils.isEmpty(properties.getReceiveEmails())) {
+			mailSender = null;
+		}
+		else {
+			mailSender = context.getBean(MailSender.class);
+		}
+		return new MultiGlobalExceptionHandler(properties, context.getApplicationName(), mailSender);
+	}
+
+	/**
+	 * 钉钉消息通知的日志处理器
+	 */
+	@Bean
+	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
+	@ConditionalOnProperty(prefix = "ballcat.exception", name = "type", havingValue = "DING_TALK")
+	public GlobalExceptionHandler dingTalkGlobalExceptionHandler(ExceptionHandleProperties exceptionHandleProperties,
+			ApplicationContext context) {
+		return new DingTalkGlobalExceptionHandler(exceptionHandleProperties, context.getBean(DingTalkSender.class),
+				applicationName);
+	}
+
+	/**
+	 * 邮件消息通知的日志处理器
+	 */
+	@Bean
+	@ConditionalOnMissingBean(GlobalExceptionHandler.class)
+	@ConditionalOnProperty(prefix = "ballcat.exception", name = "type", havingValue = "MAIL")
+	public GlobalExceptionHandler mailGlobalExceptionHandler(ExceptionHandleProperties exceptionHandleProperties,
+			ApplicationContext context) {
+		return new MailGlobalExceptionHandler(exceptionHandleProperties, context.getBean(MailSender.class),
+				applicationName);
+	}
+
+	/**
+	 * 默认的异常处理器
+	 * @return GlobalHandlerExceptionResolver
+	 */
+	@Bean
+	@ConditionalOnMissingBean(GlobalHandlerExceptionResolver.class)
+	public GlobalHandlerExceptionResolver globalExceptionHandlerResolver(
+			GlobalExceptionHandler globalExceptionHandler) {
+		return new GlobalHandlerExceptionResolver(globalExceptionHandler);
+	}
+
+	/**
+	 * Security 异常处理，隔离出一个配置类
+	 */
+	@ConditionalOnClass(AccessDeniedException.class)
+	static class SecurityExceptionConfiguration {
+
+		/**
+		 * security 相关的异常处理
+		 * @return SecurityHandlerExceptionResolver
+		 */
+		@Bean
+		@ConditionalOnMissingBean(SecurityHandlerExceptionResolver.class)
+		public SecurityHandlerExceptionResolver securityHandlerExceptionResolver(
+				GlobalExceptionHandler globalExceptionHandler) {
+			return new SecurityHandlerExceptionResolver(globalExceptionHandler);
+		}
+
+	}
+
+}

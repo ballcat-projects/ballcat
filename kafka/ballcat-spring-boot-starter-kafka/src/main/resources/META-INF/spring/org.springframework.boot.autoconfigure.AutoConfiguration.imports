@@ -1,1 +1,1 @@
-com.hccake.starter.kafka.KafkaAutoConfiguration
+org.ballcat.autoconfigure.kafka.KafkaAutoConfiguration

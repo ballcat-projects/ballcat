@@ -15,12 +15,12 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.web.filter;
 
-import com.hccake.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
-import com.hccake.ballcat.common.model.result.R;
-import com.hccake.ballcat.common.model.result.SystemResultCode;
-import com.hccake.ballcat.common.security.ScopeNames;
-import com.hccake.ballcat.common.security.util.PasswordUtils;
-import com.hccake.ballcat.common.util.JsonUtils;
+import org.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
+import org.ballcat.common.model.result.R;
+import org.ballcat.common.model.result.SystemResultCode;
+import org.ballcat.security.oauth2.ScopeNames;
+import org.ballcat.security.oauth2.util.PasswordUtils;
+import org.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

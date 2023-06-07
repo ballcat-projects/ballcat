@@ -1,1 +1,1 @@
-com.hccake.ballcat.autoconfigure.websocket.WebSocketAutoConfiguration
+org.ballcat.autoconfigure.websocket.WebSocketAutoConfiguration

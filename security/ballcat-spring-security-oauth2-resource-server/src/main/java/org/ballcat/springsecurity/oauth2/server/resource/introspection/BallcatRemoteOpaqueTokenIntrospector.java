@@ -16,11 +16,11 @@
 package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
 import cn.hutool.core.collection.CollUtil;
-import com.hccake.ballcat.common.security.constant.TokenAttributeNameConstants;
-import com.hccake.ballcat.common.security.constant.UserAttributeNameConstants;
-import com.hccake.ballcat.common.security.constant.UserInfoFiledNameConstants;
-import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
-import com.hccake.ballcat.common.security.userdetails.User;
+import org.ballcat.security.oauth2.constant.TokenAttributeNameConstants;
+import org.ballcat.security.oauth2.constant.UserAttributeNameConstants;
+import org.ballcat.security.oauth2.constant.UserInfoFiledNameConstants;
+import org.ballcat.security.oauth2.userdetails.ClientPrincipal;
+import org.ballcat.security.oauth2.userdetails.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -51,7 +51,7 @@ import java.util.stream.Stream;
 
 /**
  * copy from {@link SpringOpaqueTokenIntrospector}，重写了 OAuth2AuthenticatedPrincipal
- * 的构建，保持项目内统一使用 {@link com.hccake.ballcat.common.security.userdetails.User}
+ * 的构建，保持项目内统一使用 {@link User}
  *
  * A Spring implementation of {@link OpaqueTokenIntrospector} that verifies and
  * introspects a token using the configured

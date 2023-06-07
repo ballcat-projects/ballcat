@@ -1,1 +1,1 @@
-com.hccake.ballcat.starter.ip2region.config.Ip2regionAutoConfiguration
+org.ballcat.autoconfigure.ip2region.Ip2regionAutoConfiguration

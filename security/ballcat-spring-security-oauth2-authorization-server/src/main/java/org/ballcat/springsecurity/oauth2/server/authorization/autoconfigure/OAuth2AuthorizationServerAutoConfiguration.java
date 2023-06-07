@@ -17,12 +17,12 @@ package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hccake.ballcat.common.security.authentication.OAuth2UserAuthenticationToken;
-import com.hccake.ballcat.common.security.jackson2.LongMixin;
-import com.hccake.ballcat.common.security.jackson2.OAuth2UserAuthenticationTokenMixin;
-import com.hccake.ballcat.common.security.jackson2.UserMixin;
-import com.hccake.ballcat.common.security.userdetails.User;
-import com.hccake.ballcat.common.security.util.PasswordUtils;
+import org.ballcat.security.oauth2.authentication.OAuth2UserAuthenticationToken;
+import org.ballcat.security.oauth2.jackson2.LongMixin;
+import org.ballcat.security.oauth2.jackson2.OAuth2UserAuthenticationTokenMixin;
+import org.ballcat.security.oauth2.jackson2.UserMixin;
+import org.ballcat.security.oauth2.userdetails.User;
+import org.ballcat.security.oauth2.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.authorization.OAuth2AuthorizationObjectMapperCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.BallcatOAuth2AuthorizationServerSecurityFilterChainBuilder;

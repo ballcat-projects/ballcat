@@ -1,2 +1,2 @@
-com.hccake.ballcat.autoconfigure.log.AccessLogAutoConfiguration
-com.hccake.ballcat.autoconfigure.log.OperationLogAutoConfiguration
+org.ballcat.autoconfigure.log.AccessLogAutoConfiguration
+org.ballcat.autoconfigure.log.OperationLogAutoConfiguration

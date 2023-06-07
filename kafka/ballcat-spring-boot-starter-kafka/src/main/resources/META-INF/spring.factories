@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.hccake.starter.kafka.KafkaAutoConfiguration
+  org.ballcat.autoconfigure.kafka.KafkaAutoConfiguration

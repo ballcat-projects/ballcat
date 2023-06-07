@@ -1,10 +1,10 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.hccake.ballcat.autoconfigure.web.actuate.ActuatorSecurityAutoConfiguration,\
-    com.hccake.ballcat.autoconfigure.web.jackson.CustomJacksonAutoConfiguration,\
-    com.hccake.ballcat.autoconfigure.web.exception.ExceptionAutoConfiguration,\
-    com.hccake.ballcat.autoconfigure.web.servlet.WebMvcAutoConfiguration,\
-    com.hccake.ballcat.autoconfigure.web.validation.BallcatValidationAutoConfiguration
+    org.ballcat.autoconfigure.web.actuate.ActuatorSecurityAutoConfiguration,\
+    org.ballcat.autoconfigure.web.jackson.CustomJacksonAutoConfiguration,\
+    org.ballcat.autoconfigure.web.exception.ExceptionAutoConfiguration,\
+    org.ballcat.autoconfigure.web.servlet.WebMvcAutoConfiguration,\
+    org.ballcat.autoconfigure.web.validation.BallcatValidationAutoConfiguration
 
 
 org.springframework.context.ApplicationListener=\
-  com.hccake.ballcat.autoconfigure.web.event.ApplicationContextInitialized
+  org.ballcat.autoconfigure.web.event.ApplicationContextInitialized

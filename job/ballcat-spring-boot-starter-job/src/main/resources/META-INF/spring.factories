@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.hccake.ballcat.common.job.XxlJobAutoConfiguration
+    org.ballcat.autoconfigure.xxljob.XxlJobAutoConfiguration
 
 
