@@ -35,3 +35,6 @@ build/
 /aty/
 /ballcat-job/logs/ballcat-job/
 .flattened-pom.xml
+
+### OS files
+.DS_Store
