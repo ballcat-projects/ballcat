@@ -87,6 +87,11 @@ public class FileProperties {
 		 */
 		private String encoding = "UTF-8";
 
+		/**
+		 * sftp设置true
+		 */
+		private boolean sftp;
+
 	}
 
 }

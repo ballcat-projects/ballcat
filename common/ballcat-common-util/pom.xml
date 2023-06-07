@@ -11,11 +11,6 @@
 	<artifactId>ballcat-common-util</artifactId>
 
 	<dependencies>
-		<!-- Hutool 工具 -->
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-core</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-json</artifactId>

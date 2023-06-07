@@ -39,7 +39,7 @@ public class FileAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(FileClient.class)
 	@ConditionalOnProperty(prefix = FileProperties.PREFIX_FTP, name = "ip")
-	public FileClient ballcatFileFtpClient(FileProperties properties) {
+	public FileClient ballcatFileFtpClient(FileProperties properties) throws IOException {
 		return new FtpFileClient(properties.getFtp());
 	}
 

@@ -228,4 +228,36 @@ public class FileUtils {
 		}
 	}
 
+	/**
+	 * 文件扩展名
+	 * @param filename 文件名
+	 * @return 扩展名
+	 */
+	public static String getExtension(String filename) {
+		if (filename == null) {
+			return null;
+		}
+		else {
+			String name = (new File(filename)).getName();
+			int extensionPosition = name.lastIndexOf(".");
+			return extensionPosition < 0 ? "" : name.substring(extensionPosition + 1);
+		}
+	}
+
+	/**
+	 * 获取文件名，不带后缀
+	 * @param filename 文件名
+	 * @return 文件名
+	 */
+	public static String getBaseName(String filename) {
+		if (filename == null) {
+			return null;
+		}
+		else {
+			String name = (new File(filename)).getName();
+			int extensionPosition = name.lastIndexOf(".");
+			return extensionPosition < 0 ? name : name.substring(0, extensionPosition);
+		}
+	}
+
 }
