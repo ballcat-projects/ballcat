@@ -33,8 +33,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 /**
  * @author hccake
  */
@@ -384,7 +382,8 @@ class SqlParseTest {
 	}
 
 	void assertSql(String sql, String targetSql) {
-		assertThat(dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes())).isEqualTo(targetSql);
+		String parsedSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
+		Assertions.assertEquals(targetSql, parsedSql);
 	}
 
 }

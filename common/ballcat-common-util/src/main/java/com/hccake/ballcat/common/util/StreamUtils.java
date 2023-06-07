@@ -86,7 +86,6 @@ public class StreamUtils {
 
 	/**
 	 * 从流中读取 int
-	 * @author lingting 2021-07-22 14:54
 	 */
 	public static int readInt(InputStream is, int noOfBytes, boolean bigEndian) throws IOException {
 		int ret = 0;
@@ -118,7 +117,6 @@ public class StreamUtils {
 	 * @param stream 源流
 	 * @param amounts 数量
 	 * @return 返回指定数量的从源流复制出来的只读流
-	 * @author lingting 2021-04-16 16:18
 	 */
 	public static InputStream[] clone(InputStream stream, Integer amounts) throws IOException {
 		return clone(stream, amounts, DEFAULT_SIZE);
