@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.oauth2.jackson2;
+package org.ballcat.springsecurity.oauth2.jackson2;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * This mixin class is used to serialize/deserialize {@link Long}.
- *
- * @author Hccake
- * @since 1.3.0
- * @see Long
+ * @author hccake
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-public abstract class LongMixin {
-
-	@JsonCreator
-	LongMixin(Long value) {
-	}
+@JsonDeserialize(using = UserDeserializer.class)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
+		isGetterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class UserMixin {
 
 }

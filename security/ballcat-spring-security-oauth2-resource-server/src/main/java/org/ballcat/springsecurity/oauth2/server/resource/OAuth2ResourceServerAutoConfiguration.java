@@ -15,7 +15,7 @@
  */
 package org.ballcat.springsecurity.oauth2.server.resource;
 
-import org.ballcat.security.oauth2.component.CustomPermissionEvaluator;
+import org.ballcat.springsecurity.component.CustomPermissionEvaluator;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.BallcatOauth2ResourceServerSecurityFilterChainBuilder;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.OAuth2ResourceServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.OAuth2ResourceServerExtensionConfigurer;

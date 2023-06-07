@@ -13,24 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.oauth2;
+package org.ballcat.springsecurity.oauth2.constant;
 
 /**
  * @author hccake
  */
-public final class ScopeNames {
+public final class TokenAttributeNameConstants {
 
-	private ScopeNames() {
+	private TokenAttributeNameConstants() {
 	}
 
 	/**
-	 * 跳过验证码
+	 * 用户基本信息属性
 	 */
-	public static final String SKIP_CAPTCHA = "skip_captcha";
+	public static final String INFO = "info";
 
 	/**
-	 * 跳过密码解密 （使用明文传输）
+	 * 用户附属属性
 	 */
-	public static final String SKIP_PASSWORD_DECODE = "skip_password_decode";
+	public static final String ATTRIBUTES = "attributes";
+
+	/**
+	 * 是否是客户端
+	 */
+	public static final String IS_CLIENT = "is_client";
 
 }

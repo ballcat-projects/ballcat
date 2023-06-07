@@ -15,7 +15,7 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
-import org.ballcat.security.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.userdetails.User;
 import org.ballcat.springsecurity.oauth2.server.authorization.client.TestRegisteredClients;
 import org.ballcat.springsecurity.oauth2.server.authorization.context.TestAuthorizationServerContext;
 import org.ballcat.springsecurity.oauth2.server.authorization.user.TestUsers;

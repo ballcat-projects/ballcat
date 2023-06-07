@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.oauth2.test;
+package org.ballcat.springsecurity.oauth2.test;
 
-import org.ballcat.security.oauth2.util.PasswordUtils;
+import org.ballcat.springsecurity.util.PasswordUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -15,9 +15,9 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.token;
 
-import org.ballcat.security.oauth2.constant.TokenAttributeNameConstants;
-import org.ballcat.security.oauth2.constant.UserInfoFiledNameConstants;
-import org.ballcat.security.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.constant.TokenAttributeNameConstants;
+import org.ballcat.springsecurity.oauth2.constant.UserInfoFiledNameConstants;
+import org.ballcat.springsecurity.oauth2.userdetails.User;
 import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2ResourceOwnerPasswordAuthenticationToken;
 import org.ballcat.springsecurity.oauth2.server.authorization.client.TestRegisteredClients;
 import org.ballcat.springsecurity.oauth2.server.authorization.context.TestAuthorizationServerContext;

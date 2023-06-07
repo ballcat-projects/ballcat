@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.oauth2.component;
+package org.ballcat.springsecurity.component;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import lombok.extern.slf4j.Slf4j;

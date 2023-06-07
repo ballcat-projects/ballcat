@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.oauth2.userdetails;
+package org.ballcat.springsecurity.oauth2.userdetails;
 
 import lombok.Builder;
 import lombok.Getter;

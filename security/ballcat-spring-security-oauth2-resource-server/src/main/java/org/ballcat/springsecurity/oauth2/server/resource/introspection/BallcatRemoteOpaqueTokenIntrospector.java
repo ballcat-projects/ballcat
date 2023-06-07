@@ -16,11 +16,11 @@
 package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
 import cn.hutool.core.collection.CollUtil;
-import org.ballcat.security.oauth2.constant.TokenAttributeNameConstants;
-import org.ballcat.security.oauth2.constant.UserAttributeNameConstants;
-import org.ballcat.security.oauth2.constant.UserInfoFiledNameConstants;
-import org.ballcat.security.oauth2.userdetails.ClientPrincipal;
-import org.ballcat.security.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.constant.TokenAttributeNameConstants;
+import org.ballcat.springsecurity.oauth2.constant.UserAttributeNameConstants;
+import org.ballcat.springsecurity.oauth2.constant.UserInfoFiledNameConstants;
+import org.ballcat.springsecurity.oauth2.userdetails.ClientPrincipal;
+import org.ballcat.springsecurity.oauth2.userdetails.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;

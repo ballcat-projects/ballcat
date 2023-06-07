@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.oauth2.jackson2;
+package org.ballcat.springsecurity.oauth2.jackson2;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ballcat.security.oauth2.authentication.OAuth2UserAuthenticationToken;
-import org.ballcat.security.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.authentication.OAuth2UserAuthenticationToken;
+import org.ballcat.springsecurity.oauth2.userdetails.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

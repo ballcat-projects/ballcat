@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.oauth2.authentication;
+package org.ballcat.springsecurity.oauth2.authentication;
 
 import lombok.EqualsAndHashCode;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

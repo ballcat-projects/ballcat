@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.oauth2.util;
+package org.ballcat.springsecurity.util;
 
-import org.ballcat.security.oauth2.userdetails.ClientPrincipal;
-import org.ballcat.security.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.userdetails.ClientPrincipal;
+import org.ballcat.springsecurity.oauth2.userdetails.User;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

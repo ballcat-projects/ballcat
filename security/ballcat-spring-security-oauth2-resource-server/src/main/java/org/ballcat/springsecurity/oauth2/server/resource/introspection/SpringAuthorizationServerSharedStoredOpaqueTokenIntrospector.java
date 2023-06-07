@@ -16,7 +16,7 @@
 package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
 import cn.hutool.core.collection.CollUtil;
-import org.ballcat.security.oauth2.userdetails.ClientPrincipal;
+import org.ballcat.springsecurity.oauth2.userdetails.ClientPrincipal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

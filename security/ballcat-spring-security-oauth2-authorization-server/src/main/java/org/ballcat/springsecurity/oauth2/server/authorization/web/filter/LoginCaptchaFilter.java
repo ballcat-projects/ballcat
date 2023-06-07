@@ -18,7 +18,7 @@ package org.ballcat.springsecurity.oauth2.server.authorization.web.filter;
 import cn.hutool.core.text.CharSequenceUtil;
 import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;
-import org.ballcat.security.oauth2.ScopeNames;
+import org.ballcat.springsecurity.oauth2.ScopeNames;
 import org.ballcat.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.security.captcha.CaptchaValidateResult;
