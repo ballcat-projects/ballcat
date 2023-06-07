@@ -15,27 +15,22 @@
  */
 package org.ballcat.mybatisplus.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.*;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-import org.ballcat.mybatisplus.mapper.ExtendMapper;
-import org.ballcat.mybatisplus.service.ExtendService;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
+import org.ballcat.mybatisplus.mapper.ExtendMapper;
+import org.ballcat.mybatisplus.service.ExtendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -253,12 +248,20 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean saveBatchSomeColumn(Collection<T> list, int batchSize) {
-		if (CollUtil.isEmpty(list)) {
+		if (CollectionUtils.isEmpty(list)) {
 			return false;
 		}
-		List<List<T>> segmentDataList = CollectionUtil.split(list, batchSize);
-		for (List<T> data : segmentDataList) {
-			baseMapper.insertBatchSomeColumn(data);
+		final int batch = Math.min(list.size(), batchSize);
+		List<T> subList = new ArrayList<>(batch);
+		for (T t : list) {
+			if (subList.size() >= batch) {
+				baseMapper.insertBatchSomeColumn(subList);
+				subList = new ArrayList<>(batch);
+			}
+			subList.add(t);
+		}
+		if (CollectionUtils.isEmpty(subList)) {
+			baseMapper.insertBatchSomeColumn(subList);
 		}
 		return true;
 	}

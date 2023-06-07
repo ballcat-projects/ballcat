@@ -23,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 基于内存的幂等Key存储组件
  *
+ * TODO: (by evil0th) 2023/6/6 JDK11+后采用Caffeine重构，移除hutool
+ *
  * @author hccake
  */
 public class InMemoryIdempotentKeyStore implements IdempotentKeyStore {

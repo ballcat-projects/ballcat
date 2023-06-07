@@ -11,19 +11,6 @@
 	<artifactId>ballcat-spring-boot-starter-sms</artifactId>
 
 	<dependencies>
-		<!-- hutool 工具 -->
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-crypto</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-http</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>com.aliyun</groupId>
 			<artifactId>dysmsapi20170525</artifactId>

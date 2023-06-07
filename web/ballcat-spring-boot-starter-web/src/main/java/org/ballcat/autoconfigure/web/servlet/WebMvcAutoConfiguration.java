@@ -15,13 +15,13 @@
  */
 package org.ballcat.autoconfigure.web.servlet;
 
-import cn.hutool.core.util.IdUtil;
+import lombok.RequiredArgsConstructor;
 import org.ballcat.autoconfigure.web.pageable.DefaultPageParamArgumentResolver;
 import org.ballcat.autoconfigure.web.pageable.PageParamArgumentResolver;
 import org.ballcat.autoconfigure.web.pageable.PageableProperties;
-import org.ballcat.autoconfigure.web.trace.TraceIdGenerator;
 import org.ballcat.autoconfigure.web.trace.TraceIdFilter;
-import lombok.RequiredArgsConstructor;
+import org.ballcat.autoconfigure.web.trace.TraceIdGenerator;
+import org.bson.types.ObjectId;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -48,7 +48,7 @@ public class WebMvcAutoConfiguration {
 		@Bean
 		@ConditionalOnMissingBean(TraceIdGenerator.class)
 		public TraceIdGenerator traceIdGenerator() {
-			return IdUtil::objectId;
+			return () -> ObjectId.get().toString();
 		}
 
 		@Bean

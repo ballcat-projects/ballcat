@@ -15,9 +15,12 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.web.authentication;
 
-import cn.hutool.core.net.url.UrlBuilder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +51,10 @@ public class OAuth2LoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticati
 	}
 
 	private static String addReturnToParameter(HttpServletRequest request, String loginForm) {
-		return UrlBuilder.of(loginForm).addQuery("return_to", getFullUrl(request)).build();
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("return_to", getFullUrl(request));
+		UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(loginForm).queryParams(params).build();
+		return uriComponents.toString();
 	}
 
 	private static String getFullUrl(HttpServletRequest req) {

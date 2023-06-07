@@ -15,13 +15,11 @@
  */
 package org.ballcat.pay.wx.utils;
 
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.RandomUtil;
-import org.ballcat.pay.wx.constants.WxPayConstant;
-import org.ballcat.pay.wx.enums.SignType;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.pay.wx.constants.WxPayConstant;
+import org.ballcat.pay.wx.enums.SignType;
+import org.bson.types.ObjectId;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -155,7 +153,9 @@ public final class WxPayUtil {
 	 */
 	public static String sign(Map<String, String> params, String mckKey) {
 		SignType st = SignType.of(params.get(WxPayConstant.FIELD_SIGN_TYPE));
-		Assert.isFalse(st == null, "签名类型不能为空!");
+		if (null == st) {
+			throw new IllegalArgumentException("签名类型不能为空!");
+		}
 		return sign(params, st, mckKey);
 	}
 
@@ -174,7 +174,7 @@ public final class WxPayUtil {
 			}
 			// 参数值为空，则不参与签名
 			val = params.get(k);
-			if (CharSequenceUtil.isNotBlank(val)) {
+			if (null != val) {
 				paramsStr.append(k).append("=").append(val.trim()).append("&");
 			}
 		}
@@ -202,11 +202,11 @@ public final class WxPayUtil {
 	}
 
 	/**
-	 * 生成随机字符串
+	 * 生成随机字符串 32位以内字符串
 	 * @return java.lang.String
 	 */
 	public static String generateNonceStr() {
-		return RandomUtil.randomString(16);
+		return ObjectId.get().toString();
 	}
 
 }

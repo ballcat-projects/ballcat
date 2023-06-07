@@ -15,20 +15,17 @@
  */
 package org.ballcat.log.operation.handler;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.ArrayUtil;
-import org.ballcat.common.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.ballcat.common.util.JsonUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author hccake
@@ -42,8 +39,8 @@ public abstract class AbstractOperationLogHandler<T> implements OperationLogHand
 	 * </p>
 	 * 忽略判断时只针对方法入参类型，如果入参为对象，其某个属性需要忽略的无法处理，可以使用 @JsonIgnore 进行忽略。
 	 */
-	private final List<Class<?>> ignoredParamClasses = ListUtil.toList(ServletRequest.class, ServletResponse.class,
-			MultipartFile.class);
+	private final List<Class<?>> ignoredParamClasses = new ArrayList<>(
+			Arrays.asList(ServletRequest.class, ServletResponse.class, MultipartFile.class));
 
 	/**
 	 * 添加忽略记录的参数类型
@@ -68,7 +65,7 @@ public abstract class AbstractOperationLogHandler<T> implements OperationLogHand
 
 		String[] parameterNames = methodSignature.getParameterNames();
 		Object[] args = joinPoint.getArgs();
-		if (ArrayUtil.isEmpty(parameterNames)) {
+		if (ObjectUtils.isEmpty(parameterNames)) {
 			return null;
 		}
 		Map<String, Object> paramsMap = new HashMap<>();

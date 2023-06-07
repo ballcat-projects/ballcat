@@ -15,12 +15,12 @@
  */
 package org.ballcat.kafka.stream.core;
 
-import cn.hutool.core.date.TimeInterval;
-import org.ballcat.kafka.stream.util.ProcessorContextUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.processor.ProcessorContext;
 import org.apache.kafka.streams.processor.Punctuator;
+import org.ballcat.common.system.StopWatch;
+import org.ballcat.kafka.stream.util.ProcessorContextUtil;
 
 /**
  * kafka 顶级 punctuator 类
@@ -79,13 +79,19 @@ public abstract class AbstractPunctuator implements Kafka, Punctuator {
 	public void punctuate(long timestamp) {
 		try {
 			if (isHandle()) {
-				TimeInterval interval = new TimeInterval();
-				startLog();
-				handle(timestamp);
-				endLog(interval.intervalMs());
-				// 清除数据
-				clean();
-				context.commit();
+				StopWatch watch = new StopWatch();
+				try {
+					watch.start();
+					startLog();
+					handle(timestamp);
+					endLog(watch.timeMillis());
+					// 清除数据
+					clean();
+					context.commit();
+				}
+				finally {
+					watch.stop();
+				}
 			}
 		}
 		catch (Exception e) {

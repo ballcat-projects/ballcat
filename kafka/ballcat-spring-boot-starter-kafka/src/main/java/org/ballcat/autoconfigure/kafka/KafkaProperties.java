@@ -15,13 +15,13 @@
  */
 package org.ballcat.autoconfigure.kafka;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import lombok.Data;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -90,28 +90,28 @@ public class KafkaProperties {
 	private Map<String, Object> extend = new HashMap<>();
 
 	public String getKeyDeserializerClassName() {
-		if (CharSequenceUtil.isNotEmpty(keyDeserializerClassName)) {
+		if (StringUtils.hasText(keyDeserializerClassName)) {
 			return keyDeserializerClassName;
 		}
 		return getKeyDeserializer().getName();
 	}
 
 	public String getValueDeserializerClassName() {
-		if (CharSequenceUtil.isNotEmpty(valueDeserializerClassName)) {
+		if (StringUtils.hasText(valueDeserializerClassName)) {
 			return valueDeserializerClassName;
 		}
 		return getValueDeserializer().getName();
 	}
 
 	public String getKeySerializerClassName() {
-		if (CharSequenceUtil.isNotEmpty(keySerializerClassName)) {
+		if (StringUtils.hasText(keySerializerClassName)) {
 			return keySerializerClassName;
 		}
 		return getKeySerializer().getName();
 	}
 
 	public String getValueSerializerClassName() {
-		if (CharSequenceUtil.isNotEmpty(valueSerializerClassName)) {
+		if (StringUtils.hasText(valueSerializerClassName)) {
 			return valueSerializerClassName;
 		}
 		return getValueSerializer().getName();

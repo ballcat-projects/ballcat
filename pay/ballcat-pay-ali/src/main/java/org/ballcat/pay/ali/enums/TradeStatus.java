@@ -15,7 +15,6 @@
  */
 package org.ballcat.pay.ali.enums;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,7 +53,7 @@ public enum TradeStatus {
 
 	@JsonCreator
 	public static TradeStatus of(String status) {
-		if (CharSequenceUtil.isBlank(status)) {
+		if (null == status) {
 			return ERROR;
 		}
 

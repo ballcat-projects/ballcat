@@ -15,10 +15,10 @@
  */
 package org.ballcat.redis.core;
 
-import cn.hutool.core.lang.Assert;
-import org.ballcat.redis.config.CachePropertiesHolder;
 import org.ballcat.common.util.SpelUtils;
+import org.ballcat.redis.config.CachePropertiesHolder;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
@@ -66,7 +66,7 @@ public class KeyGenerator {
 
 	public List<String> getKeys(String keyPrefix, String keyJoint) {
 		// keyJoint 必须有值
-		Assert.notEmpty(keyJoint, "[getKeys] keyJoint cannot be null");
+		Assert.hasText(keyJoint, "[getKeys] keyJoint cannot be null");
 
 		// 获取所有需要拼接的元素, 组装进集合中
 		List<String> joints = SpelUtils.parseValueToStringList(spelContext, keyJoint);

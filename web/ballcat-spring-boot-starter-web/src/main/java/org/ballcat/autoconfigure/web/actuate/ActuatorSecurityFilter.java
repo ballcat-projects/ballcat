@@ -15,15 +15,14 @@
  */
 package org.ballcat.autoconfigure.web.actuate;
 
-import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
 import org.ballcat.common.core.constant.HeaderConstants;
 import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.ballcat.common.util.JsonUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -31,6 +30,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Actuator 安全过滤器，做一个签名认证，校验通过才允许访问
@@ -91,8 +91,7 @@ public class ActuatorSecurityFilter extends OncePerRequestFilter {
 	 * @return boolean 通过返回true
 	 */
 	private boolean verifySign(String reqSecretId, String sign, String reqTime) {
-		if (CharSequenceUtil.isNotBlank(sign) && CharSequenceUtil.isNotBlank(reqTime)
-				&& CharSequenceUtil.isNotBlank(reqSecretId)) {
+		if (StringUtils.hasText(sign) && StringUtils.hasText(reqTime) && StringUtils.hasText(reqSecretId)) {
 			if (!reqSecretId.equals(this.secretId)) {
 				return false;
 			}
@@ -100,9 +99,10 @@ public class ActuatorSecurityFilter extends OncePerRequestFilter {
 			long expireTime = 30 * 1000L;
 			long nowTime = System.currentTimeMillis();
 			if (nowTime - Long.parseLong(reqTime) <= expireTime) {
-				String reverse = StrUtil.reverse(reqTime);
-				String checkSign = SecureUtil.md5(reverse + this.secretId + this.secretKey);
-				return CharSequenceUtil.equalsIgnoreCase(checkSign, sign);
+				String reverse = new StringBuilder(reqTime).reverse().toString();
+				String checkSign = DigestUtils
+					.md5DigestAsHex((reverse + this.secretId + this.secretKey).getBytes(StandardCharsets.UTF_8));
+				return checkSign.equalsIgnoreCase(sign);
 			}
 		}
 		return false;

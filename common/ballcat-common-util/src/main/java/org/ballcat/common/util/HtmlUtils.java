@@ -15,9 +15,9 @@
  */
 package org.ballcat.common.util;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Hccake 2020/12/21
@@ -37,7 +37,7 @@ public final class HtmlUtils {
 	 * @return 保留换行格式的纯文本
 	 */
 	public static String toText(String html, boolean mergeLineBreak) {
-		if (CharSequenceUtil.isBlank(html)) {
+		if (!StringUtils.hasText(html)) {
 			return html;
 		}
 		Document document = Jsoup.parse(html);

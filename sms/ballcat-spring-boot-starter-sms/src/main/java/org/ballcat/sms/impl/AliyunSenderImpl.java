@@ -15,19 +15,19 @@
  */
 package org.ballcat.sms.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.aliyun.dysmsapi20170525.Client;
 import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 import com.aliyun.teaopenapi.models.Config;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.ballcat.common.constant.Symbol;
+import lombok.SneakyThrows;
 import org.ballcat.sms.SmsSender;
 import org.ballcat.sms.SmsSenderParams;
 import org.ballcat.sms.SmsSenderResult;
 import org.ballcat.sms.enums.TypeEnum;
 import org.ballcat.sms.properties.SmsProperties;
 import org.ballcat.sms.properties.extra.Aliyun;
-import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 /**
@@ -59,7 +59,7 @@ public class AliyunSenderImpl extends BaseServiceImpl implements SmsSender<SmsSe
 	@Override
 	public SmsSenderResult send(SmsSenderParams sp) {
 		try {
-			SendSmsRequest req = new SendSmsRequest().setPhoneNumbers(CollUtil.join(sp.getPhoneNumbers(), ","))
+			SendSmsRequest req = new SendSmsRequest().setPhoneNumbers(String.join(Symbol.COMMA, sp.getPhoneNumbers()))
 				.setSignName(aliyun.getSignName())
 				.setTemplateCode(aliyun.getTemplateId())
 				.setTemplateParam(om.writeValueAsString(sp.getAliyunTemplateParam()));

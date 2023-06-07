@@ -15,8 +15,8 @@
  */
 package org.ballcat.common.model.domain;
 
-import cn.hutool.core.collection.CollUtil;
-
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -71,8 +71,8 @@ public final class PageableConstants {
 	/**
 	 * SQL 关键字
 	 */
-	public static final Set<String> SQL_KEYWORDS = CollUtil.newHashSet("master", "truncate", "insert", "select",
-			"delete", "update", "declare", "alter", "drop", "sleep");
+	public static final Set<String> SQL_KEYWORDS = new HashSet<>(Arrays.asList("master", "truncate", "insert", "select",
+			"delete", "update", "declare", "alter", "drop", "sleep"));
 
 	/**
 	 * 升序关键字

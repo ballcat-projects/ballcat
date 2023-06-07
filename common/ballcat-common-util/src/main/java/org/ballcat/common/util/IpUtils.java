@@ -15,10 +15,11 @@
  */
 package org.ballcat.common.util;
 
-import cn.hutool.core.net.NetUtil;
-import cn.hutool.core.util.ArrayUtil;
+import org.ballcat.common.constant.Symbol;
+import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Stream;
 
 /**
  * IP 工具类
@@ -26,6 +27,9 @@ import javax.servlet.http.HttpServletRequest;
  * @author Hccake
  */
 public final class IpUtils {
+
+	private static final String[] CLIENT_IP_HEADERS = { "X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP",
+			"WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR" };
 
 	private IpUtils() {
 	}
@@ -48,12 +52,7 @@ public final class IpUtils {
 	 * 参考 huTool 稍微调整了下headers 顺序
 	 */
 	public static String getIpAddr(HttpServletRequest request, String... otherHeaderNames) {
-		String[] headers = { "X-Real-IP", "X-Forwarded-For", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP",
-				"HTTP_X_FORWARDED_FOR" };
-		if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
-			headers = ArrayUtil.addAll(headers, otherHeaderNames);
-		}
-		return getClientIpByHeader(request, headers);
+		return getClientIpByHeader(request, mergeClientIpHeaders(otherHeaderNames));
 	}
 
 	/**
@@ -72,13 +71,41 @@ public final class IpUtils {
 		String ip;
 		for (String header : headerNames) {
 			ip = request.getHeader(header);
-			if (!NetUtil.isUnknown(ip)) {
-				return NetUtil.getMultistageReverseProxyIp(ip);
+			if (checkNotUnknown(ip)) {
+				return getMultistageReverseProxyIp(ip);
 			}
 		}
-
 		ip = request.getRemoteAddr();
-		return NetUtil.getMultistageReverseProxyIp(ip);
+		return getMultistageReverseProxyIp(ip);
+	}
+
+	private static String[] mergeClientIpHeaders(String... otherHeaderNames) {
+		if (ObjectUtils.isEmpty(otherHeaderNames)) {
+			return CLIENT_IP_HEADERS;
+		}
+		return Stream.concat(Stream.of(CLIENT_IP_HEADERS), Stream.of(otherHeaderNames)).toArray(String[]::new);
+	}
+
+	/**
+	 * 多次反向代理后会有多个ip值，第一个ip才是真实ip
+	 * @param ip ip
+	 * @return 真实ip
+	 */
+	private static String getMultistageReverseProxyIp(String ip) {
+		if (null == ip || ip.indexOf(Symbol.COMMA) <= 0) {
+			return ip;
+		}
+		String[] ips = ip.trim().split(Symbol.COMMA);
+		for (String subIp : ips) {
+			if (checkNotUnknown(subIp)) {
+				return subIp;
+			}
+		}
+		return ip;
+	}
+
+	private static boolean checkNotUnknown(String checkString) {
+		return !"unknown".equalsIgnoreCase(checkString);
 	}
 
 }

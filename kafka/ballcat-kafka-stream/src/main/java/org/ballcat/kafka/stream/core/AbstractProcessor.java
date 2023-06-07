@@ -15,16 +15,16 @@
  */
 package org.ballcat.kafka.stream.core;
 
-import cn.hutool.core.convert.Convert;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ballcat.kafka.stream.util.ProcessorContextUtil;
-import java.time.Duration;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.processor.Processor;
 import org.apache.kafka.streams.processor.ProcessorContext;
 import org.apache.kafka.streams.processor.PunctuationType;
 import org.apache.kafka.streams.processor.To;
+import org.ballcat.kafka.stream.util.ProcessorContextUtil;
+
+import java.time.Duration;
 
 /**
  * kafka 顶级 processor 类
@@ -101,13 +101,13 @@ public abstract class AbstractProcessor<K, V> implements Kafka, Processor<K, V> 
 		}
 		catch (Exception e) {
 			errLog(e);
-			String errStr;
+			String errStr = null;
 			try {
 				errStr = new ObjectMapper().writeValueAsString(value);
 			}
 			catch (Exception ex) {
 				log.error("数据转json出错!msg: {}", ex.getMessage());
-				errStr = Convert.toStr(value);
+				// 多余的转换? errStr = Convert.toStr(value);
 			}
 			log.error("异常数据 {}", errStr);
 		}

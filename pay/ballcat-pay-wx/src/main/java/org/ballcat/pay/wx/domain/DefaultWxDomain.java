@@ -15,13 +15,15 @@
  */
 package org.ballcat.pay.wx.domain;
 
-import cn.hutool.http.HttpRequest;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import okhttp3.*;
 import org.ballcat.pay.wx.enums.RequestSuffix;
 import org.ballcat.pay.wx.utils.WxPayUtil;
-import lombok.SneakyThrows;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -38,6 +40,15 @@ public class DefaultWxDomain implements WxDomain {
 	 */
 	private final boolean sandbox;
 
+	/**
+	 * 默认的请求发起客户端
+	 */
+	private static final OkHttpClient HTTP_CLIENT = new OkHttpClient.Builder().build();
+
+	// TODO: (by evil0th) 2023/6/6 JDK11+后考虑采用java.net.http.HttpClient
+	@Setter
+	private OkHttpClient client = HTTP_CLIENT;
+
 	private DefaultWxDomain(boolean sandbox) {
 		this.sandbox = sandbox;
 	}
@@ -46,13 +57,21 @@ public class DefaultWxDomain implements WxDomain {
 		return new DefaultWxDomain(sandbox);
 	}
 
-	@SneakyThrows({ ParserConfigurationException.class, TransformerException.class })
+	@SneakyThrows({ ParserConfigurationException.class, TransformerException.class, IOException.class })
 	@Override
 	public String sendRequest(Map<String, String> params, RequestSuffix rs) {
 		// 获取请求地址
-		String url = getUrl(rs.getSuffix());
-		HttpRequest post = HttpRequest.post(url).header("Content-Type", "text/xml").body(WxPayUtil.mapToXml(params));
-		return post.execute().body();
+		final String url = getUrl(rs.getSuffix());
+		RequestBody requestBody = RequestBody.create(WxPayUtil.mapToXml(params), MediaType.parse("text/xml"));
+		Request request = new Request.Builder().url(url).post(requestBody).build();
+		Call call = client.newCall(request);
+		try (Response response = call.execute()) {
+			ResponseBody responseBody = response.body();
+			if (responseBody == null) {
+				throw new RuntimeException("请求微信支付接口返回值为 null!");
+			}
+			return responseBody.string();
+		}
 	}
 
 	/**

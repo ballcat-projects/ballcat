@@ -15,10 +15,10 @@
  */
 package org.ballcat.websocket.distribute;
 
-import cn.hutool.core.collection.CollUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.ballcat.websocket.WebSocketMessageSender;
 import org.ballcat.websocket.session.WebSocketSessionStore;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.Collection;
@@ -52,7 +52,7 @@ public abstract class AbstractMessageDistributor implements MessageDistributor {
 		else {
 			sessionKeys = messageDO.getSessionKeys();
 		}
-		if (CollUtil.isEmpty(sessionKeys)) {
+		if (CollectionUtils.isEmpty(sessionKeys)) {
 			log.warn("发送 websocket 消息，却没有找到对应 sessionKeys, messageDo: {}", messageDO);
 			return;
 		}
@@ -62,10 +62,10 @@ public abstract class AbstractMessageDistributor implements MessageDistributor {
 
 		for (Object sessionKey : sessionKeys) {
 			Collection<WebSocketSession> sessions = webSocketSessionStore.getSessions(sessionKey);
-			if (CollUtil.isNotEmpty(sessions)) {
+			if (!CollectionUtils.isEmpty(sessions)) {
 				// 相同 sessionKey 的客户端只推送一次操作
 				if (onlyOneClientInSameKey != null && onlyOneClientInSameKey) {
-					WebSocketSession wsSession = CollUtil.get(sessions, 0);
+					WebSocketSession wsSession = sessions.iterator().next();
 					WebSocketMessageSender.send(wsSession, messageText);
 					continue;
 				}

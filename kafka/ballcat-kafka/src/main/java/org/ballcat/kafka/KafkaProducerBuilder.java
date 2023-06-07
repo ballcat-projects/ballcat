@@ -15,8 +15,6 @@
  */
 package org.ballcat.kafka;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.text.CharSequenceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -107,9 +105,8 @@ public class KafkaProducerBuilder {
 	}
 
 	public Properties getProperties() {
-		bootstrapServers.addAll(
-				ListUtil.toList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CharSequenceUtil.EMPTY)
-					.split(BOOTSTRAP_SERVERS_DELIMITER)));
+		bootstrapServers.addAll(Arrays.asList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "")
+			.split(BOOTSTRAP_SERVERS_DELIMITER)));
 		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
 				String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
 		return properties;

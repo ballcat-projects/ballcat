@@ -15,13 +15,13 @@
  */
 package org.ballcat.openapi.pageable;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import org.springframework.asm.ClassReader;
 import org.springframework.asm.ClassVisitor;
 import org.springframework.asm.ClassWriter;
 import org.springframework.asm.FieldVisitor;
 import org.springframework.asm.MethodVisitor;
 import org.springframework.asm.Opcodes;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,8 +52,8 @@ public final class PageableRequestClassCreator {
 			for (Map.Entry<String, String> entry : modifyFiledMap.entrySet()) {
 				String key = entry.getKey();
 				String value = entry.getValue();
-				String s = CharSequenceUtil.upperFirst(key);
-				String v = CharSequenceUtil.upperFirst(value);
+				String s = StringUtils.capitalize(key);
+				String v = StringUtils.capitalize(value);
 				modifyMethodMap.put("get" + s, "get" + v);
 				modifyMethodMap.put("set" + s, "set" + v);
 			}

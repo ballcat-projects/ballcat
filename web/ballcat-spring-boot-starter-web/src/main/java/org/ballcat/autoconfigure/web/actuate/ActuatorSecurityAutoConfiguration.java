@@ -15,7 +15,6 @@
  */
 package org.ballcat.autoconfigure.web.actuate;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
@@ -26,6 +25,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.StringUtils;
 
 /**
  * 当开启 Actuator 时，注册 Actuator 安全过滤器
@@ -54,7 +54,7 @@ public class ActuatorSecurityAutoConfiguration {
 					actuatorSecurityProperties.getSecretKey());
 			registrationBean.setFilter(filter);
 			String basePath = webEndpointProperties.getBasePath();
-			if (CharSequenceUtil.isBlank(basePath)) {
+			if (!StringUtils.hasText(basePath)) {
 				basePath = "/actuator";
 			}
 			registrationBean.addUrlPatterns(basePath + "/*");

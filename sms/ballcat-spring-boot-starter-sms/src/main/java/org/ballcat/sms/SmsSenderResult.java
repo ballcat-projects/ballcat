@@ -15,13 +15,13 @@
  */
 package org.ballcat.sms;
 
-import cn.hutool.core.convert.Convert;
-import org.ballcat.sms.constant.SmsConstants;
-import org.ballcat.sms.enums.TypeEnum;
-import org.ballcat.common.util.JsonUtils;
-import org.ballcat.common.util.json.TypeReference;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import org.ballcat.common.constant.Symbol;
+import org.ballcat.common.util.JsonUtils;
+import org.ballcat.common.util.json.TypeReference;
+import org.ballcat.sms.constant.SmsConstants;
+import org.ballcat.sms.enums.TypeEnum;
 
 import java.util.Map;
 import java.util.Set;
@@ -94,7 +94,7 @@ public class SmsSenderResult {
 			Throwable e) {
 		SmsSenderResult result = new SmsSenderResult();
 		result.success = false;
-		result.msg = "短信发送失败，出现异常:" + e.getMessage() + "," + id;
+		result.msg = "短信发送失败，出现异常:" + e.getMessage() + Symbol.COMMA + id;
 		result.target = JsonUtils.toJson(phoneNumbers);
 		result.platform = platform.name();
 		return result;
@@ -127,9 +127,12 @@ public class SmsSenderResult {
 
 		Map<String, Object> map = JsonUtils.toObj(resp, new TypeReference<Map<String, Object>>() {
 		});
-		if (Convert.toInt(map.get(TIAN_YI_HONG_STATUS), -1) < 0) {
+
+		final Object status = map.getOrDefault(TIAN_YI_HONG_STATUS, "-1");
+		if (null == status || Integer.parseInt((String) status) < 0) {
 			result.success = false;
-			result.msg = Convert.toStr(map.get(TIAN_YI_HONG_MSG), "获取错误信息失败!");
+			final Object msg = map.get(TIAN_YI_HONG_MSG);
+			result.msg = msg == null ? "获取错误信息失败!" : (String) msg;
 		}
 		return result;
 	}

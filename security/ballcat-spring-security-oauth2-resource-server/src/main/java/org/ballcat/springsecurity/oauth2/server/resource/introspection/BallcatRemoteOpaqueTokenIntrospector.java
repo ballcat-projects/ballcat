@@ -15,7 +15,6 @@
  */
 package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
-import cn.hutool.core.collection.CollUtil;
 import org.ballcat.springsecurity.oauth2.constant.TokenAttributeNameConstants;
 import org.ballcat.springsecurity.oauth2.constant.UserAttributeNameConstants;
 import org.ballcat.springsecurity.oauth2.constant.UserInfoFiledNameConstants;
@@ -307,7 +306,7 @@ public class BallcatRemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospe
 		if (!CollectionUtils.isEmpty(attributesMap)) {
 			claims.putAll(attributesMap);
 			// 暂时做下兼容，SAS 不返回 authorities 信息了
-			if (CollUtil.isEmpty(authorities)) {
+			if (CollectionUtils.isEmpty(authorities)) {
 				Collection<String> roleCodes = (Collection<String>) attributesMap
 					.getOrDefault(UserAttributeNameConstants.ROLE_CODES, Collections.emptySet());
 				Collection<String> permissions = (Collection<String>) attributesMap

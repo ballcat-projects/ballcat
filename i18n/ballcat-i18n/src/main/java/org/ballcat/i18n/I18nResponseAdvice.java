@@ -15,10 +15,6 @@
  */
 package org.ballcat.i18n;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -32,11 +28,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ReflectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -51,6 +51,9 @@ import java.util.Map;
 @Slf4j
 @RestControllerAdvice
 public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
+
+	private static final ReflectionUtils.FieldFilter WRITEABLE_FIELDS = (field -> !(Modifier
+		.isStatic(field.getModifiers()) || Modifier.isFinal(field.getModifiers())));
 
 	private final MessageSource messageSource;
 
@@ -127,44 +130,45 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 			return;
 		}
 
-		for (Field field : ReflectUtil.getFields(sourceClass)) {
+		ReflectionUtils.doWithFields(sourceClass, (field) -> {
+			ReflectionUtils.makeAccessible(field);
 			Class<?> fieldType = field.getType();
-			Object fieldValue = ReflectUtil.getFieldValue(source, field);
+			Object fieldValue = ReflectionUtils.getField(field, source);
 
 			if (fieldValue instanceof String) {
 				// 若不存在国际化注解 直接跳过
 				I18nField i18nField = field.getAnnotation(I18nField.class);
 				if (i18nField == null) {
-					continue;
+					return;
 				}
 
 				// 国际化条件判断
 				String conditionExpression = i18nField.condition();
-				if (CharSequenceUtil.isNotEmpty(conditionExpression)) {
+				if (StringUtils.hasText(conditionExpression)) {
 					Expression expression = EXPRESSION_CACHE.computeIfAbsent(conditionExpression,
 							PARSER::parseExpression);
 					Boolean needI18n = expression.getValue(source, Boolean.class);
 					if (needI18n != null && !needI18n) {
-						continue;
+						return;
 					}
 				}
 
 				// 获取国际化标识
 				String code = parseMessageCode(source, (String) fieldValue, i18nField);
-				if (CharSequenceUtil.isEmpty(code)) {
-					continue;
+				if (!StringUtils.hasLength(code)) {
+					return;
 				}
 
 				// 把当前 field 的值更新为国际化后的属性
 				Locale locale = LocaleContextHolder.getLocale();
 				String message = codeToMessage(code, locale, (String) fieldValue, fallbackLocale);
-				ReflectUtil.setFieldValue(source, field, message);
+				ReflectionUtils.setField(field, source, message);
 			}
 			else if (fieldValue instanceof Collection) {
 				@SuppressWarnings("unchecked")
 				Collection<Object> elements = (Collection<Object>) fieldValue;
-				if (CollUtil.isEmpty(elements)) {
-					continue;
+				if (CollectionUtils.isEmpty(elements)) {
+					return;
 				}
 				// 集合属性 递归处理
 				for (Object element : elements) {
@@ -174,7 +178,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 			else if (fieldType.isArray()) {
 				Object[] elements = (Object[]) fieldValue;
 				if (elements == null || elements.length == 0) {
-					continue;
+					return;
 				}
 				// 数组 递归处理
 				for (Object element : elements) {
@@ -185,7 +189,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 				// 其他类型的属性，递归判断处理
 				switchLanguage(fieldValue);
 			}
-		}
+		}, WRITEABLE_FIELDS);
 	}
 
 	/**
@@ -202,7 +206,7 @@ public class I18nResponseAdvice implements ResponseBodyAdvice<Object> {
 	private String parseMessageCode(Object source, String fieldValue, I18nField i18nField) {
 		// 如果没有指定 spel，则直接返回属性值
 		String codeExpression = i18nField.code();
-		if (CharSequenceUtil.isEmpty(codeExpression)) {
+		if (!StringUtils.hasText(codeExpression)) {
 			return fieldValue;
 		}
 

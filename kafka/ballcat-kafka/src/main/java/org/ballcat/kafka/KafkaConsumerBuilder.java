@@ -15,14 +15,13 @@
  */
 package org.ballcat.kafka;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.text.CharSequenceUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.Deserializer;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Properties;
@@ -128,10 +127,10 @@ public class KafkaConsumerBuilder {
 	}
 
 	public Properties getProperties() {
-		String nowServes = properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, CharSequenceUtil.EMPTY);
-		if (CharSequenceUtil.isNotBlank(nowServes)) {
+		String nowServes = properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "");
+		if (nowServes.length() > 0) {
 			// 仅在存在配置时才插入
-			bootstrapServers.addAll(ListUtil.toList(nowServes.split(BOOTSTRAP_SERVERS_DELIMITER)));
+			bootstrapServers.addAll(Arrays.asList(nowServes.split(BOOTSTRAP_SERVERS_DELIMITER)));
 		}
 		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
 				String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));

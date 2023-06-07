@@ -15,14 +15,14 @@
  */
 package org.ballcat.autoconfigure.web.pageable;
 
-import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.text.StrPool;
-import cn.hutool.core.util.ArrayUtil;
-import org.ballcat.common.model.domain.PageParam;
+import org.ballcat.common.constant.Symbol;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.common.model.domain.PageParam;
 import org.springframework.core.MethodParameter;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
@@ -86,12 +86,12 @@ public abstract class PageParamArgumentResolverSupport {
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		// sort 可以传多个，所以同时支持 sort 和 sort[]
 		String[] sort = parameterMap.get(sortParameterName);
-		if (ArrayUtil.isEmpty(sort)) {
+		if (ObjectUtils.isEmpty(sort)) {
 			sort = parameterMap.get(sortParameterName + "[]");
 		}
 
 		List<PageParam.Sort> sorts;
-		if (ArrayUtil.isNotEmpty(sort)) {
+		if (!ObjectUtils.isEmpty(sort)) {
 			sorts = getSortList(sort);
 		}
 		else {
@@ -159,13 +159,13 @@ public abstract class PageParamArgumentResolverSupport {
 		List<PageParam.Sort> sorts = new ArrayList<>();
 
 		// 字段和规则都不能为空
-		if (CharSequenceUtil.isBlank(sortFields) || CharSequenceUtil.isBlank(sortOrders)) {
+		if (!StringUtils.hasText(sortFields) || !StringUtils.hasText(sortOrders)) {
 			return sorts;
 		}
 
 		// 字段和规则不一一对应则不处理
-		String[] fieldArr = sortFields.split(StrPool.COMMA);
-		String[] orderArr = sortOrders.split(StrPool.COMMA);
+		String[] fieldArr = sortFields.split(Symbol.COMMA);
+		String[] orderArr = sortOrders.split(Symbol.COMMA);
 		if (fieldArr.length != orderArr.length) {
 			return sorts;
 		}
@@ -191,7 +191,7 @@ public abstract class PageParamArgumentResolverSupport {
 			// 驼峰转下划线
 			sort.setAsc(ASC.equalsIgnoreCase(order));
 			// 正序/倒序
-			sort.setField(CharSequenceUtil.toUnderlineCase(field));
+			sort.setField(org.ballcat.common.util.StringUtils.toUnderlineCase(field));
 			sorts.add(sort);
 		}
 	}
@@ -202,7 +202,7 @@ public abstract class PageParamArgumentResolverSupport {
 	 * @return 是否非法
 	 */
 	protected boolean validFieldName(String filedName) {
-		boolean isValid = CharSequenceUtil.isNotBlank(filedName) && filedName.matches(SORT_FILED_REGEX)
+		boolean isValid = StringUtils.hasText(filedName) && filedName.matches(SORT_FILED_REGEX)
 				&& !SQL_KEYWORDS.contains(filedName);
 		if (!isValid) {
 			log.warn("异常的分页查询排序字段：{}", filedName);

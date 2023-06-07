@@ -15,18 +15,11 @@
  */
 package org.ballcat.common.util.tree;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.lang.Assert;
 import lombok.experimental.UtilityClass;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -123,7 +116,7 @@ public class TreeUtils {
 		I parentId = parent.getKey();
 		List<T> children = childrenMap.get(parentId);
 		// 如果有孩子节点则赋值，且给孩子节点的孩子节点赋值
-		if (CollUtil.isNotEmpty(children)) {
+		if (!CollectionUtils.isEmpty(children)) {
 			parent.setChildren(children);
 			children.forEach(node -> TreeUtils.setChildren(node, childrenMap));
 		}
@@ -154,7 +147,7 @@ public class TreeUtils {
 	public <T extends TreeNode<I>, I> void fillLeaf(T parent, List<T> leafs) {
 		List<T> children = parent.getChildren();
 		// 如果节点没有子节点则说明为叶子节点
-		if (CollUtil.isEmpty(children)) {
+		if (CollectionUtils.isEmpty(children)) {
 			leafs.add(parent);
 			return;
 		}
@@ -186,13 +179,13 @@ public class TreeUtils {
 	 */
 	public <T extends TreeNode<I>, I> void fillTreeNodeIds(List<I> ids, List<T> treeList) {
 		// 如果节点没有子节点则说明为叶子节点
-		if (CollUtil.isEmpty(treeList)) {
+		if (CollectionUtils.isEmpty(treeList)) {
 			return;
 		}
 		for (T treeNode : treeList) {
 			ids.add(treeNode.getKey());
 			List<T> children = treeNode.getChildren();
-			if (CollUtil.isNotEmpty(children)) {
+			if (!CollectionUtils.isEmpty(children)) {
 				fillTreeNodeIds(ids, children);
 			}
 		}
@@ -234,7 +227,7 @@ public class TreeUtils {
 
 			// 如果当前节点的含有子节点，则添加到队列中
 			List<T> children = node.getChildren();
-			if (CollUtil.isNotEmpty(children)) {
+			if (!CollectionUtils.isEmpty(children)) {
 				queue.addAll(children);
 			}
 
@@ -282,12 +275,12 @@ public class TreeUtils {
 	 */
 	public <T extends TreeNode<I>, I> List<T> pruneTree(List<T> treeNodes, Predicate<T> matcher) {
 		List<T> result = new ArrayList<>();
-		if (CollUtil.isEmpty(treeNodes)) {
+		if (CollectionUtils.isEmpty(treeNodes)) {
 			return result;
 		}
 		for (T treeNode : treeNodes) {
 			List<T> children = pruneTree(treeNode.getChildren(), matcher);
-			if (CollUtil.isNotEmpty(children)) {
+			if (!CollectionUtils.isEmpty(children)) {
 				treeNode.setChildren(children);
 				result.add(treeNode);
 			}
@@ -308,7 +301,7 @@ public class TreeUtils {
 	 */
 	public <T extends TreeNode<I>, I> T pruneTree(T treeNode, Predicate<T> matcher) {
 		List<T> children = pruneTree(treeNode.getChildren(), matcher);
-		boolean childrenMatched = CollUtil.isNotEmpty(children);
+		boolean childrenMatched = !CollectionUtils.isEmpty(children);
 		if (childrenMatched) {
 			treeNode.setChildren(children);
 		}

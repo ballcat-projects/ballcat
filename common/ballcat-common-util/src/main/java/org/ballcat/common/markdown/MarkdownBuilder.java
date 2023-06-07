@@ -15,7 +15,6 @@
  */
 package org.ballcat.common.markdown;
 
-import cn.hutool.core.convert.Convert;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.ballcat.common.util.json.JacksonJsonToolAdapter;
@@ -88,7 +87,7 @@ public class MarkdownBuilder {
 		String isOrderListPattern = "^\\d\\. .*";
 		if (Pattern.matches(isOrderListPattern, tmp)) {
 			// 如果是数字开头
-			index = Convert.toInt(tmp.substring(0, tmp.indexOf(ORDER_LIST_PREFIX) - 1));
+			index = Integer.parseInt(tmp.substring(0, tmp.indexOf(ORDER_LIST_PREFIX) - 1));
 		}
 		return orderList(index, content);
 	}
