@@ -15,11 +15,11 @@
  */
 package org.ballcat.file.local;
 
-import cn.hutool.core.io.FileUtil;
 import org.ballcat.common.util.StreamUtils;
+import org.ballcat.common.util.SystemUtils;
+import org.ballcat.file.FileProperties.LocalProperties;
 import org.ballcat.file.core.AbstractFileClient;
 import org.ballcat.file.exception.FileException;
-import org.ballcat.file.FileProperties.LocalProperties;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
@@ -37,7 +37,7 @@ public class LocalFileClient extends AbstractFileClient {
 
 	public LocalFileClient(LocalProperties properties) throws IOException {
 		final File dir = StringUtils.hasText(properties.getPath()) ? new File(properties.getPath())
-				: FileUtil.getTmpDir();
+				: SystemUtils.tmpDir();
 		// 不存在且创建失败
 		if (!dir.exists() && !dir.mkdirs()) {
 			throw new FileException(String.format("路径: %s; 不存在且创建失败! 请检查是否拥有对该路径的操作权限!", dir.getPath()));

@@ -15,46 +15,37 @@
  */
 package org.ballcat.file.ftp;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.extra.ftp.Ftp;
-import cn.hutool.extra.ftp.FtpConfig;
 import org.ballcat.file.FileProperties.FtpProperties;
 import org.ballcat.file.core.AbstractFileClient;
 import org.ballcat.file.exception.FileException;
+import org.ballcat.file.ftp.support.FtpHelper;
+import org.ballcat.file.ftp.support.SftpHelper;
+import org.ballcat.file.ftp.support.StandardFtpHelper;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.io.*;
+import java.nio.file.Files;
+import java.util.Collections;
 
 /**
  * @author lingting 2021/10/17 20:11
  * @author 疯狂的狮子Li 2022-04-24
+ * @author evil0th 2023/6/6
  */
 public class FtpFileClient extends AbstractFileClient {
 
-	private final Ftp client;
+	private final FtpHelper client;
 
-	public FtpFileClient(FtpProperties properties) {
-		FtpConfig config = new FtpConfig().setHost(properties.getIp())
-			.setPort(properties.getPort())
-			.setUser(properties.getUsername())
-			.setPassword(properties.getPassword())
-			.setCharset(Charset.forName(properties.getEncoding()));
-
+	public FtpFileClient(FtpProperties properties) throws IOException {
 		final FtpMode mode = properties.getMode();
-		if (mode == FtpMode.ACTIVE) {
-			client = new Ftp(config, cn.hutool.extra.ftp.FtpMode.Active);
-		}
-		else if (mode == FtpMode.PASSIVE) {
-			client = new Ftp(config, cn.hutool.extra.ftp.FtpMode.Passive);
+		if (properties.isSftp()) {
+			client = new SftpHelper();
 		}
 		else {
-			client = new Ftp(config, null);
+			client = new StandardFtpHelper();
 		}
+		client.loginFtpServer(properties.getUsername(), properties.getPassword(), properties.getIp(),
+				properties.getPort(), null, mode);
 
 		if (!StringUtils.hasText(properties.getPath())) {
 			throw new NullPointerException("ftp文件根路径不能为空!");
@@ -73,10 +64,10 @@ public class FtpFileClient extends AbstractFileClient {
 	@Override
 	public String upload(InputStream stream, String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
-		final String fileName = FileUtil.getName(path);
-		final String dir = CharSequenceUtil.removeSuffix(path, fileName);
-		// 上传失败
-		if (!client.upload(dir, fileName, stream)) {
+		try (OutputStream outputStream = client.getOutputStream(path)) {
+			copy(stream, outputStream);
+		}
+		catch (IOException e) {
 			throw new FileException(
 					String.format("文件上传失败! 相对路径: %s; 根路径: %s; 请检查此路径是否存在以及登录用户是否拥有操作权限!", relativePath, path));
 		}
@@ -91,15 +82,14 @@ public class FtpFileClient extends AbstractFileClient {
 	@Override
 	public File download(String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
-		final String fileName = FileUtil.getName(path);
-		final String dir = CharSequenceUtil.removeSuffix(path, fileName);
-		// 临时文件
-		File tmpFile = FileUtil.createTempFile();
-		tmpFile = FileUtil.rename(tmpFile, fileName, true);
-		// 输出流
-		try (FileOutputStream outputStream = new FileOutputStream(tmpFile)) {
-			client.download(dir, fileName, outputStream);
+		// 临时文件 .tmp后缀
+		File tmpFile = Files.createTempFile("", null).toFile();
+		try (FileOutputStream outputStream = new FileOutputStream(tmpFile);
+				InputStream inputStream = client.getInputStream(path)) {
+			copy(inputStream, outputStream);
 		}
+		// JVM退出时删除临时文件
+		// tmpFile.deleteOnExit();
 		return tmpFile;
 	}
 
@@ -109,8 +99,21 @@ public class FtpFileClient extends AbstractFileClient {
 	 * @return boolean
 	 */
 	@Override
-	public boolean delete(String relativePath) {
-		return client.delFile(getWholePath(relativePath));
+	public boolean delete(String relativePath) throws IOException {
+		final String path = getWholePath(relativePath);
+		client.deleteFiles(Collections.singleton(path));
+		return !client.isFileExist(path);
+	}
+
+	/**
+	 * 流拷贝 FIXME: (by evil0th) 2023/6/7 JDK9+改为inputStream.transferTo(outputStream);
+	 */
+	private void copy(InputStream source, OutputStream target) throws IOException {
+		byte[] buf = new byte[8192];
+		int length;
+		while ((length = source.read(buf)) != -1) {
+			target.write(buf, 0, length);
+		}
 	}
 
 }
