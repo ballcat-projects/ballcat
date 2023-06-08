@@ -18,7 +18,6 @@ package org.ballcat.sms;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ballcat.sms.impl.AliyunSenderImpl;
 import org.ballcat.sms.impl.TencentSenderImpl;
-import org.ballcat.sms.impl.TianYiHongSenderImpl;
 import org.ballcat.sms.properties.SmsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -43,13 +42,6 @@ public class SmsAutoConfiguration {
 	@ConditionalOnProperty(name = "ballcat.sms.type", havingValue = "TENCENT")
 	public SmsSender<SmsSenderParams, SmsSenderResult> tencentSmsSender(ObjectMapper om) {
 		return new TencentSenderImpl(properties, om);
-	}
-
-	@Bean
-	@ConditionalOnMissingBean(SmsSender.class)
-	@ConditionalOnProperty(name = "ballcat.sms.type", havingValue = "TIAN_YI_HONG")
-	public SmsSender<SmsSenderParams, SmsSenderResult> tianYiHongSmsSender() {
-		return new TianYiHongSenderImpl(properties);
 	}
 
 	@Bean

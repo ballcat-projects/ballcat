@@ -19,7 +19,6 @@ import org.ballcat.sms.enums.TypeEnum;
 import org.ballcat.sms.properties.extra.Account;
 import org.ballcat.sms.properties.extra.Aliyun;
 import org.ballcat.sms.properties.extra.Tencent;
-import org.ballcat.sms.properties.extra.TianYiHong;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -64,12 +63,6 @@ public class SmsProperties {
 	 */
 	@NestedConfigurationProperty
 	private Tencent tencent;
-
-	/**
-	 * 码平台所用发送短信所需额外参数
-	 */
-	@NestedConfigurationProperty
-	private TianYiHong tianYiHong;
 
 	/**
 	 * 阿里云所需额外参数

@@ -19,11 +19,9 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.ballcat.common.constant.Symbol;
 import org.ballcat.common.util.JsonUtils;
-import org.ballcat.common.util.json.TypeReference;
 import org.ballcat.sms.constant.SmsConstants;
 import org.ballcat.sms.enums.TypeEnum;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -113,27 +111,6 @@ public class SmsSenderResult {
 		result.platform = TypeEnum.TENCENT.name();
 		result.target = JsonUtils.toJson(phoneNumbers);
 		result.req = req;
-		return result;
-	}
-
-	public static SmsSenderResult generateTianYiHong(String resp, String req, Set<String> phoneNumbers) {
-		SmsSenderResult result = new SmsSenderResult();
-		result.res = resp;
-		// 没有异常就是成功!
-		result.success = true;
-		result.platform = TypeEnum.TIAN_YI_HONG.name();
-		result.target = JsonUtils.toJson(phoneNumbers);
-		result.req = req;
-
-		Map<String, Object> map = JsonUtils.toObj(resp, new TypeReference<Map<String, Object>>() {
-		});
-
-		final Object status = map.getOrDefault(TIAN_YI_HONG_STATUS, "-1");
-		if (null == status || Integer.parseInt((String) status) < 0) {
-			result.success = false;
-			final Object msg = map.get(TIAN_YI_HONG_MSG);
-			result.msg = msg == null ? "获取错误信息失败!" : (String) msg;
-		}
 		return result;
 	}
 

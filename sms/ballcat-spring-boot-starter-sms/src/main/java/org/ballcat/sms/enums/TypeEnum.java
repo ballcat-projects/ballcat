@@ -21,15 +21,12 @@ package org.ballcat.sms.enums;
  */
 
 public enum TypeEnum {
-
 	/**
 	 * 短信发送类型
 	 */
 	CUSTOM,
 
 	TENCENT,
-
-	TIAN_YI_HONG,
 
 	ALIYUN
 
