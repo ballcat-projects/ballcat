@@ -72,6 +72,7 @@
 		<module>redis/ballcat-spring-boot-starter-redis</module>
 
 		<module>security/ballcat-security-core</module>
+		<module>security/ballcat-security-web</module>
 		<module>security/ballcat-spring-security-oauth2-authorization-server</module>
 		<module>security/ballcat-spring-security-oauth2-core</module>
 		<module>security/ballcat-spring-security-oauth2-resource-server</module>
