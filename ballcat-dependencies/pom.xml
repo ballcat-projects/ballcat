@@ -501,6 +501,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-security-web</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security-oauth2-authorization-server</artifactId>
 				<version>${revision}</version>
 			</dependency>

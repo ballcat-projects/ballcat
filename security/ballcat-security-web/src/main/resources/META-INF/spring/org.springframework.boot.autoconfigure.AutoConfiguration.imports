@@ -1,0 +1,3 @@
+org.ballcat.security.web.configuration.SecurityWebConfiguration
+org.ballcat.security.web.configuration.SecurityWebAuthorizationConfiguration
+org.ballcat.security.web.configuration.SecurityWebResourceConfiguration
