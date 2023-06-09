@@ -3,10 +3,10 @@ package org.ballcat.security.configuration;
 import org.ballcat.security.SecurityStore;
 import org.ballcat.security.properties.SecurityProperties;
 import org.ballcat.security.resources.SecurityScope;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author lingting 2023-03-29 20:51
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfiguration {
 
