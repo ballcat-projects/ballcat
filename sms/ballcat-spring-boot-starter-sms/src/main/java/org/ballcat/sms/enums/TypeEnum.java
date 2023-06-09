@@ -21,6 +21,7 @@ package org.ballcat.sms.enums;
  */
 
 public enum TypeEnum {
+
 	/**
 	 * 短信发送类型
 	 */
