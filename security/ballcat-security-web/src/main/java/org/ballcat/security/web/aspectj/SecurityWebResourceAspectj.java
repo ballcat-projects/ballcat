@@ -70,7 +70,7 @@ public class SecurityWebResourceAspectj {
 		}
 		String uri = uri();
 
-		if (StringUtils.hasText(uri)) {
+		if (!StringUtils.hasText(uri)) {
 			return true;
 		}
 
