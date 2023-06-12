@@ -33,5 +33,25 @@ public class BallcatUndertowAutoConfiguration {
 		});
 	}
 
+	/**
+	 * 定时创建 undertow 的用来上传文件的临时文件夹, 避免文件上传异常 /tmp/undertow.35301.2529636817692511076
+	 */
+	@Bean
+	public UndertowTimer undertowTimer(ServletContext context) {
+		File dir = null;
+		if (context instanceof ServletContextImpl) {
+			Deployment deployment = ((ServletContextImpl) context).getDeployment();
+			DeploymentInfo deploymentInfo = deployment.getDeploymentInfo();
+			MultipartConfigElement config = deploymentInfo.getDefaultMultipartConfig();
+			if (config != null && StringUtils.hasText(config.getLocation())) {
+				dir = new File(config.getLocation());
+			}
+			else {
+				dir = deploymentInfo.getTempDir();
+			}
+		}
+
+		return new UndertowTimer(dir);
+	}
 
 }
