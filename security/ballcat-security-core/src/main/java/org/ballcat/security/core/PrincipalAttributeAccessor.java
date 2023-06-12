@@ -13,26 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.annotation;
+package org.ballcat.security.core;
 
-import java.lang.annotation.*;
+import org.springframework.lang.Nullable;
 
 /**
- * 鉴权, 默认为登录即可访问
+ * 当前认证实体的属性访问器
  *
- * @author lingting 2023-03-29 20:38
- * @author hccake
+ * @author Hccake
+ * @since 2.0.0
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@Inherited
-@Documented
-public @interface Authorize {
+public interface PrincipalAttributeAccessor {
 
 	/**
-	 * @return the Spring-EL expression to be evaluated before invoking the protected
-	 * method
+	 * Get the principal attribute by name
+	 * @param name the name of the attribute
+	 * @param <A> the type of the attribute
+	 * @return the attribute or {@code null} otherwise
 	 */
-	String value();
+	@Nullable
+	<A> A getAttribute(String name);
+
+	@Nullable
+	<A> A getUserId();
+
+	/**
+	 * Returns the name of the authenticated <code>Principal</code>. Never
+	 * <code>null</code>.
+	 * @return the name of the authenticated <code>Principal</code>
+	 */
+	String getName();
 
 }

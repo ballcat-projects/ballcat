@@ -17,7 +17,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.ballcat</groupId>
-			<artifactId>ballcat-security-core</artifactId>
+			<artifactId>ballcat-spring-security</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.ballcat</groupId>

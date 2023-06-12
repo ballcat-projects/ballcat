@@ -1,2 +1,2 @@
-org.springframework.context.ApplicationListener=\
-  org.ballcat.security.configuration.SecurityConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    org.ballcat.security.configuration.BallcatSecurityAutoConfiguration

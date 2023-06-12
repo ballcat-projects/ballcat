@@ -21,6 +21,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.ballcat</groupId>
+			<artifactId>ballcat-spring-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ballcat</groupId>
 			<artifactId>ballcat-spring-security-oauth2-core</artifactId>
 		</dependency>
 		<dependency>

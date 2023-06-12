@@ -13,26 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.annotation;
+package org.ballcat.security.authorization;
 
-import java.lang.annotation.*;
+import org.aopalliance.intercept.MethodInvocation;
 
 /**
- * 鉴权, 默认为登录即可访问
+ * 鉴权管理器
  *
- * @author lingting 2023-03-29 20:38
- * @author hccake
+ * @author Hccake
+ * @since 2.0.0
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@Inherited
-@Documented
-public @interface Authorize {
+public interface AuthorizeManager {
 
-	/**
-	 * @return the Spring-EL expression to be evaluated before invoking the protected
-	 * method
-	 */
-	String value();
+	boolean check(MethodInvocation mi);
 
 }

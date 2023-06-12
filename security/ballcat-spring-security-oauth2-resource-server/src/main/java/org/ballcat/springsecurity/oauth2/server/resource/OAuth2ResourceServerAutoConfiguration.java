@@ -83,16 +83,6 @@ public class OAuth2ResourceServerAutoConfiguration {
 	}
 
 	/**
-	 * 自定义的权限判断组件
-	 * @return CustomPermissionEvaluator
-	 */
-	@Bean(name = "per")
-	@ConditionalOnMissingBean(CustomPermissionEvaluator.class)
-	public CustomPermissionEvaluator customPermissionEvaluator() {
-		return new CustomPermissionEvaluator();
-	}
-
-	/**
 	 * 当资源服务器和授权服务器的 token 存储无法共享时，通过远程调用的方式，向授权服务鉴定 token，并同时获取对应的授权信息
 	 * @return NimbusOpaqueTokenIntrospector
 	 */

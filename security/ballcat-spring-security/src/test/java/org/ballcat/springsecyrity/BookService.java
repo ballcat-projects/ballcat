@@ -13,26 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.annotation;
+package org.ballcat.springsecyrity;
 
-import java.lang.annotation.*;
+public interface BookService {
 
-/**
- * 鉴权, 默认为登录即可访问
- *
- * @author lingting 2023-03-29 20:38
- * @author hccake
- */
-@Target({ ElementType.METHOD, ElementType.TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@Inherited
-@Documented
-public @interface Authorize {
+	String readBook(String bookName);
 
-	/**
-	 * @return the Spring-EL expression to be evaluated before invoking the protected
-	 * method
-	 */
-	String value();
+	String readSpecified(String bookName);
+
+	String editBook(String bookName);
+
+	String removeBook(String bookName);
 
 }

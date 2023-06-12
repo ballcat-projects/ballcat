@@ -13,26 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.security.annotation;
-
-import java.lang.annotation.*;
+package org.ballcat.security.exception;
 
 /**
- * 鉴权, 默认为登录即可访问
+ * 拒绝访问异常
  *
- * @author lingting 2023-03-29 20:38
- * @author hccake
+ * @author Hccake
+ * @since 2.0.0
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@Inherited
-@Documented
-public @interface Authorize {
+public class AccessDeniedException extends RuntimeException {
 
 	/**
-	 * @return the Spring-EL expression to be evaluated before invoking the protected
-	 * method
+	 * Constructs an <code>AccessDeniedException</code> with the specified message.
+	 * @param msg the detail message
 	 */
-	String value();
+	public AccessDeniedException(String msg) {
+		super(msg);
+	}
+
+	/**
+	 * Constructs an <code>AccessDeniedException</code> with the specified message and
+	 * root cause.
+	 * @param msg the detail message
+	 * @param cause root cause
+	 */
+	public AccessDeniedException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
 
 }
