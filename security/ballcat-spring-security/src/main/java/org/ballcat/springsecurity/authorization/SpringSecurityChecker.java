@@ -96,7 +96,8 @@ public class SpringSecurityChecker implements SecurityChecker, ApplicationContex
 			if (roleSet.contains(role)) {
 				if (prefix != null && prefix.length() > 0) {
 					return role.startsWith(prefix);
-				} else {
+				}
+				else {
 					return true;
 				}
 			}
@@ -106,7 +107,6 @@ public class SpringSecurityChecker implements SecurityChecker, ApplicationContex
 
 	/**
 	 * 使属性和 security 配置一致
-	 *
 	 * @param applicationContext spring 上下文容器
 	 */
 	@Override
@@ -127,7 +127,8 @@ public class SpringSecurityChecker implements SecurityChecker, ApplicationContex
 	private <T> T getSingleBeanOrNull(ApplicationContext applicationContext, Class<T> type) {
 		try {
 			return applicationContext.getBean(type);
-		} catch (NoSuchBeanDefinitionException ignored) {
+		}
+		catch (NoSuchBeanDefinitionException ignored) {
 		}
 		return null;
 	}

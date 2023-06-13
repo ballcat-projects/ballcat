@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.autoconfigure.log;
+package org.ballcat.autoconfigure.web.log.access;
 
-import org.ballcat.autoconfigure.log.properties.AccessLogProperties;
-import org.ballcat.log.access.filter.AccessLogFilter;
-import org.ballcat.log.access.handler.AccessLogHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

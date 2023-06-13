@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.autoconfigure.log.properties;
+package org.ballcat.autoconfigure.web.log.access;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

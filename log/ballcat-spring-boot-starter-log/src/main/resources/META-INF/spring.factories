@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-      org.ballcat.autoconfigure.log.AccessLogAutoConfiguration,\
       org.ballcat.autoconfigure.log.OperationLogAutoConfiguration

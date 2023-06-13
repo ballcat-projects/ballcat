@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.log.access.filter;
+package org.ballcat.autoconfigure.web.log.access;
 
-import org.ballcat.common.core.constant.MDCConstants;
-import org.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
-import org.ballcat.log.access.handler.AccessLogHandler;
-import org.ballcat.log.util.LogUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.ballcat.common.core.constant.MDCConstants;
+import org.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
 import org.slf4j.MDC;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -81,7 +79,7 @@ public class AccessLogFilter extends OncePerRequestFilter {
 
 		// 包装request，以保证可以重复读取body 但不对文件上传请求body进行处理
 		HttpServletRequest requestWrapper;
-		if (LogUtils.isMultipartContent(request)) {
+		if (isMultipartContent(request)) {
 			requestWrapper = request;
 		}
 		else {
@@ -127,6 +125,17 @@ public class AccessLogFilter extends OncePerRequestFilter {
 			// 重新写入数据到响应信息中
 			responseWrapper.copyBodyToResponse();
 		}
+	}
+
+	/**
+	 * 判断是否是multipart/form-data请求
+	 * @param request 请求信息
+	 * @return 是否是multipart/form-data请求
+	 */
+	public boolean isMultipartContent(HttpServletRequest request) {
+		// 获取Content-Type
+		String contentType = request.getContentType();
+		return (contentType != null) && (contentType.toLowerCase().startsWith("multipart/"));
 	}
 
 }
