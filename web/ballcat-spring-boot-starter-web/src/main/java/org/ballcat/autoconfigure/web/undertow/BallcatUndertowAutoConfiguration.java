@@ -6,6 +6,7 @@ import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.spec.ServletContextImpl;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -19,6 +20,7 @@ import java.io.File;
 /**
  * @author lingting 2023-06-12 16:07
  */
+@ConditionalOnClass(DeploymentInfo.class)
 @AutoConfiguration
 public class BallcatUndertowAutoConfiguration {
 
