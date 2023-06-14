@@ -13,7 +13,7 @@
 	<packaging>pom</packaging>
 	<name>ballcat</name>
 	<url>https://github.com/hccake/ballcat</url>
-	<description>项目基本脚手架</description>
+	<description>一个简单好用的功能组件库</description>
 
 	<modules>
 		<module>ballcat-dependencies</module>
@@ -82,12 +82,13 @@
 		<module>tesseract/ballcat-tesseract</module>
 
 		<module>web/ballcat-spring-boot-starter-web</module>
+		<module>web/ballcat-web</module>
 
 		<module>websocket/ballcat-websocket</module>
 		<module>websocket/ballcat-spring-boot-starter-websocket</module>
 
 		<module>xss/ballcat-spring-boot-starter-xss</module>
-	</modules>
+    </modules>
 
 	<properties>
 		<!-- maven 配置 -->

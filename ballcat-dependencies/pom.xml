@@ -540,6 +540,11 @@
 				<artifactId>ballcat-spring-boot-starter-web</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-web</artifactId>
+				<version>${revision}</version>
+			</dependency>
 
 			<!-- websocket -->
 			<dependency>

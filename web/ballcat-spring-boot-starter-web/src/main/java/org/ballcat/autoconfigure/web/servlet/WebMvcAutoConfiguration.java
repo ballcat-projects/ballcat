@@ -16,11 +16,11 @@
 package org.ballcat.autoconfigure.web.servlet;
 
 import lombok.RequiredArgsConstructor;
-import org.ballcat.autoconfigure.web.pageable.DefaultPageParamArgumentResolver;
-import org.ballcat.autoconfigure.web.pageable.PageParamArgumentResolver;
+import org.ballcat.web.pageable.DefaultPageParamArgumentResolver;
+import org.ballcat.web.pageable.PageParamArgumentResolver;
 import org.ballcat.autoconfigure.web.pageable.PageableProperties;
-import org.ballcat.autoconfigure.web.trace.TraceIdFilter;
-import org.ballcat.autoconfigure.web.trace.TraceIdGenerator;
+import org.ballcat.web.trace.TraceIdFilter;
+import org.ballcat.web.trace.TraceIdGenerator;
 import org.bson.types.ObjectId;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -66,7 +66,9 @@ public class WebMvcAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public PageParamArgumentResolver pageParamArgumentResolver(PageableProperties pageableProperties) {
-		return new DefaultPageParamArgumentResolver(pageableProperties);
+		return new DefaultPageParamArgumentResolver(pageableProperties.getMaxPageSize(),
+				pageableProperties.getPageParameterName(), pageableProperties.getSizeParameterName(),
+				pageableProperties.getSortParameterName());
 	}
 
 	@RequiredArgsConstructor

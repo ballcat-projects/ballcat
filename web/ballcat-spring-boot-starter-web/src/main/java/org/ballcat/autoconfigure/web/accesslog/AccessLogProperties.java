@@ -13,37 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.autoconfigure.web.pageable;
+package org.ballcat.autoconfigure.web.accesslog;
 
 import lombok.Data;
-import org.ballcat.common.model.domain.PageableConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
- * @author hccake
+ * 访问日志配置
+ *
+ * @author Hccake 2020/6/11 14:56
+ *
  */
 @Data
-@ConfigurationProperties("ballcat.pageable")
-public class PageableProperties {
+@ConfigurationProperties(prefix = AccessLogProperties.PREFIX)
+public class AccessLogProperties {
+
+	public static final String PREFIX = "ballcat.web.accesslog";
 
 	/**
-	 * 当前页的参数名
+	 * 开启 access log 的记录
 	 */
-	private String pageParameterName = PageableConstants.DEFAULT_PAGE_PARAMETER;
+	private boolean enabled = false;
 
 	/**
-	 * 每页数据量的参数名
+	 * access log filter 的优先级
+	 * @see org.springframework.core.Ordered
 	 */
-	private String sizeParameterName = PageableConstants.DEFAULT_SIZE_PARAMETER;
+	private Integer filterOrder = -1000;
 
 	/**
-	 * 排序规则的参数名
+	 * 忽略的Url匹配规则，Ant风格
 	 */
-	private String sortParameterName = PageableConstants.DEFAULT_SORT_PARAMETER;
-
-	/**
-	 * 分页查询的每页最大数据量
-	 */
-	private int maxPageSize = PageableConstants.DEFAULT_MAX_PAGE_SIZE;
+	private List<String> ignoreUrlPatterns = Arrays.asList("/actuator/**", "/webjars/**", "/favicon.ico",
+			"/swagger-ui/**", "/bycdao-ui/**", "/captcha/get");
 
 }

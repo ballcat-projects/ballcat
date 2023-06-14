@@ -13,6 +13,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>
+			<artifactId>ballcat-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ballcat</groupId>
 			<artifactId>ballcat-common-core</artifactId>
 		</dependency>
 		<dependency>
@@ -27,15 +31,10 @@
 			<groupId>org.ballcat</groupId>
 			<artifactId>ballcat-common-util</artifactId>
 		</dependency>
+		<!--webmvc-->
 		<dependency>
-			<groupId>org.ballcat</groupId>
-			<artifactId>ballcat-dingtalk</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.ballcat</groupId>
-			<artifactId>ballcat-spring-boot-starter-mail</artifactId>
-			<scope>provided</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<!--validation校验-->
 		<dependency>
@@ -45,6 +44,17 @@
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ballcat</groupId>
+			<artifactId>ballcat-dingtalk</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.ballcat</groupId>
+			<artifactId>ballcat-spring-boot-starter-mail</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<!-- 当引入 actuator 时，针对其异常进行处理 -->
 		<dependency>
@@ -58,10 +68,10 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<!--webmvc-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<!-- 当引入 security 时，针对其异常进行处理 -->
 		<dependency>
@@ -69,10 +79,5 @@
 			<artifactId>spring-security-core</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+    </dependencies>
 </project>
