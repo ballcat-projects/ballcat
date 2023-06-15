@@ -15,13 +15,32 @@
  */
 package org.ballcat.redis;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.common.value.WaitValue;
 import org.springframework.data.domain.Range;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStreamCommands;
 import org.springframework.data.redis.connection.RedisZSetCommands;
-import org.springframework.data.redis.connection.stream.*;
-import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.connection.stream.Consumer;
+import org.springframework.data.redis.connection.stream.MapRecord;
+import org.springframework.data.redis.connection.stream.ReadOffset;
+import org.springframework.data.redis.connection.stream.Record;
+import org.springframework.data.redis.connection.stream.RecordId;
+import org.springframework.data.redis.connection.stream.StreamOffset;
+import org.springframework.data.redis.connection.stream.StreamReadOptions;
+import org.springframework.data.redis.connection.stream.StreamRecords;
+import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
+import org.springframework.data.redis.core.SessionCallback;
+import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.StreamOperations;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -29,7 +48,17 @@ import org.springframework.lang.Nullable;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -57,54 +86,56 @@ public class RedisHelper {
 			"local r = redis.call('INCRBY', KEYS[1], ARGV[1]) redis.call('EXPIRE', KEYS[1], ARGV[2]) return r",
 			Long.class);
 
-	static RedisTemplate<String, String> redisTemplate;
+	static WaitValue<RedisTemplate<String, String>> redisTemplateValue;
 
+	@SneakyThrows
 	public static RedisTemplate<String, String> getRedisTemplate() {
-		return redisTemplate;
+		return redisTemplateValue.notNull();
 	}
 
+	@SneakyThrows
 	public static void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
-		RedisHelper.redisTemplate = redisTemplate;
+		redisTemplateValue.update(redisTemplate);
 	}
 
 	@SuppressWarnings("all")
 	private static RedisSerializer<String> getKeySerializer() {
-		return (RedisSerializer<String>) redisTemplate.getKeySerializer();
+		return (RedisSerializer<String>) getRedisTemplate().getKeySerializer();
 	}
 
 	@SuppressWarnings("all")
 	private static RedisSerializer<String> getValueSerializer() {
-		return (RedisSerializer<String>) redisTemplate.getValueSerializer();
+		return (RedisSerializer<String>) getRedisTemplate().getValueSerializer();
 	}
 
 	public static HashOperations<String, String, String> hashOps() {
-		return redisTemplate.opsForHash();
+		return getRedisTemplate().opsForHash();
 	}
 
 	public static ValueOperations<String, String> valueOps() {
-		return redisTemplate.opsForValue();
+		return getRedisTemplate().opsForValue();
 	}
 
 	public static ListOperations<String, String> listOps() {
-		return redisTemplate.opsForList();
+		return getRedisTemplate().opsForList();
 	}
 
 	public static SetOperations<String, String> setOps() {
-		return redisTemplate.opsForSet();
+		return getRedisTemplate().opsForSet();
 	}
 
 	public static ZSetOperations<String, String> zSetOps() {
-		return redisTemplate.opsForZSet();
+		return getRedisTemplate().opsForZSet();
 	}
 
 	public static StreamOperations<String, String, String> streamOps() {
-		return redisTemplate.opsForStream();
+		return getRedisTemplate().opsForStream();
 	}
 
 	// --------------------- key command start -----------------
 	@Deprecated
 	public static boolean hasKey(String key) {
-		Boolean b = redisTemplate.hasKey(key);
+		Boolean b = getRedisTemplate().hasKey(key);
 		return b != null && b;
 	}
 
@@ -113,7 +144,7 @@ public class RedisHelper {
 	 */
 	@Deprecated
 	public static boolean delete(String key) {
-		Boolean b = redisTemplate.delete(key);
+		Boolean b = getRedisTemplate().delete(key);
 		return b != null && b;
 	}
 
@@ -122,7 +153,7 @@ public class RedisHelper {
 	 */
 	@Deprecated
 	public static long delete(Collection<String> keys) {
-		Long l = redisTemplate.delete(keys);
+		Long l = getRedisTemplate().delete(keys);
 		return l == null ? 0 : l;
 	}
 
@@ -133,7 +164,7 @@ public class RedisHelper {
 	 * @see <a href="http://redis.io/commands/del">Del Command</a>
 	 */
 	public static boolean del(String key) {
-		return Boolean.TRUE.equals(redisTemplate.delete(key));
+		return Boolean.TRUE.equals(getRedisTemplate().delete(key));
 	}
 
 	/**
@@ -146,7 +177,7 @@ public class RedisHelper {
 	}
 
 	public static long del(Collection<String> keys) {
-		Long deleteNumber = redisTemplate.delete(keys);
+		Long deleteNumber = getRedisTemplate().delete(keys);
 		return deleteNumber == null ? 0 : deleteNumber;
 	}
 
@@ -157,7 +188,7 @@ public class RedisHelper {
 	 * @see <a href="http://redis.io/commands/exists">Exists Command</a>
 	 */
 	public static boolean exists(String key) {
-		return Boolean.TRUE.equals(redisTemplate.hasKey(key));
+		return Boolean.TRUE.equals(getRedisTemplate().hasKey(key));
 	}
 
 	/**
@@ -171,7 +202,7 @@ public class RedisHelper {
 	}
 
 	public static long exists(Collection<String> keys) {
-		Long number = redisTemplate.countExistingKeys(keys);
+		Long number = getRedisTemplate().countExistingKeys(keys);
 		return number == null ? 0 : number;
 	}
 
@@ -192,7 +223,7 @@ public class RedisHelper {
 	 * @param timeUnit 时间单位
 	 */
 	public static boolean expire(String key, long timeout, TimeUnit timeUnit) {
-		return Boolean.TRUE.equals(redisTemplate.expire(key, timeout, timeUnit));
+		return Boolean.TRUE.equals(getRedisTemplate().expire(key, timeout, timeUnit));
 	}
 
 	/**
@@ -203,11 +234,11 @@ public class RedisHelper {
 	 * @see <a href="https://redis.io/commands/expireat/">ExpireAt Command</a>
 	 */
 	public static boolean expireAt(String key, Date date) {
-		return Boolean.TRUE.equals(redisTemplate.expireAt(key, date));
+		return Boolean.TRUE.equals(getRedisTemplate().expireAt(key, date));
 	}
 
 	public static boolean expireAt(String key, Instant expireAt) {
-		return Boolean.TRUE.equals(redisTemplate.expireAt(key, expireAt));
+		return Boolean.TRUE.equals(getRedisTemplate().expireAt(key, expireAt));
 	}
 
 	/**
@@ -217,7 +248,7 @@ public class RedisHelper {
 	 * @see <a href="http://redis.io/commands/keys">Keys Command</a>
 	 */
 	public static Set<String> keys(String pattern) {
-		return redisTemplate.keys(pattern);
+		return getRedisTemplate().keys(pattern);
 	}
 
 	/**
@@ -229,7 +260,7 @@ public class RedisHelper {
 	 * @see <a href="http://redis.io/commands/ttl">TTL Command</a>
 	 */
 	public static long ttl(String key) {
-		return redisTemplate.getExpire(key);
+		return getRedisTemplate().getExpire(key);
 	}
 
 	/**
@@ -239,7 +270,7 @@ public class RedisHelper {
 	 * @see <a href="https://redis.io/commands/scan/">Scan Command</a>
 	 */
 	public static Cursor<String> scan(ScanOptions scanOptions) {
-		return redisTemplate.scan(scanOptions);
+		return getRedisTemplate().scan(scanOptions);
 	}
 
 	/**
@@ -379,8 +410,8 @@ public class RedisHelper {
 	 * @return 自增后的 value 值
 	 */
 	public static long incrByAndExpire(String key, long delta, long timeout) {
-		return redisTemplate.execute(INCR_BY_EXPIRE_LUA_SCRIPT, Collections.singletonList(key), String.valueOf(delta),
-				String.valueOf(timeout));
+		return getRedisTemplate().execute(INCR_BY_EXPIRE_LUA_SCRIPT, Collections.singletonList(key),
+				String.valueOf(delta), String.valueOf(timeout));
 	}
 
 	/**
@@ -1625,7 +1656,7 @@ public class RedisHelper {
 	 * @return T
 	 */
 	public static <T> T execute(RedisCallback<T> action) {
-		return redisTemplate.execute(action);
+		return getRedisTemplate().execute(action);
 	}
 
 	@Nullable
@@ -1635,20 +1666,20 @@ public class RedisHelper {
 
 	@Nullable
 	public static <T> T execute(RedisCallback<T> action, boolean exposeConnection, boolean pipeline) {
-		return redisTemplate.execute(action, exposeConnection, pipeline);
+		return getRedisTemplate().execute(action, exposeConnection, pipeline);
 	}
 
 	public static <T> T execute(SessionCallback<T> session) {
-		return redisTemplate.execute(session);
+		return getRedisTemplate().execute(session);
 	}
 
 	public static <T> T execute(RedisScript<T> script, List<String> keys, Object... args) {
-		return redisTemplate.execute(script, keys, args);
+		return getRedisTemplate().execute(script, keys, args);
 	}
 
 	public static <T> T execute(RedisScript<T> script, RedisSerializer<?> argsSerializer,
 			RedisSerializer<T> resultSerializer, List<String> keys, Object... args) {
-		return redisTemplate.execute(script, argsSerializer, resultSerializer, keys, args);
+		return getRedisTemplate().execute(script, argsSerializer, resultSerializer, keys, args);
 	}
 
 	/**
@@ -1660,7 +1691,8 @@ public class RedisHelper {
 
 		try {
 			RedisScript<String> redisScript = new DefaultRedisScript<>(lua, String.class);
-			return redisTemplate.execute(redisScript, RedisSerializer.string(), RedisSerializer.string(), key, arg);
+			return getRedisTemplate().execute(redisScript, RedisSerializer.string(), RedisSerializer.string(), key,
+					arg);
 		}
 		catch (Exception e) {
 			log.error("redis evalLua execute fail:lua[{}]", lua, e);
@@ -1671,21 +1703,21 @@ public class RedisHelper {
 	// ----------------------- pipelined 操作 --------------------
 
 	public static List<Object> executePipelined(SessionCallback<?> session) {
-		return redisTemplate.executePipelined(session);
+		return getRedisTemplate().executePipelined(session);
 	}
 
 	public static List<Object> executePipelined(SessionCallback<?> session,
 			@Nullable RedisSerializer<?> resultSerializer) {
-		return redisTemplate.executePipelined(session, resultSerializer);
+		return getRedisTemplate().executePipelined(session, resultSerializer);
 	}
 
 	public static List<Object> executePipelined(RedisCallback<?> action) {
-		return redisTemplate.executePipelined(action);
+		return getRedisTemplate().executePipelined(action);
 	}
 
 	public static List<Object> executePipelined(RedisCallback<?> action,
 			@Nullable RedisSerializer<?> resultSerializer) {
-		return redisTemplate.executePipelined(action, resultSerializer);
+		return getRedisTemplate().executePipelined(action, resultSerializer);
 	}
 
 	// =================== PUB/SUB command start =================
@@ -1696,7 +1728,7 @@ public class RedisHelper {
 	 * @param message 消息
 	 */
 	public static void publish(String channel, String message) {
-		redisTemplate.convertAndSend(channel, message);
+		getRedisTemplate().convertAndSend(channel, message);
 	}
 
 	/**
@@ -1705,7 +1737,7 @@ public class RedisHelper {
 	 * @param message 消息
 	 */
 	public static void publish(String channel, byte[] message) {
-		redisTemplate.convertAndSend(channel, message);
+		getRedisTemplate().convertAndSend(channel, message);
 	}
 
 	// =================== PUB/SUB command end =================
@@ -1758,7 +1790,7 @@ public class RedisHelper {
 			rawContent.put(keySerializer.serialize(entry.getKey()), valueSerializer.serialize(entry.getValue()));
 		}
 
-		return redisTemplate.execute((RedisConnection conn) -> conn.streamCommands()
+		return getRedisTemplate().execute((RedisConnection conn) -> conn.streamCommands()
 			.xAdd(Record.of(rawContent).withStreamKey(rawKey), xAddOptions));
 	}
 
@@ -1788,7 +1820,7 @@ public class RedisHelper {
 		RedisSerializer<String> keySerializer = getKeySerializer();
 		byte[] rawKey = keySerializer.serialize(key);
 
-		return redisTemplate.execute((RedisConnection conn) -> conn.streamCommands()
+		return getRedisTemplate().execute((RedisConnection conn) -> conn.streamCommands()
 			.xGroupCreate(rawKey, groupName, readOffset, makeStream));
 	}
 
