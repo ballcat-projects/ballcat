@@ -39,6 +39,7 @@ public class BallcatUndertowAutoConfiguration {
 	 * 定时创建 undertow 的用来上传文件的临时文件夹, 避免文件上传异常 /tmp/undertow.35301.2529636817692511076
 	 */
 	@Bean
+	@ConditionalOnMissingBean
 	public UndertowTimer undertowTimer(ServletContext context) {
 		File dir = null;
 		if (context instanceof ServletContextImpl) {
