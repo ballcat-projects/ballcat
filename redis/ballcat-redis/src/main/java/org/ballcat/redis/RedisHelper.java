@@ -46,9 +46,7 @@ import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.lang.Nullable;
 
-import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -133,29 +131,6 @@ public class RedisHelper {
 	}
 
 	// --------------------- key command start -----------------
-	@Deprecated
-	public static boolean hasKey(String key) {
-		Boolean b = getRedisTemplate().hasKey(key);
-		return b != null && b;
-	}
-
-	/**
-	 * @deprecated use {@link #del(String)}
-	 */
-	@Deprecated
-	public static boolean delete(String key) {
-		Boolean b = getRedisTemplate().delete(key);
-		return b != null && b;
-	}
-
-	/**
-	 * @deprecated use {@link #del(Collection)}
-	 */
-	@Deprecated
-	public static long delete(Collection<String> keys) {
-		Long l = getRedisTemplate().delete(keys);
-		return l == null ? 0 : l;
-	}
 
 	/**
 	 * 删除指定的 key
@@ -422,42 +397,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * 给 key +1
-	 * @deprecated {@link #incr(String)}
-	 */
-	@Deprecated
-	public static Long increment(String key) {
-		return valueOps().increment(key);
-	}
-
-	/**
-	 * 给 key 增加 指定数值
-	 * @deprecated {@link #incrBy(String, long)}
-	 */
-	@Deprecated
-	public static Long increment(String key, long delta) {
-		return valueOps().increment(key, delta);
-	}
-
-	/**
-	 * @deprecated {@link #incrAndExpire(String, long)}}
-	 */
-	@Deprecated
-	public static Long incrementAndExpire(String key, long time) {
-		return incrementAndExpire(key, 1, time);
-	}
-
-	/**
-	 * @deprecated {@link #incrByAndExpire(String, long, long)}}
-	 */
-	@Deprecated
-	public static Long incrementAndExpire(String key, long delta, long time) {
-		Long increment = valueOps().increment(key, delta);
-		expire(key, time);
-		return increment;
-	}
-
-	/**
 	 * 从指定的 keys 批量获取 values
 	 * @param keys keys
 	 * @return values list，当值为空时，该 key 对应的 value 为 null
@@ -506,15 +445,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * @deprecated {@link #mGet(Collection)}
-	 */
-	@Deprecated
-	public static List<String> multiGet(Collection<String> keys) {
-		List<String> list = valueOps().multiGet(keys);
-		return list == null ? new ArrayList<>() : new ArrayList<>(list);
-	}
-
-	/**
 	 * 设置 value for key
 	 * @param key 指定的 key
 	 * @param value 值
@@ -545,19 +475,6 @@ public class RedisHelper {
 	 */
 	public static void set(String key, String value, long timeout, TimeUnit timeUnit) {
 		setEx(key, value, timeout, timeUnit);
-	}
-
-	/**
-	 * 缓存数据
-	 * @param key key
-	 * @param val val
-	 * @param instant 在指定时间过期
-	 * @deprecated {{@link #setExAt(String, String, Instant)}}
-	 */
-	@Deprecated
-	public static void set(String key, String val, Instant instant) {
-		valueOps().set(key, val);
-		getRedisTemplate().expireAt(key, instant);
 	}
 
 	/**
@@ -606,19 +523,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * 如果 key 不存在，则设置 key为 val
-	 * @param key key
-	 * @param value val
-	 * @return boolean
-	 * @deprecated {@link #setNx(String, String)}
-	 */
-	@Deprecated
-	public static boolean setIfAbsent(String key, String value) {
-		Boolean b = valueOps().setIfAbsent(key, value);
-		return b != null && b;
-	}
-
-	/**
 	 * 当 key 不存在时，进行 value 设置并添加过期时间，当 key 存在时不执行操作
 	 * @param key key
 	 * @param value value
@@ -643,19 +547,6 @@ public class RedisHelper {
 		return Boolean.TRUE.equals(valueOps().setIfAbsent(key, value, timeout, timeUnit));
 	}
 
-	/**
-	 * 如果key存在则设置
-	 * @param key key
-	 * @param value 值
-	 * @param time 过期时间, 单位 秒
-	 * @return boolean
-	 * @deprecated {@link #setNxEx(String, String, long)}
-	 */
-	@Deprecated
-	public static boolean setIfAbsent(String key, String value, long time) {
-		Boolean b = valueOps().setIfAbsent(key, value, Duration.ofSeconds(time));
-		return b != null && b;
-	}
 	// ----------------------- string command end -------------
 
 	// ---------------------- hash command start ---------------
@@ -788,14 +679,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * @deprecated {@link #hSet(String, String, String)}
-	 */
-	@Deprecated
-	public static void hashSet(String key, String field, String value) {
-		hashOps().put(key, field, value);
-	}
-
-	/**
 	 * 修改 hash 中的 field 的值，有则不进行操作，无则添加
 	 * @param key hash 的 key
 	 * @param field field
@@ -816,30 +699,6 @@ public class RedisHelper {
 		return hashOps().values(key);
 	}
 
-	/**
-	 * 获取 指定 key 中 指定 field 的值
-	 * @param key key
-	 * @param field field
-	 * @return java.lang.Object
-	 * @deprecated {@link #hGet(String, String)}
-	 */
-	@Deprecated
-	public static String hashGet(String key, String field) {
-		Object o = hashOps().get(key, field);
-		return o == null ? null : o.toString();
-	}
-
-	/**
-	 * 移除指定 key中的 字段
-	 * @param key key
-	 * @param fields 字段
-	 * @return java.lang.Long
-	 * @deprecated {@link #hDel(String, String...)}
-	 */
-	@Deprecated
-	public static Long hashDelete(String key, String... fields) {
-		return hashOps().delete(key, (Object[]) fields);
-	}
 	// -------------------------- hash command end --------------------------------
 
 	// -------------------------- list command start --------------------------------
@@ -856,15 +715,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * 获知指定key中指定索引的值
-	 * @deprecated {@link #lIndex(String, long)}
-	 */
-	@Deprecated
-	public static String listIndex(String key, long index) {
-		return listOps().index(key, index);
-	}
-
-	/**
 	 * 获取指定 list 的元素个数即长度
 	 * @param key list 的 key
 	 * @return 返回 list 的长度，当 list 不存在时返回 0
@@ -872,15 +722,6 @@ public class RedisHelper {
 	 */
 	public static long lLen(String key) {
 		return listOps().size(key);
-	}
-
-	/**
-	 * @deprecated {@link #lLen(String)}
-	 */
-	@Deprecated
-	public static long listSize(String key) {
-		Long size = listOps().size(key);
-		return size == null ? 0 : size;
 	}
 
 	/**
@@ -906,14 +747,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * @deprecated {@link #lPop(String)}
-	 */
-	@Deprecated
-	public static String listLeftPop(String key) {
-		return listOps().leftPop(key);
-	}
-
-	/**
 	 * 该命令返回 list 匹配元素的索引。它会从头到尾扫描列表，寻找 “element” 的第一个匹配项。
 	 * @param key list 的 key
 	 * @param element 查找的元素
@@ -923,15 +756,6 @@ public class RedisHelper {
 	 */
 	public static Long lPos(String key, String element) {
 		return listOps().indexOf(key, element);
-	}
-
-	/**
-	 * 获取指定值在指定key中的索引
-	 * @deprecated {@link #lPos(String, String)}
-	 */
-	@Deprecated
-	public static Long listIndexOf(String key, String val) {
-		return listOps().indexOf(key, val);
 	}
 
 	/**
@@ -957,17 +781,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * 插入列表
-	 * @param key key
-	 * @param val val
-	 * @deprecated {@link #lPush(String, String...)}
-	 */
-	@Deprecated
-	public static Long listLeftPush(String key, String val) {
-		return listOps().leftPush(key, val);
-	}
-
-	/**
 	 * 获取 list 指定 offset 间的元素。
 	 * @param key list 的 key
 	 * @param start begin offset, 从 0 开始，0 表示列表第一个元素，也可以为负数，表示从 list 末尾开始的偏移量， -1
@@ -978,15 +791,6 @@ public class RedisHelper {
 	 */
 	public static List<String> lRange(String key, long start, long end) {
 		return listOps().range(key, start, end);
-	}
-
-	/**
-	 * 获取 list 中的所有元素
-	 * @deprecated use lRange(key, 0, -1) {@link #lRange(String, long, long)}
-	 */
-	@Deprecated
-	public static List<String> listGet(String key) {
-		return listOps().range(key, 0, listSize(key) - 1);
 	}
 
 	/**
@@ -1004,45 +808,6 @@ public class RedisHelper {
 	 */
 	public static long lRem(String key, long count, String value) {
 		return listOps().remove(key, count, value);
-	}
-
-	/**
-	 * use lrem(key, 1, value) {@link #lRem(String, long, String)}
-	 */
-	@Deprecated
-	public static Long listRemove(String key, String val) {
-		return listRemove(key, 1, val);
-	}
-
-	/**
-	 * @param count 删除多少个
-	 */
-	@Deprecated
-	public static Long listRemove(String key, long count, String val) {
-		return listOps().remove(key, count, val);
-	}
-
-	@Deprecated
-	private static long listSet(String key, List<String> list) {
-		long l = 0;
-		for (String str : list) {
-			l += listLeftPush(key, str);
-		}
-		return l;
-	}
-
-	/**
-	 * 插入list 并设置过期时间
-	 * @param key key
-	 * @param list list 值
-	 * @param time 过期时间
-	 * @return long
-	 */
-	@Deprecated
-	public static long listSet(String key, List<String> list, long time) {
-		long l = listSet(key, list);
-		expire(key, time);
-		return l;
 	}
 
 	/**
@@ -1113,21 +878,6 @@ public class RedisHelper {
 		return listOps().rightPushAll(key, values);
 	}
 
-	/**
-	 * @deprecated {@link #rPush(String, String...)}
-	 */
-	@Deprecated
-	public static Long listRightPush(String key, String val) {
-		return listOps().rightPush(key, val);
-	}
-
-	/**
-	 * @deprecated {@link #rPop(String)}
-	 */
-	@Deprecated
-	public static String listRightPop(String key) {
-		return listOps().rightPop(key);
-	}
 	// -------------------------- list command end --------------------------------
 
 	// -------------------------- Set command start --------------------------------
@@ -1159,30 +909,12 @@ public class RedisHelper {
 	}
 
 	/**
-	 * Set中添加数据
-	 * @deprecated {@link #sAdd(String, String...)}
-	 */
-	@Deprecated
-	public static Long setAdd(String key, String... values) {
-		return setOps().add(key, values);
-	}
-
-	/**
 	 * 返回 Set 中的元素数，如果 set 不存在则返回 0
 	 * @param key Set 的 key
 	 * @return The cardinality (number of elements) of the set
 	 * @see <a href="https://redis.io/commands/scard/">SCard Command</a>
 	 */
 	public static long sCard(String key) {
-		return setOps().size(key);
-	}
-
-	/**
-	 * 获取集合中元素数量
-	 * @deprecated {@link #sCard(String)}
-	 */
-	@Deprecated
-	public static Long setSize(String key) {
 		return setOps().size(key);
 	}
 
@@ -1238,15 +970,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * 随机弹出一个元素
-	 * @deprecated {@link #sPop(String)}
-	 */
-	@Deprecated
-	public static String setPop(String key) {
-		return setOps().pop(key);
-	}
-
-	/**
 	 * 随机从 Set 中返回一个元素，但不删除，如果 Set 为空，则返回 null
 	 * <p>
 	 * Time complexity O(1)
@@ -1283,15 +1006,6 @@ public class RedisHelper {
 	 */
 	public static long sRem(String key, String... members) {
 		return setOps().remove(key, (Object[]) members);
-	}
-
-	/**
-	 * 移除集合中的元素
-	 * @deprecated {@link #sRem(String, String...)}
-	 */
-	@Deprecated
-	public static Long setRemove(String key, String... values) {
-		return setOps().remove(key, (Object[]) values);
 	}
 
 	/**
@@ -1342,15 +1056,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * zset中添加数据
-	 * @deprecated {@link #zAdd(String, double, String)}
-	 */
-	@Deprecated
-	public static Boolean zSetAdd(String key, String value, double score) {
-		return zSetOps().add(key, value, score);
-	}
-
-	/**
 	 * 返回 Sorted Set 的元素数量，若 key 不存在则返回 0
 	 * <p>
 	 * Time complexity O(1)
@@ -1359,15 +1064,6 @@ public class RedisHelper {
 	 * @see <a href="https://redis.io/commands/zcard/">ZCard Command</a>
 	 */
 	public static long zCard(String key) {
-		return zSetOps().size(key);
-	}
-
-	/**
-	 * 获取有序集合中元素数量
-	 * @deprecated {@link #zCard(String)}
-	 */
-	@Deprecated
-	public static Long zSetSize(String key) {
 		return zSetOps().size(key);
 	}
 
@@ -1455,15 +1151,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * 随机弹出一个元素
-	 * @deprecated {@link #zRandMember(String)}
-	 */
-	@Deprecated
-	public static String zSetRandom(String key) {
-		return zSetOps().randomMember(key);
-	}
-
-	/**
 	 * 返回 Sorted Set 中指定索引范围内的 member.
 	 * <p>
 	 * Time complexity O(log(N)+M) with N being the number of elements in the sorted set
@@ -1546,24 +1233,6 @@ public class RedisHelper {
 	}
 
 	/**
-	 * 移除有序集合中的元素
-	 * @deprecated {@link #zRem(String, String...)}
-	 */
-	@Deprecated
-	public static Long zSetRemove(String key, String... values) {
-		return zSetOps().remove(key, (Object[]) values);
-	}
-
-	/**
-	 * 在有序集合中的排名
-	 * @deprecated {@link #zRank(String, String)}
-	 */
-	@Deprecated
-	public static Long zSetRank(String key, String value) {
-		return zSetOps().rank(key, value);
-	}
-
-	/**
 	 * 返回 Sorted Set 中 index 在 start 和 end 之前的所有成员（包括 start 和 end）。
 	 * <p>
 	 * 与默认的排序规则相反，元素的顺序是按分数从高到低进行的，具有相同分数的元素以相反的字典顺序排序
@@ -1613,42 +1282,6 @@ public class RedisHelper {
 		return zSetOps().score(key, member);
 	}
 
-	/**
-	 * 在有序集合中的排名, 从小到大
-	 * @deprecated {@link #zRange(String, long, long)}
-	 */
-	@Deprecated
-	public static Set<String> zSetRange(String key, int start, int end) {
-		return zSetOps().range(key, start, end);
-	}
-
-	/**
-	 * 在有序集合中的排名, 从大到小
-	 * @deprecated {@link #zRevRange(String, long, long)}
-	 */
-	@Deprecated
-	public static Set<String> zSetReverseRange(String key, int start, int end) {
-		return zSetOps().reverseRange(key, start, end);
-	}
-
-	/**
-	 * 在有序集合中的排名, 分数区间, 从小到大
-	 * @deprecated {@link #zRangeByScore(String, double, double)}
-	 */
-	@Deprecated
-	public static Set<String> zSetRangeByScore(String key, double min, double max) {
-		return zSetOps().rangeByScore(key, min, max);
-	}
-
-	/**
-	 * 在有序集合中的排名, 分数区间, 从大到小
-	 * @deprecated {@link #zRevRangeByScore(String, double, double)}
-	 */
-	@Deprecated
-	public static Set<String> zSetReverseRangeByScore(String key, double min, double max) {
-		return zSetOps().reverseRangeByScore(key, min, max);
-	}
-
 	// -------------------------------- lua 脚本 --------------------------
 	/**
 	 * 执行 lua脚本
@@ -1680,24 +1313,6 @@ public class RedisHelper {
 	public static <T> T execute(RedisScript<T> script, RedisSerializer<?> argsSerializer,
 			RedisSerializer<T> resultSerializer, List<String> keys, Object... args) {
 		return getRedisTemplate().execute(script, argsSerializer, resultSerializer, keys, args);
-	}
-
-	/**
-	 * @deprecated RedisScript 应该做为单例，而不是每次生成，不推荐直接使用此方法
-	 */
-	@Deprecated
-	public static Object evalLua(String lua, List<String> key, Object... argv) {
-		String[] arg = Arrays.stream(argv).map(String::valueOf).toArray(String[]::new);
-
-		try {
-			RedisScript<String> redisScript = new DefaultRedisScript<>(lua, String.class);
-			return getRedisTemplate().execute(redisScript, RedisSerializer.string(), RedisSerializer.string(), key,
-					arg);
-		}
-		catch (Exception e) {
-			log.error("redis evalLua execute fail:lua[{}]", lua, e);
-			return "false";
-		}
 	}
 
 	// ----------------------- pipelined 操作 --------------------
