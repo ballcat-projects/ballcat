@@ -93,7 +93,14 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
-
+			<!-- GRPC -->
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-bom</artifactId>
+				<version>${grpc.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<!-- ======================= 第三方依赖 ===================== -->
 			<!--easyExcel 处理-->
 			<dependency>
@@ -274,23 +281,6 @@
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-oauth2-authorization-server</artifactId>
 				<version>${spring-authorization-server.version}</version>
-			</dependency>
-
-			<!--grpc-->
-			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-protobuf</artifactId>
-				<version>${grpc.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-stub</artifactId>
-				<version>${grpc.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-netty</artifactId>
-				<version>${grpc.version}</version>
 			</dependency>
 
 			<!--region ============= 定义ballcat 自身模块版本 ================== -->
