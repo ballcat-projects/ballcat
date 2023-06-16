@@ -55,7 +55,7 @@ public class ExceptionNoticeConfiguration {
 
 	@ConditionalOnClass(DingTalkSender.class)
 	@ConditionalOnMissingBean(DingTalkExceptionNotifier.class)
-	@ConditionalOnProperty(prefix = ExceptionNoticeProperties.PREFIX, name = "ding-talk.senders")
+	@ConditionalOnProperty(prefix = ExceptionNoticeProperties.PREFIX, name = "ding-talk.sender")
 	@Configuration(proxyBeanMethods = false)
 	static class DingTalkExceptionNotifierConfiguration {
 
