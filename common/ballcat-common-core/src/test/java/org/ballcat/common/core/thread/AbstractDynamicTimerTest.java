@@ -15,7 +15,6 @@
  */
 package org.ballcat.common.core.thread;
 
-import org.ballcat.common.core.thread.AbstractDynamicTimer;
 import org.ballcat.common.util.LocalDateTimeUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +28,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author lingting 2023-04-22 11:18
@@ -53,32 +53,23 @@ class AbstractDynamicTimerTest {
 	@Test
 	void test() throws InterruptedException {
 		LocalDateTime now = LocalDateTime.now();
-		Action a10 = new Action("10", now.plusSeconds(10));
-		Action a5 = new Action("5", now.plusSeconds(5));
-		Action a30 = new Action("30", now.plusSeconds(30));
+		Action a1 = new Action("1", now.plusSeconds(1));
 		Action a2 = new Action("2", now.plusSeconds(2));
-		Action a20 = new Action("20", now.plusSeconds(20));
-		Action a15 = new Action("15", now.plusSeconds(15));
+		Action a4 = new Action("4", now.plusSeconds(4));
 
-		timer.put(a10);
-		timer.put(a5);
-		timer.put(a30);
-
-		TimeUnit.SECONDS.sleep(3);
-		sleep(3);
+		timer.put(a1);
 		timer.put(a2);
+		timer.put(a4);
 
-		sleep(12);
-		timer.put(a15);
-		sleep(10);
-		timer.put(a20);
+		TimeUnit.MILLISECONDS.sleep(1050);
+		Assertions.assertEquals(1, timer.getProcessedCount());
 
-		sleep(20);
-		Assertions.assertEquals(6, timer.count);
-	}
+		TimeUnit.SECONDS.sleep(1);
+		Assertions.assertEquals(2, timer.getProcessedCount());
 
-	void sleep(long seconds) throws InterruptedException {
-		Thread.sleep(seconds * 1000);
+		timer.put(a2);
+		TimeUnit.MILLISECONDS.sleep(2050);
+		Assertions.assertEquals(4, timer.getProcessedCount());
 	}
 
 	@Data
@@ -94,14 +85,14 @@ class AbstractDynamicTimerTest {
 	/**
 	 * 按照执行时间依次执行.
 	 */
-	public static class DynamicTimer extends AbstractDynamicTimer<Action> {
+	private static class DynamicTimer extends AbstractDynamicTimer<Action> {
 
-		private long count = 0;
+		private final AtomicInteger processedCount = new AtomicInteger(0);
 
 		@Override
 		public Comparator<Action> comparator() {
 			return (o1, o2) -> {
-				System.out.printf("运算优先级. o1: %s, o2: %s%n", o1.id, o2.id);
+				System.out.printf("【comparator】运算优先级. o1: %s, o2: %s%n", o1.id, o2.id);
 				Duration duration = Duration.between(o1.execTime, o2.execTime);
 				if (duration.isZero()) {
 					return 0;
@@ -115,16 +106,21 @@ class AbstractDynamicTimerTest {
 			LocalDateTime now = LocalDateTime.now();
 			Duration duration = Duration.between(now, action.execTime);
 			long millis = duration.toMillis();
-			System.out.printf("当前时间: %s; 计算休眠时间. %s. 休眠: %d毫秒%n", LocalDateTimeUtils.format(now), action.id, millis);
+			System.out.printf("【sleepTime】当前时间: %s; 计算休眠时间. %s. 休眠: %d毫秒%n", LocalDateTimeUtils.format(now), action.id,
+					millis);
 			return millis;
 		}
 
 		@Override
 		protected void process(Action action) {
 			String format = LocalDateTimeUtils.format(LocalDateTime.now());
-			System.out.printf("当前时间: %s; 执行: %s; 预计执行时间: %s%n", format, action.id,
+			System.out.printf("【process】当前时间: %s; 执行: %s; 预计执行时间: %s%n", format, action.id,
 					LocalDateTimeUtils.format(action.execTime));
-			count += 1;
+			this.processedCount.incrementAndGet();
+		}
+
+		public int getProcessedCount() {
+			return this.processedCount.get();
 		}
 
 	}
