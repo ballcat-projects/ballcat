@@ -382,7 +382,7 @@
 			<!-- job 定时任务 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-job</artifactId>
+				<artifactId>ballcat-spring-boot-starter-xxljob</artifactId>
 				<version>${revision}</version>
 			</dependency>
 
