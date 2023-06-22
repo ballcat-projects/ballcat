@@ -43,7 +43,7 @@
 		<rocketmq.version>2.2.0</rocketmq.version>
 		<software.amazon.awssdk.version>2.20.70</software.amazon.awssdk.version>
 		<spring-authorization-server.version>0.4.3</spring-authorization-server.version>
-		<spring-boot.version>2.7.12</spring-boot.version>
+		<spring-boot.version>2.7.13</spring-boot.version>
 		<springdoc-openapi.verison>1.7.0</springdoc-openapi.verison>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.6.8</swagger.version>
