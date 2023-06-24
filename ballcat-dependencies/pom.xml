@@ -35,8 +35,9 @@
 		<jsoup.version>1.15.3</jsoup.version>
 		<jsqlparser.version>4.3</jsqlparser.version>
 		<kafka.version>2.6.3</kafka.version>
-		<lombok.version>1.18.26</lombok.version>
-		<mapstruct.version>1.5.3.Final</mapstruct.version>
+		<lombok.version>1.18.28</lombok.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<mybatis-plus.version>3.5.3.1</mybatis-plus.version>
 		<mybatis.version>3.5.10</mybatis.version>
 		<poi.version>4.1.2</poi.version>
