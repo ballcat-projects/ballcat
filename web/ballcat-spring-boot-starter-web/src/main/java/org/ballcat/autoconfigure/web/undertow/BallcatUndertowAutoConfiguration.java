@@ -16,8 +16,8 @@ import java.io.File;
 /**
  * @author lingting 2023-06-12 16:07
  */
-@ConditionalOnClass(DeploymentInfo.class)
 @AutoConfiguration
+@ConditionalOnClass(DeploymentInfo.class)
 public class BallcatUndertowAutoConfiguration {
 
 	@Bean
@@ -31,7 +31,7 @@ public class BallcatUndertowAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public UndertowTimer undertowTimer(ServletContext context) {
+	public BallcatUndertowTimer undertowTimer(ServletContext context) {
 		File dir = null;
 		if (context instanceof ServletContextImpl) {
 			Deployment deployment = ((ServletContextImpl) context).getDeployment();
@@ -45,7 +45,7 @@ public class BallcatUndertowAutoConfiguration {
 			}
 		}
 
-		return new UndertowTimer(dir);
+		return new BallcatUndertowTimer(dir);
 	}
 
 }
