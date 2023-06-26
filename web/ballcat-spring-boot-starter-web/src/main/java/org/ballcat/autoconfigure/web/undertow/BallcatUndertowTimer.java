@@ -6,7 +6,7 @@ import org.ballcat.common.core.thread.AbstractTimer;
 import java.io.File;
 
 @RequiredArgsConstructor
-public class UndertowTimer extends AbstractTimer {
+public class BallcatUndertowTimer extends AbstractTimer {
 
 	protected final File dir;
 
