@@ -17,11 +17,10 @@ package org.ballcat.autoconfigure.web.accesslog;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ballcat.web.accesslog.AccessLogFilter;
-import org.ballcat.web.accesslog.AccessLogHandler;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.ballcat.web.accesslog.AbstractAccessLogFilter;
+import org.ballcat.web.accesslog.DefaultAccessLogFilter;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -37,16 +36,19 @@ import org.springframework.context.annotation.Bean;
 		havingValue = "true")
 public class AccessLogAutoConfiguration {
 
-	private final AccessLogHandler<?> accessLogHandler;
-
 	private final AccessLogProperties accessLogProperties;
 
 	@Bean
-	@ConditionalOnClass(AccessLogHandler.class)
-	public FilterRegistrationBean<AccessLogFilter> accessLogFilterRegistrationBean() {
-		log.debug("access log 记录拦截器已开启====");
-		FilterRegistrationBean<AccessLogFilter> registrationBean = new FilterRegistrationBean<>(
-				new AccessLogFilter(accessLogHandler, accessLogProperties.getIgnoreUrlPatterns()));
+	public FilterRegistrationBean<AbstractAccessLogFilter> accessLogFilterRegistrationBean(
+			ObjectProvider<AbstractAccessLogFilter> logFilterObjectProvider) {
+		log.info("=== Access log 记录拦截器已开启 ====");
+		AbstractAccessLogFilter accessLogFilter = logFilterObjectProvider.getIfAvailable();
+		if (accessLogFilter == null) {
+			accessLogFilter = new DefaultAccessLogFilter(accessLogProperties.getSettings());
+			accessLogFilter.setMaxPayloadLength(accessLogProperties.getMaxPayloadLength());
+		}
+		FilterRegistrationBean<AbstractAccessLogFilter> registrationBean = new FilterRegistrationBean<>(
+				accessLogFilter);
 		registrationBean.setOrder(accessLogProperties.getFilterOrder());
 		return registrationBean;
 	}

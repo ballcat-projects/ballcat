@@ -18,8 +18,8 @@ public class BallcatUndertowServletWebServerFactory
 		WebSocketDeploymentInfo webSocketDeploymentInfo = new WebSocketDeploymentInfo();
 		webSocketDeploymentInfo.setBuffers(buffers);
 
-		factory.addDeploymentInfoCustomizers(deploymentInfo -> deploymentInfo.addServletContextAttribute("io.undertow.websockets.jsr.WebSocketDeploymentInfo",
-				webSocketDeploymentInfo));
+		factory.addDeploymentInfoCustomizers(deploymentInfo -> deploymentInfo
+			.addServletContextAttribute("io.undertow.websockets.jsr.WebSocketDeploymentInfo", webSocketDeploymentInfo));
 	}
 
 }

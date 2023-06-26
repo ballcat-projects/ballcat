@@ -37,24 +37,24 @@ import java.util.Map;
 @Slf4j
 public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 
-	private final byte[] body;
+	private final byte[] bodyByteArray;
 
 	private final Map<String, String[]> parameterMap;
 
 	public RepeatBodyRequestWrapper(HttpServletRequest request) {
 		super(request);
+		this.bodyByteArray = getByteBody(request);
 		this.parameterMap = super.getParameterMap();
-		this.body = getByteBody(request);
 	}
 
 	@Override
 	public BufferedReader getReader() {
-		return ObjectUtils.isEmpty(body) ? null : new BufferedReader(new InputStreamReader(getInputStream()));
+		return ObjectUtils.isEmpty(bodyByteArray) ? null : new BufferedReader(new InputStreamReader(getInputStream()));
 	}
 
 	@Override
 	public ServletInputStream getInputStream() {
-		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
+		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bodyByteArray);
 		return new ServletInputStream() {
 			@Override
 			public boolean isFinished() {
@@ -76,6 +76,10 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 				return byteArrayInputStream.read();
 			}
 		};
+	}
+
+	public byte[] getBodyByteArray() {
+		return bodyByteArray;
 	}
 
 	private static byte[] getByteBody(HttpServletRequest request) {
