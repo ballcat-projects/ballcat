@@ -71,7 +71,7 @@ public final class IpUtils {
 		String ip;
 		for (String header : headerNames) {
 			ip = request.getHeader(header);
-			if (checkNotUnknown(ip)) {
+			if (ip != null && checkNotUnknown(ip)) {
 				return getMultistageReverseProxyIp(ip);
 			}
 		}
