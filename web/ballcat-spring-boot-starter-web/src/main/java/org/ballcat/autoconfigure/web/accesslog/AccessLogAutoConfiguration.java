@@ -32,8 +32,7 @@ import org.springframework.context.annotation.Bean;
 @ConditionalOnWebApplication
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AccessLogProperties.class)
-@ConditionalOnProperty(prefix = AccessLogProperties.PREFIX, name = "enabled", matchIfMissing = true,
-		havingValue = "true")
+@ConditionalOnProperty(prefix = AccessLogProperties.PREFIX, name = "enabled", havingValue = "true")
 public class AccessLogAutoConfiguration {
 
 	private final AccessLogProperties accessLogProperties;
