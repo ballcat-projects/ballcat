@@ -42,7 +42,7 @@ import static org.ballcat.springsecurity.oauth2.server.authorization.authenticat
  * 2.1 Revocation Request</a>
  */
 @Slf4j
-public final class OAuth2TokenRevocationAuthenticationProvider implements AuthenticationProvider {
+public final class BallcatOAuth2TokenRevocationAuthenticationProvider implements AuthenticationProvider {
 
 	private final OAuth2AuthorizationService authorizationService;
 
@@ -51,7 +51,7 @@ public final class OAuth2TokenRevocationAuthenticationProvider implements Authen
 	 * provided parameters.
 	 * @param authorizationService the authorization service
 	 */
-	public OAuth2TokenRevocationAuthenticationProvider(OAuth2AuthorizationService authorizationService) {
+	public BallcatOAuth2TokenRevocationAuthenticationProvider(OAuth2AuthorizationService authorizationService) {
 		Assert.notNull(authorizationService, "authorizationService cannot be null");
 		this.authorizationService = authorizationService;
 	}

@@ -34,26 +34,26 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests for {@link OAuth2TokenRevocationAuthenticationProvider}.
+ * Tests for {@link BallcatOAuth2TokenRevocationAuthenticationProvider}.
  *
  * @author Vivek Babu
  * @author Joe Grandja
  */
-class OAuth2TokenRevocationAuthenticationProviderTests {
+class BallcatOAuth2TokenRevocationAuthenticationProviderTests {
 
 	private OAuth2AuthorizationService authorizationService;
 
-	private OAuth2TokenRevocationAuthenticationProvider authenticationProvider;
+	private BallcatOAuth2TokenRevocationAuthenticationProvider authenticationProvider;
 
 	@BeforeEach
 	void setUp() {
 		this.authorizationService = mock(OAuth2AuthorizationService.class);
-		this.authenticationProvider = new OAuth2TokenRevocationAuthenticationProvider(this.authorizationService);
+		this.authenticationProvider = new BallcatOAuth2TokenRevocationAuthenticationProvider(this.authorizationService);
 	}
 
 	@Test
 	void constructorWhenAuthorizationServiceNullThenThrowIllegalArgumentException() {
-		assertThatThrownBy(() -> new OAuth2TokenRevocationAuthenticationProvider(null))
+		assertThatThrownBy(() -> new BallcatOAuth2TokenRevocationAuthenticationProvider(null))
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("authorizationService cannot be null");
 	}

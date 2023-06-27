@@ -27,6 +27,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -78,6 +79,18 @@ public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 	public OAuth2TokenResponseEnhanceConfigurerCustomizer oAuth2TokenResponseEnhanceConfigurerCustomizer(
 			OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer) {
 		return new OAuth2TokenResponseEnhanceConfigurerCustomizer(oauth2TokenResponseEnhancer);
+	}
+
+	/**
+	 * OAuth2 Token 撤销响应处理器
+	 * @param publisher 事件发布器
+	 * @return OAuth2TokenRevocationResponseHandler
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public OAuth2TokenRevocationResponseHandler oAuth2TokenRevocationResponseHandler(
+			ApplicationEventPublisher publisher) {
+		return new OAuth2TokenRevocationResponseHandler(publisher);
 	}
 
 	/**

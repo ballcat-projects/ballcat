@@ -169,18 +169,6 @@ public class OAuth2AuthorizationServerAutoConfiguration {
 	}
 
 	/**
-	 * OAuth2 Token 撤销响应处理器
-	 * @param publisher 事件发布器
-	 * @return OAuth2TokenRevocationResponseHandler
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public OAuth2TokenRevocationResponseHandler oAuth2TokenRevocationResponseHandler(
-			ApplicationEventPublisher publisher) {
-		return new OAuth2TokenRevocationResponseHandler(publisher);
-	}
-
-	/**
 	 * 密码管理器
 	 */
 	@Bean

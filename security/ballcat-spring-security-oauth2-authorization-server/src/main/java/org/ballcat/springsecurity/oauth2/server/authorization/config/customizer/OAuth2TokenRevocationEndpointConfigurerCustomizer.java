@@ -16,11 +16,19 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
 import lombok.RequiredArgsConstructor;
-import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2TokenRevocationAuthenticationProvider;
+import org.ballcat.springsecurity.oauth2.server.authorization.authentication.BallcatOAuth2TokenRevocationAuthenticationProvider;
+import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.BallcatOAuth2TokenRevocationAuthenticationConverter;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationResponseHandler;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2TokenRevocationAuthenticationProvider;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationAuthenticationConverter;
+import org.springframework.security.web.authentication.AuthenticationConverter;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * 令牌撤销端点配置的自定义扩展
@@ -38,9 +46,22 @@ public class OAuth2TokenRevocationEndpointConfigurerCustomizer
 	@Override
 	public void customize(OAuth2AuthorizationServerConfigurer oAuth2AuthorizationServerConfigurer,
 			HttpSecurity httpSecurity) {
+		final Consumer<List<AuthenticationProvider>> authenticationProvidersConsumer = authenticationProviders -> {
+			authenticationProviders
+				.removeIf(x -> x.getClass().isAssignableFrom(OAuth2TokenRevocationAuthenticationProvider.class));
+			authenticationProviders.add(0,
+					new BallcatOAuth2TokenRevocationAuthenticationProvider(authorizationService));
+		};
+
+		final Consumer<List<AuthenticationConverter>> convertersConsumer = converters -> {
+			converters.removeIf(x -> x.getClass().isAssignableFrom(OAuth2TokenRevocationAuthenticationConverter.class));
+			converters.add(0, new BallcatOAuth2TokenRevocationAuthenticationConverter());
+		};
+
 		oAuth2AuthorizationServerConfigurer.tokenRevocationEndpoint(
 				tokenRevocation -> tokenRevocation.revocationResponseHandler(oAuth2TokenRevocationResponseHandler)
-					.authenticationProvider(new OAuth2TokenRevocationAuthenticationProvider(authorizationService)));
+					.revocationRequestConverters(convertersConsumer)
+					.authenticationProviders(authenticationProvidersConsumer));
 	}
 
 }
