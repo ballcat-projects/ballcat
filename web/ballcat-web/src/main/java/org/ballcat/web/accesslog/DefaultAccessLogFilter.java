@@ -62,8 +62,8 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 				return AccessLogSettings.builder()
 					.enabled(!logRule.isIgnore())
 					.includeQueryString(logRule.isIncludeQueryString())
-					.includeRequestPayload(logRule.isIncludeRequestPayload())
-					.includeResponsePayload(logRule.isIncludeResponsePayload())
+					.includeRequestBody(logRule.isIncludeRequestBody())
+					.includeResponseBody(logRule.isIncludeResponseBody())
 					.build();
 			}
 		}
@@ -111,17 +111,17 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 		String ipAddr = IpUtils.getIpAddr(request);
 		msg.append(", client=").append(ipAddr);
 
-		if (accessLogSettings.shouldRecordRequestPayload()) {
-			String payload = getRequestPayload(request);
+		if (accessLogSettings.shouldRecordRequestBody()) {
+			String payload = getRequestBody(request);
 			if (payload != null) {
-				msg.append(", request payload=").append(payload);
+				msg.append(", request body=").append(payload);
 			}
 		}
 
-		if (accessLogSettings.shouldRecordResponsePayload()) {
-			String payload = getResponsePayload(response);
+		if (accessLogSettings.shouldRecordResponseBody()) {
+			String payload = getResponseBody(response);
 			if (payload != null) {
-				msg.append(", response payload=").append(payload);
+				msg.append(", response body=").append(payload);
 			}
 		}
 

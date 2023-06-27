@@ -18,8 +18,6 @@ package org.ballcat.web.accesslog;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Set;
-
 /**
  * 访问日志规则
  *
@@ -47,11 +45,11 @@ public class AccessLogRule {
 	/**
 	 * 记录请求体
 	 */
-	private boolean includeRequestPayload = false;
+	private boolean includeRequestBody = false;
 
 	/**
 	 * 记录响应体
 	 */
-	private boolean includeResponsePayload = false;
+	private boolean includeResponseBody = false;
 
 }

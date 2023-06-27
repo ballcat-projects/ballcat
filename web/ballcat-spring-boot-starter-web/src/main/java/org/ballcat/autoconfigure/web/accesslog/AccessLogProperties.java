@@ -20,7 +20,7 @@ import org.ballcat.web.accesslog.AbstractAccessLogFilter;
 import org.ballcat.web.accesslog.AccessLogRule;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,21 +48,15 @@ public class AccessLogProperties {
 	private Integer filterOrder = -1000;
 
 	/**
-	 * 最大的 payload 长度
+	 * 记录的最大的 body 长度
 	 */
-	private Integer maxPayloadLength = AbstractAccessLogFilter.DEFAULT_MAX_PAYLOAD_LENGTH;
+	private Integer maxBodyLength = AbstractAccessLogFilter.DEFAULT_MAX_BODY_LENGTH;
 
 	/**
-	 * 访问日志的设置集合
+	 * 访问日志记录的规则列表
+	 * <p>
+	 * 以当前 request uri 匹配中的第一个规则为准，所以通用性的规则(例如 /**)应放在最后一项
 	 */
 	private List<AccessLogRule> settings = Collections.singletonList(new AccessLogRule().setUrlPattern("/**"));
-
-	//
-	// /**
-	// * 忽略的Url匹配规则，Ant风格
-	// */
-	// private List<String> ignoreUrlPatterns = Arrays.asList("/actuator/**",
-	// "/webjars/**", "/favicon.ico",
-	// "/swagger-ui/**", "/bycdao-ui/**", "/captcha/get");
 
 }

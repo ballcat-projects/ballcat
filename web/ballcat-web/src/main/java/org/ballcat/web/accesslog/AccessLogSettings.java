@@ -40,12 +40,12 @@ public class AccessLogSettings {
 	/**
 	 * 记录请求体
 	 */
-	private final boolean includeRequestPayload;
+	private final boolean includeRequestBody;
 
 	/**
 	 * 记录响应体
 	 */
-	private final boolean includeResponsePayload;
+	private final boolean includeResponseBody;
 
 	public boolean enabled() {
 		return this.enabled;
@@ -55,12 +55,12 @@ public class AccessLogSettings {
 		return this.includeQueryString;
 	}
 
-	public boolean shouldRecordRequestPayload() {
-		return this.includeRequestPayload;
+	public boolean shouldRecordRequestBody() {
+		return this.includeRequestBody;
 	}
 
-	public boolean shouldRecordResponsePayload() {
-		return this.includeResponsePayload;
+	public boolean shouldRecordResponseBody() {
+		return this.includeResponseBody;
 	}
 
 }

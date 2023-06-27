@@ -37,9 +37,9 @@ import java.io.UnsupportedEncodingException;
  */
 public abstract class AbstractAccessLogFilter extends OncePerRequestFilter {
 
-	public static final int DEFAULT_MAX_PAYLOAD_LENGTH = 256;
+	public static final int DEFAULT_MAX_BODY_LENGTH = 256;
 
-	private int maxPayloadLength = DEFAULT_MAX_PAYLOAD_LENGTH;
+	private int maxBodyLength = DEFAULT_MAX_BODY_LENGTH;
 
 	/**
 	 * Same contract as for {@code doFilter}, but guaranteed to be just invoked once per
@@ -72,7 +72,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter {
 		}
 
 		HttpServletRequest requestToUse;
-		if (accessLogSettings.shouldRecordRequestPayload()) {
+		if (accessLogSettings.shouldRecordRequestBody()) {
 			// 包装 request，以保证可以重复读取body
 			// spring 提供的 ContentCachingRequestWrapper，在 body 没有被程序使用时，获取到的 body 缓存为空
 			// 且对于 form data，会混淆 payload 和 query string
@@ -83,7 +83,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter {
 		}
 
 		HttpServletResponse responseToUse;
-		if (accessLogSettings.shouldRecordResponsePayload()) {
+		if (accessLogSettings.shouldRecordResponseBody()) {
 			// 包装 response，便于重复获取 body
 			responseToUse = new ContentCachingResponseWrapper(response);
 		}
@@ -144,7 +144,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter {
 	}
 
 	@Nullable
-	protected String getRequestPayload(HttpServletRequest request) {
+	protected String getRequestBody(HttpServletRequest request) {
 		RepeatBodyRequestWrapper wrapper = WebUtils.getNativeRequest(request, RepeatBodyRequestWrapper.class);
 		if (wrapper == null) {
 			return null;
@@ -153,7 +153,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter {
 	}
 
 	@Nullable
-	protected String getResponsePayload(HttpServletResponse response) {
+	protected String getResponseBody(HttpServletResponse response) {
 		ContentCachingResponseWrapper wrapper = WebUtils.getNativeResponse(response,
 				ContentCachingResponseWrapper.class);
 		if (wrapper == null) {
@@ -165,7 +165,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter {
 	@Nullable
 	protected String getMessagePayload(byte[] buf, String characterEncoding) {
 		if (buf.length > 0) {
-			int length = Math.min(buf.length, getMaxPayloadLength());
+			int length = Math.min(buf.length, getMaxBodyLength());
 			try {
 				return new String(buf, 0, length, characterEncoding);
 			}
@@ -176,13 +176,13 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter {
 		return null;
 	}
 
-	public void setMaxPayloadLength(int maxPayloadLength) {
-		Assert.isTrue(maxPayloadLength >= 0, "'maxPayloadLength' must be greater than or equal to 0");
-		this.maxPayloadLength = maxPayloadLength;
+	public void setMaxBodyLength(int maxBodyLength) {
+		Assert.isTrue(maxBodyLength >= 0, "'maxBodyLength' must be greater than or equal to 0");
+		this.maxBodyLength = maxBodyLength;
 	}
 
-	protected int getMaxPayloadLength() {
-		return this.maxPayloadLength;
+	protected int getMaxBodyLength() {
+		return this.maxBodyLength;
 	}
 
 	protected boolean shouldLog(HttpServletRequest request) {

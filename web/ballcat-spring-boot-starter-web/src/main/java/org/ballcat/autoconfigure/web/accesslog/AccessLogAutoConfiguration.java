@@ -45,7 +45,7 @@ public class AccessLogAutoConfiguration {
 		AbstractAccessLogFilter accessLogFilter = logFilterObjectProvider.getIfAvailable();
 		if (accessLogFilter == null) {
 			accessLogFilter = new DefaultAccessLogFilter(accessLogProperties.getSettings());
-			accessLogFilter.setMaxPayloadLength(accessLogProperties.getMaxPayloadLength());
+			accessLogFilter.setMaxBodyLength(accessLogProperties.getMaxBodyLength());
 		}
 		FilterRegistrationBean<AbstractAccessLogFilter> registrationBean = new FilterRegistrationBean<>(
 				accessLogFilter);
