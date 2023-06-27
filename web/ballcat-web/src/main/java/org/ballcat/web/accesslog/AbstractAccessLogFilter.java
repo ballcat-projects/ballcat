@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ballcat.common.core.constant.MDCConstants;
 import org.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
 import org.slf4j.MDC;
+import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -35,11 +36,13 @@ import java.io.UnsupportedEncodingException;
 /**
  * @author Hccake 2019/10/15 21:53
  */
-public abstract class AbstractAccessLogFilter extends OncePerRequestFilter {
+public abstract class AbstractAccessLogFilter extends OncePerRequestFilter implements Ordered {
 
 	public static final int DEFAULT_MAX_BODY_LENGTH = 256;
 
 	private int maxBodyLength = DEFAULT_MAX_BODY_LENGTH;
+
+	private int order = 0;
 
 	/**
 	 * Same contract as for {@code doFilter}, but guaranteed to be just invoked once per
@@ -179,6 +182,15 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter {
 	public void setMaxBodyLength(int maxBodyLength) {
 		Assert.isTrue(maxBodyLength >= 0, "'maxBodyLength' must be greater than or equal to 0");
 		this.maxBodyLength = maxBodyLength;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	@Override
+	public int getOrder() {
+		return this.order;
 	}
 
 	protected int getMaxBodyLength() {

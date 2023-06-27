@@ -19,10 +19,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.web.accesslog.AbstractAccessLogFilter;
 import org.ballcat.web.accesslog.DefaultAccessLogFilter;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.condition.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -38,18 +38,12 @@ public class AccessLogAutoConfiguration {
 	private final AccessLogProperties accessLogProperties;
 
 	@Bean
-	public FilterRegistrationBean<AbstractAccessLogFilter> accessLogFilterRegistrationBean(
-			ObjectProvider<AbstractAccessLogFilter> logFilterObjectProvider) {
-		log.info("=== Access log 记录拦截器已开启 ====");
-		AbstractAccessLogFilter accessLogFilter = logFilterObjectProvider.getIfAvailable();
-		if (accessLogFilter == null) {
-			accessLogFilter = new DefaultAccessLogFilter(accessLogProperties.getSettings());
-			accessLogFilter.setMaxBodyLength(accessLogProperties.getMaxBodyLength());
-		}
-		FilterRegistrationBean<AbstractAccessLogFilter> registrationBean = new FilterRegistrationBean<>(
-				accessLogFilter);
-		registrationBean.setOrder(accessLogProperties.getFilterOrder());
-		return registrationBean;
+	@ConditionalOnMissingBean(AbstractAccessLogFilter.class)
+	public AbstractAccessLogFilter defaultAccessLogFilter() {
+		AbstractAccessLogFilter accessLogFilter = new DefaultAccessLogFilter(accessLogProperties.getSettings());
+		accessLogFilter.setMaxBodyLength(accessLogProperties.getMaxBodyLength());
+		accessLogFilter.setOrder(accessLogProperties.getFilterOrder());
+		return accessLogFilter;
 	}
 
 }
