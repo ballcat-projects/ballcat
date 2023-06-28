@@ -15,10 +15,8 @@
  */
 package org.ballcat.springsecurity.oauth2.server.resource;
 
-import org.ballcat.springsecurity.component.CustomPermissionEvaluator;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.BallcatOauth2ResourceServerSecurityFilterChainBuilder;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.OAuth2ResourceServerConfigurerCustomizer;
-import org.ballcat.springsecurity.oauth2.server.resource.configurer.OAuth2ResourceServerExtensionConfigurer;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.Oauth2ResourceServerSecurityFilterChainBuilder;
 import org.ballcat.springsecurity.oauth2.server.resource.introspection.BallcatRemoteOpaqueTokenIntrospector;
 import org.ballcat.springsecurity.oauth2.server.resource.web.CustomAuthenticationEntryPoint;
@@ -64,11 +62,9 @@ public class OAuth2ResourceServerAutoConfiguration {
 	public Oauth2ResourceServerSecurityFilterChainBuilder oauth2ResourceServerSecurityFilterChainBuilder(
 			OAuth2ResourceServerProperties oAuth2ResourceServerProperties,
 			AuthenticationEntryPoint authenticationEntryPoint, BearerTokenResolver bearerTokenResolver,
-			ObjectProvider<List<OAuth2ResourceServerConfigurerCustomizer>> configurerCustomizersProvider,
-			ObjectProvider<List<OAuth2ResourceServerExtensionConfigurer<HttpSecurity>>> extensionConfigurersProvider) {
+			ObjectProvider<List<OAuth2ResourceServerConfigurerCustomizer>> configurerCustomizersProvider) {
 		return new BallcatOauth2ResourceServerSecurityFilterChainBuilder(oAuth2ResourceServerProperties,
-				authenticationEntryPoint, bearerTokenResolver, configurerCustomizersProvider,
-				extensionConfigurersProvider);
+				authenticationEntryPoint, bearerTokenResolver, configurerCustomizersProvider);
 	}
 
 	/**

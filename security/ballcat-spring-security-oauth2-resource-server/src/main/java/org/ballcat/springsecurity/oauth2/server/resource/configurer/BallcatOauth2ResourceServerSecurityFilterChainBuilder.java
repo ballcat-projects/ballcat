@@ -43,8 +43,6 @@ public class BallcatOauth2ResourceServerSecurityFilterChainBuilder
 
 	private final ObjectProvider<List<OAuth2ResourceServerConfigurerCustomizer>> configurerCustomizersProvider;
 
-	private final ObjectProvider<List<OAuth2ResourceServerExtensionConfigurer<HttpSecurity>>> extensionConfigurersProvider;
-
 	@Override
 	public SecurityFilterChain build(HttpSecurity http) throws Exception {
 		// @formatter:off
@@ -76,13 +74,6 @@ public class BallcatOauth2ResourceServerSecurityFilterChainBuilder
 			.getIfAvailable(Collections::emptyList);
 		for (OAuth2ResourceServerConfigurerCustomizer configurerCustomizer : configurerCustomizers) {
 			configurerCustomizer.customize(http);
-		}
-
-		// 扩展配置
-		List<OAuth2ResourceServerExtensionConfigurer<HttpSecurity>> extensionConfigurers = extensionConfigurersProvider
-			.getIfAvailable(Collections::emptyList);
-		for (OAuth2ResourceServerExtensionConfigurer<HttpSecurity> extensionConfigurer : extensionConfigurers) {
-			http.apply(extensionConfigurer);
 		}
 
 		return http.build();
