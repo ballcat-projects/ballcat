@@ -17,7 +17,7 @@ package org.ballcat.springsecurity.oauth2.server.authorization.token;
 
 import org.ballcat.springsecurity.oauth2.constant.TokenAttributeNameConstants;
 import org.ballcat.springsecurity.oauth2.constant.UserInfoFiledNameConstants;
-import org.ballcat.springsecurity.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * 自定义 OAuth2TokenCustomizer，处理 BallCat 提供的 User 属性存储，以便在自省时返回对应信息
  *
- * @see User
+ * @see DefaultOAuth2User
  * @author hccake
  */
 public class BallcatOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAuth2TokenClaimsContext> {
@@ -47,28 +47,28 @@ public class BallcatOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAuth
 		}
 
 		Object principal = authentication.getPrincipal();
-		if (principal instanceof User) {
-			User user = (User) principal;
-			Map<String, Object> attributes = user.getAttributes();
+		if (principal instanceof DefaultOAuth2User) {
+			DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) principal;
+			Map<String, Object> attributes = defaultOAuth2User.getAttributes();
 			claims.claim(TokenAttributeNameConstants.ATTRIBUTES, attributes);
-			HashMap<String, Object> userInfoMap = getUserInfoMap(user);
+			HashMap<String, Object> userInfoMap = getUserInfoMap(defaultOAuth2User);
 			claims.claim(TokenAttributeNameConstants.INFO, userInfoMap);
 			claims.claim(TokenAttributeNameConstants.IS_CLIENT, false);
 		}
 	}
 
-	private static HashMap<String, Object> getUserInfoMap(User user) {
+	private static HashMap<String, Object> getUserInfoMap(DefaultOAuth2User defaultOAuth2User) {
 		HashMap<String, Object> userInfo = new HashMap<>(6);
-		userInfo.put(UserInfoFiledNameConstants.USER_ID, user.getUserId());
-		userInfo.put(UserInfoFiledNameConstants.TYPE, user.getType());
-		userInfo.put(UserInfoFiledNameConstants.ORGANIZATION_ID, user.getOrganizationId());
-		userInfo.put(UserInfoFiledNameConstants.USERNAME, user.getUsername());
-		userInfo.put(UserInfoFiledNameConstants.NICKNAME, user.getNickname());
-		userInfo.put(UserInfoFiledNameConstants.AVATAR, user.getAvatar());
-		userInfo.put(UserInfoFiledNameConstants.EMAIL, user.getEmail());
-		userInfo.put(UserInfoFiledNameConstants.GENDER, user.getGender());
-		userInfo.put(UserInfoFiledNameConstants.PHONE_NUMBER, user.getPhoneNumber());
-		userInfo.put(UserInfoFiledNameConstants.STATUS, user.getStatus());
+		userInfo.put(UserInfoFiledNameConstants.USER_ID, defaultOAuth2User.getUserId());
+		userInfo.put(UserInfoFiledNameConstants.TYPE, defaultOAuth2User.getType());
+		userInfo.put(UserInfoFiledNameConstants.ORGANIZATION_ID, defaultOAuth2User.getOrganizationId());
+		userInfo.put(UserInfoFiledNameConstants.USERNAME, defaultOAuth2User.getUsername());
+		userInfo.put(UserInfoFiledNameConstants.NICKNAME, defaultOAuth2User.getNickname());
+		userInfo.put(UserInfoFiledNameConstants.AVATAR, defaultOAuth2User.getAvatar());
+		userInfo.put(UserInfoFiledNameConstants.EMAIL, defaultOAuth2User.getEmail());
+		userInfo.put(UserInfoFiledNameConstants.GENDER, defaultOAuth2User.getGender());
+		userInfo.put(UserInfoFiledNameConstants.PHONE_NUMBER, defaultOAuth2User.getPhoneNumber());
+		userInfo.put(UserInfoFiledNameConstants.STATUS, defaultOAuth2User.getStatus());
 		return userInfo;
 	}
 

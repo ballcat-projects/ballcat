@@ -16,7 +16,7 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.user;
 
 import org.ballcat.springsecurity.oauth2.constant.UserAttributeNameConstants;
-import org.ballcat.springsecurity.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  */
 public class TestUsers {
 
-	public static User.UserBuilder user1() {
+	public static DefaultOAuth2User.DefaultOAuth2UserBuilder user1() {
 		List<String> roleCodes = Collections.singletonList("ROLE_admin");
 		List<String> permissions = Collections.singletonList("user:read");
 
@@ -45,7 +45,7 @@ public class TestUsers {
 		attributes.put(UserAttributeNameConstants.ROLE_CODES, roleCodes);
 		attributes.put(UserAttributeNameConstants.PERMISSIONS, permissions);
 
-		return User.builder()
+		return DefaultOAuth2User.builder()
 			.userId(1L)
 			.type(1)
 			.username("user1")

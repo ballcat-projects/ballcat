@@ -17,32 +17,28 @@ package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import org.ballcat.springsecurity.configuration.SpringSecurityAutoConfiguration;
+import org.ballcat.springsecurity.configuration.SpringSecurityProperties;
 import org.ballcat.springsecurity.oauth2.authentication.OAuth2UserAuthenticationToken;
 import org.ballcat.springsecurity.oauth2.jackson2.LongMixin;
 import org.ballcat.springsecurity.oauth2.jackson2.OAuth2UserAuthenticationTokenMixin;
 import org.ballcat.springsecurity.oauth2.jackson2.UserMixin;
-import org.ballcat.springsecurity.oauth2.userdetails.User;
-import org.ballcat.springsecurity.util.PasswordUtils;
-import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.authorization.OAuth2AuthorizationObjectMapperCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.BallcatOAuth2AuthorizationServerSecurityFilterChainBuilder;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.OAuth2AuthorizationServerSecurityFilterChainBuilder;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.BasicOAuth2AuthorizationServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerExtensionConfigurer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.token.BallcatOAuth2TokenCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationResponseHandler;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
@@ -54,7 +50,6 @@ import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2A
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
 
@@ -63,42 +58,20 @@ import java.util.List;
  *
  * @author Hccake
  */
+@AutoConfiguration(before = SpringSecurityAutoConfiguration.class)
 @Import({ OAuth2AuthorizationServerConfigurerCustomizerConfiguration.class,
 		OAuth2AuthorizationServerExtensionConfigurerConfiguration.class })
-@Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
-@EnableConfigurationProperties(OAuth2AuthorizationServerProperties.class)
+@EnableConfigurationProperties({ SpringSecurityProperties.class, OAuth2AuthorizationServerProperties.class })
 public class OAuth2AuthorizationServerAutoConfiguration {
 
-	public static final String OAUTH2_AUTHORIZATION_SERVER_SECURITY_FILTER_CHAIN_BEAN_NAME = "oauth2AuthorizationServerSecurityFilterChain";
-
-	/**
-	 * OAuth2AuthorizationServerConfigurer 的适配器
-	 * @param oAuth2AuthorizationServerConfigurerCustomizers
-	 * OAuth2AuthorizationServerConfigurer 的定制器列表
-	 * @param oAuth2AuthorizationServerExtensionConfigurers
-	 * oAuth2AuthorizationServerExtensionConfigurer 的配置扩展器列表
-	 * @return OAuth2AuthorizationServerConfigurerAdapter
-	 */
 	@Bean
-	@ConditionalOnMissingBean(name = OAUTH2_AUTHORIZATION_SERVER_SECURITY_FILTER_CHAIN_BEAN_NAME,
-			value = OAuth2AuthorizationServerSecurityFilterChainBuilder.class)
-	public OAuth2AuthorizationServerSecurityFilterChainBuilder oAuth2AuthorizationServerSecurityFilterChainBuilder(
+	@ConditionalOnMissingBean
+	public BasicOAuth2AuthorizationServerConfigurerCustomizer testOAuth2AuthorizationServerConfig(
 			List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizers,
 			List<OAuth2AuthorizationServerExtensionConfigurer<?, HttpSecurity>> oAuth2AuthorizationServerExtensionConfigurers) {
-		return new BallcatOAuth2AuthorizationServerSecurityFilterChainBuilder(
-				oAuth2AuthorizationServerConfigurerCustomizers, oAuth2AuthorizationServerExtensionConfigurers);
-	}
-
-	/**
-	 * OAuth2 授权服务器的安全过滤器链，如果和资源服务器共存，需要将其放在资源服务器之前
-	 */
-	@Bean(name = OAUTH2_AUTHORIZATION_SERVER_SECURITY_FILTER_CHAIN_BEAN_NAME)
-	@Order(1)
-	@ConditionalOnMissingBean(name = OAUTH2_AUTHORIZATION_SERVER_SECURITY_FILTER_CHAIN_BEAN_NAME)
-	public SecurityFilterChain oauth2AuthorizationServerSecurityFilterChain(
-			OAuth2AuthorizationServerSecurityFilterChainBuilder builder, HttpSecurity httpSecurity) throws Exception {
-		return builder.build(httpSecurity);
+		return new BasicOAuth2AuthorizationServerConfigurerCustomizer(oAuth2AuthorizationServerConfigurerCustomizers,
+				oAuth2AuthorizationServerExtensionConfigurers);
 	}
 
 	/**
@@ -135,7 +108,7 @@ public class OAuth2AuthorizationServerAutoConfiguration {
 
 		// You will need to write the Mixin for your class so Jackson can marshall it.
 		objectMapper.addMixIn(Long.class, LongMixin.class);
-		objectMapper.addMixIn(User.class, UserMixin.class);
+		objectMapper.addMixIn(DefaultOAuth2User.class, UserMixin.class);
 		objectMapper.addMixIn(OAuth2UserAuthenticationToken.class, OAuth2UserAuthenticationTokenMixin.class);
 
 		// 定制 objectMapper
@@ -166,15 +139,6 @@ public class OAuth2AuthorizationServerAutoConfiguration {
 	@ConditionalOnMissingBean
 	public AuthorizationServerSettings authorizationServerSettings() {
 		return AuthorizationServerSettings.builder().build();
-	}
-
-	/**
-	 * 密码管理器
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordUtils.createDelegatingPasswordEncoder();
 	}
 
 	/**

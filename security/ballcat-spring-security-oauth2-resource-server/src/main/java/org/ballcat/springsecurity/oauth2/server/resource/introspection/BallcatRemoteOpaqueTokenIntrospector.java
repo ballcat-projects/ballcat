@@ -19,7 +19,7 @@ import org.ballcat.springsecurity.oauth2.constant.TokenAttributeNameConstants;
 import org.ballcat.springsecurity.oauth2.constant.UserAttributeNameConstants;
 import org.ballcat.springsecurity.oauth2.constant.UserInfoFiledNameConstants;
 import org.ballcat.springsecurity.oauth2.userdetails.ClientPrincipal;
-import org.ballcat.springsecurity.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -50,7 +50,7 @@ import java.util.stream.Stream;
 
 /**
  * copy from {@link SpringOpaqueTokenIntrospector}，重写了 OAuth2AuthenticatedPrincipal
- * 的构建，保持项目内统一使用 {@link User}
+ * 的构建，保持项目内统一使用 {@link DefaultOAuth2User}
  *
  * A Spring implementation of {@link OpaqueTokenIntrospector} that verifies and
  * introspects a token using the configured
@@ -269,8 +269,8 @@ public class BallcatRemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospe
 	 * @return User
 	 */
 	@SuppressWarnings("unchecked")
-	private User buildUser(Map<String, Object> claims) {
-		User.UserBuilder builder = User.builder();
+	private DefaultOAuth2User buildUser(Map<String, Object> claims) {
+		DefaultOAuth2User.DefaultOAuth2UserBuilder builder = DefaultOAuth2User.builder();
 
 		LinkedHashMap<String, Object> info = (LinkedHashMap<String, Object>) claims
 			.getOrDefault(TokenAttributeNameConstants.INFO, new LinkedHashMap<>());

@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ballcat.springsecurity.oauth2.authentication.OAuth2UserAuthenticationToken;
-import org.ballcat.springsecurity.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -60,7 +60,7 @@ public class OAuth2UserAuthenticationTokenDeserializer extends JsonDeserializer<
 		ObjectMapper mapper = (ObjectMapper) jp.getCodec();
 		JsonNode jsonNode = mapper.readTree(jp);
 
-		User principal = mapper.treeToValue(jsonNode.get("principal"), User.class);
+		DefaultOAuth2User principal = mapper.treeToValue(jsonNode.get("principal"), DefaultOAuth2User.class);
 		Collection<? extends GrantedAuthority> authorities = mapper.convertValue(jsonNode.get("authorities"),
 				SIMPLE_GRANTED_AUTHORITY_SET);
 

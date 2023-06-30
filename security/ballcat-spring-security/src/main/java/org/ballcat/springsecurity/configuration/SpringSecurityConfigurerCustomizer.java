@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.resource.configurer;
+package org.ballcat.springsecurity.configuration;
 
+import org.springframework.core.Ordered;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * OAuth2 Resource Server 的 SecurityFilterChain 构造器
+ * 对 Ballcat 默认的配置的 OAuth2ResourceServerConfigurer 进行自定义处理
  *
  * @author hccake
+ * @since 2.0.0
  */
-public interface Oauth2ResourceServerSecurityFilterChainBuilder {
+public interface SpringSecurityConfigurerCustomizer extends Ordered {
 
 	/**
-	 * 构建 OAuth2 Resource Server 的 SecurityFilterChain
-	 * @param http HttpSecurity
-	 * @return SecurityFilterChain
-	 * @throws Exception 构建异常
+	 * 对资源服务器配置进行自定义
+	 * @param httpSecurity security configuration
 	 */
-	SecurityFilterChain build(HttpSecurity http) throws Exception;
+	void customize(HttpSecurity httpSecurity) throws Exception;
 
 }

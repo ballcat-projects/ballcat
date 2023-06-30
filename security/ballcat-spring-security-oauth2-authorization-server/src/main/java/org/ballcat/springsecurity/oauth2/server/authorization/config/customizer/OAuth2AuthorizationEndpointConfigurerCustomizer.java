@@ -15,6 +15,7 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
+import org.ballcat.springsecurity.configuration.SpringSecurityProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2ConfigurerUtils;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2LoginUrlAuthenticationEntryPoint;
@@ -34,13 +35,17 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  */
 public class OAuth2AuthorizationEndpointConfigurerCustomizer implements OAuth2AuthorizationServerConfigurerCustomizer {
 
-	private final OAuth2AuthorizationServerProperties properties;
+	private final SpringSecurityProperties springSecurityProperties;
+
+	private final OAuth2AuthorizationServerProperties oAuth2AuthorizationServerProperties;
 
 	private final OAuth2SecurityContextRepository oAuth2SecurityContextRepository;
 
-	public OAuth2AuthorizationEndpointConfigurerCustomizer(OAuth2AuthorizationServerProperties properties,
+	public OAuth2AuthorizationEndpointConfigurerCustomizer(SpringSecurityProperties springSecurityProperties,
+			OAuth2AuthorizationServerProperties oAuth2AuthorizationServerProperties,
 			OAuth2SecurityContextRepository oAuth2SecurityContextRepository) {
-		this.properties = properties;
+		this.springSecurityProperties = springSecurityProperties;
+		this.oAuth2AuthorizationServerProperties = oAuth2AuthorizationServerProperties;
 		this.oAuth2SecurityContextRepository = oAuth2SecurityContextRepository;
 	}
 
@@ -50,14 +55,14 @@ public class OAuth2AuthorizationEndpointConfigurerCustomizer implements OAuth2Au
 			HttpSecurity httpSecurity) throws Exception {
 
 		// 使用无状态登录时，需要配合自定义的 SecurityContextRepository
-		if (properties.isStateless()) {
+		if (springSecurityProperties.isStateless()) {
 			httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 			httpSecurity
 				.securityContext(security -> security.securityContextRepository(oAuth2SecurityContextRepository));
 		}
 
 		// 设置鉴权失败时的跳转地址
-		String loginPage = properties.getLoginPage();
+		String loginPage = springSecurityProperties.getLoginPage();
 		AuthorizationServerSettings authorizationServerSettings = OAuth2ConfigurerUtils
 			.getAuthorizationServerSettings(httpSecurity);
 		ExceptionHandlingConfigurer<?> exceptionHandling = httpSecurity
@@ -69,7 +74,7 @@ public class OAuth2AuthorizationEndpointConfigurerCustomizer implements OAuth2Au
 		}
 
 		// 设置 OAuth2 Consent 地址
-		String consentPage = properties.getConsentPage();
+		String consentPage = oAuth2AuthorizationServerProperties.getConsentPage();
 		if (consentPage != null) {
 			oAuth2AuthorizationServerConfigurer
 				.authorizationEndpoint(configurer -> configurer.consentPage(consentPage));

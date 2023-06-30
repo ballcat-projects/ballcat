@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.resource.web;
+package org.ballcat.springsecurity.web;
 
 import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;

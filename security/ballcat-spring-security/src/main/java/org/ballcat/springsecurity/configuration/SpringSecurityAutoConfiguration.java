@@ -15,35 +15,22 @@
  */
 package org.ballcat.springsecurity.configuration;
 
-import org.ballcat.security.authorization.SecurityChecker;
 import org.ballcat.security.configuration.BallcatSecurityAutoConfiguration;
-import org.ballcat.springsecurity.authorization.SpringSecurityChecker;
-import org.ballcat.springsecurity.component.CustomPermissionEvaluator;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
+/**
+ * Spring Security 的自动配置类
+ *
+ * @author Hccake
+ * @since 2.0.0
+ */
+@EnableConfigurationProperties(SpringSecurityProperties.class)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @AutoConfiguration(before = BallcatSecurityAutoConfiguration.class)
+@Import({ SpringSecurityComponentConfiguration.class, SpringSecurityWebSecurityConfiguration.class })
 public class SpringSecurityAutoConfiguration {
-
-	/**
-	 * 基于 spring security 的权限判断组件
-	 * @return SpringSecurityChecker
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public SecurityChecker springSecurityChecker() {
-		return new SpringSecurityChecker();
-	}
-
-	/**
-	 * 自定义的权限判断组件
-	 * @return CustomPermissionEvaluator
-	 */
-	@Bean(name = "per")
-	@ConditionalOnMissingBean(CustomPermissionEvaluator.class)
-	public CustomPermissionEvaluator customPermissionEvaluator() {
-		return new CustomPermissionEvaluator();
-	}
 
 }

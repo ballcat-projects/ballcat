@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import org.ballcat.springsecurity.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -38,7 +38,7 @@ import java.util.Map;
  *
  * @author hccake
  */
-public class UserDeserializer extends JsonDeserializer<User> {
+public class UserDeserializer extends JsonDeserializer<DefaultOAuth2User> {
 
 	private static final TypeReference<Collection<SimpleGrantedAuthority>> SIMPLE_GRANTED_AUTHORITY_SET = new TypeReference<Collection<SimpleGrantedAuthority>>() {
 	};
@@ -60,7 +60,7 @@ public class UserDeserializer extends JsonDeserializer<User> {
 	 * @throws JsonProcessingException if an error during JSON processing occurs
 	 */
 	@Override
-	public User deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+	public DefaultOAuth2User deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
 		ObjectMapper mapper = (ObjectMapper) jp.getCodec();
 		JsonNode jsonNode = mapper.readTree(jp);
 
@@ -86,7 +86,7 @@ public class UserDeserializer extends JsonDeserializer<User> {
 
 		Map<String, Object> attributes = mapper.convertValue(jsonNode.get("attributes"), ATTRIBUTE_MAP);
 
-		return User.builder()
+		return DefaultOAuth2User.builder()
 			.userId(userId)
 			.username(username)
 			.password(password)

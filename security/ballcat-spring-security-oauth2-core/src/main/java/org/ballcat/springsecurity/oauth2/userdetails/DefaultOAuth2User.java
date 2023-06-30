@@ -31,7 +31,7 @@ import java.util.Map;
 @ToString
 @Getter
 @Builder
-public class User implements UserDetails, OAuth2User {
+public class DefaultOAuth2User implements UserDetails, OAuth2User {
 
 	/**
 	 * 用户ID

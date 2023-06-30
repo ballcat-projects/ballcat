@@ -17,7 +17,7 @@ package org.ballcat.springsecurity.oauth2.server.authorization.token;
 
 import org.ballcat.springsecurity.oauth2.constant.TokenAttributeNameConstants;
 import org.ballcat.springsecurity.oauth2.constant.UserInfoFiledNameConstants;
-import org.ballcat.springsecurity.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2ResourceOwnerPasswordAuthenticationToken;
 import org.ballcat.springsecurity.oauth2.server.authorization.client.TestRegisteredClients;
 import org.ballcat.springsecurity.oauth2.server.authorization.context.TestAuthorizationServerContext;
@@ -87,14 +87,14 @@ class BallcatOAuth2TokenCustomizerTests {
 		OAuth2ClientAuthenticationToken clientPrincipal = new OAuth2ClientAuthenticationToken(registeredClient,
 				ClientAuthenticationMethod.CLIENT_SECRET_BASIC, registeredClient.getClientSecret());
 
-		User user = TestUsers.user1().build();
+		DefaultOAuth2User defaultOAuth2User = TestUsers.user1().build();
 		HashMap<String, Object> additionalParameters = new HashMap<>();
 		additionalParameters.put(OAuth2ParameterNames.USERNAME, "user1");
 		additionalParameters.put(OAuth2ParameterNames.PASSWORD, "password1");
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken
-			.authenticated(user, user.getUsername(), user.getAuthorities());
+			.authenticated(defaultOAuth2User, defaultOAuth2User.getUsername(), defaultOAuth2User.getAuthorities());
 		OAuth2ResourceOwnerPasswordAuthenticationToken resourceOwnerPasswordAuthentication = new OAuth2ResourceOwnerPasswordAuthenticationToken(
-				user.getUsername(), clientPrincipal, additionalParameters, authorizedScopes);
+				defaultOAuth2User.getUsername(), clientPrincipal, additionalParameters, authorizedScopes);
 
 		// @formatter:off
 		OAuth2TokenContext tokenContext = DefaultOAuth2TokenContext.builder()
@@ -134,15 +134,15 @@ class BallcatOAuth2TokenCustomizerTests {
 		assertThat(accessTokenClaims.getClaimAsBoolean(TokenAttributeNameConstants.IS_CLIENT)).isFalse();
 
 		assertThat(accessTokenClaims.getClaimAsMap(TokenAttributeNameConstants.ATTRIBUTES))
-			.isEqualTo(user.getAttributes());
+			.isEqualTo(defaultOAuth2User.getAttributes());
 
 		assertThat(accessTokenClaims.getClaimAsMap(TokenAttributeNameConstants.INFO))
-			.containsEntry(UserInfoFiledNameConstants.USER_ID, user.getUserId())
-			.containsEntry(UserInfoFiledNameConstants.TYPE, user.getType())
-			.containsEntry(UserInfoFiledNameConstants.ORGANIZATION_ID, user.getOrganizationId())
-			.containsEntry(UserInfoFiledNameConstants.USERNAME, user.getUsername())
-			.containsEntry(UserInfoFiledNameConstants.NICKNAME, user.getNickname())
-			.containsEntry(UserInfoFiledNameConstants.AVATAR, user.getAvatar());
+			.containsEntry(UserInfoFiledNameConstants.USER_ID, defaultOAuth2User.getUserId())
+			.containsEntry(UserInfoFiledNameConstants.TYPE, defaultOAuth2User.getType())
+			.containsEntry(UserInfoFiledNameConstants.ORGANIZATION_ID, defaultOAuth2User.getOrganizationId())
+			.containsEntry(UserInfoFiledNameConstants.USERNAME, defaultOAuth2User.getUsername())
+			.containsEntry(UserInfoFiledNameConstants.NICKNAME, defaultOAuth2User.getNickname())
+			.containsEntry(UserInfoFiledNameConstants.AVATAR, defaultOAuth2User.getAvatar());
 	}
 
 	@Test

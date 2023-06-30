@@ -15,7 +15,7 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization;
 
-import org.ballcat.springsecurity.oauth2.userdetails.User;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.ballcat.springsecurity.oauth2.server.authorization.client.TestRegisteredClients;
 import org.ballcat.springsecurity.oauth2.server.authorization.user.TestUsers;
 import org.springframework.security.authentication.TestingAuthenticationToken;
@@ -108,9 +108,9 @@ public class TestOAuth2Authorizations {
 	private static OAuth2Authorization.Builder authorizationByPasswordGrantType(RegisteredClient registeredClient,
 			OAuth2AccessToken accessToken, Map<String, Object> accessTokenClaims) {
 
-		User user = TestUsers.user1().build();
+		DefaultOAuth2User defaultOAuth2User = TestUsers.user1().build();
 		UsernamePasswordAuthenticationToken usernamePasswordAuthentication = UsernamePasswordAuthenticationToken
-			.authenticated(user, user.getUsername(), user.getAuthorities());
+			.authenticated(defaultOAuth2User, defaultOAuth2User.getUsername(), defaultOAuth2User.getAuthorities());
 
 		// @formatter:off
 		OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)

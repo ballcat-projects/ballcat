@@ -16,21 +16,17 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
 import lombok.RequiredArgsConstructor;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.FormLoginConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2ResourceOwnerPasswordConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2TokenResponseEnhanceConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2TokenRevocationEndpointConfigurerCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenResponseEnhancer;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationResponseHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 
 /**
@@ -42,21 +38,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 @Configuration(proxyBeanMethods = false)
 public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 
-	private final OAuth2AuthorizationServerProperties oAuth2AuthorizationServerProperties;
-
 	private final OAuth2AuthorizationService oAuth2AuthorizationService;
-
-	/**
-	 * 表单登录支持
-	 * @return FormLoginConfigurerCustomizer
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX, name = "form-login-enabled",
-			havingValue = "true")
-	public FormLoginConfigurerCustomizer formLoginConfigurerCustomizer(UserDetailsService userDetailsService) {
-		return new FormLoginConfigurerCustomizer(oAuth2AuthorizationServerProperties, userDetailsService);
-	}
 
 	/**
 	 * 添加 resource owner password 模式支持配置定制器
