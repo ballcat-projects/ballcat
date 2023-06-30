@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenResponseEnhancer;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -41,7 +41,7 @@ import java.util.Map;
  *
  * @author chengbohua
  */
-public class OAuth2TokenResponseEnhanceConfigurerCustomizer implements OAuth2AuthorizationServerConfigurerCustomizer {
+public class OAuth2TokenResponseEnhanceConfigurerExtension implements OAuth2AuthorizationServerConfigurerExtension {
 
 	private final OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer;
 
@@ -49,21 +49,21 @@ public class OAuth2TokenResponseEnhanceConfigurerCustomizer implements OAuth2Aut
 
 	private final boolean setAccessTokenCookie;
 
-	public OAuth2TokenResponseEnhanceConfigurerCustomizer(OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer) {
+	public OAuth2TokenResponseEnhanceConfigurerExtension(OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer) {
 		this(oauth2TokenResponseEnhancer, new OAuth2AccessTokenResponseHttpMessageConverter());
 	}
 
-	public OAuth2TokenResponseEnhanceConfigurerCustomizer(OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer,
+	public OAuth2TokenResponseEnhanceConfigurerExtension(OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer,
 			HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter) {
 		this(oauth2TokenResponseEnhancer, accessTokenHttpResponseConverter, false);
 	}
 
-	public OAuth2TokenResponseEnhanceConfigurerCustomizer(OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer,
+	public OAuth2TokenResponseEnhanceConfigurerExtension(OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer,
 			boolean setAccessTokenCookie) {
 		this(oauth2TokenResponseEnhancer, new OAuth2AccessTokenResponseHttpMessageConverter(), setAccessTokenCookie);
 	}
 
-	public OAuth2TokenResponseEnhanceConfigurerCustomizer(OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer,
+	public OAuth2TokenResponseEnhanceConfigurerExtension(OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer,
 			HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter,
 			boolean setAccessTokenCookie) {
 		this.oauth2TokenResponseEnhancer = oauth2TokenResponseEnhancer;

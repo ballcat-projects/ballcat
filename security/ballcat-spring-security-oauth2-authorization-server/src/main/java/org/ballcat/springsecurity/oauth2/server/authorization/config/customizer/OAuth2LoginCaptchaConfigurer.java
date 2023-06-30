@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
-import org.ballcat.springsecurity.oauth2.server.authorization.web.filter.LoginPasswordDecoderFilter;
+import org.ballcat.security.captcha.CaptchaValidator;
+import org.ballcat.springsecurity.configuration.SpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.web.filter.LoginCaptchaFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,23 +27,21 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
 
 /**
- * 登录时的密码解密配置
+ * 登录验证码校验
  *
  * @author hccake
  */
-@Order(100)
-public class OAuth2LoginPasswordDecoderConfigurer
-		extends OAuth2AuthorizationServerExtensionConfigurer<OAuth2LoginPasswordDecoderConfigurer, HttpSecurity> {
+public class OAuth2LoginCaptchaConfigurer implements SpringSecurityConfigurerCustomizer {
 
-	private final String passwordSecretKey;
+	private final CaptchaValidator captchaValidator;
 
-	public OAuth2LoginPasswordDecoderConfigurer(String passwordSecretKey) {
-		Assert.hasText(passwordSecretKey, "passwordSecretKey can not be null");
-		this.passwordSecretKey = passwordSecretKey;
+	public OAuth2LoginCaptchaConfigurer(CaptchaValidator captchaValidator) {
+		Assert.notNull(captchaValidator, "captchaValidator can not be null");
+		this.captchaValidator = captchaValidator;
 	}
 
 	@Override
-	public void configure(HttpSecurity httpSecurity) {
+	public void customize(HttpSecurity httpSecurity) throws Exception {
 		// 获取授权服务器配置
 		AuthorizationServerSettings authorizationServerSettings = httpSecurity
 			.getSharedObject(AuthorizationServerSettings.class);
@@ -50,9 +50,14 @@ public class OAuth2LoginPasswordDecoderConfigurer
 		AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(authorizationServerSettings.getTokenEndpoint(),
 				HttpMethod.POST.name());
 
-		// 密码解密，必须在 OAuth2ClientAuthenticationFilter 过滤器之后，方便获取当前客户端
-		httpSecurity.addFilterAfter(new LoginPasswordDecoderFilter(requestMatcher, passwordSecretKey),
+		// 验证码，必须在 OAuth2ClientAuthenticationFilter 过滤器之后，方便获取当前客户端
+		httpSecurity.addFilterAfter(new LoginCaptchaFilter(requestMatcher, captchaValidator),
 				OAuth2ClientAuthenticationFilter.class);
+	}
+
+	@Override
+	public int getOrder() {
+		return 90;
 	}
 
 }

@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.authorization.config;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.configuration.SpringSecurityConfigurerCustomizer;
-import org.ballcat.springsecurity.configuration.SpringSecurityProperties;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerExtensionConfigurer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerCustomizer;
-import org.springframework.core.Ordered;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerConfigurerExtension;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.util.matcher.*;
 
@@ -39,15 +35,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BasicOAuth2AuthorizationServerConfigurerCustomizer implements SpringSecurityConfigurerCustomizer {
 
-	private final List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizerList;
-
-	private final List<OAuth2AuthorizationServerExtensionConfigurer<?, HttpSecurity>> oAuth2AuthorizationServerExtensionConfigurers;
+	private final List<OAuth2AuthorizationServerConfigurerExtension> oAuth2AuthorizationServerConfigurerExtensionList;
 
 	@Override
 	public void customize(HttpSecurity http) throws Exception {
 		// 授权服务器配置
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
-		for (OAuth2AuthorizationServerConfigurerCustomizer customizer : oAuth2AuthorizationServerConfigurerCustomizerList) {
+		for (OAuth2AuthorizationServerConfigurerExtension customizer : oAuth2AuthorizationServerConfigurerExtensionList) {
 			customizer.customize(authorizationServerConfigurer, http);
 		}
 
@@ -62,10 +56,6 @@ public class BasicOAuth2AuthorizationServerConfigurerCustomizer implements Sprin
 		}
 
 		http.apply(authorizationServerConfigurer);
-
-		for (OAuth2AuthorizationServerExtensionConfigurer<?, HttpSecurity> configurer : oAuth2AuthorizationServerExtensionConfigurers) {
-			http.apply(configurer);
-		}
 	}
 
 	@Override

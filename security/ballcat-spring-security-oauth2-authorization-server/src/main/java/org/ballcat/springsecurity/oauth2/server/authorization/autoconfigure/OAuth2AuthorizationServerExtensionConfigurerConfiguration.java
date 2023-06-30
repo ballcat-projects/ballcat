@@ -17,8 +17,8 @@ package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
 import org.ballcat.security.captcha.CaptchaValidator;
 import org.ballcat.security.properties.SecurityProperties;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2LoginCaptchaConfigurer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2LoginPasswordDecoderConfigurer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2LoginCaptchaConfigurer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2LoginPasswordDecoderConfigurer;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

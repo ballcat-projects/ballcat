@@ -25,9 +25,8 @@ import org.ballcat.springsecurity.oauth2.jackson2.LongMixin;
 import org.ballcat.springsecurity.oauth2.jackson2.OAuth2UserAuthenticationTokenMixin;
 import org.ballcat.springsecurity.oauth2.jackson2.UserMixin;
 import org.ballcat.springsecurity.oauth2.server.authorization.OAuth2AuthorizationObjectMapperCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.BasicOAuth2AuthorizationServerConfigurerCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerExtensionConfigurer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.BasicOAuth2AuthorizationServerConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerConfigurerExtension;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.token.BallcatOAuth2TokenCustomizer;
 import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
@@ -38,7 +37,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
@@ -68,10 +66,8 @@ public class OAuth2AuthorizationServerAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public BasicOAuth2AuthorizationServerConfigurerCustomizer testOAuth2AuthorizationServerConfig(
-			List<OAuth2AuthorizationServerConfigurerCustomizer> oAuth2AuthorizationServerConfigurerCustomizers,
-			List<OAuth2AuthorizationServerExtensionConfigurer<?, HttpSecurity>> oAuth2AuthorizationServerExtensionConfigurers) {
-		return new BasicOAuth2AuthorizationServerConfigurerCustomizer(oAuth2AuthorizationServerConfigurerCustomizers,
-				oAuth2AuthorizationServerExtensionConfigurers);
+			List<OAuth2AuthorizationServerConfigurerExtension> oAuth2AuthorizationServerConfigurerExtensions) {
+		return new BasicOAuth2AuthorizationServerConfigurerCustomizer(oAuth2AuthorizationServerConfigurerExtensions);
 	}
 
 	/**

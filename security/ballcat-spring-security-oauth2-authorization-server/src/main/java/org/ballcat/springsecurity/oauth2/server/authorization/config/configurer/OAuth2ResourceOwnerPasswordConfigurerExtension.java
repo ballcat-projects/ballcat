@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.authorization.authentication.OAuth2ResourceOwnerPasswordAuthenticationProvider;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2ConfigurerUtils;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,7 +33,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
  * @author hccake
  */
 @RequiredArgsConstructor
-public class OAuth2ResourceOwnerPasswordConfigurerCustomizer implements OAuth2AuthorizationServerConfigurerCustomizer {
+public class OAuth2ResourceOwnerPasswordConfigurerExtension implements OAuth2AuthorizationServerConfigurerExtension {
 
 	private final ApplicationContext context;
 

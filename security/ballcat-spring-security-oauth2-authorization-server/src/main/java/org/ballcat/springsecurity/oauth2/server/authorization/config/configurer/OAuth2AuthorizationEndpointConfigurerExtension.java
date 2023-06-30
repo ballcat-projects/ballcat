@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
 import org.ballcat.springsecurity.configuration.SpringSecurityProperties;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2ConfigurerUtils;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2LoginUrlAuthenticationEntryPoint;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.context.OAuth2SecurityContextRepository;
@@ -33,7 +32,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  *
  * @author hccake
  */
-public class OAuth2AuthorizationEndpointConfigurerCustomizer implements OAuth2AuthorizationServerConfigurerCustomizer {
+public class OAuth2AuthorizationEndpointConfigurerExtension implements OAuth2AuthorizationServerConfigurerExtension {
 
 	private final SpringSecurityProperties springSecurityProperties;
 
@@ -41,7 +40,7 @@ public class OAuth2AuthorizationEndpointConfigurerCustomizer implements OAuth2Au
 
 	private final OAuth2SecurityContextRepository oAuth2SecurityContextRepository;
 
-	public OAuth2AuthorizationEndpointConfigurerCustomizer(SpringSecurityProperties springSecurityProperties,
+	public OAuth2AuthorizationEndpointConfigurerExtension(SpringSecurityProperties springSecurityProperties,
 			OAuth2AuthorizationServerProperties oAuth2AuthorizationServerProperties,
 			OAuth2SecurityContextRepository oAuth2SecurityContextRepository) {
 		this.springSecurityProperties = springSecurityProperties;

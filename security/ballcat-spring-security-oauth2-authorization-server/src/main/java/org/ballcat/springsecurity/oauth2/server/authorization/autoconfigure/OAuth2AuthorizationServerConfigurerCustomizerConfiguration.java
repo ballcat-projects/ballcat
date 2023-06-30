@@ -16,9 +16,9 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
 import lombok.RequiredArgsConstructor;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2ResourceOwnerPasswordConfigurerCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2TokenResponseEnhanceConfigurerCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2TokenRevocationEndpointConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2ResourceOwnerPasswordConfigurerExtension;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2TokenResponseEnhanceConfigurerExtension;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2TokenRevocationEndpointConfigurerExtension;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenResponseEnhancer;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationResponseHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -46,9 +46,9 @@ public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 	 * @return OAuth2ResourceOwnerPasswordConfigurerCustomizer
 	 */
 	@Bean
-	public OAuth2ResourceOwnerPasswordConfigurerCustomizer oAuth2ResourceOwnerPasswordConfigurerCustomizer(
+	public OAuth2ResourceOwnerPasswordConfigurerExtension oAuth2ResourceOwnerPasswordConfigurerCustomizer(
 			ApplicationContext applicationContext) {
-		return new OAuth2ResourceOwnerPasswordConfigurerCustomizer(applicationContext);
+		return new OAuth2ResourceOwnerPasswordConfigurerExtension(applicationContext);
 	}
 
 	/**
@@ -58,9 +58,9 @@ public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(OAuth2TokenResponseEnhancer.class)
-	public OAuth2TokenResponseEnhanceConfigurerCustomizer oAuth2TokenResponseEnhanceConfigurerCustomizer(
+	public OAuth2TokenResponseEnhanceConfigurerExtension oAuth2TokenResponseEnhanceConfigurerCustomizer(
 			OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer) {
-		return new OAuth2TokenResponseEnhanceConfigurerCustomizer(oauth2TokenResponseEnhancer);
+		return new OAuth2TokenResponseEnhanceConfigurerExtension(oauth2TokenResponseEnhancer);
 	}
 
 	/**
@@ -82,9 +82,9 @@ public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(OAuth2TokenRevocationResponseHandler.class)
-	public OAuth2TokenRevocationEndpointConfigurerCustomizer oAuth2TokenRevocationEndpointConfigurerCustomizer(
+	public OAuth2TokenRevocationEndpointConfigurerExtension oAuth2TokenRevocationEndpointConfigurerCustomizer(
 			OAuth2TokenRevocationResponseHandler oAuth2TokenRevocationResponseHandler) {
-		return new OAuth2TokenRevocationEndpointConfigurerCustomizer(oAuth2AuthorizationService,
+		return new OAuth2TokenRevocationEndpointConfigurerExtension(oAuth2AuthorizationService,
 				oAuth2TokenRevocationResponseHandler);
 	}
 

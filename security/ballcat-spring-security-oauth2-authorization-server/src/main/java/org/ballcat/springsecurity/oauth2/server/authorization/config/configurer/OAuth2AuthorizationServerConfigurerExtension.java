@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
@@ -24,7 +24,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
  * @author hccake
  */
 @FunctionalInterface
-public interface OAuth2AuthorizationServerConfigurerCustomizer {
+public interface OAuth2AuthorizationServerConfigurerExtension {
 
 	/**
 	 * 对授权服务器配置进行自定义

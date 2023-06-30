@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
+package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.authorization.authentication.BallcatOAuth2TokenRevocationAuthenticationProvider;
@@ -36,8 +36,7 @@ import java.util.function.Consumer;
  * @author hccake
  */
 @RequiredArgsConstructor
-public class OAuth2TokenRevocationEndpointConfigurerCustomizer
-		implements OAuth2AuthorizationServerConfigurerCustomizer {
+public class OAuth2TokenRevocationEndpointConfigurerExtension implements OAuth2AuthorizationServerConfigurerExtension {
 
 	private final OAuth2AuthorizationService authorizationService;
 
