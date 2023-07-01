@@ -28,6 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @EnableConfigurationProperties(SecurityProperties.class)
 @Configuration(proxyBeanMethods = false)
@@ -65,10 +66,12 @@ public class SpringSecurityWebSecurityConfiguration {
 	@ConditionalOnProperty(prefix = "ballcat.springsecurity", name = "login-page-enabled")
 	public SeparationLoginSpringSecurityConfigurerCustomizer springSecurityFormLoginConfigurerCustomizer(
 			ObjectProvider<AuthenticationEntryPoint> authenticationEntryPointObjectProvider,
-			ObjectProvider<AuthenticationSuccessHandler> authenticationSuccessHandlerObjectProvider) {
+			ObjectProvider<AuthenticationSuccessHandler> authenticationSuccessHandlerObjectProvider,
+			ObjectProvider<LogoutSuccessHandler> logoutSuccessHandlerObjectProvider) {
 		SeparationLoginSpringSecurityConfigurerCustomizer customizer = new SeparationLoginSpringSecurityConfigurerCustomizer(
 				springSecurityProperties, authenticationEntryPointObjectProvider.getIfAvailable(),
-				authenticationSuccessHandlerObjectProvider.getIfAvailable());
+				authenticationSuccessHandlerObjectProvider.getIfAvailable(),
+				logoutSuccessHandlerObjectProvider.getIfAvailable());
 		customizer.setPasswordAesSecretKey(securityProperties.getPasswordSecretKey());
 		return customizer;
 	}

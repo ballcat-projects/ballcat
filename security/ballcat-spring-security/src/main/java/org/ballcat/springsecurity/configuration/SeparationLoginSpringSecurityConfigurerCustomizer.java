@@ -16,12 +16,14 @@
 package org.ballcat.springsecurity.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.ballcat.springsecurity.web.DefaultLogoutSuccessHandler;
 import org.ballcat.springsecurity.web.DefualtAuthenticationSuccessHandler;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.util.StringUtils;
 
 /**
@@ -38,6 +40,8 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
 	private final AuthenticationSuccessHandler authenticationSuccessHandler;
+
+	private final LogoutSuccessHandler logoutSuccessHandler;
 
 	private String passwordAesSecretKey = null;
 
@@ -63,8 +67,10 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 				separationLoginConfigurer.loginPage(loginPage);
 			}
 
-			// 需要 userDetailsService 对应生成 DaoAuthenticationProvider
-			// httpSecurity.userDetailsService(userDetailsService);
+			// 登出
+			LogoutSuccessHandler logoutSuccessHandlerLocal = this.logoutSuccessHandler == null
+					? new DefaultLogoutSuccessHandler() : this.logoutSuccessHandler;
+			httpSecurity.logout().logoutSuccessHandler(logoutSuccessHandlerLocal);
 		}
 	}
 
