@@ -16,7 +16,7 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
 import lombok.RequiredArgsConstructor;
-import org.ballcat.springsecurity.configuration.SpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.configuer.SpringSecurityConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerConfigurerExtension;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;

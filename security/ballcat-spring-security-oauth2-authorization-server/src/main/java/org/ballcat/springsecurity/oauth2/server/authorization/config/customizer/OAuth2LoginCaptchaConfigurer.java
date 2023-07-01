@@ -16,9 +16,8 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
 import org.ballcat.security.captcha.CaptchaValidator;
-import org.ballcat.springsecurity.configuration.SpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.configuer.SpringSecurityConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.filter.LoginCaptchaFilter;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;

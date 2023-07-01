@@ -16,6 +16,7 @@
 package org.ballcat.springsecurity.configuration;
 
 import org.ballcat.security.properties.SecurityProperties;
+import org.ballcat.springsecurity.configuer.*;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -76,6 +77,20 @@ public class SpringSecurityWebSecurityConfiguration {
 				logoutSuccessHandlerObjectProvider.getIfAvailable());
 		customizer.setPasswordAesSecretKey(securityProperties.getPasswordSecretKey());
 		return customizer;
+	}
+
+	@Bean
+	@ConditionalOnMissingBean({ SeparationLoginSpringSecurityConfigurerCustomizer.class,
+			FormLoginSpringSecurityConfigurerCustomizer.class })
+	@ConditionalOnProperty(prefix = "ballcat.springsecurity.form-login", name = "enabled", havingValue = "true")
+	public FormLoginSpringSecurityConfigurerCustomizer formLoginSpringSecurityConfigurerCustomizer(
+			ObjectProvider<AuthenticationEntryPoint> authenticationEntryPointObjectProvider,
+			ObjectProvider<AuthenticationSuccessHandler> authenticationSuccessHandlerObjectProvider,
+			ObjectProvider<LogoutSuccessHandler> logoutSuccessHandlerObjectProvider) {
+		return new FormLoginSpringSecurityConfigurerCustomizer(springSecurityProperties,
+				authenticationEntryPointObjectProvider.getIfAvailable(),
+				authenticationSuccessHandlerObjectProvider.getIfAvailable(),
+				logoutSuccessHandlerObjectProvider.getIfAvailable());
 	}
 
 }

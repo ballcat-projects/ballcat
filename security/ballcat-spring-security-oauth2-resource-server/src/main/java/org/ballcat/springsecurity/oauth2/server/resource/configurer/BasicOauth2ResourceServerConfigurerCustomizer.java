@@ -15,7 +15,7 @@
  */
 package org.ballcat.springsecurity.oauth2.server.resource.configurer;
 
-import org.ballcat.springsecurity.configuration.SpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.configuer.SpringSecurityConfigurerCustomizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;

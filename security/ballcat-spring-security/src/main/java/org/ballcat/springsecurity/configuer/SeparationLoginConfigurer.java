@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.configuration;
+package org.ballcat.springsecurity.configuer;
 
 import org.ballcat.springsecurity.web.UsernameAesPasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;

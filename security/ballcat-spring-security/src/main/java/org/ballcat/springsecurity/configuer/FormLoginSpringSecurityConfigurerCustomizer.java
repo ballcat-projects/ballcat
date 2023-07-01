@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.configuration;
+package org.ballcat.springsecurity.configuer;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.web.DefaultLogoutSuccessHandler;
 import org.ballcat.springsecurity.web.DefualtAuthenticationSuccessHandler;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -28,13 +30,13 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.util.StringUtils;
 
 /**
- * 前后端分离登录的配置定制器
+ * 前后端不分离登录的配置定制器
  *
  * @author Hccake
  * @since 2.0.0
  */
 @RequiredArgsConstructor
-public class SeparationLoginSpringSecurityConfigurerCustomizer implements SpringSecurityConfigurerCustomizer {
+public class FormLoginSpringSecurityConfigurerCustomizer implements SpringSecurityConfigurerCustomizer {
 
 	private final SpringSecurityProperties springSecurityProperties;
 
@@ -44,44 +46,41 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 
 	private final LogoutSuccessHandler logoutSuccessHandler;
 
-	private String passwordAesSecretKey = null;
-
 	@Override
 	public void customize(HttpSecurity httpSecurity) throws Exception {
 		// 表单登录
 		SpringSecurityProperties.FormLogin formLogin = springSecurityProperties.getFormLogin();
 		if (formLogin.isEnabled()) {
-			AuthenticationSuccessHandler successHandler = authenticationSuccessHandler == null
-					? new DefualtAuthenticationSuccessHandler() : authenticationSuccessHandler;
-			AuthenticationEntryPointFailureHandler failureHandler = new AuthenticationEntryPointFailureHandler(
-					authenticationEntryPoint == null ? new Http403ForbiddenEntryPoint() : authenticationEntryPoint);
 
-			SeparationLoginConfigurer<HttpSecurity> separationLoginConfigurer = httpSecurity
-				.apply(new SeparationLoginConfigurer<>(this.passwordAesSecretKey))
-				.successHandler(successHandler)
-				.failureHandler(failureHandler);
+			FormLoginConfigurer<HttpSecurity> formLoginConfigurer = httpSecurity.formLogin();
+
+			if (authenticationSuccessHandler != null) {
+				formLoginConfigurer.successHandler(authenticationSuccessHandler);
+			}
+
+			if (authenticationEntryPoint != null) {
+				formLoginConfigurer
+					.failureHandler(new AuthenticationEntryPointFailureHandler(authenticationEntryPoint));
+			}
 
 			// 自定义了表单页面
 			String loginPage = formLogin.getLoginPage();
 			if (StringUtils.hasText(loginPage)) {
 				httpSecurity.requestMatchers().antMatchers(loginPage);
-				separationLoginConfigurer.loginPage(loginPage);
+				formLoginConfigurer.loginPage(loginPage);
 			}
 
 			// 登出
-			LogoutSuccessHandler logoutSuccessHandlerLocal = this.logoutSuccessHandler == null
-					? new DefaultLogoutSuccessHandler() : this.logoutSuccessHandler;
-			httpSecurity.logout().logoutSuccessHandler(logoutSuccessHandlerLocal);
+			LogoutConfigurer<HttpSecurity> logout = httpSecurity.logout();
+			if (logoutSuccessHandler != null) {
+				logout.logoutSuccessHandler(logoutSuccessHandler);
+			}
 		}
 	}
 
 	@Override
 	public int getOrder() {
 		return 0;
-	}
-
-	public void setPasswordAesSecretKey(String passwordAesSecretKey) {
-		this.passwordAesSecretKey = passwordAesSecretKey;
 	}
 
 }
