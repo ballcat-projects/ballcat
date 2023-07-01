@@ -16,6 +16,7 @@
 package org.ballcat.springsecurity.configuration;
 
 import org.ballcat.security.configuration.BallcatSecurityAutoConfiguration;
+import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;

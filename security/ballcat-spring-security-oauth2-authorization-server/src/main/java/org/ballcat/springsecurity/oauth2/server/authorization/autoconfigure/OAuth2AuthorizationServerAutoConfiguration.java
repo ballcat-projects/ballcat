@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.configuration.SpringSecurityAutoConfiguration;
-import org.ballcat.springsecurity.configuration.SpringSecurityProperties;
+import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.oauth2.authentication.OAuth2UserAuthenticationToken;
 import org.ballcat.springsecurity.oauth2.jackson2.LongMixin;
 import org.ballcat.springsecurity.oauth2.jackson2.OAuth2UserAuthenticationTokenMixin;
@@ -57,8 +57,8 @@ import java.util.List;
  * @author Hccake
  */
 @AutoConfiguration(before = SpringSecurityAutoConfiguration.class)
-@Import({ OAuth2AuthorizationServerConfigurerCustomizerConfiguration.class,
-		OAuth2AuthorizationServerExtensionConfigurerConfiguration.class })
+@Import({ OAuth2AuthorizationServerConfigurerExtensionConfiguration.class,
+		OAuth2AuthorizationServerConfigurerCustomizerConfiguration.class })
 @RequiredArgsConstructor
 @EnableConfigurationProperties({ SpringSecurityProperties.class, OAuth2AuthorizationServerProperties.class })
 public class OAuth2AuthorizationServerAutoConfiguration {

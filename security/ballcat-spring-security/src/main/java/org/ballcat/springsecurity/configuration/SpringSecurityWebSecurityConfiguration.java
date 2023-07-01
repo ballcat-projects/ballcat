@@ -16,6 +16,7 @@
 package org.ballcat.springsecurity.configuration;
 
 import org.ballcat.security.properties.SecurityProperties;
+import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -63,7 +64,8 @@ public class SpringSecurityWebSecurityConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	@ConditionalOnProperty(prefix = "ballcat.springsecurity", name = "login-page-enabled")
+	@ConditionalOnProperty(prefix = "ballcat.springsecurity.form-login", name = { "enabled", "separated" },
+			havingValue = "true")
 	public SeparationLoginSpringSecurityConfigurerCustomizer springSecurityFormLoginConfigurerCustomizer(
 			ObjectProvider<AuthenticationEntryPoint> authenticationEntryPointObjectProvider,
 			ObjectProvider<AuthenticationSuccessHandler> authenticationSuccessHandlerObjectProvider,

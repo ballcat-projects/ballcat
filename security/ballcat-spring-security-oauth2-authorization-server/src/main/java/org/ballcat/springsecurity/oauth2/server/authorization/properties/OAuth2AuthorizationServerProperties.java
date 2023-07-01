@@ -15,6 +15,7 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.properties;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -38,5 +39,25 @@ public class OAuth2AuthorizationServerProperties {
 	 * @see OAuth2AuthorizationEndpointConfigurer#consentPage
 	 */
 	private String consentPage;
+
+	/**
+	 * 密码授权模式
+	 */
+	private PasswordGrantType passwordGrantType;
+
+	@Data
+	public static class PasswordGrantType {
+
+		/**
+		 * 开启 Resource owner password grant type 类型的支持
+		 */
+		private boolean enabled;
+
+		/**
+		 * 登录验证码校验
+		 */
+		private boolean loginCaptcha;
+
+	}
 
 }

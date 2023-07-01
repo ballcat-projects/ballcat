@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.springsecurity.configuration;
+package org.ballcat.springsecurity.properties;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,26 +46,48 @@ public class SpringSecurityProperties {
 	private boolean iframeDeny = true;
 
 	/**
-	 * 登录验证码开关
-	 */
-	private boolean loginCaptchaEnabled = false;
-
-	/**
 	 * 开启服务端登录页
 	 */
-	private boolean loginPageEnabled = false;
+	private FormLogin formLogin = new FormLogin();
 
 	/**
-	 * 登录地址
-	 * <p>
-	 * - 不配置将使用 security 默认的登录页：/login <br>
-	 * - 配置后则必须自己提供登录页面
+	 * session 的创建策略
 	 */
-	private String loginPage = null;
+	private SessionCreationPolicy sessionCreationPolicy = SessionCreationPolicy.IF_REQUIRED;
 
-	/**
-	 * 无状态登录
-	 */
-	private boolean stateless = false;
+	@Data
+	public static class FormLogin {
+
+		/**
+		 * 开启表单登录支持，默认 false
+		 */
+		private boolean enabled = false;
+
+		/**
+		 * 是否前后端分离，默认 false
+		 */
+		private boolean separated = false;
+
+		/**
+		 * 使用登录验证码，默认 false
+		 */
+		private boolean loginCaptcha = false;
+
+		/**
+		 * 登录地址
+		 * <p>
+		 * - 不配置将使用 security 默认的登录页：/login <br>
+		 * - 配置后则必须自己提供登录页面，前后端分离的时候可以提供全路径，如 "https://xx.com/login"
+		 */
+		private String loginPage = null;
+
+		/**
+		 * 使用 token 进行认证，默认 false, 使用 cookie JSESSIONID
+		 * <p>
+		 * 如果使用 token 进行认证，sessionCreationPolicy 尽量使用无状态管理 SessionCreationPolicy.STATELESS
+		 */
+		private boolean authenticationWithToken = false;
+
+	}
 
 }

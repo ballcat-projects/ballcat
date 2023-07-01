@@ -15,6 +15,7 @@
  */
 package org.ballcat.springsecurity.configuration;
 
+import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.springframework.core.Ordered;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;

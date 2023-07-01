@@ -16,6 +16,7 @@
 package org.ballcat.springsecurity.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -55,9 +56,8 @@ public class SpringSecurityFilterChainConfiguration {
 		}
 
 		// 使用无状态登录时，需要配合自定义的 SecurityContextRepository
-		if (springSecurityProperties.isStateless()) {
-			httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		}
+		SessionCreationPolicy sessionCreationPolicy = springSecurityProperties.getSessionCreationPolicy();
+		httpSecurity.sessionManagement().sessionCreationPolicy(sessionCreationPolicy);
 
 		// 自定义处理
 		List<SpringSecurityConfigurerCustomizer> configurerCustomizers = configurerCustomizersProvider

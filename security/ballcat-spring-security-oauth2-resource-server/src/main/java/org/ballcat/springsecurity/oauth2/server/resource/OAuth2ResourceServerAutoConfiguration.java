@@ -17,7 +17,7 @@ package org.ballcat.springsecurity.oauth2.server.resource;
 
 import org.ballcat.springsecurity.configuration.SpringSecurityAutoConfiguration;
 import org.ballcat.springsecurity.configuration.SpringSecurityComponentConfiguration;
-import org.ballcat.springsecurity.configuration.SpringSecurityProperties;
+import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.BasicOauth2ResourceServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.resource.introspection.BallcatRemoteOpaqueTokenIntrospector;
 import org.ballcat.springsecurity.web.CustomAuthenticationEntryPoint;

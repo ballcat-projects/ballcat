@@ -16,6 +16,7 @@
 package org.ballcat.springsecurity.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.web.DefaultLogoutSuccessHandler;
 import org.ballcat.springsecurity.web.DefualtAuthenticationSuccessHandler;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,8 +49,8 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 	@Override
 	public void customize(HttpSecurity httpSecurity) throws Exception {
 		// 表单登录
-		if (springSecurityProperties.isLoginPageEnabled()) {
-
+		SpringSecurityProperties.FormLogin formLogin = springSecurityProperties.getFormLogin();
+		if (formLogin.isEnabled()) {
 			AuthenticationSuccessHandler successHandler = authenticationSuccessHandler == null
 					? new DefualtAuthenticationSuccessHandler() : authenticationSuccessHandler;
 			AuthenticationEntryPointFailureHandler failureHandler = new AuthenticationEntryPointFailureHandler(
@@ -61,7 +62,7 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 				.failureHandler(failureHandler);
 
 			// 自定义了表单页面
-			String loginPage = springSecurityProperties.getLoginPage();
+			String loginPage = formLogin.getLoginPage();
 			if (StringUtils.hasText(loginPage)) {
 				httpSecurity.requestMatchers().antMatchers(loginPage);
 				separationLoginConfigurer.loginPage(loginPage);

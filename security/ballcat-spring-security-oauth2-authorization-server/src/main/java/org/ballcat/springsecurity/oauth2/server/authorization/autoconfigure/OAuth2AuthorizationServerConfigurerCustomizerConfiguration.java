@@ -15,77 +15,45 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
-import lombok.RequiredArgsConstructor;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2ResourceOwnerPasswordConfigurerExtension;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2TokenResponseEnhanceConfigurerExtension;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2TokenRevocationEndpointConfigurerExtension;
-import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenResponseEnhancer;
-import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationResponseHandler;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationEventPublisher;
+import org.ballcat.security.captcha.CaptchaValidator;
+import org.ballcat.security.properties.SecurityProperties;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2LoginCaptchaConfigurer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2LoginPasswordDecoderConfigurer;
+import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 
 /**
- * OAuth2 授权服务器配置定制器的配置类
+ * OAuth2 授权服务器的 HttpSecurity 的扩展配置器
  *
  * @author Hccake
  */
-@RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 
-	private final OAuth2AuthorizationService oAuth2AuthorizationService;
-
 	/**
-	 * 添加 resource owner password 模式支持配置定制器
-	 * @param applicationContext spring 容器
-	 * @return OAuth2ResourceOwnerPasswordConfigurerCustomizer
+	 * 登录验证码配置
+	 * @param captchaValidator 验证码验证器
+	 * @return FilterRegistrationBean<LoginCaptchaFilter>
 	 */
 	@Bean
-	public OAuth2ResourceOwnerPasswordConfigurerExtension oAuth2ResourceOwnerPasswordConfigurerCustomizer(
-			ApplicationContext applicationContext) {
-		return new OAuth2ResourceOwnerPasswordConfigurerExtension(applicationContext);
+	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX,
+			name = "password-grant-type.login-captcha", havingValue = "true")
+	public OAuth2LoginCaptchaConfigurer oAuth2LoginCaptchaConfigurer(CaptchaValidator captchaValidator) {
+		return new OAuth2LoginCaptchaConfigurer(captchaValidator);
 	}
 
 	/**
-	 * token endpoint 响应增强配置定制器
-	 * @param oauth2TokenResponseEnhancer OAuth2TokenResponseEnhancer
-	 * @return OAuth2TokenResponseEnhanceConfigurerCustomizer
+	 * password 模式下，密码入参要求 AES 加密。 在进入令牌端点前，通过过滤器进行解密处理。
+	 * @param securityProperties 安全配置相关
+	 * @return FilterRegistrationBean<LoginPasswordDecoderFilter>
 	 */
 	@Bean
-	@ConditionalOnBean(OAuth2TokenResponseEnhancer.class)
-	public OAuth2TokenResponseEnhanceConfigurerExtension oAuth2TokenResponseEnhanceConfigurerCustomizer(
-			OAuth2TokenResponseEnhancer oauth2TokenResponseEnhancer) {
-		return new OAuth2TokenResponseEnhanceConfigurerExtension(oauth2TokenResponseEnhancer);
-	}
-
-	/**
-	 * OAuth2 Token 撤销响应处理器
-	 * @param publisher 事件发布器
-	 * @return OAuth2TokenRevocationResponseHandler
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public OAuth2TokenRevocationResponseHandler oAuth2TokenRevocationResponseHandler(
-			ApplicationEventPublisher publisher) {
-		return new OAuth2TokenRevocationResponseHandler(publisher);
-	}
-
-	/**
-	 * token 撤销响应处理器配置定制器
-	 * @param oAuth2TokenRevocationResponseHandler token 撤销响应处理器
-	 * @return OAuth2TokenRevocationResponseHandler
-	 */
-	@Bean
-	@ConditionalOnBean(OAuth2TokenRevocationResponseHandler.class)
-	public OAuth2TokenRevocationEndpointConfigurerExtension oAuth2TokenRevocationEndpointConfigurerCustomizer(
-			OAuth2TokenRevocationResponseHandler oAuth2TokenRevocationResponseHandler) {
-		return new OAuth2TokenRevocationEndpointConfigurerExtension(oAuth2AuthorizationService,
-				oAuth2TokenRevocationResponseHandler);
+	@ConditionalOnProperty(prefix = SecurityProperties.PREFIX, name = "password-secret-key")
+	public OAuth2LoginPasswordDecoderConfigurer oAuth2LoginPasswordDecoderConfigurer(
+			SecurityProperties securityProperties) {
+		return new OAuth2LoginPasswordDecoderConfigurer(securityProperties.getPasswordSecretKey());
 	}
 
 }
