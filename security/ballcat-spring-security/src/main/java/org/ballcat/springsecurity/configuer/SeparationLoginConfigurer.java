@@ -41,8 +41,8 @@ public final class SeparationLoginConfigurer<H extends HttpSecurityBuilder<H>> e
 	 *
 	 * @see HttpSecurity#formLogin()
 	 */
-	public SeparationLoginConfigurer(String passwordAesSecretKey) {
-		super(new UsernameAesPasswordAuthenticationFilter(passwordAesSecretKey), null);
+	public SeparationLoginConfigurer() {
+		super(new UsernamePasswordAuthenticationFilter(), null);
 		usernameParameter("username");
 		passwordParameter("password");
 	}

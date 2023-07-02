@@ -22,6 +22,7 @@ import org.ballcat.springsecurity.web.DefualtAuthenticationSuccessHandler;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -44,8 +45,6 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 
 	private final LogoutSuccessHandler logoutSuccessHandler;
 
-	private String passwordAesSecretKey = null;
-
 	@Override
 	public void customize(HttpSecurity httpSecurity) throws Exception {
 		// 表单登录
@@ -55,9 +54,10 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 					? new DefualtAuthenticationSuccessHandler() : authenticationSuccessHandler;
 			AuthenticationEntryPointFailureHandler failureHandler = new AuthenticationEntryPointFailureHandler(
 					authenticationEntryPoint == null ? new Http403ForbiddenEntryPoint() : authenticationEntryPoint);
+			httpSecurity.setSharedObject(AuthenticationFailureHandler.class, failureHandler);
 
 			SeparationLoginConfigurer<HttpSecurity> separationLoginConfigurer = httpSecurity
-				.apply(new SeparationLoginConfigurer<>(this.passwordAesSecretKey))
+				.apply(new SeparationLoginConfigurer<>())
 				.successHandler(successHandler)
 				.failureHandler(failureHandler);
 
@@ -78,10 +78,6 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 	@Override
 	public int getOrder() {
 		return 0;
-	}
-
-	public void setPasswordAesSecretKey(String passwordAesSecretKey) {
-		this.passwordAesSecretKey = passwordAesSecretKey;
 	}
 
 }

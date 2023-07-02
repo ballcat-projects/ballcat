@@ -82,6 +82,11 @@ public class SpringSecurityProperties {
 		private String loginPage = null;
 
 		/**
+		 * 默认登录处理地址等同于 loginPage, 如果前后端分离时配置了 loginPage, 则必须手动指定 loginProcessingUrl
+		 */
+		private String loginProcessingUrl = null;
+
+		/**
 		 * 使用 token 进行认证，默认 false, 使用 cookie JSESSIONID
 		 * <p>
 		 * 如果使用 token 进行认证，sessionCreationPolicy 尽量使用无状态管理 SessionCreationPolicy.STATELESS

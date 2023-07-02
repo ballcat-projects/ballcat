@@ -17,17 +17,14 @@ package org.ballcat.springsecurity.configuer;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
-import org.ballcat.springsecurity.web.DefaultLogoutSuccessHandler;
-import org.ballcat.springsecurity.web.DefualtAuthenticationSuccessHandler;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.util.StringUtils;
 
 /**
  * 前后端不分离登录的配置定制器
@@ -59,15 +56,22 @@ public class FormLoginSpringSecurityConfigurerCustomizer implements SpringSecuri
 			}
 
 			if (authenticationEntryPoint != null) {
-				formLoginConfigurer
-					.failureHandler(new AuthenticationEntryPointFailureHandler(authenticationEntryPoint));
+				AuthenticationEntryPointFailureHandler authenticationFailureHandler = new AuthenticationEntryPointFailureHandler(
+						authenticationEntryPoint);
+				formLoginConfigurer.failureHandler(authenticationFailureHandler);
+				httpSecurity.setSharedObject(AuthenticationFailureHandler.class, authenticationFailureHandler);
 			}
 
 			// 自定义了表单页面
 			String loginPage = formLogin.getLoginPage();
-			if (StringUtils.hasText(loginPage)) {
+			if (loginPage != null) {
 				httpSecurity.requestMatchers().antMatchers(loginPage);
 				formLoginConfigurer.loginPage(loginPage);
+			}
+
+			String loginProcessingUrl = formLogin.getLoginProcessingUrl();
+			if (loginProcessingUrl != null) {
+				formLoginConfigurer.loginProcessingUrl(loginProcessingUrl);
 			}
 
 			// 登出
