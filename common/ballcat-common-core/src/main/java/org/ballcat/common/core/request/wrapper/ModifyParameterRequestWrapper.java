@@ -17,18 +17,20 @@ package org.ballcat.common.core.request.wrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Map;
 
 /**
- * 用于修改 ParameterMap 的 HttpServletRequestWrapper
+ * 用于修改 Request Parameter 的 HttpServletRequestWrapper
  *
  * @author Hccake 2019/10/17 21:57
  */
-public class ModifyParamMapRequestWrapper extends HttpServletRequestWrapper {
+public class ModifyParameterRequestWrapper extends HttpServletRequestWrapper {
 
 	private final Map<String, String[]> parameterMap;
 
-	public ModifyParamMapRequestWrapper(HttpServletRequest request, Map<String, String[]> parameterMap) {
+	public ModifyParameterRequestWrapper(HttpServletRequest request, Map<String, String[]> parameterMap) {
 		super(request);
 		this.parameterMap = parameterMap;
 	}
@@ -36,6 +38,25 @@ public class ModifyParamMapRequestWrapper extends HttpServletRequestWrapper {
 	@Override
 	public Map<String, String[]> getParameterMap() {
 		return this.parameterMap;
+	}
+
+	@Override
+	public String getParameter(String name) {
+		String[] parameters = this.parameterMap.get(name);
+		if (parameters != null && parameters.length > 0) {
+			return parameters[0];
+		}
+		return null;
+	}
+
+	@Override
+	public Enumeration<String> getParameterNames() {
+		return Collections.enumeration(parameterMap.keySet());
+	}
+
+	@Override
+	public String[] getParameterValues(String name) {
+		return this.parameterMap.get(name);
 	}
 
 }

@@ -15,7 +15,7 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.web.filter;
 
-import org.ballcat.common.core.request.wrapper.ModifyParamMapRequestWrapper;
+import org.ballcat.common.core.request.wrapper.ModifyParameterRequestWrapper;
 import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.ballcat.springsecurity.oauth2.ScopeNames;
@@ -111,7 +111,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 
 		// SpringSecurity 默认从ParameterMap中获取密码参数
 		// 由于原生的request中对parameter加锁了，无法修改，所以使用包装类
-		filterChain.doFilter(new ModifyParamMapRequestWrapper(request, parameterMap), response);
+		filterChain.doFilter(new ModifyParameterRequestWrapper(request, parameterMap), response);
 	}
 
 }
