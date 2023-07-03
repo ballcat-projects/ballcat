@@ -93,6 +93,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter implements 
 					passwordSecretKey, e);
 			failureHandler.onAuthenticationFailure(request, response, new BadCredentialsException(this.messages
 				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials")));
+			return;
 		}
 
 		// SpringSecurity 默认从ParameterMap中获取密码参数
