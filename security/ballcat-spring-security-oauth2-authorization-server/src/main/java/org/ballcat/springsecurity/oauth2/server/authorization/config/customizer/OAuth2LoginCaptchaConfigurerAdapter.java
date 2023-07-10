@@ -16,7 +16,7 @@
 package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
 import org.ballcat.security.captcha.CaptchaValidator;
-import org.ballcat.springsecurity.configuer.SpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2ConfigurerUtils;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.filter.LoginCaptchaFilter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,20 +30,25 @@ import org.springframework.util.Assert;
  *
  * @author hccake
  */
-public class OAuth2LoginCaptchaConfigurer implements SpringSecurityConfigurerCustomizer {
+public class OAuth2LoginCaptchaConfigurerAdapter implements OAuth2AuthorizationServerConfigurerAdapter {
 
 	private final CaptchaValidator captchaValidator;
 
-	public OAuth2LoginCaptchaConfigurer(CaptchaValidator captchaValidator) {
+	public OAuth2LoginCaptchaConfigurerAdapter(CaptchaValidator captchaValidator) {
 		Assert.notNull(captchaValidator, "captchaValidator can not be null");
 		this.captchaValidator = captchaValidator;
 	}
 
 	@Override
-	public void customize(HttpSecurity httpSecurity) throws Exception {
+	public void init(HttpSecurity builder) {
+
+	}
+
+	@Override
+	public void configure(HttpSecurity httpSecurity) {
 		// 获取授权服务器配置
-		AuthorizationServerSettings authorizationServerSettings = httpSecurity
-			.getSharedObject(AuthorizationServerSettings.class);
+		AuthorizationServerSettings authorizationServerSettings = OAuth2ConfigurerUtils
+			.getAuthorizationServerSettings(httpSecurity);
 
 		// 只处理登录接口
 		AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(authorizationServerSettings.getTokenEndpoint(),

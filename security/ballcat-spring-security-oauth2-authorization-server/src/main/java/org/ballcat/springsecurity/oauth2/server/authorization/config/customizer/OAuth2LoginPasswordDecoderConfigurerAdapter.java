@@ -15,7 +15,7 @@
  */
 package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
-import org.ballcat.springsecurity.configuer.SpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2ConfigurerUtils;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.filter.LoginPasswordDecoderFilter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,20 +29,25 @@ import org.springframework.util.Assert;
  *
  * @author hccake
  */
-public class OAuth2LoginPasswordDecoderConfigurer implements SpringSecurityConfigurerCustomizer {
+public class OAuth2LoginPasswordDecoderConfigurerAdapter implements OAuth2AuthorizationServerConfigurerAdapter {
 
 	private final String passwordSecretKey;
 
-	public OAuth2LoginPasswordDecoderConfigurer(String passwordSecretKey) {
+	public OAuth2LoginPasswordDecoderConfigurerAdapter(String passwordSecretKey) {
 		Assert.hasText(passwordSecretKey, "passwordSecretKey can not be null");
 		this.passwordSecretKey = passwordSecretKey;
 	}
 
 	@Override
-	public void customize(HttpSecurity httpSecurity) throws Exception {
+	public void init(HttpSecurity builder) {
+
+	}
+
+	@Override
+	public void configure(HttpSecurity httpSecurity) throws Exception {
 		// 获取授权服务器配置
-		AuthorizationServerSettings authorizationServerSettings = httpSecurity
-			.getSharedObject(AuthorizationServerSettings.class);
+		AuthorizationServerSettings authorizationServerSettings = OAuth2ConfigurerUtils
+			.getAuthorizationServerSettings(httpSecurity);
 
 		// 只处理登录接口
 		AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(authorizationServerSettings.getTokenEndpoint(),

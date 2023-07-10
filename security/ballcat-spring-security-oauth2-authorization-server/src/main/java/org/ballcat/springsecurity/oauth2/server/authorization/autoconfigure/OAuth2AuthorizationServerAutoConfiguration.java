@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.configuration.SpringSecurityAutoConfiguration;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerAdapter;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.oauth2.authentication.OAuth2UserAuthenticationToken;
 import org.ballcat.springsecurity.oauth2.jackson2.LongMixin;
@@ -58,16 +59,18 @@ import java.util.List;
  */
 @AutoConfiguration(before = SpringSecurityAutoConfiguration.class)
 @Import({ OAuth2AuthorizationServerConfigurerExtensionConfiguration.class,
-		OAuth2AuthorizationServerConfigurerCustomizerConfiguration.class })
+		OAuth2AuthorizationServerConfigurerAdapterConfiguration.class })
 @RequiredArgsConstructor
 @EnableConfigurationProperties({ SpringSecurityProperties.class, OAuth2AuthorizationServerProperties.class })
 public class OAuth2AuthorizationServerAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	public BasicOAuth2AuthorizationServerConfigurerCustomizer testOAuth2AuthorizationServerConfig(
-			List<OAuth2AuthorizationServerConfigurerExtension> oAuth2AuthorizationServerConfigurerExtensions) {
-		return new BasicOAuth2AuthorizationServerConfigurerCustomizer(oAuth2AuthorizationServerConfigurerExtensions);
+	public BasicOAuth2AuthorizationServerConfigurerCustomizer basicOAuth2AuthorizationServerConfigurerCustomizer(
+			List<OAuth2AuthorizationServerConfigurerExtension> oAuth2AuthorizationServerConfigurerExtensions,
+			ObjectProvider<List<OAuth2AuthorizationServerConfigurerAdapter>> oAuth2AuthorizationServerConfigurersAdapterProvider) {
+		return new BasicOAuth2AuthorizationServerConfigurerCustomizer(oAuth2AuthorizationServerConfigurerExtensions,
+				oAuth2AuthorizationServerConfigurersAdapterProvider.getIfAvailable());
 	}
 
 	/**

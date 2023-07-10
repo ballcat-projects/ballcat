@@ -17,8 +17,8 @@ package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
 import org.ballcat.security.captcha.CaptchaValidator;
 import org.ballcat.security.properties.SecurityProperties;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2LoginCaptchaConfigurer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2LoginPasswordDecoderConfigurer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2LoginCaptchaConfigurerAdapter;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2LoginPasswordDecoderConfigurerAdapter;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Hccake
  */
 @Configuration(proxyBeanMethods = false)
-public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
+public class OAuth2AuthorizationServerConfigurerAdapterConfiguration {
 
 	/**
 	 * 登录验证码配置
@@ -40,8 +40,8 @@ public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 	@Bean
 	@ConditionalOnProperty(prefix = OAuth2AuthorizationServerProperties.PREFIX,
 			name = "password-grant-type.login-captcha", havingValue = "true")
-	public OAuth2LoginCaptchaConfigurer oAuth2LoginCaptchaConfigurer(CaptchaValidator captchaValidator) {
-		return new OAuth2LoginCaptchaConfigurer(captchaValidator);
+	public OAuth2LoginCaptchaConfigurerAdapter oAuth2LoginCaptchaConfigurer(CaptchaValidator captchaValidator) {
+		return new OAuth2LoginCaptchaConfigurerAdapter(captchaValidator);
 	}
 
 	/**
@@ -51,9 +51,9 @@ public class OAuth2AuthorizationServerConfigurerCustomizerConfiguration {
 	 */
 	@Bean
 	@ConditionalOnProperty(prefix = SecurityProperties.PREFIX, name = "password-secret-key")
-	public OAuth2LoginPasswordDecoderConfigurer oAuth2LoginPasswordDecoderConfigurer(
+	public OAuth2LoginPasswordDecoderConfigurerAdapter oAuth2LoginPasswordDecoderConfigurer(
 			SecurityProperties securityProperties) {
-		return new OAuth2LoginPasswordDecoderConfigurer(securityProperties.getPasswordSecretKey());
+		return new OAuth2LoginPasswordDecoderConfigurerAdapter(securityProperties.getPasswordSecretKey());
 	}
 
 }

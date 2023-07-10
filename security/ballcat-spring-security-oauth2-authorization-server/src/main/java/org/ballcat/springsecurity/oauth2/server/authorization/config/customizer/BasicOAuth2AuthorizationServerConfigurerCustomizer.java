@@ -22,6 +22,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.util.matcher.*;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -36,6 +37,8 @@ import java.util.List;
 public class BasicOAuth2AuthorizationServerConfigurerCustomizer implements SpringSecurityConfigurerCustomizer {
 
 	private final List<OAuth2AuthorizationServerConfigurerExtension> oAuth2AuthorizationServerConfigurerExtensionList;
+
+	private final List<OAuth2AuthorizationServerConfigurerAdapter> OAuth2AuthorizationServerConfigurerAdapters;
 
 	@Override
 	public void customize(HttpSecurity http) throws Exception {
@@ -56,6 +59,13 @@ public class BasicOAuth2AuthorizationServerConfigurerCustomizer implements Sprin
 		}
 
 		http.apply(authorizationServerConfigurer);
+
+		// 适配处理
+		if (!CollectionUtils.isEmpty(OAuth2AuthorizationServerConfigurerAdapters)) {
+			for (OAuth2AuthorizationServerConfigurerAdapter configurer : OAuth2AuthorizationServerConfigurerAdapters) {
+				http.apply(configurer);
+			}
+		}
 	}
 
 	@Override
