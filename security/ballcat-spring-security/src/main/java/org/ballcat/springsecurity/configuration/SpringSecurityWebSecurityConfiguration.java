@@ -19,6 +19,7 @@ import org.ballcat.security.captcha.CaptchaValidator;
 import org.ballcat.security.properties.SecurityProperties;
 import org.ballcat.springsecurity.configuer.*;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
+import org.ballcat.springsecurity.web.FormLoginSuccessHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -67,11 +68,11 @@ public class SpringSecurityWebSecurityConfiguration {
 			havingValue = "true")
 	public SeparationLoginSpringSecurityConfigurerCustomizer springSecurityFormLoginConfigurerCustomizer(
 			ObjectProvider<AuthenticationEntryPoint> authenticationEntryPointObjectProvider,
-			ObjectProvider<AuthenticationSuccessHandler> authenticationSuccessHandlerObjectProvider,
+			ObjectProvider<FormLoginSuccessHandler> formLoginSuccessHandlerObjectProvider,
 			ObjectProvider<LogoutSuccessHandler> logoutSuccessHandlerObjectProvider) {
 		return new SeparationLoginSpringSecurityConfigurerCustomizer(springSecurityProperties,
 				authenticationEntryPointObjectProvider.getIfAvailable(),
-				authenticationSuccessHandlerObjectProvider.getIfAvailable(),
+				formLoginSuccessHandlerObjectProvider.getIfAvailable(),
 				logoutSuccessHandlerObjectProvider.getIfAvailable());
 	}
 
@@ -81,11 +82,11 @@ public class SpringSecurityWebSecurityConfiguration {
 	@ConditionalOnProperty(prefix = "ballcat.springsecurity.form-login", name = "enabled", havingValue = "true")
 	public FormLoginSpringSecurityConfigurerCustomizer formLoginSpringSecurityConfigurerCustomizer(
 			ObjectProvider<AuthenticationEntryPoint> authenticationEntryPointObjectProvider,
-			ObjectProvider<AuthenticationSuccessHandler> authenticationSuccessHandlerObjectProvider,
+			ObjectProvider<FormLoginSuccessHandler> formLoginSuccessHandlerObjectProvider,
 			ObjectProvider<LogoutSuccessHandler> logoutSuccessHandlerObjectProvider) {
 		return new FormLoginSpringSecurityConfigurerCustomizer(springSecurityProperties,
 				authenticationEntryPointObjectProvider.getIfAvailable(),
-				authenticationSuccessHandlerObjectProvider.getIfAvailable(),
+				formLoginSuccessHandlerObjectProvider.getIfAvailable(),
 				logoutSuccessHandlerObjectProvider.getIfAvailable());
 	}
 

@@ -18,7 +18,8 @@ package org.ballcat.springsecurity.configuer;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.web.DefaultLogoutSuccessHandler;
-import org.ballcat.springsecurity.web.DefualtAuthenticationSuccessHandler;
+import org.ballcat.springsecurity.web.DefaultFormLoginSuccessHandler;
+import org.ballcat.springsecurity.web.FormLoginSuccessHandler;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
@@ -41,7 +42,7 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
-	private final AuthenticationSuccessHandler authenticationSuccessHandler;
+	private final FormLoginSuccessHandler formLoginSuccessHandler;
 
 	private final LogoutSuccessHandler logoutSuccessHandler;
 
@@ -50,8 +51,8 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 		// 表单登录
 		SpringSecurityProperties.FormLogin formLogin = springSecurityProperties.getFormLogin();
 		if (formLogin.isEnabled()) {
-			AuthenticationSuccessHandler successHandler = authenticationSuccessHandler == null
-					? new DefualtAuthenticationSuccessHandler() : authenticationSuccessHandler;
+			AuthenticationSuccessHandler successHandler = formLoginSuccessHandler == null
+					? new DefaultFormLoginSuccessHandler() : formLoginSuccessHandler;
 			AuthenticationEntryPointFailureHandler failureHandler = new AuthenticationEntryPointFailureHandler(
 					authenticationEntryPoint == null ? new Http403ForbiddenEntryPoint() : authenticationEntryPoint);
 			httpSecurity.setSharedObject(AuthenticationFailureHandler.class, failureHandler);

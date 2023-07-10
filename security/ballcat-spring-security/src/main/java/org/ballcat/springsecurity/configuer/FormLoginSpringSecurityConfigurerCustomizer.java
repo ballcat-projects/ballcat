@@ -17,13 +17,13 @@ package org.ballcat.springsecurity.configuer;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
+import org.ballcat.springsecurity.web.FormLoginSuccessHandler;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
@@ -39,7 +39,7 @@ public class FormLoginSpringSecurityConfigurerCustomizer implements SpringSecuri
 
 	private final AuthenticationEntryPoint authenticationEntryPoint;
 
-	private final AuthenticationSuccessHandler authenticationSuccessHandler;
+	private final FormLoginSuccessHandler formLoginSuccessHandler;
 
 	private final LogoutSuccessHandler logoutSuccessHandler;
 
@@ -51,8 +51,8 @@ public class FormLoginSpringSecurityConfigurerCustomizer implements SpringSecuri
 
 			FormLoginConfigurer<HttpSecurity> formLoginConfigurer = httpSecurity.formLogin();
 
-			if (authenticationSuccessHandler != null) {
-				formLoginConfigurer.successHandler(authenticationSuccessHandler);
+			if (formLoginSuccessHandler != null) {
+				formLoginConfigurer.successHandler(formLoginSuccessHandler);
 			}
 
 			if (authenticationEntryPoint != null) {

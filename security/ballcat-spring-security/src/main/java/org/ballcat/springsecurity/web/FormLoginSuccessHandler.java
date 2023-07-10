@@ -15,23 +15,14 @@
  */
 package org.ballcat.springsecurity.web;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.StandardCharsets;
-
-public class DefualtAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-
-	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) {
-		response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		response.setStatus(HttpStatus.OK.value());
-	}
+/**
+ * 表单登录成功后的处理器
+ *
+ * @author Hccake
+ * @since 2.0.0
+ */
+public interface FormLoginSuccessHandler extends AuthenticationSuccessHandler {
 
 }
