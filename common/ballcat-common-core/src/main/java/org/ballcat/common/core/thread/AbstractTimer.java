@@ -15,32 +15,18 @@
  */
 package org.ballcat.common.core.thread;
 
-import org.ballcat.common.core.compose.ContextComponent;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author lingting 2022/6/27 20:26
  */
-@Slf4j
-public abstract class AbstractTimer extends Thread implements ContextComponent {
+public abstract class AbstractTimer extends AbstractThreadContextComponent {
 
 	/**
 	 * 获取超时时间, 单位: 毫秒
 	 */
 	public long getTimeout() {
 		return TimeUnit.SECONDS.toMillis(30);
-	}
-
-	public boolean isRun() {
-		return !isInterrupted();
-	}
-
-	/**
-	 * 运行前执行初始化
-	 */
-	protected void init() {
 	}
 
 	/**
@@ -87,20 +73,6 @@ public abstract class AbstractTimer extends Thread implements ContextComponent {
 		finally {
 			Thread.sleep(getTimeout());
 		}
-	}
-
-	@Override
-	public void onApplicationStart() {
-		setName(getClass().getSimpleName());
-		if (!isAlive()) {
-			start();
-		}
-	}
-
-	@Override
-	public void onApplicationStop() {
-		log.warn("{} 线程: {}; 开始关闭!", getClass().getSimpleName(), getId());
-		interrupt();
 	}
 
 }

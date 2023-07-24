@@ -16,7 +16,6 @@
 package org.ballcat.common.core.thread;
 
 import org.ballcat.common.lock.JavaReentrantLock;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -25,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author lingting 2023-04-22 10:39
  */
-@Slf4j
 @SuppressWarnings("java:S1066")
 public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextComponent {
 
