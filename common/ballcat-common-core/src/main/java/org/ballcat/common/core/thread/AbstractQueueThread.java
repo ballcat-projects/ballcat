@@ -15,8 +15,6 @@
  */
 package org.ballcat.common.core.thread;
 
-import org.ballcat.common.core.compose.ContextComponent;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -27,8 +25,7 @@ import java.util.List;
  *
  * @author lingting 2021/3/2 15:07
  */
-@Slf4j
-public abstract class AbstractQueueThread<E> extends Thread implements ContextComponent {
+public abstract class AbstractQueueThread<E> extends AbstractThreadContextComponent {
 
 	/**
 	 * 默认缓存数据数量
@@ -74,21 +71,6 @@ public abstract class AbstractQueueThread<E> extends Thread implements ContextCo
 	 * @param e 数据
 	 */
 	public abstract void put(E e);
-
-	/**
-	 * 运行前执行初始化
-	 */
-	protected void init() {
-	}
-
-	/**
-	 * 是否可以继续运行
-	 * @return boolean true 表示可以继续运行
-	 */
-	public boolean isRun() {
-		// 未被中断表示可以继续运行
-		return !isInterrupted();
-	}
 
 	/**
 	 * 数据处理前执行
@@ -206,22 +188,6 @@ public abstract class AbstractQueueThread<E> extends Thread implements ContextCo
 	 */
 	protected void shutdown(List<E> list) {
 		log.warn("{} 线程: {} 被关闭. 数据:{}", this.getClass().getSimpleName(), getId(), list);
-	}
-
-	@Override
-	public void onApplicationStart() {
-		// 默认配置线程名. 用来方便查询
-		setName(this.getClass().getSimpleName());
-		if (!this.isAlive()) {
-			this.start();
-		}
-	}
-
-	@Override
-	public void onApplicationStop() {
-		log.warn("{} 线程: {}; 开始关闭!", getClass().getSimpleName(), getId());
-		// 通过中断线程唤醒当前线程. 让线程进入 shutdownHandler 方法处理数据
-		interrupt();
 	}
 
 }
