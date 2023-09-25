@@ -18,6 +18,7 @@ package org.ballcat.grpc.configuration;
 import org.ballcat.grpc.GrpcClientChannel;
 import org.ballcat.grpc.interceptor.TraceIdInterceptor;
 import org.ballcat.grpc.properties.GrpcClientProperties;
+import org.ballcat.grpc.properties.GrpcProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,7 +29,7 @@ import org.springframework.context.annotation.Bean;
  * @author lingting 2023-04-06 15:21
  */
 @AutoConfiguration
-@EnableConfigurationProperties(GrpcClientProperties.class)
+@EnableConfigurationProperties({ GrpcClientProperties.class, GrpcProperties.class })
 public class GrpcClientAutoConfiguration {
 
 	@Bean
@@ -43,8 +44,8 @@ public class GrpcClientAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	public TraceIdInterceptor traceIdInterceptor() {
-		return new TraceIdInterceptor();
+	public TraceIdInterceptor traceIdInterceptor(GrpcProperties properties) {
+		return new TraceIdInterceptor(properties.getTraceId());
 	}
 
 }
