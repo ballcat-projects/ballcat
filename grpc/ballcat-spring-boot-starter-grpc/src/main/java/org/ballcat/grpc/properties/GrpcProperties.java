@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.grpc.constant;
+package org.ballcat.grpc.properties;
 
-import lombok.experimental.UtilityClass;
-import org.springframework.core.Ordered;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author lingting 2023-04-17 10:24
+ * @author lingting 2023-04-06 15:18
  */
-@UtilityClass
-public class GrpcConstants {
+@Data
+@ConfigurationProperties(GrpcProperties.PREFIX)
+public class GrpcProperties {
 
-	public static final int ORDER_TRACE_ID = Ordered.HIGHEST_PRECEDENCE;
+	public static final String PREFIX = "ballcat.grpc";
+
+	private String traceId = "X-Trace-Id";
 
 }

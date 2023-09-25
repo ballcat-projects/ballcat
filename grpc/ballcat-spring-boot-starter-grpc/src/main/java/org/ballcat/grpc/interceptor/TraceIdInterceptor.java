@@ -23,6 +23,9 @@ import org.ballcat.grpc.constant.GrpcConstants;
 import org.bson.types.ObjectId;
 import org.slf4j.MDC;
 import org.springframework.core.annotation.Order;
+import org.springframework.util.StringUtils;
+
+import static org.ballcat.common.core.constant.MDCConstants.TRACE_ID_KEY;
 
 /**
  * 在服务器端，按照拦截器注册的顺序从后到前执行，先执行后面的拦截器，再执行前面的拦截器。
@@ -32,28 +35,38 @@ import org.springframework.core.annotation.Order;
 @Order(GrpcConstants.ORDER_TRACE_ID)
 public class TraceIdInterceptor implements ServerInterceptor {
 
-	public static final String TRACE_ID = "traceId";
+	private final Metadata.Key<String> headerTraceId;
 
-	private static final Metadata.Key<String> KEY_TRACE_ID = Metadata.Key.of(TRACE_ID,
-			Metadata.ASCII_STRING_MARSHALLER);
-
-	@Override
-	public <S, R> ServerCall.Listener<S> interceptCall(ServerCall<S, R> call, Metadata headers,
-			ServerCallHandler<S, R> next) {
-		String traceId = traceId();
-		MDC.put(TRACE_ID, traceId);
-		try {
-			// 返回traceId
-			headers.put(KEY_TRACE_ID, traceId);
-			return next.startCall(call, headers);
-		}
-		finally {
-			MDC.remove(TRACE_ID);
-		}
+	public TraceIdInterceptor(String traceId) {
+		this.headerTraceId = Metadata.Key.of(traceId, Metadata.ASCII_STRING_MARSHALLER);
 	}
 
 	protected String traceId() {
 		return ObjectId.get().toString();
+	}
+
+	@Override
+	public <S, R> ServerCall.Listener<S> interceptCall(ServerCall<S, R> call, Metadata headers,
+			ServerCallHandler<S, R> next) {
+		String traceId = null;
+
+		if (headers.containsKey(headerTraceId)) {
+			traceId = headers.get(headerTraceId);
+		}
+
+		if (!StringUtils.hasText(traceId)) {
+			traceId = traceId();
+		}
+
+		MDC.put(TRACE_ID_KEY, traceId);
+		try {
+			// 返回traceId
+			headers.put(headerTraceId, traceId);
+			return next.startCall(call, headers);
+		}
+		finally {
+			MDC.remove(TRACE_ID_KEY);
+		}
 	}
 
 }
