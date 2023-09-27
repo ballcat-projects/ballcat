@@ -38,8 +38,9 @@
 		<lombok.version>1.18.28</lombok.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
-		<mybatis-plus.version>3.5.3.1</mybatis-plus.version>
-		<mybatis.version>3.5.10</mybatis.version>
+		<mybatis-plus.version>3.5.3.2</mybatis-plus.version>
+		<mybatis.version>3.5.13</mybatis.version>
+		<mybatis-spring-boot-starter.version>2.3.1</mybatis-spring-boot-starter.version>
 		<poi.version>4.1.2</poi.version>
 		<rocketmq.version>2.2.0</rocketmq.version>
 		<software.amazon.awssdk.version>2.20.70</software.amazon.awssdk.version>
@@ -270,6 +271,11 @@
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis</artifactId>
 				<version>${mybatis.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis-spring-boot-starter.version}</version>
 			</dependency>
 			<!-- lombok 代码简化处理器 -->
 			<dependency>

@@ -21,13 +21,14 @@ import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,54 +48,38 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 	 */
 	private SharedString sqlSelect = new SharedString();
 
-	/**
-	 * 不建议直接 new 该实例，使用 WrappersX.lambdaQueryX(entity)
-	 */
 	public LambdaQueryWrapperX() {
 		this((T) null);
 	}
 
-	/**
-	 * 不建议直接 new 该实例，使用 WrappersX.lambdaQueryX(entity)
-	 */
 	public LambdaQueryWrapperX(T entity) {
 		super.setEntity(entity);
 		super.initNeed();
 	}
 
-	/**
-	 * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(entity)
-	 */
 	public LambdaQueryWrapperX(Class<T> entityClass) {
 		super.setEntityClass(entityClass);
 		super.initNeed();
 	}
 
-	/**
-	 * 不建议直接 new 该实例，使用 Wrappers.lambdaQuery(...)
-	 */
 	LambdaQueryWrapperX(T entity, Class<T> entityClass, SharedString sqlSelect, AtomicInteger paramNameSeq,
-			Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments, SharedString lastSql,
-			SharedString sqlComment, SharedString sqlFirst) {
+			Map<String, Object> paramNameValuePairs, MergeSegments mergeSegments, SharedString paramAlias,
+			SharedString lastSql, SharedString sqlComment, SharedString sqlFirst) {
 		super.setEntity(entity);
 		super.setEntityClass(entityClass);
 		this.paramNameSeq = paramNameSeq;
 		this.paramNameValuePairs = paramNameValuePairs;
 		this.expression = mergeSegments;
 		this.sqlSelect = sqlSelect;
+		this.paramAlias = paramAlias;
 		this.lastSql = lastSql;
 		this.sqlComment = sqlComment;
 		this.sqlFirst = sqlFirst;
 	}
 
-	/**
-	 * SELECT 部分 SQL 设置
-	 * @param columns 查询字段
-	 */
-	@SafeVarargs
 	@Override
-	public final LambdaQueryWrapperX<T> select(SFunction<T, ?>... columns) {
-		if (ArrayUtils.isNotEmpty(columns)) {
+	public LambdaQueryWrapperX<T> select(boolean condition, List<SFunction<T, ?>> columns) {
+		if (condition && CollectionUtils.isNotEmpty(columns)) {
 			this.sqlSelect.setStringValue(columnsToString(false, columns));
 		}
 		return typedThis;
@@ -147,7 +132,7 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 	@Override
 	protected LambdaQueryWrapperX<T> instance() {
 		return new LambdaQueryWrapperX<>(getEntity(), getEntityClass(), null, paramNameSeq, paramNameValuePairs,
-				new MergeSegments(), SharedString.emptyString(), SharedString.emptyString(),
+				new MergeSegments(), paramAlias, SharedString.emptyString(), SharedString.emptyString(),
 				SharedString.emptyString());
 	}
 
