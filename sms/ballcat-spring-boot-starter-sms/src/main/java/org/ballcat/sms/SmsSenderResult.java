@@ -1,25 +1,11 @@
-/*
- * Copyright 2023 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.ballcat.sms;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.ballcat.common.constant.Symbol;
 import org.ballcat.common.util.JsonUtils;
-import org.ballcat.sms.constant.SmsConstants;
 import org.ballcat.sms.enums.TypeEnum;
 
 import java.util.Set;
@@ -32,29 +18,20 @@ import java.util.Set;
  */
 @Getter
 @Accessors(chain = true)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SmsSenderResult {
-
-	/**
-	 * 状态字段名
-	 */
-	private static final String TIAN_YI_HONG_STATUS = "status";
-
-	/**
-	 * 信息字段名
-	 */
-	private static final String TIAN_YI_HONG_MSG = "desc";
 
 	/**
 	 * 短信平台
 	 *
-	 * @see SmsConstants
+	 * @see TypeEnum
 	 */
 	protected String platform;
 
 	/**
 	 * 发送的目标
 	 */
-	protected String target;
+	protected Set<String> target;
 
 	/**
 	 * 是否发送成功
@@ -76,10 +53,6 @@ public class SmsSenderResult {
 	 */
 	protected String res;
 
-	private SmsSenderResult() {
-
-	}
-
 	/**
 	 * 出现异常返回结果
 	 * @param platform 平台
@@ -93,7 +66,7 @@ public class SmsSenderResult {
 		SmsSenderResult result = new SmsSenderResult();
 		result.success = false;
 		result.msg = "短信发送失败，出现异常:" + e.getMessage() + Symbol.COMMA + id;
-		result.target = JsonUtils.toJson(phoneNumbers);
+		result.target = phoneNumbers;
 		result.platform = platform.name();
 		return result;
 	}
@@ -103,13 +76,13 @@ public class SmsSenderResult {
 	 * @param resp 请求的返回结果
 	 * @param phoneNumbers 目标号码
 	 */
-	public static SmsSenderResult generate(String resp, String req, Set<String> phoneNumbers) {
+	public static SmsSenderResult generateTencent(String resp, String req, Set<String> phoneNumbers) {
 		SmsSenderResult result = new SmsSenderResult();
 		result.res = resp;
 		// 没有异常就是成功!
 		result.success = true;
 		result.platform = TypeEnum.TENCENT.name();
-		result.target = JsonUtils.toJson(phoneNumbers);
+		result.target = phoneNumbers;
 		result.req = req;
 		return result;
 	}
@@ -120,7 +93,7 @@ public class SmsSenderResult {
 		// 没有异常就是成功!
 		result.success = true;
 		result.platform = TypeEnum.ALIYUN.name();
-		result.target = JsonUtils.toJson(phoneNumbers);
+		result.target = phoneNumbers;
 		result.req = req;
 		return result;
 	}
