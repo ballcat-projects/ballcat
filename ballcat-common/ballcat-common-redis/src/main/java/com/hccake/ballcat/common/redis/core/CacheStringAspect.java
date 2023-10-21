@@ -91,8 +91,9 @@ public class CacheStringAspect {
 			// 失效时间控制
 			Consumer<Object> cachePut = prodCachePutFunction(valueOperations, key, cachedAnnotation.ttl(),
 					cachedAnnotation.timeUnit());
-			return cached(new CachedOps(point, lockKey, cacheQuery, cachePut, method.getGenericReturnType()));
-
+			int retryCount = cachedAnnotation.retryCount();
+			return cached(
+					new CachedOps(point, lockKey, cacheQuery, cachePut, method.getGenericReturnType(), retryCount));
 		}
 
 		// 缓存更新处理
@@ -176,7 +177,7 @@ public class CacheStringAspect {
 				ops.cachePut().accept(cacheValue);
 			}
 			return cacheValue;
-		}).onLockFail(cacheQuery).lock();
+		}).onLockFail(cacheQuery).retryCount(ops.retryCount()).lock();
 		// 自旋时间内未获取到锁，或者数据库中数据为空，返回null
 		if (cacheData == null || ops.nullValue(cacheData)) {
 			return null;

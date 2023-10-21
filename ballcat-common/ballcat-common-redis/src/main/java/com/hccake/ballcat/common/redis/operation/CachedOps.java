@@ -34,20 +34,27 @@ public class CachedOps extends AbstractCacheOps {
 	private final Consumer<Object> cachePut;
 
 	/**
+	 * 在Redis中锁竞争失败时的重试次数
+	 */
+	private final int retryCount;
+
+	/**
 	 * 基本构造函数
 	 * @param joinPoint 织入方法
 	 * @param lockKey 分布式锁key
 	 * @param cacheQuery 查询缓存函数
 	 * @param cachePut 更新缓存函数
 	 * @param returnType 返回数据类型
+	 * @param retryCount 锁竞争失败时的重试次数
 	 */
 	public CachedOps(ProceedingJoinPoint joinPoint, String lockKey, Supplier<String> cacheQuery,
-			Consumer<Object> cachePut, Type returnType) {
+			Consumer<Object> cachePut, Type returnType, int retryCount) {
 		super(joinPoint);
 		this.lockKey = lockKey;
 		this.cacheQuery = cacheQuery;
 		this.cachePut = cachePut;
 		this.returnType = returnType;
+		this.retryCount = retryCount;
 	}
 
 	public Supplier<String> cacheQuery() {
@@ -64,6 +71,10 @@ public class CachedOps extends AbstractCacheOps {
 
 	public String lockKey() {
 		return lockKey;
+	}
+
+	public int retryCount() {
+		return retryCount;
 	}
 
 }
