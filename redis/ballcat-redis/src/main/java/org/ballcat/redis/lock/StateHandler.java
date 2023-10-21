@@ -48,6 +48,12 @@ public interface StateHandler<T> {
 	StateHandler<T> onException(ExceptionHandler action);
 
 	/**
+	 * 控制锁竞争失败时的重试次数
+	 * @param retryCount
+	 */
+	StateHandler<T> retryCount(int retryCount);
+
+	/**
 	 * 终态，获取锁
 	 * @return result
 	 */

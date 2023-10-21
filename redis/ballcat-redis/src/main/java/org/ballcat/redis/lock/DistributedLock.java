@@ -39,6 +39,8 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 
 	TimeUnit timeUnit;
 
+	int retryCount;
+
 	ThrowingExecutor<T> executeAction;
 
 	UnaryOperator<T> successAction;
@@ -87,11 +89,17 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 	}
 
 	@Override
+	public StateHandler<T> retryCount(int retryCount) {
+		this.retryCount = retryCount;
+		return this;
+	}
+
+	@Override
 	public T lock() {
 		String requestId = UUID.randomUUID().toString();
+		boolean exResolved = false;
 		if (Boolean.TRUE.equals(CacheLock.lock(this.key, requestId, this.timeout, this.timeUnit))) {
 			T value = null;
-			boolean exResolved = false;
 			try {
 				value = executeAction.execute();
 				this.result = value;
@@ -107,7 +115,17 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 				this.result = this.successAction.apply(value);
 			}
 		}
-		else if (lockFailAction != null) {
+		if (lockFailAction != null) {
+			this.result = lockFailAction.get();
+		}
+		int fib = 3;
+		while (this.result == null && lockFailAction != null && !exResolved && retryCount-- != 0) {
+			// 使用斐波那契数列进行睡眠时间的增长
+			try {
+				Thread.sleep(calculateFibonacci(fib++) * 10);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
 			this.result = lockFailAction.get();
 		}
 		return this.result;
@@ -116,6 +134,18 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 	@SuppressWarnings("unchecked")
 	private static <E extends Throwable> void throwException(Throwable t) throws E {
 		throw (E) t;
+	}
+
+	/**
+	 * 计算斐波那契值
+	 * @param fib
+	 * @return
+	 */
+	public int calculateFibonacci(int fib) {
+		if (fib <= 0 || fib == 1 || fib == 2) {
+			return 1;
+		}
+		return calculateFibonacci(fib - 1) + calculateFibonacci(fib - 2);
 	}
 
 }
