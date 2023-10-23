@@ -97,8 +97,9 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 	@Override
 	public T lock() {
 		String requestId = UUID.randomUUID().toString();
-		boolean exResolved = false;
-		if (Boolean.TRUE.equals(CacheLock.lock(this.key, requestId, this.timeout, this.timeUnit))) {
+
+		if (Boolean.TRUE.equals(tryLock(requestId))) {
+			boolean exResolved = false;
 			T value = null;
 			try {
 				value = executeAction.execute();
@@ -115,20 +116,36 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 				this.result = this.successAction.apply(value);
 			}
 		}
-		if (lockFailAction != null) {
+		else if (lockFailAction != null) {
 			this.result = lockFailAction.get();
 		}
-		int fib = 3;
-		while (this.result == null && lockFailAction != null && !exResolved && retryCount-- != 0) {
-			// 使用斐波那契数列进行睡眠时间的增长
-			try {
-				Thread.sleep(calculateFibonacci(fib++) * 10);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-			this.result = lockFailAction.get();
-		}
+
 		return this.result;
+
+	}
+
+	private Boolean tryLock(String requestId) {
+		Fibonacci fibonacci = new Fibonacci(10);
+		int tryCount = 0;
+		while (true) {
+			tryCount++;
+
+			Boolean lockSuccess = CacheLock.lock(this.key, requestId, this.timeout, this.timeUnit);
+			if (Boolean.TRUE.equals(lockSuccess)) {
+				return true;
+			}
+
+			if (this.retryCount >= 0 && tryCount > this.retryCount) {
+				return false;
+			}
+
+			try {
+				Thread.sleep(fibonacci.next());
+			}
+			catch (InterruptedException ignore) {
+				// do nothing
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -136,16 +153,34 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 		throw (E) t;
 	}
 
-	/**
-	 * 计算斐波那契值
-	 * @param fib
-	 * @return
-	 */
-	public int calculateFibonacci(int fib) {
-		if (fib <= 0 || fib == 1 || fib == 2) {
-			return 1;
+	static class Fibonacci {
+
+		private long current;
+
+		private long prev = 0;
+
+		private boolean first = true;
+
+		public Fibonacci() {
+			this(1);
 		}
-		return calculateFibonacci(fib - 1) + calculateFibonacci(fib - 2);
+
+		public Fibonacci(int initial) {
+			this.current = initial;
+		}
+
+		public long next() {
+			long next = this.current + this.prev;
+			if (first) {
+				first = false;
+			}
+			else {
+				this.prev = this.current;
+				this.current = next;
+			}
+			return next;
+		}
+
 	}
 
 }

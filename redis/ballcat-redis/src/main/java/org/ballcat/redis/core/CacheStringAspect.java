@@ -104,9 +104,9 @@ public class CacheStringAspect {
 			// 失效时间控制
 			Consumer<Object> cachePut = prodCachePutFunction(valueOperations, key, cachedAnnotation.ttl(),
 					cachedAnnotation.timeUnit());
-			int retryCount = cachedAnnotation.retryCount();
-			return cached(
-					new CachedOps(point, lockKey, cacheQuery, cachePut, method.getGenericReturnType(), retryCount));
+			CachedOps ops = new CachedOps(point, lockKey, cacheQuery, cachePut, method.getGenericReturnType(),
+					cachedAnnotation.retryCount());
+			return cached(ops);
 		}
 
 		// 缓存更新处理
