@@ -4,9 +4,9 @@ import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 利用Aop, 在方法调用前先查询缓存 若缓存中没有数据，则调用方法本身，并将方法返回值放置入缓存中
+ *
  * @author Hccake
- * @version 1.0
- * @date 2019/8/31 16:08 利用Aop, 在方法调用前先查询缓存 若缓存中没有数据，则调用方法本身，并将方法返回值放置入缓存中
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -36,8 +36,8 @@ public @interface Cached {
 	TimeUnit timeUnit() default TimeUnit.SECONDS;
 
 	/**
-	 * 锁竞争失败时的重试次数 小于0: 无限重试 等于0: 不重试 大于0: 重试次数
-	 * @return
+	 * 锁竞争失败时的重试次数
+	 * @return 负数: 无限重试， 0: 不重试， 正数: 重试次数
 	 */
 	int retryCount() default 5;
 
