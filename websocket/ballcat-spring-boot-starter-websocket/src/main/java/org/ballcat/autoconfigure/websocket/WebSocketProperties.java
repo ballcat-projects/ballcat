@@ -95,6 +95,11 @@ public class WebSocketProperties {
 		REDIS,
 
 		/**
+		 * 基于 rocketmq 广播
+		 */
+		ROCKETMQ,
+
+		/**
 		 * 自定义，用户自己实现一个 MessageDistributor
 		 */
 		CUSTOM
