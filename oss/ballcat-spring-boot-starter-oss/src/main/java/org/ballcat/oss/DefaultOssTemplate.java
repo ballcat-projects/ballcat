@@ -33,10 +33,12 @@ import software.amazon.awssdk.transfer.s3.model.Upload;
 import software.amazon.awssdk.transfer.s3.model.UploadFileRequest;
 import software.amazon.awssdk.transfer.s3.model.UploadRequest;
 
-import javax.activation.MimetypesFileTypeMap;
+import javax.activation.FileTypeMap;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
@@ -174,8 +176,46 @@ public class DefaultOssTemplate implements OssTemplate {
 			.bucket(bucket)
 			.key(key)
 			.contentLength(file.length())
-			.contentType(MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(file))
+			.contentType(FileTypeMap.getDefaultFileTypeMap().getContentType(file))
 			.build(), RequestBody.fromFile(file));
+	}
+
+	/**
+	 * 上传文件
+	 * @param bucket bucket名称
+	 * @param key 文件名称
+	 * @param sourcePath 文件地址
+	 * @return 文件服务器针对上传对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_PutObject.html">往存储桶中添加对象</a>
+	 */
+	@Override
+	public PutObjectResponse putObject(String bucket, String key, Path sourcePath)
+			throws AwsServiceException, SdkClientException, S3Exception {
+		return s3Client.putObject(PutObjectRequest.builder().bucket(bucket).key(key).build(), sourcePath);
+	}
+
+	/**
+	 * 上传文件
+	 * @param bucket bucket名称
+	 * @param key 文件名称
+	 * @param inputStream 文件输入流
+	 * @param contentLength 文件大小
+	 * @return 文件服务器针对上传对象操作的返回结果
+	 * @throws AwsServiceException SDK可能引发的所有异常的基类（不论是服务端异常还是客户端异常）。可用于所有场景下的异常捕获。
+	 * @throws SdkClientException 如果发生任何客户端错误，例如与IO相关的异常，无法获取凭据等,会抛出此异常
+	 * @throws S3Exception 所有服务端异常的基类。未知异常将作为此类型的实例抛出
+	 * @see <a href=
+	 * "https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/API_PutObject.html">往存储桶中添加对象</a>
+	 */
+	@Override
+	public PutObjectResponse putObject(String bucket, String key, InputStream inputStream, long contentLength)
+			throws AwsServiceException, SdkClientException, S3Exception {
+		return s3Client.putObject(PutObjectRequest.builder().bucket(bucket).key(key).build(),
+				RequestBody.fromInputStream(inputStream, contentLength));
 	}
 
 	/**
