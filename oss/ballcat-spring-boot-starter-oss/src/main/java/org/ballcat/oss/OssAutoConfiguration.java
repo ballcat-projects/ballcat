@@ -137,16 +137,4 @@ public class OssAutoConfiguration {
 		return new DefaultObjectKeyPrefixConverter(properties);
 	}
 
-	/**
-	 * OSS客户端，单纯用来兼容老版本实现
-	 * @param ossTemplate oss操作模板
-	 * @param objectKeyPrefixConverter S3对象全局键前缀转换器
-	 * @return OssClient
-	 */
-	@Bean
-	@ConditionalOnMissingBean(OssClient.class)
-	public OssClient ossClient(OssTemplate ossTemplate, ObjectKeyPrefixConverter objectKeyPrefixConverter) {
-		return new OssClient(ossTemplate, objectKeyPrefixConverter);
-	}
-
 }
