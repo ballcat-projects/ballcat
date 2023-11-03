@@ -15,6 +15,8 @@
  */
 package org.ballcat.common.util;
 
+import lombok.experimental.UtilityClass;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -37,68 +39,69 @@ import java.util.Arrays;
  *
  * @author <a href="mailto:cs.liaow@gmail.com">evil0th</a> Create on 2023/3/6
  */
+@UtilityClass
 public class AesUtils {
 
 	// 算法名称/工作模式/填充方式
-	public static final String AES_CBC_NOPADDING = "AES/CBC/NoPadding";
+	public final String AES_CBC_NOPADDING = "AES/CBC/NoPadding";
 
-	public static final String AES_CBC_PKCS5PADDING = "AES/CBC/PKCS5Padding";
+	public final String AES_CBC_PKCS5PADDING = "AES/CBC/PKCS5Padding";
 
-	public static final String AES_ECB_NOPADDING = "AES/ECB/NoPadding";
+	public final String AES_ECB_NOPADDING = "AES/ECB/NoPadding";
 
-	public static final String AES_ECB_PKCS5PADDING = "AES/ECB/PKCS5Padding";
+	public final String AES_ECB_PKCS5PADDING = "AES/ECB/PKCS5Padding";
 
-	public static final String AES_GCM_NOPADDING = "AES/GCM/NoPadding";
+	public final String AES_GCM_NOPADDING = "AES/GCM/NoPadding";
 
-	public static byte[] encrypt(String algorithm, byte[] data, Key key) throws NoSuchPaddingException,
+	public byte[] encrypt(String algorithm, byte[] data, Key key) throws NoSuchPaddingException,
 			NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 		Cipher cipher = Cipher.getInstance(algorithm);
 		cipher.init(Cipher.ENCRYPT_MODE, key);
 		return cipher.doFinal(data);
 	}
 
-	public static byte[] decrypt(String algorithm, byte[] data, Key key) throws NoSuchPaddingException,
+	public byte[] decrypt(String algorithm, byte[] data, Key key) throws NoSuchPaddingException,
 			NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 		Cipher cipher = Cipher.getInstance(algorithm);
 		cipher.init(Cipher.DECRYPT_MODE, key);
 		return cipher.doFinal(data);
 	}
 
-	public static byte[] encrypt(String algorithm, byte[] data, byte[] key) throws NoSuchPaddingException,
+	public byte[] encrypt(String algorithm, byte[] data, byte[] key) throws NoSuchPaddingException,
 			NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 		return encrypt(algorithm, data, getSecretKey(key));
 	}
 
-	public static byte[] decrypt(String algorithm, byte[] data, byte[] key) throws NoSuchPaddingException,
+	public byte[] decrypt(String algorithm, byte[] data, byte[] key) throws NoSuchPaddingException,
 			NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 		return decrypt(algorithm, data, getSecretKey(key));
 	}
 
-	public static byte[] encrypt(String algorithm, byte[] data, Key key, AlgorithmParameterSpec parameter)
+	public byte[] encrypt(String algorithm, byte[] data, Key key, AlgorithmParameterSpec parameter)
 			throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
 			IllegalBlockSizeException, InvalidAlgorithmParameterException {
 		return encrypt(algorithm, data, key, parameter, null);
 	}
 
-	public static byte[] decrypt(String algorithm, byte[] data, Key key, AlgorithmParameterSpec parameter)
+	public byte[] decrypt(String algorithm, byte[] data, Key key, AlgorithmParameterSpec parameter)
 			throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
 			IllegalBlockSizeException, InvalidAlgorithmParameterException {
 		return decrypt(algorithm, data, key, parameter, null);
 	}
 
-	public static byte[] encrypt(String algorithm, byte[] data, byte[] key, byte[] iv)
+	public byte[] encrypt(String algorithm, byte[] data, byte[] key, byte[] iv)
 			throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
 			IllegalBlockSizeException, InvalidAlgorithmParameterException {
 		return encrypt(algorithm, data, getSecretKey(key), getIvParameter(iv));
 	}
 
-	public static byte[] decrypt(String algorithm, byte[] data, byte[] key, byte[] iv)
+	public byte[] decrypt(String algorithm, byte[] data, byte[] key, byte[] iv)
 			throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
 			IllegalBlockSizeException, InvalidAlgorithmParameterException {
 		return decrypt(algorithm, data, getSecretKey(key), getIvParameter(iv));
 	}
 
-	public static byte[] encrypt(String algorithm, byte[] data, Key key, AlgorithmParameterSpec parameter, byte[] aad)
+	public byte[] encrypt(String algorithm, byte[] data, Key key, AlgorithmParameterSpec parameter, byte[] aad)
 			throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
 			IllegalBlockSizeException, InvalidAlgorithmParameterException {
 		Cipher cipher = Cipher.getInstance(algorithm);
@@ -109,7 +112,7 @@ public class AesUtils {
 		return cipher.doFinal(data);
 	}
 
-	public static byte[] decrypt(String algorithm, byte[] data, Key key, AlgorithmParameterSpec parameter, byte[] aad)
+	public byte[] decrypt(String algorithm, byte[] data, Key key, AlgorithmParameterSpec parameter, byte[] aad)
 			throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException,
 			IllegalBlockSizeException, InvalidAlgorithmParameterException {
 		Cipher cipher = Cipher.getInstance(algorithm);
@@ -120,99 +123,99 @@ public class AesUtils {
 		return cipher.doFinal(data);
 	}
 
-	public static byte[] cbcEncrypt(byte[] data, Key key, IvParameterSpec parameter)
+	public byte[] cbcEncrypt(byte[] data, Key key, IvParameterSpec parameter)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return encrypt(AES_CBC_PKCS5PADDING, data, key, parameter);
 	}
 
-	public static byte[] cbcDecrypt(byte[] data, Key key, IvParameterSpec parameter)
+	public byte[] cbcDecrypt(byte[] data, Key key, IvParameterSpec parameter)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return decrypt(AES_CBC_PKCS5PADDING, data, key, parameter);
 	}
 
-	public static byte[] cbcEncrypt(byte[] data, byte[] key, byte[] iv)
+	public byte[] cbcEncrypt(byte[] data, byte[] key, byte[] iv)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return encrypt(AES_CBC_PKCS5PADDING, data, key, iv);
 	}
 
-	public static byte[] cbcDecrypt(byte[] data, byte[] key, byte[] iv)
+	public byte[] cbcDecrypt(byte[] data, byte[] key, byte[] iv)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return decrypt(AES_CBC_PKCS5PADDING, data, key, iv);
 	}
 
-	public static byte[] ecbEncrypt(byte[] data, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException,
+	public byte[] ecbEncrypt(byte[] data, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return encrypt(AES_ECB_PKCS5PADDING, data, key);
 	}
 
-	public static byte[] ecbDecrypt(byte[] data, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException,
+	public byte[] ecbDecrypt(byte[] data, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return decrypt(AES_ECB_PKCS5PADDING, data, key);
 	}
 
-	public static byte[] ecbEncrypt(byte[] data, byte[] key) throws NoSuchPaddingException, NoSuchAlgorithmException,
+	public byte[] ecbEncrypt(byte[] data, byte[] key) throws NoSuchPaddingException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return encrypt(AES_ECB_PKCS5PADDING, data, key);
 	}
 
-	public static byte[] ecbDecrypt(byte[] data, byte[] key) throws NoSuchPaddingException, NoSuchAlgorithmException,
+	public byte[] ecbDecrypt(byte[] data, byte[] key) throws NoSuchPaddingException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return decrypt(AES_ECB_PKCS5PADDING, data, key);
 	}
 
-	public static byte[] gcmEncrypt(byte[] data, Key key, GCMParameterSpec parameter)
+	public byte[] gcmEncrypt(byte[] data, Key key, GCMParameterSpec parameter)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return gcmEncrypt(data, key, parameter, null);
 	}
 
-	public static byte[] gcmDecrypt(byte[] data, Key key, GCMParameterSpec parameter)
+	public byte[] gcmDecrypt(byte[] data, Key key, GCMParameterSpec parameter)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return gcmDecrypt(data, key, parameter, null);
 	}
 
-	public static byte[] gcmEncrypt(byte[] data, byte[] key, byte[] iv, int tagLength)
+	public byte[] gcmEncrypt(byte[] data, byte[] key, byte[] iv, int tagLength)
 			throws NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException,
 			InvalidAlgorithmParameterException, NoSuchPaddingException {
 		return gcmEncrypt(data, key, iv, null, tagLength);
 	}
 
-	public static byte[] gcmDecrypt(byte[] data, byte[] key, byte[] iv, int tagLength)
+	public byte[] gcmDecrypt(byte[] data, byte[] key, byte[] iv, int tagLength)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return gcmDecrypt(data, key, iv, null, tagLength);
 	}
 
-	public static byte[] gcmEncrypt(byte[] data, Key key, GCMParameterSpec parameter, byte[] aad)
+	public byte[] gcmEncrypt(byte[] data, Key key, GCMParameterSpec parameter, byte[] aad)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return encrypt(AES_GCM_NOPADDING, data, key, parameter, aad);
 	}
 
-	public static byte[] gcmDecrypt(byte[] data, Key key, GCMParameterSpec parameter, byte[] aad)
+	public byte[] gcmDecrypt(byte[] data, Key key, GCMParameterSpec parameter, byte[] aad)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return decrypt(AES_GCM_NOPADDING, data, key, parameter, aad);
 	}
 
-	public static byte[] gcmEncrypt(byte[] data, byte[] key, byte[] iv, byte[] aad, int tagLength)
+	public byte[] gcmEncrypt(byte[] data, byte[] key, byte[] iv, byte[] aad, int tagLength)
 			throws NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException,
 			InvalidAlgorithmParameterException, NoSuchPaddingException {
 		return gcmEncrypt(data, getSecretKey(key), getGCMParameterSpec(iv, tagLength), aad);
 	}
 
-	public static byte[] gcmDecrypt(byte[] data, byte[] key, byte[] iv, byte[] aad, int tagLength)
+	public byte[] gcmDecrypt(byte[] data, byte[] key, byte[] iv, byte[] aad, int tagLength)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return gcmDecrypt(data, getSecretKey(key), getGCMParameterSpec(iv, tagLength), aad);
 	}
 
-	public static byte[] gcmDecrypt(byte[] ciphertext, byte[] tag, byte[] key, byte[] iv, byte[] aad)
+	public byte[] gcmDecrypt(byte[] ciphertext, byte[] tag, byte[] key, byte[] iv, byte[] aad)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 
@@ -224,39 +227,39 @@ public class AesUtils {
 		return gcmDecrypt(data, key, iv, aad, tag.length * 8);
 	}
 
-	public static byte[] gcmDecrypt(byte[] ciphertext, byte[] tag, byte[] key, byte[] iv)
+	public byte[] gcmDecrypt(byte[] ciphertext, byte[] tag, byte[] key, byte[] iv)
 			throws NoSuchPaddingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		return gcmDecrypt(ciphertext, tag, key, iv, null);
 	}
 
-	public static byte[] getGcmCiphertext(byte[] data, int tagLength) {
+	public byte[] getGcmCiphertext(byte[] data, int tagLength) {
 		return Arrays.copyOfRange(data, 0, data.length - tagLength / 8);
 	}
 
-	public static byte[] getGcmAuthenticationTag(byte[] data, int tagLength) {
+	public byte[] getGcmAuthenticationTag(byte[] data, int tagLength) {
 		return Arrays.copyOfRange(data, data.length - tagLength / 8, data.length);
 	}
 
 	/**
 	 * 生成 AES 密钥，字节数必须为 16 字节、24 字节或 32 字节
 	 */
-	public static Key getSecretKey(byte[] key) {
+	public Key getSecretKey(byte[] key) {
 		return new SecretKeySpec(key, "AES");
 	}
 
-	public static IvParameterSpec getIvParameter(byte[] iv) {
+	public IvParameterSpec getIvParameter(byte[] iv) {
 		return new IvParameterSpec(iv);
 	}
 
-	public static GCMParameterSpec getGCMParameterSpec(int authenticationTagLength, byte[] iv) {
+	public GCMParameterSpec getGCMParameterSpec(int authenticationTagLength, byte[] iv) {
 		return new GCMParameterSpec(authenticationTagLength, iv);
 	}
 
 	/**
 	 * @param tagLength authentication tag 比特位数，必须是 128、120、112、104、96 之一
 	 */
-	public static GCMParameterSpec getGCMParameterSpec(byte[] iv, int tagLength) {
+	public GCMParameterSpec getGCMParameterSpec(byte[] iv, int tagLength) {
 		return getGCMParameterSpec(tagLength, iv);
 	}
 

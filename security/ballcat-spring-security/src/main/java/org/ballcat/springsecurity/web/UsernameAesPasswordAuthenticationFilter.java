@@ -48,6 +48,7 @@ public class UsernameAesPasswordAuthenticationFilter extends UsernamePasswordAut
 	}
 
 	@Nullable
+	@Override
 	protected String obtainPassword(HttpServletRequest request) {
 		String requestPassword = request.getParameter(getPasswordParameter());
 		if (passwordSecretKey == null) {

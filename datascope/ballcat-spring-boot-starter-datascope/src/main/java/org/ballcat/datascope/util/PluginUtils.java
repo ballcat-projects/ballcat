@@ -15,6 +15,7 @@
  */
 package org.ballcat.datascope.util;
 
+import lombok.experimental.UtilityClass;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -37,18 +38,16 @@ import java.util.Map;
  * @author TaoYu , hubin
  * @since 2017-06-20
  */
-public abstract class PluginUtils {
+@UtilityClass
+public class PluginUtils {
 
-	private PluginUtils() {
-	}
-
-	public static final String DELEGATE_BOUNDSQL_SQL = "delegate.boundSql.sql";
+	public final String DELEGATE_BOUNDSQL_SQL = "delegate.boundSql.sql";
 
 	/**
 	 * 获得真正的处理对象,可能多层代理.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T realTarget(Object target) {
+	public <T> T realTarget(Object target) {
 		if (Proxy.isProxyClass(target.getClass())) {
 			MetaObject metaObject = SystemMetaObject.forObject(target);
 			return realTarget(metaObject.getValue("h.target"));
@@ -61,15 +60,15 @@ public abstract class PluginUtils {
 	 * @param boundSql BoundSql
 	 * @param additionalParameters additionalParameters
 	 */
-	public static void setAdditionalParameter(BoundSql boundSql, Map<String, Object> additionalParameters) {
+	public void setAdditionalParameter(BoundSql boundSql, Map<String, Object> additionalParameters) {
 		additionalParameters.forEach(boundSql::setAdditionalParameter);
 	}
 
-	public static MPBoundSql mpBoundSql(BoundSql boundSql) {
+	public MPBoundSql mpBoundSql(BoundSql boundSql) {
 		return new MPBoundSql(boundSql);
 	}
 
-	public static MPStatementHandler mpStatementHandler(StatementHandler statementHandler) {
+	public MPStatementHandler mpStatementHandler(StatementHandler statementHandler) {
 		statementHandler = realTarget(statementHandler);
 		MetaObject object = SystemMetaObject.forObject(statementHandler);
 		return new MPStatementHandler(SystemMetaObject.forObject(object.getValue("delegate")));

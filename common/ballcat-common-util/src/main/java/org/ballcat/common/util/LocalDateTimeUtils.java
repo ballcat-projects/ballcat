@@ -26,21 +26,21 @@ import java.time.format.DateTimeFormatter;
 @UtilityClass
 public class LocalDateTimeUtils {
 
-	public static final ZoneOffset DEFAULT_ZONE_OFFSET = ZoneOffset.of("+8");
+	public final ZoneOffset DEFAULT_ZONE_OFFSET = ZoneOffset.of("+8");
 
-	public static final ZoneId DEFAULT_ZONE_ID = DEFAULT_ZONE_OFFSET.normalized();
+	public final ZoneId DEFAULT_ZONE_ID = DEFAULT_ZONE_OFFSET.normalized();
 
-	public static final String STRING_FORMATTER_YMD_HMS = "yyyy-MM-dd HH:mm:ss";
+	public final String STRING_FORMATTER_YMD_HMS = "yyyy-MM-dd HH:mm:ss";
 
-	public static final DateTimeFormatter FORMATTER_YMD_HMS = DateTimeFormatter.ofPattern(STRING_FORMATTER_YMD_HMS);
+	public final DateTimeFormatter FORMATTER_YMD_HMS = DateTimeFormatter.ofPattern(STRING_FORMATTER_YMD_HMS);
 
-	public static final String STRING_FORMATTER_YMD = "yyyy-MM-dd";
+	public final String STRING_FORMATTER_YMD = "yyyy-MM-dd";
 
-	public static final DateTimeFormatter FORMATTER_YMD = DateTimeFormatter.ofPattern(STRING_FORMATTER_YMD);
+	public final DateTimeFormatter FORMATTER_YMD = DateTimeFormatter.ofPattern(STRING_FORMATTER_YMD);
 
-	public static final String STRING_FORMATTER_HMS = "HH:mm:ss";
+	public final String STRING_FORMATTER_HMS = "HH:mm:ss";
 
-	public static final DateTimeFormatter FORMATTER_HMS = DateTimeFormatter.ofPattern(STRING_FORMATTER_HMS);
+	public final DateTimeFormatter FORMATTER_HMS = DateTimeFormatter.ofPattern(STRING_FORMATTER_HMS);
 
 	// region LocalDateTime
 
@@ -49,7 +49,7 @@ public class LocalDateTimeUtils {
 	 * @param str yyyy-MM-dd HH:mm:ss 格式字符串
 	 * @return java.time.LocalDateTime 时间
 	 */
-	public static LocalDateTime parse(String str) {
+	public LocalDateTime parse(String str) {
 		return LocalDateTime.parse(str, FORMATTER_YMD_HMS);
 	}
 
@@ -58,7 +58,7 @@ public class LocalDateTimeUtils {
 	 * @param timestamp 时间戳 - 毫秒
 	 * @return java.time.LocalDateTime
 	 */
-	public static LocalDateTime parse(Long timestamp) {
+	public LocalDateTime parse(Long timestamp) {
 		return parse(timestamp, DEFAULT_ZONE_ID);
 	}
 
@@ -68,65 +68,65 @@ public class LocalDateTimeUtils {
 	 * @param zoneId 时区
 	 * @return java.time.LocalDateTime
 	 */
-	public static LocalDateTime parse(Long timestamp, ZoneId zoneId) {
+	public LocalDateTime parse(Long timestamp, ZoneId zoneId) {
 		return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), zoneId);
 	}
 
-	public static Long toTimestamp(LocalDateTime dateTime) {
+	public Long toTimestamp(LocalDateTime dateTime) {
 		return toTimestamp(dateTime, DEFAULT_ZONE_OFFSET);
 	}
 
-	public static Long toTimestamp(LocalDateTime dateTime, ZoneOffset offset) {
+	public Long toTimestamp(LocalDateTime dateTime, ZoneOffset offset) {
 		return dateTime.toInstant(offset).toEpochMilli();
 	}
 
-	public static String format(LocalDateTime dateTime) {
+	public String format(LocalDateTime dateTime) {
 		return format(dateTime, FORMATTER_YMD_HMS);
 	}
 
-	public static String format(LocalDateTime dateTime, String formatter) {
+	public String format(LocalDateTime dateTime, String formatter) {
 		return format(dateTime, DateTimeFormatter.ofPattern(formatter));
 	}
 
-	public static String format(LocalDateTime dateTime, DateTimeFormatter formatter) {
+	public String format(LocalDateTime dateTime, DateTimeFormatter formatter) {
 		return formatter.format(dateTime);
 	}
 
 	// endregion
 
 	// region LocalDate
-	public static LocalDate parseDate(String str) {
+	public LocalDate parseDate(String str) {
 		return LocalDate.parse(str, FORMATTER_YMD);
 	}
 
-	public static String format(LocalDate date) {
+	public String format(LocalDate date) {
 		return format(date, FORMATTER_YMD);
 	}
 
-	public static String format(LocalDate date, String formatter) {
+	public String format(LocalDate date, String formatter) {
 		return format(date, DateTimeFormatter.ofPattern(formatter));
 	}
 
-	public static String format(LocalDate date, DateTimeFormatter formatter) {
+	public String format(LocalDate date, DateTimeFormatter formatter) {
 		return formatter.format(date);
 	}
 
 	// endregion
 
 	// region LocalTime
-	public static LocalTime parseTime(String str) {
+	public LocalTime parseTime(String str) {
 		return LocalTime.parse(str, FORMATTER_HMS);
 	}
 
-	public static String format(LocalTime time) {
+	public String format(LocalTime time) {
 		return format(time, FORMATTER_HMS);
 	}
 
-	public static String format(LocalTime time, String formatter) {
+	public String format(LocalTime time, String formatter) {
 		return format(time, DateTimeFormatter.ofPattern(formatter));
 	}
 
-	public static String format(LocalTime time, DateTimeFormatter formatter) {
+	public String format(LocalTime time, DateTimeFormatter formatter) {
 		return formatter.format(time);
 	}
 

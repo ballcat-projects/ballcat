@@ -15,6 +15,8 @@
  */
 package org.ballcat.common.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -39,18 +41,19 @@ import java.util.jar.JarFile;
 /**
  * @author lingting 2021/2/25 21:17
  */
+@UtilityClass
 public class ClassUtils {
 
-	private static final Map<String, Boolean> CACHE = new ConcurrentHashMap<>(8);
+	private final Map<String, Boolean> CACHE = new ConcurrentHashMap<>(8);
 
-	private static final Map<Class<?>, Field[]> CACHE_FIELDS = new ConcurrentHashMap<>(16);
+	private final Map<Class<?>, Field[]> CACHE_FIELDS = new ConcurrentHashMap<>(16);
 
 	/**
 	 * 确定class是否可以被加载
 	 * @param className 完整类名
 	 * @param classLoader 类加载
 	 */
-	public static boolean isPresent(String className, ClassLoader classLoader) {
+	public boolean isPresent(String className, ClassLoader classLoader) {
 		if (CACHE.containsKey(className)) {
 			return CACHE.get(className);
 		}
@@ -65,7 +68,7 @@ public class ClassUtils {
 		}
 	}
 
-	public static <T> Set<Class<T>> scan(String basePack, Class<?> cls) throws IOException {
+	public <T> Set<Class<T>> scan(String basePack, Class<?> cls) throws IOException {
 		return scan(basePack, tClass -> cls == null || cls.isAssignableFrom(tClass), (s, e) -> {
 		});
 	}
@@ -77,7 +80,7 @@ public class ClassUtils {
 	 * @param error 获取类时发生异常处理
 	 * @return java.util.Set<java.lang.Class < T>>
 	 */
-	public static <T> Set<Class<T>> scan(String basePack, Function<Class<T>, Boolean> filter,
+	public <T> Set<Class<T>> scan(String basePack, Function<Class<T>, Boolean> filter,
 			BiConsumer<String, Exception> error) throws IOException {
 		List<String> classNames = new ArrayList<>();
 		String clsPath = basePack.replace(".", "/");
@@ -137,7 +140,7 @@ public class ClassUtils {
 	 * @param o 需要转化的对象
 	 * @return java.util.Map<java.lang.String,java.lang.Object>
 	 */
-	public static Map<String, Object> toMap(Object o) {
+	public Map<String, Object> toMap(Object o) {
 		return toMap(o, field -> true, Field::getName, (field, v) -> v);
 	}
 
@@ -149,7 +152,7 @@ public class ClassUtils {
 	 * @param toVal 自定义指定字段值的存入Map的数据
 	 * @return java.util.Map<java.lang.String,java.lang.Object>
 	 */
-	public static <T> Map<String, T> toMap(Object o, Function<Field, Boolean> filter, Function<Field, String> toKey,
+	public <T> Map<String, T> toMap(Object o, Function<Field, Boolean> filter, Function<Field, String> toKey,
 			BiFunction<Field, Object, T> toVal) {
 		if (o == null) {
 			return Collections.emptyMap();
@@ -178,7 +181,7 @@ public class ClassUtils {
 	 * @return java.lang.reflect.Field[]
 	 */
 	@SuppressWarnings("java:S3011")
-	public static Field[] fields(Class<?> cls) {
+	public Field[] fields(Class<?> cls) {
 		return CACHE_FIELDS.computeIfAbsent(cls, k -> {
 
 			List<Field> fields = new ArrayList<>();

@@ -36,7 +36,7 @@ import java.util.Locale;
 @UtilityClass
 public class ImageUtils {
 
-	private static final List<ImageResolver> RESOLVER_LIST;
+	private final List<ImageResolver> RESOLVER_LIST;
 
 	static {
 		RESOLVER_LIST = new ArrayList<>(16);

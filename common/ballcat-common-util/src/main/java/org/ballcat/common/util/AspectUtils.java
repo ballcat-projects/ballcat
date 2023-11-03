@@ -21,7 +21,7 @@ public class AspectUtils {
 	 * @param point 切面
 	 * @return java.lang.reflect.Method
 	 */
-	public static Method getMethod(ProceedingJoinPoint point) {
+	public Method getMethod(ProceedingJoinPoint point) {
 		Signature signature = point.getSignature();
 		if (signature instanceof MethodSignature) {
 			MethodSignature ms = (MethodSignature) signature;
@@ -36,7 +36,7 @@ public class AspectUtils {
 	 * @param cls 注解类型
 	 * @return T 注解类型
 	 */
-	public static <T extends Annotation> T getAnnotation(ProceedingJoinPoint point, Class<T> cls) {
+	public <T extends Annotation> T getAnnotation(ProceedingJoinPoint point, Class<T> cls) {
 		Method method = getMethod(point);
 		T t = null;
 		if (method != null) {

@@ -15,8 +15,7 @@
  */
 package org.ballcat.common.util;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -26,15 +25,15 @@ import java.nio.file.Files;
 /**
  * @author lingting 2021/4/21 17:45
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public class StreamUtils {
 
 	/**
 	 * 默认大小 1024 * 1024 * 8
 	 */
-	public static final int DEFAULT_SIZE = 10485760;
+	public final int DEFAULT_SIZE = 10485760;
 
-	public static byte[] read(InputStream in) throws IOException {
+	public byte[] read(InputStream in) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		write(in, out);
 		try {
@@ -45,11 +44,11 @@ public class StreamUtils {
 		}
 	}
 
-	public static void write(InputStream in, OutputStream out) throws IOException {
+	public void write(InputStream in, OutputStream out) throws IOException {
 		write(in, out, DEFAULT_SIZE);
 	}
 
-	public static void write(InputStream in, OutputStream out, int size) throws IOException {
+	public void write(InputStream in, OutputStream out, int size) throws IOException {
 		byte[] bytes = new byte[size];
 		int len;
 
@@ -63,11 +62,11 @@ public class StreamUtils {
 		}
 	}
 
-	public static String toString(InputStream in) throws IOException {
+	public String toString(InputStream in) throws IOException {
 		return toString(in, DEFAULT_SIZE, StandardCharsets.UTF_8);
 	}
 
-	public static String toString(InputStream in, int size, Charset charset) throws IOException {
+	public String toString(InputStream in, int size, Charset charset) throws IOException {
 		byte[] bytes = new byte[size];
 		int len;
 
@@ -87,7 +86,7 @@ public class StreamUtils {
 	/**
 	 * 从流中读取 int
 	 */
-	public static int readInt(InputStream is, int noOfBytes, boolean bigEndian) throws IOException {
+	public int readInt(InputStream is, int noOfBytes, boolean bigEndian) throws IOException {
 		int ret = 0;
 		int sv = bigEndian ? ((noOfBytes - 1) * 8) : 0;
 		int cnt = bigEndian ? -8 : 8;
@@ -98,7 +97,7 @@ public class StreamUtils {
 		return ret;
 	}
 
-	public static void close(Closeable closeable) {
+	public void close(Closeable closeable) {
 		try {
 			if (closeable != null) {
 				closeable.close();
@@ -118,11 +117,11 @@ public class StreamUtils {
 	 * @param amounts 数量
 	 * @return 返回指定数量的从源流复制出来的只读流
 	 */
-	public static InputStream[] clone(InputStream stream, Integer amounts) throws IOException {
+	public InputStream[] clone(InputStream stream, Integer amounts) throws IOException {
 		return clone(stream, amounts, DEFAULT_SIZE);
 	}
 
-	public static InputStream[] clone(InputStream stream, Integer amounts, int size) throws IOException {
+	public InputStream[] clone(InputStream stream, Integer amounts, int size) throws IOException {
 		InputStream[] streams = new InputStream[amounts];
 		File[] files = new File[amounts];
 		FileOutputStream[] outs = new FileOutputStream[amounts];

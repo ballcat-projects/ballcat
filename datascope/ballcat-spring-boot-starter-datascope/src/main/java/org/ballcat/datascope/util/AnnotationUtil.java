@@ -15,6 +15,8 @@
  */
 package org.ballcat.datascope.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -22,18 +24,15 @@ import java.lang.reflect.Method;
  * @author Hccake 2021/1/27
  *
  */
+@UtilityClass
 public final class AnnotationUtil {
-
-	private AnnotationUtil() {
-	}
 
 	/**
 	 * 获取数据权限注解 优先获取方法上的注解，再获取类上的注解
 	 * @param mappedStatementId 类名.方法名
 	 * @return 数据权限注解
 	 */
-	public static <A extends Annotation> A findAnnotationByMappedStatementId(String mappedStatementId,
-			Class<A> aClass) {
+	public <A extends Annotation> A findAnnotationByMappedStatementId(String mappedStatementId, Class<A> aClass) {
 		if (mappedStatementId == null || "".equals(mappedStatementId)) {
 			return null;
 		}

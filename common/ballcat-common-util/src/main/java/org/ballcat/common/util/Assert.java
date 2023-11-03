@@ -15,6 +15,8 @@
  */
 package org.ballcat.common.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.function.Supplier;
 
 /**
@@ -22,6 +24,7 @@ import java.util.function.Supplier;
  *
  * @author <a href="mailto:cs.liaow@gmail.com">evil0th</a> Create on 2023/6/7
  */
+@UtilityClass
 public class Assert {
 
 	/**
@@ -31,7 +34,7 @@ public class Assert {
 	 * @param supplier supplier
 	 * @throws X if expression is {@code false}
 	 */
-	public static <X extends Throwable> void isTrue(boolean expression, Supplier<? extends X> supplier) throws X {
+	public <X extends Throwable> void isTrue(boolean expression, Supplier<? extends X> supplier) throws X {
 		if (!expression) {
 			throw supplier.get();
 		}
@@ -44,7 +47,7 @@ public class Assert {
 	 * @param errorSupplier errorSupplier
 	 * @throws X if expression is {@code false}
 	 */
-	public static <T, X extends Throwable> T notNull(T object, Supplier<X> errorSupplier) throws X {
+	public <T, X extends Throwable> T notNull(T object, Supplier<X> errorSupplier) throws X {
 		if (null == object) {
 			throw errorSupplier.get();
 		}

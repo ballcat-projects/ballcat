@@ -24,29 +24,29 @@ public class RegexUtils {
 	/**
 	 * 日期
 	 */
-	public static final String RE_DATE = "^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$";
+	public final String RE_DATE = "^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$";
 
 	/**
 	 * 身份证号码
 	 */
-	public final static String RE_CITIZEN_ID = "^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|12])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$";
+	public final String RE_CITIZEN_ID = "^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|12])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$";
 
 	/**
 	 * 邮件，符合<a href="http://emailregex.com/">RFC 5322</a>规范
 	 */
-	public final static String RE_EMAIL = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])";
+	public final String RE_EMAIL = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])";
 
 	/**
 	 * 正则中需要被转义的关键字
 	 */
-	public final static Set<Character> RE_KEYS = Arrays
+	public final Set<Character> RE_KEYS = Arrays
 		.stream(new Character[] { '$', '(', ')', '*', '+', '.', '[', ']', '?', '\\', '^', '{', '}', '|' })
 		.collect(Collectors.toSet());
 
 	/**
 	 * 中国车牌号码
 	 */
-	public final static String RE_PLATE_NUMBER = "^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领]"
+	public final String RE_PLATE_NUMBER = "^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领]"
 			+ "[A-Z](([0-9]{5}[ABCDEFGHJK])|([ABCDEFGHJK]([A-HJ-NP-Z0-9])[0-9]{4})))|"
 			+ "([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领]\\d{3}\\d{1,3}[领]?)|"
 			+ "([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$";
@@ -54,47 +54,47 @@ public class RegexUtils {
 	/**
 	 * 十六进制字符串
 	 */
-	public static final String RE_HEX = "^[a-fA-F0-9]+$";
+	public final String RE_HEX = "^[a-fA-F0-9]+$";
 
 	/**
 	 * 整数
 	 */
-	public static final String RE_INTEGER = "^-?[1-9]\\d*$";
+	public final String RE_INTEGER = "^-?[1-9]\\d*$";
 
 	/**
 	 * 正整数
 	 */
-	public static final String RE_INTEGER_POSITIVE = "^[1-9]\\d*$";
+	public final String RE_INTEGER_POSITIVE = "^[1-9]\\d*$";
 
 	/**
 	 * 非正整数
 	 */
-	public static final String RE_INTEGER_POSITIVE_REVERSE = "^-[1-9]\\d*|0$";
+	public final String RE_INTEGER_POSITIVE_REVERSE = "^-[1-9]\\d*|0$";
 
 	/**
 	 * 负整数
 	 */
-	public static final String RE_INTEGER_NEGATIVE = "^-[1-9]\\d*$";
+	public final String RE_INTEGER_NEGATIVE = "^-[1-9]\\d*$";
 
 	/**
 	 * 非负整数
 	 */
-	public static final String RE_INTEGER_NEGATIVE_REVERSE = "^[1-9]\\d*|0$";
+	public final String RE_INTEGER_NEGATIVE_REVERSE = "^[1-9]\\d*|0$";
 
 	/**
 	 * 浮点数
 	 */
-	public static final String RE_FLOAT = "^-?[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
+	public final String RE_FLOAT = "^-?[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
 
 	/**
 	 * 正浮点数
 	 */
-	public static final String RE_FLOAT_POSITIVE = "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
+	public final String RE_FLOAT_POSITIVE = "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
 
 	/**
 	 * 负浮点数
 	 */
-	public static final String RE_FLOAT_NEGATIVE = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$";
+	public final String RE_FLOAT_NEGATIVE = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$";
 
 	/**
 	 * 给定内容是否匹配正则(matches)
@@ -199,7 +199,7 @@ public class RegexUtils {
 	 * @param content 内容
 	 * @return 正则为null或者""则不检查，返回true，内容为null返回false
 	 */
-	public static boolean isCitizenId(String content) {
+	public boolean isCitizenId(String content) {
 		if (content == null) {
 			// 提供null的字符串为不匹配
 			return false;
@@ -234,7 +234,7 @@ public class RegexUtils {
 	 * @param socialCreditCode 统一社会信用代码
 	 * @return 符合返回true，否则返回false
 	 */
-	public static boolean isSocialCreditCode(String socialCreditCode) {
+	public boolean isSocialCreditCode(String socialCreditCode) {
 		if (null == socialCreditCode) {
 			return false;
 		}
@@ -257,7 +257,7 @@ public class RegexUtils {
 	/**
 	 * 正则编译缓存
 	 */
-	private static final ConcurrentHashMap<String, Pattern> CACHE = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<String, Pattern> CACHE = new ConcurrentHashMap<>();
 
 	/**
 	 * 获取缓存，如果获取不到，先编译后存入缓存

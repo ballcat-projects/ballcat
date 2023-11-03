@@ -15,6 +15,8 @@
  */
 package org.ballcat.common.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.lang.reflect.Array;
 
 /**
@@ -23,6 +25,7 @@ import java.lang.reflect.Array;
  * @author <a href="mailto:cs.liaow@gmail.com">evil0th</a> Create on 2023/3/6
  *
  */
+@UtilityClass
 public class StringUtils {
 
 	/**
@@ -32,7 +35,7 @@ public class StringUtils {
 	 * @param pad 补位字符
 	 * @return string
 	 */
-	public static String leftPad(String origin, int length, char pad) {
+	public String leftPad(String origin, int length, char pad) {
 		return pad("", origin, length, pad);
 	}
 
@@ -43,7 +46,7 @@ public class StringUtils {
 	 * @param pad 补位字符
 	 * @return string
 	 */
-	public static String rightPad(String origin, int length, char pad) {
+	public String rightPad(String origin, int length, char pad) {
 		return pad("-", origin, length, pad);
 	}
 
@@ -55,7 +58,7 @@ public class StringUtils {
 	 * @param pad 补位字符
 	 * @return string
 	 */
-	public static String pad(String type, String origin, int length, char pad) {
+	public String pad(String type, String origin, int length, char pad) {
 		if (null == type) {
 			return origin;
 		}
@@ -67,7 +70,7 @@ public class StringUtils {
 	 * @param str 字符
 	 * @return 是否
 	 */
-	public static boolean containsText(CharSequence str) {
+	public boolean containsText(CharSequence str) {
 		int strLen = str.length();
 		for (int i = 0; i < strLen; ++i) {
 			if (!Character.isWhitespace(str.charAt(i))) {
@@ -82,7 +85,7 @@ public class StringUtils {
 	 * @param css 输入参数
 	 * @return string
 	 */
-	public static boolean isAnyBlank(String... css) {
+	public boolean isAnyBlank(String... css) {
 		if (null == css || Array.getLength(css) == 0) {
 			return true;
 		}
@@ -101,7 +104,7 @@ public class StringUtils {
 	 * @param css 输入参数
 	 * @return string
 	 */
-	public static boolean isNoneBlank(String... css) {
+	public boolean isNoneBlank(String... css) {
 		return !isAnyBlank(css);
 	}
 
@@ -110,7 +113,7 @@ public class StringUtils {
 	 * @param str 原始
 	 * @return 替换后的
 	 */
-	public static String trimNbsp(String str) {
+	public String trimNbsp(String str) {
 		return str == null ? null : str.replaceAll("\\u00A0+", "");
 	}
 
@@ -118,7 +121,7 @@ public class StringUtils {
 	 * @param text 原始
 	 * @return 下划线
 	 */
-	public static String toUnderlineCase(String text) {
+	public String toUnderlineCase(String text) {
 		return text == null ? null : text.replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
 	}
 

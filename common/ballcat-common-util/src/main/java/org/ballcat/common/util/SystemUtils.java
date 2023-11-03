@@ -31,42 +31,42 @@ public class SystemUtils {
 	 * @see sun.awt.OSInfo#getOSType()
 	 * @return boolean
 	 */
-	public static boolean isWindows() {
+	public boolean isWindows() {
 		return osName().contains("Windows");
 	}
 
-	public static boolean isLinux() {
+	public boolean isLinux() {
 		return osName().contains("Linux");
 	}
 
-	public static boolean isMacX() {
+	public boolean isMacX() {
 		return osName().contains("OS X");
 	}
 
-	public static boolean isMac() {
+	public boolean isMac() {
 		return osName().contains("Mac OS");
 	}
 
-	public static boolean isAix() {
+	public boolean isAix() {
 		return osName().contains("AIX");
 	}
 
-	public static String osName() {
+	public String osName() {
 		return System.getProperty("os.name");
 	}
 
 	/**
 	 * 获取系统字符集
 	 */
-	public static Charset charset() {
+	public Charset charset() {
 		return Charset.forName(System.getProperty("sun.jnu.encoding"));
 	}
 
-	public static String lineSeparator() {
+	public String lineSeparator() {
 		return System.lineSeparator();
 	}
 
-	public static String fileSeparator() {
+	public String fileSeparator() {
 		return File.separator;
 	}
 
@@ -75,31 +75,31 @@ public class SystemUtils {
 	 * @deprecated 更换了方法名
 	 */
 	@Deprecated
-	public static File tempDir() {
+	public File tempDir() {
 		return tmpDir();
 	}
 
-	public static File tmpDir() {
+	public File tmpDir() {
 		return new File(System.getProperty("java.io.tmpdir"));
 	}
 
-	public static File tmpDirBallcat() {
+	public File tmpDirBallcat() {
 		return new File(System.getProperty("java.io.tmpdir"), "ballcat");
 	}
 
-	public static File homeDir() {
+	public File homeDir() {
 		return new File(System.getProperty("user.home"));
 	}
 
-	public static File homeDirBallcat() {
+	public File homeDirBallcat() {
 		return new File(System.getProperty("user.home"), ".ballcat");
 	}
 
-	public static File workDir() {
+	public File workDir() {
 		return new File(System.getProperty("user.dir"));
 	}
 
-	public static String username() {
+	public String username() {
 		return System.getProperty("user.name");
 	}
 

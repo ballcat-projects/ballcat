@@ -15,6 +15,7 @@
  */
 package org.ballcat.datascope.util;
 
+import lombok.experimental.UtilityClass;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
@@ -24,19 +25,17 @@ import net.sf.jsqlparser.schema.Table;
  *
  * @author hccake
  */
+@UtilityClass
 public final class SqlParseUtils {
 
-	private SqlParseUtils() {
-	}
-
-	private static final String MYSQL_ESCAPE_CHARACTER = "`";
+	private final String MYSQL_ESCAPE_CHARACTER = "`";
 
 	/**
 	 * 兼容 mysql 转义表名 `t_xxx`
 	 * @param tableName 表名
 	 * @return 去除转移字符后的表名
 	 */
-	public static String getTableName(String tableName) {
+	public String getTableName(String tableName) {
 		if (tableName.startsWith(MYSQL_ESCAPE_CHARACTER) && tableName.endsWith(MYSQL_ESCAPE_CHARACTER)) {
 			tableName = tableName.substring(1, tableName.length() - 1);
 		}
@@ -60,7 +59,7 @@ public final class SqlParseUtils {
 	 * @param columnName 字段名
 	 * @return 原始字段名，或者添加了表别名的字段名
 	 */
-	public static Column getAliasColumn(String tableName, Alias tableAlias, String columnName) {
+	public Column getAliasColumn(String tableName, Alias tableAlias, String columnName) {
 		StringBuilder columnBuilder = new StringBuilder();
 		// 为了兼容隐式内连接，没有别名时条件就需要加上表名
 		if (tableAlias != null) {

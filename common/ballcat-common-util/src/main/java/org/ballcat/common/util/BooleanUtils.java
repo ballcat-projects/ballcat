@@ -23,11 +23,11 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class BooleanUtils {
 
-	private static final String[] STR_TRUE = { "1", "true", "yes", "ok", "y" };
+	private final String[] STR_TRUE = { "1", "true", "yes", "ok", "y" };
 
-	private static final String[] STR_FALSE = { "0", "false", "no", "n" };
+	private final String[] STR_FALSE = { "0", "false", "no", "n" };
 
-	public static boolean isTrue(Object obj) {
+	public boolean isTrue(Object obj) {
 		if (obj instanceof String) {
 			return ArrayUtils.contains(STR_TRUE, obj);
 		}
@@ -40,7 +40,7 @@ public class BooleanUtils {
 		return false;
 	}
 
-	public static boolean isFalse(Object obj) {
+	public boolean isFalse(Object obj) {
 		if (obj instanceof String) {
 			return ArrayUtils.contains(STR_FALSE, obj);
 		}
