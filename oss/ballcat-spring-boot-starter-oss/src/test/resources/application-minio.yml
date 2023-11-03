@@ -8,3 +8,4 @@ ballcat:
     path-style-access: false
     region: xxx
     #object-key-prefix: pic
+    domain: http://example.com

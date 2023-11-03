@@ -16,12 +16,14 @@
 package org.ballcat.oss;
 
 import org.springframework.lang.NonNull;
+import org.springframework.util.StringUtils;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3Utilities;
 import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
@@ -463,7 +465,10 @@ public interface OssTemplate {
 	 * @return url
 	 */
 	default String getURL(String bucket, String key) {
-		return getS3Client().utilities().getUrl(GetUrlRequest.builder().key(key).bucket(bucket).build()).toString();
+		S3Utilities utilities = getS3Client().utilities();
+		String url = utilities.getUrl(GetUrlRequest.builder().key(key).bucket(bucket).build()).toString();
+		String domain = getOssProperties().getDomain();
+		return StringUtils.hasText(domain) ? url.replace(getOssProperties().getEndpoint(), domain) : url;
 	}
 
 	/**

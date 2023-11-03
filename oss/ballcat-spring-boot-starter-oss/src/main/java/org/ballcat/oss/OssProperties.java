@@ -47,9 +47,6 @@ public class OssProperties {
 	 * <p>
 	 * 只需要完整 正确的节点地址即可
 	 * </p>
-	 * <p>
-	 * 如果使用 自定义的域名转发 不需要配置本值
-	 * </p>
 	 */
 	private String endpoint;
 
@@ -66,6 +63,21 @@ public class OssProperties {
 	 * </p>
 	 */
 	private String region = Region.CN_NORTH_1.id();
+
+	/**
+	 * 自定义域名，配置此参数时，返回url优先使用
+	 * <p>
+	 * 在复杂的企业网络环境中，可能存在内部维护oss实例通过内部程序代码上传，然后通过前端网关或者nginx暴露oss端点的情况,
+	 * 即内部上传地址与外部访问地址不一致，此时可以通过配置该属性隐藏内部实例细节并提供给外部便捷访问
+	 * </p>
+	 * <p>
+	 * 如将<code>endpoint</code>设置为http://192.168.1.3:9000，<code>domain</code>设置为<code>http://example.com</code>,就可以在内部通过http://192.168.1.3:9000上传删除等文件操作，外部通过http://example.com访问，
+	 * </p>
+	 * <p>
+	 * ⚠️该配置只会处理API渲染返回的情况，如果需要文件操作，一定要配置<code>endpoint</code>属性,这是和老版逻辑不一致的地方
+	 * </p>
+	 */
+	private String domain;
 
 	/**
 	 * 密钥key
