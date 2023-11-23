@@ -30,12 +30,7 @@ public class NtpCn {
 	 */
 	public static final String DEFAULT_TIME_SERVER = "time.7x24s.com";
 
-	/**
-	 * 上海解析出来的ip
-	 */
-	public static final String DEFAULT_TIME_SERVER_SH_IP = "203.107.6.88";
-
-	private static final Ntp INSTANCE = new Ntp(DEFAULT_TIME_SERVER_SH_IP);
+	private static final Ntp INSTANCE = new Ntp(DEFAULT_TIME_SERVER);
 
 	public static long currentTimeMillis() {
 		return INSTANCE.currentMillis();

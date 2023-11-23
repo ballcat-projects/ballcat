@@ -25,7 +25,7 @@ class NtpTest {
 
 	@Test
 	void ntp() {
-		Ntp ntp = new Ntp(NtpCn.DEFAULT_TIME_SERVER_SH_IP);
+		Ntp ntp = new Ntp(NtpCn.DEFAULT_TIME_SERVER);
 		System.out.println("服务时间: " + ntp.currentMillis());
 		System.out.println("系统时间: " + System.currentTimeMillis());
 		Assertions.assertNotNull(ntp);
