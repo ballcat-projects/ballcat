@@ -15,9 +15,6 @@
  */
 package org.ballcat.common.core.strategy;
 
-import org.ballcat.common.core.exception.BusinessException;
-import org.ballcat.common.model.result.BaseResultCode;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -54,6 +51,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @see StrategyComponent
  */
 public final class StrategyFactory {
+
+	private StrategyFactory() {
+	}
 
 	/**
 	 * 所有的策略缓存
@@ -102,8 +102,7 @@ public final class StrategyFactory {
 	 * @return 策略的实例
 	 */
 	public static <T> T getNonNullStrategy(Class<T> strategyType, String name) {
-		return getStrategy(strategyType, name)
-			.orElseThrow(() -> new BusinessException(BaseResultCode.LOGIC_CHECK_ERROR.getCode(), "查询某个策略时策略不存在"));
+		return getStrategy(strategyType, name).orElseThrow(() -> new NoSuchStrategyException(strategyType, name));
 	}
 
 }

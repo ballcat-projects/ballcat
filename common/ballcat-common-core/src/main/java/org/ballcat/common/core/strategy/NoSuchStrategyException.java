@@ -15,26 +15,16 @@
  */
 package org.ballcat.common.core.strategy;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
- * 水果类型
+ * 当无法找到指定类型的策略时抛出该异常
  *
- * @author kevin
+ * @author Hccake
+ * @since 2.0.0
  */
-@Getter
-@RequiredArgsConstructor
-public enum FruitType {
+public class NoSuchStrategyException extends RuntimeException {
 
-	/**
-	 * Apple
-	 */
-	APPLE,
-
-	/**
-	 * Orange
-	 */
-	ORANGE
+	public <T> NoSuchStrategyException(Class<T> strategyType, String name) {
+		super("No strategy found under class '" + strategyType.getName() + "' for name '" + name + "'.");
+	}
 
 }

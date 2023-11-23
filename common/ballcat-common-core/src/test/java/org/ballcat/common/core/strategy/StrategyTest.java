@@ -15,20 +15,30 @@
  */
 package org.ballcat.common.core.strategy;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
 @ContextConfiguration(classes = { StrategyBeanProcessor.class, AppleFruit.class, OrangeFruit.class })
-public class StrategyTest {
+class StrategyTest {
 
 	@Test
 	void test() {
 		Fruit appleStrategy = StrategyFactory.getNonNullStrategy(Fruit.class, FruitType.APPLE.name());
+		Assertions.assertNotNull(appleStrategy);
 		appleStrategy.show();
+
 		Fruit orangeStrategy = StrategyFactory.getNonNullStrategy(Fruit.class, FruitType.ORANGE.name());
+		Assertions.assertNotNull(orangeStrategy);
 		orangeStrategy.show();
+	}
+
+	@Test
+	void testNoSuchStrategyException() {
+		Assertions.assertThrows(NoSuchStrategyException.class,
+				() -> StrategyFactory.getNonNullStrategy(Fruit.class, "Banana"));
 	}
 
 }

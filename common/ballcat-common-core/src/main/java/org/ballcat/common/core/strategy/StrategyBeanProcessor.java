@@ -47,9 +47,9 @@ public class StrategyBeanProcessor implements BeanPostProcessor {
 				if (parentInterface.isAnnotationPresent(MARK_STRATEGY_INTERFACE_CLASS)) {
 					String[] strategyValues = markStrategy.value();
 					for (String strategyValue : strategyValues) {
-						StrategyFactory.getStrategy(parentInterface, strategyValue).ifPresent(var -> {
+						StrategyFactory.getStrategy(parentInterface, strategyValue).ifPresent(strategy -> {
 							throw new BeanCreationException(String.format("策略冲突. 策略名称: %s, 策略类: %s, 冲突类: %s",
-									strategyValue, var.getClass().getName(), bean.getClass().getName()));
+									strategyValue, strategy.getClass().getName(), bean.getClass().getName()));
 						});
 						StrategyFactory.addStrategy(parentInterface, strategyValue, bean);
 					}
