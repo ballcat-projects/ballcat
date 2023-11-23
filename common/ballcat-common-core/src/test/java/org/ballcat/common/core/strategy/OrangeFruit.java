@@ -30,4 +30,5 @@ public class OrangeFruit implements Fruit {
 	public void show() {
 		log.info("THIS IS ORANGE...");
 	}
+
 }

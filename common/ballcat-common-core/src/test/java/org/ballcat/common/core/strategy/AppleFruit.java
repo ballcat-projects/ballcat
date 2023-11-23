@@ -25,8 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j(topic = "STRATEGY_APPLE_FRUIT")
 @StrategyComponent("APPLE")
 public class AppleFruit implements Fruit {
+
 	@Override
 	public void show() {
 		log.info("THIS IS APPLE...");
 	}
+
 }

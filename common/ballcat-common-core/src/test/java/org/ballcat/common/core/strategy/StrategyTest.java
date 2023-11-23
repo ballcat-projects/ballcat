@@ -20,7 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
-@ContextConfiguration(classes = {StrategyBeanProcessor.class, AppleFruit.class, OrangeFruit.class})
+@ContextConfiguration(classes = { StrategyBeanProcessor.class, AppleFruit.class, OrangeFruit.class })
 public class StrategyTest {
 
 	@Test
@@ -30,4 +30,5 @@ public class StrategyTest {
 		Fruit orangeStrategy = StrategyFactory.getNonNullStrategy(Fruit.class, FruitType.ORANGE.name());
 		orangeStrategy.show();
 	}
+
 }

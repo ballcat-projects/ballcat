@@ -35,6 +35,6 @@ public enum FruitType {
 	/**
 	 * Orange
 	 */
-	ORANGE,
-	;
+	ORANGE,;
+
 }
