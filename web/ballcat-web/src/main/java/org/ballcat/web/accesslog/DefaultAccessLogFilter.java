@@ -161,7 +161,7 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 				return annotation.recordRequestBody();
 			}
 
-			return false;
+			return true;
 		} catch (Exception e) {
 			return false;
 		}
