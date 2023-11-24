@@ -24,6 +24,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
+import org.springframework.web.util.ServletRequestPathUtils;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
@@ -76,6 +77,12 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 
 		HttpServletRequest requestToUse;
 		if (accessLogSettings.shouldRecordRequestBody()) {
+
+			// 避免由于路由信息缺失，导致无法获取到请求目标的执行方法
+			if (!ServletRequestPathUtils.hasParsedRequestPath(request)) {
+				ServletRequestPathUtils.parseAndCache(request);
+			}
+
 			// 包装 request，以保证可以重复读取body
 			// spring 提供的 ContentCachingRequestWrapper，在 body 没有被程序使用时，获取到的 body 缓存为空
 			// 且对于 form data，会混淆 payload 和 query string

@@ -44,6 +44,7 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 
 	private final List<AccessLogRule> logRules;
 
+
 	public DefaultAccessLogFilter(List<AccessLogRule> logRules) {
 		this.logRules = logRules;
 	}
@@ -60,11 +61,11 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 		for (AccessLogRule logRule : logRules) {
 			if (ANT_PATH_MATCHER.match(logRule.getUrlPattern(), lookupPathForRequest)) {
 				return AccessLogSettings.builder()
-					.enabled(!logRule.isIgnore())
-					.includeQueryString(logRule.isIncludeQueryString())
-					.includeRequestBody(logRule.isIncludeRequestBody())
-					.includeResponseBody(logRule.isIncludeResponseBody())
-					.build();
+						.enabled(!logRule.isIgnore())
+						.includeQueryString(logRule.isIncludeQueryString())
+						.includeRequestBody(logRule.isIncludeRequestBody())
+						.includeResponseBody(logRule.isIncludeResponseBody())
+						.build();
 			}
 		}
 
@@ -95,7 +96,7 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 
 	@Override
 	protected void afterRequest(HttpServletRequest request, HttpServletResponse response, Long executionTime,
-			Throwable throwable, AccessLogSettings accessLogSettings) {
+								Throwable throwable, AccessLogSettings accessLogSettings) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("After request [");
 		msg.append(request.getMethod()).append(' ');
