@@ -15,14 +15,9 @@
  */
 package org.ballcat.web.accesslog;
 
-import cn.hutool.core.annotation.AnnotationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.common.util.IpUtils;
-import org.ballcat.web.accesslog.annotation.AccessLogging;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerExecutionChain;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,12 +44,9 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 
 	private final List<AccessLogRule> logRules;
 
-	private final RequestMappingHandlerMapping requestMappingHandlerMapping;
 
-	public DefaultAccessLogFilter(List<AccessLogRule> logRules,
-								  RequestMappingHandlerMapping requestMappingHandlerMapping) {
+	public DefaultAccessLogFilter(List<AccessLogRule> logRules) {
 		this.logRules = logRules;
-		this.requestMappingHandlerMapping = requestMappingHandlerMapping;
 	}
 
 	@Override
@@ -120,12 +112,11 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 		String ipAddr = IpUtils.getIpAddr(request);
 		msg.append(", client=").append(ipAddr);
 
-		if (accessLogSettings.shouldRecordRequestBody() && (this.shouldRecordRequestBodyByAnnotation(request))) {
-				String payload = getRequestBody(request);
-				if (payload != null) {
-					msg.append(", request body=").append(payload);
-				}
-
+		if (accessLogSettings.shouldRecordRequestBody()) {
+			String payload = getRequestBody(request);
+			if (payload != null) {
+				msg.append(", request body=").append(payload);
+			}
 		}
 
 		if (accessLogSettings.shouldRecordResponseBody()) {
@@ -138,34 +129,6 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 		msg.append("]");
 
 		log.debug(msg.toString());
-	}
-
-	/**
-	 * 根据注解判断是否记录请求体
-	 * @param request 请求信息
-	 * @return 记录返回 true，否则返回 false
-	 */
-	private boolean shouldRecordRequestBodyByAnnotation(HttpServletRequest request) {
-
-		try {
-			HandlerExecutionChain handlerExecutionChain = requestMappingHandlerMapping.getHandler(request);
-			if (handlerExecutionChain == null) {
-				return false;
-			}
-
-			HandlerMethod handlerMethod = (HandlerMethod) handlerExecutionChain.getHandler();
-
-			AccessLogging annotation = AnnotationUtil.getAnnotation(handlerMethod.getMethod(), AccessLogging.class);
-
-			if (annotation != null) {
-				return annotation.recordRequestBody();
-			}
-
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-
 	}
 
 }
