@@ -24,6 +24,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 /**
  * @author Hccake 2019/10/15 18:20
@@ -37,10 +38,13 @@ public class AccessLogAutoConfiguration {
 
 	private final AccessLogProperties accessLogProperties;
 
+	private final RequestMappingHandlerMapping requestMappingHandlerMapping;
+
 	@Bean
 	@ConditionalOnMissingBean(AbstractAccessLogFilter.class)
 	public AbstractAccessLogFilter defaultAccessLogFilter() {
-		AbstractAccessLogFilter accessLogFilter = new DefaultAccessLogFilter(accessLogProperties.getSettings());
+		AbstractAccessLogFilter accessLogFilter = new DefaultAccessLogFilter(accessLogProperties.getSettings(),
+				requestMappingHandlerMapping);
 		accessLogFilter.setMaxBodyLength(accessLogProperties.getMaxBodyLength());
 		accessLogFilter.setOrder(accessLogProperties.getFilterOrder());
 		return accessLogFilter;
