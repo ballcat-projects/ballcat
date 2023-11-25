@@ -16,13 +16,15 @@
 package org.ballcat.autoconfigure.web.accesslog;
 
 import lombok.Data;
+import lombok.Setter;
 import org.ballcat.web.accesslog.AbstractAccessLogFilter;
+import org.ballcat.web.accesslog.AccessLogRecordOptions;
 import org.ballcat.web.accesslog.AccessLogRule;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 访问日志配置
@@ -30,6 +32,7 @@ import java.util.List;
  * @author Hccake 2020/6/11 14:56
  */
 @Data
+@Setter
 @ConfigurationProperties(prefix = AccessLogProperties.PREFIX)
 public class AccessLogProperties {
 
@@ -53,10 +56,77 @@ public class AccessLogProperties {
 	private Integer maxBodyLength = AbstractAccessLogFilter.DEFAULT_MAX_BODY_LENGTH;
 
 	/**
+	 * 访问日志记录的默认选项，当请求路径无法在 rules 中匹配时，使用该选项
+	 */
+	private RecordOptions defaultRecordOptions = new RecordOptions();
+
+	/**
 	 * 访问日志记录的规则列表
 	 * <p>
-	 * 以当前 request uri 匹配中的第一个规则为准，所以通用性的规则(例如 /**)应放在最后一项
+	 * 以当前 request uri 匹配中的第一个规则为准，所以通用性的规则应放在最后一项, 例如 /a/b 应在 /a/** 之前
 	 */
-	private List<AccessLogRule> settings = Collections.singletonList(new AccessLogRule().setUrlPattern("/**"));
+	private List<Rule> rules = Collections.emptyList();
+
+	public AccessLogRecordOptions getDefaultAccessLogRecordOptions() {
+		return convertToAccessLogRecordOptions(defaultRecordOptions);
+	}
+
+	public List<AccessLogRule> getAccessLogRules() {
+		return rules.stream().map(AccessLogProperties::convertToAccessLogRule).collect(Collectors.toList());
+	}
+
+	private static AccessLogRecordOptions convertToAccessLogRecordOptions(RecordOptions recordOptions) {
+		return AccessLogRecordOptions.builder()
+			.ignored(recordOptions.isIgnored())
+			.includeQueryString(recordOptions.isIncludeQueryString())
+			.includeRequestBody(recordOptions.isIncludeRequestBody())
+			.includeResponseBody(recordOptions.isIncludeResponseBody())
+			.build();
+	}
+
+	private static AccessLogRule convertToAccessLogRule(Rule rule) {
+		AccessLogRecordOptions logRecordOptions = convertToAccessLogRecordOptions(rule.getRecordOptions());
+		return new AccessLogRule(rule.getUrlPattern(), logRecordOptions);
+	}
+
+	@Data
+	static class RecordOptions {
+
+		/**
+		 * 忽略记录
+		 */
+		private boolean ignored = false;
+
+		/**
+		 * 记录查询参数
+		 */
+		private boolean includeQueryString = true;
+
+		/**
+		 * 记录请求体
+		 */
+		private boolean includeRequestBody = false;
+
+		/**
+		 * 记录响应体
+		 */
+		private boolean includeResponseBody = false;
+
+	}
+
+	@Data
+	static class Rule {
+
+		/**
+		 * 当前设置匹配的 url 规则（Ant风格）
+		 */
+		private String urlPattern;
+
+		/**
+		 * 访问日志记录选项
+		 */
+		private RecordOptions recordOptions;
+
+	}
 
 }

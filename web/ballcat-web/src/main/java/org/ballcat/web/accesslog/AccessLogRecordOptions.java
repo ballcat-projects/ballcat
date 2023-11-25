@@ -16,51 +16,36 @@
 package org.ballcat.web.accesslog;
 
 import lombok.Builder;
+import lombok.Getter;
 
 /**
- * 访问日志记录规则
+ * 访问日志的记录选项
  *
  * @author Hccake
+ * @since 2.0.0
  */
+@Getter
 @Builder
-public class AccessLogSettings {
-
-	public static final AccessLogSettings IGNORED = new AccessLogSettings(false, false, false, false);
+public class AccessLogRecordOptions {
 
 	/**
-	 * 开启日志记录
+	 * 忽略记录
 	 */
-	private final boolean enabled;
+	private boolean ignored;
 
 	/**
-	 * 记录 QueryString
+	 * 记录查询参数
 	 */
-	private final boolean includeQueryString;
+	private boolean includeQueryString;
 
 	/**
 	 * 记录请求体
 	 */
-	private final boolean includeRequestBody;
+	private boolean includeRequestBody;
 
 	/**
 	 * 记录响应体
 	 */
-	private final boolean includeResponseBody;
-
-	public boolean enabled() {
-		return this.enabled;
-	}
-
-	public boolean shouldRecordQueryString() {
-		return this.includeQueryString;
-	}
-
-	public boolean shouldRecordRequestBody() {
-		return this.includeRequestBody;
-	}
-
-	public boolean shouldRecordResponseBody() {
-		return this.includeResponseBody;
-	}
+	private boolean includeResponseBody;
 
 }

@@ -18,6 +18,8 @@ package org.ballcat.web.accesslog;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.common.util.IpUtils;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,21 +34,8 @@ import java.util.List;
 @Slf4j
 public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 
-	/**
-	 * 针对需忽略的Url的规则匹配器
-	 */
-	private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
-
-	/**
-	 * URL 路径匹配的帮助类
-	 */
-	private static final UrlPathHelper URL_PATH_HELPER = new UrlPathHelper();
-
-	private final List<AccessLogRule> logRules;
-
-
-	public DefaultAccessLogFilter(List<AccessLogRule> logRules) {
-		this.logRules = logRules;
+	public DefaultAccessLogFilter(AccessLogRecordOptions defaultRecordOptions, List<AccessLogRule> logRules) {
+		super(defaultRecordOptions, logRules);
 	}
 
 	@Override
@@ -55,31 +44,13 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 	}
 
 	@Override
-	protected AccessLogSettings getAccessLogSettings(HttpServletRequest request) {
-		String lookupPathForRequest = URL_PATH_HELPER.getLookupPathForRequest(request);
-
-		for (AccessLogRule logRule : logRules) {
-			if (ANT_PATH_MATCHER.match(logRule.getUrlPattern(), lookupPathForRequest)) {
-				return AccessLogSettings.builder()
-						.enabled(!logRule.isIgnore())
-						.includeQueryString(logRule.isIncludeQueryString())
-						.includeRequestBody(logRule.isIncludeRequestBody())
-						.includeResponseBody(logRule.isIncludeResponseBody())
-						.build();
-			}
-		}
-
-		return AccessLogSettings.IGNORED;
-	}
-
-	@Override
-	protected void beforeRequest(HttpServletRequest request, AccessLogSettings accessLogSettings) {
+	protected void beforeRequest(HttpServletRequest request, AccessLogRecordOptions recordOptions) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("Before request [");
 		msg.append(request.getMethod()).append(' ');
 		msg.append(request.getRequestURI());
 
-		if (accessLogSettings.shouldRecordQueryString()) {
+		if (recordOptions.isIncludeQueryString()) {
 			String queryString = request.getQueryString();
 			if (queryString != null) {
 				msg.append('?').append(queryString);
@@ -96,13 +67,13 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 
 	@Override
 	protected void afterRequest(HttpServletRequest request, HttpServletResponse response, Long executionTime,
-								Throwable throwable, AccessLogSettings accessLogSettings) {
+			Throwable throwable, AccessLogRecordOptions recordOptions) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("After request [");
 		msg.append(request.getMethod()).append(' ');
 		msg.append(request.getRequestURI());
 
-		if (accessLogSettings.shouldRecordQueryString()) {
+		if (recordOptions.isIncludeQueryString()) {
 			String queryString = request.getQueryString();
 			if (queryString != null) {
 				msg.append('?').append(queryString);
@@ -112,14 +83,14 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 		String ipAddr = IpUtils.getIpAddr(request);
 		msg.append(", client=").append(ipAddr);
 
-		if (accessLogSettings.shouldRecordRequestBody()) {
+		if (recordOptions.isIncludeRequestBody()) {
 			String payload = getRequestBody(request);
 			if (payload != null) {
 				msg.append(", request body=").append(payload);
 			}
 		}
 
-		if (accessLogSettings.shouldRecordResponseBody()) {
+		if (recordOptions.isIncludeResponseBody()) {
 			String payload = getResponseBody(response);
 			if (payload != null) {
 				msg.append(", response body=").append(payload);

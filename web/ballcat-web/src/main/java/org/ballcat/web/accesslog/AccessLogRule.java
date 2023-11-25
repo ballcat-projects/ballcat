@@ -15,41 +15,29 @@
  */
 package org.ballcat.web.accesslog;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.Getter;
 
 /**
  * 访问日志规则
  *
  * @author Hccake
  */
-@Data
-@Accessors(chain = true)
+@Getter
 public class AccessLogRule {
 
 	/**
 	 * 当前设置匹配的 url 规则（Ant风格）
 	 */
-	private String urlPattern;
+	private final String urlPattern;
 
 	/**
-	 * 忽略记录
+	 * 日志记录选项
 	 */
-	private boolean ignore = false;
+	private final AccessLogRecordOptions options;
 
-	/**
-	 * 记录查询参数
-	 */
-	private boolean includeQueryString = false;
-
-	/**
-	 * 记录请求体
-	 */
-	private boolean includeRequestBody = false;
-
-	/**
-	 * 记录响应体
-	 */
-	private boolean includeResponseBody = false;
+	public AccessLogRule(String urlPattern, AccessLogRecordOptions options) {
+		this.urlPattern = urlPattern;
+		this.options = options;
+	}
 
 }

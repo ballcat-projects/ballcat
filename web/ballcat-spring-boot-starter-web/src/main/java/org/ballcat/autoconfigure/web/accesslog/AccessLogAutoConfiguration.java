@@ -17,24 +17,18 @@ package org.ballcat.autoconfigure.web.accesslog;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ballcat.web.accesslog.AbstractAccessLogFilter;
-import org.ballcat.web.accesslog.AccessLogRule;
-import org.ballcat.web.accesslog.DefaultAccessLogFilter;
-import org.ballcat.web.accesslog.annotation.AccessLoggingRule;
+import org.ballcat.web.accesslog.*;
+import org.ballcat.web.accesslog.annotation.AccessLogRuleFinder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.List;
 
 /**
  * @author Hccake 2019/10/15 18:20
@@ -51,53 +45,33 @@ public class AccessLogAutoConfiguration {
 	private final RequestMappingHandlerMapping requestMappingHandlerMapping;
 
 	@Bean
-	@ConditionalOnMissingBean(AbstractAccessLogFilter.class)
-	public AbstractAccessLogFilter defaultAccessLogFilter() {
+	@ConditionalOnMissingBean(AccessLogFilter.class)
+	public AccessLogFilter defaultAccessLogFilter() {
+		// 合并 annotationRules 和 propertiesRules, 注解高于配置
+		List<AccessLogRule> annotationRules = AccessLogRuleFinder.findRulesFormAnnotation(requestMappingHandlerMapping);
+		List<AccessLogRule> propertiesRules = accessLogProperties.getAccessLogRules();
+		List<AccessLogRule> accessLogRules = AccessLogRuleFinder.mergeRules(annotationRules, propertiesRules);
 
-		Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
+		AccessLogRecordOptions defaultRecordOptions = accessLogProperties.getDefaultAccessLogRecordOptions();
 
-		List<AccessLogRule> accessLoggingRules = new ArrayList<>();
-
-		// 遍历 handlerMethods，获取所有的方法
-		for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-			RequestMappingInfo mappingInfo = entry.getKey();
-			HandlerMethod handlerMethod = entry.getValue();
-
-			// 获取方法上的 AccessLoggingRule 注解
-			AccessLoggingRule accessLoggingRule = handlerMethod.getMethodAnnotation(AccessLoggingRule.class);
-
-			// 如果方法上没有注解，则获取类上的注解
-			if (accessLoggingRule == null) {
-				accessLoggingRule = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), AccessLoggingRule.class);
-			}
-
-			if (accessLoggingRule != null && mappingInfo.getPatternsCondition() != null ) {
-				for (String pattern : mappingInfo.getPatternsCondition().getPatterns()) {
-					AccessLogRule accessLogRule = new AccessLogRule()
-							.setUrlPattern(pattern)
-							.setIgnore(accessLoggingRule.ignore())
-							.setIncludeQueryString(accessLoggingRule.includeQueryString())
-							.setIncludeRequestBody(accessLoggingRule.includeRequestBody())
-							.setIncludeResponseBody(accessLoggingRule.includeResponseBody());
-
-					accessLoggingRules.add(accessLogRule);
-				}
-			}
-		}
-
-		List<AccessLogRule> settings = accessLogProperties.getSettings();
-
-		// 合并 accessLoggingRules 和 settings,当 urlPattern 相同时优先使用注解的值
-		Map<String, AccessLogRule> mergerAccessLogRuleMap = Stream.concat(accessLoggingRules.stream(),
-						settings.stream())
-				.collect(Collectors.toMap(AccessLogRule::getUrlPattern, Function.identity(), (v1, v2) -> v1));
-
-		List<AccessLogRule> mergedList = new ArrayList<>(mergerAccessLogRuleMap.values());
-
-		AbstractAccessLogFilter accessLogFilter = new DefaultAccessLogFilter(mergedList);
+		AbstractAccessLogFilter accessLogFilter = new DefaultAccessLogFilter(defaultRecordOptions, accessLogRules);
 		accessLogFilter.setMaxBodyLength(accessLogProperties.getMaxBodyLength());
 		accessLogFilter.setOrder(accessLogProperties.getFilterOrder());
 		return accessLogFilter;
+	}
+
+	/**
+	 * 注册 AccessLogFilter 过滤器
+	 * @param accessLogFilter 访问日志过滤器
+	 * @return FilterRegistrationBean<AccessLogFilter>
+	 */
+	@Bean
+	@ConditionalOnBean(AccessLogFilter.class)
+	public FilterRegistrationBean<AccessLogFilter> accessLogFilterCloseRegistrationBean(
+			AccessLogFilter accessLogFilter) {
+		FilterRegistrationBean<AccessLogFilter> registrationBean = new FilterRegistrationBean<>(accessLogFilter);
+		registrationBean.setEnabled(false);
+		return registrationBean;
 	}
 
 }

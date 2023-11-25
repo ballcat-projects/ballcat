@@ -21,10 +21,13 @@ import org.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 import org.springframework.web.util.ServletRequestPathUtils;
+import org.springframework.web.util.UrlPathHelper;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.FilterChain;
@@ -33,17 +36,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * @author Hccake 2019/10/15 21:53
  */
-public abstract class AbstractAccessLogFilter extends OncePerRequestFilter implements Ordered {
+public abstract class AbstractAccessLogFilter extends OncePerRequestFilter implements AccessLogFilter, Ordered {
+
+	/**
+	 * 针对需忽略的Url的规则匹配器
+	 */
+	private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
+
+	/**
+	 * URL 路径匹配的帮助类
+	 */
+	private static final UrlPathHelper URL_PATH_HELPER = new UrlPathHelper();
 
 	public static final int DEFAULT_MAX_BODY_LENGTH = 256;
 
 	private int maxBodyLength = DEFAULT_MAX_BODY_LENGTH;
 
 	private int order = 0;
+
+	private final AccessLogRecordOptions defaultRecordOptions;
+
+	private final List<AccessLogRule> logRules;
+
+	protected AbstractAccessLogFilter(AccessLogRecordOptions defaultRecordOptions, List<AccessLogRule> logRules) {
+		Assert.notNull(defaultRecordOptions, "default record options cannot be null!");
+		this.defaultRecordOptions = defaultRecordOptions;
+		this.logRules = logRules;
+	}
 
 	/**
 	 * Same contract as for {@code doFilter}, but guaranteed to be just invoked once per
@@ -68,16 +93,15 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 		}
 
 		// 根据当前请求获取对应的日志记录规则
-		AccessLogSettings accessLogSettings = getAccessLogSettings(request);
+		AccessLogRecordOptions recordOptions = getRecordOptions(request);
 
-		if (!accessLogSettings.enabled()) {
+		if (recordOptions.isIgnored()) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
 		HttpServletRequest requestToUse;
-		if (accessLogSettings.shouldRecordRequestBody()) {
-
+		if (recordOptions.isIncludeRequestBody()) {
 			// 避免由于路由信息缺失，导致无法获取到请求目标的执行方法
 			if (!ServletRequestPathUtils.hasParsedRequestPath(request)) {
 				ServletRequestPathUtils.parseAndCache(request);
@@ -93,7 +117,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 		}
 
 		HttpServletResponse responseToUse;
-		if (accessLogSettings.shouldRecordResponseBody()) {
+		if (recordOptions.isIncludeResponseBody()) {
 			// 包装 response，便于重复获取 body
 			responseToUse = new ContentCachingResponseWrapper(response);
 		}
@@ -108,7 +132,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 
 		// 请求前处理
 		try {
-			beforeRequest(requestToUse, accessLogSettings);
+			beforeRequest(requestToUse, recordOptions);
 		}
 		catch (Exception e) {
 			logger.error("[Access Log] process before request error", e);
@@ -140,7 +164,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 
 			// 生产一个日志并记录
 			try {
-				afterRequest(requestToUse, responseToUse, executionTime, myThrowable, accessLogSettings);
+				afterRequest(requestToUse, responseToUse, executionTime, myThrowable, recordOptions);
 			}
 			catch (Exception e) {
 				logger.error("[Access Log] process after request error, handler: %s", e);
@@ -159,7 +183,12 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 		if (wrapper == null) {
 			return null;
 		}
-		return getMessagePayload(wrapper.getBodyByteArray(), wrapper.getCharacterEncoding());
+		if (wrapper.getCharacterEncoding() != null) {
+			return getMessagePayload(wrapper.getBodyByteArray(), wrapper.getCharacterEncoding());
+		}
+		else {
+			return getMessagePayload(wrapper.getBodyByteArray(), Charset.defaultCharset().name());
+		}
 	}
 
 	@Nullable
@@ -186,6 +215,22 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 		return null;
 	}
 
+	protected AccessLogRecordOptions getRecordOptions(HttpServletRequest request) {
+		if (CollectionUtils.isEmpty(logRules)) {
+			return defaultRecordOptions;
+		}
+
+		String lookupPathForRequest = URL_PATH_HELPER.getLookupPathForRequest(request);
+
+		for (AccessLogRule logRule : logRules) {
+			if (ANT_PATH_MATCHER.match(logRule.getUrlPattern(), lookupPathForRequest)) {
+				return logRule.getOptions();
+			}
+		}
+
+		return defaultRecordOptions;
+	}
+
 	public void setMaxBodyLength(int maxBodyLength) {
 		Assert.isTrue(maxBodyLength >= 0, "'maxBodyLength' must be greater than or equal to 0");
 		this.maxBodyLength = maxBodyLength;
@@ -208,11 +253,9 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 		return true;
 	}
 
-	protected abstract AccessLogSettings getAccessLogSettings(HttpServletRequest request);
-
-	protected abstract void beforeRequest(HttpServletRequest request, AccessLogSettings accessLogSettings);
+	protected abstract void beforeRequest(HttpServletRequest request, AccessLogRecordOptions recordOptions);
 
 	protected abstract void afterRequest(HttpServletRequest request, HttpServletResponse response, Long executionTime,
-			Throwable throwable, AccessLogSettings accessLogSettings);
+			Throwable throwable, AccessLogRecordOptions recordOptions);
 
 }

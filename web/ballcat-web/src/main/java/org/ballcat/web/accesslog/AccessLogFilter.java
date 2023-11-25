@@ -13,37 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ballcat.web.accesslog.annotation;
+package org.ballcat.web.accesslog;
 
-import java.lang.annotation.*;
+import javax.servlet.Filter;
 
 /**
- * @author Alickx 2023/11/23 17:48
+ * 访问日志过滤器
+ *
+ * @author Hccake
  * @since 2.0.0
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface AccessLoggingRule {
-
-	/**
-	 * 忽略记录
-	 */
-	boolean ignored() default false;
-
-	/**
-	 * 记录查询参数
-	 */
-	boolean includeQueryString() default false;
-
-	/**
-	 * 记录请求体
-	 */
-	boolean includeRequestBody() default false;
-
-	/**
-	 * 记录响应体
-	 */
-	boolean includeResponseBody() default false;
+public interface AccessLogFilter extends Filter {
 
 }
