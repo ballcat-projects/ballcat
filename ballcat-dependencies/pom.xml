@@ -2,7 +2,7 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.hccake</groupId>
+	<groupId>org.ballcat</groupId>
 	<artifactId>ballcat-dependencies</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
@@ -11,7 +11,7 @@
 	<description>Ballcat Dependencies</description>
 
 	<properties>
-		<revision>1.4.1</revision>
+		<revision>2.0.0-SNAPSHOT</revision>
 
 		<!-- 插件版本 -->
 		<flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
@@ -35,15 +35,17 @@
 		<jsoup.version>1.15.3</jsoup.version>
 		<jsqlparser.version>4.3</jsqlparser.version>
 		<kafka.version>2.6.3</kafka.version>
-		<lombok.version>1.18.26</lombok.version>
-		<mapstruct.version>1.5.3.Final</mapstruct.version>
-		<mybatis-plus.version>3.5.3.1</mybatis-plus.version>
-		<mybatis.version>3.5.10</mybatis.version>
+		<lombok.version>1.18.28</lombok.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+		<mapstruct.version>1.5.5.Final</mapstruct.version>
+		<mybatis-plus.version>3.5.3.2</mybatis-plus.version>
+		<mybatis.version>3.5.13</mybatis.version>
+		<mybatis-spring-boot-starter.version>2.3.1</mybatis-spring-boot-starter.version>
 		<poi.version>4.1.2</poi.version>
 		<rocketmq.version>2.2.0</rocketmq.version>
 		<software.amazon.awssdk.version>2.20.70</software.amazon.awssdk.version>
-		<spring-authorization-server.version>0.4.2</spring-authorization-server.version>
-		<spring-boot.version>2.7.12</spring-boot.version>
+		<spring-authorization-server.version>0.4.4</spring-authorization-server.version>
+		<spring-boot.version>2.7.18</spring-boot.version>
 		<springdoc-openapi.verison>1.7.0</springdoc-openapi.verison>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.6.8</swagger.version>
@@ -93,7 +95,14 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
-
+			<!-- GRPC -->
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-bom</artifactId>
+				<version>${grpc.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<!-- ======================= 第三方依赖 ===================== -->
 			<!--easyExcel 处理-->
 			<dependency>
@@ -163,6 +172,12 @@
 				<artifactId>commons-net</artifactId>
 				<version>3.9.0</version>
 			</dependency>
+			<dependency>
+				<groupId>com.jcraft</groupId>
+				<artifactId>jsch</artifactId>
+				<version>0.1.55</version>
+			</dependency>
+
 			<dependency>
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-boot-starter</artifactId>
@@ -257,6 +272,11 @@
 				<artifactId>mybatis</artifactId>
 				<version>${mybatis.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis-spring-boot-starter.version}</version>
+			</dependency>
 			<!-- lombok 代码简化处理器 -->
 			<dependency>
 				<groupId>org.projectlombok</groupId>
@@ -270,320 +290,275 @@
 				<version>${spring-authorization-server.version}</version>
 			</dependency>
 
-			<!--grpc-->
-			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-protobuf</artifactId>
-				<version>${grpc.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-stub</artifactId>
-				<version>${grpc.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-netty</artifactId>
-				<version>${grpc.version}</version>
-			</dependency>
-
-
 			<!--region ============= 定义ballcat 自身模块版本 ================== -->
+			<!-- common 基础 -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-admin-core</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-admin-i18n</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-admin-websocket</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
+				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-common-core</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-common-desensitize</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-common-i18n</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-common-idempotent</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-common-log</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
+				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-common-model</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-common-redis</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
+				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-common-util</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- datascope 数据权限 -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-common-websocket</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-datascope</artifactId>
 				<version>${revision}</version>
 			</dependency>
-			<!-- extends -->
+
+			<!-- desensitize 脱敏 -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-ntp</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-desensitize</artifactId>
 				<version>${revision}</version>
 			</dependency>
+
+			<!-- dingtalk 钉钉 -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-dingtalk</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-kafka</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-kafka-stream</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-dingtalk</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-mybatis-plus</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-dingtalk</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- excel -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-easyexcel</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- file 文件 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-file</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- grpc -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-grpc</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- i18n 国际化 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-i18n</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-openapi</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-i18n</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- idempotent 幂等 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-idempotent</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-pay-ali</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-idempotent</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- ip 解析 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-ip2region</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- job 定时任务 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-xxljob</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- kafka 消息队列 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-kafka</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-pay-virtual</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-kafka-stream</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-pay-wx</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-kafka</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- log 日志 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-log</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-extend-tesseract</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-log</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- maill 邮件 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-mail</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- ntp 时间同步 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-mybatis-plus</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-ntp</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- swagger openapi 文档 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-openapi</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- oss 对象存储 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-oss</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- pay 支付 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-pay-ali</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-i18n-biz</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- i18n 国际化模块 -->
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-i18n-controller</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-pay-virtual</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-i18n-model</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-pay-wx</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-log-biz</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-pay</artifactId>
 				<version>${revision}</version>
 			</dependency>
-			<!-- log 日志模块 -->
+
+			<!-- redis -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-log-controller</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-log-model</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-redis</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-notify-biz</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-redis</artifactId>
 				<version>${revision}</version>
 			</dependency>
-			<!-- notify 通知模块 -->
+
+			<!-- security 安全 -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-notify-controller</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-notify-model</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- ballcat-security -->
-			<dependency>
-				<groupId>com.hccake</groupId>
+				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-security-core</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-datascope</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-security</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-dingtalk</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-easyexcel</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-file</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-i18n</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-idempotent</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-ip2region</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-job</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-kafka</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-log</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-mail</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-oss</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-pay</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-redis</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-sms</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-swagger</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<!-- ballcat-stater -->
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-web</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-websocket</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-xss</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-spring-boot-starter-grpc</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hccake</groupId>
+				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security-oauth2-authorization-server</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
+				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security-oauth2-core</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
+				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security-oauth2-resource-server</artifactId>
 				<version>${revision}</version>
 			</dependency>
-			<!-- system 系统模块 -->
+
+			<!-- sms 短信 -->
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-system-biz</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-sms</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- tesseract OCR 文字识别 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-tesseract</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- web -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-web</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-system-controller</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-web</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- websocket -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-websocket</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.hccake</groupId>
-				<artifactId>ballcat-system-model</artifactId>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-websocket</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<!-- xss 防注入 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-xss</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<!--endregion ============= 结束定义ballcat 自身模块版本 =========== -->

@@ -1,0 +1,3 @@
+org.ballcat.autoconfigure.redis.BallcatRedisAutoConfiguration
+org.ballcat.autoconfigure.redis.MessageEventListenerAutoConfiguration
+org.ballcat.autoconfigure.redis.RedisKeyEventAutoConfiguration

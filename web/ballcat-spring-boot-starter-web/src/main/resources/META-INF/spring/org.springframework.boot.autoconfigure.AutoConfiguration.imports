@@ -1,0 +1,7 @@
+org.ballcat.autoconfigure.web.actuate.ActuatorSecurityAutoConfiguration
+org.ballcat.autoconfigure.web.jackson.CustomJacksonAutoConfiguration
+org.ballcat.autoconfigure.web.exception.ExceptionAutoConfiguration
+org.ballcat.autoconfigure.web.servlet.WebMvcAutoConfiguration
+org.ballcat.autoconfigure.web.validation.BallcatValidationAutoConfiguration
+org.ballcat.autoconfigure.web.undertow.BallcatUndertowAutoConfiguration
+org.ballcat.autoconfigure.web.accesslog.AccessLogAutoConfiguration

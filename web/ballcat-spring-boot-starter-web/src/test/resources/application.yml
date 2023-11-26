@@ -1,0 +1,17 @@
+ballcat:
+  web:
+    accesslog:
+      enabled: true
+      default-record-options:
+        ignored: false
+      rules:
+        - url-pattern: /test/ignored
+          record-options:
+            ignored: true
+        - url-pattern: /test/record-all
+          record-options:
+            ignored: false
+            include-query-string: true
+            include-request-body: true
+            include-response-body: true
+

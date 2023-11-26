@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    org.ballcat.autoconfigure.ip2region.Ip2regionAutoConfiguration
+
+

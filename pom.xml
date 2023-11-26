@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<groupId>com.hccake</groupId>
+		<groupId>org.ballcat</groupId>
 		<artifactId>ballcat-dependencies</artifactId>
 		<version>${revision}</version>
 		<relativePath>ballcat-dependencies/pom.xml</relativePath>
@@ -13,20 +13,82 @@
 	<packaging>pom</packaging>
 	<name>ballcat</name>
 	<url>https://github.com/hccake/ballcat</url>
-	<description>项目基本脚手架</description>
+	<description>一个简单好用的功能组件库</description>
 
 	<modules>
-		<module>ballcat-admin</module>
-		<module>ballcat-common</module>
 		<module>ballcat-dependencies</module>
-		<module>ballcat-extends</module>
-		<module>ballcat-i18n</module>
-		<module>ballcat-log</module>
-		<module>ballcat-notify</module>
-		<module>ballcat-security</module>
-		<module>ballcat-starters</module>
-		<module>ballcat-system</module>
-	</modules>
+
+		<module>common/ballcat-common-core</module>
+		<module>common/ballcat-common-model</module>
+		<module>common/ballcat-common-util</module>
+
+		<module>datascope/ballcat-spring-boot-starter-datascope</module>
+
+		<module>desensitize/ballcat-desensitize</module>
+
+		<module>dingtalk/ballcat-dingtalk</module>
+		<module>dingtalk/ballcat-spring-boot-starter-dingtalk</module>
+
+		<module>excel/ballcat-spring-boot-starter-easyexcel</module>
+
+		<module>file/ballcat-spring-boot-starter-file</module>
+
+		<module>grpc/ballcat-spring-boot-starter-grpc</module>
+
+		<module>i18n/ballcat-i18n</module>
+		<module>i18n/ballcat-spring-boot-starter-i18n</module>
+
+		<module>idempotent/ballcat-idempotent</module>
+		<module>idempotent/ballcat-spring-boot-starter-idempotent</module>
+
+		<module>ip/ballcat-spring-boot-starter-ip2region</module>
+
+		<module>job/ballcat-spring-boot-starter-xxljob</module>
+
+		<module>kafka/ballcat-kafka</module>
+		<module>kafka/ballcat-kafka-stream</module>
+		<module>kafka/ballcat-spring-boot-starter-kafka</module>
+
+		<module>log/ballcat-log</module>
+		<module>log/ballcat-spring-boot-starter-log</module>
+
+		<module>mail/ballcat-spring-boot-starter-mail</module>
+
+		<module>mybatis-plus/ballcat-mybatis-plus</module>
+
+		<module>ntp/ballcat-ntp</module>
+
+		<module>openapi/ballcat-spring-boot-starter-openapi</module>
+
+		<module>oss/ballcat-spring-boot-starter-oss</module>
+
+		<module>pay/ballcat-pay-ali</module>
+		<module>pay/ballcat-pay-virtual</module>
+		<module>pay/ballcat-pay-wx</module>
+		<module>pay/ballcat-spring-boot-starter-pay</module>
+
+		<module>redis/ballcat-redis</module>
+		<module>redis/ballcat-redis-module</module>
+		<module>redis/ballcat-spring-boot-starter-redis</module>
+
+		<module>security/ballcat-security-core</module>
+		<module>security/ballcat-spring-security</module>
+		<module>security/ballcat-spring-security-oauth2-authorization-server</module>
+		<module>security/ballcat-spring-security-oauth2-core</module>
+		<module>security/ballcat-spring-security-oauth2-resource-server</module>
+
+		<module>sms/ballcat-spring-boot-starter-sms</module>
+
+		<module>tesseract/ballcat-tesseract</module>
+
+		<module>web/ballcat-spring-boot-starter-web</module>
+		<module>web/ballcat-web</module>
+
+		<module>websocket/ballcat-websocket</module>
+		<module>websocket/ballcat-spring-boot-starter-websocket</module>
+
+		<module>xss/ballcat-spring-boot-starter-xss</module>
+    </modules>
 
 	<properties>
 		<!-- maven 配置 -->
@@ -35,32 +97,19 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-		<!-- 依赖版本 -->
-		<!-- mapstruct 和 lombok 等注解处理器 -->
-		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 	</properties>
 
 	<dependencies>
-		<!-- bean 转换工具类 -->
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-		</dependency>
 		<!-- lombok 代码简化处理器 -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -220,20 +269,9 @@
 				<configuration>
 					<annotationProcessorPaths>
 						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>${mapstruct.version}</version>
-						</path>
-						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 							<version>${lombok.version}</version>
-						</path>
-						<!-- additional annotation processor required as of Lombok 1.18.16 -->
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok-mapstruct-binding</artifactId>
-							<version>${lombok-mapstruct-binding.version}</version>
 						</path>
 						<!-- spring-boot 配置处理 -->
 						<path>

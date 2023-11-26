@@ -1,0 +1,11 @@
+ballcat:
+  # OSS
+  oss:
+    endpoint: http://127.0.0.1:9000
+    access-key: fileserver
+    access-secret: fileserver
+    bucket: test
+    path-style-access: false
+    region: xxx
+    #object-key-prefix: pic
+    domain: http://example.com
