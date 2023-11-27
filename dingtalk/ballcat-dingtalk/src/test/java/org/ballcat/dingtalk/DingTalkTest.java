@@ -29,12 +29,15 @@ import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 @EnabledIfSystemProperty(named = "test.dingtalk.enabled", matches = "true")
 class DingTalkTest {
 
+	String webhook = System.getProperty("extend.dingtalk.webhook");
+
+	String secret = System.getProperty("extend.dingtalk.secret");
+
 	DingTalkSender sender;
 
 	@BeforeEach
 	void before() {
-		sender = new DingTalkSender(System.getProperty("extend.dingtalk.webhook"));
-		sender.setSecret(System.getProperty("extend.dingtalk.secret"));
+		sender = new DingTalkSender(webhook).setSecret(secret);
 	}
 
 	@Test
