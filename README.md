@@ -9,6 +9,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/ballcat-projects/ballcat.svg?style=social&label=Stars)](https://github.com/ballcat-projects/ballcat/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/ballcat-projects/ballcat.svg?style=social&label=Fork)](https://github.com/ballcat-projects/ballcat/network/members)
 
+**注意：目前 master 分支为 2.x 版本，还处于开发阶段。1.x 版本请切换到 [1.x] 分支**
 
 **BallCat** 组织旨在为项目快速开发提供一系列的基础能力，方便使用者根据项目需求快速进行功能拓展。
 
@@ -16,7 +17,7 @@
 
 - Github 地址 ：https://github.com/ballcat-projects/ballcat
 - Gitee 地址：https://gitee.com/ballcat-projects/ballcat （如果 Github 访问速度比较慢的话，可以访问 Gitee ）
-- 文档地址：http://www.ballcat.cn/ (域名备案中：暂时先使用 http://49.234.30.188/ 访问文档)
+- 1.x 文档地址：http://docs.ballcat.cn/ 
 
 
 ## 相关仓库
