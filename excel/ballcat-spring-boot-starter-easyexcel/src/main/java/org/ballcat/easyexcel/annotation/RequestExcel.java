@@ -50,6 +50,12 @@ public @interface RequestExcel {
 	boolean ignoreEmptyRow() default false;
 
 	/**
+	 * 工作表名称
+	 * @return sheetName
+	 */
+	String sheetName();
+
+	/**
 	 * Count the number of added heads when read sheet. 0 - This Sheet has no head ,since
 	 * the first row are the data 1 - This Sheet has one row head , this is the default 2
 	 * - This Sheet has two row head ,since the third row is the data
