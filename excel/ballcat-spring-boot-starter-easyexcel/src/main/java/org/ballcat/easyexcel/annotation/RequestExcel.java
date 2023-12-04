@@ -53,7 +53,7 @@ public @interface RequestExcel {
 	 * 工作表名称
 	 * @return sheetName
 	 */
-	String sheetName();
+	String sheetName() default "";
 
 	/**
 	 * Count the number of added heads when read sheet. 0 - This Sheet has no head ,since
