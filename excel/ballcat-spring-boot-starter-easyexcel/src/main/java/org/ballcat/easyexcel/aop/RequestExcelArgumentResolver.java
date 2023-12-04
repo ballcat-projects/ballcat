@@ -126,7 +126,11 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 	 * @return 解析后的Sheet名称，如果为空则返回null
 	 */
 	public String resolverSheetName(HttpServletRequest request, Method method, String sheetName) {
-		if (StringUtils.hasText(sheetName) && !sheetName.contains("#")) {
+		if (!StringUtils.hasText(sheetName)) {
+			return null;
+		}
+
+		if (!sheetName.contains("#")) {
 			return sheetName;
 		}
 		String[] parameterNames = this.parameterNameDiscoverer.getParameterNames(method);
