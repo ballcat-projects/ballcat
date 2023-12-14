@@ -88,7 +88,6 @@ class ExcelImportTest {
 	@Test
 	void ignoreEmptyRowTest() throws Exception {
 
-		// 分别写入一个带空行和不带空行的 excel 文件到 各自的multipartFile
 		List<DemoData> dataList = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			if (i == 1) {
