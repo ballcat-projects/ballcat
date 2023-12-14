@@ -34,4 +34,14 @@ public class ExcelImportTestController {
 		return list;
 	}
 
+	@PostMapping(value = "/ignore-empty-row-enabled")
+	public List<DemoData> ignoreEmptyRow(@RequestExcel(ignoreEmptyRow = true) List<DemoData> list) {
+		return list;
+	}
+
+	@PostMapping(value= "/ignore-empty-row-disabled")
+	public List<DemoData> notIgnoreEmptyRow(@RequestExcel(ignoreEmptyRow = false) List<DemoData> list) {
+		return list;
+	}
+
 }
