@@ -16,10 +16,12 @@
 package org.ballcat.dingtalk;
 
 import org.ballcat.dingtalk.message.DingTalkTextMessage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
+import org.springframework.util.StringUtils;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 钉钉机器人测试，由于需要真实的 webhook 地址和密钥，所以只在 ci 环境下开启
@@ -42,10 +44,12 @@ class DingTalkTest {
 
 	@Test
 	void send() {
+		assertTrue(StringUtils.hasText(sender.getUrl()));
+		assertTrue(StringUtils.hasText(sender.getSecret()));
 		DingTalkTextMessage message = new DingTalkTextMessage();
 		message.setContent("测试机器人消息通知");
 		DingTalkResponse response = sender.sendMessage(message);
-		Assertions.assertTrue(response.isSuccess());
+		assertTrue(response.isSuccess());
 	}
 
 }
