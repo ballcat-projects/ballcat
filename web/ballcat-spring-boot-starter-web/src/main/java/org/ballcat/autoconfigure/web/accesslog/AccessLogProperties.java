@@ -51,6 +51,11 @@ public class AccessLogProperties {
 	private Integer filterOrder = -1000;
 
 	/**
+	 * 自动注册 access log filter
+	 */
+	private Boolean filterAutoRegister = true;
+
+	/**
 	 * 记录的最大的 body 长度
 	 */
 	private Integer maxBodyLength = AbstractAccessLogFilter.DEFAULT_MAX_BODY_LENGTH;

@@ -40,6 +40,8 @@ import java.util.List;
 @ConditionalOnProperty(prefix = AccessLogProperties.PREFIX, name = "enabled", havingValue = "true")
 public class AccessLogAutoConfiguration {
 
+	public static final String ACCESS_LOG_FILTER_CLOSE_REGISTRATION_BEAN_NAME = "accessLogFilterCloseRegistrationBean";
+
 	private final AccessLogProperties accessLogProperties;
 
 	private final RequestMappingHandlerMapping requestMappingHandlerMapping;
@@ -67,6 +69,8 @@ public class AccessLogAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnBean(AccessLogFilter.class)
+	@ConditionalOnMissingBean(name = ACCESS_LOG_FILTER_CLOSE_REGISTRATION_BEAN_NAME)
+	@ConditionalOnProperty(prefix = AccessLogProperties.PREFIX, name = "filterAutoRegister", havingValue = "false")
 	public FilterRegistrationBean<AccessLogFilter> accessLogFilterCloseRegistrationBean(
 			AccessLogFilter accessLogFilter) {
 		FilterRegistrationBean<AccessLogFilter> registrationBean = new FilterRegistrationBean<>(accessLogFilter);
