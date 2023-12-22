@@ -30,11 +30,11 @@ import java.util.Locale;
  * <p>
  * 默认的 ReloadableResourceBundleMessageSource，对于多个同名文件，只会读取找到的第一个。
  *
+ * @author Nicolás Miranda
+ * @author hccake
  * @see <a href=
  * "https://stackoverflow.com/questions/3888832/does-spring-messagesource-support-multiple-class-path">Does
  * Spring MessageSource Support Multiple Class Path?</a>
- * @author Nicolás Miranda
- * @author hccake
  */
 @Slf4j
 public class WildcardReloadableResourceBundleMessageSource extends ReloadableResourceBundleMessageSource {
@@ -42,6 +42,10 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 	private static final String PROPERTIES_SUFFIX = ".properties";
 
 	private final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+
+	public WildcardReloadableResourceBundleMessageSource() {
+		super.setResourceLoader(resolver);
+	}
 
 	/**
 	 * Calculate all filenames for the given bundle basename and Locale. Will calculate
@@ -58,7 +62,7 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 		// 父类默认的方法会将 basename 也放入 filenames 列表
 		List<String> filenames = super.calculateAllFilenames(basename, locale);
 		// 当 basename 有匹配符时，从 filenames 中移除，否则扫描文件将抛出 Illegal char <*> 的异常
-		if (basename.contains("*")) {
+		if (containsWildcard(basename)) {
 			filenames.remove(basename);
 		}
 		return filenames;
@@ -73,9 +77,13 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 		List<String> fileNames = new ArrayList<>();
 		// 获取到待匹配的国际化信息文件名集合
 		List<String> matchFilenames = super.calculateFilenamesForLocale(basename, locale);
+		// 如果有通配符，添加自身，查找 default resource bundle，方便回退
+		if (containsWildcard(basename)) {
+			matchFilenames.add(basename);
+		}
 		for (String matchFilename : matchFilenames) {
 			try {
-				Resource[] resources = resolver.getResources("classpath*:" + matchFilename + PROPERTIES_SUFFIX);
+				Resource[] resources = resolver.getResources(matchFilename + PROPERTIES_SUFFIX);
 				for (Resource resource : resources) {
 					String sourcePath = resource.getURI().toString().replace(PROPERTIES_SUFFIX, "");
 					fileNames.add(sourcePath);
@@ -86,6 +94,14 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 			}
 		}
 		return fileNames;
+	}
+
+	private boolean containsWildcard(String str) {
+		String prefix = "classpath*:";
+		if (str.startsWith(prefix)) {
+			str = str.substring(prefix.length());
+		}
+		return str.contains("*");
 	}
 
 }
