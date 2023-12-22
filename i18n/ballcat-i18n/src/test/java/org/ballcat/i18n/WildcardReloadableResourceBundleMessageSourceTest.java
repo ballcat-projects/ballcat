@@ -10,19 +10,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WildcardReloadableResourceBundleMessageSourceTest {
 
-	MessageSource messageSource() {
+	ReloadableResourceBundleMessageSource messageSource(boolean fallbackToSystemLocale) {
 		ReloadableResourceBundleMessageSource messageSource = new WildcardReloadableResourceBundleMessageSource();
 
 		// Specify the location of the properties file
 		messageSource.setBasename("classpath*:ballcat-*");
 		messageSource.setDefaultEncoding("UTF-8");
-		messageSource.setFallbackToSystemLocale(true);
+		messageSource.setFallbackToSystemLocale(fallbackToSystemLocale);
 		return messageSource;
 	}
 
 	@Test
 	void testFallbackDefaultBundle() {
-		MessageSource messageSource = messageSource();
+		ReloadableResourceBundleMessageSource messageSource = messageSource(true);
+		messageSource.setDefaultLocale(Locale.CHINA);
+
+		String i18nCode = "i18nMessage.code";
+
+		String enMessage = messageSource.getMessage(i18nCode, null, Locale.US);
+		assertEquals("Code", enMessage);
+
+		String cnMessage = messageSource.getMessage(i18nCode, null, Locale.CHINA);
+		assertEquals("国际化标识", cnMessage);
+
+		// 没有配置的应该回退默认语言的配置
+		String jpMessage = messageSource.getMessage(i18nCode, null, Locale.JAPAN);
+		assertEquals("国际化标识", jpMessage);
+	}
+
+	@Test
+	void testNotFallbackDefaultBundle() {
+		MessageSource messageSource = messageSource(false);
 
 		String i18nCode = "i18nMessage.code";
 

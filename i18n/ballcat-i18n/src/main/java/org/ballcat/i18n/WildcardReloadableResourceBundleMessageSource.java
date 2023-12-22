@@ -19,11 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.util.ResourceUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 /**
  * 通配符支持的 ResourceBundleMessageSource，方便读取多个 jar 包中的资源文件.
@@ -42,6 +44,8 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 	private static final String PROPERTIES_SUFFIX = ".properties";
 
 	private final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+
+	private static final Pattern pattern = Pattern.compile(".*_([a-z]{2}(_[A-Z]{2})?(_[A-Z]+)?)\\.properties$");
 
 	public WildcardReloadableResourceBundleMessageSource() {
 		super.setResourceLoader(resolver);
@@ -64,6 +68,19 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 		// 当 basename 有匹配符时，从 filenames 中移除，否则扫描文件将抛出 Illegal char <*> 的异常
 		if (containsWildcard(basename)) {
 			filenames.remove(basename);
+			try {
+				Resource[] resources = resolver.getResources(basename + PROPERTIES_SUFFIX);
+				for (Resource resource : resources) {
+					String resourceUriStr = resource.getURI().toString();
+					if (!pattern.matcher(resourceUriStr).matches()) {
+						String sourcePath = resourceUriStr.replace(PROPERTIES_SUFFIX, "");
+						filenames.add(sourcePath);
+					}
+				}
+			}
+			catch (IOException ex) {
+				log.error("读取国际化信息文件异常", ex);
+			}
 		}
 		return filenames;
 	}
@@ -77,10 +94,6 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 		List<String> fileNames = new ArrayList<>();
 		// 获取到待匹配的国际化信息文件名集合
 		List<String> matchFilenames = super.calculateFilenamesForLocale(basename, locale);
-		// 如果有通配符，添加自身，查找 default resource bundle，方便回退
-		if (containsWildcard(basename)) {
-			matchFilenames.add(basename);
-		}
 		for (String matchFilename : matchFilenames) {
 			try {
 				Resource[] resources = resolver.getResources(matchFilename + PROPERTIES_SUFFIX);
@@ -97,9 +110,8 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 	}
 
 	private boolean containsWildcard(String str) {
-		String prefix = "classpath*:";
-		if (str.startsWith(prefix)) {
-			str = str.substring(prefix.length());
+		if (str.startsWith(ResourceUtils.CLASSPATH_URL_PREFIX)) {
+			str = str.substring(ResourceUtils.CLASSPATH_URL_PREFIX.length());
 		}
 		return str.contains("*");
 	}
