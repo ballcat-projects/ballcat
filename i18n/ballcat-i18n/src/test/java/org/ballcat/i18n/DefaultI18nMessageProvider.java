@@ -24,23 +24,25 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author hccake
  */
-public class DefautlI18nMessageProvider {
+public class DefaultI18nMessageProvider implements I18nMessageProvider {
 
 	private static final Map<String, I18nMessage> map = new ConcurrentHashMap<>();
+
 	static {
 		I18nMessage i18nMessage = new I18nMessage();
 		i18nMessage.setMessage("你好啊");
-		i18nMessage.setCode("test");
+		i18nMessage.setCode("i18n:test");
 		i18nMessage.setLanguageTag("zh-CN");
-		map.put("test:zh-CN", i18nMessage);
+		map.put("i18n:test:zh-CN", i18nMessage);
 
 		I18nMessage i18nMessage2 = new I18nMessage();
 		i18nMessage2.setMessage("Hello");
-		i18nMessage2.setCode("test");
+		i18nMessage2.setCode("i18n:test");
 		i18nMessage2.setLanguageTag("en-US");
-		map.put("test:en-US", i18nMessage2);
+		map.put("i18n:test:en-US", i18nMessage2);
 	}
 
+	@Override
 	public I18nMessage getI18nMessage(String code, Locale locale) {
 		String languageTag = locale.toLanguageTag();
 		return map.get(code + ":" + languageTag);
