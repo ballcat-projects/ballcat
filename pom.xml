@@ -34,6 +34,8 @@
 		<module>file/ballcat-spring-boot-starter-file</module>
 
 		<module>grpc/ballcat-spring-boot-starter-grpc</module>
+		<module>grpc/ballcat-spring-boot-starter-grpc-server</module>
+		<module>grpc/ballcat-spring-boot-starter-grpc-client</module>
 
 		<module>i18n/ballcat-i18n</module>
 		<module>i18n/ballcat-spring-boot-starter-i18n</module>
@@ -88,7 +90,7 @@
 		<module>websocket/ballcat-spring-boot-starter-websocket</module>
 
 		<module>xss/ballcat-spring-boot-starter-xss</module>
-    </modules>
+	</modules>
 
 	<properties>
 		<!-- maven 配置 -->

@@ -29,8 +29,10 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 /**
+ * @deprecated use ballcat-spring-boot-starter-grpc-client
  * @author lingting 2023-04-06 15:17
  */
+@Deprecated
 public class GrpcClientChannel implements DisposableBean {
 
 	private final GrpcClientProperties properties;
