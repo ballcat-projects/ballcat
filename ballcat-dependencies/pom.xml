@@ -354,6 +354,16 @@
 				<artifactId>ballcat-spring-boot-starter-grpc</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-grpc-client</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-grpc-server</artifactId>
+				<version>${revision}</version>
+			</dependency>
 
 			<!-- i18n 国际化 -->
 			<dependency>

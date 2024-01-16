@@ -19,17 +19,19 @@ import io.grpc.ManagedChannel;
 import io.grpc.stub.AbstractAsyncStub;
 import io.grpc.stub.AbstractBlockingStub;
 import io.grpc.stub.AbstractFutureStub;
-import org.ballcat.grpc.properties.GrpcClientProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.ballcat.grpc.properties.GrpcClientProperties;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
+ * @deprecated use ballcat-spring-boot-starter-grpc-client
  * @author lingting 2023-04-06 15:33
  */
 @Getter
+@Deprecated
 @RequiredArgsConstructor
 public class GrpcClient<S extends AbstractAsyncStub<S>, B extends AbstractBlockingStub<B>, F extends AbstractFutureStub<F>> {
 

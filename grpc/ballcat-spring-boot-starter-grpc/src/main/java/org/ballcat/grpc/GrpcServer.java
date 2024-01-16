@@ -22,9 +22,11 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * @deprecated use ballcat-spring-boot-starter-grpc-server
  * @author lingting 2023-04-14 17:38
  */
 @Slf4j
+@Deprecated
 public class GrpcServer implements ContextComponent {
 
 	private static final ThreadPool THREAD_POOL = ThreadPool.instance();

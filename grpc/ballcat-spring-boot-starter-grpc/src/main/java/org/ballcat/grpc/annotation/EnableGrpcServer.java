@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
 /**
+ * @deprecated use ballcat-spring-boot-starter-grpc-server
  * @author lingting 2023-04-17 09:15
  */
 @Target({ ElementType.TYPE })
@@ -28,6 +29,7 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 @Import(GrpcServerConfiguration.class)
+@Deprecated
 public @interface EnableGrpcServer {
 
 }
