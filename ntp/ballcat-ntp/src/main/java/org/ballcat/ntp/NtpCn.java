@@ -25,10 +25,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class NtpCn {
 
-	/**
-	 * time.7x24s.com 中国国家授时中心, 使用域名请求超时的话, 解析IP,然后直接请IP
-	 */
-	public static final String DEFAULT_TIME_SERVER = "time.7x24s.com";
+	public static final String DEFAULT_TIME_SERVER = "time.windows.com";
 
 	private static final Ntp INSTANCE = new Ntp(DEFAULT_TIME_SERVER);
 
