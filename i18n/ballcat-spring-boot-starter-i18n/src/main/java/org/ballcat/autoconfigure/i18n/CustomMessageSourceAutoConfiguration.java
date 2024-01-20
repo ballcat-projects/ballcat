@@ -16,6 +16,7 @@
 
 package org.ballcat.autoconfigure.i18n;
 
+import org.ballcat.i18n.WildcardReloadableResourceBundleMessageSource;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
