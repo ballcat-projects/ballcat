@@ -1,8 +1,6 @@
 #!/bin/sh
-source ~/.bash_profile
-
 # 在提交前进行校验
-mvn spring-javaformat:validate
+mvn validate
 
 # 检查 mvn validate 的退出状态
 if [ $? -ne 0 ]; then
