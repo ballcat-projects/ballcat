@@ -99,6 +99,8 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -316,6 +318,26 @@
 						</goals>
 						<id>flatten.clean</id>
 						<phase>clean</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- git hook 配置 -->
+			<plugin>
+				<groupId>com.rudikershaw.gitbuildhook</groupId>
+				<artifactId>git-build-hook-maven-plugin</artifactId>
+				<version>${git-build-hook-maven-plugin.version}</version>
+				<configuration>
+					<gitConfig>
+						<!-- The location of the directory you are using to store the Git hooks in your project. -->
+						<core.hooksPath>.etc/git-hooks/</core.hooksPath>
+					</gitConfig>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<!-- Sets git config specified under configuration > gitConfig. -->
+							<goal>configure</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
