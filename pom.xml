@@ -326,6 +326,7 @@
 				<groupId>com.rudikershaw.gitbuildhook</groupId>
 				<artifactId>git-build-hook-maven-plugin</artifactId>
 				<version>${git-build-hook-maven-plugin.version}</version>
+				<inherited>false</inherited>
 				<configuration>
 					<gitConfig>
 						<!-- The location of the directory you are using to store the Git hooks in your project. -->
@@ -345,6 +346,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
+				<inherited>false</inherited>
 				<version>3.3.1</version>
 				<dependencies>
 					<dependency>
