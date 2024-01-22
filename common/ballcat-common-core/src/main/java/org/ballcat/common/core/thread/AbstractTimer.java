@@ -39,11 +39,11 @@ public abstract class AbstractTimer extends AbstractThreadContextComponent {
 	 * 线程被中断触发.
 	 */
 	protected void shutdown() {
-		log.warn("{} 类 线程: {} 被中断!", getClass().getSimpleName(), getId());
+		this.log.warn("{} 类 线程: {} 被中断!", getClass().getSimpleName(), getId());
 	}
 
 	protected void error(Exception e) {
-		log.error("{} 类 线程: {} 出现异常!", getClass().getSimpleName(), getId(), e);
+		this.log.error("{} 类 线程: {} 出现异常!", getClass().getSimpleName(), getId(), e);
 	}
 
 	@Override

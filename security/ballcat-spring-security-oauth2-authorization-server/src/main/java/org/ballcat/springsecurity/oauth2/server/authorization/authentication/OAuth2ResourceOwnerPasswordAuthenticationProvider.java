@@ -80,7 +80,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 				username, password);
 		log.debug("got usernamePasswordAuthenticationToken={}", usernamePasswordAuthenticationToken);
 
-		return daoAuthenticationProvider.authenticate(usernamePasswordAuthenticationToken);
+		return this.daoAuthenticationProvider.authenticate(usernamePasswordAuthenticationToken);
 	}
 
 }

@@ -83,8 +83,8 @@ public class CacheStringAspect {
 		MethodSignature signature = (MethodSignature) point.getSignature();
 		Method method = signature.getMethod();
 
-		if (log.isTraceEnabled()) {
-			log.trace("=======The string cache aop is executed! method : {}", method.getName());
+		if (this.log.isTraceEnabled()) {
+			this.log.trace("=======The string cache aop is executed! method : {}", method.getName());
 		}
 
 		// 根据方法的参数 以及当前类对象获得 keyGenerator
@@ -92,7 +92,7 @@ public class CacheStringAspect {
 		Object[] arguments = point.getArgs();
 		KeyGenerator keyGenerator = new KeyGenerator(target, method, arguments);
 
-		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+		ValueOperations<String, String> valueOperations = this.redisTemplate.opsForValue();
 
 		// 缓存处理
 		Cached cachedAnnotation = AnnotationUtils.getAnnotation(method, Cached.class);
@@ -176,7 +176,7 @@ public class CacheStringAspect {
 			return null;
 		}
 		else if (cacheData != null) {
-			return cacheSerializer.deserialize(cacheData, dataClazz);
+			return this.cacheSerializer.deserialize(cacheData, dataClazz);
 		}
 
 		// 2.==========如果缓存为空 则需查询数据库并更新===============
@@ -186,7 +186,8 @@ public class CacheStringAspect {
 				// 从数据库查询数据
 				Object dbValue = ops.joinPoint().proceed();
 				// 如果数据库中没数据，填充一个String，防止缓存击穿
-				cacheValue = dbValue == null ? CachePropertiesHolder.nullValue() : cacheSerializer.serialize(dbValue);
+				cacheValue = dbValue == null ? CachePropertiesHolder.nullValue()
+						: this.cacheSerializer.serialize(dbValue);
 				// 设置缓存
 				ops.cachePut().accept(cacheValue);
 			}
@@ -196,7 +197,7 @@ public class CacheStringAspect {
 		if (cacheData == null || ops.nullValue(cacheData)) {
 			return null;
 		}
-		return cacheSerializer.deserialize(cacheData, dataClazz);
+		return this.cacheSerializer.deserialize(cacheData, dataClazz);
 	}
 
 	/**
@@ -208,7 +209,7 @@ public class CacheStringAspect {
 		Object data = ops.joinPoint().proceed();
 
 		// 将返回值放置入缓存中
-		String cacheData = data == null ? CachePropertiesHolder.nullValue() : cacheSerializer.serialize(data);
+		String cacheData = data == null ? CachePropertiesHolder.nullValue() : this.cacheSerializer.serialize(data);
 		ops.cachePut().accept(cacheData);
 
 		return data;
@@ -254,7 +255,7 @@ public class CacheStringAspect {
 			cacheDel = () -> {
 				Cursor<String> scan = RedisHelper.scan(cacheDelAnnotation.key().concat("*"));
 				while (scan.hasNext()) {
-					redisTemplate.delete(scan.next());
+					this.redisTemplate.delete(scan.next());
 				}
 				if (!scan.isClosed()) {
 					scan.close();
@@ -264,12 +265,12 @@ public class CacheStringAspect {
 		else {
 			if (cacheDelAnnotation.multiDel()) {
 				Collection<String> keys = keyGenerator.getKeys(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
-				cacheDel = () -> redisTemplate.delete(keys);
+				cacheDel = () -> this.redisTemplate.delete(keys);
 			}
 			else {
 				// 缓存key
 				String key = keyGenerator.getKey(cacheDelAnnotation.key(), cacheDelAnnotation.keyJoint());
-				cacheDel = () -> redisTemplate.delete(key);
+				cacheDel = () -> this.redisTemplate.delete(key);
 			}
 		}
 		return cacheDel;

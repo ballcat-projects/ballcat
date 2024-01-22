@@ -51,11 +51,11 @@ public class MailSendInfo {
 	private String errorMsg;
 
 	public MailDetails getMailDetails() {
-		return mailDetails;
+		return this.mailDetails;
 	}
 
 	public LocalDateTime getSentDate() {
-		return sentDate;
+		return this.sentDate;
 	}
 
 	public void setSentDate(LocalDateTime sentDate) {
@@ -63,7 +63,7 @@ public class MailSendInfo {
 	}
 
 	public Boolean getSuccess() {
-		return success;
+		return this.success;
 	}
 
 	public void setSuccess(Boolean success) {
@@ -71,7 +71,7 @@ public class MailSendInfo {
 	}
 
 	public String getErrorMsg() {
-		return errorMsg;
+		return this.errorMsg;
 	}
 
 	public void setErrorMsg(String errorMsg) {

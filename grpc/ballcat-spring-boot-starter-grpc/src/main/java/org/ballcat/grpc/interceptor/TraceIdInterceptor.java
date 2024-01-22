@@ -50,8 +50,8 @@ public class TraceIdInterceptor implements ServerInterceptor {
 			ServerCallHandler<S, R> next) {
 		String traceId = null;
 
-		if (headers.containsKey(headerTraceId)) {
-			traceId = headers.get(headerTraceId);
+		if (headers.containsKey(this.headerTraceId)) {
+			traceId = headers.get(this.headerTraceId);
 		}
 
 		if (!StringUtils.hasText(traceId)) {
@@ -61,7 +61,7 @@ public class TraceIdInterceptor implements ServerInterceptor {
 		MDC.put(MDCConstants.TRACE_ID_KEY, traceId);
 		try {
 			// 返回traceId
-			headers.put(headerTraceId, traceId);
+			headers.put(this.headerTraceId, traceId);
 			return next.startCall(call, headers);
 		}
 		finally {

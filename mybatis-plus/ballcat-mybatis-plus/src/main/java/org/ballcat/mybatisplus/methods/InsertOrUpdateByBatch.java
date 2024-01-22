@@ -58,7 +58,7 @@ public class InsertOrUpdateByBatch extends BaseInsertBatch {
 			// 默认忽略逻辑删除字段
 			if (!field.isLogicDelete()) {
 				// 默认忽略字段
-				if (!predicate.test(field)) {
+				if (!this.predicate.test(field)) {
 					sql.append(field.getColumn()).append("=").append("VALUES(").append(field.getColumn()).append("),");
 				}
 				else {

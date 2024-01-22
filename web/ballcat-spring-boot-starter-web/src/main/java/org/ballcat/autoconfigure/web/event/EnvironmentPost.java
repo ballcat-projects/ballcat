@@ -33,7 +33,7 @@ public class EnvironmentPost implements EnvironmentPostProcessor {
 
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-		EnvironmentUtils.setEnvironment(environment);
+		EnvironmentUtils.setENVIRONMENT(environment);
 	}
 
 }

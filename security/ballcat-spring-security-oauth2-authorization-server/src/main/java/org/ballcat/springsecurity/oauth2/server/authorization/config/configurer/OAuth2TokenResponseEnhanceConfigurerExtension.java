@@ -97,7 +97,7 @@ public class OAuth2TokenResponseEnhanceConfigurerExtension implements OAuth2Auth
 		if (refreshToken != null) {
 			builder.refreshToken(refreshToken.getTokenValue());
 		}
-		Map<String, Object> additionalParameters = oauth2TokenResponseEnhancer.enhance(accessTokenAuthentication);
+		Map<String, Object> additionalParameters = this.oauth2TokenResponseEnhancer.enhance(accessTokenAuthentication);
 		if (!CollectionUtils.isEmpty(additionalParameters)) {
 			builder.additionalParameters(additionalParameters);
 		}
@@ -105,7 +105,7 @@ public class OAuth2TokenResponseEnhanceConfigurerExtension implements OAuth2Auth
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
 
 		// 添加 cookie, 配合无状态登录使用
-		if (setAccessTokenCookie) {
+		if (this.setAccessTokenCookie) {
 			setCookie(request, response, OAuth2TokenType.ACCESS_TOKEN.getValue(), accessToken.getTokenValue(), 86400);
 		}
 

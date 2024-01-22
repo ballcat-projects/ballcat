@@ -45,7 +45,7 @@ public class DefaultDataPermissionHandler implements DataPermissionHandler {
 	 */
 	@Override
 	public List<DataScope> dataScopes() {
-		return dataScopes;
+		return this.dataScopes;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class DefaultDataPermissionHandler implements DataPermissionHandler {
 	 */
 	protected List<DataScope> filterDataScopes(DataPermissionRule dataPermissionRule) {
 		if (dataPermissionRule == null) {
-			return dataScopes;
+			return this.dataScopes;
 		}
 
 		if (dataPermissionRule.ignore()) {
@@ -95,16 +95,16 @@ public class DefaultDataPermissionHandler implements DataPermissionHandler {
 		// 当指定了只包含的资源时，只对该资源的DataScope
 		if (dataPermissionRule.includeResources().length > 0) {
 			Set<String> a = new HashSet<>(Arrays.asList(dataPermissionRule.includeResources()));
-			return dataScopes.stream().filter(x -> a.contains(x.getResource())).collect(Collectors.toList());
+			return this.dataScopes.stream().filter(x -> a.contains(x.getResource())).collect(Collectors.toList());
 		}
 
 		// 当未指定只包含的资源，且指定了排除的资源时，则排除此部分资源的 DataScope
 		if (dataPermissionRule.excludeResources().length > 0) {
 			Set<String> a = new HashSet<>(Arrays.asList(dataPermissionRule.excludeResources()));
-			return dataScopes.stream().filter(x -> !a.contains(x.getResource())).collect(Collectors.toList());
+			return this.dataScopes.stream().filter(x -> !a.contains(x.getResource())).collect(Collectors.toList());
 		}
 
-		return dataScopes;
+		return this.dataScopes;
 	}
 
 }

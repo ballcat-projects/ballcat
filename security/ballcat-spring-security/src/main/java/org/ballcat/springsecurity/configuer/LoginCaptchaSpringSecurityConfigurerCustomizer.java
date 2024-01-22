@@ -52,7 +52,7 @@ public class LoginCaptchaSpringSecurityConfigurerCustomizer
 
 	@Override
 	public void customize(HttpSecurity httpSecurity) throws Exception {
-		SpringSecurityProperties.FormLogin formLogin = springSecurityProperties.getFormLogin();
+		SpringSecurityProperties.FormLogin formLogin = this.springSecurityProperties.getFormLogin();
 
 		String loginProcessingUrl = formLogin.getLoginProcessingUrl();
 		if (loginProcessingUrl == null) {
@@ -66,9 +66,9 @@ public class LoginCaptchaSpringSecurityConfigurerCustomizer
 		AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(loginProcessingUrl, HttpMethod.POST.name());
 
 		// 创建过滤器
-		LoginCaptchaFilter filter = new LoginCaptchaFilter(requestMatcher, captchaValidator);
-		if (messageSource != null) {
-			filter.setMessageSource(messageSource);
+		LoginCaptchaFilter filter = new LoginCaptchaFilter(requestMatcher, this.captchaValidator);
+		if (this.messageSource != null) {
+			filter.setMessageSource(this.messageSource);
 		}
 		AuthenticationFailureHandler failureHandler = httpSecurity.getSharedObject(AuthenticationFailureHandler.class);
 		if (failureHandler != null) {

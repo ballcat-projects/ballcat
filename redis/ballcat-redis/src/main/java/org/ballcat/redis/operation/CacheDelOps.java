@@ -35,7 +35,7 @@ public class CacheDelOps extends AbstractCacheOps {
 	}
 
 	public VoidMethod cacheDel() {
-		return cacheDel;
+		return this.cacheDel;
 	}
 
 }

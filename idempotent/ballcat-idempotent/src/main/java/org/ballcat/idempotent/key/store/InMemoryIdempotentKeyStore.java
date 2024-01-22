@@ -34,15 +34,15 @@ public class InMemoryIdempotentKeyStore implements IdempotentKeyStore {
 
 	public InMemoryIdempotentKeyStore() {
 		this.cache = CacheUtil.newTimedCache(Integer.MAX_VALUE);
-		cache.schedulePrune(1);
+		this.cache.schedulePrune(1);
 	}
 
 	@Override
 	public synchronized boolean saveIfAbsent(String key, long duration, TimeUnit timeUnit) {
-		Long value = cache.get(key, false);
+		Long value = this.cache.get(key, false);
 		if (value == null) {
 			long timeOut = TimeUnit.MILLISECONDS.convert(duration, timeUnit);
-			cache.put(key, System.currentTimeMillis(), timeOut);
+			this.cache.put(key, System.currentTimeMillis(), timeOut);
 			return true;
 		}
 		return false;
@@ -50,7 +50,7 @@ public class InMemoryIdempotentKeyStore implements IdempotentKeyStore {
 
 	@Override
 	public void remove(String key) {
-		cache.remove(key);
+		this.cache.remove(key);
 	}
 
 }

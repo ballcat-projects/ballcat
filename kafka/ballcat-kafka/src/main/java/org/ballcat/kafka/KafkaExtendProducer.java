@@ -68,7 +68,7 @@ public class KafkaExtendProducer<K, V> {
 	}
 
 	public Future<RecordMetadata> send(ProducerRecord<K, V> record, Callback callback) {
-		return producer.send(record, callback);
+		return this.producer.send(record, callback);
 	}
 
 	public Future<RecordMetadata> send(String topic, Integer partition, Long timestamp, K key, V value,

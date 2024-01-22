@@ -142,7 +142,7 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 				evaluationContext.setVariable(name, request.getParameter(name));
 			}
 		}
-		Expression expression = expressionParser.parseExpression(sheetName);
+		Expression expression = this.expressionParser.parseExpression(sheetName);
 		String value = expression.getValue(evaluationContext, String.class);
 		return value == null || value.isEmpty() ? null : value;
 	}

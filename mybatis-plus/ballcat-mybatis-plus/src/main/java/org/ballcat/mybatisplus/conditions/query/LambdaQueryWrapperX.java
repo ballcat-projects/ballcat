@@ -83,7 +83,7 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 		if (condition && CollectionUtils.isNotEmpty(columns)) {
 			this.sqlSelect.setStringValue(columnsToString(false, columns));
 		}
-		return typedThis;
+		return this.typedThis;
 	}
 
 	/**
@@ -116,12 +116,12 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 		}
 		Assert.notNull(entityClass, "entityClass can not be null");
 		this.sqlSelect.setStringValue(TableInfoHelper.getTableInfo(entityClass).chooseSelect(predicate));
-		return typedThis;
+		return this.typedThis;
 	}
 
 	@Override
 	public String getSqlSelect() {
-		return sqlSelect.getStringValue();
+		return this.sqlSelect.getStringValue();
 	}
 
 	/**
@@ -132,15 +132,15 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 	 */
 	@Override
 	protected LambdaQueryWrapperX<T> instance() {
-		return new LambdaQueryWrapperX<>(getEntity(), getEntityClass(), null, paramNameSeq, paramNameValuePairs,
-				new MergeSegments(), paramAlias, SharedString.emptyString(), SharedString.emptyString(),
-				SharedString.emptyString());
+		return new LambdaQueryWrapperX<>(getEntity(), getEntityClass(), null, this.paramNameSeq,
+				this.paramNameValuePairs, new MergeSegments(), this.paramAlias, SharedString.emptyString(),
+				SharedString.emptyString(), SharedString.emptyString());
 	}
 
 	@Override
 	public void clear() {
 		super.clear();
-		sqlSelect.toNull();
+		this.sqlSelect.toNull();
 	}
 
 	// ======= 分界线，以上 copy 自 mybatis-plus 源码 =====

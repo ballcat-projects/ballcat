@@ -50,7 +50,7 @@ public class OAuth2TokenRevocationEndpointConfigurerExtension implements OAuth2A
 			authenticationProviders
 				.removeIf(x -> x.getClass().isAssignableFrom(OAuth2TokenRevocationAuthenticationProvider.class));
 			authenticationProviders.add(0,
-					new BallcatOAuth2TokenRevocationAuthenticationProvider(authorizationService));
+					new BallcatOAuth2TokenRevocationAuthenticationProvider(this.authorizationService));
 		};
 
 		final Consumer<List<AuthenticationConverter>> convertersConsumer = converters -> {
@@ -59,7 +59,7 @@ public class OAuth2TokenRevocationEndpointConfigurerExtension implements OAuth2A
 		};
 
 		oAuth2AuthorizationServerConfigurer.tokenRevocationEndpoint(
-				tokenRevocation -> tokenRevocation.revocationResponseHandler(oAuth2TokenRevocationResponseHandler)
+				tokenRevocation -> tokenRevocation.revocationResponseHandler(this.oAuth2TokenRevocationResponseHandler)
 					.revocationRequestConverters(convertersConsumer)
 					.authenticationProviders(authenticationProvidersConsumer));
 	}

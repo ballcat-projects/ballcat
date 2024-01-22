@@ -40,7 +40,7 @@ public class JsonMessageHandlerInitializer {
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void initJsonMessageHandlerHolder() {
-		for (JsonMessageHandler<? extends JsonWebSocketMessage> jsonMessageHandler : jsonMessageHandlerList) {
+		for (JsonMessageHandler<? extends JsonWebSocketMessage> jsonMessageHandler : this.jsonMessageHandlerList) {
 			JsonMessageHandlerHolder.addHandler((JsonMessageHandler<JsonWebSocketMessage>) jsonMessageHandler);
 		}
 	}

@@ -45,7 +45,7 @@ public class CacheVectorIndexIp2regionSearcher extends Ip2regionSearcherTemplate
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Resource resource = resourceLoader.getResource(properties.getFileLocation());
+		Resource resource = this.resourceLoader.getResource(this.properties.getFileLocation());
 		String dbPath = resource.getFile().getPath();
 		this.searcher = Searcher.newWithVectorIndex(dbPath, Searcher.loadVectorIndexFromFile(dbPath));
 	}

@@ -82,7 +82,7 @@ public class DingTalkSender {
 	 *
 	 */
 	public DingTalkResponse sendMessage(DingTalkMessage message) {
-		if (!StringUtils.hasText(secret)) {
+		if (!StringUtils.hasText(this.secret)) {
 			return sendNormalMessage(message);
 		}
 		else {
@@ -118,17 +118,17 @@ public class DingTalkSender {
 	 */
 	@SneakyThrows({ UnsupportedEncodingException.class, NoSuchAlgorithmException.class, InvalidKeyException.class })
 	public String secret(long timestamp) {
-		SecretKeySpec key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+		SecretKeySpec key = new SecretKeySpec(this.secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
 
 		Mac mac = Mac.getInstance("HmacSHA256");
 		mac.init(key);
 
-		byte[] secretBytes = (timestamp + "\n" + secret).getBytes(StandardCharsets.UTF_8);
+		byte[] secretBytes = (timestamp + "\n" + this.secret).getBytes(StandardCharsets.UTF_8);
 		byte[] bytes = mac.doFinal(secretBytes);
 
 		String base64 = java.util.Base64.getEncoder().encodeToString(bytes);
 		String sign = URLEncoder.encode(base64, "UTF-8");
-		return String.format("%s&timestamp=%s&sign=%s", url, timestamp, sign);
+		return String.format("%s&timestamp=%s&sign=%s", this.url, timestamp, sign);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class DingTalkSender {
 
 		Request request = new Request.Builder().url(requestUrl).post(requestBody).build();
 
-		Call call = client.newCall(request);
+		Call call = this.client.newCall(request);
 
 		try (Response response = call.execute()) {
 			ResponseBody responseBody = response.body();

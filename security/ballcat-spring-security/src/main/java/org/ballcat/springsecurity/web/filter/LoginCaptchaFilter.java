@@ -61,13 +61,13 @@ public class LoginCaptchaFilter extends OncePerRequestFilter implements MessageS
 			return;
 		}
 
-		CaptchaValidateResult captchaValidateResult = captchaValidator.validate(request);
+		CaptchaValidateResult captchaValidateResult = this.captchaValidator.validate(request);
 		if (captchaValidateResult.isSuccess()) {
 			filterChain.doFilter(request, response);
 		}
 		else {
-			logger.error("Captcha verification failed, captchaValidateResult: " + captchaValidateResult);
-			failureHandler.onAuthenticationFailure(request, response, new InvalidCaptchaException(this.messages
+			this.logger.error("Captcha verification failed, captchaValidateResult: " + captchaValidateResult);
+			this.failureHandler.onAuthenticationFailure(request, response, new InvalidCaptchaException(this.messages
 				.getMessage("LoginCaptchaFilter.captchaVerificationFailed", "Captcha verification failed")));
 		}
 	}

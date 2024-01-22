@@ -67,18 +67,18 @@ public class OpenApiAutoConfiguration {
 		OpenAPI openAPI = new OpenAPI();
 
 		// 文档基本信息
-		OpenApiProperties.InfoProperties infoProperties = openApiProperties.getInfo();
+		OpenApiProperties.InfoProperties infoProperties = this.openApiProperties.getInfo();
 		Info info = convertInfo(infoProperties);
 		openAPI.info(info);
 
 		// 扩展文档信息
-		openAPI.externalDocs(openApiProperties.getExternalDocs());
-		openAPI.servers(openApiProperties.getServers());
-		openAPI.security(openApiProperties.getSecurity());
-		openAPI.tags(openApiProperties.getTags());
-		openAPI.paths(openApiProperties.getPaths());
-		openAPI.components(openApiProperties.getComponents());
-		openAPI.extensions(openApiProperties.getExtensions());
+		openAPI.externalDocs(this.openApiProperties.getExternalDocs());
+		openAPI.servers(this.openApiProperties.getServers());
+		openAPI.security(this.openApiProperties.getSecurity());
+		openAPI.tags(this.openApiProperties.getTags());
+		openAPI.paths(this.openApiProperties.getPaths());
+		openAPI.components(this.openApiProperties.getComponents());
+		openAPI.extensions(this.openApiProperties.getExtensions());
 
 		return openAPI;
 	}
@@ -104,7 +104,7 @@ public class OpenApiAutoConfiguration {
 	@ConditionalOnProperty(prefix = OpenApiProperties.PREFIX + ".cors-config", name = "enabled", havingValue = "true")
 	public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
 		// 获取 CORS 配置
-		OpenApiProperties.CorsConfig corsConfig = openApiProperties.getCorsConfig();
+		OpenApiProperties.CorsConfig corsConfig = this.openApiProperties.getCorsConfig();
 
 		// 转换 CORS 配置
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -147,17 +147,17 @@ public class OpenApiAutoConfiguration {
 
 			Map<String, String> map = new HashMap<>();
 
-			String page = pageableProperties.getPageParameterName();
+			String page = this.pageableProperties.getPageParameterName();
 			if (!PageableConstants.DEFAULT_PAGE_PARAMETER.equals(page)) {
 				map.put(PageableConstants.DEFAULT_PAGE_PARAMETER, page);
 			}
 
-			String size = pageableProperties.getSizeParameterName();
+			String size = this.pageableProperties.getSizeParameterName();
 			if (!PageableConstants.DEFAULT_SIZE_PARAMETER.equals(size)) {
 				map.put(PageableConstants.DEFAULT_SIZE_PARAMETER, size);
 			}
 
-			String sort = pageableProperties.getSortParameterName();
+			String sort = this.pageableProperties.getSortParameterName();
 			if (!PageableConstants.DEFAULT_SORT_PARAMETER.equals(sort)) {
 				map.put(PageableConstants.DEFAULT_SORT_PARAMETER, sort);
 			}

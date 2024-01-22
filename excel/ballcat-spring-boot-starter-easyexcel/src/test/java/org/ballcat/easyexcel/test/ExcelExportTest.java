@@ -55,7 +55,7 @@ class ExcelExportTest {
 	 */
 	@Test
 	void simpleExport() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/export/simple"))
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/export/simple"))
 			.andExpect(status().isOk())
 			.andReturn();
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray());
@@ -79,7 +79,7 @@ class ExcelExportTest {
 	 */
 	@Test
 	void templateExportIgnoreHeader() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/export/templateExportIgnoreHeader"))
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/export/templateExportIgnoreHeader"))
 			.andExpect(status().isOk())
 			.andReturn();
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray());

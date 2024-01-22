@@ -33,20 +33,20 @@ public abstract class AbstractBlockingQueueThread<T> extends AbstractQueueThread
 	public void put(T t) {
 		if (t != null) {
 			try {
-				queue.put(t);
+				this.queue.put(t);
 			}
 			catch (InterruptedException e) {
 				currentThread().interrupt();
 			}
 			catch (Exception e) {
-				log.error("{} put Object error, param: {}", this.getClass().toString(), t, e);
+				this.log.error("{} put Object error, param: {}", this.getClass().toString(), t, e);
 			}
 		}
 	}
 
 	@Override
 	protected T poll(long time) throws InterruptedException {
-		return queue.poll(time, TimeUnit.MILLISECONDS);
+		return this.queue.poll(time, TimeUnit.MILLISECONDS);
 	}
 
 }

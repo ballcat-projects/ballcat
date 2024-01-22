@@ -55,7 +55,7 @@ public class ActuatorSecurityAutoConfiguration {
 			ActuatorSecurityFilter filter = new ActuatorSecurityFilter(actuatorSecurityProperties.getSecretId(),
 					actuatorSecurityProperties.getSecretKey());
 			registrationBean.setFilter(filter);
-			String basePath = webEndpointProperties.getBasePath();
+			String basePath = this.webEndpointProperties.getBasePath();
 			if (!StringUtils.hasText(basePath)) {
 				basePath = "/actuator";
 			}

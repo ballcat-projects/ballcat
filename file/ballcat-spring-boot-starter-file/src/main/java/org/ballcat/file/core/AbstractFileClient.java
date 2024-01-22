@@ -29,7 +29,7 @@ public abstract class AbstractFileClient implements FileClient {
 	 * 获取操作的根路径
 	 */
 	public String getRoot() {
-		return rootPath;
+		return this.rootPath;
 	}
 
 	/**
@@ -37,7 +37,7 @@ public abstract class AbstractFileClient implements FileClient {
 	 * @param relativePath 文件相对 getRoot() 的路径
 	 */
 	public String getWholePath(String relativePath) {
-		if (relativePath.startsWith(slash)) {
+		if (relativePath.startsWith(this.slash)) {
 			return getRoot() + relativePath.substring(1);
 		}
 		return getRoot() + relativePath;

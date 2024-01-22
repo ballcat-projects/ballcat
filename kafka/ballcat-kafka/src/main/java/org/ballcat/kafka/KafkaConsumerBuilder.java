@@ -64,12 +64,12 @@ public class KafkaConsumerBuilder {
 	 * 添加 kafka 路径 host:port
 	 */
 	public KafkaConsumerBuilder addBootstrapServers(String uri) {
-		bootstrapServers.add(uri);
+		this.bootstrapServers.add(uri);
 		return this;
 	}
 
 	public KafkaConsumerBuilder addAllBootstrapServers(Collection<String> uris) {
-		bootstrapServers.addAll(uris);
+		this.bootstrapServers.addAll(uris);
 		return this;
 	}
 
@@ -77,7 +77,7 @@ public class KafkaConsumerBuilder {
 	 * 添加配置
 	 */
 	public KafkaConsumerBuilder put(Object key, Object val) {
-		properties.put(key, val);
+		this.properties.put(key, val);
 		return this;
 	}
 
@@ -97,7 +97,7 @@ public class KafkaConsumerBuilder {
 	}
 
 	public KafkaConsumerBuilder addTopic(String topic) {
-		topics.add(topic);
+		this.topics.add(topic);
 		return this;
 	}
 
@@ -108,7 +108,7 @@ public class KafkaConsumerBuilder {
 
 	public <K, V> KafkaConsumer<K, V> build(Function<Properties, KafkaConsumer<K, V>> function) {
 		KafkaConsumer<K, V> consumer = function.apply(getProperties());
-		consumer.subscribe(topics);
+		consumer.subscribe(this.topics);
 		return consumer;
 	}
 
@@ -122,18 +122,18 @@ public class KafkaConsumerBuilder {
 
 	public Set<String> getBootstrapServers() {
 		getProperties();
-		return bootstrapServers;
+		return this.bootstrapServers;
 	}
 
 	public Properties getProperties() {
-		String nowServes = properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "");
+		String nowServes = this.properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "");
 		if (nowServes.length() > 0) {
 			// 仅在存在配置时才插入
-			bootstrapServers.addAll(Arrays.asList(nowServes.split(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER)));
+			this.bootstrapServers.addAll(Arrays.asList(nowServes.split(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER)));
 		}
-		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-				String.join(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
-		return properties;
+		this.properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+				String.join(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER, this.bootstrapServers));
+		return this.properties;
 	}
 
 }

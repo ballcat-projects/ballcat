@@ -73,25 +73,25 @@ public final class PageableRequestClassCreator {
 				String value = entry.getValue();
 				String s = StringUtils.capitalize(key);
 				String v = StringUtils.capitalize(value);
-				modifyMethodMap.put("get" + s, "get" + v);
-				modifyMethodMap.put("set" + s, "set" + v);
+				this.modifyMethodMap.put("get" + s, "get" + v);
+				this.modifyMethodMap.put("set" + s, "set" + v);
 			}
 		}
 
 		@Override
 		public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
-			if (modifyFiledMap.containsKey(name)) {
-				return cv.visitField(access, modifyFiledMap.get(name), descriptor, signature, value);
+			if (this.modifyFiledMap.containsKey(name)) {
+				return this.cv.visitField(access, this.modifyFiledMap.get(name), descriptor, signature, value);
 			}
-			return cv.visitField(access, name, descriptor, signature, value);
+			return this.cv.visitField(access, name, descriptor, signature, value);
 		}
 
 		@Override
 		public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-			if (modifyMethodMap.containsKey(name)) {
-				return cv.visitMethod(access, modifyMethodMap.get(name), desc, signature, exceptions);
+			if (this.modifyMethodMap.containsKey(name)) {
+				return this.cv.visitMethod(access, this.modifyMethodMap.get(name), desc, signature, exceptions);
 			}
-			return cv.visitMethod(access, name, desc, signature, exceptions);
+			return this.cv.visitMethod(access, name, desc, signature, exceptions);
 		}
 
 	}

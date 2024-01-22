@@ -50,7 +50,7 @@ public class Tesseract {
 	 * @param path 例: <code>C:\Program Files\Tesseract-OCR\tesseract.exe</code>
 	 */
 	public void setTesseractPath(String path) {
-		tesseractPath = path;
+		this.tesseractPath = path;
 	}
 
 	/**
@@ -59,7 +59,8 @@ public class Tesseract {
 	 * @return a {@link java.util.List} object
 	 */
 	public List<String> run(Consumer<TesseractCommand.TesseractCommandBuilder> builderConsumer) {
-		final TesseractCommand.TesseractCommandBuilder builder = TesseractCommand.builder().tesseract(tesseractPath);
+		final TesseractCommand.TesseractCommandBuilder builder = TesseractCommand.builder()
+			.tesseract(this.tesseractPath);
 		builderConsumer.accept(builder);
 		return builder.build().run();
 	}

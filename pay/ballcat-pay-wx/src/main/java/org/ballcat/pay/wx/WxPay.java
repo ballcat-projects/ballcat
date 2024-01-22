@@ -87,7 +87,7 @@ public class WxPay {
 	 * @param body 商品描述
 	 */
 	public WxPayResponse jsApiPay(String sn, BigDecimal amount, String ip, String body) {
-		return jsApiPay(sn, amount, ip, body, notifyUrl);
+		return jsApiPay(sn, amount, ip, body, this.notifyUrl);
 	}
 
 	public WxPayResponse jsApiPay(String sn, BigDecimal amount, String ip, String body, String notifyUrl) {
@@ -102,7 +102,7 @@ public class WxPay {
 	 * @param body 商品描述
 	 */
 	public WxPayResponse appPay(String sn, BigDecimal amount, String ip, String body) {
-		return appPay(sn, amount, ip, body, notifyUrl);
+		return appPay(sn, amount, ip, body, this.notifyUrl);
 	}
 
 	public WxPayResponse appPay(String sn, BigDecimal amount, String ip, String body, String notifyUrl) {
@@ -116,7 +116,7 @@ public class WxPay {
 	 * @param body 商品描述
 	 */
 	public WxPayResponse nativePay(String sn, BigDecimal amount, String body) {
-		return nativePay(sn, amount, body, notifyUrl);
+		return nativePay(sn, amount, body, this.notifyUrl);
 	}
 
 	public WxPayResponse nativePay(String sn, BigDecimal amount, String body, String notifyUrl) {
@@ -131,7 +131,7 @@ public class WxPay {
 	 * @param body 商品描述
 	 */
 	public WxPayResponse webPay(String sn, BigDecimal amount, String ip, String body) {
-		return webPay(sn, amount, ip, body, notifyUrl);
+		return webPay(sn, amount, ip, body, this.notifyUrl);
 	}
 
 	public WxPayResponse webPay(String sn, BigDecimal amount, String ip, String body, String notifyUrl) {
@@ -186,15 +186,15 @@ public class WxPay {
 		map.putAll(params);
 
 		// 添加必须参数
-		map.put("appid", appId);
-		map.put("mch_id", mchId);
+		map.put("appid", this.appId);
+		map.put("mch_id", this.mchId);
 		map.put("nonce_str", WxPayUtil.generateNonceStr());
 		// 设置签名类型; 沙箱使用 md5, 正式使用 hmac sha256
-		map.put(WxPayConstant.FIELD_SIGN_TYPE, sandbox ? SignType.MD5.getStr() : SignType.HMAC_SHA256.getStr());
+		map.put(WxPayConstant.FIELD_SIGN_TYPE, this.sandbox ? SignType.MD5.getStr() : SignType.HMAC_SHA256.getStr());
 		// 签名
-		map.put(WxPayConstant.FIELD_SIGN, WxPayUtil.sign(map, mckKey));
+		map.put(WxPayConstant.FIELD_SIGN, WxPayUtil.sign(map, this.mckKey));
 
-		return domain.request(map, rs);
+		return this.domain.request(map, rs);
 	}
 
 	/**
@@ -222,15 +222,15 @@ public class WxPay {
 
 		// 存在签名类型, 直接验签
 		if (params.containsKey(WxPayConstant.FIELD_SIGN_TYPE)) {
-			return WxPayUtil.sign(params, mckKey).equals(sign);
+			return WxPayUtil.sign(params, this.mckKey).equals(sign);
 		}
 
 		// 两种签名类型都试一次
-		if (WxPayUtil.sign(params, SignType.HMAC_SHA256, mckKey).equals(sign)) {
+		if (WxPayUtil.sign(params, SignType.HMAC_SHA256, this.mckKey).equals(sign)) {
 			return true;
 		}
 
-		return WxPayUtil.sign(params, SignType.MD5, mckKey).equals(sign);
+		return WxPayUtil.sign(params, SignType.MD5, this.mckKey).equals(sign);
 	}
 
 }

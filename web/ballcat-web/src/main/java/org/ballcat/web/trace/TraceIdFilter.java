@@ -46,15 +46,15 @@ public class TraceIdFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		// 先获取请求头中的 traceId，如果没有，则生成一个
-		String traceId = request.getHeader(traceIdHeaderName);
+		String traceId = request.getHeader(this.traceIdHeaderName);
 		if (traceId == null || traceId.isEmpty()) {
-			traceId = traceIdGenerator.generate();
+			traceId = this.traceIdGenerator.generate();
 		}
 
 		MDC.put(MDCConstants.TRACE_ID_KEY, traceId);
 		try {
 			// 响应头中添加 traceId 参数，方便排查问题
-			response.setHeader(traceIdHeaderName, traceId);
+			response.setHeader(this.traceIdHeaderName, traceId);
 			filterChain.doFilter(request, response);
 		}
 		finally {

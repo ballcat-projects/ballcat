@@ -43,14 +43,14 @@ public class MessageSourceHierarchicalChanger {
 	@PostConstruct
 	public void changeMessageSourceParent() {
 		// 优先走 messageSource，从资源文件中查找
-		if (messageSource instanceof HierarchicalMessageSource) {
-			HierarchicalMessageSource hierarchicalMessageSource = (HierarchicalMessageSource) messageSource;
+		if (this.messageSource instanceof HierarchicalMessageSource) {
+			HierarchicalMessageSource hierarchicalMessageSource = (HierarchicalMessageSource) this.messageSource;
 			MessageSource parentMessageSource = hierarchicalMessageSource.getParentMessageSource();
-			dynamicMessageSource.setParentMessageSource(parentMessageSource);
-			hierarchicalMessageSource.setParentMessageSource(dynamicMessageSource);
+			this.dynamicMessageSource.setParentMessageSource(parentMessageSource);
+			hierarchicalMessageSource.setParentMessageSource(this.dynamicMessageSource);
 		}
 		else {
-			dynamicMessageSource.setParentMessageSource(messageSource);
+			this.dynamicMessageSource.setParentMessageSource(this.messageSource);
 		}
 	}
 

@@ -57,7 +57,7 @@ public class OperationLogAspect<T> {
 		// 获取操作日志 DTO
 		Assert.notNull(operationLogging, "operationLogging annotation must not be null!");
 
-		T operationLog = operationLogHandler.buildLog(operationLogging, joinPoint);
+		T operationLog = this.operationLogHandler.buildLog(operationLogging, joinPoint);
 
 		Throwable throwable = null;
 		Object result = null;
@@ -83,10 +83,10 @@ public class OperationLogAspect<T> {
 			// 结束时间
 			long executionTime = System.currentTimeMillis() - startTime;
 			// 记录执行信息
-			operationLogHandler.recordExecutionInfo(operationLog, joinPoint, executionTime, throwable, isSaveResult,
-					result);
+			this.operationLogHandler.recordExecutionInfo(operationLog, joinPoint, executionTime, throwable,
+					isSaveResult, result);
 			// 处理操作日志
-			operationLogHandler.handleLog(operationLog);
+			this.operationLogHandler.handleLog(operationLog);
 		}
 		catch (Exception e) {
 			log.error("记录操作日志异常：{}", operationLog);

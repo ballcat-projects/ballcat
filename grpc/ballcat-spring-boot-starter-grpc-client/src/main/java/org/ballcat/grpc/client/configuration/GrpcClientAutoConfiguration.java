@@ -41,13 +41,13 @@ public class GrpcClientAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public GrpcClientProvide grpcClientProvide(List<ClientInterceptor> interceptors) {
-		return new GrpcClientProvide(properties, interceptors);
+		return new GrpcClientProvide(this.properties, interceptors);
 	}
 
 	@Bean
 	@ConditionalOnMissingBean
 	public GrpcClientTraceIdInterceptor grpcClientTraceIdInterceptor() {
-		return new GrpcClientTraceIdInterceptor(properties);
+		return new GrpcClientTraceIdInterceptor(this.properties);
 	}
 
 }

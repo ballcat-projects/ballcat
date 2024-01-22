@@ -43,7 +43,7 @@ public class LocalFileClient extends AbstractFileClient {
 		if (!dir.exists() && !dir.mkdirs()) {
 			throw new FileException(String.format("路径: %s; 不存在且创建失败! 请检查是否拥有对该路径的操作权限!", dir.getPath()));
 		}
-		parentDir = dir;
+		this.parentDir = dir;
 		super.rootPath = dir.getPath();
 		super.slash = File.separator;
 	}
@@ -58,7 +58,7 @@ public class LocalFileClient extends AbstractFileClient {
 	@Override
 	public String upload(InputStream stream, String relativePath) throws IOException {
 		// 目标文件
-		final File file = new File(parentDir, relativePath);
+		final File file = new File(this.parentDir, relativePath);
 
 		if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
 			throw new FileException("文件上传失败! 创建父级文件夹失败! 父级路径: " + file.getParentFile().getPath());
@@ -82,7 +82,7 @@ public class LocalFileClient extends AbstractFileClient {
 	 */
 	@Override
 	public File download(String relativePath) {
-		return new File(parentDir, relativePath);
+		return new File(this.parentDir, relativePath);
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class LocalFileClient extends AbstractFileClient {
 	 */
 	@Override
 	public boolean delete(String relativePath) {
-		final File file = new File(parentDir, relativePath);
+		final File file = new File(this.parentDir, relativePath);
 		return file.exists() && file.delete();
 	}
 

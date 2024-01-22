@@ -76,7 +76,7 @@ public class SchoolDataScope implements DataScope {
 			.stream()
 			.map(StringValue::new)
 			.collect(Collectors.toList());
-		Column column = new Column(tableAlias == null ? columnId : tableAlias.getName() + "." + columnId);
+		Column column = new Column(tableAlias == null ? this.columnId : tableAlias.getName() + "." + this.columnId);
 		ExpressionList expressionList = new ExpressionList();
 		expressionList.setExpressions(list);
 		return new InExpression(column, expressionList);

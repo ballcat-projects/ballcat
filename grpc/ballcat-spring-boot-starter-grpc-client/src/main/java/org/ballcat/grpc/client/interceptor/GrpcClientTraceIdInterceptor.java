@@ -61,7 +61,8 @@ public class GrpcClientTraceIdInterceptor implements ClientInterceptor {
 			@Override
 			public void onStartBefore(Listener<R> responseListener, Metadata headers) {
 				if (StringUtils.hasText(traceId)) {
-					headers.put(traceIdKey, traceId);
+					headers.put(org.ballcat.grpc.client.interceptor.GrpcClientTraceIdInterceptor.this.traceIdKey,
+							traceId);
 				}
 			}
 		};

@@ -73,7 +73,7 @@ public class XxlJobAutoConfiguration {
 			return appName;
 		}
 		else {
-			return environment.getProperty("spring.application.name");
+			return this.environment.getProperty("spring.application.name");
 		}
 	}
 
@@ -102,9 +102,9 @@ public class XxlJobAutoConfiguration {
 		if (StringUtils.hasText(logPath)) {
 			return logPath;
 		}
-		return environment.getProperty("logging.file.path", "logs")
+		return this.environment.getProperty("logging.file.path", "logs")
 			.concat("/")
-			.concat(Objects.requireNonNull(environment.getProperty("spring.application.name")))
+			.concat(Objects.requireNonNull(this.environment.getProperty("spring.application.name")))
 			.concat("/jobs");
 	}
 

@@ -47,7 +47,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
 			String[] values = entry.getValue();
 			for (int i = 0; i < values.length; i++) {
-				values[i] = xssCleaner.clean(values[i]);
+				values[i] = this.xssCleaner.clean(values[i]);
 			}
 			map.put(entry.getKey(), values);
 		}
@@ -63,7 +63,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		int count = values.length;
 		String[] encodedValues = new String[count];
 		for (int i = 0; i < count; i++) {
-			encodedValues[i] = xssCleaner.clean(values[i]);
+			encodedValues[i] = this.xssCleaner.clean(values[i]);
 		}
 		return encodedValues;
 	}
@@ -74,14 +74,14 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		if (value == null) {
 			return null;
 		}
-		return xssCleaner.clean(value);
+		return this.xssCleaner.clean(value);
 	}
 
 	@Override
 	public Object getAttribute(String name) {
 		Object value = super.getAttribute(name);
 		if (value instanceof String) {
-			xssCleaner.clean((String) value);
+			this.xssCleaner.clean((String) value);
 		}
 		return value;
 	}
@@ -92,7 +92,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		if (value == null) {
 			return null;
 		}
-		return xssCleaner.clean(value);
+		return this.xssCleaner.clean(value);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 		if (value == null) {
 			return null;
 		}
-		return xssCleaner.clean(value);
+		return this.xssCleaner.clean(value);
 	}
 
 }

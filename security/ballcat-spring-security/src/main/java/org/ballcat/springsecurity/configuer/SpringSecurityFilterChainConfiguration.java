@@ -52,16 +52,16 @@ public class SpringSecurityFilterChainConfiguration {
 		httpSecurity.csrf().disable();
 
 		// 允许嵌入iframe
-		if (!springSecurityProperties.isIframeDeny()) {
+		if (!this.springSecurityProperties.isIframeDeny()) {
 			httpSecurity.headers().frameOptions().disable();
 		}
 
 		// 使用无状态登录时，需要配合自定义的 SecurityContextRepository
-		SessionCreationPolicy sessionCreationPolicy = springSecurityProperties.getSessionCreationPolicy();
+		SessionCreationPolicy sessionCreationPolicy = this.springSecurityProperties.getSessionCreationPolicy();
 		httpSecurity.sessionManagement().sessionCreationPolicy(sessionCreationPolicy);
 
 		// 自定义处理
-		List<SpringSecurityConfigurerCustomizer> configurerCustomizers = configurerCustomizersProvider
+		List<SpringSecurityConfigurerCustomizer> configurerCustomizers = this.configurerCustomizersProvider
 			.getIfAvailable(Collections::emptyList);
 		for (SpringSecurityConfigurerCustomizer configurerCustomizer : configurerCustomizers) {
 			configurerCustomizer.customize(httpSecurity);

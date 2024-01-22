@@ -61,7 +61,7 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 	 */
 	@Override
 	public OAuth2AuthenticatedPrincipal introspect(String accessTokenValue) {
-		OAuth2Authorization authorization = authorizationService.findByToken(accessTokenValue, null);
+		OAuth2Authorization authorization = this.authorizationService.findByToken(accessTokenValue, null);
 		if (authorization == null) {
 			if (log.isTraceEnabled()) {
 				log.trace("Did not authenticate token introspection request since token was not found");

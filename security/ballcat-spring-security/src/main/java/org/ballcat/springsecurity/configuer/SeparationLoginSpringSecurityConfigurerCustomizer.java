@@ -50,12 +50,13 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 	@Override
 	public void customize(HttpSecurity httpSecurity) throws Exception {
 		// 表单登录
-		SpringSecurityProperties.FormLogin formLogin = springSecurityProperties.getFormLogin();
+		SpringSecurityProperties.FormLogin formLogin = this.springSecurityProperties.getFormLogin();
 		if (formLogin.isEnabled()) {
-			AuthenticationSuccessHandler successHandler = formLoginSuccessHandler == null
-					? new DefaultFormLoginSuccessHandler() : formLoginSuccessHandler;
+			AuthenticationSuccessHandler successHandler = this.formLoginSuccessHandler == null
+					? new DefaultFormLoginSuccessHandler() : this.formLoginSuccessHandler;
 			AuthenticationEntryPointFailureHandler failureHandler = new AuthenticationEntryPointFailureHandler(
-					authenticationEntryPoint == null ? new Http403ForbiddenEntryPoint() : authenticationEntryPoint);
+					this.authenticationEntryPoint == null ? new Http403ForbiddenEntryPoint()
+							: this.authenticationEntryPoint);
 			httpSecurity.setSharedObject(AuthenticationFailureHandler.class, failureHandler);
 
 			SeparationLoginConfigurer<HttpSecurity> separationLoginConfigurer = httpSecurity

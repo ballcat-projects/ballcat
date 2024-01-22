@@ -41,23 +41,23 @@ public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, Ob
 
 	@Override
 	public void initialize(ValueOfEnum constraintAnnotation) {
-		targetEnum = constraintAnnotation.enumClass();
-		checkMethod = constraintAnnotation.method();
-		allowNull = constraintAnnotation.allowNull();
+		this.targetEnum = constraintAnnotation.enumClass();
+		this.checkMethod = constraintAnnotation.method();
+		this.allowNull = constraintAnnotation.allowNull();
 	}
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		if (value == null) {
-			return allowNull;
+			return this.allowNull;
 		}
-		for (Class<?> eClass : targetEnum) {
+		for (Class<?> eClass : this.targetEnum) {
 			// 包装类和原始类型的处理
 			Class<?> clazz = ClassUtils.isPrimitiveWrapper(value.getClass())
 					? ClassUtils.wrapperToPrimitive(value.getClass()) : value.getClass();
 
 			try {
-				Object enumInstance = MethodUtils.invokeStaticMethod(eClass, checkMethod, new Object[] { value },
+				Object enumInstance = MethodUtils.invokeStaticMethod(eClass, this.checkMethod, new Object[] { value },
 						new Class[] { clazz });
 				return enumInstance != null;
 			}

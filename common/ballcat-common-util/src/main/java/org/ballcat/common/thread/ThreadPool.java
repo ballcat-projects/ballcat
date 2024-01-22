@@ -168,11 +168,11 @@ public class ThreadPool {
 	}
 
 	public <T> CompletableFuture<T> async(Supplier<T> supplier) {
-		return CompletableFuture.supplyAsync(supplier, pool);
+		return CompletableFuture.supplyAsync(supplier, this.pool);
 	}
 
 	public <T> Future<T> submit(Callable<T> callable) {
-		return pool.submit(callable);
+		return this.pool.submit(callable);
 	}
 
 }

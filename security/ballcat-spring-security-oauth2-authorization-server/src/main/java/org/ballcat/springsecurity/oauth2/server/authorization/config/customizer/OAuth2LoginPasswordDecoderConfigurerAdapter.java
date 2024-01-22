@@ -55,7 +55,7 @@ public class OAuth2LoginPasswordDecoderConfigurerAdapter implements OAuth2Author
 				HttpMethod.POST.name());
 
 		// 密码解密，必须在 OAuth2ClientAuthenticationFilter 过滤器之后，方便获取当前客户端
-		httpSecurity.addFilterAfter(new LoginPasswordDecoderFilter(requestMatcher, passwordSecretKey),
+		httpSecurity.addFilterAfter(new LoginPasswordDecoderFilter(requestMatcher, this.passwordSecretKey),
 				OAuth2ClientAuthenticationFilter.class);
 	}
 

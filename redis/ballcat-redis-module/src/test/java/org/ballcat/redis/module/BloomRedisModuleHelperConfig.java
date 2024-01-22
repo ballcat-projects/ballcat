@@ -34,7 +34,7 @@ public class BloomRedisModuleHelperConfig {
 	@Bean
 	@DependsOn("cachePropertiesHolder") // 防止 CachePropertiesHolder 初始化落后导致的空指针
 	public BloomRedisModuleHelper bloomRedisModuleHelper(IRedisPrefixConverter redisPrefixConverter) {
-		BloomRedisModuleHelper bloomRedisModuleHelper = new BloomRedisModuleHelper(lettuceConnectionFactory);
+		BloomRedisModuleHelper bloomRedisModuleHelper = new BloomRedisModuleHelper(this.lettuceConnectionFactory);
 		// 可选操作，配合 ballcat-spring-boot-starter-redis 的 key 前缀使用
 		bloomRedisModuleHelper.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
 		return bloomRedisModuleHelper;

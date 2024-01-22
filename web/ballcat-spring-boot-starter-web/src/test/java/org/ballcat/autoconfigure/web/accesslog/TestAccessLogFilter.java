@@ -39,7 +39,7 @@ public class TestAccessLogFilter extends AbstractAccessLogFilter {
 	protected void beforeRequest(HttpServletRequest request, AccessLogRecordOptions recordOptions) {
 		this.httpInfo = new HttpInfo();
 		if (recordOptions.isIncludeQueryString()) {
-			httpInfo.setQueryString(request.getQueryString());
+			this.httpInfo.setQueryString(request.getQueryString());
 		}
 	}
 
@@ -49,14 +49,14 @@ public class TestAccessLogFilter extends AbstractAccessLogFilter {
 		if (recordOptions.isIncludeRequestBody()) {
 			String payload = getRequestBody(request);
 			if (payload != null) {
-				httpInfo.setRequestBody(payload);
+				this.httpInfo.setRequestBody(payload);
 			}
 		}
 
 		if (recordOptions.isIncludeResponseBody()) {
 			String payload = getResponseBody(response);
 			if (payload != null) {
-				httpInfo.setResponseBody(payload);
+				this.httpInfo.setResponseBody(payload);
 			}
 		}
 	}

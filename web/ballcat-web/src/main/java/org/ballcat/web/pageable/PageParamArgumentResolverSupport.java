@@ -65,8 +65,8 @@ public abstract class PageParamArgumentResolverSupport {
 	private int maxPageSize = PageableConstants.DEFAULT_MAX_PAGE_SIZE;
 
 	protected PageParam getPageParam(MethodParameter parameter, HttpServletRequest request) {
-		String pageParameterValue = request.getParameter(pageParameterName);
-		String sizeParameterValue = request.getParameter(sizeParameterName);
+		String pageParameterValue = request.getParameter(this.pageParameterName);
+		String sizeParameterValue = request.getParameter(this.sizeParameterName);
 
 		PageParam pageParam;
 		try {
@@ -86,9 +86,9 @@ public abstract class PageParamArgumentResolverSupport {
 		// ========== 排序处理 ===========
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		// sort 可以传多个，所以同时支持 sort 和 sort[]
-		String[] sort = parameterMap.get(sortParameterName);
+		String[] sort = parameterMap.get(this.sortParameterName);
 		if (ObjectUtils.isEmpty(sort)) {
-			sort = parameterMap.get(sortParameterName + "[]");
+			sort = parameterMap.get(this.sortParameterName + "[]");
 		}
 
 		List<PageParam.Sort> sorts;
@@ -220,8 +220,8 @@ public abstract class PageParamArgumentResolverSupport {
 			BindingResult bindingResult = binder.getBindingResult();
 
 			long size = pageParam.getSize();
-			if (size > maxPageSize) {
-				bindingResult.addError(new ObjectError("size", "分页条数不能大于" + maxPageSize));
+			if (size > this.maxPageSize) {
+				bindingResult.addError(new ObjectError("size", "分页条数不能大于" + this.maxPageSize));
 			}
 
 			if (bindingResult.hasErrors() && isBindExceptionRequired(binder, parameter)) {

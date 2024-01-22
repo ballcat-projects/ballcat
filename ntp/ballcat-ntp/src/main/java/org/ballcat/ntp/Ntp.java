@@ -50,8 +50,8 @@ public class Ntp {
 
 	public Ntp(String host) {
 		try {
-			diff = diff(host);
-			log.warn("授时中心时间与系统时间差为 {} 毫秒", diff);
+			this.diff = diff(host);
+			log.warn("授时中心时间与系统时间差为 {} 毫秒", this.diff);
 		}
 		catch (Exception e) {
 			throw new NtpException("ntp初始化异常!", e);
@@ -59,7 +59,7 @@ public class Ntp {
 	}
 
 	public long currentMillis() {
-		return System.currentTimeMillis() + diff;
+		return System.currentTimeMillis() + this.diff;
 	}
 
 	/**

@@ -46,9 +46,9 @@ public final class AnnotationHandlerHolder {
 	private final Map<Class<? extends Annotation>, DesensitizeFunction> annotationHandlers;
 
 	private AnnotationHandlerHolder() {
-		annotationHandlers = new ConcurrentHashMap<>();
+		this.annotationHandlers = new ConcurrentHashMap<>();
 
-		annotationHandlers.put(JsonSimpleDesensitize.class, (annotation, value) -> {
+		this.annotationHandlers.put(JsonSimpleDesensitize.class, (annotation, value) -> {
 			// Simple 类型处理
 			JsonSimpleDesensitize an = (JsonSimpleDesensitize) annotation;
 			Class<? extends SimpleDesensitizationHandler> handlerClass = an.handler();
@@ -60,7 +60,7 @@ public final class AnnotationHandlerHolder {
 			return desensitizationHandler.handle(value);
 		});
 
-		annotationHandlers.put(JsonRegexDesensitize.class, (annotation, value) -> {
+		this.annotationHandlers.put(JsonRegexDesensitize.class, (annotation, value) -> {
 			// 正则类型脱敏处理
 			JsonRegexDesensitize an = (JsonRegexDesensitize) annotation;
 			RegexDesensitizationTypeEnum type = an.type();
@@ -71,7 +71,7 @@ public final class AnnotationHandlerHolder {
 					: regexDesensitizationHandler.handle(value, type);
 		});
 
-		annotationHandlers.put(JsonSlideDesensitize.class, (annotation, value) -> {
+		this.annotationHandlers.put(JsonSlideDesensitize.class, (annotation, value) -> {
 			// 滑动类型脱敏处理
 			JsonSlideDesensitize an = (JsonSlideDesensitize) annotation;
 			SlideDesensitizationTypeEnum type = an.type();

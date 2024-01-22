@@ -73,10 +73,10 @@ public class InsertBatchSomeColumnByCollection extends AbstractMethod {
 		SqlMethod sqlMethod = SqlMethod.INSERT_ONE;
 		List<TableFieldInfo> fieldList = tableInfo.getFieldList();
 		String insertSqlColumn = tableInfo.getKeyInsertSqlColumn(true, null, false)
-				+ this.filterTableFieldInfo(fieldList, predicate, TableFieldInfo::getInsertSqlColumn, EMPTY);
+				+ this.filterTableFieldInfo(fieldList, this.predicate, TableFieldInfo::getInsertSqlColumn, EMPTY);
 		String columnScript = LEFT_BRACKET + insertSqlColumn.substring(0, insertSqlColumn.length() - 1) + RIGHT_BRACKET;
 		String insertSqlProperty = tableInfo.getKeyInsertSqlProperty(true, ENTITY_DOT, false)
-				+ this.filterTableFieldInfo(fieldList, predicate, i -> i.getInsertSqlProperty(ENTITY_DOT), EMPTY);
+				+ this.filterTableFieldInfo(fieldList, this.predicate, i -> i.getInsertSqlProperty(ENTITY_DOT), EMPTY);
 		insertSqlProperty = LEFT_BRACKET + insertSqlProperty.substring(0, insertSqlProperty.length() - 1)
 				+ RIGHT_BRACKET;
 		// 从 list 改为 collection. 允许传入除 list外的参数类型
@@ -93,14 +93,14 @@ public class InsertBatchSomeColumnByCollection extends AbstractMethod {
 			}
 			else {
 				if (null != tableInfo.getKeySequence()) {
-					keyGenerator = TableInfoHelper.genKeyGenerator(this.methodName, tableInfo, builderAssistant);
+					keyGenerator = TableInfoHelper.genKeyGenerator(this.methodName, tableInfo, this.builderAssistant);
 					keyProperty = tableInfo.getKeyProperty();
 					keyColumn = tableInfo.getKeyColumn();
 				}
 			}
 		}
 		String sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(), columnScript, valuesScript);
-		SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
+		SqlSource sqlSource = this.languageDriver.createSqlSource(this.configuration, sql, modelClass);
 		return this.addInsertMappedStatement(mapperClass, modelClass, this.methodName, sqlSource, keyGenerator,
 				keyProperty, keyColumn);
 	}

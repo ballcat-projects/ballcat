@@ -47,7 +47,7 @@ public class CacheXdbFileIp2regionSearcher extends Ip2regionSearcherTemplate {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Resource resource = resourceLoader.getResource(properties.getFileLocation());
+		Resource resource = this.resourceLoader.getResource(this.properties.getFileLocation());
 		try (InputStream inputStream = resource.getInputStream()) {
 			this.searcher = Searcher.newWithBuffer(StreamUtils.copyToByteArray(inputStream));
 		}

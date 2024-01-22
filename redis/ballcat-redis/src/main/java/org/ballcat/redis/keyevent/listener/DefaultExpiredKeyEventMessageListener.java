@@ -53,13 +53,13 @@ public class DefaultExpiredKeyEventMessageListener extends AbstractExpiredKeyEve
 
 	@Override
 	public void onMessage(Message message, byte[] pattern) {
-		if (CollectionUtils.isEmpty(keyExpiredEventMessageTemplates)) {
+		if (CollectionUtils.isEmpty(this.keyExpiredEventMessageTemplates)) {
 			return;
 		}
 		super.onMessage(message, pattern);
 		String expiredKey = message.toString();
 		// listening key expired event
-		for (KeyExpiredEventMessageTemplate keyExpiredEventMessageTemplate : keyExpiredEventMessageTemplates) {
+		for (KeyExpiredEventMessageTemplate keyExpiredEventMessageTemplate : this.keyExpiredEventMessageTemplates) {
 			if (keyExpiredEventMessageTemplate.support(expiredKey)) {
 				if (log.isTraceEnabled()) {
 					log.trace("use template[{}]handle key expired event,the expired key is [{}]",

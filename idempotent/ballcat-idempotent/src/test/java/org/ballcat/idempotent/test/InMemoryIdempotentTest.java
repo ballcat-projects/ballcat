@@ -43,9 +43,9 @@ class InMemoryIdempotentTest {
 	 */
 	@Test
 	void testIdempotent() {
-		Assertions.assertDoesNotThrow(() -> idempotentMethods.method("aaa"));
+		Assertions.assertDoesNotThrow(() -> this.idempotentMethods.method("aaa"));
 
-		Executable executable = () -> idempotentMethods.method("bbb");
+		Executable executable = () -> this.idempotentMethods.method("bbb");
 		Assertions.assertDoesNotThrow(executable);
 		Assertions.assertThrowsExactly(IdempotentException.class, executable);
 
@@ -58,12 +58,12 @@ class InMemoryIdempotentTest {
 	@Test
 	void testRepeatableWhenFinished() {
 		// 异常时可重复执行
-		Executable executable = () -> idempotentMethods.repeatableWhenFinished();
+		Executable executable = () -> this.idempotentMethods.repeatableWhenFinished();
 		Assertions.assertDoesNotThrow(executable);
 		Assertions.assertDoesNotThrow(executable);
 
 		// 异常时不可重复执行
-		Executable normal = () -> idempotentMethods.unRepeatableWhenFinished();
+		Executable normal = () -> this.idempotentMethods.unRepeatableWhenFinished();
 		Assertions.assertDoesNotThrow(normal);
 		Assertions.assertThrowsExactly(IdempotentException.class, normal);
 	}
@@ -71,14 +71,14 @@ class InMemoryIdempotentTest {
 	@Test
 	void testRepeatableWhenError() {
 		// 异常时可重复执行
-		Executable executable = () -> idempotentMethods.repeatableWhenError();
-		Assertions.assertThrowsExactly(TestException.class, () -> idempotentMethods.repeatableWhenError());
-		Assertions.assertThrowsExactly(TestException.class, () -> idempotentMethods.repeatableWhenError());
+		Executable executable = () -> this.idempotentMethods.repeatableWhenError();
+		Assertions.assertThrowsExactly(TestException.class, () -> this.idempotentMethods.repeatableWhenError());
+		Assertions.assertThrowsExactly(TestException.class, () -> this.idempotentMethods.repeatableWhenError());
 
 		// 异常时不可重复执行
-		Executable normal = () -> idempotentMethods.unRepeatableWhenError();
-		Assertions.assertThrowsExactly(TestException.class, () -> idempotentMethods.unRepeatableWhenError());
-		Assertions.assertThrowsExactly(IdempotentException.class, () -> idempotentMethods.unRepeatableWhenError());
+		Executable normal = () -> this.idempotentMethods.unRepeatableWhenError();
+		Assertions.assertThrowsExactly(TestException.class, () -> this.idempotentMethods.unRepeatableWhenError());
+		Assertions.assertThrowsExactly(IdempotentException.class, () -> this.idempotentMethods.unRepeatableWhenError());
 	}
 
 	/**
@@ -86,17 +86,17 @@ class InMemoryIdempotentTest {
 	 */
 	@Test
 	void testIdempotentMessage() {
-		idempotentMethods.method("ccc");
+		this.idempotentMethods.method("ccc");
 		try {
-			idempotentMethods.method("ccc");
+			this.idempotentMethods.method("ccc");
 		}
 		catch (Exception ex) {
 			Assertions.assertEquals("重复请求，请稍后重试", ex.getMessage());
 		}
 
-		idempotentMethods.differentMessage("ddd");
+		this.idempotentMethods.differentMessage("ddd");
 		try {
-			idempotentMethods.differentMessage("ddd");
+			this.idempotentMethods.differentMessage("ddd");
 		}
 		catch (Exception ex) {
 			Assertions.assertEquals("不允许短期内重复执行方法2", ex.getMessage());

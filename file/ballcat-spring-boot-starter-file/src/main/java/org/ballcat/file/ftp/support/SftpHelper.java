@@ -59,28 +59,28 @@ public class SftpHelper extends FtpHelper {
 			throws IOException {
 		JSch jsch = new JSch();
 		try {
-			session = jsch.getSession(username, host, port);
+			this.session = jsch.getSession(username, host, port);
 			// 根据用户名，主机ip，端口获取一个Session对象
 			// 如果服务器连接不上，则抛出异常
-			if (session == null) {
+			if (this.session == null) {
 				throw new FileException("session is null,无法通过sftp与服务器建立链接，请检查主机名和用户名是否正确.");
 			}
 			// 设置密码
-			session.setPassword(password);
+			this.session.setPassword(password);
 			Properties config = new Properties();
 			config.put("StrictHostKeyChecking", "no");
 			// 为Session对象设置properties
-			session.setConfig(config);
+			this.session.setConfig(config);
 			// 设置timeout时间
 			if (null != timeout) {
-				session.setTimeout(timeout);
+				this.session.setTimeout(timeout);
 			}
 			// 通过Session建立链接
-			session.connect();
+			this.session.connect();
 			// 打开SFTP通道
-			channelSftp = (ChannelSftp) session.openChannel("sftp");
+			this.channelSftp = (ChannelSftp) this.session.openChannel("sftp");
 			// 建立SFTP通道的连接
-			channelSftp.connect();
+			this.channelSftp.connect();
 
 			// 设置命令传输编码
 			/// String fileEncoding = System.getProperty("file.encoding");
@@ -123,18 +123,18 @@ public class SftpHelper extends FtpHelper {
 
 	@Override
 	public void logoutFtpServer() {
-		if (channelSftp != null) {
-			channelSftp.disconnect();
+		if (this.channelSftp != null) {
+			this.channelSftp.disconnect();
 		}
-		if (session != null) {
-			session.disconnect();
+		if (this.session != null) {
+			this.session.disconnect();
 		}
 	}
 
 	@Override
 	public boolean isDirExist(String directoryPath) throws IOException {
 		try {
-			SftpATTRS attrs = channelSftp.lstat(directoryPath);
+			SftpATTRS attrs = this.channelSftp.lstat(directoryPath);
 			return attrs.isDir();
 		}
 		catch (SftpException e) {
@@ -153,7 +153,7 @@ public class SftpHelper extends FtpHelper {
 	public boolean isFileExist(String filePath) throws IOException {
 		boolean isExitFlag = false;
 		try {
-			SftpATTRS attrs = channelSftp.lstat(filePath);
+			SftpATTRS attrs = this.channelSftp.lstat(filePath);
 			if (attrs.getSize() >= 0) {
 				isExitFlag = true;
 			}
@@ -176,7 +176,7 @@ public class SftpHelper extends FtpHelper {
 	@Override
 	public boolean isSymbolicLink(String filePath) throws IOException {
 		try {
-			SftpATTRS attrs = channelSftp.lstat(filePath);
+			SftpATTRS attrs = this.channelSftp.lstat(filePath);
 			return attrs.isLink();
 		}
 		catch (SftpException e) {
@@ -232,8 +232,8 @@ public class SftpHelper extends FtpHelper {
 			}
 			else if (isFileExist(directoryPath)) {
 				// path指向具体文件
-				sourceFiles.add(directoryPath);
-				return sourceFiles;
+				this.sourceFiles.add(directoryPath);
+				return this.sourceFiles;
 			}
 			else {
 				String message = String.format(CONFIG_PATH_MISSING_ERROR, directoryPath);
@@ -241,7 +241,7 @@ public class SftpHelper extends FtpHelper {
 				throw new FileException(message);
 			}
 			try {
-				Vector<?> files = channelSftp.ls(directoryPath);
+				Vector<?> files = this.channelSftp.ls(directoryPath);
 				for (Object o : files) {
 					ChannelSftp.LsEntry le = (ChannelSftp.LsEntry) o;
 					String strName = le.getFilename();
@@ -261,7 +261,7 @@ public class SftpHelper extends FtpHelper {
 					}
 					else if (isFileExist(filePath)) {
 						// 是文件
-						sourceFiles.add(filePath);
+						this.sourceFiles.add(filePath);
 					}
 					else {
 						String message = String.format("请确认path:[%s]存在，且配置的用户有权限读取", filePath);
@@ -275,7 +275,7 @@ public class SftpHelper extends FtpHelper {
 				LOGGER.error(message, e);
 				throw new FileException(message, e);
 			}
-			return sourceFiles;
+			return this.sourceFiles;
 		}
 		else {
 			// 超出最大递归层数
@@ -288,7 +288,7 @@ public class SftpHelper extends FtpHelper {
 	@Override
 	public InputStream getInputStream(String filePath) throws IOException {
 		try {
-			return channelSftp.get(filePath);
+			return this.channelSftp.get(filePath);
 		}
 		catch (SftpException e) {
 			String message = String.format("读取文件 : [%s] 时出错,请确认文件：[%s]存在且配置的用户有权限读取", filePath, filePath);

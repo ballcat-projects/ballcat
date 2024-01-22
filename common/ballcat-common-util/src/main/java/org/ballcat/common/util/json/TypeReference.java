@@ -32,11 +32,11 @@ public abstract class TypeReference<T> implements Comparable<TypeReference<T>> {
 			throw new IllegalArgumentException(
 					"Internal error: TypeReference constructed without actual type information");
 		}
-		type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
+		this.type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
 	}
 
 	public Type getType() {
-		return type;
+		return this.type;
 	}
 
 	@Override

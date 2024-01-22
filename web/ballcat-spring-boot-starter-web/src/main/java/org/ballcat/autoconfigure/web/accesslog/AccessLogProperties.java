@@ -74,11 +74,11 @@ public class AccessLogProperties {
 	private List<Rule> rules = Collections.emptyList();
 
 	public AccessLogRecordOptions getDefaultAccessLogRecordOptions() {
-		return convertToAccessLogRecordOptions(defaultRecordOptions);
+		return convertToAccessLogRecordOptions(this.defaultRecordOptions);
 	}
 
 	public List<AccessLogRule> getAccessLogRules() {
-		return rules.stream().map(AccessLogProperties::convertToAccessLogRule).collect(Collectors.toList());
+		return this.rules.stream().map(AccessLogProperties::convertToAccessLogRule).collect(Collectors.toList());
 	}
 
 	private static AccessLogRecordOptions convertToAccessLogRecordOptions(RecordOptions recordOptions) {

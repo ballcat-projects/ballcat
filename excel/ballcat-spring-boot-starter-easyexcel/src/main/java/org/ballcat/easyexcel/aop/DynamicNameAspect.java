@@ -51,7 +51,7 @@ public class DynamicNameAspect {
 			name = LocalDateTime.now().toString();
 		}
 		else {
-			name = processor.doDetermineName(point.getArgs(), ms.getMethod(), excel.name());
+			name = this.processor.doDetermineName(point.getArgs(), ms.getMethod(), excel.name());
 		}
 
 		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();

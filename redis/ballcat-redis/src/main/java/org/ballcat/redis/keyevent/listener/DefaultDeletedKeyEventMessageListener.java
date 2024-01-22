@@ -53,13 +53,13 @@ public class DefaultDeletedKeyEventMessageListener extends AbstractDeletedKeyEve
 
 	@Override
 	public void onMessage(Message message, byte[] pattern) {
-		if (CollectionUtils.isEmpty(keyDeletedEventMessageTemplates)) {
+		if (CollectionUtils.isEmpty(this.keyDeletedEventMessageTemplates)) {
 			return;
 		}
 		super.onMessage(message, pattern);
 		String setKey = message.toString();
 		// 监听key信息新增/修改事件
-		for (KeyDeletedEventMessageTemplate keyDeletedEventMessageTemplate : keyDeletedEventMessageTemplates) {
+		for (KeyDeletedEventMessageTemplate keyDeletedEventMessageTemplate : this.keyDeletedEventMessageTemplates) {
 			if (keyDeletedEventMessageTemplate.support(setKey)) {
 				if (log.isTraceEnabled()) {
 					log.trace("use template [{}] handle key deleted event,the deleted key is [{}]",

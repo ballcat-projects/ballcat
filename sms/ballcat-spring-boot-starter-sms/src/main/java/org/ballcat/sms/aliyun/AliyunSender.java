@@ -39,15 +39,15 @@ public class AliyunSender extends AbstractSmsSender<AliYunSenderParams> {
 	private final Aliyun aliyun;
 
 	public AliyunSender(SmsProperties properties) throws Exception {
-		aliyun = properties.getAliyun();
+		this.aliyun = properties.getAliyun();
 		Config config = new Config()
 			// 您的AccessKey ID
-			.setAccessKeyId(aliyun.getAccessKeyId())
+			.setAccessKeyId(this.aliyun.getAccessKeyId())
 			// 您的AccessKey Secret
-			.setAccessKeySecret(aliyun.getAccessKeySecret())
+			.setAccessKeySecret(this.aliyun.getAccessKeySecret())
 			// 访问的域名
-			.setEndpoint(aliyun.getEndpoint());
-		client = new Client(config);
+			.setEndpoint(this.aliyun.getEndpoint());
+		this.client = new Client(config);
 	}
 
 	@Override
@@ -57,12 +57,12 @@ public class AliyunSender extends AbstractSmsSender<AliYunSenderParams> {
 
 	@Override
 	protected SmsSenderResult doSend(AliYunSenderParams sp) throws Exception {
-		String templateId = aliyun.getTemplateId();
+		String templateId = this.aliyun.getTemplateId();
 		if (StringUtils.hasText(sp.getTemplateId())) {
 			templateId = sp.getTemplateId();
 		}
 
-		String signName = aliyun.getSignName();
+		String signName = this.aliyun.getSignName();
 		if (StringUtils.hasText(sp.getSignName())) {
 			signName = sp.getSignName();
 		}
@@ -72,7 +72,7 @@ public class AliyunSender extends AbstractSmsSender<AliYunSenderParams> {
 			.setTemplateCode(templateId)
 			.setTemplateParam(JsonUtils.toJson(sp.getAliyunTemplateParam()));
 
-		SendSmsResponse resp = client.sendSms(req);
+		SendSmsResponse resp = this.client.sendSms(req);
 		return SmsSenderResult.generateAliyun(JsonUtils.toJson(resp), sp.toString(), sp.getPhoneNumbers());
 
 	}

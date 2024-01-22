@@ -50,7 +50,7 @@ public class ClassDataScope implements DataScope {
 	private final Set<String> tableNames = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
 	public ClassDataScope() {
-		tableNames.addAll(Arrays.asList("h2student", "h2teacher"));
+		this.tableNames.addAll(Arrays.asList("h2student", "h2teacher"));
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class ClassDataScope implements DataScope {
 	@Override
 	public boolean includes(String tableName) {
 		// 使用 new TreeSet<>(String.CASE_INSENSITIVE_ORDER) 的形式判断，可忽略表名大小写
-		return tableNames.contains(tableName);
+		return this.tableNames.contains(tableName);
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class ClassDataScope implements DataScope {
 			.stream()
 			.map(StringValue::new)
 			.collect(Collectors.toList());
-		Column column = new Column(tableAlias == null ? columnId : tableAlias.getName() + "." + columnId);
+		Column column = new Column(tableAlias == null ? this.columnId : tableAlias.getName() + "." + this.columnId);
 		ExpressionList expressionList = new ExpressionList();
 		expressionList.setExpressions(list);
 		return new InExpression(column, expressionList);

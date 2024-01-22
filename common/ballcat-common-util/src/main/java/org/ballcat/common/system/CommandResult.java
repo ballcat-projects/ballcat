@@ -61,48 +61,48 @@ public class CommandResult {
 	}
 
 	public File stdOut() {
-		return stdOut;
+		return this.stdOut;
 	}
 
 	public File stdErr() {
-		return stdErr;
+		return this.stdErr;
 	}
 
 	public String stdOutStr() throws IOException {
-		if (!StringUtils.hasText(strOutput)) {
-			try (FileInputStream output = new FileInputStream(stdOut)) {
-				strOutput = StreamUtils.toString(output, StreamUtils.DEFAULT_SIZE, charset);
+		if (!StringUtils.hasText(this.strOutput)) {
+			try (FileInputStream output = new FileInputStream(this.stdOut)) {
+				this.strOutput = StreamUtils.toString(output, StreamUtils.DEFAULT_SIZE, this.charset);
 			}
 		}
-		return strOutput;
+		return this.strOutput;
 	}
 
 	public String stdErrStr() throws IOException {
-		if (!StringUtils.hasText(strError)) {
-			try (FileInputStream error = new FileInputStream(stdErr)) {
-				strError = StreamUtils.toString(error, StreamUtils.DEFAULT_SIZE, charset);
+		if (!StringUtils.hasText(this.strError)) {
+			try (FileInputStream error = new FileInputStream(this.stdErr)) {
+				this.strError = StreamUtils.toString(error, StreamUtils.DEFAULT_SIZE, this.charset);
 			}
 		}
-		return strError;
+		return this.strError;
 	}
 
 	public InputStream stdOutStream() throws IOException {
-		return Files.newInputStream(stdOut.toPath());
+		return Files.newInputStream(this.stdOut.toPath());
 	}
 
 	public InputStream stdErrStream() throws IOException {
-		return Files.newInputStream(stdErr.toPath());
+		return Files.newInputStream(this.stdErr.toPath());
 	}
 
 	public void clean() {
 		try {
-			Files.delete(stdOut.toPath());
+			Files.delete(this.stdOut.toPath());
 		}
 		catch (Exception e) {
 			//
 		}
 		try {
-			Files.delete(stdErr.toPath());
+			Files.delete(this.stdErr.toPath());
 		}
 		catch (Exception e) {
 			//

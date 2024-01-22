@@ -64,7 +64,7 @@ public class XssFilter extends OncePerRequestFilter {
 		// 开启 Xss 过滤状态
 		XssStateHolder.open();
 		try {
-			filterChain.doFilter(new XssRequestWrapper(request, xssCleaner), response);
+			filterChain.doFilter(new XssRequestWrapper(request, this.xssCleaner), response);
 		}
 		finally {
 			// 必须删除 ThreadLocal 存储的状态
@@ -75,26 +75,26 @@ public class XssFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
 		// 关闭直接跳过
-		if (!xssProperties.isEnabled()) {
+		if (!this.xssProperties.isEnabled()) {
 			return true;
 		}
 
 		// 请求方法检查
-		if (xssProperties.getIncludeHttpMethods().stream().noneMatch(request.getMethod()::equalsIgnoreCase)) {
+		if (this.xssProperties.getIncludeHttpMethods().stream().noneMatch(request.getMethod()::equalsIgnoreCase)) {
 			return true;
 		}
 
 		// 请求路径检查
 		String requestUri = request.getRequestURI();
 		// 此路径是否不需要处理
-		for (String exclude : xssProperties.getExcludePaths()) {
+		for (String exclude : this.xssProperties.getExcludePaths()) {
 			if (ANT_PATH_MATCHER.match(exclude, requestUri)) {
 				return true;
 			}
 		}
 
 		// 路径是否包含
-		for (String include : xssProperties.getIncludePaths()) {
+		for (String include : this.xssProperties.getIncludePaths()) {
 			if (ANT_PATH_MATCHER.match(include, requestUri)) {
 				return false;
 			}

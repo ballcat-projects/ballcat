@@ -73,7 +73,7 @@ public class MailSenderImpl implements MailSender {
 		}
 		finally {
 			// 发布邮件发送事件
-			eventPublisher.publishEvent(new MailSendEvent(mailSendInfo));
+			this.eventPublisher.publishEvent(new MailSendEvent(mailSendInfo));
 		}
 		return mailSendInfo;
 	}
@@ -84,8 +84,8 @@ public class MailSenderImpl implements MailSender {
 	 */
 	private void sendMimeMail(MailDetails mailDetails) throws MessagingException {
 		// true表示支持复杂类型
-		MimeMessageHelper messageHelper = new MimeMessageHelper(mailSender.createMimeMessage(), true);
-		String from = StringUtils.hasText(mailDetails.getFrom()) ? mailDetails.getFrom() : defaultFrom;
+		MimeMessageHelper messageHelper = new MimeMessageHelper(this.mailSender.createMimeMessage(), true);
+		String from = StringUtils.hasText(mailDetails.getFrom()) ? mailDetails.getFrom() : this.defaultFrom;
 		messageHelper.setFrom(from);
 		messageHelper.setSubject(mailDetails.getSubject());
 		if (mailDetails.getTo() != null && mailDetails.getTo().length > 0) {
@@ -106,7 +106,7 @@ public class MailSenderImpl implements MailSender {
 			}
 		}
 
-		mailSender.send(messageHelper.getMimeMessage());
+		this.mailSender.send(messageHelper.getMimeMessage());
 		log.info("发送邮件成功：[{}]", mailDetails);
 	}
 

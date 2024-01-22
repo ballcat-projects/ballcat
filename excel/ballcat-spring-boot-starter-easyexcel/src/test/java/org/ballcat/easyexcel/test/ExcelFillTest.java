@@ -53,7 +53,7 @@ class ExcelFillTest {
 	 */
 	@Test
 	void simpleFill() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/fill/simple"))
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/fill/simple"))
 			.andExpect(status().isOk())
 			.andReturn();
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray());

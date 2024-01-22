@@ -39,7 +39,7 @@ class DataPermissionTest {
 
 	@Test
 	void testAnnotationMatchingPointcut() throws NoSuchMethodException {
-		MethodMatcher methodMatcher = dataPermissionAnnotationAdvisor.getPointcut().getMethodMatcher();
+		MethodMatcher methodMatcher = this.dataPermissionAnnotationAdvisor.getPointcut().getMethodMatcher();
 		boolean match = methodMatcher.matches(TestServiceImpl.class.getMethod("methodA"), TestServiceImpl.class);
 		Assertions.assertTrue(match, "切点未正确匹配被注解的方法");
 	}
@@ -47,17 +47,17 @@ class DataPermissionTest {
 	@Test
 	void test() {
 		// 使用方法本身注解
-		DataPermissionRule dataPermissionA = testService.methodA();
+		DataPermissionRule dataPermissionA = this.testService.methodA();
 		Assertions.assertArrayEquals(new String[] { "order" }, dataPermissionA.excludeResources(),
 				"dataPermission 解析错误");
 
 		// 继承自类注解
-		DataPermissionRule dataPermissionB = testService.methodB();
+		DataPermissionRule dataPermissionB = this.testService.methodB();
 		Assertions.assertArrayEquals(new String[] { "class" }, dataPermissionB.excludeResources(),
 				"dataPermission 解析错误");
 
 		// 继承自类注解
-		DataPermissionRule dataPermissionC = testService.methodC();
+		DataPermissionRule dataPermissionC = this.testService.methodC();
 		Assertions.assertArrayEquals(new String[] { "class" }, dataPermissionC.excludeResources(),
 				"dataPermission 解析错误");
 

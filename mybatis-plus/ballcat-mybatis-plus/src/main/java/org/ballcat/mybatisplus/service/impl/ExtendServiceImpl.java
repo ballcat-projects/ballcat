@@ -59,14 +59,14 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 
 	@Override
 	public M getBaseMapper() {
-		return baseMapper;
+		return this.baseMapper;
 	}
 
 	protected Class<T> entityClass = currentModelClass();
 
 	@Override
 	public Class<T> getEntityClass() {
-		return entityClass;
+		return this.entityClass;
 	}
 
 	protected Class<M> mapperClass = currentMapperClass();
@@ -110,7 +110,7 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 	 * @since 3.4.0
 	 */
 	protected String getSqlStatement(SqlMethod sqlMethod) {
-		return SqlHelper.getSqlStatement(mapperClass, sqlMethod);
+		return SqlHelper.getSqlStatement(this.mapperClass, sqlMethod);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean saveOrUpdateBatch(Collection<T> entityList, int batchSize) {
-		TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(this.entityClass);
 		Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
 		String keyProperty = tableInfo.getKeyProperty();
 		Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
@@ -200,9 +200,9 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 
 	@Override
 	public boolean removeById(Serializable id, boolean useFill) {
-		TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(this.entityClass);
 		if (useFill && tableInfo.isWithLogicDelete()) {
-			if (entityClass.isAssignableFrom(id.getClass())) {
+			if (this.entityClass.isAssignableFrom(id.getClass())) {
 				return SqlHelper.retBool(getBaseMapper().deleteById(id));
 			}
 			T instance = tableInfo.newInstance();
@@ -215,7 +215,7 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeBatchByIds(Collection<?> list, int batchSize) {
-		TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(this.entityClass);
 		return removeBatchByIds(list, batchSize, tableInfo.isWithLogicDelete() && tableInfo.isWithUpdateFill());
 	}
 
@@ -223,10 +223,10 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeBatchByIds(Collection<?> list, int batchSize, boolean useFill) {
 		String sqlStatement = getSqlStatement(SqlMethod.DELETE_BY_ID);
-		TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+		TableInfo tableInfo = TableInfoHelper.getTableInfo(this.entityClass);
 		return executeBatch(list, batchSize, (sqlSession, e) -> {
 			if (useFill && tableInfo.isWithLogicDelete()) {
-				if (entityClass.isAssignableFrom(e.getClass())) {
+				if (this.entityClass.isAssignableFrom(e.getClass())) {
 					sqlSession.update(sqlStatement, e);
 				}
 				else {
@@ -260,13 +260,13 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 		List<T> subList = new ArrayList<>(batch);
 		for (T t : list) {
 			if (subList.size() >= batch) {
-				baseMapper.insertBatchSomeColumn(subList);
+				this.baseMapper.insertBatchSomeColumn(subList);
 				subList = new ArrayList<>(batch);
 			}
 			subList.add(t);
 		}
 		if (CollectionUtils.isEmpty(subList)) {
-			baseMapper.insertBatchSomeColumn(subList);
+			this.baseMapper.insertBatchSomeColumn(subList);
 		}
 		return true;
 	}

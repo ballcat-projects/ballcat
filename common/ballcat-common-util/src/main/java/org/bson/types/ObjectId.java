@@ -234,10 +234,10 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
 		// Note: Cannot use ByteBuffer.getInt because it depends on tbe buffer's byte
 		// order
 		// and ObjectId's are always in big-endian order.
-		timestamp = makeInt(buffer.get(), buffer.get(), buffer.get(), buffer.get());
-		randomValue1 = makeInt((byte) 0, buffer.get(), buffer.get(), buffer.get());
-		randomValue2 = makeShort(buffer.get(), buffer.get());
-		counter = makeInt((byte) 0, buffer.get(), buffer.get(), buffer.get());
+		this.timestamp = makeInt(buffer.get(), buffer.get(), buffer.get(), buffer.get());
+		this.randomValue1 = makeInt((byte) 0, buffer.get(), buffer.get(), buffer.get());
+		this.randomValue2 = makeShort(buffer.get(), buffer.get());
+		this.counter = makeInt((byte) 0, buffer.get(), buffer.get(), buffer.get());
 	}
 
 	/**
@@ -267,18 +267,18 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
 			throw new IllegalArgumentException("state should be: buffer.remaining() >=12");
 		}
 
-		buffer.put(int3(timestamp));
-		buffer.put(int2(timestamp));
-		buffer.put(int1(timestamp));
-		buffer.put(int0(timestamp));
-		buffer.put(int2(randomValue1));
-		buffer.put(int1(randomValue1));
-		buffer.put(int0(randomValue1));
-		buffer.put(short1(randomValue2));
-		buffer.put(short0(randomValue2));
-		buffer.put(int2(counter));
-		buffer.put(int1(counter));
-		buffer.put(int0(counter));
+		buffer.put(int3(this.timestamp));
+		buffer.put(int2(this.timestamp));
+		buffer.put(int1(this.timestamp));
+		buffer.put(int0(this.timestamp));
+		buffer.put(int2(this.randomValue1));
+		buffer.put(int1(this.randomValue1));
+		buffer.put(int0(this.randomValue1));
+		buffer.put(short1(this.randomValue2));
+		buffer.put(short0(this.randomValue2));
+		buffer.put(int2(this.counter));
+		buffer.put(int1(this.counter));
+		buffer.put(int0(this.counter));
 	}
 
 	/**
@@ -286,7 +286,7 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
 	 * @return the timestamp
 	 */
 	public int getTimestamp() {
-		return timestamp;
+		return this.timestamp;
 	}
 
 	/**
@@ -294,7 +294,7 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
 	 * @return the Date
 	 */
 	public Date getDate() {
-		return new Date((timestamp & 0xFFFFFFFFL) * 1000L);
+		return new Date((this.timestamp & 0xFFFFFFFFL) * 1000L);
 	}
 
 	/**
@@ -322,18 +322,18 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
 
 		ObjectId objectId = (ObjectId) o;
 
-		if (counter != objectId.counter) {
+		if (this.counter != objectId.counter) {
 			return false;
 		}
-		if (timestamp != objectId.timestamp) {
-			return false;
-		}
-
-		if (randomValue1 != objectId.randomValue1) {
+		if (this.timestamp != objectId.timestamp) {
 			return false;
 		}
 
-		if (randomValue2 != objectId.randomValue2) {
+		if (this.randomValue1 != objectId.randomValue1) {
+			return false;
+		}
+
+		if (this.randomValue2 != objectId.randomValue2) {
 			return false;
 		}
 
@@ -342,10 +342,10 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
 
 	@Override
 	public int hashCode() {
-		int result = timestamp;
-		result = 31 * result + counter;
-		result = 31 * result + randomValue1;
-		result = 31 * result + randomValue2;
+		int result = this.timestamp;
+		result = 31 * result + this.counter;
+		result = 31 * result + this.randomValue1;
+		result = 31 * result + this.randomValue2;
 		return result;
 	}
 
@@ -402,11 +402,11 @@ public final class ObjectId implements Comparable<ObjectId>, Serializable {
 		private final byte[] bytes;
 
 		SerializationProxy(final ObjectId objectId) {
-			bytes = objectId.toByteArray();
+			this.bytes = objectId.toByteArray();
 		}
 
 		private Object readResolve() {
-			return new ObjectId(bytes);
+			return new ObjectId(this.bytes);
 		}
 
 	}

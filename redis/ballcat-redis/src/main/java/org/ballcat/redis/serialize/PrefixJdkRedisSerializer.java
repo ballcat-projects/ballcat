@@ -36,14 +36,14 @@ public class PrefixJdkRedisSerializer extends JdkSerializationRedisSerializer {
 
 	@Override
 	public Object deserialize(byte[] bytes) {
-		byte[] unwrap = redisPrefixConverter.unwrap(bytes);
+		byte[] unwrap = this.redisPrefixConverter.unwrap(bytes);
 		return super.deserialize(unwrap);
 	}
 
 	@Override
 	public byte[] serialize(Object object) {
 		byte[] originBytes = super.serialize(object);
-		return redisPrefixConverter.wrap(originBytes);
+		return this.redisPrefixConverter.wrap(originBytes);
 	}
 
 }

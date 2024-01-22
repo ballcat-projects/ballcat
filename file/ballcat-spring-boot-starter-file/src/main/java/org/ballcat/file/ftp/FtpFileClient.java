@@ -44,12 +44,12 @@ public class FtpFileClient extends AbstractFileClient {
 	public FtpFileClient(FtpProperties properties) throws IOException {
 		final FtpMode mode = properties.getMode();
 		if (properties.isSftp()) {
-			client = new SftpHelper();
+			this.client = new SftpHelper();
 		}
 		else {
-			client = new StandardFtpHelper();
+			this.client = new StandardFtpHelper();
 		}
-		client.loginFtpServer(properties.getUsername(), properties.getPassword(), properties.getIp(),
+		this.client.loginFtpServer(properties.getUsername(), properties.getPassword(), properties.getIp(),
 				properties.getPort(), null, mode);
 
 		if (!StringUtils.hasText(properties.getPath())) {
@@ -69,7 +69,7 @@ public class FtpFileClient extends AbstractFileClient {
 	@Override
 	public String upload(InputStream stream, String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
-		try (OutputStream outputStream = client.getOutputStream(path)) {
+		try (OutputStream outputStream = this.client.getOutputStream(path)) {
 			copy(stream, outputStream);
 		}
 		catch (IOException e) {
@@ -90,7 +90,7 @@ public class FtpFileClient extends AbstractFileClient {
 		// 临时文件 .tmp后缀
 		File tmpFile = Files.createTempFile("", null).toFile();
 		try (FileOutputStream outputStream = new FileOutputStream(tmpFile);
-				InputStream inputStream = client.getInputStream(path)) {
+				InputStream inputStream = this.client.getInputStream(path)) {
 			copy(inputStream, outputStream);
 		}
 		// JVM退出时删除临时文件
@@ -106,8 +106,8 @@ public class FtpFileClient extends AbstractFileClient {
 	@Override
 	public boolean delete(String relativePath) throws IOException {
 		final String path = getWholePath(relativePath);
-		client.deleteFiles(Collections.singleton(path));
-		return !client.isFileExist(path);
+		this.client.deleteFiles(Collections.singleton(path));
+		return !this.client.isFileExist(path);
 	}
 
 	/**

@@ -34,16 +34,16 @@ public class EnumValueValidatorOfInt implements ConstraintValidator<OneOfInts, I
 
 	@Override
 	public void initialize(OneOfInts constraintAnnotation) {
-		ints = constraintAnnotation.value();
-		allowNull = constraintAnnotation.allowNull();
+		this.ints = constraintAnnotation.value();
+		this.allowNull = constraintAnnotation.allowNull();
 	}
 
 	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext context) {
 		if (value == null) {
-			return allowNull;
+			return this.allowNull;
 		}
-		for (int anInt : ints) {
+		for (int anInt : this.ints) {
 			if (anInt == value) {
 				return true;
 			}

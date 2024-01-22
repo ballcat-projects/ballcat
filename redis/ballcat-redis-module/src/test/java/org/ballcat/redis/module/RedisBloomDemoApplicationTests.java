@@ -47,11 +47,11 @@ class RedisBloomDemoApplicationTests {
 		LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisHost, redisPort);
 		lettuceConnectionFactory.afterPropertiesSet();
 		// 获取布隆过滤器操作助手
-		bloomRedisModuleHelper = new BloomRedisModuleHelper(lettuceConnectionFactory);
+		this.bloomRedisModuleHelper = new BloomRedisModuleHelper(lettuceConnectionFactory);
 		// 可选操作：配合 ballcat-spring-boot-starter-redis 提供的 PrefixStringRedisSerializer，可以给
 		// redis key 添加默认的 key 前缀
 		IRedisPrefixConverter redisPrefixConverter = new DefaultRedisPrefixConverter("keyprefix:");
-		bloomRedisModuleHelper.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
+		this.bloomRedisModuleHelper.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
 	}
 
 	@Test
@@ -59,34 +59,34 @@ class RedisBloomDemoApplicationTests {
 		String filterKey = "TEST_FILTER";
 
 		// 1.创建布隆过滤器
-		boolean create = bloomRedisModuleHelper.createFilter(filterKey, 0.01, 1000000000);
+		boolean create = this.bloomRedisModuleHelper.createFilter(filterKey, 0.01, 1000000000);
 		log.info("test createFilter result: {}", create);
 
 		// 2.添加一个元素
-		Boolean foo = bloomRedisModuleHelper.add(filterKey, "foo");
+		Boolean foo = this.bloomRedisModuleHelper.add(filterKey, "foo");
 		log.info("test add result: {}", foo);
 
 		// 3.批量添加元素
-		List<Boolean> addMulti = bloomRedisModuleHelper.multiAdd(filterKey, "foo", "bar");
+		List<Boolean> addMulti = this.bloomRedisModuleHelper.multiAdd(filterKey, "foo", "bar");
 		log.info("test addMulti result: {}", addMulti);
 
 		// 4.校验一个元素是否存在
-		Boolean existsFoo = bloomRedisModuleHelper.exists(filterKey, "foo");
+		Boolean existsFoo = this.bloomRedisModuleHelper.exists(filterKey, "foo");
 		log.info("test existsFoo result: {}", existsFoo);
 
-		Boolean existsBar = bloomRedisModuleHelper.exists(filterKey, "bar");
+		Boolean existsBar = this.bloomRedisModuleHelper.exists(filterKey, "bar");
 		log.info("test existsBar result: {}", existsBar);
 
 		// 5.批量校验元素是否存在
-		List<Boolean> existsMulti = bloomRedisModuleHelper.multiExists(filterKey, "foo", "foo1");
+		List<Boolean> existsMulti = this.bloomRedisModuleHelper.multiExists(filterKey, "foo", "foo1");
 		log.info("test existsMulti result: {}", existsMulti);
 
 		// 6.获取 filter info
-		Map<String, Object> info = bloomRedisModuleHelper.info(filterKey);
+		Map<String, Object> info = this.bloomRedisModuleHelper.info(filterKey);
 		log.info("test info result: {}", info);
 
 		// 7.删除布隆过滤器
-		Boolean delete = bloomRedisModuleHelper.delete(filterKey);
+		Boolean delete = this.bloomRedisModuleHelper.delete(filterKey);
 		log.info("test delete result: {}", delete);
 	}
 
@@ -97,27 +97,27 @@ class RedisBloomDemoApplicationTests {
 		BloomInsertOptions insertOptions = new BloomInsertOptions().capacity(1000).error(0.001);
 
 		// 2. 判断元素是否存在
-		List<Boolean> existsMulti1 = bloomRedisModuleHelper.multiExists(filterKey, "foo", "foo3", "foo5");
+		List<Boolean> existsMulti1 = this.bloomRedisModuleHelper.multiExists(filterKey, "foo", "foo3", "foo5");
 		log.info("test existsMulti1 result: {}", existsMulti1);
 
 		// 3. 插入部分数据
-		List<Boolean> insert1 = bloomRedisModuleHelper.insert(filterKey, insertOptions, "foo1", "foo2", "foo3");
+		List<Boolean> insert1 = this.bloomRedisModuleHelper.insert(filterKey, insertOptions, "foo1", "foo2", "foo3");
 		log.info("test insert1 result: {}", insert1);
 
 		// 4. 再次执行 insert 进行插入
-		List<Boolean> insert2 = bloomRedisModuleHelper.insert(filterKey, insertOptions, "foo2", "foo3", "foo4");
+		List<Boolean> insert2 = this.bloomRedisModuleHelper.insert(filterKey, insertOptions, "foo2", "foo3", "foo4");
 		log.info("test insert2 result: {}", insert2);
 
 		// 5. 再次判断元素是否存在
-		List<Boolean> existsMulti2 = bloomRedisModuleHelper.multiExists(filterKey, "foo", "foo3", "foo4", "foo5");
+		List<Boolean> existsMulti2 = this.bloomRedisModuleHelper.multiExists(filterKey, "foo", "foo3", "foo4", "foo5");
 		log.info("test existsMulti2 result: {}", existsMulti2);
 
 		// 6.获取 filter info
-		Map<String, Object> info = bloomRedisModuleHelper.info(filterKey);
+		Map<String, Object> info = this.bloomRedisModuleHelper.info(filterKey);
 		log.info("test info result: {}", info);
 
 		// 7.删除布隆过滤器
-		Boolean delete = bloomRedisModuleHelper.delete(filterKey);
+		Boolean delete = this.bloomRedisModuleHelper.delete(filterKey);
 		log.info("test delete result: {}", delete);
 	}
 

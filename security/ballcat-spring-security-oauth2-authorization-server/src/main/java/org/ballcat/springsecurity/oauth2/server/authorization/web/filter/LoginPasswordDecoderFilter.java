@@ -69,7 +69,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		}
 
 		// 未配置密码密钥时，直接跳过
-		if (passwordSecretKey == null) {
+		if (this.passwordSecretKey == null) {
 			log.warn("passwordSecretKey not configured, skip password decoder");
 			filterChain.doFilter(request, response);
 			return;
@@ -98,12 +98,12 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 		String passwordAes = request.getParameter(OAuth2ParameterNames.PASSWORD);
 
 		try {
-			String password = PasswordUtils.decodeAES(passwordAes, passwordSecretKey);
+			String password = PasswordUtils.decodeAES(passwordAes, this.passwordSecretKey);
 			parameterMap.put(OAuth2ParameterNames.PASSWORD, new String[] { password });
 		}
 		catch (Exception e) {
 			log.error("[doFilterInternal] password decode aes error，passwordAes: {}，passwordSecretKey: {}", passwordAes,
-					passwordSecretKey, e);
+					this.passwordSecretKey, e);
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
 			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED, "用户名或密码错误！");

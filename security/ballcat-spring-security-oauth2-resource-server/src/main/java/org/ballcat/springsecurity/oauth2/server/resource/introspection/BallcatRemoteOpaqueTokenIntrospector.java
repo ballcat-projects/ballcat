@@ -257,7 +257,7 @@ public class BallcatRemoteOpaqueTokenIntrospector implements OpaqueTokenIntrospe
 			if (v instanceof Boolean) {
 				return v;
 			}
-			logger.warn("自定端点返回的 {} 属性解析异常, 值为: {},", TokenAttributeNameConstants.IS_CLIENT, v);
+			this.logger.warn("自定端点返回的 {} 属性解析异常, 值为: {},", TokenAttributeNameConstants.IS_CLIENT, v);
 			return false;
 		});
 

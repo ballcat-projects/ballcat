@@ -82,7 +82,7 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		CaptchaValidateResult captchaValidateResult = captchaValidator.validate(request);
+		CaptchaValidateResult captchaValidateResult = this.captchaValidator.validate(request);
 		if (captchaValidateResult.isSuccess()) {
 			filterChain.doFilter(request, response);
 		}

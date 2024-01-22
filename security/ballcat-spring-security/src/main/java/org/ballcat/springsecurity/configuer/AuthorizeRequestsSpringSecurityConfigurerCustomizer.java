@@ -42,7 +42,7 @@ public class AuthorizeRequestsSpringSecurityConfigurerCustomizer implements Spri
 		// 拦截 url 配置
 		httpSecurity.requestMatcher(AnyRequestMatcher.INSTANCE)
 			.authorizeRequests()
-			.antMatchers(springSecurityProperties.getIgnoreUrls().toArray(new String[0]))
+			.antMatchers(this.springSecurityProperties.getIgnoreUrls().toArray(new String[0]))
 			.permitAll()
 			.anyRequest()
 			.authenticated();

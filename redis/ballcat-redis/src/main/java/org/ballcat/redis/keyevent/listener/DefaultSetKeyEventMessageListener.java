@@ -53,13 +53,13 @@ public class DefaultSetKeyEventMessageListener extends AbstractSetKeyEventMessag
 
 	@Override
 	public void onMessage(Message message, byte[] pattern) {
-		if (CollectionUtils.isEmpty(keySetEventMessageTemplates)) {
+		if (CollectionUtils.isEmpty(this.keySetEventMessageTemplates)) {
 			return;
 		}
 		super.onMessage(message, pattern);
 		String setKey = message.toString();
 		// 监听key信息新增/修改事件
-		for (KeySetEventMessageTemplate keySetEventMessageTemplate : keySetEventMessageTemplates) {
+		for (KeySetEventMessageTemplate keySetEventMessageTemplate : this.keySetEventMessageTemplates) {
 			if (keySetEventMessageTemplate.support(setKey)) {
 				if (log.isTraceEnabled()) {
 					log.trace("use template[{}]handle key set event,the set key is[{}]",

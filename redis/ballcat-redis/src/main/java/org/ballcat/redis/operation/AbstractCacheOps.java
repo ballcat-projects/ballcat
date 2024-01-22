@@ -35,7 +35,7 @@ public abstract class AbstractCacheOps {
 	 * @return ProceedingJoinPoint
 	 */
 	public ProceedingJoinPoint joinPoint() {
-		return joinPoint;
+		return this.joinPoint;
 	}
 
 	/**

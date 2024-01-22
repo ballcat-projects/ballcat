@@ -74,6 +74,8 @@ class TreeUtilsTest {
 		Assertions.assertEquals(list, abstractIdTreeNodes);
 	}
 
+	@lombok.Setter
+	@lombok.Getter
 	static class TestTreeNode implements TreeNode<Long> {
 
 		/**
@@ -93,12 +95,12 @@ class TreeUtilsTest {
 
 		@Override
 		public Long getKey() {
-			return id;
+			return this.id;
 		}
 
 		@Override
 		public Long getParentKey() {
-			return parentId;
+			return this.parentId;
 		}
 
 		@Override
@@ -110,23 +112,7 @@ class TreeUtilsTest {
 		@Override
 		@SuppressWarnings("unchecked")
 		public <T extends TreeNode<Long>> List<T> getChildren() {
-			return (List<T>) children;
-		}
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		public Long getParentId() {
-			return parentId;
-		}
-
-		public void setParentId(Long parentId) {
-			this.parentId = parentId;
+			return (List<T>) this.children;
 		}
 
 	}

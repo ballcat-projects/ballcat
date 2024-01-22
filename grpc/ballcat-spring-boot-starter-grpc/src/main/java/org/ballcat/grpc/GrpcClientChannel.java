@@ -65,8 +65,8 @@ public class GrpcClientChannel implements DisposableBean {
 	public <S extends AbstractAsyncStub<S>, B extends AbstractBlockingStub<B>, F extends AbstractFutureStub<F>> GrpcClient<S, B, F> client(
 			Function<Channel, S> asyncFunction, Function<Channel, B> blockingFunction,
 			Function<Channel, F> futureFunction) {
-		return new GrpcClient<>(properties, channel, asyncFunction.apply(channel), blockingFunction.apply(channel),
-				futureFunction.apply(channel));
+		return new GrpcClient<>(this.properties, this.channel, asyncFunction.apply(this.channel),
+				blockingFunction.apply(this.channel), futureFunction.apply(this.channel));
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class GrpcClientChannel implements DisposableBean {
 	}
 
 	public void close() {
-		channel.shutdown();
+		this.channel.shutdown();
 	}
 
 }

@@ -63,20 +63,20 @@ public class WebSocketAutoConfiguration {
 			@Autowired(required = false) SockJsServiceConfigurer sockJsServiceConfigurer) {
 		return registry -> {
 			WebSocketHandlerRegistration registration = registry
-				.addHandler(webSocketHandler, webSocketProperties.getPath())
+				.addHandler(webSocketHandler, this.webSocketProperties.getPath())
 				.addInterceptors(handshakeInterceptor.toArray(new HandshakeInterceptor[0]));
 
-			String[] allowedOrigins = webSocketProperties.getAllowedOrigins();
+			String[] allowedOrigins = this.webSocketProperties.getAllowedOrigins();
 			if (allowedOrigins != null && allowedOrigins.length > 0) {
 				registration.setAllowedOrigins(allowedOrigins);
 			}
 
-			String[] allowedOriginPatterns = webSocketProperties.getAllowedOriginPatterns();
+			String[] allowedOriginPatterns = this.webSocketProperties.getAllowedOriginPatterns();
 			if (allowedOriginPatterns != null && allowedOriginPatterns.length > 0) {
 				registration.setAllowedOriginPatterns(allowedOriginPatterns);
 			}
 
-			if (webSocketProperties.isWithSockjs()) {
+			if (this.webSocketProperties.isWithSockjs()) {
 				SockJsServiceRegistration sockJsServiceRegistration = registration.withSockJS();
 				if (sockJsServiceConfigurer != null) {
 					sockJsServiceConfigurer.config(sockJsServiceRegistration);

@@ -148,8 +148,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 
 		// 开启国际化头信息处理
-		if (responseExcel.i18nHeader() && i18nHeaderCellWriteHandler != null) {
-			writerBuilder.registerWriteHandler(i18nHeaderCellWriteHandler);
+		if (responseExcel.i18nHeader() && this.i18nHeaderCellWriteHandler != null) {
+			writerBuilder.registerWriteHandler(this.i18nHeaderCellWriteHandler);
 		}
 
 		// 自定义注入的转换器
@@ -159,7 +159,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 			writerBuilder.registerConverter(BeanUtils.instantiateClass(clazz));
 		}
 
-		String templatePath = configProperties.getTemplatePath();
+		String templatePath = this.configProperties.getTemplatePath();
 		if (StringUtils.hasText(responseExcel.template())) {
 			ClassPathResource classPathResource = new ClassPathResource(
 					templatePath + File.separator + responseExcel.template());
@@ -167,7 +167,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 			writerBuilder.withTemplate(inputStream);
 		}
 
-		writerBuilder = excelWriterBuilderEnhance.enhanceExcel(writerBuilder, response, responseExcel, templatePath);
+		writerBuilder = this.excelWriterBuilderEnhance.enhanceExcel(writerBuilder, response, responseExcel,
+				templatePath);
 
 		return writerBuilder.build();
 	}
@@ -177,7 +178,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	 * @param builder ExcelWriterBuilder
 	 */
 	public void registerCustomConverter(ExcelWriterBuilder builder) {
-		converterProvider.ifAvailable(converters -> converters.forEach(builder::registerConverter));
+		this.converterProvider.ifAvailable(converters -> converters.forEach(builder::registerConverter));
 	}
 
 	/**
@@ -240,8 +241,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 
 		// sheetBuilder 增强
-		writerSheetBuilder = excelWriterBuilderEnhance.enhanceSheet(writerSheetBuilder, sheetNo, sheetName, dataClass,
-				template, headGenerateClass);
+		writerSheetBuilder = this.excelWriterBuilderEnhance.enhanceSheet(writerSheetBuilder, sheetNo, sheetName,
+				dataClass, template, headGenerateClass);
 
 		return writerSheetBuilder.build();
 	}

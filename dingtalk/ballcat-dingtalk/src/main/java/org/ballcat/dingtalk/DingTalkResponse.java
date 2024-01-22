@@ -73,7 +73,7 @@ public class DingTalkResponse {
 
 	@Override
 	public String toString() {
-		return response;
+		return this.response;
 	}
 
 }

@@ -53,9 +53,9 @@ public class WaitValue<T> {
 	}
 
 	public void update(UnaryOperator<T> operator) throws InterruptedException {
-		lock.runByInterruptibly(() -> {
-			value = operator.apply(value);
-			lock.signalAll();
+		this.lock.runByInterruptibly(() -> {
+			this.value = operator.apply(this.value);
+			this.lock.signalAll();
 		});
 	}
 
@@ -84,18 +84,18 @@ public class WaitValue<T> {
 	}
 
 	public T wait(Predicate<T> predicate) throws InterruptedException {
-		lock.lockInterruptibly();
+		this.lock.lockInterruptibly();
 		try {
 			while (true) {
-				if (predicate.test(value)) {
-					return value;
+				if (predicate.test(this.value)) {
+					return this.value;
 				}
 
-				lock.await(1, TimeUnit.HOURS);
+				this.lock.await(1, TimeUnit.HOURS);
 			}
 		}
 		finally {
-			lock.unlock();
+			this.lock.unlock();
 		}
 	}
 

@@ -36,7 +36,7 @@ public class RedisMessageListenerInitializer {
 
 	@PostConstruct
 	public void addMessageListener() {
-		redisMessageListenerContainer.addMessageListener(redisWebsocketMessageListener,
+		this.redisMessageListenerContainer.addMessageListener(this.redisWebsocketMessageListener,
 				new PatternTopic(RedisMessageDistributor.CHANNEL));
 	}
 

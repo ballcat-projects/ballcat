@@ -56,17 +56,17 @@ public class JsonDesensitizeSerializer extends JsonSerializer<Object> {
 
 			String fieldName = jsonGenerator.getOutputContext().getCurrentName();
 			// 未开启脱敏
-			if (desensitizeStrategy != null && desensitizeStrategy.ignoreField(fieldName)) {
+			if (this.desensitizeStrategy != null && this.desensitizeStrategy.ignoreField(fieldName)) {
 				jsonGenerator.writeString(str);
 				return;
 			}
 			DesensitizeFunction handleFunction = AnnotationHandlerHolder
-				.getHandleFunction(jsonDesensitizeAnnotation.annotationType());
+				.getHandleFunction(this.jsonDesensitizeAnnotation.annotationType());
 			if (handleFunction == null) {
 				jsonGenerator.writeString(str);
 				return;
 			}
-			jsonGenerator.writeString(handleFunction.desensitize(jsonDesensitizeAnnotation, str));
+			jsonGenerator.writeString(handleFunction.desensitize(this.jsonDesensitizeAnnotation, str));
 		}
 	}
 

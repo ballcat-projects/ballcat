@@ -53,7 +53,7 @@ public class ModifyParameterRequestWrapper extends HttpServletRequestWrapper {
 
 	@Override
 	public Enumeration<String> getParameterNames() {
-		return Collections.enumeration(parameterMap.keySet());
+		return Collections.enumeration(this.parameterMap.keySet());
 	}
 
 	@Override

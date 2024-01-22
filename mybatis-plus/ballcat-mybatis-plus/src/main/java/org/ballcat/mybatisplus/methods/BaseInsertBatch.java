@@ -39,7 +39,7 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 
 	@Override
 	public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
-		SqlSource sqlSource = languageDriver.createSqlSource(configuration, String.format(getSql(),
+		SqlSource sqlSource = this.languageDriver.createSqlSource(this.configuration, String.format(getSql(),
 				tableInfo.getTableName(), prepareFieldSql(tableInfo), prepareValuesSqlForMysqlBatch(tableInfo)),
 				modelClass);
 
@@ -58,7 +58,7 @@ public abstract class BaseInsertBatch extends AbstractMethod {
 			}
 			else {
 				if (null != tableInfo.getKeySequence()) {
-					keyGenerator = TableInfoHelper.genKeyGenerator(this.methodName, tableInfo, builderAssistant);
+					keyGenerator = TableInfoHelper.genKeyGenerator(this.methodName, tableInfo, this.builderAssistant);
 					keyProperty = getKeyProperty(tableInfo);
 					keyColumn = tableInfo.getKeyColumn();
 				}

@@ -46,7 +46,7 @@ public class ClientPrincipal implements OAuth2AuthenticatedPrincipal, Serializab
 
 	@NonNull
 	public Set<String> getScope() {
-		return scope;
+		return this.scope;
 	}
 
 	public void setScope(Collection<String> scope) {
@@ -55,17 +55,17 @@ public class ClientPrincipal implements OAuth2AuthenticatedPrincipal, Serializab
 
 	@Override
 	public Map<String, Object> getAttributes() {
-		return attributes;
+		return this.attributes;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
+		return this.authorities;
 	}
 
 	@Override
 	public String getName() {
-		return clientId;
+		return this.clientId;
 	}
 
 	public ClientPrincipal(String clientId, Map<String, Object> attributes,

@@ -39,14 +39,14 @@ public class PrefixStringRedisSerializer extends StringRedisSerializer {
 
 	@Override
 	public String deserialize(byte[] bytes) {
-		byte[] unwrap = iRedisPrefixConverter.unwrap(bytes);
+		byte[] unwrap = this.iRedisPrefixConverter.unwrap(bytes);
 		return super.deserialize(unwrap);
 	}
 
 	@Override
 	public byte[] serialize(String key) {
 		byte[] originBytes = super.serialize(key);
-		return iRedisPrefixConverter.wrap(originBytes);
+		return this.iRedisPrefixConverter.wrap(originBytes);
 	}
 
 }

@@ -36,7 +36,7 @@ public class JavaReentrantLock {
 	/**
 	 * 激活与休眠线程
 	 */
-	protected final Condition defaultCondition = lock.newCondition();
+	protected final Condition defaultCondition = this.lock.newCondition();
 
 	public Condition newCondition() {
 		return getLock().newCondition();

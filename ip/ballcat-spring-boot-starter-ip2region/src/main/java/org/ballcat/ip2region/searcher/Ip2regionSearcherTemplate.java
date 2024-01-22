@@ -45,14 +45,14 @@ public abstract class Ip2regionSearcherTemplate implements DisposableBean, Initi
 	@Override
 	@SneakyThrows({ IOException.class })
 	public IpInfo search(long ip) {
-		return IpInfoUtils.toIpInfo(Searcher.long2ip(ip), searcher.search(ip));
+		return IpInfoUtils.toIpInfo(Searcher.long2ip(ip), this.searcher.search(ip));
 
 	}
 
 	@Override
 	@SneakyThrows({ Exception.class })
 	public IpInfo search(String ip) {
-		return IpInfoUtils.toIpInfo(ip, searcher.search(ip));
+		return IpInfoUtils.toIpInfo(ip, this.searcher.search(ip));
 	}
 
 	@Override

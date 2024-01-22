@@ -40,7 +40,7 @@ public abstract class AbstractDingTalkMessage implements DingTalkMessage {
 	private boolean atAll = false;
 
 	public AbstractDingTalkMessage atAll() {
-		atAll = true;
+		this.atAll = true;
 		return this;
 	}
 
@@ -48,7 +48,7 @@ public abstract class AbstractDingTalkMessage implements DingTalkMessage {
 	 * 添加 at 对象的手机号
 	 */
 	public AbstractDingTalkMessage addPhone(String phone) {
-		atPhones.add(phone);
+		this.atPhones.add(phone);
 		return this;
 	}
 
@@ -68,7 +68,7 @@ public abstract class AbstractDingTalkMessage implements DingTalkMessage {
 	@Override
 	public String generate() {
 		DingTalkParams params = put(new DingTalkParams().setType(getType().getVal())
-			.setAt(new DingTalkParams.At().setAtAll(atAll).setAtMobiles(atPhones)));
+			.setAt(new DingTalkParams.At().setAtAll(this.atAll).setAtMobiles(this.atPhones)));
 		return params.toString();
 	}
 

@@ -66,7 +66,7 @@ public class PageParamOpenAPIConverter implements ModelConverter {
 	 */
 	@Override
 	public Schema resolve(AnnotatedType type, ModelConverterContext context, Iterator<ModelConverter> chain) {
-		JavaType javaType = springDocObjectMapper.jsonMapper().constructType(type.getType());
+		JavaType javaType = this.springDocObjectMapper.jsonMapper().constructType(type.getType());
 		if (javaType != null) {
 			Class<?> cls = javaType.getRawClass();
 			if (PAGE_PARAM_TO_REPLACE.equals(cls.getCanonicalName())) {

@@ -67,8 +67,8 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 		catch (ErrorJsonMessageException ex) {
 			log.debug("消息载荷 [{}] 回退使用 PlanTextMessageHandler，原因：{}", payload, ex.getMessage());
 			// fallback 使用普通文本处理
-			if (planTextMessageHandler != null) {
-				planTextMessageHandler.handle(session, payload);
+			if (this.planTextMessageHandler != null) {
+				this.planTextMessageHandler.handle(session, payload);
 			}
 			else {
 				log.error("[handleTextMessage] 普通文本消息（{}）没有对应的消息处理器", payload);

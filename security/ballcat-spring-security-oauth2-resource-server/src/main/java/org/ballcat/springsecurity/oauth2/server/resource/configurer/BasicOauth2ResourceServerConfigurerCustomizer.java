@@ -44,9 +44,9 @@ public class BasicOauth2ResourceServerConfigurerCustomizer implements SpringSecu
 	public void customize(HttpSecurity httpSecurity) throws Exception {
 		// 开启 OAuth2 资源服务
 		httpSecurity.oauth2ResourceServer()
-			.authenticationEntryPoint(authenticationEntryPoint)
+			.authenticationEntryPoint(this.authenticationEntryPoint)
 			// bearToken 解析器
-			.bearerTokenResolver(bearerTokenResolver)
+			.bearerTokenResolver(this.bearerTokenResolver)
 			// 不透明令牌，
 			.opaqueToken();
 	}

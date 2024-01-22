@@ -29,10 +29,10 @@ public class BallcatUndertowTimer extends AbstractTimer {
 	@Override
 	protected void process() {
 		try {
-			if (dir == null || dir.exists()) {
+			if (this.dir == null || this.dir.exists()) {
 				return;
 			}
-			dir.mkdirs();
+			this.dir.mkdirs();
 		}
 		catch (Exception e) {
 			//

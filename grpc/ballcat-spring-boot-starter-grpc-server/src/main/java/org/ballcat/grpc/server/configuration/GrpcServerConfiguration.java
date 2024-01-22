@@ -40,13 +40,13 @@ public class GrpcServerConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public GrpcServer grpcServer(List<ServerInterceptor> interceptors, List<BindableService> services) {
-		return new GrpcServer(properties, interceptors, services);
+		return new GrpcServer(this.properties, interceptors, services);
 	}
 
 	@Bean
 	@ConditionalOnMissingBean
 	public GrpcServerTraceIdInterceptor grpcServerTraceIdInterceptor() {
-		return new GrpcServerTraceIdInterceptor(properties);
+		return new GrpcServerTraceIdInterceptor(this.properties);
 	}
 
 }

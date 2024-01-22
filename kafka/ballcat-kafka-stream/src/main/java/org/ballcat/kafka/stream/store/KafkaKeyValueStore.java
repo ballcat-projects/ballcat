@@ -57,7 +57,7 @@ public final class KafkaKeyValueStore<K, V> implements KafkaWindow<V, KeyValueSt
 	}
 
 	public KeyValueIterator<K, V> all() {
-		return store.all();
+		return this.store.all();
 	}
 
 	public void forEachRemaining(Consumer<? super KeyValue<K, V>> action) {
@@ -81,16 +81,16 @@ public final class KafkaKeyValueStore<K, V> implements KafkaWindow<V, KeyValueSt
 	 * @return 生成的key
 	 */
 	public K getKey() {
-		return supplier.get();
+		return this.supplier.get();
 	}
 
 	public void put(V v) {
-		pushValue(v, store);
+		pushValue(v, this.store);
 	}
 
 	public void put(K k, V v) {
 		if (check(v)) {
-			forkPush(k, v, store);
+			forkPush(k, v, this.store);
 		}
 	}
 
@@ -121,7 +121,7 @@ public final class KafkaKeyValueStore<K, V> implements KafkaWindow<V, KeyValueSt
 	}
 
 	public V delete(K key) {
-		return store.delete(key);
+		return this.store.delete(key);
 	}
 
 }

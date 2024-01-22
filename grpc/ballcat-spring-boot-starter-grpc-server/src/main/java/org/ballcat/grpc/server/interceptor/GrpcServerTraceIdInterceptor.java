@@ -47,8 +47,8 @@ public class GrpcServerTraceIdInterceptor implements ServerInterceptor {
 	 */
 	protected String traceId(Metadata headers) {
 		String traceId = null;
-		if (headers.containsKey(traceIdKey)) {
-			traceId = headers.get(traceIdKey);
+		if (headers.containsKey(this.traceIdKey)) {
+			traceId = headers.get(this.traceIdKey);
 		}
 		if (StringUtils.hasText(traceId)) {
 			return traceId;
@@ -63,7 +63,7 @@ public class GrpcServerTraceIdInterceptor implements ServerInterceptor {
 		MDC.put(MDCConstants.TRACE_ID_KEY, traceId);
 		try {
 			// 返回traceId
-			headers.put(traceIdKey, traceId);
+			headers.put(this.traceIdKey, traceId);
 			return next.startCall(call, headers);
 		}
 		finally {

@@ -70,7 +70,7 @@ class ExcelImportTest {
 		ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
 		MockMultipartFile multipartFile = new MockMultipartFile("file", bis);
 
-		MvcResult mvcResult = mockMvc
+		MvcResult mvcResult = this.mockMvc
 			.perform(MockMvcRequestBuilders.multipart("/import/simple")
 				.file(multipartFile)
 				.accept(MediaType.APPLICATION_JSON))
@@ -78,7 +78,7 @@ class ExcelImportTest {
 			.andReturn();
 
 		String contentAsString = mvcResult.getResponse().getContentAsString();
-		List<DemoData> demoDataList = objectMapper.readValue(contentAsString, new TypeReference<List<DemoData>>() {
+		List<DemoData> demoDataList = this.objectMapper.readValue(contentAsString, new TypeReference<List<DemoData>>() {
 		});
 
 		Assertions.assertEquals(2, demoDataList.size());
@@ -104,7 +104,7 @@ class ExcelImportTest {
 		EasyExcel.write(bos, DemoData.class).sheet().doWrite(dataList);
 		ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
 		MockMultipartFile multipartFile = new MockMultipartFile("file", bis);
-		MvcResult mvcResult = mockMvc
+		MvcResult mvcResult = this.mockMvc
 			.perform(MockMvcRequestBuilders.multipart("/import/ignore-empty-row-disabled")
 				.file(multipartFile)
 				.accept(MediaType.APPLICATION_JSON))
@@ -112,7 +112,7 @@ class ExcelImportTest {
 			.andReturn();
 
 		String contentAsString = mvcResult.getResponse().getContentAsString();
-		List<DemoData> demoDataList = objectMapper.readValue(contentAsString, new TypeReference<List<DemoData>>() {
+		List<DemoData> demoDataList = this.objectMapper.readValue(contentAsString, new TypeReference<List<DemoData>>() {
 		});
 
 		Assertions.assertEquals(3, demoDataList.size());
@@ -122,14 +122,14 @@ class ExcelImportTest {
 		Assertions.assertNull(demoDataList.get(1).getPassword());
 
 		// 忽略空行
-		mvcResult = mockMvc
+		mvcResult = this.mockMvc
 			.perform(MockMvcRequestBuilders.multipart("/import/ignore-empty-row-enabled")
 				.file(multipartFile)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andReturn();
 		contentAsString = mvcResult.getResponse().getContentAsString();
-		demoDataList = objectMapper.readValue(contentAsString, new TypeReference<List<DemoData>>() {
+		demoDataList = this.objectMapper.readValue(contentAsString, new TypeReference<List<DemoData>>() {
 		});
 
 		Assertions.assertEquals(2, demoDataList.size());

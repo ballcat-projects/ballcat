@@ -63,7 +63,7 @@ public class WebMvcAutoConfiguration {
 		 */
 		@Override
 		public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-			argumentResolvers.add(pageParamArgumentResolver);
+			argumentResolvers.add(this.pageParamArgumentResolver);
 		}
 
 	}

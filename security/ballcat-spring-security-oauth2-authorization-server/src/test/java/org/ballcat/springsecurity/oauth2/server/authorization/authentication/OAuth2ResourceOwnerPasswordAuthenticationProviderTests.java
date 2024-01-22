@@ -126,7 +126,7 @@ class OAuth2ResourceOwnerPasswordAuthenticationProviderTests {
 	@Test
 	void constructorWhenOAuth2TokenGeneratorNullThenThrowIllegalArgumentException() {
 		assertThatThrownBy(() -> new OAuth2ResourceOwnerPasswordAuthenticationProvider(this.authorizationService, null,
-				userDetailsService))
+				this.userDetailsService))
 			.isInstanceOf(IllegalArgumentException.class)
 			.hasMessage("tokenGenerator cannot be null");
 	}

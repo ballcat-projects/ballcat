@@ -42,13 +42,13 @@ class AbstractDynamicTimerTest {
 
 	@BeforeEach
 	void before() {
-		timer = new DynamicTimer();
-		timer.onApplicationStart();
+		this.timer = new DynamicTimer();
+		this.timer.onApplicationStart();
 	}
 
 	@AfterEach
 	void after() {
-		timer.onApplicationStop();
+		this.timer.onApplicationStop();
 	}
 
 	@Test
@@ -58,19 +58,19 @@ class AbstractDynamicTimerTest {
 		Action a2 = new Action("2", now.plusSeconds(2));
 		Action a4 = new Action("4", now.plusSeconds(4));
 
-		timer.put(a1);
-		timer.put(a2);
-		timer.put(a4);
+		this.timer.put(a1);
+		this.timer.put(a2);
+		this.timer.put(a4);
 
 		TimeUnit.MILLISECONDS.sleep(1050);
-		Assertions.assertEquals(1, timer.getProcessedCount());
+		Assertions.assertEquals(1, this.timer.getProcessedCount());
 
 		TimeUnit.SECONDS.sleep(1);
-		Assertions.assertEquals(2, timer.getProcessedCount());
+		Assertions.assertEquals(2, this.timer.getProcessedCount());
 
-		timer.put(a2);
+		this.timer.put(a2);
 		TimeUnit.MILLISECONDS.sleep(2050);
-		Assertions.assertEquals(4, timer.getProcessedCount());
+		Assertions.assertEquals(4, this.timer.getProcessedCount());
 	}
 
 	@Data

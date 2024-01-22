@@ -68,10 +68,10 @@ public class LambdaAliasQueryWrapperX<T> extends LambdaQueryWrapperX<T> {
 	 * @return String allAliasSqlSelect
 	 */
 	public String getAllAliasSqlSelect() {
-		if (allAliasSqlSelect == null) {
-			allAliasSqlSelect = TableAliasHelper.tableAliasSelectSql(getEntityClass());
+		if (this.allAliasSqlSelect == null) {
+			this.allAliasSqlSelect = TableAliasHelper.tableAliasSelectSql(getEntityClass());
 		}
-		return allAliasSqlSelect;
+		return this.allAliasSqlSelect;
 	}
 
 	/**
@@ -82,9 +82,9 @@ public class LambdaAliasQueryWrapperX<T> extends LambdaQueryWrapperX<T> {
 	 */
 	@Override
 	protected LambdaAliasQueryWrapperX<T> instance() {
-		return new LambdaAliasQueryWrapperX<>(getEntity(), getEntityClass(), null, paramNameSeq, paramNameValuePairs,
-				new MergeSegments(), this.paramAlias, SharedString.emptyString(), SharedString.emptyString(),
-				SharedString.emptyString());
+		return new LambdaAliasQueryWrapperX<>(getEntity(), getEntityClass(), null, this.paramNameSeq,
+				this.paramNameValuePairs, new MergeSegments(), this.paramAlias, SharedString.emptyString(),
+				SharedString.emptyString(), SharedString.emptyString());
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class LambdaAliasQueryWrapperX<T> extends LambdaQueryWrapperX<T> {
 			return columnFunction.apply(null);
 		}
 		String columnName = super.columnToString(column, true);
-		return tableAlias == null ? columnName : tableAlias + "." + columnName;
+		return this.tableAlias == null ? columnName : this.tableAlias + "." + columnName;
 	}
 
 }

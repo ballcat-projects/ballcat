@@ -48,7 +48,7 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	 */
 	@Override
 	public void addSession(WebSocketSession wsSession) {
-		Object sessionKey = sessionKeyGenerator.sessionKey(wsSession);
+		Object sessionKey = this.sessionKeyGenerator.sessionKey(wsSession);
 		Map<String, WebSocketSession> sessions = this.sessionKeyToWsSessions.get(sessionKey);
 		if (sessions == null) {
 			sessions = new ConcurrentHashMap<>();
@@ -64,7 +64,7 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	 */
 	@Override
 	public void removeSession(WebSocketSession session) throws IOException {
-		Object sessionKey = sessionKeyGenerator.sessionKey(session);
+		Object sessionKey = this.sessionKeyGenerator.sessionKey(session);
 		String wsSessionId = session.getId();
 
 		Map<String, WebSocketSession> sessions = this.sessionKeyToWsSessions.get(sessionKey);
@@ -92,7 +92,10 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	 */
 	@Override
 	public Collection<WebSocketSession> getSessions() {
-		return sessionKeyToWsSessions.values().stream().flatMap(x -> x.values().stream()).collect(Collectors.toList());
+		return this.sessionKeyToWsSessions.values()
+			.stream()
+			.flatMap(x -> x.values().stream())
+			.collect(Collectors.toList());
 	}
 
 	/**
@@ -116,7 +119,7 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	 */
 	@Override
 	public Collection<Object> getSessionKeys() {
-		return sessionKeyToWsSessions.keySet();
+		return this.sessionKeyToWsSessions.keySet();
 	}
 
 }

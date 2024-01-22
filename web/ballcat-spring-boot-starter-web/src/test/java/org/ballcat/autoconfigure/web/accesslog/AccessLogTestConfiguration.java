@@ -49,15 +49,16 @@ public class AccessLogTestConfiguration {
 	@Bean
 	public AccessLogFilter accessLogFilter() {
 		// 合并 annotationRules 和 propertiesRules, 注解高于配置
-		List<AccessLogRule> annotationRules = AccessLogRuleFinder.findRulesFormAnnotation(requestMappingHandlerMapping);
-		List<AccessLogRule> propertiesRules = accessLogProperties.getAccessLogRules();
+		List<AccessLogRule> annotationRules = AccessLogRuleFinder
+			.findRulesFormAnnotation(this.requestMappingHandlerMapping);
+		List<AccessLogRule> propertiesRules = this.accessLogProperties.getAccessLogRules();
 		List<AccessLogRule> accessLogRules = AccessLogRuleFinder.mergeRules(annotationRules, propertiesRules);
 
-		AccessLogRecordOptions defaultRecordOptions = accessLogProperties.getDefaultAccessLogRecordOptions();
+		AccessLogRecordOptions defaultRecordOptions = this.accessLogProperties.getDefaultAccessLogRecordOptions();
 
 		TestAccessLogFilter accessLogFilter = new TestAccessLogFilter(defaultRecordOptions, accessLogRules);
-		accessLogFilter.setMaxBodyLength(accessLogProperties.getMaxBodyLength());
-		accessLogFilter.setOrder(accessLogProperties.getFilterOrder());
+		accessLogFilter.setMaxBodyLength(this.accessLogProperties.getMaxBodyLength());
+		accessLogFilter.setOrder(this.accessLogProperties.getFilterOrder());
 		return accessLogFilter;
 	}
 

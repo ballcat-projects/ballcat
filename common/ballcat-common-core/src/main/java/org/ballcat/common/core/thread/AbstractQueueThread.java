@@ -132,7 +132,7 @@ public abstract class AbstractQueueThread<E> extends AbstractThreadContextCompon
 			}
 			// Throwable 异常直接结束. 这里捕获用来保留信息. 方便排查问题
 			catch (Throwable t) {
-				log.error("线程队列运行异常!", t);
+				this.log.error("线程队列运行异常!", t);
 				throw t;
 			}
 		}
@@ -170,7 +170,7 @@ public abstract class AbstractQueueThread<E> extends AbstractThreadContextCompon
 			e = poll(getPollTimeout());
 		}
 		catch (InterruptedException ex) {
-			log.error("{} 类的poll线程被中断!id: {}", getClass().getSimpleName(), getId());
+			this.log.error("{} 类的poll线程被中断!id: {}", getClass().getSimpleName(), getId());
 			interrupt();
 		}
 		return e;
@@ -188,7 +188,7 @@ public abstract class AbstractQueueThread<E> extends AbstractThreadContextCompon
 	 * @param list 当前数据
 	 */
 	protected void shutdown(List<E> list) {
-		log.warn("{} 线程: {} 被关闭. 数据:{}", this.getClass().getSimpleName(), getId(), list);
+		this.log.warn("{} 线程: {} 被关闭. 数据:{}", this.getClass().getSimpleName(), getId(), list);
 	}
 
 }

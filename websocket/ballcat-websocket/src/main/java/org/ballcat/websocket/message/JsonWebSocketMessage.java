@@ -41,7 +41,7 @@ public abstract class JsonWebSocketMessage {
 	}
 
 	public String getType() {
-		return type;
+		return this.type;
 	}
 
 }

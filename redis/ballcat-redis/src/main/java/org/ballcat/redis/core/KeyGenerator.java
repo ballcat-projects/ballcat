@@ -55,7 +55,7 @@ public class KeyGenerator {
 			return keyPrefix;
 		}
 		// 获取所有需要拼接的元素, 组装进集合中
-		String joint = SpelUtils.parseValueToString(spelContext, keyJoint);
+		String joint = SpelUtils.parseValueToString(this.spelContext, keyJoint);
 		Assert.notNull(joint, "Key joint cannot be null!");
 
 		if (!StringUtils.hasText(keyPrefix)) {
@@ -70,7 +70,7 @@ public class KeyGenerator {
 		Assert.hasText(keyJoint, "[getKeys] keyJoint cannot be null");
 
 		// 获取所有需要拼接的元素, 组装进集合中
-		List<String> joints = SpelUtils.parseValueToStringList(spelContext, keyJoint);
+		List<String> joints = SpelUtils.parseValueToStringList(this.spelContext, keyJoint);
 		Assert.notEmpty(joints, "[getKeys] keyJoint must be resolved to a non-empty collection!");
 
 		if (!StringUtils.hasText(keyPrefix)) {

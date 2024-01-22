@@ -38,19 +38,19 @@ class PasswordTest {
 
 		// 不指定加密算法时，默认使用 bcrypt 加密算法
 		String defaultEncodedPassword = "$2a$10$IRAHstZa7wgcrrifF6tpNeSlpvCBe3Tl3GEDQEUxtI/Gxc30OUxlW";
-		Assertions.assertTrue(PASSWORD_ENCODER.matches(rawPassword, defaultEncodedPassword));
+		Assertions.assertTrue(this.PASSWORD_ENCODER.matches(rawPassword, defaultEncodedPassword));
 
 		// 指定使用 bcrypt 加密算法的存储的密码
 		String bcryptPassword = "{bcrypt}$2a$10$IRAHstZa7wgcrrifF6tpNeSlpvCBe3Tl3GEDQEUxtI/Gxc30OUxlW";
-		Assertions.assertTrue(PASSWORD_ENCODER.matches(rawPassword, bcryptPassword));
+		Assertions.assertTrue(this.PASSWORD_ENCODER.matches(rawPassword, bcryptPassword));
 
 		// 指定不用加密算法原样存储的密码
 		String noopPassword = "{noop}a123456";
-		Assertions.assertTrue(PASSWORD_ENCODER.matches(rawPassword, noopPassword));
+		Assertions.assertTrue(this.PASSWORD_ENCODER.matches(rawPassword, noopPassword));
 
 		// 指定使用 MD5 存储的密码
 		String md5Password = "{MD5}dc483e80a7a0bd9ef71d8cf973673924";
-		Assertions.assertTrue(PASSWORD_ENCODER.matches(rawPassword, md5Password));
+		Assertions.assertTrue(this.PASSWORD_ENCODER.matches(rawPassword, md5Password));
 	}
 
 }

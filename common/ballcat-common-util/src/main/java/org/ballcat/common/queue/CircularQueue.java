@@ -38,25 +38,25 @@ public class CircularQueue<T> {
 	private Iterator<T> iterator;
 
 	public CircularQueue<T> add(T t) throws InterruptedException {
-		lock.runByInterruptibly(() -> source.add(t));
+		this.lock.runByInterruptibly(() -> this.source.add(t));
 		return this;
 	}
 
 	public CircularQueue<T> addAll(Collection<T> collection) throws InterruptedException {
-		lock.runByInterruptibly(() -> source.addAll(collection));
+		this.lock.runByInterruptibly(() -> this.source.addAll(collection));
 		return this;
 	}
 
 	public T pool() throws InterruptedException {
-		return lock.getByInterruptibly(() -> {
-			if (CollectionUtils.isEmpty(source)) {
+		return this.lock.getByInterruptibly(() -> {
+			if (CollectionUtils.isEmpty(this.source)) {
 				return null;
 			}
-			if (iterator == null || !iterator.hasNext()) {
-				iterator = source.iterator();
+			if (this.iterator == null || !this.iterator.hasNext()) {
+				this.iterator = this.source.iterator();
 			}
 
-			return iterator.next();
+			return this.iterator.next();
 		});
 	}
 

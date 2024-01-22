@@ -35,11 +35,11 @@ public abstract class AbstractOssTemplateTest {
 	protected ObjectKeyPrefixConverter objectKeyPrefixConverter;
 
 	protected void createBucket(String bucket) {
-		ossTemplate.createBucket(bucket);
+		this.ossTemplate.createBucket(bucket);
 	}
 
 	protected void deleteBucket(String bucket) {
-		ossTemplate.deleteBucket(bucket);
+		this.ossTemplate.deleteBucket(bucket);
 	}
 
 }

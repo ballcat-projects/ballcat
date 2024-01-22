@@ -91,29 +91,29 @@ public class KafkaProperties {
 	private Map<String, Object> extend = new HashMap<>();
 
 	public String getKeyDeserializerClassName() {
-		if (StringUtils.hasText(keyDeserializerClassName)) {
-			return keyDeserializerClassName;
+		if (StringUtils.hasText(this.keyDeserializerClassName)) {
+			return this.keyDeserializerClassName;
 		}
 		return getKeyDeserializer().getName();
 	}
 
 	public String getValueDeserializerClassName() {
-		if (StringUtils.hasText(valueDeserializerClassName)) {
-			return valueDeserializerClassName;
+		if (StringUtils.hasText(this.valueDeserializerClassName)) {
+			return this.valueDeserializerClassName;
 		}
 		return getValueDeserializer().getName();
 	}
 
 	public String getKeySerializerClassName() {
-		if (StringUtils.hasText(keySerializerClassName)) {
-			return keySerializerClassName;
+		if (StringUtils.hasText(this.keySerializerClassName)) {
+			return this.keySerializerClassName;
 		}
 		return getKeySerializer().getName();
 	}
 
 	public String getValueSerializerClassName() {
-		if (StringUtils.hasText(valueSerializerClassName)) {
-			return valueSerializerClassName;
+		if (StringUtils.hasText(this.valueSerializerClassName)) {
+			return this.valueSerializerClassName;
 		}
 		return getValueSerializer().getName();
 	}

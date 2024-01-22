@@ -33,7 +33,7 @@ public class DefaultRedisPrefixConverter implements IRedisPrefixConverter {
 
 	@Override
 	public String getPrefix() {
-		return prefix;
+		return this.prefix;
 	}
 
 	@Override

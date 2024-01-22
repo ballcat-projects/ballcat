@@ -76,12 +76,12 @@ public class KafkaStreamBuilder {
 	 *
 	 */
 	public KafkaStreamBuilder addBootstrapServers(String uri) {
-		bootstrapServers.add(uri);
+		this.bootstrapServers.add(uri);
 		return this;
 	}
 
 	public KafkaStreamBuilder addAllBootstrapServers(Collection<String> uris) {
-		bootstrapServers.addAll(uris);
+		this.bootstrapServers.addAll(uris);
 		return this;
 	}
 
@@ -89,7 +89,7 @@ public class KafkaStreamBuilder {
 	 * 添加配置
 	 */
 	public KafkaStreamBuilder put(Object key, Object val) {
-		properties.put(key, val);
+		this.properties.put(key, val);
 		return this;
 	}
 
@@ -107,157 +107,158 @@ public class KafkaStreamBuilder {
 	}
 
 	public KafkaStreamBuilder applicationId(String aId) {
-		properties.put(StreamsConfig.APPLICATION_ID_CONFIG, aId);
+		this.properties.put(StreamsConfig.APPLICATION_ID_CONFIG, aId);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(String name, String... topics) {
-		topology.addSource(name, topics);
+		this.topology.addSource(name, topics);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(String name, Pattern topicPattern) {
-		topology.addSource(name, topicPattern);
+		this.topology.addSource(name, topicPattern);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(Topology.AutoOffsetReset offsetReset, String name,
 			String... topics) {
-		topology.addSource(offsetReset, name, topics);
+		this.topology.addSource(offsetReset, name, topics);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(Topology.AutoOffsetReset offsetReset, String name,
 			Pattern topicPattern) {
-		topology.addSource(offsetReset, name, topicPattern);
+		this.topology.addSource(offsetReset, name, topicPattern);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(TimestampExtractor timestampExtractor, String name,
 			String... topics) {
-		topology.addSource(timestampExtractor, name, topics);
+		this.topology.addSource(timestampExtractor, name, topics);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(TimestampExtractor timestampExtractor, String name,
 			Pattern topicPattern) {
-		topology.addSource(timestampExtractor, name, topicPattern);
+		this.topology.addSource(timestampExtractor, name, topicPattern);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(Topology.AutoOffsetReset offsetReset,
 			TimestampExtractor timestampExtractor, String name, String... topics) {
-		topology.addSource(offsetReset, timestampExtractor, name, topics);
+		this.topology.addSource(offsetReset, timestampExtractor, name, topics);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(Topology.AutoOffsetReset offsetReset,
 			TimestampExtractor timestampExtractor, String name, Pattern topicPattern) {
-		topology.addSource(offsetReset, timestampExtractor, name, topicPattern);
+		this.topology.addSource(offsetReset, timestampExtractor, name, topicPattern);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(String name, Deserializer<?> keyDeserializer,
 			Deserializer<?> valueDeserializer, String... topics) {
-		topology.addSource(name, keyDeserializer, valueDeserializer, topics);
+		this.topology.addSource(name, keyDeserializer, valueDeserializer, topics);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(String name, Deserializer<?> keyDeserializer,
 			Deserializer<?> valueDeserializer, Pattern topicPattern) {
-		topology.addSource(name, keyDeserializer, valueDeserializer, topicPattern);
+		this.topology.addSource(name, keyDeserializer, valueDeserializer, topicPattern);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(Topology.AutoOffsetReset offsetReset, String name,
 			Deserializer<?> keyDeserializer, Deserializer<?> valueDeserializer, String... topics) {
-		topology.addSource(offsetReset, name, keyDeserializer, valueDeserializer, topics);
+		this.topology.addSource(offsetReset, name, keyDeserializer, valueDeserializer, topics);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(Topology.AutoOffsetReset offsetReset, String name,
 			Deserializer<?> keyDeserializer, Deserializer<?> valueDeserializer, Pattern topicPattern) {
-		topology.addSource(offsetReset, name, keyDeserializer, valueDeserializer, topicPattern);
+		this.topology.addSource(offsetReset, name, keyDeserializer, valueDeserializer, topicPattern);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(Topology.AutoOffsetReset offsetReset, String name,
 			TimestampExtractor timestampExtractor, Deserializer<?> keyDeserializer, Deserializer<?> valueDeserializer,
 			String... topics) {
-		topology.addSource(offsetReset, name, timestampExtractor, keyDeserializer, valueDeserializer, topics);
+		this.topology.addSource(offsetReset, name, timestampExtractor, keyDeserializer, valueDeserializer, topics);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSource(Topology.AutoOffsetReset offsetReset, String name,
 			TimestampExtractor timestampExtractor, Deserializer<?> keyDeserializer, Deserializer<?> valueDeserializer,
 			Pattern topicPattern) {
-		topology.addSource(offsetReset, name, timestampExtractor, keyDeserializer, valueDeserializer, topicPattern);
+		this.topology.addSource(offsetReset, name, timestampExtractor, keyDeserializer, valueDeserializer,
+				topicPattern);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addSink(String name, String topic, String... parentNames) {
-		topology.addSink(name, topic, parentNames);
+		this.topology.addSink(name, topic, parentNames);
 		return this;
 	}
 
 	public synchronized <K, V> KafkaStreamBuilder addSink(String name, String topic,
 			StreamPartitioner<? super K, ? super V> partitioner, String... parentNames) {
-		topology.addSink(name, topic, partitioner, parentNames);
+		this.topology.addSink(name, topic, partitioner, parentNames);
 		return this;
 	}
 
 	public synchronized <K, V> KafkaStreamBuilder addSink(String name, String topic, Serializer<K> keySerializer,
 			Serializer<V> valueSerializer, String... parentNames) {
-		topology.addSink(name, topic, keySerializer, valueSerializer, parentNames);
+		this.topology.addSink(name, topic, keySerializer, valueSerializer, parentNames);
 		return this;
 	}
 
 	public synchronized <K, V> KafkaStreamBuilder addSink(String name, String topic, Serializer<K> keySerializer,
 			Serializer<V> valueSerializer, StreamPartitioner<? super K, ? super V> partitioner, String... parentNames) {
-		topology.addSink(name, topic, keySerializer, valueSerializer, partitioner, parentNames);
+		this.topology.addSink(name, topic, keySerializer, valueSerializer, partitioner, parentNames);
 		return this;
 	}
 
 	public synchronized <K, V> KafkaStreamBuilder addSink(String name, TopicNameExtractor<K, V> topicExtractor,
 			String... parentNames) {
-		topology.addSink(name, topicExtractor, parentNames);
+		this.topology.addSink(name, topicExtractor, parentNames);
 		return this;
 	}
 
 	public synchronized <K, V> KafkaStreamBuilder addSink(String name, TopicNameExtractor<K, V> topicExtractor,
 			StreamPartitioner<? super K, ? super V> partitioner, String... parentNames) {
-		topology.addSink(name, topicExtractor, partitioner, parentNames);
+		this.topology.addSink(name, topicExtractor, partitioner, parentNames);
 		return this;
 	}
 
 	public synchronized <K, V> KafkaStreamBuilder addSink(String name, TopicNameExtractor<K, V> topicExtractor,
 			Serializer<K> keySerializer, Serializer<V> valueSerializer, String... parentNames) {
-		topology.addSink(name, topicExtractor, keySerializer, valueSerializer, parentNames);
+		this.topology.addSink(name, topicExtractor, keySerializer, valueSerializer, parentNames);
 		return this;
 	}
 
 	public synchronized <K, V> KafkaStreamBuilder addSink(String name, TopicNameExtractor<K, V> topicExtractor,
 			Serializer<K> keySerializer, Serializer<V> valueSerializer,
 			StreamPartitioner<? super K, ? super V> partitioner, String... parentNames) {
-		topology.addSink(name, topicExtractor, keySerializer, valueSerializer, partitioner, parentNames);
+		this.topology.addSink(name, topicExtractor, keySerializer, valueSerializer, partitioner, parentNames);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addProcessor(String name, ProcessorSupplier<?, ?> supplier,
 			String... parentNames) {
-		topology.addProcessor(name, supplier, parentNames);
+		this.topology.addProcessor(name, supplier, parentNames);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder addStateStore(StoreBuilder<?> storeBuilder, String... processorNames) {
-		topology.addStateStore(storeBuilder, processorNames);
+		this.topology.addStateStore(storeBuilder, processorNames);
 		return this;
 	}
 
 	public synchronized <K, V> KafkaStreamBuilder addGlobalStore(StoreBuilder<?> storeBuilder, String sourceName,
 			Deserializer<K> keyDeserializer, Deserializer<V> valueDeserializer, String topic, String processorName,
 			ProcessorSupplier<K, V> stateUpdateSupplier) {
-		topology.addGlobalStore(storeBuilder, sourceName, keyDeserializer, valueDeserializer, topic, processorName,
+		this.topology.addGlobalStore(storeBuilder, sourceName, keyDeserializer, valueDeserializer, topic, processorName,
 				stateUpdateSupplier);
 		return this;
 	}
@@ -269,14 +270,14 @@ public class KafkaStreamBuilder {
 	public synchronized <K, V> KafkaStreamBuilder addGlobalStore(StoreBuilder<?> storeBuilder, String sourceName,
 			TimestampExtractor timestampExtractor, Deserializer<K> keyDeserializer, Deserializer<V> valueDeserializer,
 			String topic, String processorName, ProcessorSupplier<K, V> stateUpdateSupplier) {
-		topology.addGlobalStore(storeBuilder, sourceName, timestampExtractor, keyDeserializer, valueDeserializer, topic,
-				processorName, stateUpdateSupplier);
+		this.topology.addGlobalStore(storeBuilder, sourceName, timestampExtractor, keyDeserializer, valueDeserializer,
+				topic, processorName, stateUpdateSupplier);
 		return this;
 	}
 
 	public synchronized KafkaStreamBuilder connectProcessorAndStateStores(String processorName,
 			String... stateStoreNames) {
-		topology.connectProcessorAndStateStores(processorName, stateStoreNames);
+		this.topology.connectProcessorAndStateStores(processorName, stateStoreNames);
 		return this;
 	}
 
@@ -284,7 +285,7 @@ public class KafkaStreamBuilder {
 	 * 自定义的构筑方法， 传入 topology 和属性
 	 */
 	public KafkaStreams build(BiFunction<Topology, Properties, KafkaStreams> biFunction) {
-		return biFunction.apply(topology, getProperties());
+		return biFunction.apply(this.topology, getProperties());
 	}
 
 	public KafkaStreams build(Properties properties) {
@@ -302,15 +303,16 @@ public class KafkaStreamBuilder {
 
 	public Set<String> getBootstrapServers() {
 		getProperties();
-		return bootstrapServers;
+		return this.bootstrapServers;
 	}
 
 	public Properties getProperties() {
-		bootstrapServers.addAll(Arrays.asList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "")
-			.split(BOOTSTRAP_SERVERS_DELIMITER)));
-		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-				String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
-		return properties;
+		this.bootstrapServers
+			.addAll(Arrays.asList(this.properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "")
+				.split(BOOTSTRAP_SERVERS_DELIMITER)));
+		this.properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+				String.join(BOOTSTRAP_SERVERS_DELIMITER, this.bootstrapServers));
+		return this.properties;
 	}
 
 }

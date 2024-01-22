@@ -52,10 +52,10 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 			Set<String> messageSet = violations.stream()
 				.map(ConstraintViolation::getMessage)
 				.collect(Collectors.toSet());
-			errorMessageList.add(new ErrorMessage(lineNum, messageSet));
+			this.errorMessageList.add(new ErrorMessage(lineNum, messageSet));
 		}
 		else {
-			list.add(o);
+			this.list.add(o);
 		}
 	}
 
@@ -66,12 +66,12 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 
 	@Override
 	public List<Object> getList() {
-		return list;
+		return this.list;
 	}
 
 	@Override
 	public List<ErrorMessage> getErrors() {
-		return errorMessageList;
+		return this.errorMessageList;
 	}
 
 }

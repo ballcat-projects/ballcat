@@ -40,11 +40,11 @@ public enum BooleanEnum {
 	private final Integer intValue;
 
 	public Boolean booleanValue() {
-		return booleanValue;
+		return this.booleanValue;
 	}
 
 	public Integer intValue() {
-		return intValue;
+		return this.intValue;
 	}
 
 }

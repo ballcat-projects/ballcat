@@ -88,12 +88,12 @@ public class GrpcServer implements ContextComponent {
 			ServerServiceDefinition serverServiceDefinition = service.bindService();
 			ServiceDescriptor serviceDescriptor = serverServiceDefinition.getServiceDescriptor();
 
-			serviceNameMap.put(serviceDescriptor.getName(), cls);
+			this.serviceNameMap.put(serviceDescriptor.getName(), cls);
 
 			for (ServerMethodDefinition<?, ?> serverMethodDefinition : serverServiceDefinition.getMethods()) {
 				MethodDescriptor<?, ?> methodDescriptor = serverMethodDefinition.getMethodDescriptor();
 				String fullMethodName = methodDescriptor.getFullMethodName();
-				fullMethodNameMap.put(fullMethodName, resolve(methodDescriptor, cls));
+				this.fullMethodNameMap.put(fullMethodName, resolve(methodDescriptor, cls));
 			}
 		}
 
@@ -101,15 +101,15 @@ public class GrpcServer implements ContextComponent {
 	}
 
 	public boolean isRunning() {
-		return !server.isShutdown() && !server.isTerminated();
+		return !this.server.isShutdown() && !this.server.isTerminated();
 	}
 
 	public int port() {
-		return server.getPort();
+		return this.server.getPort();
 	}
 
 	public Class<? extends BindableService> findClass(ServiceDescriptor descriptor) {
-		return serviceNameMap.get(descriptor.getName());
+		return this.serviceNameMap.get(descriptor.getName());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -119,7 +119,7 @@ public class GrpcServer implements ContextComponent {
 	}
 
 	public Method findMethod(MethodDescriptor<?, ?> descriptor) {
-		return fullMethodNameMap.get(descriptor.getFullMethodName());
+		return this.fullMethodNameMap.get(descriptor.getFullMethodName());
 	}
 
 	protected Method resolve(MethodDescriptor<?, ?> descriptor, Class<? extends BindableService> cls) {
@@ -137,15 +137,15 @@ public class GrpcServer implements ContextComponent {
 	@Override
 	@SneakyThrows
 	public void onApplicationStart() {
-		server.start();
-		log.debug("grpc服务启动. 端口: {}", server.getPort());
-		ThreadPool.instance().execute("GrpcServer", server::awaitTermination);
+		this.server.start();
+		log.debug("grpc服务启动. 端口: {}", this.server.getPort());
+		ThreadPool.instance().execute("GrpcServer", this.server::awaitTermination);
 	}
 
 	@Override
 	public void onApplicationStop() {
 		log.warn("grpc服务开始关闭");
-		server.shutdownNow();
+		this.server.shutdownNow();
 		log.warn("grpc服务关闭");
 	}
 

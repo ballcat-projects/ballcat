@@ -48,7 +48,7 @@ public abstract class AbstractMessageDistributor implements MessageDistributor {
 		// 获取待发送的 sessionKeys
 		Collection<Object> sessionKeys;
 		if (needBroadcast != null && needBroadcast) {
-			sessionKeys = webSocketSessionStore.getSessionKeys();
+			sessionKeys = this.webSocketSessionStore.getSessionKeys();
 		}
 		else {
 			sessionKeys = messageDO.getSessionKeys();
@@ -62,7 +62,7 @@ public abstract class AbstractMessageDistributor implements MessageDistributor {
 		Boolean onlyOneClientInSameKey = messageDO.getOnlyOneClientInSameKey();
 
 		for (Object sessionKey : sessionKeys) {
-			Collection<WebSocketSession> sessions = webSocketSessionStore.getSessions(sessionKey);
+			Collection<WebSocketSession> sessions = this.webSocketSessionStore.getSessions(sessionKey);
 			if (!CollectionUtils.isEmpty(sessions)) {
 				// 相同 sessionKey 的客户端只推送一次操作
 				if (onlyOneClientInSameKey != null && onlyOneClientInSameKey) {

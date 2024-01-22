@@ -42,7 +42,7 @@ class SqlParseTest {
 	DataScope tenantDataScope = new TenantDataScope();
 
 	DataPermissionHandler dataPermissionHandler = new DefaultDataPermissionHandler(
-			Collections.singletonList(tenantDataScope));
+			Collections.singletonList(this.tenantDataScope));
 
 	DataScopeSqlProcessor dataScopeSqlProcessor = new DataScopeSqlProcessor();
 
@@ -350,13 +350,13 @@ class SqlParseTest {
 		String sql = "SELECT\n" + "r.id, r.name, r.code, r.type, r.scope_type, r.scope_resources\n" + "FROM\n"
 				+ "sys_user_role ur\n" + "left join\n" + "sys_role r\n" + "on r.code = ur.role_code\n"
 				+ "WHERE ur.user_id = ?\n" + "and r.deleted = 0";
-		Assertions
-			.assertDoesNotThrow(() -> dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes()));
+		Assertions.assertDoesNotThrow(
+				() -> this.dataScopeSqlProcessor.parserSingle(sql, this.dataPermissionHandler.dataScopes()));
 
 	}
 
 	void assertSql(String sql, String targetSql) {
-		String parsedSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
+		String parsedSql = this.dataScopeSqlProcessor.parserSingle(sql, this.dataPermissionHandler.dataScopes());
 		Assertions.assertEquals(targetSql, parsedSql);
 	}
 
@@ -381,7 +381,7 @@ class SqlParseTest {
 
 		@Override
 		public Expression getExpression(String tableName, Alias tableAlias) {
-			Column column = SqlParseUtils.getAliasColumn(tableName, tableAlias, columnName);
+			Column column = SqlParseUtils.getAliasColumn(tableName, tableAlias, this.columnName);
 			return new EqualsTo(column, new LongValue("1"));
 		}
 

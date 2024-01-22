@@ -93,10 +93,10 @@ public class IpInfo implements Serializable {
 	 */
 	public String getAddress(String delimiter) {
 		Set<String> regionSet = new LinkedHashSet<>();
-		regionSet.add(country);
-		regionSet.add(province);
-		regionSet.add(city);
-		regionSet.add(area);
+		regionSet.add(this.country);
+		regionSet.add(this.province);
+		regionSet.add(this.city);
+		regionSet.add(this.area);
 		regionSet.removeIf(Objects::isNull);
 		return StringUtils.collectionToDelimitedString(regionSet, delimiter);
 	}
@@ -116,11 +116,11 @@ public class IpInfo implements Serializable {
 	 */
 	public String getAddressAndIsp(String delimiter) {
 		Set<String> regionSet = new LinkedHashSet<>();
-		regionSet.add(country);
-		regionSet.add(province);
-		regionSet.add(city);
-		regionSet.add(area);
-		regionSet.add(isp);
+		regionSet.add(this.country);
+		regionSet.add(this.province);
+		regionSet.add(this.city);
+		regionSet.add(this.area);
+		regionSet.add(this.isp);
 		regionSet.removeIf(Objects::isNull);
 		return StringUtils.collectionToDelimitedString(regionSet, delimiter);
 	}

@@ -61,12 +61,12 @@ public class KafkaProducerBuilder {
 	 * 添加 kafka 路径 host:port
 	 */
 	public KafkaProducerBuilder addBootstrapServers(String uri) {
-		bootstrapServers.add(uri);
+		this.bootstrapServers.add(uri);
 		return this;
 	}
 
 	public KafkaProducerBuilder addAllBootstrapServers(Collection<String> uris) {
-		bootstrapServers.addAll(uris);
+		this.bootstrapServers.addAll(uris);
 		return this;
 	}
 
@@ -74,7 +74,7 @@ public class KafkaProducerBuilder {
 	 * 添加配置
 	 */
 	public KafkaProducerBuilder put(Object key, Object val) {
-		properties.put(key, val);
+		this.properties.put(key, val);
 		return this;
 	}
 
@@ -105,15 +105,16 @@ public class KafkaProducerBuilder {
 
 	public Set<String> getBootstrapServers() {
 		getProperties();
-		return bootstrapServers;
+		return this.bootstrapServers;
 	}
 
 	public Properties getProperties() {
-		bootstrapServers.addAll(Arrays.asList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "")
-			.split(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER)));
-		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-				String.join(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
-		return properties;
+		this.bootstrapServers
+			.addAll(Arrays.asList(this.properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "")
+				.split(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER)));
+		this.properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+				String.join(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER, this.bootstrapServers));
+		return this.properties;
 	}
 
 }

@@ -50,7 +50,7 @@ public class GrpcClientProvide {
 	protected final List<ClientInterceptor> interceptors;
 
 	public ManagedChannel channel() {
-		return channel(properties.getHost(), properties.getPort());
+		return channel(this.properties.getHost(), this.properties.getPort());
 	}
 
 	public ManagedChannel channel(String host, Integer port) {
@@ -72,26 +72,26 @@ public class GrpcClientProvide {
 
 	public ManagedChannel channel(ManagedChannelBuilder<?> builder) {
 		// 开启心跳
-		if (properties.isEnableKeepAlive()) {
-			builder.keepAliveTime(properties.getKeepAliveTime(), TimeUnit.MILLISECONDS)
-				.keepAliveTimeout(properties.getKeepAliveTimeout(), TimeUnit.MILLISECONDS);
+		if (this.properties.isEnableKeepAlive()) {
+			builder.keepAliveTime(this.properties.getKeepAliveTime(), TimeUnit.MILLISECONDS)
+				.keepAliveTimeout(this.properties.getKeepAliveTimeout(), TimeUnit.MILLISECONDS);
 		}
 
 		// 使用明文
-		if (properties.isUsePlaintext()) {
+		if (this.properties.isUsePlaintext()) {
 			builder.usePlaintext();
 		}
 
 		// 重试
-		if (properties.isEnableRetry()) {
+		if (this.properties.isEnableRetry()) {
 			builder.enableRetry();
 		}
 
 		// 注册拦截器
-		if (!CollectionUtils.isEmpty(interceptors)) {
+		if (!CollectionUtils.isEmpty(this.interceptors)) {
 			// 按照spring生态的 @Order 排序
-			interceptors.sort(AnnotationAwareOrderComparator.INSTANCE);
-			builder.intercept(interceptors);
+			this.interceptors.sort(AnnotationAwareOrderComparator.INSTANCE);
+			builder.intercept(this.interceptors);
 		}
 
 		// ssl配置
@@ -120,7 +120,7 @@ public class GrpcClientProvide {
 	@SuppressWarnings("java:S1066")
 	protected void buildSsl(ManagedChannelBuilder<?> builder) {
 		// 关闭ssl
-		if (!properties.isUsePlaintext() && properties.isDisableSsl()) {
+		if (!this.properties.isUsePlaintext() && this.properties.isDisableSsl()) {
 			if (builder instanceof NettyChannelBuilder) {
 				SslContextBuilder sslContextBuilder = GrpcSslContexts.forClient()
 					.trustManager(InsecureTrustManagerFactory.INSTANCE);

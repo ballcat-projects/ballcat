@@ -63,7 +63,7 @@ public class ExcelHandlerConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public SingleSheetWriteHandler singleSheetWriteHandler() {
-		return new SingleSheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer());
+		return new SingleSheetWriteHandler(this.configProperties, this.converterProvider, writerBuilderEnhancer());
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class ExcelHandlerConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public ManySheetWriteHandler manySheetWriteHandler() {
-		return new ManySheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer());
+		return new ManySheetWriteHandler(this.configProperties, this.converterProvider, writerBuilderEnhancer());
 	}
 
 	/**

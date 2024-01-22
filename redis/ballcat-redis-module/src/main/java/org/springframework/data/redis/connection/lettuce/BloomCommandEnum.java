@@ -65,7 +65,7 @@ public enum BloomCommandEnum implements ProtocolKeyword {
 
 	BloomCommandEnum(String command) {
 		this.command = command;
-		bytes = command().getBytes(StandardCharsets.US_ASCII);
+		this.bytes = command().getBytes(StandardCharsets.US_ASCII);
 	}
 
 	public String command() {
@@ -74,7 +74,7 @@ public enum BloomCommandEnum implements ProtocolKeyword {
 
 	@Override
 	public byte[] getBytes() {
-		return bytes;
+		return this.bytes;
 	}
 
 }

@@ -38,7 +38,7 @@ public class DynamicMessageSource extends AbstractMessageSource {
 	@Override
 	@Nullable
 	protected MessageFormat resolveCode(String code, Locale locale) {
-		I18nMessage i18nMessage = i18nMessageProvider.getI18nMessage(code, locale);
+		I18nMessage i18nMessage = this.i18nMessageProvider.getI18nMessage(code, locale);
 		if (i18nMessage != null) {
 			return createMessageFormat(i18nMessage.getMessage(), locale);
 		}

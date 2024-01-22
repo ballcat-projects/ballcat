@@ -44,8 +44,8 @@ public class BloomInsertOptions {
 	 * @return InsertOptions
 	 */
 	public BloomInsertOptions capacity(final long capacity) {
-		options.add(BloomInsertKeywordEnum.CAPACITY.name());
-		options.add(String.valueOf(capacity));
+		this.options.add(BloomInsertKeywordEnum.CAPACITY.name());
+		this.options.add(String.valueOf(capacity));
 		return this;
 	}
 
@@ -56,8 +56,8 @@ public class BloomInsertOptions {
 	 * @return InsertOptions
 	 */
 	public BloomInsertOptions error(final double errorRate) {
-		options.add(BloomInsertKeywordEnum.ERROR.name());
-		options.add(String.valueOf(errorRate));
+		this.options.add(BloomInsertKeywordEnum.ERROR.name());
+		this.options.add(String.valueOf(errorRate));
 		return this;
 	}
 
@@ -68,12 +68,12 @@ public class BloomInsertOptions {
 	 * @return InsertOptions
 	 */
 	public BloomInsertOptions nocreate() {
-		options.add(BloomInsertKeywordEnum.NOCREATE.name());
+		this.options.add(BloomInsertKeywordEnum.NOCREATE.name());
 		return this;
 	}
 
 	public Collection<String> getOptions() {
-		return Collections.unmodifiableCollection(options);
+		return Collections.unmodifiableCollection(this.options);
 	}
 
 }

@@ -39,7 +39,7 @@ public class JacksonSerializer implements CacheSerializer {
 	 */
 	@Override
 	public Object deserialize(String cacheData, Type type) throws IOException {
-		return objectMapper.readValue(cacheData, CacheSerializer.getJavaType(type));
+		return this.objectMapper.readValue(cacheData, CacheSerializer.getJavaType(type));
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class JacksonSerializer implements CacheSerializer {
 	 */
 	@Override
 	public String serialize(Object cacheData) throws IOException {
-		return objectMapper.writeValueAsString(cacheData);
+		return this.objectMapper.writeValueAsString(cacheData);
 	}
 
 }

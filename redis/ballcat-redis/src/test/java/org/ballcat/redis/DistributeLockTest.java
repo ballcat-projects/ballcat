@@ -34,7 +34,7 @@ class DistributeLockTest {
 	@Test
 	void testSuccess() {
 		String value = DistributedLock.<String>instance()
-			.action(lockKey, () -> "value")
+			.action(this.lockKey, () -> "value")
 			.onSuccess(ret -> ret + "Success")
 			.lock();
 		Assertions.assertEquals("valueSuccess", value);
@@ -43,7 +43,7 @@ class DistributeLockTest {
 	@Test
 	void testHandleException() {
 		String value = DistributedLock.<String>instance()
-			.action(lockKey, this::throwIOException)
+			.action(this.lockKey, this::throwIOException)
 			.onSuccess(ret -> ret + ret)
 			.onException(e -> System.out.println("发生异常了"))
 			.lock();
@@ -53,7 +53,7 @@ class DistributeLockTest {
 	@Test
 	void testThrowException() {
 		Assertions.assertThrows(IOException.class,
-				() -> DistributedLock.<String>instance().action(lockKey, this::throwIOException).lock());
+				() -> DistributedLock.<String>instance().action(this.lockKey, this::throwIOException).lock());
 	}
 
 	String throwIOException() throws IOException {

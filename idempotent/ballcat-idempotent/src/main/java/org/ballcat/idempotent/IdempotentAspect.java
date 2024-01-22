@@ -41,10 +41,10 @@ public class IdempotentAspect {
 	@Around("@annotation(idempotentAnnotation)")
 	public Object around(ProceedingJoinPoint joinPoint, Idempotent idempotentAnnotation) throws Throwable {
 		// 获取幂等标识
-		String idempotentKey = idempotentKeyGenerator.generate(joinPoint, idempotentAnnotation);
+		String idempotentKey = this.idempotentKeyGenerator.generate(joinPoint, idempotentAnnotation);
 
 		// 校验当前请求是否重复请求
-		boolean saveSuccess = idempotentKeyStore.saveIfAbsent(idempotentKey, idempotentAnnotation.duration(),
+		boolean saveSuccess = this.idempotentKeyStore.saveIfAbsent(idempotentKey, idempotentAnnotation.duration(),
 				idempotentAnnotation.timeUnit());
 		Assert.isTrue(saveSuccess, () -> {
 			throw new IdempotentException(BaseResultCode.REPEATED_EXECUTE.getCode(), idempotentAnnotation.message());
@@ -53,14 +53,14 @@ public class IdempotentAspect {
 		try {
 			Object result = joinPoint.proceed();
 			if (idempotentAnnotation.removeKeyWhenFinished()) {
-				idempotentKeyStore.remove(idempotentKey);
+				this.idempotentKeyStore.remove(idempotentKey);
 			}
 			return result;
 		}
 		catch (Throwable e) {
 			// 异常时，根据配置决定是否删除幂等 key
 			if (idempotentAnnotation.removeKeyWhenError()) {
-				idempotentKeyStore.remove(idempotentKey);
+				this.idempotentKeyStore.remove(idempotentKey);
 			}
 			throw e;
 		}

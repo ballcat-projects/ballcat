@@ -67,7 +67,8 @@ public class I18nHeaderCellWriteHandler implements CellWriteHandler {
 			if (CollectionUtils.isNotEmpty(originHeadNameList)) {
 				// 国际化处理
 				List<String> i18nHeadNames = originHeadNameList.stream()
-					.map(headName -> propertyPlaceholderHelper.replacePlaceholders(headName, placeholderResolver))
+					.map(headName -> this.propertyPlaceholderHelper.replacePlaceholders(headName,
+							this.placeholderResolver))
 					.collect(Collectors.toList());
 				head.setHeadNameList(i18nHeadNames);
 			}

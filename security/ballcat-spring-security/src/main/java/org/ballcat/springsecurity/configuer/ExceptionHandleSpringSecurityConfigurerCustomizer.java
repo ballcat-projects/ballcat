@@ -35,7 +35,7 @@ public class ExceptionHandleSpringSecurityConfigurerCustomizer implements Spring
 
 	@Override
 	public void customize(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
+		httpSecurity.exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint);
 	}
 
 	@Override

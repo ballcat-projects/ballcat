@@ -54,7 +54,7 @@ public abstract class AbstractSmsSender<P extends AbstractSenderParams<P>> {
 	 */
 	public SmsSenderResult errRet(TypeEnum platform, Set<String> phoneNumbers, String msg, Exception e) {
 		String id = ObjectId.get().toString();
-		log.error("sms result error! errorId: {}; {}", id, msg, e);
+		this.log.error("sms result error! errorId: {}; {}", id, msg, e);
 		return SmsSenderResult.generateException(platform, phoneNumbers, id, e);
 	}
 

@@ -48,7 +48,7 @@ public class JsonDesensitizeSerializerModifier extends BeanSerializerModifier {
 			Annotation annotation = getDesensitizeAnnotation(beanProperty);
 
 			if (annotation != null && beanProperty.getType().isTypeOrSubTypeOf(String.class)) {
-				beanProperty.assignSerializer(new JsonDesensitizeSerializer(annotation, desensitizeStrategy));
+				beanProperty.assignSerializer(new JsonDesensitizeSerializer(annotation, this.desensitizeStrategy));
 			}
 		}
 		return beanProperties;

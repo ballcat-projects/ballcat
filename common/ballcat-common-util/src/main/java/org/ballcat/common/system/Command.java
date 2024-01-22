@@ -71,9 +71,9 @@ public final class Command {
 		this.stdErr = FileUtils.createTemp();
 
 		// 重定向标准输出和标准错误到文件, 避免写入到缓冲区然后占满导致 waitFor 死锁
-		ProcessBuilder builder = new ProcessBuilder(cmdArray).redirectError(stdErr).redirectOutput(stdOut);
+		ProcessBuilder builder = new ProcessBuilder(cmdArray).redirectError(this.stdErr).redirectOutput(this.stdOut);
 		this.process = builder.start();
-		this.stdIn = process.getOutputStream();
+		this.stdIn = this.process.getOutputStream();
 		this.nextLine = nextLine;
 		this.exit = exit;
 		this.charset = charset;
@@ -101,8 +101,8 @@ public final class Command {
 	}
 
 	public Command write(String str) throws IOException {
-		stdIn.write(str.getBytes(charset));
-		stdIn.flush();
+		this.stdIn.write(str.getBytes(this.charset));
+		this.stdIn.flush();
 		return this;
 	}
 
@@ -110,14 +110,14 @@ public final class Command {
 	 * 换到下一行
 	 */
 	public Command line() throws IOException {
-		return write(nextLine);
+		return write(this.nextLine);
 	}
 
 	/**
 	 * 写入通道退出指令
 	 */
 	public Command exit() throws IOException {
-		write(exit);
+		write(this.exit);
 		return line();
 	}
 
@@ -144,8 +144,8 @@ public final class Command {
 	 * </p>
 	 */
 	public CommandResult result() throws InterruptedException {
-		process.waitFor();
-		return CommandResult.of(stdOut, stdErr, startTime, LocalDateTime.now(), charset);
+		this.process.waitFor();
+		return CommandResult.of(this.stdOut, this.stdErr, this.startTime, LocalDateTime.now(), this.charset);
 	}
 
 	/**
@@ -162,16 +162,16 @@ public final class Command {
 	 * @return live.lingting.tools.system.CommandResult
 	 */
 	public CommandResult result(long millis) throws InterruptedException, CommandTimeoutException {
-		if (process.waitFor(millis, TimeUnit.MILLISECONDS)) {
+		if (this.process.waitFor(millis, TimeUnit.MILLISECONDS)) {
 			return result();
 		}
 		// 超时. 强行杀死子线程
-		process.destroyForcibly();
+		this.process.destroyForcibly();
 		throw new CommandTimeoutException();
 	}
 
 	public void close() {
-		process.destroy();
+		this.process.destroy();
 	}
 
 }

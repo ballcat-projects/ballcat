@@ -114,8 +114,8 @@ public class WxPayOrderQueryResponse {
 	 */
 	public boolean isSuccess() {
 		// 交易成功
-		return returnCode == ResponseCode.SUCCESS && resultCode == ResponseCode.SUCCESS
-				&& tradeState == TradeState.SUCCESS;
+		return this.returnCode == ResponseCode.SUCCESS && this.resultCode == ResponseCode.SUCCESS
+				&& this.tradeState == TradeState.SUCCESS;
 	}
 
 }

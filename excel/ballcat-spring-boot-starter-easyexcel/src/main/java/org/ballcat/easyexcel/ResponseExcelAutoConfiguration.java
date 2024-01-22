@@ -89,14 +89,14 @@ public class ResponseExcelAutoConfiguration {
 	 */
 	@PostConstruct
 	public void setReturnValueHandlers() {
-		List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
+		List<HandlerMethodReturnValueHandler> returnValueHandlers = this.requestMappingHandlerAdapter
 			.getReturnValueHandlers();
 
 		List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>();
-		newHandlers.add(responseExcelReturnValueHandler);
+		newHandlers.add(this.responseExcelReturnValueHandler);
 		assert returnValueHandlers != null;
 		newHandlers.addAll(returnValueHandlers);
-		requestMappingHandlerAdapter.setReturnValueHandlers(newHandlers);
+		this.requestMappingHandlerAdapter.setReturnValueHandlers(newHandlers);
 	}
 
 	/**
@@ -104,11 +104,12 @@ public class ResponseExcelAutoConfiguration {
 	 */
 	@PostConstruct
 	public void setRequestExcelArgumentResolver() {
-		List<HandlerMethodArgumentResolver> argumentResolvers = requestMappingHandlerAdapter.getArgumentResolvers();
+		List<HandlerMethodArgumentResolver> argumentResolvers = this.requestMappingHandlerAdapter
+			.getArgumentResolvers();
 		List<HandlerMethodArgumentResolver> resolverList = new ArrayList<>();
 		resolverList.add(new RequestExcelArgumentResolver());
 		resolverList.addAll(argumentResolvers);
-		requestMappingHandlerAdapter.setArgumentResolvers(resolverList);
+		this.requestMappingHandlerAdapter.setArgumentResolvers(resolverList);
 	}
 
 }

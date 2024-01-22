@@ -45,28 +45,28 @@
 		<module name="com.puppycrawl.tools.checkstyle.checks.design.OneTopLevelClassCheck" />
 
 		<!-- Coding -->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck" />-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.EmptyStatementCheck" />-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck" />-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck" />-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheck" />-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanReturnCheck" />-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.StringLiteralEqualityCheck" />-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.NestedForDepthCheck">-->
-<!--			<property name="max" value="3" />-->
-<!--		</module>-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck">-->
-<!--			<property name="max" value="3" />-->
-<!--		</module>-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.NestedTryDepthCheck">-->
-<!--			<property name="max" value="3" />-->
-<!--		</module>-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheck" />-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck">-->
-<!--			<property name="checkMethods" value="false" />-->
-<!--			<property name="validateOnlyOverlapping" value="false" />-->
-<!--		</module>-->
-<!--		<module name="com.puppycrawl.tools.checkstyle.checks.coding.OneStatementPerLineCheck" />-->
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck" />
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.EmptyStatementCheck" />
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck" />
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck" />
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheck" />
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanReturnCheck" />
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.StringLiteralEqualityCheck" />
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.NestedForDepthCheck">
+			<property name="max" value="3" />
+		</module>
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck">
+			<property name="max" value="3" />
+		</module>
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.NestedTryDepthCheck">
+			<property name="max" value="3" />
+		</module>
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheck" />
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck">
+			<property name="checkMethods" value="false" />
+			<property name="validateOnlyOverlapping" value="false" />
+		</module>
+		<module name="com.puppycrawl.tools.checkstyle.checks.coding.OneStatementPerLineCheck" />
 
 		<!-- Imports -->
 		<module name="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck" />

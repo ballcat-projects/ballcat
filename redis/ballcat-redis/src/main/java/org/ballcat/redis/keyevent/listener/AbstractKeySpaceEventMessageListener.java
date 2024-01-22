@@ -72,7 +72,7 @@ public abstract class AbstractKeySpaceEventMessageListener extends KeyspaceEvent
 	 * @param event can be {@literal null}.
 	 */
 	protected void publishEvent(RedisKeyExpiredEvent<?> event) {
-		if (publisher != null) {
+		if (this.publisher != null) {
 			this.publisher.publishEvent(event);
 		}
 	}

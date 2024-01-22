@@ -111,7 +111,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	 */
 	@Override
 	public DeleteBucketResponse deleteBucket(DeleteBucketRequest deleteBucketRequest) {
-		return s3Client.deleteBucket(deleteBucketRequest);
+		return this.s3Client.deleteBucket(deleteBucketRequest);
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	 */
 	@Override
 	public List<S3Object> listObjects(String prefix) {
-		return listObjects(ossProperties.getBucket(), prefix);
+		return listObjects(this.ossProperties.getBucket(), prefix);
 	}
 
 	/**
@@ -169,7 +169,8 @@ public class DefaultOssTemplate implements OssTemplate {
 	 */
 	@Override
 	public List<S3Object> listObjects(String bucket, String prefix, Integer maxKeys) {
-		return s3Client.listObjects(ListObjectsRequest.builder().maxKeys(maxKeys).prefix(prefix).bucket(bucket).build())
+		return this.s3Client
+			.listObjects(ListObjectsRequest.builder().maxKeys(maxKeys).prefix(prefix).bucket(bucket).build())
 			.contents();
 	}
 
@@ -189,7 +190,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	@Override
 	public PutObjectResponse putObject(String bucket, String key, File file)
 			throws AwsServiceException, SdkClientException, S3Exception, IOException {
-		return s3Client.putObject(PutObjectRequest.builder()
+		return this.s3Client.putObject(PutObjectRequest.builder()
 			.bucket(bucket)
 			.key(key)
 			.contentLength(file.length())
@@ -212,7 +213,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	@Override
 	public PutObjectResponse putObject(String bucket, String key, Path sourcePath)
 			throws AwsServiceException, SdkClientException, S3Exception {
-		return s3Client.putObject(PutObjectRequest.builder().bucket(bucket).key(key).build(), sourcePath);
+		return this.s3Client.putObject(PutObjectRequest.builder().bucket(bucket).key(key).build(), sourcePath);
 	}
 
 	/**
@@ -231,7 +232,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	@Override
 	public PutObjectResponse putObject(String bucket, String key, InputStream inputStream, long contentLength)
 			throws AwsServiceException, SdkClientException, S3Exception {
-		return s3Client.putObject(PutObjectRequest.builder().bucket(bucket).key(key).build(),
+		return this.s3Client.putObject(PutObjectRequest.builder().bucket(bucket).key(key).build(),
 				RequestBody.fromInputStream(inputStream, contentLength));
 	}
 
@@ -247,7 +248,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	 */
 	@Override
 	public DeleteObjectResponse deleteObject(DeleteObjectRequest deleteObjectRequest) {
-		return s3Client.deleteObject(deleteObjectRequest);
+		return this.s3Client.deleteObject(deleteObjectRequest);
 	}
 
 	/**
@@ -262,7 +263,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	 */
 	@Override
 	public DeleteObjectsResponse deleteObjects(DeleteObjectsRequest deleteObjectsRequest) {
-		return s3Client.deleteObjects(deleteObjectsRequest);
+		return this.s3Client.deleteObjects(deleteObjectsRequest);
 	}
 
 	/**
@@ -277,7 +278,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	 */
 	@Override
 	public DeleteObjectResponse deleteObject(String key) {
-		return deleteObject(ossProperties.getBucket(), key);
+		return deleteObject(this.ossProperties.getBucket(), key);
 	}
 
 	/**
@@ -292,7 +293,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	 */
 	@Override
 	public DeleteObjectsResponse deleteObjects(Set<String> keys) {
-		return deleteObjects(ossProperties.getBucket(), keys);
+		return deleteObjects(this.ossProperties.getBucket(), keys);
 	}
 
 	/**
@@ -346,7 +347,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	 */
 	@Override
 	public CopyObjectResponse copyObject(String sourceKey, String destinationKey) {
-		return copyObject(ossProperties.getBucket(), sourceKey, destinationKey);
+		return copyObject(this.ossProperties.getBucket(), sourceKey, destinationKey);
 	}
 
 	/**
@@ -379,7 +380,7 @@ public class DefaultOssTemplate implements OssTemplate {
 	@Override
 	public CopyObjectResponse copyObject(String sourceBucket, String sourceKey, String destinationBucket,
 			String destinationKey) {
-		return s3Client.copyObject(CopyObjectRequest.builder()
+		return this.s3Client.copyObject(CopyObjectRequest.builder()
 			.sourceBucket(sourceBucket)
 			.sourceKey(sourceKey)
 			.destinationBucket(destinationBucket)
@@ -416,7 +417,8 @@ public class DefaultOssTemplate implements OssTemplate {
 			.getObjectRequest(getObjectRequest)
 			.build();
 
-		PresignedGetObjectRequest presignedGetObjectRequest = s3Presigner.presignGetObject(getObjectPresignRequest);
+		PresignedGetObjectRequest presignedGetObjectRequest = this.s3Presigner
+			.presignGetObject(getObjectPresignRequest);
 		URL url = presignedGetObjectRequest.url();
 		return url.toString();
 	}
@@ -439,7 +441,8 @@ public class DefaultOssTemplate implements OssTemplate {
 			.putObjectRequest(putObjectRequest)
 			.build();
 
-		PresignedPutObjectRequest presignedGetObjectRequest = s3Presigner.presignPutObject(getObjectPresignRequest);
+		PresignedPutObjectRequest presignedGetObjectRequest = this.s3Presigner
+			.presignPutObject(getObjectPresignRequest);
 		URL url = presignedGetObjectRequest.url();
 		return url.toString();
 	}

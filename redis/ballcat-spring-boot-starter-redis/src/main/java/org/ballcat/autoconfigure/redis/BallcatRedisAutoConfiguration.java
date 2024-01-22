@@ -92,7 +92,7 @@ public class BallcatRedisAutoConfiguration {
 	@ConditionalOnMissingBean
 	public StringRedisTemplate stringRedisTemplate(IRedisPrefixConverter redisPrefixConverter) {
 		StringRedisTemplate template = new StringRedisTemplate();
-		template.setConnectionFactory(redisConnectionFactory);
+		template.setConnectionFactory(this.redisConnectionFactory);
 		template.setKeySerializer(new PrefixStringRedisSerializer(redisPrefixConverter));
 		return template;
 	}
@@ -102,7 +102,7 @@ public class BallcatRedisAutoConfiguration {
 	@ConditionalOnMissingBean(name = "redisTemplate")
 	public RedisTemplate<Object, Object> redisTemplate(IRedisPrefixConverter redisPrefixConverter) {
 		RedisTemplate<Object, Object> template = new RedisTemplate<>();
-		template.setConnectionFactory(redisConnectionFactory);
+		template.setConnectionFactory(this.redisConnectionFactory);
 		template.setKeySerializer(new PrefixJdkRedisSerializer(redisPrefixConverter));
 		return template;
 	}

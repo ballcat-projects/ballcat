@@ -42,7 +42,7 @@ public class DingTalkTextMessage extends AbstractDingTalkMessage {
 
 	@Override
 	public DingTalkParams put(DingTalkParams params) {
-		return params.setText(new DingTalkParams.Text().setContent(content));
+		return params.setText(new DingTalkParams.Text().setContent(this.content));
 	}
 
 }

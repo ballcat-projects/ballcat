@@ -41,19 +41,19 @@ public abstract class AbstractMessageEventListener<T> implements MessageEventLis
 	protected AbstractMessageEventListener() {
 		Type superClass = getClass().getGenericSuperclass();
 		ParameterizedType type = (ParameterizedType) superClass;
-		clz = (Class<T>) type.getActualTypeArguments()[0];
+		this.clz = (Class<T>) type.getActualTypeArguments()[0];
 	}
 
 	@Override
 	public void onMessage(Message message, byte[] pattern) {
 		byte[] channelBytes = message.getChannel();
-		RedisSerializer<String> stringSerializer = stringRedisTemplate.getStringSerializer();
+		RedisSerializer<String> stringSerializer = this.stringRedisTemplate.getStringSerializer();
 		String channelTopic = stringSerializer.deserialize(channelBytes);
 		String topic = topic().getTopic();
 		if (topic.equals(channelTopic)) {
 			byte[] bodyBytes = message.getBody();
 			String body = stringSerializer.deserialize(bodyBytes);
-			T decodeMessage = JsonUtils.toObj(body, clz);
+			T decodeMessage = JsonUtils.toObj(body, this.clz);
 			handleMessage(decodeMessage);
 		}
 	}

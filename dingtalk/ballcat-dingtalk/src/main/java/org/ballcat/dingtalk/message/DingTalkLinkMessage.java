@@ -57,8 +57,10 @@ public class DingTalkLinkMessage extends AbstractDingTalkMessage {
 
 	@Override
 	public DingTalkParams put(DingTalkParams params) {
-		return params.setLink(
-				new DingTalkParams.Link().setText(text).setTitle(title).setPicUrl(picUrl).setMessageUrl(messageUrl));
+		return params.setLink(new DingTalkParams.Link().setText(this.text)
+			.setTitle(this.title)
+			.setPicUrl(this.picUrl)
+			.setMessageUrl(this.messageUrl));
 	}
 
 }

@@ -41,8 +41,8 @@ public class AddMessageEventListenerToContainer {
 	@PostConstruct
 	public void addMessageListener() {
 		// 注册监听器
-		for (MessageEventListener messageEventListener : listenerList) {
-			listenerContainer.addMessageListener(messageEventListener, messageEventListener.topic());
+		for (MessageEventListener messageEventListener : this.listenerList) {
+			this.listenerContainer.addMessageListener(messageEventListener, messageEventListener.topic());
 		}
 	}
 

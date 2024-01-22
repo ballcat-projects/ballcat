@@ -36,7 +36,7 @@ public class CachePutOps extends AbstractCacheOps {
 	}
 
 	public Consumer<Object> cachePut() {
-		return cachePut;
+		return this.cachePut;
 	}
 
 }

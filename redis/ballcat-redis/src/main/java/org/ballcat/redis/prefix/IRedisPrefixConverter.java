@@ -49,8 +49,7 @@ public interface IRedisPrefixConverter {
 	 * @return 原始key
 	 */
 	default byte[] unwrap(byte[] bytes) {
-		int wrapLen;
-		if (!match() || bytes == null || (wrapLen = bytes.length) == 0) {
+		if (!match() || bytes == null || bytes.length == 0) {
 			return bytes;
 		}
 		String prefix = getPrefix();
@@ -60,6 +59,7 @@ public interface IRedisPrefixConverter {
 		}
 		byte[] prefixBytes = prefix.getBytes(StandardCharsets.UTF_8);
 		int prefixLen = prefixBytes.length;
+		int wrapLen = bytes.length;
 		int originLen = wrapLen - prefixLen;
 		byte[] originBytes = new byte[originLen];
 		System.arraycopy(bytes, prefixLen, originBytes, 0, originLen);
@@ -72,8 +72,7 @@ public interface IRedisPrefixConverter {
 	 * @return 加前缀之后的key
 	 */
 	default byte[] wrap(byte[] bytes) {
-		int originLen;
-		if (!match() || bytes == null || (originLen = bytes.length) == 0) {
+		if (!match() || bytes == null || bytes.length == 0) {
 			return bytes;
 		}
 		String prefix = getPrefix();
@@ -83,6 +82,7 @@ public interface IRedisPrefixConverter {
 		}
 		byte[] prefixBytes = prefix.getBytes(StandardCharsets.UTF_8);
 		int prefixLen = prefixBytes.length;
+		int originLen = bytes.length;
 		byte[] wrapBytes = new byte[prefixLen + originLen];
 		System.arraycopy(prefixBytes, 0, wrapBytes, 0, prefixLen);
 		System.arraycopy(bytes, 0, wrapBytes, prefixLen, originLen);

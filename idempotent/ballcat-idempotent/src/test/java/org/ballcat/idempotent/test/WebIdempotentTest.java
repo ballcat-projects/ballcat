@@ -90,7 +90,7 @@ class WebIdempotentTest {
 
 	private boolean tryExecute(String key) {
 		try {
-			idempotentMethods.method(key);
+			this.idempotentMethods.method(key);
 		}
 		catch (IdempotentException e) {
 			System.out.println(e.getMessage());

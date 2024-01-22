@@ -33,19 +33,19 @@ public class DingTalkBalancedSender {
 
 	public DingTalkBalancedSender add(DingTalkSender... senders) {
 		for (DingTalkSender sender : senders) {
-			queue.add(sender);
+			this.queue.add(sender);
 		}
 		return this;
 	}
 
 	public DingTalkBalancedSender addAll(Collection<DingTalkSender> collection) {
-		queue.addAll(collection);
+		this.queue.addAll(collection);
 		return this;
 	}
 
 	@SneakyThrows
 	protected DingTalkSender sender() {
-		return queue.poll();
+		return this.queue.poll();
 	}
 
 	public void send(DingTalkMessage message) {
@@ -54,7 +54,7 @@ public class DingTalkBalancedSender {
 			sender.sendMessage(message);
 		}
 		finally {
-			queue.add(sender);
+			this.queue.add(sender);
 		}
 	}
 

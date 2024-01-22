@@ -53,13 +53,13 @@ public class UsernameAesPasswordAuthenticationFilter extends UsernamePasswordAut
 	@Override
 	protected String obtainPassword(HttpServletRequest request) {
 		String requestPassword = request.getParameter(getPasswordParameter());
-		if (passwordSecretKey == null) {
+		if (this.passwordSecretKey == null) {
 			return requestPassword;
 		}
 
 		// 先进行 AES 解密
 		try {
-			return PasswordUtils.decodeAES(requestPassword, passwordSecretKey);
+			return PasswordUtils.decodeAES(requestPassword, this.passwordSecretKey);
 		}
 		catch (GeneralSecurityException e) {
 			throw new IllegalArgumentException("error parameter", e);

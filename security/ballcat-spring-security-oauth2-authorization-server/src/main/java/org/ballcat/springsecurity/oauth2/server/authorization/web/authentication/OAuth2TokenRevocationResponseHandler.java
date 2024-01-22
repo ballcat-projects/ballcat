@@ -44,7 +44,7 @@ public class OAuth2TokenRevocationResponseHandler implements AuthenticationSucce
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) {
 		// 发布用户登出事件
-		publisher.publishEvent(new LogoutSuccessEvent(authentication));
+		this.publisher.publishEvent(new LogoutSuccessEvent(authentication));
 		// 返回 200 响应
 		response.setStatus(HttpStatus.OK.value());
 	}

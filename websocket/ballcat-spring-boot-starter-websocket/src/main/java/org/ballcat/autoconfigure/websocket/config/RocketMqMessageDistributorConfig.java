@@ -45,7 +45,7 @@ public class RocketMqMessageDistributorConfig {
 	@Bean
 	@ConditionalOnMissingBean(MessageDistributor.class)
 	public RocketmqMessageDistributor messageDistributor(RocketMQTemplate template) {
-		return new RocketmqMessageDistributor(webSocketSessionStore, template);
+		return new RocketmqMessageDistributor(this.webSocketSessionStore, template);
 	}
 
 }

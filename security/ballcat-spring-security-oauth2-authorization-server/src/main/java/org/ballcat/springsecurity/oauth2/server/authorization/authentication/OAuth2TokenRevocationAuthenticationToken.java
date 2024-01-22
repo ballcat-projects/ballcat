@@ -118,7 +118,7 @@ public class OAuth2TokenRevocationAuthenticationToken extends AbstractAuthentica
 	}
 
 	public OAuth2Authorization getAuthorization() {
-		return authorization;
+		return this.authorization;
 	}
 
 }

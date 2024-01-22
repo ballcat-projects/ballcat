@@ -137,7 +137,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 			beforeRequest(requestToUse, recordOptions);
 		}
 		catch (Exception e) {
-			logger.error("[Access Log] process before request error", e);
+			this.logger.error("[Access Log] process before request error", e);
 		}
 
 		try {
@@ -169,7 +169,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 				afterRequest(requestToUse, responseToUse, executionTime, myThrowable, recordOptions);
 			}
 			catch (Exception e) {
-				logger.error("[Access Log] process after request error, handler: %s", e);
+				this.logger.error("[Access Log] process after request error, handler: %s", e);
 			}
 
 			// 重新写入数据到响应信息中
@@ -218,19 +218,19 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 	}
 
 	protected AccessLogRecordOptions getRecordOptions(HttpServletRequest request) {
-		if (CollectionUtils.isEmpty(logRules)) {
-			return defaultRecordOptions;
+		if (CollectionUtils.isEmpty(this.logRules)) {
+			return this.defaultRecordOptions;
 		}
 
 		String lookupPathForRequest = URL_PATH_HELPER.getLookupPathForRequest(request);
 
-		for (AccessLogRule logRule : logRules) {
+		for (AccessLogRule logRule : this.logRules) {
 			if (ANT_PATH_MATCHER.match(logRule.getUrlPattern(), lookupPathForRequest)) {
 				return logRule.getOptions();
 			}
 		}
 
-		return defaultRecordOptions;
+		return this.defaultRecordOptions;
 	}
 
 	public void setMaxBodyLength(int maxBodyLength) {

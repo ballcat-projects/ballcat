@@ -54,9 +54,9 @@ public class WebSocketHandlerConfig {
 	public WebSocketHandler webSocketHandler(WebSocketSessionStore webSocketSessionStore,
 			@Autowired(required = false) PlanTextMessageHandler planTextMessageHandler) {
 		CustomWebSocketHandler customWebSocketHandler = new CustomWebSocketHandler(planTextMessageHandler);
-		if (webSocketProperties.isMapSession()) {
+		if (this.webSocketProperties.isMapSession()) {
 			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, webSocketSessionStore,
-					webSocketProperties.getConcurrent());
+					this.webSocketProperties.getConcurrent());
 		}
 		return customWebSocketHandler;
 	}

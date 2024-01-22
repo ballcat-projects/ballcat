@@ -95,8 +95,8 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 
 		try {
 			InetAddress ia = InetAddress.getLocalHost();
-			hostname = ia.getHostName();
-			ip = ia.getHostAddress();
+			this.hostname = ia.getHostName();
+			this.ip = ia.getHostAddress();
 
 			byte[] macByte = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
 			StringBuilder sb = new StringBuilder();
@@ -106,7 +106,7 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 			this.mac = sb.toString();
 		}
 		catch (Exception e) {
-			mac = "获取失败!";
+			this.mac = "获取失败!";
 		}
 	}
 
@@ -118,11 +118,11 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 		// 未被中断则一直运行
 		while (!isInterrupted()) {
 			int i = 0;
-			while (i < noticeConfig.getMax() && watch.getTime(TimeUnit.SECONDS) < noticeConfig.getTime()) {
+			while (i < this.noticeConfig.getMax() && watch.getTime(TimeUnit.SECONDS) < this.noticeConfig.getTime()) {
 				Throwable t = null;
 				try {
 					// 如果 i=0,即 当前未处理异常，则等待超时时间为 1 小时， 否则为 10 秒
-					t = queue.poll(i == 0 ? TimeUnit.HOURS.toSeconds(1) : 10, TimeUnit.SECONDS);
+					t = this.queue.poll(i == 0 ? TimeUnit.HOURS.toSeconds(1) : 10, TimeUnit.SECONDS);
 				}
 				catch (InterruptedException e) {
 					interrupt();
@@ -134,25 +134,25 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 						// 第一次收到数据, 重置计时
 						watch.reset();
 						watch.start();
-						messages.put(key, toMessage(t).setKey(key).setThreadId(threadId));
+						this.messages.put(key, toMessage(t).setKey(key).setThreadId(threadId));
 					}
 					else {
-						if (messages.containsKey(key)) {
-							messages.put(key, messages.get(key).increment());
+						if (this.messages.containsKey(key)) {
+							this.messages.put(key, this.messages.get(key).increment());
 						}
 						else {
-							messages.put(key, toMessage(t).setKey(key).setThreadId(threadId));
+							this.messages.put(key, toMessage(t).setKey(key).setThreadId(threadId));
 						}
 					}
 				}
 			}
 			// 一次处理结束
-			if (messages.size() > 0) {
+			if (this.messages.size() > 0) {
 				// 如果需要发送的消息不为空
-				for (ExceptionMessage exceptionMessage : messages.values()) {
+				for (ExceptionMessage exceptionMessage : this.messages.values()) {
 					notifyExceptionMessage(exceptionMessage);
 				}
-				messages.clear();
+				this.messages.clear();
 			}
 			watch.reset();
 			watch.start();
@@ -181,12 +181,12 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 		t.printStackTrace(new PrintStream(stream));
 		final String e = stream.toString();
 		return new ExceptionMessage().setNumber(1)
-			.setMac(mac)
-			.setApplicationName(applicationName)
-			.setHostname(hostname)
-			.setIp(ip)
-			.setRequestUri(requestUri)
-			.setStack((e.length() > noticeConfig.getLength() ? e.substring(0, noticeConfig.getLength()) : e)
+			.setMac(this.mac)
+			.setApplicationName(this.applicationName)
+			.setHostname(this.hostname)
+			.setIp(this.ip)
+			.setRequestUri(this.requestUri)
+			.setStack((e.length() > this.noticeConfig.getLength() ? e.substring(0, this.noticeConfig.getLength()) : e)
 				.replace("\\r", ""))
 			.setTime(LocalDateTime.now().format(LocalDateTimeUtils.FORMATTER_YMD_HMS));
 	}
@@ -199,13 +199,13 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 			boolean ignore = false;
 
 			// 只有不是忽略的异常类才会插入异常消息队列
-			if (Boolean.FALSE.equals(noticeConfig.getIgnoreChild())) {
+			if (Boolean.FALSE.equals(this.noticeConfig.getIgnoreChild())) {
 				// 不忽略子类
-				ignore = noticeConfig.getIgnoreExceptions().contains(throwable.getClass());
+				ignore = this.noticeConfig.getIgnoreExceptions().contains(throwable.getClass());
 			}
 			else {
 				// 忽略子类
-				for (Class<? extends Throwable> ignoreException : noticeConfig.getIgnoreExceptions()) {
+				for (Class<? extends Throwable> ignoreException : this.noticeConfig.getIgnoreExceptions()) {
 					// 属于子类
 					if (ignoreException.isAssignableFrom(throwable.getClass())) {
 						ignore = true;
@@ -216,7 +216,7 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 
 			// 不忽略则插入队列
 			if (!ignore) {
-				queue.put(throwable);
+				this.queue.put(throwable);
 			}
 		}
 		catch (InterruptedException e) {

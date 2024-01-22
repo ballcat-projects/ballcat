@@ -62,7 +62,7 @@ public class OAuth2SecurityContextRepository implements SecurityContextRepositor
 		if (!StringUtils.hasText(bearerToken)) {
 			return SecurityContextHolder.createEmptyContext();
 		}
-		OAuth2Authorization oAuth2Authorization = authorizationService.findByToken(bearerToken,
+		OAuth2Authorization oAuth2Authorization = this.authorizationService.findByToken(bearerToken,
 				OAuth2TokenType.ACCESS_TOKEN);
 		if (oAuth2Authorization == null) {
 			return SecurityContextHolder.createEmptyContext();

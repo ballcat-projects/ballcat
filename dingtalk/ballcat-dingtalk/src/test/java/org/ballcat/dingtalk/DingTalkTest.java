@@ -40,16 +40,16 @@ class DingTalkTest {
 
 	@BeforeEach
 	void before() {
-		sender = new DingTalkSender(webhook).setSecret(secret);
+		this.sender = new DingTalkSender(this.webhook).setSecret(this.secret);
 	}
 
 	@Test
 	void send() {
-		assertTrue(StringUtils.hasText(sender.getUrl()));
-		assertTrue(StringUtils.hasText(sender.getSecret()));
+		assertTrue(StringUtils.hasText(this.sender.getUrl()));
+		assertTrue(StringUtils.hasText(this.sender.getSecret()));
 		DingTalkTextMessage message = new DingTalkTextMessage();
 		message.setContent("测试机器人消息通知");
-		DingTalkResponse response = sender.sendMessage(message);
+		DingTalkResponse response = this.sender.sendMessage(message);
 		assertTrue(response.isSuccess());
 	}
 

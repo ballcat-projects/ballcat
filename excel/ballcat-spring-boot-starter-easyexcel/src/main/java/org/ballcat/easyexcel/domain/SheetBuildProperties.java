@@ -63,7 +63,7 @@ public class SheetBuildProperties {
 
 	public SheetBuildProperties(int index) {
 		this.sheetNo = index;
-		this.sheetName = "sheet" + (sheetNo + 1);
+		this.sheetName = "sheet" + (this.sheetNo + 1);
 	}
 
 }

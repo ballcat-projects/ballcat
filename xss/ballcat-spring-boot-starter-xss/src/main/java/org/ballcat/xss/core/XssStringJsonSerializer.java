@@ -47,7 +47,7 @@ public class XssStringJsonSerializer extends JsonSerializer<String> {
 		if (value != null) {
 			// 开启 Xss 才进行处理
 			if (XssStateHolder.enabled()) {
-				value = xssCleaner.clean(value);
+				value = this.xssCleaner.clean(value);
 			}
 			jsonGenerator.writeString(value);
 		}

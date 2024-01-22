@@ -39,8 +39,8 @@ class IdempotentTest {
 
 	@Test
 	void test() {
-		Assertions.assertInstanceOf(InMemoryIdempotentKeyStore.class, idempotentKeyStore);
-		idempotentKeyStore.saveIfAbsent("test", 1, TimeUnit.SECONDS);
+		Assertions.assertInstanceOf(InMemoryIdempotentKeyStore.class, this.idempotentKeyStore);
+		this.idempotentKeyStore.saveIfAbsent("test", 1, TimeUnit.SECONDS);
 	}
 
 }

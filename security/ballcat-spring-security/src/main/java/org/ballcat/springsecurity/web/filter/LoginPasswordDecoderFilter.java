@@ -74,7 +74,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter implements 
 		}
 
 		// 未配置密码密钥时，直接跳过
-		if (passwordSecretKey == null) {
+		if (this.passwordSecretKey == null) {
 			log.warn("passwordSecretKey not configured, skip password decoder");
 			filterChain.doFilter(request, response);
 			return;
@@ -82,16 +82,16 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter implements 
 
 		// 解密前台加密后的密码
 		Map<String, String[]> parameterMap = new HashMap<>(request.getParameterMap());
-		String passwordAes = request.getParameter(passwordParameterName);
+		String passwordAes = request.getParameter(this.passwordParameterName);
 
 		try {
-			String password = PasswordUtils.decodeAES(passwordAes, passwordSecretKey);
-			parameterMap.put(passwordParameterName, new String[] { password });
+			String password = PasswordUtils.decodeAES(passwordAes, this.passwordSecretKey);
+			parameterMap.put(this.passwordParameterName, new String[] { password });
 		}
 		catch (Exception e) {
 			log.error("[doFilterInternal] password decode aes error，passwordAes: {}，passwordSecretKey: {}", passwordAes,
-					passwordSecretKey, e);
-			failureHandler.onAuthenticationFailure(request, response, new BadCredentialsException(this.messages
+					this.passwordSecretKey, e);
+			this.failureHandler.onAuthenticationFailure(request, response, new BadCredentialsException(this.messages
 				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials")));
 			return;
 		}
@@ -102,7 +102,7 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter implements 
 	}
 
 	public String getPasswordParameterName() {
-		return passwordParameterName;
+		return this.passwordParameterName;
 	}
 
 	public void setPasswordParameterName(String passwordParameterName) {

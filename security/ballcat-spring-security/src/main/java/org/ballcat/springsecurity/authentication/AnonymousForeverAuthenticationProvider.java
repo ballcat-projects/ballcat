@@ -68,10 +68,12 @@ public class AnonymousForeverAuthenticationProvider implements AuthenticationPro
 
 	public AnonymousForeverAuthenticationProvider(List<String> pathList) {
 		if (CollectionUtils.isEmpty(pathList)) {
-			pathPatterns = new ArrayList<>();
+			this.pathPatterns = new ArrayList<>();
 		}
 		else {
-			pathPatterns = pathList.stream().map(PathPatternParser.defaultInstance::parse).collect(Collectors.toList());
+			this.pathPatterns = pathList.stream()
+				.map(PathPatternParser.defaultInstance::parse)
+				.collect(Collectors.toList());
 		}
 
 		this.key = UUID.randomUUID().toString();
@@ -100,7 +102,7 @@ public class AnonymousForeverAuthenticationProvider implements AuthenticationPro
 		String requestUri = request.getRequestURI();
 		PathContainer pathContainer = PathContainer.parsePath(requestUri);
 
-		boolean anyMatch = pathPatterns.stream().anyMatch(x -> x.matches(pathContainer));
+		boolean anyMatch = this.pathPatterns.stream().anyMatch(x -> x.matches(pathContainer));
 		if (anyMatch) {
 			Authentication anonymousAuthentication = createAuthentication(request);
 			log.debug("Set SecurityContextHolder to anonymous SecurityContext");

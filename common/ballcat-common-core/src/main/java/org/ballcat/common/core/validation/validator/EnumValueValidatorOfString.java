@@ -34,16 +34,16 @@ public class EnumValueValidatorOfString implements ConstraintValidator<OneOfStri
 
 	@Override
 	public void initialize(OneOfStrings constraintAnnotation) {
-		stringList = constraintAnnotation.value();
-		allowNull = constraintAnnotation.allowNull();
+		this.stringList = constraintAnnotation.value();
+		this.allowNull = constraintAnnotation.allowNull();
 	}
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		if (value == null) {
-			return allowNull;
+			return this.allowNull;
 		}
-		for (String strValue : stringList) {
+		for (String strValue : this.stringList) {
 			if (strValue.equals(value)) {
 				return true;
 			}

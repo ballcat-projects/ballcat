@@ -50,7 +50,7 @@ public class RedisMessageDistributorConfig {
 	@Bean
 	@ConditionalOnMissingBean(MessageDistributor.class)
 	public RedisMessageDistributor messageDistributor(StringRedisTemplate stringRedisTemplate) {
-		return new RedisMessageDistributor(webSocketSessionStore, stringRedisTemplate);
+		return new RedisMessageDistributor(this.webSocketSessionStore, stringRedisTemplate);
 	}
 
 	@Bean

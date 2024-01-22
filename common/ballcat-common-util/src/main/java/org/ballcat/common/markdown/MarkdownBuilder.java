@@ -67,7 +67,7 @@ public class MarkdownBuilder {
 	 * @param content 自定义内容
 	 */
 	public MarkdownBuilder append(Object content) {
-		lineTextBuilder.append(toString(content));
+		this.lineTextBuilder.append(toString(content));
 		return this;
 	}
 
@@ -100,7 +100,7 @@ public class MarkdownBuilder {
 	 */
 	public MarkdownBuilder orderList(int index, Object content) {
 		lineBreak();
-		lineTextBuilder.append(index).append(ORDER_LIST_PREFIX).append(toString(content));
+		this.lineTextBuilder.append(index).append(ORDER_LIST_PREFIX).append(toString(content));
 		return this;
 	}
 
@@ -110,7 +110,7 @@ public class MarkdownBuilder {
 	public MarkdownBuilder unorderedList(Object content) {
 		// 换行
 		lineBreak();
-		lineTextBuilder.append(UNORDERED_LIST_PREFIX).append(toString(content));
+		this.lineTextBuilder.append(UNORDERED_LIST_PREFIX).append(toString(content));
 		return this;
 	}
 
@@ -128,7 +128,7 @@ public class MarkdownBuilder {
 	 * @param url 图片路径
 	 */
 	public MarkdownBuilder pic(Object title, String url) {
-		lineTextBuilder.append("![").append(title).append("](").append(url).append(")");
+		this.lineTextBuilder.append("![").append(title).append("](").append(url).append(")");
 		return this;
 	}
 
@@ -138,7 +138,7 @@ public class MarkdownBuilder {
 	 * @param url http 路径
 	 */
 	public MarkdownBuilder link(Object title, String url) {
-		lineTextBuilder.append("[").append(title).append("](").append(url).append(")");
+		this.lineTextBuilder.append("[").append(title).append("](").append(url).append(")");
 		return this;
 	}
 
@@ -146,7 +146,7 @@ public class MarkdownBuilder {
 	 * 斜体
 	 */
 	public MarkdownBuilder italic(Object content) {
-		lineTextBuilder.append(ITALIC_PREFIX).append(toString(content)).append(ITALIC_PREFIX);
+		this.lineTextBuilder.append(ITALIC_PREFIX).append(toString(content)).append(ITALIC_PREFIX);
 		return this;
 	}
 
@@ -154,7 +154,7 @@ public class MarkdownBuilder {
 	 * 加粗
 	 */
 	public MarkdownBuilder bold(Object content) {
-		lineTextBuilder.append(BOLD_PREFIX).append(toString(content)).append(BOLD_PREFIX);
+		this.lineTextBuilder.append(BOLD_PREFIX).append(toString(content)).append(BOLD_PREFIX);
 		return this;
 	}
 
@@ -164,9 +164,9 @@ public class MarkdownBuilder {
 	 */
 	public MarkdownBuilder quote(Object... content) {
 		lineBreak();
-		lineTextBuilder.append(QUOTE_PREFIX);
+		this.lineTextBuilder.append(QUOTE_PREFIX);
 		for (Object o : content) {
-			lineTextBuilder.append(toString(o));
+			this.lineTextBuilder.append(toString(o));
 		}
 		return this;
 	}
@@ -186,13 +186,13 @@ public class MarkdownBuilder {
 	 */
 	public MarkdownBuilder code(String type, Object... code) {
 		lineBreak();
-		lineTextBuilder.append(CODE_PREFIX).append(type);
+		this.lineTextBuilder.append(CODE_PREFIX).append(type);
 		lineBreak();
 		for (Object o : code) {
-			lineTextBuilder.append(toString(o));
+			this.lineTextBuilder.append(toString(o));
 		}
 		lineBreak();
-		lineTextBuilder.append(CODE_SUFFIX);
+		this.lineTextBuilder.append(CODE_SUFFIX);
 		return lineBreak();
 	}
 
@@ -220,8 +220,8 @@ public class MarkdownBuilder {
 	 * 强制换行
 	 */
 	public MarkdownBuilder forceLineBreak() {
-		content.add(lineTextBuilder.toString());
-		lineTextBuilder = new StringBuilder();
+		this.content.add(this.lineTextBuilder.toString());
+		this.lineTextBuilder = new StringBuilder();
 		return this;
 	}
 
@@ -229,7 +229,7 @@ public class MarkdownBuilder {
 	 * 换行 当已编辑文本长度不为0时换行
 	 */
 	public MarkdownBuilder lineBreak() {
-		if (lineTextBuilder.length() != 0) {
+		if (this.lineTextBuilder.length() != 0) {
 			return forceLineBreak();
 		}
 		return this;
@@ -244,10 +244,10 @@ public class MarkdownBuilder {
 		// 如果当前操作行已有字符，需要换行
 		lineBreak();
 		for (int j = 0; j < i; j++) {
-			lineTextBuilder.append(TITLE_PREFIX);
+			this.lineTextBuilder.append(TITLE_PREFIX);
 		}
-		this.content.add(lineTextBuilder.append(" ").append(toString(content)).toString());
-		lineTextBuilder = new StringBuilder();
+		this.content.add(this.lineTextBuilder.append(" ").append(toString(content)).toString());
+		this.lineTextBuilder = new StringBuilder();
 		return this;
 	}
 
@@ -290,7 +290,7 @@ public class MarkdownBuilder {
 	public String build() {
 		lineBreak();
 		StringBuilder res = new StringBuilder();
-		content.forEach(line -> res.append(line).append(" \n"));
+		this.content.forEach(line -> res.append(line).append(" \n"));
 		return res.toString();
 	}
 

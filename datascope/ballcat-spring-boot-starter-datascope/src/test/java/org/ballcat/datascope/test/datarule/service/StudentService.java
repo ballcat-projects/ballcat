@@ -36,22 +36,22 @@ public class StudentService {
 	private StudentMapper studentMapper;
 
 	public List<Student> listStudent() {
-		return studentMapper.listStudent();
+		return this.studentMapper.listStudent();
 	}
 
 	@DataPermission(includeResources = ClassDataScope.RESOURCE_NAME)
 	public List<Student> listStudentOnlyFilterClass() {
-		return studentMapper.listStudent();
+		return this.studentMapper.listStudent();
 	}
 
 	@DataPermission(includeResources = SchoolDataScope.RESOURCE_NAME)
 	public List<Student> listStudentOnlyFilterSchool() {
-		return studentMapper.listStudent();
+		return this.studentMapper.listStudent();
 	}
 
 	@DataPermission(ignore = true)
 	public List<Student> listStudentWithoutDataPermission() {
-		return studentMapper.listStudent();
+		return this.studentMapper.listStudent();
 	}
 
 }

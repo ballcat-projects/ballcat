@@ -67,9 +67,9 @@ public class GlobalHandlerExceptionResolver {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public R<String> handleGlobalException(Exception e, HttpServletRequest request) {
 		log.error("请求地址: {}, 全局异常信息 ex={}", request.getRequestURI(), e.getMessage(), e);
-		globalExceptionHandler.handle(e);
+		this.globalExceptionHandler.handle(e);
 		// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
-		String errorMessage = GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getLocalizedMessage();
+		String errorMessage = GlobalConstants.ENV_PROD.equals(this.profile) ? PROD_ERR_MSG : e.getLocalizedMessage();
 		return R.failed(SystemResultCode.SERVER_ERROR, errorMessage);
 	}
 
@@ -82,9 +82,9 @@ public class GlobalHandlerExceptionResolver {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public R<String> handleNullPointerException(NullPointerException e, HttpServletRequest request) {
 		log.error("请求地址: {}, 空指针异常 ex={}", request.getRequestURI(), e.getMessage(), e);
-		globalExceptionHandler.handle(e);
+		this.globalExceptionHandler.handle(e);
 		// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
-		String errorMessage = GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : NLP_MSG;
+		String errorMessage = GlobalConstants.ENV_PROD.equals(this.profile) ? PROD_ERR_MSG : NLP_MSG;
 		return R.failed(SystemResultCode.SERVER_ERROR, errorMessage);
 	}
 
@@ -97,8 +97,8 @@ public class GlobalHandlerExceptionResolver {
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public R<String> handleMethodArgumentTypeMismatchException(Exception e, HttpServletRequest request) {
 		log.error("请求地址: {}, 请求入参异常 ex={}", request.getRequestURI(), e.getMessage(), e);
-		globalExceptionHandler.handle(e);
-		String errorMessage = GlobalConstants.ENV_PROD.equals(profile) ? PROD_ERR_MSG : e.getMessage();
+		this.globalExceptionHandler.handle(e);
+		String errorMessage = GlobalConstants.ENV_PROD.equals(this.profile) ? PROD_ERR_MSG : e.getMessage();
 		return R.failed(SystemResultCode.BAD_REQUEST, errorMessage);
 	}
 
@@ -109,7 +109,7 @@ public class GlobalHandlerExceptionResolver {
 	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, HttpRequestMethodNotSupportedException.class })
 	public R<String> requestNotSupportedException(Exception e, HttpServletRequest request) {
 		log.error("请求地址: {}, 请求方式异常 ex={}", request.getRequestURI(), e.getMessage(), e);
-		globalExceptionHandler.handle(e);
+		this.globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
 	}
 
@@ -122,7 +122,7 @@ public class GlobalHandlerExceptionResolver {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<String> handleIllegalArgumentException(IllegalArgumentException e, HttpServletRequest request) {
 		log.error("请求地址: {}, 非法数据输入 ex={}", request.getRequestURI(), e.getMessage(), e);
-		globalExceptionHandler.handle(e);
+		this.globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getMessage());
 	}
 
@@ -139,7 +139,7 @@ public class GlobalHandlerExceptionResolver {
 				: "未获取到错误信息!";
 
 		log.error("请求地址: {}, 参数绑定异常 ex={}", request.getRequestURI(), errorMsg);
-		globalExceptionHandler.handle(e);
+		this.globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, errorMsg);
 	}
 
@@ -152,7 +152,7 @@ public class GlobalHandlerExceptionResolver {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<String> handleValidationException(ValidationException e, HttpServletRequest request) {
 		log.error("请求地址: {}, 参数校验异常 ex={}", request.getRequestURI(), e.getMessage());
-		globalExceptionHandler.handle(e);
+		this.globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
 	}
 
@@ -165,7 +165,7 @@ public class GlobalHandlerExceptionResolver {
 	@ResponseStatus(HttpStatus.OK)
 	public R<String> handleBallCatException(BusinessException e, HttpServletRequest request) {
 		log.error("请求地址: {}, 业务异常信息 ex={}", request.getRequestURI(), e.getMessage());
-		globalExceptionHandler.handle(e);
+		this.globalExceptionHandler.handle(e);
 		return R.failed(e.getCode(), e.getMessage());
 	}
 

@@ -103,7 +103,7 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 			boolean exResolved = false;
 			T value = null;
 			try {
-				value = executeAction.execute();
+				value = this.executeAction.execute();
 				this.result = value;
 			}
 			catch (Throwable e) {
@@ -117,8 +117,8 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 				this.result = this.successAction.apply(value);
 			}
 		}
-		else if (lockFailAction != null) {
-			this.result = lockFailAction.get();
+		else if (this.lockFailAction != null) {
+			this.result = this.lockFailAction.get();
 		}
 
 		return this.result;
@@ -172,8 +172,8 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 
 		public long next() {
 			long next = this.current + this.prev;
-			if (first) {
-				first = false;
+			if (this.first) {
+				this.first = false;
 			}
 			else {
 				this.prev = this.current;

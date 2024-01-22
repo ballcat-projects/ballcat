@@ -41,12 +41,12 @@ public class GrpcServer implements ContextComponent {
 	@Override
 	@SneakyThrows
 	public void onApplicationStart() {
-		server.start();
-		log.debug("grpc服务启动. 端口: {}", server.getPort());
+		this.server.start();
+		log.debug("grpc服务启动. 端口: {}", this.server.getPort());
 		THREAD_POOL.execute(() -> {
 			Thread.currentThread().setName("GrpcServer");
 			try {
-				server.awaitTermination();
+				this.server.awaitTermination();
 			}
 			catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
@@ -61,7 +61,7 @@ public class GrpcServer implements ContextComponent {
 	@Override
 	public void onApplicationStop() {
 		log.warn("grpc服务开始关闭");
-		server.shutdownNow();
+		this.server.shutdownNow();
 		log.warn("grpc服务关闭");
 	}
 

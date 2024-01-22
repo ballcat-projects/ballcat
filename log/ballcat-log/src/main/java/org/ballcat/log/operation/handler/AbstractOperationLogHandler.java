@@ -53,7 +53,7 @@ public abstract class AbstractOperationLogHandler<T> implements OperationLogHand
 	 * @param clazz 参数类型
 	 */
 	public void addIgnoredParamClass(Class<?> clazz) {
-		ignoredParamClasses.add(clazz);
+		this.ignoredParamClasses.add(clazz);
 	}
 
 	/**
@@ -83,7 +83,7 @@ public abstract class AbstractOperationLogHandler<T> implements OperationLogHand
 			}
 			Class<?> argClass = arg.getClass();
 			// 忽略部分类型的参数记录
-			for (Class<?> ignoredParamClass : ignoredParamClasses) {
+			for (Class<?> ignoredParamClass : this.ignoredParamClasses) {
 				if (ignoredParamClass.isAssignableFrom(argClass)) {
 					arg = "ignored param type: " + argClass;
 					break;

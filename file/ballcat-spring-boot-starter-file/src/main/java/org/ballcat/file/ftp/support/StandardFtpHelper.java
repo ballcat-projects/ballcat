@@ -53,29 +53,29 @@ public class StandardFtpHelper extends FtpHelper {
 	@Override
 	public void loginFtpServer(String username, String password, String host, int port, Integer timeout, FtpMode mode)
 			throws IOException {
-		ftpClient = new FTPClient();
+		this.ftpClient = new FTPClient();
 		try {
 			// 连接
-			ftpClient.connect(host, port);
+			this.ftpClient.connect(host, port);
 			// 登录
-			ftpClient.login(username, password);
+			this.ftpClient.login(username, password);
 			// 不需要写死ftp server的OS TYPE,FTPClient getSystemType()方法会自动识别
 			/// ftpClient.configure(new FTPClientConfig(FTPClientConfig.SYST_UNIX));
 			if (null != timeout) {
-				ftpClient.setConnectTimeout(timeout);
-				ftpClient.setDataTimeout(Duration.ofMillis(timeout));
+				this.ftpClient.setConnectTimeout(timeout);
+				this.ftpClient.setDataTimeout(Duration.ofMillis(timeout));
 			}
 			if (mode == FtpMode.PASSIVE) {
-				ftpClient.enterRemotePassiveMode();
-				ftpClient.enterLocalPassiveMode();
+				this.ftpClient.enterRemotePassiveMode();
+				this.ftpClient.enterLocalPassiveMode();
 			}
 			else if (mode == FtpMode.ACTIVE) {
-				ftpClient.enterLocalActiveMode();
+				this.ftpClient.enterLocalActiveMode();
 				/// ftpClient.enterRemoteActiveMode(host, port);
 			}
-			int reply = ftpClient.getReplyCode();
+			int reply = this.ftpClient.getReplyCode();
 			if (!FTPReply.isPositiveCompletion(reply)) {
-				ftpClient.disconnect();
+				this.ftpClient.disconnect();
 				String message = String.format("与ftp服务器建立连接失败,请检查用户名和密码是否正确: [%s]",
 						"message:host =" + host + ",username = " + username + ",port =" + port);
 				LOGGER.error(message);
@@ -83,7 +83,7 @@ public class StandardFtpHelper extends FtpHelper {
 			}
 			// 设置命令传输编码
 			String fileEncoding = System.getProperty("file.encoding");
-			ftpClient.setControlEncoding(fileEncoding);
+			this.ftpClient.setControlEncoding(fileEncoding);
 		}
 		catch (UnknownHostException e) {
 			String message = String.format("请确认ftp服务器地址是否正确，无法连接到地址为: [%s] 的ftp服务器", host);
@@ -106,10 +106,10 @@ public class StandardFtpHelper extends FtpHelper {
 
 	@Override
 	public void logoutFtpServer() throws IOException {
-		if (ftpClient.isConnected()) {
+		if (this.ftpClient.isConnected()) {
 			try {
 				// fixme ftpClient.completePendingCommand();//打开流操作之后必须，原因还需要深究
-				ftpClient.logout();
+				this.ftpClient.logout();
 			}
 			catch (IOException e) {
 				String message = "与ftp服务器断开连接失败";
@@ -122,7 +122,8 @@ public class StandardFtpHelper extends FtpHelper {
 	@Override
 	public boolean isDirExist(String directoryPath) throws IOException {
 		try {
-			return ftpClient.changeWorkingDirectory(new String(directoryPath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
+			return this.ftpClient
+				.changeWorkingDirectory(new String(directoryPath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
 		}
 		catch (IOException e) {
 			String message = String.format("进入目录：[%s]时发生I/O异常,请确认与ftp服务器的连接正常", directoryPath);
@@ -135,7 +136,8 @@ public class StandardFtpHelper extends FtpHelper {
 	public boolean isFileExist(String filePath) throws IOException {
 		boolean isExitFlag = false;
 		try {
-			FTPFile[] ftpFiles = ftpClient.listFiles(new String(filePath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
+			FTPFile[] ftpFiles = this.ftpClient
+				.listFiles(new String(filePath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
 			if (ftpFiles.length == 1 && ftpFiles[0].isFile()) {
 				isExitFlag = true;
 			}
@@ -152,7 +154,8 @@ public class StandardFtpHelper extends FtpHelper {
 	public boolean isSymbolicLink(String filePath) throws IOException {
 		boolean isExitFlag = false;
 		try {
-			FTPFile[] ftpFiles = ftpClient.listFiles(new String(filePath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
+			FTPFile[] ftpFiles = this.ftpClient
+				.listFiles(new String(filePath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
 			if (ftpFiles.length == 1 && ftpFiles[0].isSymbolicLink()) {
 				isExitFlag = true;
 			}
@@ -196,8 +199,8 @@ public class StandardFtpHelper extends FtpHelper {
 			}
 			else if (isFileExist(directoryPath)) {
 				// path指向具体文件
-				sourceFiles.add(directoryPath);
-				return sourceFiles;
+				this.sourceFiles.add(directoryPath);
+				return this.sourceFiles;
 			}
 			else if (isSymbolicLink(directoryPath)) {
 				// path是链接文件
@@ -212,7 +215,8 @@ public class StandardFtpHelper extends FtpHelper {
 			}
 
 			try {
-				FTPFile[] fs = ftpClient.listFiles(new String(directoryPath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
+				FTPFile[] fs = this.ftpClient
+					.listFiles(new String(directoryPath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
 				for (FTPFile ff : fs) {
 					String strName = ff.getName();
 					String filePath = parentPath + strName;
@@ -224,7 +228,7 @@ public class StandardFtpHelper extends FtpHelper {
 					}
 					else if (ff.isFile()) {
 						// 是文件
-						sourceFiles.add(filePath);
+						this.sourceFiles.add(filePath);
 					}
 					else if (ff.isSymbolicLink()) {
 						// 是链接文件
@@ -244,7 +248,7 @@ public class StandardFtpHelper extends FtpHelper {
 				LOGGER.error(message, e);
 				throw new FileException(message, e);
 			}
-			return sourceFiles;
+			return this.sourceFiles;
 		}
 		else {
 			// 超出最大递归层数
@@ -257,7 +261,7 @@ public class StandardFtpHelper extends FtpHelper {
 	@Override
 	public InputStream getInputStream(String filePath) throws IOException {
 		try {
-			return ftpClient.retrieveFileStream(new String(filePath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
+			return this.ftpClient.retrieveFileStream(new String(filePath.getBytes(), FTP.DEFAULT_CONTROL_ENCODING));
 		}
 		catch (IOException e) {
 			String message = String.format("读取文件 : [%s] 时出错,请确认文件：[%s]存在且配置的用户有权限读取", filePath, filePath);

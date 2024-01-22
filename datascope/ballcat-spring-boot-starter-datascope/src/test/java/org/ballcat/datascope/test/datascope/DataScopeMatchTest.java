@@ -53,7 +53,7 @@ class DataScopeMatchTest {
 
 		@Override
 		public Expression getExpression(String tableName, Alias tableAlias) {
-			Column column = new Column(tableAlias == null ? columnId : tableAlias.getName() + "." + columnId);
+			Column column = new Column(tableAlias == null ? this.columnId : tableAlias.getName() + "." + this.columnId);
 			ExpressionList expressionList = new ExpressionList();
 			expressionList.setExpressions(Arrays.asList(new StringValue("1"), new StringValue("2")));
 			return new InExpression(column, expressionList);
@@ -61,7 +61,7 @@ class DataScopeMatchTest {
 	};
 
 	DataPermissionHandler dataPermissionHandler = new DefaultDataPermissionHandler(
-			Collections.singletonList(dataScope));
+			Collections.singletonList(this.dataScope));
 
 	DataScopeSqlProcessor dataScopeSqlProcessor = new DataScopeSqlProcessor();
 
@@ -73,7 +73,7 @@ class DataScopeMatchTest {
 
 		DataScopeMatchNumHolder.initMatchNum();
 		try {
-			String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
+			String parseSql = this.dataScopeSqlProcessor.parserSingle(sql, this.dataPermissionHandler.dataScopes());
 			System.out.println(parseSql);
 
 			Integer matchNum = DataScopeMatchNumHolder.pollMatchNum();
@@ -93,7 +93,7 @@ class DataScopeMatchTest {
 				+ "where oi.order_price > 100";
 		DataScopeMatchNumHolder.initMatchNum();
 		try {
-			String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
+			String parseSql = this.dataScopeSqlProcessor.parserSingle(sql, this.dataPermissionHandler.dataScopes());
 			System.out.println(parseSql);
 
 			Integer matchNum = DataScopeMatchNumHolder.pollMatchNum();
@@ -120,7 +120,7 @@ class DataScopeMatchTest {
 
 			testNoMatch();
 
-			String parseSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
+			String parseSql = this.dataScopeSqlProcessor.parserSingle(sql, this.dataPermissionHandler.dataScopes());
 			System.out.println(parseSql);
 
 			Integer matchNum = DataScopeMatchNumHolder.pollMatchNum();

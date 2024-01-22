@@ -59,52 +59,52 @@ public class CompatibleSSLFactory extends SSLSocketFactory {
 
 	@Override
 	public String[] getDefaultCipherSuites() {
-		return factory.getDefaultCipherSuites();
+		return this.factory.getDefaultCipherSuites();
 	}
 
 	@Override
 	public String[] getSupportedCipherSuites() {
-		return factory.getSupportedCipherSuites();
+		return this.factory.getSupportedCipherSuites();
 	}
 
 	@Override
 	public Socket createSocket() throws IOException {
-		return enabledProtocols(factory.createSocket());
+		return enabledProtocols(this.factory.createSocket());
 	}
 
 	@Override
 	public Socket createSocket(Socket socket, InputStream inputStream, boolean b) throws IOException {
-		return enabledProtocols(factory.createSocket(socket, inputStream, b));
+		return enabledProtocols(this.factory.createSocket(socket, inputStream, b));
 	}
 
 	@Override
 	public Socket createSocket(Socket socket, String s, int i, boolean b) throws IOException {
-		return enabledProtocols(factory.createSocket(socket, s, i, b));
+		return enabledProtocols(this.factory.createSocket(socket, s, i, b));
 	}
 
 	@Override
 	public Socket createSocket(String s, int i) throws IOException {
-		return enabledProtocols(factory.createSocket(s, i));
+		return enabledProtocols(this.factory.createSocket(s, i));
 	}
 
 	@Override
 	public Socket createSocket(String s, int i, InetAddress inetAddress, int i1) throws IOException {
-		return enabledProtocols(factory.createSocket(s, i, inetAddress, i1));
+		return enabledProtocols(this.factory.createSocket(s, i, inetAddress, i1));
 	}
 
 	@Override
 	public Socket createSocket(InetAddress inetAddress, int i) throws IOException {
-		return enabledProtocols(factory.createSocket(inetAddress, i));
+		return enabledProtocols(this.factory.createSocket(inetAddress, i));
 	}
 
 	@Override
 	public Socket createSocket(InetAddress inetAddress, int i, InetAddress inetAddress1, int i1) throws IOException {
-		return enabledProtocols(factory.createSocket(inetAddress, i, inetAddress1, i1));
+		return enabledProtocols(this.factory.createSocket(inetAddress, i, inetAddress1, i1));
 	}
 
 	private Socket enabledProtocols(Socket socket) {
-		if (!ArrayUtils.isEmpty(protocols) && socket instanceof SSLSocket) {
-			((SSLSocket) socket).setEnabledProtocols(protocols);
+		if (!ArrayUtils.isEmpty(this.protocols) && socket instanceof SSLSocket) {
+			((SSLSocket) socket).setEnabledProtocols(this.protocols);
 		}
 		return socket;
 	}

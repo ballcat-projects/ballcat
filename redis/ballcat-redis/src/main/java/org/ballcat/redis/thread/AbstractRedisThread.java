@@ -56,7 +56,7 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 	/**
 	 * 激活与休眠线程
 	 */
-	protected final Condition condition = lock.newCondition();
+	protected final Condition condition = this.lock.newCondition();
 
 	/**
 	 * 获取数据存储的key
@@ -99,15 +99,15 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 		// 不插入空值
 		if (e != null) {
 			try {
-				lock.lockInterruptibly();
+				this.lock.lockInterruptibly();
 				try {
 					// 线程被中断后无法执行Redis命令
 					RedisHelper.rPush(getKey(), convertToString(e));
 					// 激活线程
-					condition.signal();
+					this.condition.signal();
 				}
 				finally {
-					lock.unlock();
+					this.lock.unlock();
 				}
 			}
 			catch (InterruptedException ex) {
@@ -138,7 +138,7 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 			return null;
 		}
 		// 上锁
-		lock.lockInterruptibly();
+		this.lock.lockInterruptibly();
 		try {
 			// 设置等待时长
 			long nanos = TimeUnit.MILLISECONDS.toNanos(time);
@@ -151,14 +151,14 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 				}
 
 				// 休眠. 返回剩余的休眠时间
-				nanos = condition.awaitNanos(nanos);
+				nanos = this.condition.awaitNanos(nanos);
 			}
 			while (isRun() && nanos > 0);
 
 			return convertToObj(pop);
 		}
 		finally {
-			lock.unlock();
+			this.lock.unlock();
 		}
 
 	}
@@ -166,7 +166,7 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 	@Override
 	protected void shutdown(List<E> list) {
 		// 修改运行标志
-		run = false;
+		this.run = false;
 		for (E e : list) {
 			// 所有数据插入redis
 			put(e);
@@ -177,7 +177,7 @@ public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 	@Override
 	public boolean isRun() {
 		// 运行中 且 未被中断
-		return run && !isInterrupted();
+		return this.run && !isInterrupted();
 	}
 
 }

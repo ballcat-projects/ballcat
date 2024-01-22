@@ -34,16 +34,16 @@ public class EnumValueValidatorOfClass implements ConstraintValidator<OneOfClass
 
 	@Override
 	public void initialize(OneOfClasses constraintAnnotation) {
-		classList = constraintAnnotation.value();
-		allowNull = constraintAnnotation.allowNull();
+		this.classList = constraintAnnotation.value();
+		this.allowNull = constraintAnnotation.allowNull();
 	}
 
 	@Override
 	public boolean isValid(Class value, ConstraintValidatorContext context) {
 		if (value == null) {
-			return allowNull;
+			return this.allowNull;
 		}
-		for (Class<?> clazz : classList) {
+		for (Class<?> clazz : this.classList) {
 			if (clazz.isAssignableFrom(value)) {
 				return true;
 			}

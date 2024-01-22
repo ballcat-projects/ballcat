@@ -89,7 +89,7 @@ public class EnumNameTypeHandler<E extends Enum<E>> extends BaseTypeHandler<E> {
 	 * @author lingting 2021-06-07 13:50
 	 */
 	E getEnumByName(String val) {
-		for (E e : type.getEnumConstants()) {
+		for (E e : this.type.getEnumConstants()) {
 			Object ev = getValByEnum(e);
 			if (ev == null) {
 				if (val == null) {

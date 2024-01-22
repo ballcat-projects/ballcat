@@ -42,16 +42,16 @@ public final class DesensitizationHandlerHolder {
 	private final Map<Class<? extends DesensitizationHandler>, DesensitizationHandler> desensitizationHandlerMap;
 
 	private DesensitizationHandlerHolder() {
-		desensitizationHandlerMap = new ConcurrentHashMap<>(16);
+		this.desensitizationHandlerMap = new ConcurrentHashMap<>(16);
 		// 滑动脱敏处理器
-		desensitizationHandlerMap.put(SlideDesensitizationHandler.class, new SlideDesensitizationHandler());
+		this.desensitizationHandlerMap.put(SlideDesensitizationHandler.class, new SlideDesensitizationHandler());
 		// 正则脱敏处理器
-		desensitizationHandlerMap.put(RegexDesensitizationHandler.class, new RegexDesensitizationHandler());
+		this.desensitizationHandlerMap.put(RegexDesensitizationHandler.class, new RegexDesensitizationHandler());
 		// SPI 加载所有的 Simple脱敏类型处理
 		ServiceLoader<SimpleDesensitizationHandler> loadedDrivers = ServiceLoader
 			.load(SimpleDesensitizationHandler.class);
 		for (SimpleDesensitizationHandler desensitizationHandler : loadedDrivers) {
-			desensitizationHandlerMap.put(desensitizationHandler.getClass(), desensitizationHandler);
+			this.desensitizationHandlerMap.put(desensitizationHandler.getClass(), desensitizationHandler);
 		}
 	}
 

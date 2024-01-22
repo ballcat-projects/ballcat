@@ -45,7 +45,7 @@ public class DefaultObjectKeyPrefixConverter implements ObjectKeyPrefixConverter
 
 	@Override
 	public String getPrefix() {
-		return properties.getObjectKeyPrefix();
+		return this.properties.getObjectKeyPrefix();
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class DefaultObjectKeyPrefixConverter implements ObjectKeyPrefixConverter
 			log.info("全局前缀组织对象功能启用，全局前缀配置路径为:[{}],标准化前缀全局前缀路径为:[{}]", configPrefix, this.globalObjectPrefix);
 			log.info("存在全局前缀时，针对用户操作OSS对象(上传、删除)的部分会自动拼接全局前缀，针对用户读取OSS对象的部分，返回的OSS对象会自动移除全局前缀,但实际存储在OSS的位置也会包含全局路径");
 			log.info("例如,存在`abc`桶时，全局前缀设置为`d`时,上传OSS对象`e.txt`时,OSS对象会按照`d/e.txt`保存，用户在具有权限时可通过资源`{}/abc/d/e.txt`访问该资源",
-					properties.getEndpoint());
+					this.properties.getEndpoint());
 			log.info("用户试图查找该资源时，只需要传入`e.txt`,插件会自动发起对`d/e.txt`路径的查询,返回的OSS对象也会去除查询到的对象名称将为`e.txt`");
 			log.info("用户试图删除该资源时，只需要传入`e.txt`,插件会自动发起对`d/e.txt`路径对象的删除");
 		}

@@ -57,7 +57,7 @@ public class SpringSecurityWebSecurityConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public AuthorizeRequestsSpringSecurityConfigurerCustomizer springSecurityAnyRequestAuthenticatedCustomizer() {
-		return new AuthorizeRequestsSpringSecurityConfigurerCustomizer(springSecurityProperties);
+		return new AuthorizeRequestsSpringSecurityConfigurerCustomizer(this.springSecurityProperties);
 	}
 
 	@Bean
@@ -76,7 +76,7 @@ public class SpringSecurityWebSecurityConfiguration {
 			ObjectProvider<AuthenticationEntryPoint> authenticationEntryPointObjectProvider,
 			ObjectProvider<FormLoginSuccessHandler> formLoginSuccessHandlerObjectProvider,
 			ObjectProvider<LogoutSuccessHandler> logoutSuccessHandlerObjectProvider) {
-		return new SeparationLoginSpringSecurityConfigurerCustomizer(springSecurityProperties,
+		return new SeparationLoginSpringSecurityConfigurerCustomizer(this.springSecurityProperties,
 				authenticationEntryPointObjectProvider.getIfAvailable(),
 				formLoginSuccessHandlerObjectProvider.getIfAvailable(),
 				logoutSuccessHandlerObjectProvider.getIfAvailable());
@@ -90,7 +90,7 @@ public class SpringSecurityWebSecurityConfiguration {
 			ObjectProvider<AuthenticationEntryPoint> authenticationEntryPointObjectProvider,
 			ObjectProvider<FormLoginSuccessHandler> formLoginSuccessHandlerObjectProvider,
 			ObjectProvider<LogoutSuccessHandler> logoutSuccessHandlerObjectProvider) {
-		return new FormLoginSpringSecurityConfigurerCustomizer(springSecurityProperties,
+		return new FormLoginSpringSecurityConfigurerCustomizer(this.springSecurityProperties,
 				authenticationEntryPointObjectProvider.getIfAvailable(),
 				formLoginSuccessHandlerObjectProvider.getIfAvailable(),
 				logoutSuccessHandlerObjectProvider.getIfAvailable());
@@ -101,7 +101,7 @@ public class SpringSecurityWebSecurityConfiguration {
 	@ConditionalOnProperty(prefix = "ballcat.springsecurity.form-login", name = "login-captcha", havingValue = "true")
 	public LoginCaptchaSpringSecurityConfigurerCustomizer loginCaptchaSpringSecurityConfigurerCustomizer(
 			CaptchaValidator captchaValidator) {
-		return new LoginCaptchaSpringSecurityConfigurerCustomizer(springSecurityProperties, captchaValidator);
+		return new LoginCaptchaSpringSecurityConfigurerCustomizer(this.springSecurityProperties, captchaValidator);
 	}
 
 	@Bean
@@ -109,7 +109,8 @@ public class SpringSecurityWebSecurityConfiguration {
 	@ConditionalOnProperty(prefix = "ballcat.security", name = "password-secret-key")
 	public LoginPasswordDecodeSpringSecurityConfigurerCustomizer loginPasswordDecodeSpringSecurityConfigurerCustomizer(
 			@Value("${ballcat.security.password-secret-key}") String passwordSecretKey) {
-		return new LoginPasswordDecodeSpringSecurityConfigurerCustomizer(springSecurityProperties, passwordSecretKey);
+		return new LoginPasswordDecodeSpringSecurityConfigurerCustomizer(this.springSecurityProperties,
+				passwordSecretKey);
 	}
 
 }

@@ -72,23 +72,23 @@ public class CachedOps extends AbstractCacheOps {
 	}
 
 	public Supplier<String> cacheQuery() {
-		return cacheQuery;
+		return this.cacheQuery;
 	}
 
 	public Consumer<Object> cachePut() {
-		return cachePut;
+		return this.cachePut;
 	}
 
 	public Type returnType() {
-		return returnType;
+		return this.returnType;
 	}
 
 	public String lockKey() {
-		return lockKey;
+		return this.lockKey;
 	}
 
 	public int retryCount() {
-		return retryCount;
+		return this.retryCount;
 	}
 
 }

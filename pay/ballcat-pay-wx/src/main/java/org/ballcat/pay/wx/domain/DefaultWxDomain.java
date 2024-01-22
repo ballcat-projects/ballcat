@@ -72,7 +72,7 @@ public class DefaultWxDomain implements WxDomain {
 		final String url = getUrl(rs.getSuffix());
 		RequestBody requestBody = RequestBody.create(WxPayUtil.mapToXml(params), MediaType.parse("text/xml"));
 		Request request = new Request.Builder().url(url).post(requestBody).build();
-		Call call = client.newCall(request);
+		Call call = this.client.newCall(request);
 		try (Response response = call.execute()) {
 			ResponseBody responseBody = response.body();
 			if (responseBody == null) {
@@ -95,7 +95,7 @@ public class DefaultWxDomain implements WxDomain {
 			suffix = suffix.substring(1);
 		}
 
-		if (sandbox) {
+		if (this.sandbox) {
 			return getDomain() + "sandboxnew/pay/" + suffix;
 		}
 		return getDomain() + "pay/" + suffix;

@@ -37,8 +37,8 @@ public class NoneCacheIp2regionSearcher extends Ip2regionSearcherTemplate {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Resource resource = resourceLoader.getResource(properties.getFileLocation());
-		searcher = Searcher.newWithFileOnly(resource.getFile().getPath());
+		Resource resource = this.resourceLoader.getResource(this.properties.getFileLocation());
+		this.searcher = Searcher.newWithFileOnly(resource.getFile().getPath());
 	}
 
 }

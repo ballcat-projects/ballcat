@@ -51,12 +51,13 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 
 	@Override
 	public BufferedReader getReader() {
-		return ObjectUtils.isEmpty(bodyByteArray) ? null : new BufferedReader(new InputStreamReader(getInputStream()));
+		return ObjectUtils.isEmpty(this.bodyByteArray) ? null
+				: new BufferedReader(new InputStreamReader(getInputStream()));
 	}
 
 	@Override
 	public ServletInputStream getInputStream() {
-		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bodyByteArray);
+		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.bodyByteArray);
 		return new ServletInputStream() {
 			@Override
 			public boolean isFinished() {
@@ -81,7 +82,7 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 	}
 
 	public byte[] getBodyByteArray() {
-		return bodyByteArray;
+		return this.bodyByteArray;
 	}
 
 	private static byte[] getByteBody(HttpServletRequest request) {
@@ -102,7 +103,7 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 	 */
 	@Override
 	public Map<String, String[]> getParameterMap() {
-		return parameterMap;
+		return this.parameterMap;
 	}
 
 }

@@ -56,7 +56,7 @@ public class DataPermissionRule {
 	 * @return boolean 默认返回 false
 	 */
 	public boolean ignore() {
-		return ignore;
+		return this.ignore;
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class DataPermissionRule {
 	 * @return 资源类型数组
 	 */
 	public String[] includeResources() {
-		return includeResources;
+		return this.includeResources;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class DataPermissionRule {
 	 * @return 资源类型数组
 	 */
 	public String[] excludeResources() {
-		return excludeResources;
+		return this.excludeResources;
 	}
 
 	public DataPermissionRule setIgnore(boolean ignore) {

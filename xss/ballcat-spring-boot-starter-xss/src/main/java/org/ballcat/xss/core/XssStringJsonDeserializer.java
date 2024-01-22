@@ -63,7 +63,7 @@ public class XssStringJsonDeserializer extends StringDeserializer {
 		}
 		// 29-Jun-2020, tatu: New! "Scalar from Object" (mostly for XML)
 		if (t == JsonToken.START_OBJECT) {
-			return ctxt.extractScalarFromObject(p, this, _valueClass);
+			return ctxt.extractScalarFromObject(p, this, this._valueClass);
 		}
 		// allow coercions for other scalar types
 		// 17-Jan-2018, tatu: Related to [databind#1853] avoid FIELD_NAME by ensuring it's
@@ -72,14 +72,14 @@ public class XssStringJsonDeserializer extends StringDeserializer {
 			String text = p.getValueAsString();
 			return getCleanText(text);
 		}
-		return (String) ctxt.handleUnexpectedToken(_valueClass, p);
+		return (String) ctxt.handleUnexpectedToken(this._valueClass, p);
 	}
 
 	private String getCleanText(String text) {
 		if (text == null) {
 			return null;
 		}
-		return XssStateHolder.enabled() ? xssCleaner.clean(text) : text;
+		return XssStateHolder.enabled() ? this.xssCleaner.clean(text) : text;
 	}
 
 }

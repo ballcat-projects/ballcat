@@ -68,7 +68,7 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
 		Assert.state(responseExcel != null, "No @ResponseExcel");
 		mavContainer.setRequestHandled(true);
 
-		sheetWriteHandlerList.stream()
+		this.sheetWriteHandlerList.stream()
 			.filter(handler -> handler.support(o))
 			.findFirst()
 			.ifPresent(handler -> handler.export(o, response, responseExcel));

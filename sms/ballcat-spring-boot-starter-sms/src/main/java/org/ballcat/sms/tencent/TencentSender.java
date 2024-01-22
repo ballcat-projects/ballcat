@@ -45,8 +45,8 @@ public class TencentSender extends AbstractSmsSender<TencentSenderParams> {
 	private final Credential cred;
 
 	public TencentSender(SmsProperties properties) {
-		tencent = properties.getTencent();
-		cred = new Credential(properties.getId(), properties.getKey());
+		this.tencent = properties.getTencent();
+		this.cred = new Credential(properties.getId(), properties.getKey());
 	}
 
 	@Override
@@ -57,16 +57,16 @@ public class TencentSender extends AbstractSmsSender<TencentSenderParams> {
 	@Override
 	protected SmsSenderResult doSend(TencentSenderParams sp) throws Exception {
 		HttpProfile httpProfile = new HttpProfile();
-		httpProfile.setEndpoint(tencent.getEndpoint());
+		httpProfile.setEndpoint(this.tencent.getEndpoint());
 
 		ClientProfile clientProfile = new ClientProfile();
 		clientProfile.setHttpProfile(httpProfile);
 
-		SmsClient client = new SmsClient(cred, tencent.getRegion(), clientProfile);
+		SmsClient client = new SmsClient(this.cred, this.tencent.getRegion(), clientProfile);
 
 		Map<String, Object> json = new HashMap<>(5);
 		json.put("PhoneNumberSet", sp.getPhoneNumbers());
-		json.put("SmsSdkAppid", tencent.getSdkId());
+		json.put("SmsSdkAppid", this.tencent.getSdkId());
 
 		fillSign(sp, json);
 		fillTemplate(sp, json);
@@ -77,7 +77,7 @@ public class TencentSender extends AbstractSmsSender<TencentSenderParams> {
 	}
 
 	protected void fillSign(TencentSenderParams sp, Map<String, Object> json) {
-		String sign = StringUtils.hasText(sp.getSign()) ? sp.getSign() : tencent.getSign();
+		String sign = StringUtils.hasText(sp.getSign()) ? sp.getSign() : this.tencent.getSign();
 		if (!StringUtils.hasText(sign)) {
 			return;
 		}
@@ -85,7 +85,7 @@ public class TencentSender extends AbstractSmsSender<TencentSenderParams> {
 	}
 
 	protected void fillTemplate(TencentSenderParams sp, Map<String, Object> json) {
-		Integer templateId = sp.getTemplateId() != null ? sp.getTemplateId() : tencent.getTemplateId();
+		Integer templateId = sp.getTemplateId() != null ? sp.getTemplateId() : this.tencent.getTemplateId();
 		if (templateId == null) {
 			return;
 		}

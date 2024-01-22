@@ -90,7 +90,7 @@ public class OAuth2AuthorizationServerConfigurerExtensionConfiguration {
 	@ConditionalOnBean(OAuth2TokenRevocationResponseHandler.class)
 	public OAuth2TokenRevocationEndpointConfigurerExtension oAuth2TokenRevocationEndpointConfigurerCustomizer(
 			OAuth2TokenRevocationResponseHandler oAuth2TokenRevocationResponseHandler) {
-		return new OAuth2TokenRevocationEndpointConfigurerExtension(oAuth2AuthorizationService,
+		return new OAuth2TokenRevocationEndpointConfigurerExtension(this.oAuth2AuthorizationService,
 				oAuth2TokenRevocationResponseHandler);
 	}
 

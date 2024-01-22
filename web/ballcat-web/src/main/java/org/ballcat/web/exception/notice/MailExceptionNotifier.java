@@ -46,7 +46,7 @@ public class MailExceptionNotifier implements ExceptionNotifier {
 
 	@Override
 	public ExceptionNoticeResponse notify(ExceptionMessage sendMessage) {
-		MailSendInfo mailSendInfo = sender.sendTextMail("异常警告", sendMessage.toString(), this.recipientEmails);
+		MailSendInfo mailSendInfo = this.sender.sendTextMail("异常警告", sendMessage.toString(), this.recipientEmails);
 		// 邮箱发送失败会抛出异常，否则视作发送成功
 		return new ExceptionNoticeResponse().setSuccess(mailSendInfo.getSuccess())
 			.setErrMsg(mailSendInfo.getErrorMsg());

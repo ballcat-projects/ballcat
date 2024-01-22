@@ -59,7 +59,7 @@ public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractP
 	public AbstractKeyValueStorePunctuator<K, V, R> init(ProcessorContext context, String storeName,
 			BiFunction<K, V, R> signHandle) {
 		super.init(context);
-		store = getStore(storeName);
+		this.store = getStore(storeName);
 		this.signHandle = signHandle;
 		return this;
 	}
@@ -73,7 +73,7 @@ public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractP
 
 	@Override
 	public void handle(long timestamp) {
-		KeyValueIterator<K, V> iterator = store.all();
+		KeyValueIterator<K, V> iterator = this.store.all();
 		List<R> list = new ArrayList<>();
 
 		while (iterator.hasNext()) {
@@ -82,8 +82,8 @@ public abstract class AbstractKeyValueStorePunctuator<K, V, R> extends AbstractP
 				list.clear();
 			}
 			KeyValue<K, V> kv = iterator.next();
-			list.add(signHandle.apply(kv.key, kv.value));
-			store.delete(kv.key);
+			list.add(this.signHandle.apply(kv.key, kv.value));
+			this.store.delete(kv.key);
 		}
 		runHandle(timestamp, list);
 	}

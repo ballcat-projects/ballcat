@@ -36,7 +36,7 @@ public class RedisIdempotentKeyStore implements IdempotentKeyStore {
 
 	@Override
 	public boolean saveIfAbsent(String key, long duration, TimeUnit timeUnit) {
-		ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
+		ValueOperations<String, String> opsForValue = this.stringRedisTemplate.opsForValue();
 		Boolean saveSuccess = opsForValue.setIfAbsent(key, String.valueOf(System.currentTimeMillis()), duration,
 				timeUnit);
 		return saveSuccess != null && saveSuccess;
@@ -44,7 +44,7 @@ public class RedisIdempotentKeyStore implements IdempotentKeyStore {
 
 	@Override
 	public void remove(String key) {
-		stringRedisTemplate.delete(key);
+		this.stringRedisTemplate.delete(key);
 	}
 
 }

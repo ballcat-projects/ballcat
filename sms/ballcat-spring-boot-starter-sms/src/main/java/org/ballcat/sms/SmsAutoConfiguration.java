@@ -43,7 +43,7 @@ public class SmsAutoConfiguration {
 	@ConditionalOnMissingBean(AbstractSmsSender.class)
 	@ConditionalOnProperty(name = "ballcat.sms.type", havingValue = "TENCENT")
 	public TencentSender tencentSmsSender() {
-		return new TencentSender(properties);
+		return new TencentSender(this.properties);
 	}
 
 	@Bean
@@ -51,7 +51,7 @@ public class SmsAutoConfiguration {
 	@ConditionalOnMissingBean(AbstractSmsSender.class)
 	@ConditionalOnProperty(name = "ballcat.sms.type", havingValue = "ALIYUN")
 	public AliyunSender aliyunSmsSender() {
-		return new AliyunSender(properties);
+		return new AliyunSender(this.properties);
 	}
 
 }

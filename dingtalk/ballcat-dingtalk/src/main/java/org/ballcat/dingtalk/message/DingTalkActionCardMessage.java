@@ -69,7 +69,7 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 	 * 添加按钮
 	 */
 	public DingTalkActionCardMessage addButton(String title, String url) {
-		buttons.add(new Button(title, url));
+		this.buttons.add(new Button(title, url));
 		return this;
 	}
 
@@ -80,16 +80,16 @@ public class DingTalkActionCardMessage extends AbstractDingTalkMessage {
 
 	@Override
 	public DingTalkParams put(DingTalkParams params) {
-		DingTalkParams.ActionCard card = new DingTalkParams.ActionCard().setTitle(title)
-			.setText(text.build())
-			.setBtnOrientation(orientation.getVal());
+		DingTalkParams.ActionCard card = new DingTalkParams.ActionCard().setTitle(this.title)
+			.setText(this.text.build())
+			.setBtnOrientation(this.orientation.getVal());
 
 		// 当 单按钮的 文本和链接都不为空时
-		if (buttons.isEmpty()) {
-			card.setSingleTitle(singleTitle).setSingleUrl(singleUrl);
+		if (this.buttons.isEmpty()) {
+			card.setSingleTitle(this.singleTitle).setSingleUrl(this.singleUrl);
 		}
 		else {
-			card.setButtons(buttons);
+			card.setButtons(this.buttons);
 		}
 		return params.setActionCard(card);
 	}

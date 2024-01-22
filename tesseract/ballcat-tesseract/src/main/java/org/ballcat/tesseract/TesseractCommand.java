@@ -60,24 +60,24 @@ public class TesseractCommand {
 	 * @return a {@link java.lang.String} object.
 	 */
 	public String getCommand() {
-		StringBuilder builder = new StringBuilder("\"").append(tesseract).append("\" \"");
+		StringBuilder builder = new StringBuilder("\"").append(this.tesseract).append("\" \"");
 
 		try {
-			builder.append(image.write()).append("\" stdout");
+			builder.append(this.image.write()).append("\" stdout");
 		}
 		catch (IOException e) {
 			throw new OcrException("图片加载异常!", e);
 		}
 
-		if (hasText(lang)) {
-			builder.append(" -l ").append(lang);
+		if (hasText(this.lang)) {
+			builder.append(" -l ").append(this.lang);
 		}
 
-		if (psm != null) {
-			builder.append(" --psm ").append(psm);
+		if (this.psm != null) {
+			builder.append(" --psm ").append(this.psm);
 		}
 
-		if (boxes) {
+		if (this.boxes) {
 			builder.append(" makebox");
 		}
 

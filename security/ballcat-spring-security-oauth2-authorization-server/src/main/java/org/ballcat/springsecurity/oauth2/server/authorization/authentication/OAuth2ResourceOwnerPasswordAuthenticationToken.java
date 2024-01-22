@@ -55,7 +55,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationToken extends AbstractOAut
 
 	@Override
 	public String getName() {
-		return username;
+		return this.username;
 	}
 
 }

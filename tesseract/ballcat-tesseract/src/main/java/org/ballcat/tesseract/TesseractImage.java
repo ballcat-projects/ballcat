@@ -92,15 +92,16 @@ public class TesseractImage {
 	 * @return 灰度图
 	 */
 	public TesseractImage rgb() {
-		final BufferedImage grayBuffer = new BufferedImage(buffer.getWidth(), buffer.getHeight(), buffer.getType());
+		final BufferedImage grayBuffer = new BufferedImage(this.buffer.getWidth(), this.buffer.getHeight(),
+				this.buffer.getType());
 
-		for (int x = 0; x < buffer.getWidth(); x++) {
-			for (int y = 0; y < buffer.getHeight(); y++) {
-				grayBuffer.setRGB(x, y, toGrayRgb(buffer.getRGB(x, y)));
+		for (int x = 0; x < this.buffer.getWidth(); x++) {
+			for (int y = 0; y < this.buffer.getHeight(); y++) {
+				grayBuffer.setRGB(x, y, toGrayRgb(this.buffer.getRGB(x, y)));
 			}
 		}
 
-		return new TesseractImage(rawFile, grayBuffer, type);
+		return new TesseractImage(this.rawFile, grayBuffer, this.type);
 	}
 
 	/**
@@ -129,17 +130,17 @@ public class TesseractImage {
 	 * @param rectangle a {@link java.awt.Rectangle} object.
 	 */
 	public TesseractImage crop(Rectangle rectangle) {
-		final BufferedImage cropBuffer = new BufferedImage(rectangle.width, rectangle.height, buffer.getType());
+		final BufferedImage cropBuffer = new BufferedImage(rectangle.width, rectangle.height, this.buffer.getType());
 
-		for (int x = 0; x < buffer.getWidth(); x++) {
-			for (int y = 0; y < buffer.getHeight(); y++) {
+		for (int x = 0; x < this.buffer.getWidth(); x++) {
+			for (int y = 0; y < this.buffer.getHeight(); y++) {
 				if (rectangle.contains(x, y)) {
-					cropBuffer.setRGB(x - rectangle.x, y - rectangle.y, buffer.getRGB(x, y));
+					cropBuffer.setRGB(x - rectangle.x, y - rectangle.y, this.buffer.getRGB(x, y));
 				}
 			}
 		}
 
-		return new TesseractImage(rawFile, cropBuffer, type);
+		return new TesseractImage(this.rawFile, cropBuffer, this.type);
 	}
 
 	/**
@@ -148,19 +149,19 @@ public class TesseractImage {
 	 * @throws java.io.IOException if any.
 	 */
 	public String write() throws IOException {
-		if (tmpFile == null) {
+		if (this.tmpFile == null) {
 			if (!DIR.exists()) {
 				DIR.mkdirs();
 			}
-			tmpFile = new File(DIR, System.currentTimeMillis() + "." + type);
-			if (tmpFile.createNewFile()) {
-				ImageIO.write(buffer, type, tmpFile);
+			this.tmpFile = new File(DIR, System.currentTimeMillis() + "." + this.type);
+			if (this.tmpFile.createNewFile()) {
+				ImageIO.write(this.buffer, this.type, this.tmpFile);
 			}
 			else {
 				return write();
 			}
 		}
-		return tmpFile.getPath();
+		return this.tmpFile.getPath();
 	}
 
 }

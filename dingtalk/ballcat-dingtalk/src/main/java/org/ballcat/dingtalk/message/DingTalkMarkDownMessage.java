@@ -48,7 +48,7 @@ public class DingTalkMarkDownMessage extends AbstractDingTalkMessage {
 
 	@Override
 	public DingTalkParams put(DingTalkParams params) {
-		return params.setMarkdown(new DingTalkParams.Markdown().setTitle(title).setText(text.build()));
+		return params.setMarkdown(new DingTalkParams.Markdown().setTitle(this.title).setText(this.text.build()));
 	}
 
 }

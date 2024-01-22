@@ -47,27 +47,27 @@ public class GrpcClient<S extends AbstractAsyncStub<S>, B extends AbstractBlocki
 	private final F futureStub;
 
 	public <T> T async(Function<S, T> function) {
-		return function.apply(asyncStub);
+		return function.apply(this.asyncStub);
 	}
 
 	public <T> T blocking(Function<B, T> function) {
-		return function.apply(blockingStub);
+		return function.apply(this.blockingStub);
 	}
 
 	public <T> T future(Function<F, T> function) {
-		return function.apply(futureStub);
+		return function.apply(this.futureStub);
 	}
 
 	public void async(Consumer<S> consumer) {
-		consumer.accept(asyncStub);
+		consumer.accept(this.asyncStub);
 	}
 
 	public void blocking(Consumer<B> consumer) {
-		consumer.accept(blockingStub);
+		consumer.accept(this.blockingStub);
 	}
 
 	public void future(Consumer<F> consumer) {
-		consumer.accept(futureStub);
+		consumer.accept(this.futureStub);
 	}
 
 }

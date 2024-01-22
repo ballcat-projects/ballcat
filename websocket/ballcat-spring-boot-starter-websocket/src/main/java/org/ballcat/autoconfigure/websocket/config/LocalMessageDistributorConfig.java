@@ -47,7 +47,7 @@ public class LocalMessageDistributorConfig {
 	@Bean
 	@ConditionalOnMissingBean(MessageDistributor.class)
 	public LocalMessageDistributor messageDistributor() {
-		return new LocalMessageDistributor(webSocketSessionStore);
+		return new LocalMessageDistributor(this.webSocketSessionStore);
 	}
 
 }

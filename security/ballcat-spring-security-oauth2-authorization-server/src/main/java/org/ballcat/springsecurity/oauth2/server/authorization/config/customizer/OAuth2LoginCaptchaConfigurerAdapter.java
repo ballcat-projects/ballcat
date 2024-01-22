@@ -56,7 +56,7 @@ public class OAuth2LoginCaptchaConfigurerAdapter implements OAuth2AuthorizationS
 				HttpMethod.POST.name());
 
 		// 验证码，必须在 OAuth2ClientAuthenticationFilter 过滤器之后，方便获取当前客户端
-		httpSecurity.addFilterAfter(new LoginCaptchaFilter(requestMatcher, captchaValidator),
+		httpSecurity.addFilterAfter(new LoginCaptchaFilter(requestMatcher, this.captchaValidator),
 				OAuth2ClientAuthenticationFilter.class);
 	}
 

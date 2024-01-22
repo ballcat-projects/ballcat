@@ -48,7 +48,7 @@ public class DingTalkExceptionNotifier implements ExceptionNotifier {
 			message.atAll();
 		}
 
-		DingTalkResponse response = sender.sendMessage(message);
+		DingTalkResponse response = this.sender.sendMessage(message);
 		return new ExceptionNoticeResponse().setErrMsg(response.getResponse()).setSuccess(response.isSuccess());
 	}
 
