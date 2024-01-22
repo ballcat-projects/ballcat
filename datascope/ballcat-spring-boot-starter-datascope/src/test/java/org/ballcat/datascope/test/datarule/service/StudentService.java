@@ -16,6 +16,8 @@
 
 package org.ballcat.datascope.test.datarule.service;
 
+import java.util.List;
+
 import org.ballcat.datascope.annotation.DataPermission;
 import org.ballcat.datascope.test.datarule.datascope.ClassDataScope;
 import org.ballcat.datascope.test.datarule.datascope.SchoolDataScope;
@@ -23,8 +25,6 @@ import org.ballcat.datascope.test.datarule.entity.Student;
 import org.ballcat.datascope.test.datarule.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author hccake

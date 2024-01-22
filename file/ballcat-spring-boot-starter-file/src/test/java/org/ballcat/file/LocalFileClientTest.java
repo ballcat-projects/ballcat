@@ -16,14 +16,19 @@
 
 package org.ballcat.file;
 
-import org.ballcat.common.util.StreamUtils;
-import org.ballcat.file.local.LocalFileClient;
-import org.junit.jupiter.api.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Objects;
+
+import org.ballcat.common.util.StreamUtils;
+import org.ballcat.file.local.LocalFileClient;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author lingting 2021/10/19 22:49

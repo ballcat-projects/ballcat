@@ -16,17 +16,17 @@
 
 package org.ballcat.file;
 
+import java.io.IOException;
+
+import lombok.AllArgsConstructor;
 import org.ballcat.file.core.FileClient;
 import org.ballcat.file.ftp.FtpFileClient;
 import org.ballcat.file.local.LocalFileClient;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-
-import java.io.IOException;
 
 /**
  * @author lingting 2021/10/17 19:40

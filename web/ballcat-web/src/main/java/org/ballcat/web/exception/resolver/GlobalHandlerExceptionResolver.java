@@ -16,13 +16,16 @@
 
 package org.ballcat.web.exception.resolver;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ValidationException;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.ballcat.common.core.constant.GlobalConstants;
 import org.ballcat.common.core.exception.BusinessException;
 import org.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -34,9 +37,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ValidationException;
 
 /**
  * 全局异常处理

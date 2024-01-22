@@ -16,6 +16,10 @@
 
 package org.ballcat.grpc;
 
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
+
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -24,10 +28,6 @@ import io.grpc.stub.AbstractBlockingStub;
 import io.grpc.stub.AbstractFutureStub;
 import org.ballcat.grpc.properties.GrpcClientProperties;
 import org.springframework.beans.factory.DisposableBean;
-
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
 /**
  * @deprecated use ballcat-spring-boot-starter-grpc-client

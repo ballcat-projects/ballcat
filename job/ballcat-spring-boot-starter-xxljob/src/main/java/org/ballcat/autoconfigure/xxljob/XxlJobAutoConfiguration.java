@@ -16,19 +16,19 @@
 
 package org.ballcat.autoconfigure.xxljob;
 
-import org.ballcat.autoconfigure.xxljob.properties.XxlExecutorProperties;
-import org.ballcat.autoconfigure.xxljob.properties.XxlJobProperties;
+import java.util.Objects;
+
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.autoconfigure.xxljob.properties.XxlExecutorProperties;
+import org.ballcat.autoconfigure.xxljob.properties.XxlJobProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
-
-import java.util.Objects;
 
 /**
  * xxl 初始化

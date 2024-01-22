@@ -16,12 +16,13 @@
 
 package org.ballcat.autoconfigure.redis;
 
-import org.ballcat.redis.listener.MessageEventListener;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
+
+import lombok.RequiredArgsConstructor;
+import org.ballcat.redis.listener.MessageEventListener;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
 /**
  * @author hccake

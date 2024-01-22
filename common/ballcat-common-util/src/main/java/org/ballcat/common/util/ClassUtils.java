@@ -16,8 +16,6 @@
 
 package org.ballcat.common.util;
 
-import lombok.experimental.UtilityClass;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.AccessibleObject;
@@ -48,12 +46,17 @@ import java.util.function.Predicate;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * @author lingting 2021/2/25 21:17
  */
 @UtilityClass
 @SuppressWarnings({ "java:S3011", "unchecked" })
-public class ClassUtils {
+public final class ClassUtils {
+
+	private ClassUtils() {
+	}
 
 	private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
 

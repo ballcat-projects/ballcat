@@ -16,26 +16,28 @@
 
 package org.ballcat.common.core.constant;
 
-import org.ballcat.common.core.https.CompatibleSSLFactory;
-import org.ballcat.common.core.https.SSLSocketFactoryInitException;
-import lombok.experimental.UtilityClass;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+
+import org.ballcat.common.core.https.CompatibleSSLFactory;
+import org.ballcat.common.core.https.SSLSocketFactoryInitException;
 
 /**
  * @author lingting
  */
-@UtilityClass
 @SuppressWarnings("java:S4830")
-public class HttpsConstants {
+public final class HttpsConstants {
+
+	private HttpsConstants() {
+	}
 
 	public static final String SSL = "SSL";
 

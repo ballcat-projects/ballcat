@@ -16,6 +16,9 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
+import java.util.List;
+import java.util.function.Consumer;
+
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.authorization.authentication.BallcatOAuth2TokenRevocationAuthenticationProvider;
 import org.ballcat.springsecurity.oauth2.server.authorization.web.authentication.BallcatOAuth2TokenRevocationAuthenticationConverter;
@@ -27,9 +30,6 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2TokenRevocationAuthenticationConverter;
 import org.springframework.security.web.authentication.AuthenticationConverter;
-
-import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * 令牌撤销端点配置的自定义扩展

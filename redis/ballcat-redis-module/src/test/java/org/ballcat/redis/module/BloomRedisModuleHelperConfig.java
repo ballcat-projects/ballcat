@@ -16,10 +16,10 @@
 
 package org.ballcat.redis.module;
 
+import lombok.RequiredArgsConstructor;
+import org.ballcat.redis.moudle.bloom.BloomRedisModuleHelper;
 import org.ballcat.redis.prefix.IRedisPrefixConverter;
 import org.ballcat.redis.serialize.PrefixStringRedisSerializer;
-import org.ballcat.redis.moudle.bloom.BloomRedisModuleHelper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;

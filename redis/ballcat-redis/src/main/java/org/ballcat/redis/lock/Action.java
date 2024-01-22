@@ -16,10 +16,10 @@
 
 package org.ballcat.redis.lock;
 
+import java.util.concurrent.TimeUnit;
+
 import org.ballcat.redis.config.CachePropertiesHolder;
 import org.ballcat.redis.lock.function.ThrowingExecutor;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author huyuanzhi 锁住的方法

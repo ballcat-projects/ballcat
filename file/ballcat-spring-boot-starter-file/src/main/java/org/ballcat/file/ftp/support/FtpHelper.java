@@ -16,10 +16,6 @@
 
 package org.ballcat.file.ftp.support;
 
-import org.ballcat.common.constant.Symbol;
-import org.ballcat.file.exception.FileException;
-import org.ballcat.file.ftp.FtpMode;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +23,10 @@ import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.ballcat.common.constant.Symbol;
+import org.ballcat.file.exception.FileException;
+import org.ballcat.file.ftp.FtpMode;
 
 /**
  * 参考 alibaba.datax.plugin.ftpreader

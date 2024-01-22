@@ -16,15 +16,17 @@
 
 package org.ballcat.autoconfigure.websocket;
 
+import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 import org.ballcat.autoconfigure.websocket.config.LocalMessageDistributorConfig;
-import org.ballcat.autoconfigure.websocket.config.RocketMqMessageDistributorConfig;
 import org.ballcat.autoconfigure.websocket.config.RedisMessageDistributorConfig;
+import org.ballcat.autoconfigure.websocket.config.RocketMqMessageDistributorConfig;
 import org.ballcat.autoconfigure.websocket.config.WebSocketHandlerConfig;
 import org.ballcat.websocket.handler.JsonMessageHandler;
 import org.ballcat.websocket.handler.PingJsonMessageHandler;
 import org.ballcat.websocket.holder.JsonMessageHandlerInitializer;
 import org.ballcat.websocket.message.JsonWebSocketMessage;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -38,8 +40,6 @@ import org.springframework.web.socket.config.annotation.SockJsServiceRegistratio
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistration;
 import org.springframework.web.socket.server.HandshakeInterceptor;
-
-import java.util.List;
 
 /**
  * websocket自动配置

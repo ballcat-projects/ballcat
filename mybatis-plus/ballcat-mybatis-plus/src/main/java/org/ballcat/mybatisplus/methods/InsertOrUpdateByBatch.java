@@ -16,12 +16,12 @@
 
 package org.ballcat.mybatisplus.methods;
 
+import java.util.function.Predicate;
+
 import com.baomidou.mybatisplus.core.metadata.TableFieldInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.function.Predicate;
 
 /**
  * @author lingting 2020/5/27 11:47

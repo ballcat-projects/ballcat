@@ -16,10 +16,6 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.user;
 
-import org.ballcat.springsecurity.oauth2.constant.UserAttributeNameConstants;
-import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,10 +23,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.ballcat.springsecurity.oauth2.constant.UserAttributeNameConstants;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 /**
  * @author hccake
  */
-public class TestUsers {
+public final class TestUsers {
+
+	private TestUsers() {
+	}
 
 	public static DefaultOAuth2User.DefaultOAuth2UserBuilder user1() {
 		List<String> roleCodes = Collections.singletonList("ROLE_admin");

@@ -16,14 +16,13 @@
 
 package org.ballcat.pay.ali.constants;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 /**
  * @author lingting 2021/1/25 13:35
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AliPayConstant {
+public final class AliPayConstant {
+
+	private AliPayConstant() {
+	}
 
 	/**
 	 * 支付宝支付线上api路径

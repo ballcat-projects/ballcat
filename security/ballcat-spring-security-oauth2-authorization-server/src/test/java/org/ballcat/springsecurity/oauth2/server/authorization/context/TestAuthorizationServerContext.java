@@ -16,11 +16,11 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.context;
 
+import java.util.function.Supplier;
+
 import org.springframework.lang.Nullable;
 import org.springframework.security.oauth2.server.authorization.context.AuthorizationServerContext;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-
-import java.util.function.Supplier;
 
 /**
  * @author Joe Grandja

@@ -16,12 +16,12 @@
 
 package org.ballcat.grpc.server.properties;
 
+import java.util.concurrent.TimeUnit;
+
 import lombok.Data;
 import org.ballcat.common.core.constant.MDCConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.unit.DataSize;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author lingting 2023-04-06 15:18

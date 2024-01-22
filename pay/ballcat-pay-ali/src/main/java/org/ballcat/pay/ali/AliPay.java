@@ -16,6 +16,9 @@
 
 package org.ballcat.pay.ali;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
@@ -37,14 +40,9 @@ import com.alipay.api.response.AlipayTradePayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
+import lombok.Data;
 import org.ballcat.pay.ali.constants.AliPayConstant;
 import org.ballcat.pay.ali.domain.AliPayQuery;
-import lombok.Data;
-
-import java.math.BigDecimal;
-import java.util.Map;
-
-import static org.ballcat.pay.ali.constants.AliPayConstant.FIELD_FUND_BILL_LIST;
 
 /**
  * <a href="https://opendocs.alipay.com/apis">api文档</a>.
@@ -407,7 +405,8 @@ public class AliPay {
 	 */
 	public boolean checkSignV1(Map<String, String> map) throws AlipayApiException {
 		// 验签需要先移除 fund_bill_list 参数值中的 &quot; 否则会导致正确的签名验签失败
-		map.put(FIELD_FUND_BILL_LIST, map.get(FIELD_FUND_BILL_LIST).replace("&quot;", "\""));
+		map.put(AliPayConstant.FIELD_FUND_BILL_LIST,
+				map.get(AliPayConstant.FIELD_FUND_BILL_LIST).replace("&quot;", "\""));
 		return AlipaySignature.rsaCheckV1(map, alipayPublicKey, charset, signType);
 	}
 
@@ -418,7 +417,8 @@ public class AliPay {
 	 */
 	public boolean checkSignV2(Map<String, String> map) throws AlipayApiException {
 		// 验签需要先移除 fund_bill_list 参数值中的 &quot; 否则会导致正确的签名验签失败
-		map.put(FIELD_FUND_BILL_LIST, map.get(FIELD_FUND_BILL_LIST).replace("&quot;", "\""));
+		map.put(AliPayConstant.FIELD_FUND_BILL_LIST,
+				map.get(AliPayConstant.FIELD_FUND_BILL_LIST).replace("&quot;", "\""));
 		return AlipaySignature.rsaCheckV2(map, alipayPublicKey, charset, signType);
 	}
 

@@ -16,13 +16,13 @@
 
 package org.ballcat.datascope.interceptor;
 
+import java.lang.reflect.Method;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.ballcat.datascope.annotation.DataPermission;
 import org.ballcat.datascope.handler.DataPermissionRule;
 import org.ballcat.datascope.holder.DataPermissionRuleHolder;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
-
-import java.lang.reflect.Method;
 
 /**
  * DataPermission注解的拦截器，在执行方法前将当前方法的对应注解压栈，执行后弹出注解

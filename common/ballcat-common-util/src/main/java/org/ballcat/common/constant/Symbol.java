@@ -21,7 +21,10 @@ package org.ballcat.common.constant;
  *
  * @author <a href="mailto:cs.liaow@gmail.com">evil0th</a> Create on 2023/3/6
  */
-public class Symbol {
+public final class Symbol {
+
+	private Symbol() {
+	}
 
 	public static final char C_SPACE = ' ';
 

@@ -16,9 +16,9 @@
 
 package org.ballcat.common.util;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.Objects;
+
+import lombok.experimental.UtilityClass;
 
 /**
  * @author lingting

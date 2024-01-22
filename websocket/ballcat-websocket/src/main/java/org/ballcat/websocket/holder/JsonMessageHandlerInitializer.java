@@ -16,12 +16,13 @@
 
 package org.ballcat.websocket.holder;
 
-import org.ballcat.websocket.handler.JsonMessageHandler;
-import org.ballcat.websocket.message.JsonWebSocketMessage;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
+
+import lombok.RequiredArgsConstructor;
+import org.ballcat.websocket.handler.JsonMessageHandler;
+import org.ballcat.websocket.message.JsonWebSocketMessage;
 
 /**
  * <p>

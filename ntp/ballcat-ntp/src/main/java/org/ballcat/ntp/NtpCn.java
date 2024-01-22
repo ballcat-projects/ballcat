@@ -16,15 +16,15 @@
 
 package org.ballcat.ntp;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * 中国 ntp 类
  *
  * @author lingting 2023/2/1 14:10
  */
-@UtilityClass
-public class NtpCn {
+public final class NtpCn {
+
+	private NtpCn() {
+	}
 
 	public static final String DEFAULT_TIME_SERVER = "time.windows.com";
 

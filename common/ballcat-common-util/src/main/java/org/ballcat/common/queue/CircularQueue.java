@@ -16,13 +16,13 @@
 
 package org.ballcat.common.queue;
 
-import org.ballcat.common.lock.JavaReentrantLock;
-import org.springframework.util.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import org.ballcat.common.lock.JavaReentrantLock;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 循环队列

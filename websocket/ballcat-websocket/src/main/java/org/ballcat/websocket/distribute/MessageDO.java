@@ -16,10 +16,10 @@
 
 package org.ballcat.websocket.distribute;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * @author Hccake 2021/1/12

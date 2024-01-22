@@ -16,14 +16,14 @@
 
 package org.ballcat.redis.lock;
 
-import org.ballcat.redis.lock.function.ExceptionHandler;
-import org.ballcat.redis.lock.function.ThrowingExecutor;
-import org.springframework.util.Assert;
-
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+
+import org.ballcat.redis.lock.function.ExceptionHandler;
+import org.ballcat.redis.lock.function.ThrowingExecutor;
+import org.springframework.util.Assert;
 
 /**
  * 分布式锁操作类
@@ -162,11 +162,11 @@ public final class DistributedLock<T> implements Action<T>, StateHandler<T> {
 
 		private boolean first = true;
 
-		public Fibonacci() {
+		Fibonacci() {
 			this(1);
 		}
 
-		public Fibonacci(int initial) {
+		Fibonacci(int initial) {
 			this.current = initial;
 		}
 

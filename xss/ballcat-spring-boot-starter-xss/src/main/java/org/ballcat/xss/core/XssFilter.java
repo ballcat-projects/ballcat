@@ -16,17 +16,18 @@
 
 package org.ballcat.xss.core;
 
-import lombok.RequiredArgsConstructor;
-import org.ballcat.xss.cleaner.XssCleaner;
-import org.ballcat.xss.config.XssProperties;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import lombok.RequiredArgsConstructor;
+import org.ballcat.xss.cleaner.XssCleaner;
+import org.ballcat.xss.config.XssProperties;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * @author Hccake 2019/10/17 20:28

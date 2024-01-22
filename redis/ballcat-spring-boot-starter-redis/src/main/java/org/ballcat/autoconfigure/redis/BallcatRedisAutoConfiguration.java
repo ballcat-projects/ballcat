@@ -17,6 +17,7 @@
 package org.ballcat.autoconfigure.redis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.ballcat.redis.RedisHelper;
 import org.ballcat.redis.config.CacheProperties;
 import org.ballcat.redis.config.CachePropertiesHolder;
@@ -27,7 +28,6 @@ import org.ballcat.redis.serialize.CacheSerializer;
 import org.ballcat.redis.serialize.JacksonSerializer;
 import org.ballcat.redis.serialize.PrefixJdkRedisSerializer;
 import org.ballcat.redis.serialize.PrefixStringRedisSerializer;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

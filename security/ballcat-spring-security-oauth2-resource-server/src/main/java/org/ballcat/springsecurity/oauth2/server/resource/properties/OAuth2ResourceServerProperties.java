@@ -20,9 +20,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 资源服务器的配置文件，用于配置 token 鉴定方式。由于目前 ballcat 授权服务器使用 不透明令牌，所以这里也暂时不做 jwt令牌支持的扩展
  *

@@ -16,17 +16,17 @@
 
 package org.ballcat.dingtalk.message;
 
-import org.ballcat.common.markdown.MarkdownBuilder;
-import org.ballcat.dingtalk.DingTalkParams;
-import org.ballcat.dingtalk.enums.ActionBtnOrientationEnum;
-import org.ballcat.dingtalk.enums.MessageTypeEnum;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.ballcat.common.markdown.MarkdownBuilder;
+import org.ballcat.dingtalk.DingTalkParams;
+import org.ballcat.dingtalk.enums.ActionBtnOrientationEnum;
+import org.ballcat.dingtalk.enums.MessageTypeEnum;
 
 /**
  * 跳转 ActionCard类型

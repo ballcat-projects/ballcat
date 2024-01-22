@@ -16,10 +16,6 @@
 
 package org.ballcat.common.util;
 
-import lombok.NonNull;
-import lombok.experimental.UtilityClass;
-import org.ballcat.common.constant.Symbol;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import lombok.NonNull;
+import lombok.experimental.UtilityClass;
+import org.ballcat.common.constant.Symbol;
 
 /**
  * 正则表达式工具集

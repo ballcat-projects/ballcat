@@ -16,6 +16,9 @@
 
 package org.ballcat.autoconfigure.openapi;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springdoc.core.Constants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -24,9 +27,6 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 import org.springframework.util.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 将 ballcat openApi 的开关配置同步至 springdoc

@@ -16,15 +16,14 @@
 
 package org.ballcat.desensitize.json;
 
+import java.lang.annotation.Annotation;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import org.ballcat.desensitize.AnnotationHandlerHolder;
-
-import java.lang.annotation.Annotation;
-
-import java.util.List;
 
 /**
  * json serial modifier

@@ -16,8 +16,8 @@
 
 package org.ballcat.idempotent.exception;
 
-import org.ballcat.common.core.exception.BusinessException;
 import lombok.EqualsAndHashCode;
+import org.ballcat.common.core.exception.BusinessException;
 
 /**
  * @author hccake

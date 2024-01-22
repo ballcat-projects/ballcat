@@ -16,11 +16,11 @@
 
 package org.ballcat.datascope.holder;
 
-import org.ballcat.datascope.handler.DataPermissionRule;
-import org.ballcat.datascope.annotation.DataPermission;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
+
+import org.ballcat.datascope.annotation.DataPermission;
+import org.ballcat.datascope.handler.DataPermissionRule;
 
 /**
  * 数据权限规则的持有者，使用栈存储调用链中的数据权限规则

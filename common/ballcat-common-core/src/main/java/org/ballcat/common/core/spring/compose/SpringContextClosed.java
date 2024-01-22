@@ -16,15 +16,15 @@
 
 package org.ballcat.common.core.spring.compose;
 
-import org.ballcat.common.core.compose.ContextComponent;
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.common.core.compose.ContextComponent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 /**
  * @author lingting 2022/10/22 17:45

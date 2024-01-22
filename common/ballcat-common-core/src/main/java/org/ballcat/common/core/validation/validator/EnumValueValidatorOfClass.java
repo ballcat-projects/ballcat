@@ -16,10 +16,10 @@
 
 package org.ballcat.common.core.validation.validator;
 
-import org.ballcat.common.core.validation.constraints.OneOfClasses;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.ballcat.common.core.validation.constraints.OneOfClasses;
 
 /**
  * 枚举值 Validator

@@ -16,10 +16,10 @@
 
 package org.ballcat.common.core.exception;
 
+import java.text.MessageFormat;
+
 import lombok.Getter;
 import org.ballcat.common.model.result.ResultCode;
-
-import java.text.MessageFormat;
 
 /**
  * 通用业务异常

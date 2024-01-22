@@ -16,9 +16,13 @@
 
 package org.ballcat.easyexcel.annotation;
 
-import org.ballcat.easyexcel.head.HeadGenerator;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.lang.annotation.*;
+import org.ballcat.easyexcel.head.HeadGenerator;
 
 /**
  * 用于指定导入导出的 excel 的 sheet 属性

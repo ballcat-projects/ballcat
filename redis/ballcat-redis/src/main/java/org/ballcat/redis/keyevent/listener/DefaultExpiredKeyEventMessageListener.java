@@ -16,16 +16,16 @@
 
 package org.ballcat.redis.keyevent.listener;
 
-import org.ballcat.redis.keyevent.template.KeyExpiredEventMessageTemplate;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.redis.keyevent.template.KeyExpiredEventMessageTemplate;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * default key expired event handler

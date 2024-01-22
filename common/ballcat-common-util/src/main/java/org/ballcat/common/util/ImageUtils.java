@@ -16,14 +16,6 @@
 
 package org.ballcat.common.util;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.UtilityClass;
-import org.springframework.util.StringUtils;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -31,13 +23,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.util.StringUtils;
+
 /**
  * @author lingting 2021/7/22 13:44
  */
-@UtilityClass
-public class ImageUtils {
+public final class ImageUtils {
 
-	private final List<ImageResolver> RESOLVER_LIST;
+	private ImageUtils() {
+	}
+
+	private static final List<ImageResolver> RESOLVER_LIST;
 
 	static {
 		RESOLVER_LIST = new ArrayList<>(16);
@@ -122,7 +124,7 @@ public class ImageUtils {
 	 * @param resolver 解析方案
 	 * @param index 所在位置. 越小越先执行, 最小值为0
 	 */
-	public void registerResolver(ImageResolver resolver, int index) {
+	public static void registerResolver(ImageResolver resolver, int index) {
 		RESOLVER_LIST.add(Math.max(index, 0), resolver);
 	}
 
@@ -137,7 +139,7 @@ public class ImageUtils {
 	 * </p>
 	 * @throws IOException 流异常时抛出
 	 */
-	public ImageInfo quickResolveClone(InputStream stream) throws IOException {
+	public static ImageInfo quickResolveClone(InputStream stream) throws IOException {
 		final InputStream[] streams = StreamUtils.clone(stream, 2);
 		final ImageInfo info = new ImageInfo();
 		// 返回可用的流
@@ -184,7 +186,7 @@ public class ImageUtils {
 	 * @return com.cloud.core.util.ImageUtils.ImageInfo
 	 * @throws IOException 流异常时抛出
 	 */
-	public ImageInfo resolveClone(InputStream stream) throws IOException {
+	public static ImageInfo resolveClone(InputStream stream) throws IOException {
 		final InputStream[] streams = StreamUtils.clone(stream, 2);
 		final ImageInfo info = new ImageInfo();
 		// 返回可用的流
@@ -227,7 +229,7 @@ public class ImageUtils {
 	 * @param stream 流
 	 * @return com.cloud.core.util.ImageUtils.ImageInfo
 	 */
-	public ImageInfo mixResolveClone(InputStream stream) throws IOException {
+	public static ImageInfo mixResolveClone(InputStream stream) throws IOException {
 		InputStream[] streams = StreamUtils.clone(stream, 2);
 
 		try {
@@ -239,9 +241,42 @@ public class ImageUtils {
 
 	}
 
+	/**
+	 * tiff格式处理
+	 */
+	private static void tiffResolver(InputStream stream, ImageInfo info, int r1) throws IOException {
+		boolean bigEndian = r1 == 'M';
+		int ifd = StreamUtils.readInt(stream, 4, bigEndian);
+		int entries;
+		stream.skip(ifd - 8);
+		entries = StreamUtils.readInt(stream, 2, bigEndian);
+		for (int i = 1; i <= entries; i++) {
+			int tag = StreamUtils.readInt(stream, 2, bigEndian);
+			int fieldType = StreamUtils.readInt(stream, 2, bigEndian);
+			int valOffset;
+			if ((fieldType == 3 || fieldType == 8)) {
+				valOffset = StreamUtils.readInt(stream, 2, bigEndian);
+				stream.skip(2);
+			}
+			else {
+				valOffset = StreamUtils.readInt(stream, 4, bigEndian);
+			}
+			if (tag == 256) {
+				info.setWidth(valOffset);
+			}
+			else if (tag == 257) {
+				info.setHeight(valOffset);
+			}
+			if (info.getWidth() != -1 && info.getHeight() != -1) {
+				info.setType("image/tiff");
+				break;
+			}
+		}
+	}
+
 	@Getter
 	@Setter
-	public static class ImageInfo {
+	public static final class ImageInfo {
 
 		private ImageInfo() {
 		}
@@ -275,39 +310,6 @@ public class ImageUtils {
 		 */
 		void resolve(ImageInfo info, InputStream stream) throws IOException;
 
-	}
-
-	/**
-	 * tiff格式处理
-	 */
-	private void tiffResolver(InputStream stream, ImageInfo info, int r1) throws IOException {
-		boolean bigEndian = r1 == 'M';
-		int ifd = StreamUtils.readInt(stream, 4, bigEndian);
-		int entries;
-		stream.skip(ifd - 8);
-		entries = StreamUtils.readInt(stream, 2, bigEndian);
-		for (int i = 1; i <= entries; i++) {
-			int tag = StreamUtils.readInt(stream, 2, bigEndian);
-			int fieldType = StreamUtils.readInt(stream, 2, bigEndian);
-			int valOffset;
-			if ((fieldType == 3 || fieldType == 8)) {
-				valOffset = StreamUtils.readInt(stream, 2, bigEndian);
-				stream.skip(2);
-			}
-			else {
-				valOffset = StreamUtils.readInt(stream, 4, bigEndian);
-			}
-			if (tag == 256) {
-				info.setWidth(valOffset);
-			}
-			else if (tag == 257) {
-				info.setHeight(valOffset);
-			}
-			if (info.getWidth() != -1 && info.getHeight() != -1) {
-				info.setType("image/tiff");
-				break;
-			}
-		}
 	}
 
 }

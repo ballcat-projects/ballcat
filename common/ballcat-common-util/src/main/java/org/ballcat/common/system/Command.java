@@ -16,11 +16,6 @@
 
 package org.ballcat.common.system;
 
-import org.ballcat.common.exception.CommandTimeoutException;
-import org.ballcat.common.util.FileUtils;
-import org.ballcat.common.util.SystemUtils;
-import org.springframework.util.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,10 +24,15 @@ import java.time.LocalDateTime;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
+import org.ballcat.common.exception.CommandTimeoutException;
+import org.ballcat.common.util.FileUtils;
+import org.ballcat.common.util.SystemUtils;
+import org.springframework.util.StringUtils;
+
 /**
  * @author lingting 2022/6/25 11:55
  */
-public class Command {
+public final class Command {
 
 	public static final String NEXT_LINE = SystemUtils.lineSeparator();
 

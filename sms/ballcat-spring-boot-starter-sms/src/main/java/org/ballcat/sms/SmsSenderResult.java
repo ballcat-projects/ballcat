@@ -16,6 +16,8 @@
 
 package org.ballcat.sms;
 
+import java.util.Set;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +25,6 @@ import lombok.experimental.Accessors;
 import org.ballcat.common.constant.Symbol;
 import org.ballcat.common.util.JsonUtils;
 import org.ballcat.sms.enums.TypeEnum;
-
-import java.util.Set;
 
 /**
  * 短信发送结果

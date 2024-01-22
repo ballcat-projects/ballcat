@@ -16,16 +16,16 @@
 
 package org.ballcat.openapi.pageable;
 
+import java.util.Iterator;
+
 import com.fasterxml.jackson.databind.JavaType;
-import org.ballcat.common.model.domain.PageParam;
 import io.swagger.v3.core.converter.AnnotatedType;
 import io.swagger.v3.core.converter.ModelConverter;
 import io.swagger.v3.core.converter.ModelConverterContext;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.ballcat.common.model.domain.PageParam;
 import org.springdoc.core.providers.ObjectMapperProvider;
-
-import java.util.Iterator;
 
 /**
  * The PageParam Type models converter.

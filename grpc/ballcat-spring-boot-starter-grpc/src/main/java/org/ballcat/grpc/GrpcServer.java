@@ -16,11 +16,11 @@
 
 package org.ballcat.grpc;
 
-import org.ballcat.common.core.compose.ContextComponent;
-import org.ballcat.common.thread.ThreadPool;
 import io.grpc.Server;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.common.core.compose.ContextComponent;
+import org.ballcat.common.thread.ThreadPool;
 
 /**
  * @deprecated use ballcat-spring-boot-starter-grpc-server

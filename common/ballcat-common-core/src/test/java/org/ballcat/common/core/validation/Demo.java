@@ -16,11 +16,11 @@
 
 package org.ballcat.common.core.validation;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.ballcat.common.core.validation.constraints.OneOfInts;
 import org.ballcat.common.core.validation.constraints.OneOfStrings;
 import org.ballcat.common.core.validation.constraints.ValueOfEnum;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 /**
  * @author hccake

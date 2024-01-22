@@ -18,7 +18,13 @@ package org.ballcat.springsecurity.configuration;
 
 import org.ballcat.security.captcha.CaptchaValidator;
 import org.ballcat.security.properties.SecurityProperties;
-import org.ballcat.springsecurity.configuer.*;
+import org.ballcat.springsecurity.configuer.AuthorizeRequestsSpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.configuer.ExceptionHandleSpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.configuer.FormLoginSpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.configuer.LoginCaptchaSpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.configuer.LoginPasswordDecodeSpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.configuer.SeparationLoginSpringSecurityConfigurerCustomizer;
+import org.ballcat.springsecurity.configuer.SpringSecurityFilterChainConfiguration;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.web.FormLoginSuccessHandler;
 import org.springframework.beans.factory.ObjectProvider;
@@ -33,7 +39,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @EnableConfigurationProperties(SecurityProperties.class)

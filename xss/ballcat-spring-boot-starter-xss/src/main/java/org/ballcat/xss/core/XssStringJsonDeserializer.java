@@ -16,14 +16,14 @@
 
 package org.ballcat.xss.core;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
-import org.ballcat.xss.cleaner.XssCleaner;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
+import org.ballcat.xss.cleaner.XssCleaner;
 
 /**
  * XSS过滤 jackson 反序列化器

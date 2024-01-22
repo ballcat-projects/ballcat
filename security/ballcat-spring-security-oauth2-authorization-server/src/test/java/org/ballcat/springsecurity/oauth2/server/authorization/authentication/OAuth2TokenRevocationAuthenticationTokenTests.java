@@ -16,6 +16,10 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Collections;
+
 import org.ballcat.springsecurity.oauth2.server.authorization.TestOAuth2Authorizations;
 import org.ballcat.springsecurity.oauth2.server.authorization.client.TestRegisteredClients;
 import org.junit.jupiter.api.Test;
@@ -25,10 +29,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

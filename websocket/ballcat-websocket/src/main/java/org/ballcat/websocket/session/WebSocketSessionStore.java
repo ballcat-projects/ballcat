@@ -16,10 +16,9 @@
 
 package org.ballcat.websocket.session;
 
-import org.springframework.web.socket.WebSocketSession;
-
-import java.io.IOException;
 import java.util.Collection;
+
+import org.springframework.web.socket.WebSocketSession;
 
 /**
  * @author hccake

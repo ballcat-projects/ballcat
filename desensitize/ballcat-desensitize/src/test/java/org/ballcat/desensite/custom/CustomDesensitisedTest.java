@@ -17,12 +17,12 @@
 package org.ballcat.desensite.custom;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.ballcat.desensite.DesensitizationUser;
+import org.ballcat.desensite.TestUtils;
 import org.ballcat.desensitize.AnnotationHandlerHolder;
 import org.ballcat.desensitize.DesensitizationHandlerHolder;
 import org.ballcat.desensitize.json.JsonDesensitizeSerializerModifier;
-import org.ballcat.desensite.DesensitizationUser;
-import org.ballcat.desensite.TestUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

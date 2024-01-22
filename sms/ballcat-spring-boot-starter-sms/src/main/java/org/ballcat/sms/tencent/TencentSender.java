@@ -16,6 +16,9 @@
 
 package org.ballcat.sms.tencent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.tencentcloudapi.common.AbstractModel;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.profile.ClientProfile;
@@ -31,9 +34,6 @@ import org.ballcat.sms.properties.extra.Tencent;
 import org.ballcat.sms.sender.AbstractSmsSender;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author lingting 2023-10-16 19:45

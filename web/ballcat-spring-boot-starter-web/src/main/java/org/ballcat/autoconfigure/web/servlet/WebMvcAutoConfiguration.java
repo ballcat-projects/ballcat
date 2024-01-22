@@ -16,10 +16,12 @@
 
 package org.ballcat.autoconfigure.web.servlet;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
+import org.ballcat.autoconfigure.web.pageable.PageableProperties;
 import org.ballcat.web.pageable.DefaultPageParamArgumentResolver;
 import org.ballcat.web.pageable.PageParamArgumentResolver;
-import org.ballcat.autoconfigure.web.pageable.PageableProperties;
 import org.ballcat.web.trace.TraceIdFilter;
 import org.ballcat.web.trace.TraceIdGenerator;
 import org.bson.types.ObjectId;
@@ -33,8 +35,6 @@ import org.springframework.core.Ordered;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
-
 /**
  * @author Hccake 2019/10/19 17:10
  */
@@ -42,27 +42,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableConfigurationProperties({ WebProperties.class, PageableProperties.class })
 public class WebMvcAutoConfiguration {
-
-	@Configuration(proxyBeanMethods = false)
-	static class TraceIdConfiguration {
-
-		@Bean
-		@ConditionalOnMissingBean(TraceIdGenerator.class)
-		public TraceIdGenerator traceIdGenerator() {
-			return () -> ObjectId.get().toString();
-		}
-
-		@Bean
-		public FilterRegistrationBean<TraceIdFilter> traceIdFilterRegistrationBean(WebProperties webProperties,
-				TraceIdGenerator traceIdGenerator) {
-			String traceIdHeaderName = webProperties.getTraceIdHeaderName();
-			TraceIdFilter traceIdFilter = new TraceIdFilter(traceIdHeaderName, traceIdGenerator);
-			FilterRegistrationBean<TraceIdFilter> registrationBean = new FilterRegistrationBean<>(traceIdFilter);
-			registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-			return registrationBean;
-		}
-
-	}
 
 	@Bean
 	@ConditionalOnMissingBean
@@ -85,6 +64,27 @@ public class WebMvcAutoConfiguration {
 		@Override
 		public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 			argumentResolvers.add(pageParamArgumentResolver);
+		}
+
+	}
+
+	@Configuration(proxyBeanMethods = false)
+	static class TraceIdConfiguration {
+
+		@Bean
+		@ConditionalOnMissingBean(TraceIdGenerator.class)
+		public TraceIdGenerator traceIdGenerator() {
+			return () -> ObjectId.get().toString();
+		}
+
+		@Bean
+		public FilterRegistrationBean<TraceIdFilter> traceIdFilterRegistrationBean(WebProperties webProperties,
+				TraceIdGenerator traceIdGenerator) {
+			String traceIdHeaderName = webProperties.getTraceIdHeaderName();
+			TraceIdFilter traceIdFilter = new TraceIdFilter(traceIdHeaderName, traceIdGenerator);
+			FilterRegistrationBean<TraceIdFilter> registrationBean = new FilterRegistrationBean<>(traceIdFilter);
+			registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+			return registrationBean;
 		}
 
 	}

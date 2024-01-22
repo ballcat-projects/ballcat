@@ -16,10 +16,10 @@
 
 package org.ballcat.i18n;
 
+import javax.validation.constraints.NotEmpty;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
 
 /**
  * 对标于 message bundle 的文件消息的抽象

@@ -16,13 +16,13 @@
 
 package org.ballcat.datascope.test.datarule.config;
 
+import javax.sql.DataSource;
+
 import org.h2.Driver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-
-import javax.sql.DataSource;
 
 /**
  * @author hccake

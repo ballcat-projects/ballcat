@@ -16,6 +16,16 @@
 
 package org.ballcat.web.accesslog;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.List;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.ballcat.common.core.constant.MDCConstants;
 import org.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
@@ -30,15 +40,6 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import org.springframework.web.util.ServletRequestPathUtils;
 import org.springframework.web.util.UrlPathHelper;
 import org.springframework.web.util.WebUtils;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.util.List;
 
 /**
  * @author Hccake 2019/10/15 21:53

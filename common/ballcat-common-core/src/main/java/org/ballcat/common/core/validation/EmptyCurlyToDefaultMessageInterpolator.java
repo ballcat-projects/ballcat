@@ -16,12 +16,12 @@
 
 package org.ballcat.common.core.validation;
 
-import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
-import org.hibernate.validator.spi.resourceloading.ResourceBundleLocator;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Locale;
+
+import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
+import org.hibernate.validator.spi.resourceloading.ResourceBundleLocator;
 
 /**
  * 将消息中空的花括号替换为校验注解的默认值

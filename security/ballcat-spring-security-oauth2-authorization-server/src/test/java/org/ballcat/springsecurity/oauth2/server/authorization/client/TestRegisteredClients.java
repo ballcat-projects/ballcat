@@ -16,19 +16,22 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.client;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-
 /**
  * @author Anoop Garlapati
  * @author Hccake
  */
-public class TestRegisteredClients {
+public final class TestRegisteredClients {
+
+	private TestRegisteredClients() {
+	}
 
 	public static RegisteredClient.Builder registeredClient() {
 		return RegisteredClient.withId("registration-1")

@@ -16,8 +16,8 @@
 
 package org.ballcat.idempotent.test;
 
-import org.ballcat.idempotent.annotation.Idempotent;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.idempotent.annotation.Idempotent;
 
 /**
  * @author hccake

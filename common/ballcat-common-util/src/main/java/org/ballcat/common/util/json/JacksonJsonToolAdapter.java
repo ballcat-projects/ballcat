@@ -16,6 +16,9 @@
 
 package org.ballcat.common.util.json;
 
+import java.lang.reflect.Type;
+import java.util.function.Consumer;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -23,9 +26,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-
-import java.lang.reflect.Type;
-import java.util.function.Consumer;
 
 /**
  * @author lingting 2021/2/25 21:04

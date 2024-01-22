@@ -16,10 +16,10 @@
 
 package org.ballcat.datascope.interceptor;
 
-import org.ballcat.datascope.annotation.DataPermission;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.aopalliance.aop.Advice;
+import org.ballcat.datascope.annotation.DataPermission;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
 import org.springframework.aop.support.ComposablePointcut;

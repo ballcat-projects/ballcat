@@ -16,12 +16,12 @@
 
 package org.ballcat.xss.core;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.ballcat.xss.cleaner.XssCleaner;
-
-import java.io.IOException;
 
 /**
  * XSS过滤 jackson 序列化器

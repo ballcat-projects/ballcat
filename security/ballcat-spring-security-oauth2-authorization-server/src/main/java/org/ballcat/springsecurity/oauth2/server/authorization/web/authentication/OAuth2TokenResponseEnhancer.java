@@ -16,10 +16,10 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.web.authentication;
 
+import java.util.Map;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
-
-import java.util.Map;
 
 /**
  * Customize additional parameters for OAuth2 Token Response

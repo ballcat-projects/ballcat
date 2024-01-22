@@ -16,7 +16,6 @@
 
 package org.ballcat.redis;
 
-import org.ballcat.redis.RedisHelper;
 import org.ballcat.redis.config.CacheProperties;
 import org.ballcat.redis.config.CachePropertiesHolder;
 import org.ballcat.redis.prefix.IRedisPrefixConverter;

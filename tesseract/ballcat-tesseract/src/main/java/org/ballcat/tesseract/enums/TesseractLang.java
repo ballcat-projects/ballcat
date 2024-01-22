@@ -37,9 +37,7 @@ public enum TesseractLang {
 	/**
 	 * zh
 	 */
-	ZH("chi_sim"),
-
-	;
+	ZH("chi_sim");
 
 	private final String val;
 

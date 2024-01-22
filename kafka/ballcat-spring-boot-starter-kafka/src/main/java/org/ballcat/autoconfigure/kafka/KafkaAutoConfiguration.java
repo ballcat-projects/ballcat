@@ -16,10 +16,10 @@
 
 package org.ballcat.autoconfigure.kafka;
 
+import lombok.extern.slf4j.Slf4j;
 import org.ballcat.kafka.KafkaConsumerBuilder;
 import org.ballcat.kafka.KafkaExtendProducer;
 import org.ballcat.kafka.KafkaProducerBuilder;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

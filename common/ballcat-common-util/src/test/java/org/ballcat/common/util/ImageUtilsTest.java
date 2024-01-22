@@ -16,12 +16,12 @@
 
 package org.ballcat.common.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author lingting 2021/7/22 16:55

@@ -16,16 +16,16 @@
 
 package org.ballcat.pay.ali.domain;
 
+import java.math.BigDecimal;
+
 import com.alipay.api.response.AlipayTradeQueryResponse;
-import org.ballcat.pay.ali.enums.TradeStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.ballcat.pay.ali.constants.AliPayConstant;
-
-import java.math.BigDecimal;
+import org.ballcat.pay.ali.enums.TradeStatus;
 
 /**
  * 简化查询结果

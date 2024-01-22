@@ -16,8 +16,8 @@
 
 package org.ballcat.file;
 
-import org.ballcat.file.ftp.FtpMode;
 import lombok.Data;
+import org.ballcat.file.ftp.FtpMode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

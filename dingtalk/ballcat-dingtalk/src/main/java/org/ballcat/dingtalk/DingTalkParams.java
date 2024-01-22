@@ -16,18 +16,18 @@
 
 package org.ballcat.dingtalk;
 
+import java.util.List;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ballcat.dingtalk.message.DingTalkActionCardMessage;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
-
-import java.util.List;
-import java.util.Set;
+import org.ballcat.dingtalk.message.DingTalkActionCardMessage;
 
 /**
  * @author lingting 2020/6/12 19:35

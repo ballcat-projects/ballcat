@@ -16,6 +16,8 @@
 
 package org.ballcat.security.authorization;
 
+import java.lang.reflect.Method;
+
 import org.aopalliance.intercept.MethodInvocation;
 import org.ballcat.security.access.expression.SecurityExpressionHandler;
 import org.ballcat.security.annotation.Authorize;
@@ -24,8 +26,6 @@ import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.EvaluationException;
 import org.springframework.expression.Expression;
 import org.springframework.lang.NonNull;
-
-import java.lang.reflect.Method;
 
 /**
  * 默认的鉴权管理器

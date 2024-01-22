@@ -16,15 +16,15 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
+import java.util.Map;
+import java.util.Set;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.util.Assert;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * An {@link Authentication} implementation used for the OAuth 2.0 Resource Owner Password

@@ -16,8 +16,6 @@
 
 package org.ballcat.oss;
 
-import org.ballcat.oss.OssAutoConfiguration;
-import org.ballcat.oss.OssTemplate;
 import org.ballcat.oss.prefix.ObjectKeyPrefixConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

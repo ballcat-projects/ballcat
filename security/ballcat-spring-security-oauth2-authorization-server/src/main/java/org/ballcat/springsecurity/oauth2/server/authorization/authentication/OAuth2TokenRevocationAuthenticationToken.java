@@ -16,6 +16,8 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
+import java.util.Collections;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.lang.Nullable;
@@ -26,8 +28,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2TokenRevocationAuthenticationProvider;
 import org.springframework.security.oauth2.server.authorization.util.SpringAuthorizationServerVersion;
 import org.springframework.util.Assert;
-
-import java.util.Collections;
 
 /**
  * An {@link Authentication} implementation used for OAuth 2.0 Token Revocation.

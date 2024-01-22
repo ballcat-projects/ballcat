@@ -16,6 +16,9 @@
 
 package org.ballcat.springsecurity.authorization;
 
+import java.util.Collection;
+import java.util.Set;
+
 import org.ballcat.security.authorization.SecurityChecker;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -29,9 +32,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.util.Collection;
-import java.util.Set;
 
 /**
  * ballcat 定义的 SecurityChecker 的 spring security 实现

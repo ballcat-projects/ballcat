@@ -16,12 +16,12 @@
 
 package org.ballcat.easyexcel.application;
 
+import java.util.List;
+
 import org.ballcat.easyexcel.annotation.RequestExcel;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author Hccake
@@ -30,17 +30,17 @@ import java.util.List;
 @RequestMapping("/import")
 public class ExcelImportTestController {
 
-	@PostMapping(value = "/simple")
+	@PostMapping("/simple")
 	public List<DemoData> simple(@RequestExcel List<DemoData> list) {
 		return list;
 	}
 
-	@PostMapping(value = "/ignore-empty-row-enabled")
+	@PostMapping("/ignore-empty-row-enabled")
 	public List<DemoData> ignoreEmptyRow(@RequestExcel(ignoreEmptyRow = true) List<DemoData> list) {
 		return list;
 	}
 
-	@PostMapping(value = "/ignore-empty-row-disabled")
+	@PostMapping("/ignore-empty-row-disabled")
 	public List<DemoData> notIgnoreEmptyRow(@RequestExcel(ignoreEmptyRow = false) List<DemoData> list) {
 		return list;
 	}

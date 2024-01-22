@@ -16,16 +16,16 @@
 
 package org.ballcat.autoconfigure.web.accesslog;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.Data;
 import lombok.Setter;
 import org.ballcat.web.accesslog.AbstractAccessLogFilter;
 import org.ballcat.web.accesslog.AccessLogRecordOptions;
 import org.ballcat.web.accesslog.AccessLogRule;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 访问日志配置

@@ -16,13 +16,16 @@
 
 package org.ballcat.easyexcel.test;
 
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
 import com.alibaba.excel.EasyExcel;
+import lombok.extern.slf4j.Slf4j;
 import org.ballcat.easyexcel.ResponseExcelAutoConfiguration;
 import org.ballcat.easyexcel.application.DemoData;
 import org.ballcat.easyexcel.application.ExcelFillTestController;
 import org.ballcat.easyexcel.application.ExcelTestApplication;
 import org.ballcat.easyexcel.handler.DefaultAnalysisEventListener;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +34,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.io.ByteArrayInputStream;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

@@ -16,6 +16,9 @@
 
 package org.ballcat.datascope.test.datarule;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.ballcat.datascope.DataScope;
 import org.ballcat.datascope.DataScopeAutoConfiguration;
 import org.ballcat.datascope.handler.DataPermissionHandler;
@@ -42,9 +45,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Collections;
-import java.util.List;
 
 @Sql({ "/student.ddl.sql", "/student.insert.sql" })
 @ExtendWith(SpringExtension.class)

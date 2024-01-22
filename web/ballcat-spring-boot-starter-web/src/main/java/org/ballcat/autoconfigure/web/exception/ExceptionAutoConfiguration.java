@@ -16,6 +16,8 @@
 
 package org.ballcat.autoconfigure.web.exception;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import org.ballcat.web.exception.handler.DoNothingGlobalExceptionHandler;
@@ -33,8 +35,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.access.AccessDeniedException;
-
-import java.util.List;
 
 /**
  * @author Hccake 2019/10/15 18:20

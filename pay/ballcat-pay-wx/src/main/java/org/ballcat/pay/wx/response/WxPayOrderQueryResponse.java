@@ -16,17 +16,17 @@
 
 package org.ballcat.pay.wx.response;
 
+import java.math.BigInteger;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.ballcat.common.util.JsonUtils;
 import org.ballcat.pay.wx.enums.ResponseCode;
 import org.ballcat.pay.wx.enums.TradeState;
 import org.ballcat.pay.wx.enums.TradeType;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-
-import java.math.BigInteger;
-import java.util.Map;
 
 /**
  * @author lingting 2021/2/25 15:19

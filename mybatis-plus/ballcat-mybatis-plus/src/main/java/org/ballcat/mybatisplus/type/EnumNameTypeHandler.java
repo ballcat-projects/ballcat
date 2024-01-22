@@ -16,14 +16,14 @@
 
 package org.ballcat.mybatisplus.type;
 
-import com.baomidou.mybatisplus.annotation.IEnum;
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
-
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.baomidou.mybatisplus.annotation.IEnum;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
 
 /**
  * 普通枚举类型处理. 根据 name() 返回值判断枚举值

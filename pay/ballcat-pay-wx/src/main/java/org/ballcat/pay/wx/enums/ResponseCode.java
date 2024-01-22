@@ -40,9 +40,7 @@ public enum ResponseCode {
 	/**
 	 * 异常
 	 */
-	ERROR,
-
-	;
+	ERROR;
 
 	@JsonCreator
 	public static ResponseCode of(String status) {

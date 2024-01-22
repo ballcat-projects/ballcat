@@ -16,11 +16,11 @@
 
 package org.ballcat.ip2region.util;
 
-import org.ballcat.ip2region.core.IpInfo;
-import org.springframework.lang.Nullable;
-
 import java.util.Arrays;
 import java.util.regex.Pattern;
+
+import org.ballcat.ip2region.core.IpInfo;
+import org.springframework.lang.Nullable;
 
 /**
  * ip 信息详情

@@ -16,6 +16,9 @@
 
 package org.ballcat.common.core.jackson;
 
+import java.util.Collection;
+import java.util.Map;
+
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -24,9 +27,6 @@ import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.fasterxml.jackson.databind.ser.SerializerFactory;
-
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * <p>

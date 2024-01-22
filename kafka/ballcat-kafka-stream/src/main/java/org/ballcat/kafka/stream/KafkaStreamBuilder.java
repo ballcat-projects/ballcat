@@ -16,6 +16,15 @@
 
 package org.ballcat.kafka.stream;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.regex.Pattern;
+
 import lombok.Getter;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -29,10 +38,6 @@ import org.apache.kafka.streams.processor.StreamPartitioner;
 import org.apache.kafka.streams.processor.TimestampExtractor;
 import org.apache.kafka.streams.processor.TopicNameExtractor;
 import org.apache.kafka.streams.state.StoreBuilder;
-
-import java.util.*;
-import java.util.function.BiFunction;
-import java.util.regex.Pattern;
 
 /**
  * kafka Stream 流构建方法

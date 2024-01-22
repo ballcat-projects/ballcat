@@ -16,6 +16,14 @@
 
 package org.ballcat.file.ftp;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.util.Collections;
+
 import org.ballcat.file.FileProperties.FtpProperties;
 import org.ballcat.file.core.AbstractFileClient;
 import org.ballcat.file.exception.FileException;
@@ -23,10 +31,6 @@ import org.ballcat.file.ftp.support.FtpHelper;
 import org.ballcat.file.ftp.support.SftpHelper;
 import org.ballcat.file.ftp.support.StandardFtpHelper;
 import org.springframework.util.StringUtils;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.util.Collections;
 
 /**
  * @author lingting 2021/10/17 20:11

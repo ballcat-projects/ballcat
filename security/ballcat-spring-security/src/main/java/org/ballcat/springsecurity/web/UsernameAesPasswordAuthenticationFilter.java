@@ -16,13 +16,14 @@
 
 package org.ballcat.springsecurity.web;
 
+import java.security.GeneralSecurityException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.ballcat.springsecurity.util.PasswordUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.servlet.http.HttpServletRequest;
-import java.security.GeneralSecurityException;
 
 /**
  * 允许前后端交互时使用 AES 加密的传输密码的用户密码认证过滤器

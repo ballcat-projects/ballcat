@@ -16,8 +16,8 @@
 
 package org.ballcat.redis.operation;
 
-import org.ballcat.redis.config.CachePropertiesHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.ballcat.redis.config.CachePropertiesHolder;
 
 /**
  * @author Hccake 2019/9/2 15:19

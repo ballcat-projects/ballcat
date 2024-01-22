@@ -16,6 +16,10 @@
 
 package org.ballcat.autoconfigure.web.validation;
 
+import javax.validation.MessageInterpolator;
+import javax.validation.Validator;
+import javax.validation.executable.ExecutableValidator;
+
 import org.ballcat.common.core.validation.EmptyCurlyToDefaultMessageInterpolator;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -27,10 +31,6 @@ import org.springframework.boot.autoconfigure.validation.ValidationAutoConfigura
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-
-import javax.validation.MessageInterpolator;
-import javax.validation.Validator;
-import javax.validation.executable.ExecutableValidator;
 
 /**
  * Validation 自动配置类，扩展支持使用 {} 占位替换默认消息

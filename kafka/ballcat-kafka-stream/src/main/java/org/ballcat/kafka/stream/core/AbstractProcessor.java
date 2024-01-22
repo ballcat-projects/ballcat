@@ -16,6 +16,8 @@
 
 package org.ballcat.kafka.stream.core;
 
+import java.time.Duration;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +26,6 @@ import org.apache.kafka.streams.processor.ProcessorContext;
 import org.apache.kafka.streams.processor.PunctuationType;
 import org.apache.kafka.streams.processor.To;
 import org.ballcat.kafka.stream.util.ProcessorContextUtil;
-
-import java.time.Duration;
 
 /**
  * kafka 顶级 processor 类

@@ -16,14 +16,14 @@
 
 package org.ballcat.springsecurity.oauth2.server.resource;
 
+import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.configuration.SpringSecurityAutoConfiguration;
 import org.ballcat.springsecurity.configuration.SpringSecurityComponentConfiguration;
-import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.BasicOauth2ResourceServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.resource.introspection.BallcatRemoteOpaqueTokenIntrospector;
-import org.ballcat.springsecurity.web.CustomAuthenticationEntryPoint;
-import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
+import org.ballcat.springsecurity.properties.SpringSecurityProperties;
+import org.ballcat.springsecurity.web.CustomAuthenticationEntryPoint;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -36,8 +36,6 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;
-
-import static org.ballcat.springsecurity.oauth2.server.resource.configurer.BasicOauth2ResourceServerConfigurerCustomizer.BASIC_OAUTH2_RESOURCE_SERVER_CONFIGURER_CUSTOMIZER_BEAN_NAME;
 
 /**
  * 资源服务需要的一些 bean 配置
@@ -79,7 +77,8 @@ public class OAuth2ResourceServerAutoConfiguration {
 		 * 资源服务器的定制器
 		 */
 		@Bean
-		@ConditionalOnMissingBean(name = BASIC_OAUTH2_RESOURCE_SERVER_CONFIGURER_CUSTOMIZER_BEAN_NAME)
+		@ConditionalOnMissingBean(
+				name = BasicOauth2ResourceServerConfigurerCustomizer.BASIC_OAUTH2_RESOURCE_SERVER_CONFIGURER_CUSTOMIZER_BEAN_NAME)
 		public BasicOauth2ResourceServerConfigurerCustomizer basicOauth2ResourceServerConfigurerCustomizer(
 				AuthenticationEntryPoint authenticationEntryPoint, BearerTokenResolver bearerTokenResolver) {
 			return new BasicOauth2ResourceServerConfigurerCustomizer(authenticationEntryPoint, bearerTokenResolver);

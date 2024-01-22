@@ -16,12 +16,12 @@
 
 package org.ballcat.mybatisplus.alias;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import org.springframework.core.annotation.AnnotationUtils;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 表别名辅助类

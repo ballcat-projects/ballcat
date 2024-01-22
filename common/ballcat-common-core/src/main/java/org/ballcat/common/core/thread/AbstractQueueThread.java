@@ -16,10 +16,10 @@
 
 package org.ballcat.common.core.thread;
 
-import org.springframework.util.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.util.CollectionUtils;
 
 /**
  * 顶级队列线程类

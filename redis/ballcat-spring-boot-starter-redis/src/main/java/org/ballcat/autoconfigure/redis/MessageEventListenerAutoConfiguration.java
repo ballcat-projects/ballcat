@@ -16,8 +16,8 @@
 
 package org.ballcat.autoconfigure.redis;
 
-import org.ballcat.redis.listener.MessageEventListener;
 import lombok.RequiredArgsConstructor;
+import org.ballcat.redis.listener.MessageEventListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

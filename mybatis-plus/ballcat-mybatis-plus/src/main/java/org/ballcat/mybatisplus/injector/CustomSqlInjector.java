@@ -16,12 +16,12 @@
 
 package org.ballcat.mybatisplus.injector;
 
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 /**
  * 默认的注入器，提供属性来注入自定义方法

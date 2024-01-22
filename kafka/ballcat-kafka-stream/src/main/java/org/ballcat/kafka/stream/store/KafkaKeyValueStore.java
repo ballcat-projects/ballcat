@@ -16,23 +16,23 @@
 
 package org.ballcat.kafka.stream.store;
 
-import org.apache.kafka.streams.KeyValue;
-import org.apache.kafka.streams.state.KeyValueIterator;
-import org.apache.kafka.streams.state.KeyValueStore;
-import org.bson.types.ObjectId;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import org.apache.kafka.streams.KeyValue;
+import org.apache.kafka.streams.state.KeyValueIterator;
+import org.apache.kafka.streams.state.KeyValueStore;
+import org.bson.types.ObjectId;
+
 /**
  * 使用 {@link KeyValueStore} 为具体实现的kafka数据缓存方法
  *
  * @author lingting 2020/6/22 10:24
  */
-public class KafkaKeyValueStore<K, V> implements KafkaWindow<V, KeyValueStore<K, V>> {
+public final class KafkaKeyValueStore<K, V> implements KafkaWindow<V, KeyValueStore<K, V>> {
 
 	private KeyValueStore<K, V> store;
 

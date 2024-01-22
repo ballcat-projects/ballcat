@@ -16,18 +16,18 @@
 
 package org.ballcat.datascope.test.datarule.datascope;
 
-import org.ballcat.datascope.DataScope;
-import org.ballcat.datascope.test.datarule.user.LoginUser;
-import org.ballcat.datascope.test.datarule.user.LoginUserHolder;
-import org.ballcat.datascope.test.datarule.user.UserRoleType;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.schema.Column;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.ballcat.datascope.DataScope;
+import org.ballcat.datascope.test.datarule.user.LoginUser;
+import org.ballcat.datascope.test.datarule.user.LoginUserHolder;
+import org.ballcat.datascope.test.datarule.user.UserRoleType;
 
 /**
  * 学生的数据权限控制，学生只能看自己

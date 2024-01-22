@@ -16,22 +16,22 @@
 
 package org.ballcat.datascope.test.datascope;
 
-import org.ballcat.datascope.DataScope;
-import org.ballcat.datascope.handler.DataPermissionHandler;
-import org.ballcat.datascope.handler.DefaultDataPermissionHandler;
-import org.ballcat.datascope.holder.DataScopeMatchNumHolder;
-import org.ballcat.datascope.processor.DataScopeSqlProcessor;
+import java.util.Arrays;
+import java.util.Collections;
+
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
 import net.sf.jsqlparser.schema.Column;
+import org.ballcat.datascope.DataScope;
+import org.ballcat.datascope.handler.DataPermissionHandler;
+import org.ballcat.datascope.handler.DefaultDataPermissionHandler;
+import org.ballcat.datascope.holder.DataScopeMatchNumHolder;
+import org.ballcat.datascope.processor.DataScopeSqlProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * @author Hccake 2020/9/28

@@ -16,8 +16,8 @@
 
 package org.ballcat.redis.serialize;
 
-import org.ballcat.redis.prefix.IRedisPrefixConverter;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.redis.prefix.IRedisPrefixConverter;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 
 /**

@@ -17,13 +17,17 @@
 package org.ballcat.autoconfigure.web.accesslog;
 
 import org.ballcat.web.accesslog.annotation.AccessLoggingRule;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/test")
 @RestController
 public class TestController {
 
-	@GetMapping()
+	@GetMapping
 	public String testMethod() {
 		return "Hello, World!";
 	}

@@ -16,6 +16,10 @@
 
 package org.ballcat.grpc.configuration;
 
+import java.util.List;
+import java.util.ListIterator;
+import java.util.concurrent.TimeUnit;
+
 import io.grpc.BindableService;
 import io.grpc.ServerBuilder;
 import io.grpc.ServerInterceptor;
@@ -25,10 +29,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
-
-import java.util.List;
-import java.util.ListIterator;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author lingting 2023-04-17 09:15

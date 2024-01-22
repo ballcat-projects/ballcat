@@ -16,16 +16,17 @@
 
 package org.ballcat.web.trace;
 
-import org.ballcat.common.core.constant.MDCConstants;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.MDC;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import lombok.RequiredArgsConstructor;
+import org.ballcat.common.core.constant.MDCConstants;
+import org.slf4j.MDC;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * TraceId 过滤器

@@ -19,8 +19,8 @@ package org.ballcat.common.util.json;
 import java.lang.reflect.Type;
 
 /**
- * json 相关 util类需实现本类
- * 
+ * json 相关 util 类需实现本类。
+ *
  * @author lingting 2021/2/25 20:43
  */
 public interface JsonTool {

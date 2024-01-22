@@ -16,9 +16,10 @@
 
 package org.ballcat.tesseract;
 
-import org.ballcat.tesseract.enums.TesseractLang;
 import java.io.IOException;
 import java.util.List;
+
+import org.ballcat.tesseract.enums.TesseractLang;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

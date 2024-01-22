@@ -16,16 +16,16 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.config.customizer;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.configuer.SpringSecurityConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerConfigurerExtension;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
-import org.springframework.security.web.util.matcher.*;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.CollectionUtils;
-
-import java.util.List;
 
 /**
  * OAuth2 的授权服务配置

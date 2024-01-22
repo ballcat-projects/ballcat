@@ -16,11 +16,11 @@
 
 package org.ballcat.common.lock;
 
-import lombok.Getter;
-
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+
+import lombok.Getter;
 
 /**
  * @author lingting 2023-04-22 10:55

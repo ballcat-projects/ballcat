@@ -16,12 +16,12 @@
 
 package org.ballcat.common.util.json;
 
+import java.lang.reflect.Type;
+import java.util.function.Consumer;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
-
-import java.lang.reflect.Type;
-import java.util.function.Consumer;
 
 /**
  * @author lingting 2021/2/26 10:22

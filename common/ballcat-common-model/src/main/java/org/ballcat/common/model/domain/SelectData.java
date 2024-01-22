@@ -19,7 +19,7 @@ package org.ballcat.common.model.domain;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.*;
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 /**
  * 下拉框所对应的视图类

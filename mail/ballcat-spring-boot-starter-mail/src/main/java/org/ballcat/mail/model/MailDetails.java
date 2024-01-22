@@ -16,9 +16,9 @@
 
 package org.ballcat.mail.model;
 
-import lombok.Data;
-
 import java.io.File;
+
+import lombok.Data;
 
 /**
  * @author Hccake 2020/2/27 17:06

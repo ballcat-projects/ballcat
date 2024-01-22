@@ -16,6 +16,8 @@
 
 package org.ballcat.grpc.client.configuration;
 
+import java.util.List;
+
 import io.grpc.ClientInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.grpc.client.GrpcClientProvide;
@@ -25,8 +27,6 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-
-import java.util.List;
 
 /**
  * @author lingting 2023-04-06 15:21

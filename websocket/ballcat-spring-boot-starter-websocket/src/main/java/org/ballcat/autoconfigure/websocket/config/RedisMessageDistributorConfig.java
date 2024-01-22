@@ -16,13 +16,13 @@
 
 package org.ballcat.autoconfigure.websocket.config;
 
+import lombok.RequiredArgsConstructor;
 import org.ballcat.autoconfigure.websocket.MessageDistributorTypeConstants;
 import org.ballcat.autoconfigure.websocket.WebSocketProperties;
 import org.ballcat.websocket.distribute.MessageDistributor;
 import org.ballcat.websocket.distribute.RedisMessageDistributor;
 import org.ballcat.websocket.distribute.RedisMessageListenerInitializer;
 import org.ballcat.websocket.session.WebSocketSessionStore;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

@@ -16,15 +16,15 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.authentication;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+
 import org.ballcat.springsecurity.oauth2.server.authorization.client.TestRegisteredClients;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

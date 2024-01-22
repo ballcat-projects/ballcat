@@ -16,9 +16,9 @@
 
 package org.ballcat.datascope.test.datarule.user;
 
-import lombok.Data;
-
 import java.util.List;
+
+import lombok.Data;
 
 /**
  * 登录用户

@@ -16,14 +16,14 @@
 
 package org.ballcat.oss;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 /**
  * @author lingting 2021/5/10 15:54
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OssConstants {
+public final class OssConstants {
+
+	private OssConstants() {
+
+	}
 
 	public static final String SLASH = "/";
 

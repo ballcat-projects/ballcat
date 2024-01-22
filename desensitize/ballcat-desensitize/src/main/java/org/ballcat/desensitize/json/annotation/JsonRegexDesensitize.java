@@ -16,10 +16,14 @@
 
 package org.ballcat.desensitize.json.annotation;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
-
-import java.lang.annotation.*;
 
 /**
  * Jackson Filed 序列化脱敏注解, 对应使用正则脱敏处理器对值进行脱敏处理

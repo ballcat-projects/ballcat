@@ -16,6 +16,20 @@
 
 package org.ballcat.redis;
 
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.common.value.WaitValue;
@@ -47,20 +61,6 @@ import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.lang.Nullable;
 
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
 /**
  * Redis 操作的辅助类
  *
@@ -70,7 +70,7 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("ConstantConditions")
 @Slf4j
-public class RedisHelper {
+public final class RedisHelper {
 
 	@SuppressWarnings("InstantiationOfUtilityClass")
 	public static final RedisHelper INSTANCE = new RedisHelper();

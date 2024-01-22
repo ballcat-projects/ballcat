@@ -16,11 +16,11 @@
 
 package org.ballcat.dingtalk.message;
 
-import org.ballcat.dingtalk.DingTalkParams;
-import org.ballcat.dingtalk.enums.MessageTypeEnum;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import org.ballcat.dingtalk.DingTalkParams;
+import org.ballcat.dingtalk.enums.MessageTypeEnum;
 
 /**
  * 钉钉消息基础类

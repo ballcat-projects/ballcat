@@ -16,15 +16,15 @@
 
 package org.ballcat.sms.properties;
 
+import java.util.Map;
+
+import lombok.Data;
 import org.ballcat.sms.enums.TypeEnum;
 import org.ballcat.sms.properties.extra.Account;
 import org.ballcat.sms.properties.extra.Aliyun;
 import org.ballcat.sms.properties.extra.Tencent;
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-
-import java.util.Map;
 
 /**
  * @author lingting 2020/4/26 9:43

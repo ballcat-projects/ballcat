@@ -16,18 +16,18 @@
 
 package org.ballcat.datascope;
 
+import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 import org.ballcat.datascope.handler.DataPermissionHandler;
 import org.ballcat.datascope.handler.DefaultDataPermissionHandler;
 import org.ballcat.datascope.interceptor.DataPermissionAnnotationAdvisor;
 import org.ballcat.datascope.interceptor.DataPermissionInterceptor;
 import org.ballcat.datascope.processor.DataScopeSqlProcessor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-
-import java.util.List;
 
 /**
  * @author hccake

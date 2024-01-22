@@ -39,9 +39,7 @@ public enum RequestSuffix {
 	/**
 	 * 查询订单
 	 */
-	ORDERQUERY("orderquery"),
-
-	;
+	ORDERQUERY("orderquery");
 
 	/**
 	 * 后缀

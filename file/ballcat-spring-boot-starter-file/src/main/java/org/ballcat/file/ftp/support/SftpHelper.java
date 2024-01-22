@@ -16,19 +16,28 @@
 
 package org.ballcat.file.ftp.support;
 
-import com.jcraft.jsch.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
+import java.util.Vector;
+
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpATTRS;
+import com.jcraft.jsch.SftpException;
 import org.ballcat.common.constant.Symbol;
 import org.ballcat.file.exception.FileException;
 import org.ballcat.file.ftp.FtpMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-
-import java.io.*;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
-import java.util.Vector;
 
 /**
  * alibaba.datax.ftpreader

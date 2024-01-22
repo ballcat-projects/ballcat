@@ -16,6 +16,9 @@
 
 package org.ballcat.mybatisplus.methods;
 
+import java.util.List;
+import java.util.function.Predicate;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
@@ -31,9 +34,6 @@ import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.executor.keygen.NoKeyGenerator;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
-
-import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * 从 {@link InsertBatchSomeColumn} 复制

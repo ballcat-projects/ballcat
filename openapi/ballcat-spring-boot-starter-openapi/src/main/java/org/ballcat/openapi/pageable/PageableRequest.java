@@ -16,18 +16,19 @@
 
 package org.ballcat.openapi.pageable;
 
-import org.ballcat.common.model.domain.PageParam;
-import org.ballcat.common.model.domain.PageableConstants;
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.ballcat.common.model.domain.PageParam;
+import org.ballcat.common.model.domain.PageableConstants;
 import org.springdoc.api.annotations.ParameterObject;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import java.util.List;
 
 /**
  * 前端交互请求入参模型，将被转换为 PageParam 对象

@@ -16,12 +16,12 @@
 
 package org.ballcat.tesseract;
 
+import java.awt.Rectangle;
+import java.io.IOException;
+
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.awt.*;
-import java.io.IOException;
 
 /**
  * @author lingting

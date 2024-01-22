@@ -16,14 +16,14 @@
 
 package org.ballcat.autoconfigure.idempotent;
 
+import java.util.concurrent.TimeUnit;
+
 import org.ballcat.idempotent.key.store.IdempotentKeyStore;
 import org.ballcat.idempotent.key.store.InMemoryIdempotentKeyStore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * 测试幂等装配

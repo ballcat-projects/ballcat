@@ -16,16 +16,23 @@
 
 package org.ballcat.common.util.tree;
 
-import lombok.experimental.UtilityClass;
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import lombok.experimental.UtilityClass;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @author Hccake 2020/6/21 17:21

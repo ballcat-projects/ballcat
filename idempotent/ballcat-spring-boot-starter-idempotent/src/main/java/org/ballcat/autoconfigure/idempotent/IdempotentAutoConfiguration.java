@@ -16,13 +16,13 @@
 
 package org.ballcat.autoconfigure.idempotent;
 
+import lombok.RequiredArgsConstructor;
 import org.ballcat.idempotent.IdempotentAspect;
 import org.ballcat.idempotent.key.generator.DefaultIdempotentKeyGenerator;
 import org.ballcat.idempotent.key.generator.IdempotentKeyGenerator;
 import org.ballcat.idempotent.key.store.IdempotentKeyStore;
 import org.ballcat.idempotent.key.store.InMemoryIdempotentKeyStore;
 import org.ballcat.idempotent.key.store.RedisIdempotentKeyStore;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

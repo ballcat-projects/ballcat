@@ -16,9 +16,9 @@
 
 package org.ballcat.datascope.util;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.Collection;
+
+import lombok.experimental.UtilityClass;
 
 /**
  * Collection 工具类

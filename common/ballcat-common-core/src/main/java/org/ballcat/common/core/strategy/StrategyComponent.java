@@ -16,12 +16,12 @@
 
 package org.ballcat.common.core.strategy;
 
-import org.springframework.stereotype.Component;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import org.springframework.stereotype.Component;
 
 /**
  * 标记一个bean为策略bean.被该注解标记的bean会被注册到Spring容器中。

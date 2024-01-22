@@ -16,6 +16,9 @@
 
 package org.ballcat.easyexcel.head;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.alibaba.excel.metadata.Head;
 import com.alibaba.excel.write.handler.CellWriteHandler;
 import com.alibaba.excel.write.metadata.holder.WriteSheetHolder;
@@ -26,9 +29,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.util.PropertyPlaceholderHelper;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 对表头进行国际化处理

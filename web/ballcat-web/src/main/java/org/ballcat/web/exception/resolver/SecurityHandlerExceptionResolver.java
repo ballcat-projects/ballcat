@@ -16,11 +16,11 @@
 
 package org.ballcat.web.exception.resolver;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.ballcat.common.core.exception.handler.GlobalExceptionHandler;
 import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;

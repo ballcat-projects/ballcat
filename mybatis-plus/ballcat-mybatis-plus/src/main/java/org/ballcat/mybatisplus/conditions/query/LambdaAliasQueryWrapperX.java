@@ -16,14 +16,14 @@
 
 package org.ballcat.mybatisplus.conditions.query;
 
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.baomidou.mybatisplus.core.conditions.SharedString;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import org.ballcat.mybatisplus.alias.TableAliasHelper;
 import org.ballcat.mybatisplus.alias.TableAlias;
-
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import org.ballcat.mybatisplus.alias.TableAliasHelper;
 
 /**
  * 生成可携带表别名的查询条件 当前实体必须被配置表列名注解

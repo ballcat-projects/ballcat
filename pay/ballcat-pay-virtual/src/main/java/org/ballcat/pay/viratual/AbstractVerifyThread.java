@@ -16,12 +16,14 @@
 
 package org.ballcat.pay.viratual;
 
-import org.ballcat.redis.thread.AbstractRedisThread;
 import java.util.List;
 import java.util.Optional;
+
 import javax.validation.constraints.NotNull;
-import lombok.extern.slf4j.Slf4j;
+
 import live.lingting.virtual.currency.core.model.TransactionInfo;
+import lombok.extern.slf4j.Slf4j;
+import org.ballcat.redis.thread.AbstractRedisThread;
 
 /**
  * 用于校验交易的线程

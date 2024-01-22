@@ -22,8 +22,6 @@ import org.ballcat.dingtalk.DingTalkSender;
 import org.ballcat.dingtalk.message.DingTalkTextMessage;
 import org.ballcat.web.exception.domain.ExceptionMessage;
 
-import java.util.List;
-
 /**
  * 钉钉消息通知
  *

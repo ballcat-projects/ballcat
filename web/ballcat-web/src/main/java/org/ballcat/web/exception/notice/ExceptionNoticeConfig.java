@@ -16,11 +16,11 @@
 
 package org.ballcat.web.exception.notice;
 
-import lombok.Data;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import lombok.Data;
 
 /**
  * 异常通知配置

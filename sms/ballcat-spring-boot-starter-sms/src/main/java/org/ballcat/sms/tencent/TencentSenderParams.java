@@ -16,14 +16,14 @@
 
 package org.ballcat.sms.tencent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.ballcat.sms.properties.SmsProperties;
 import org.ballcat.sms.properties.extra.Tencent;
 import org.ballcat.sms.sender.AbstractSenderParams;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author lingting 2023-10-16 19:45

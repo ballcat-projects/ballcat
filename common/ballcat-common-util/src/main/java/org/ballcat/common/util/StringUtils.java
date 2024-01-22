@@ -16,9 +16,9 @@
 
 package org.ballcat.common.util;
 
-import lombok.experimental.UtilityClass;
-
 import java.lang.reflect.Array;
+
+import lombok.experimental.UtilityClass;
 
 /**
  * StringUtils 扩展

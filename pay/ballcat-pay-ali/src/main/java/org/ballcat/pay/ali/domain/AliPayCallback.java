@@ -16,22 +16,22 @@
 
 package org.ballcat.pay.ali.domain;
 
-import com.alipay.api.AlipayApiException;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import org.ballcat.common.util.JsonUtils;
-import org.ballcat.pay.ali.AliPay;
-import org.ballcat.pay.ali.enums.TradeStatus;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-import org.ballcat.pay.ali.constants.AliPayConstant;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.alipay.api.AlipayApiException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import org.ballcat.common.util.JsonUtils;
+import org.ballcat.pay.ali.AliPay;
+import org.ballcat.pay.ali.constants.AliPayConstant;
+import org.ballcat.pay.ali.enums.TradeStatus;
 
 /**
  * @author lingting 2021/1/26 13:31

@@ -16,7 +16,11 @@
 
 package org.ballcat.common.core.strategy;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 简单策略模式的核心注解，用于标记一个接口为策略接口。

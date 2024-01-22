@@ -16,6 +16,11 @@
 
 package org.ballcat.grpc.client;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
+
 import io.grpc.Channel;
 import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
@@ -33,11 +38,6 @@ import lombok.SneakyThrows;
 import org.ballcat.grpc.client.properties.GrpcClientProperties;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.util.CollectionUtils;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
 /**
  * @author lingting 2023-12-15 14:44

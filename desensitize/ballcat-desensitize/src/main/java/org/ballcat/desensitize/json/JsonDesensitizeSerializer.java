@@ -16,14 +16,14 @@
 
 package org.ballcat.desensitize.json;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.ballcat.desensitize.AnnotationHandlerHolder;
 import org.ballcat.desensitize.functions.DesensitizeFunction;
-
-import java.io.IOException;
-import java.lang.annotation.Annotation;
 
 /**
  * Jackson脱敏处理序列化器

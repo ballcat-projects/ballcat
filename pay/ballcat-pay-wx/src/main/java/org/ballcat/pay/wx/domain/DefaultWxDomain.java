@@ -16,16 +16,23 @@
 
 package org.ballcat.pay.wx.domain;
 
-import lombok.Setter;
-import lombok.SneakyThrows;
-import okhttp3.*;
-import org.ballcat.pay.wx.enums.RequestSuffix;
-import org.ballcat.pay.wx.utils.WxPayUtil;
+import java.io.IOException;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import java.io.IOException;
-import java.util.Map;
+
+import lombok.Setter;
+import lombok.SneakyThrows;
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import org.ballcat.pay.wx.enums.RequestSuffix;
+import org.ballcat.pay.wx.utils.WxPayUtil;
 
 /**
  * 微信域名管理

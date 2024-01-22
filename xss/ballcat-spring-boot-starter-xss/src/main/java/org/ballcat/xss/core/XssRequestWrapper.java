@@ -16,13 +16,14 @@
 
 package org.ballcat.xss.core;
 
-import org.ballcat.xss.cleaner.XssCleaner;
-import lombok.extern.slf4j.Slf4j;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.util.LinkedHashMap;
-import java.util.Map;
+
+import lombok.extern.slf4j.Slf4j;
+import org.ballcat.xss.cleaner.XssCleaner;
 
 /**
  * Request包装类: 用于 XSS 过滤

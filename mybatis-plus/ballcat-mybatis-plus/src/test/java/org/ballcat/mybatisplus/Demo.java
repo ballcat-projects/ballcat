@@ -17,8 +17,8 @@
 package org.ballcat.mybatisplus;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.ballcat.mybatisplus.alias.TableAlias;
 import lombok.Data;
+import org.ballcat.mybatisplus.alias.TableAlias;
 
 /**
  * @author hccake

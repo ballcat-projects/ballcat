@@ -16,15 +16,18 @@
 
 package org.ballcat.kafka;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.function.Function;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serializer;
-
-import java.util.*;
-import java.util.function.Function;
-
-import static org.ballcat.kafka.KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER;
 
 /**
  * 生产者 具体的配置请参考 {@link ProducerConfig} 这里只提供一些常用配置
@@ -107,9 +110,9 @@ public class KafkaProducerBuilder {
 
 	public Properties getProperties() {
 		bootstrapServers.addAll(Arrays.asList(properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "")
-			.split(BOOTSTRAP_SERVERS_DELIMITER)));
+			.split(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER)));
 		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-				String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
+				String.join(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
 		return properties;
 	}
 

@@ -16,6 +16,9 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.token;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.ballcat.springsecurity.oauth2.constant.TokenAttributeNameConstants;
 import org.ballcat.springsecurity.oauth2.constant.UserInfoFiledNameConstants;
 import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
@@ -24,9 +27,6 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsSet;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 自定义 OAuth2TokenCustomizer，处理 BallCat 提供的 User 属性存储，以便在自省时返回对应信息

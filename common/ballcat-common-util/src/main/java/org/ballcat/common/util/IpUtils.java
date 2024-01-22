@@ -16,12 +16,13 @@
 
 package org.ballcat.common.util;
 
+import java.util.stream.Stream;
+
+import javax.servlet.http.HttpServletRequest;
+
 import lombok.experimental.UtilityClass;
 import org.ballcat.common.constant.Symbol;
 import org.springframework.util.ObjectUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.stream.Stream;
 
 /**
  * IP 工具类

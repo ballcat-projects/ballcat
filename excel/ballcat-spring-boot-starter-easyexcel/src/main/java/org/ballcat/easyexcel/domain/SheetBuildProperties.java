@@ -16,9 +16,9 @@
 
 package org.ballcat.easyexcel.domain;
 
+import lombok.Data;
 import org.ballcat.easyexcel.annotation.Sheet;
 import org.ballcat.easyexcel.head.HeadGenerator;
-import lombok.Data;
 
 /**
  * Sheet Build Properties

@@ -16,11 +16,11 @@
 
 package org.ballcat.dingtalk;
 
+import java.util.Collection;
+
+import lombok.SneakyThrows;
 import org.ballcat.common.queue.WaitQueue;
 import org.ballcat.dingtalk.message.DingTalkMessage;
-import lombok.SneakyThrows;
-
-import java.util.Collection;
 
 /**
  * 订单负载均衡消息发送

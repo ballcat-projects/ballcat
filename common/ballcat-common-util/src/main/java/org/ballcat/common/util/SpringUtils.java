@@ -16,6 +16,8 @@
 
 package org.ballcat.common.util;
 
+import java.util.Map;
+
 import lombok.Setter;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -23,8 +25,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 /**
  * @author lingting 2020/6/12 16:36

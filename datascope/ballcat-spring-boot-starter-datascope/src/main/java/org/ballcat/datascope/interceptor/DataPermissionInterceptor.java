@@ -16,12 +16,9 @@
 
 package org.ballcat.datascope.interceptor;
 
-import org.ballcat.datascope.DataScope;
-import org.ballcat.datascope.handler.DataPermissionHandler;
-import org.ballcat.datascope.holder.DataScopeMatchNumHolder;
-import org.ballcat.datascope.holder.MappedStatementIdsWithoutDataScope;
-import org.ballcat.datascope.processor.DataScopeSqlProcessor;
-import org.ballcat.datascope.util.PluginUtils;
+import java.sql.Connection;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -31,9 +28,12 @@ import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
-
-import java.sql.Connection;
-import java.util.List;
+import org.ballcat.datascope.DataScope;
+import org.ballcat.datascope.handler.DataPermissionHandler;
+import org.ballcat.datascope.holder.DataScopeMatchNumHolder;
+import org.ballcat.datascope.holder.MappedStatementIdsWithoutDataScope;
+import org.ballcat.datascope.processor.DataScopeSqlProcessor;
+import org.ballcat.datascope.util.PluginUtils;
 
 /**
  * 数据权限拦截器

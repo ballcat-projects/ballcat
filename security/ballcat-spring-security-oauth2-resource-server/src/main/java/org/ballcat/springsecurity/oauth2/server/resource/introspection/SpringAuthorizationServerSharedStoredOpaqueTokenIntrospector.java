@@ -16,6 +16,11 @@
 
 package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
+
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.springsecurity.oauth2.userdetails.ClientPrincipal;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,11 +34,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.resource.introspection.BadOpaqueTokenException;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
 
 /**
  * 共享存储的不透明令牌的处理器

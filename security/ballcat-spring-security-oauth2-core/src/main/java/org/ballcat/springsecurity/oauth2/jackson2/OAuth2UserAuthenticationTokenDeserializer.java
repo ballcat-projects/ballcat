@@ -16,6 +16,9 @@
 
 package org.ballcat.springsecurity.oauth2.jackson2;
 
+import java.io.IOException;
+import java.util.Collection;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -27,9 +30,6 @@ import org.ballcat.springsecurity.oauth2.authentication.OAuth2UserAuthentication
 import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.io.IOException;
-import java.util.Collection;
 
 /**
  * 自定义的 OAuth2UserAuthenticationToken jackson 反序列化器

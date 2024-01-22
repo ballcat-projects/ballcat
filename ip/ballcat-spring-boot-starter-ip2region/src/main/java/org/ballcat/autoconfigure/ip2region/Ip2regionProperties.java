@@ -16,8 +16,8 @@
 
 package org.ballcat.autoconfigure.ip2region;
 
-import org.ballcat.ip2region.core.CacheType;
 import lombok.Data;
+import org.ballcat.ip2region.core.CacheType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

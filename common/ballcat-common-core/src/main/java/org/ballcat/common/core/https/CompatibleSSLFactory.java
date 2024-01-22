@@ -16,14 +16,6 @@
 
 package org.ballcat.common.core.https;
 
-import org.ballcat.common.core.constant.HttpsConstants;
-import org.ballcat.common.util.ArrayUtils;
-
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -31,6 +23,15 @@ import java.net.Socket;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+
+import org.ballcat.common.core.constant.HttpsConstants;
+import org.ballcat.common.util.ArrayUtils;
 
 /**
  * 用于兼容 android 使用

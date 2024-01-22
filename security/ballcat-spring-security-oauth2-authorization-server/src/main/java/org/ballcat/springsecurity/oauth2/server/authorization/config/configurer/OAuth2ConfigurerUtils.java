@@ -16,6 +16,8 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.config.configurer;
 
+import java.util.Map;
+
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.BeanFactoryUtils;
@@ -42,8 +44,6 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.util.StringUtils;
-
-import java.util.Map;
 
 public final class OAuth2ConfigurerUtils {
 

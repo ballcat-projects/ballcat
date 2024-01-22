@@ -16,55 +16,28 @@
 
 package org.ballcat.datascope.test.datascope;
 
-import org.ballcat.datascope.DataScope;
-import org.ballcat.datascope.handler.DataPermissionHandler;
-import org.ballcat.datascope.handler.DefaultDataPermissionHandler;
-import org.ballcat.datascope.processor.DataScopeSqlProcessor;
-import org.ballcat.datascope.util.SqlParseUtils;
-import net.sf.jsqlparser.expression.Alias;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.LongValue;
-import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
-import net.sf.jsqlparser.schema.Column;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
+import net.sf.jsqlparser.expression.Alias;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.LongValue;
+import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
+import net.sf.jsqlparser.schema.Column;
+import org.ballcat.datascope.DataScope;
+import org.ballcat.datascope.handler.DataPermissionHandler;
+import org.ballcat.datascope.handler.DefaultDataPermissionHandler;
+import org.ballcat.datascope.processor.DataScopeSqlProcessor;
+import org.ballcat.datascope.util.SqlParseUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 /**
  * @author hccake
  */
 class SqlParseTest {
-
-	static class TenantDataScope implements DataScope {
-
-		final String columnName = "tenant_id";
-
-		private static final Set<String> TABLE_NAMES = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-		static {
-			TABLE_NAMES.addAll(Arrays.asList("entity", "entity1", "entity2", "entity3", "t1", "t2"));
-		}
-
-		@Override
-		public String getResource() {
-			return "tenant";
-		}
-
-		@Override
-		public boolean includes(String tableName) {
-			return TABLE_NAMES.contains(tableName);
-		}
-
-		@Override
-		public Expression getExpression(String tableName, Alias tableAlias) {
-			Column column = SqlParseUtils.getAliasColumn(tableName, tableAlias, columnName);
-			return new EqualsTo(column, new LongValue("1"));
-		}
-
-	}
 
 	DataScope tenantDataScope = new TenantDataScope();
 
@@ -385,6 +358,33 @@ class SqlParseTest {
 	void assertSql(String sql, String targetSql) {
 		String parsedSql = dataScopeSqlProcessor.parserSingle(sql, dataPermissionHandler.dataScopes());
 		Assertions.assertEquals(targetSql, parsedSql);
+	}
+
+	static class TenantDataScope implements DataScope {
+
+		final String columnName = "tenant_id";
+
+		private static final Set<String> TABLE_NAMES = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+		static {
+			TABLE_NAMES.addAll(Arrays.asList("entity", "entity1", "entity2", "entity3", "t1", "t2"));
+		}
+
+		@Override
+		public String getResource() {
+			return "tenant";
+		}
+
+		@Override
+		public boolean includes(String tableName) {
+			return TABLE_NAMES.contains(tableName);
+		}
+
+		@Override
+		public Expression getExpression(String tableName, Alias tableAlias) {
+			Column column = SqlParseUtils.getAliasColumn(tableName, tableAlias, columnName);
+			return new EqualsTo(column, new LongValue("1"));
+		}
+
 	}
 
 }

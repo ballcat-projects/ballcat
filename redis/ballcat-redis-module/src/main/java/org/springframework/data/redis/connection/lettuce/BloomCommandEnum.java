@@ -16,9 +16,9 @@
 
 package org.springframework.data.redis.connection.lettuce;
 
-import io.lettuce.core.protocol.ProtocolKeyword;
-
 import java.nio.charset.StandardCharsets;
+
+import io.lettuce.core.protocol.ProtocolKeyword;
 
 /**
  * 布隆过滤器的操作命令类

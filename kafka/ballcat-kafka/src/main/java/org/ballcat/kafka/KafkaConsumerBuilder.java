@@ -16,12 +16,6 @@
 
 package org.ballcat.kafka;
 
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.serialization.Deserializer;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -29,7 +23,11 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.function.Function;
 
-import static org.ballcat.kafka.KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.Deserializer;
 
 /**
  * 消费者 具体的配置请参考 {@link ConsumerConfig} 这里只提供一些常用配置
@@ -131,10 +129,10 @@ public class KafkaConsumerBuilder {
 		String nowServes = properties.getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "");
 		if (nowServes.length() > 0) {
 			// 仅在存在配置时才插入
-			bootstrapServers.addAll(Arrays.asList(nowServes.split(BOOTSTRAP_SERVERS_DELIMITER)));
+			bootstrapServers.addAll(Arrays.asList(nowServes.split(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER)));
 		}
 		properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-				String.join(BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
+				String.join(KafkaConstants.BOOTSTRAP_SERVERS_DELIMITER, bootstrapServers));
 		return properties;
 	}
 

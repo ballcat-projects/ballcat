@@ -16,6 +16,10 @@
 
 package org.ballcat.autoconfigure.kafka;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import lombok.Data;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
@@ -23,10 +27,6 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author lingting 2020/7/28 21:15

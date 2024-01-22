@@ -16,12 +16,12 @@
 
 package org.ballcat.datascope.holder;
 
-import org.ballcat.datascope.DataScope;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.ballcat.datascope.DataScope;
 
 /**
  * 该类用于存储，不需数据权限处理的 mappedStatementId 集合

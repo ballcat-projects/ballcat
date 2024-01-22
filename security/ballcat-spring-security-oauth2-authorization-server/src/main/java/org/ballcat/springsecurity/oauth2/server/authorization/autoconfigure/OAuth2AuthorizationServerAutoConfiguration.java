@@ -16,22 +16,24 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.autoconfigure;
 
+import java.util.List;
+
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.configuration.SpringSecurityAutoConfiguration;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerAdapter;
-import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.oauth2.authentication.OAuth2UserAuthenticationToken;
 import org.ballcat.springsecurity.oauth2.jackson2.LongMixin;
 import org.ballcat.springsecurity.oauth2.jackson2.OAuth2UserAuthenticationTokenMixin;
 import org.ballcat.springsecurity.oauth2.jackson2.UserMixin;
 import org.ballcat.springsecurity.oauth2.server.authorization.OAuth2AuthorizationObjectMapperCustomizer;
-import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.BasicOAuth2AuthorizationServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.authorization.config.configurer.OAuth2AuthorizationServerConfigurerExtension;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.BasicOAuth2AuthorizationServerConfigurerCustomizer;
+import org.ballcat.springsecurity.oauth2.server.authorization.config.customizer.OAuth2AuthorizationServerConfigurerAdapter;
 import org.ballcat.springsecurity.oauth2.server.authorization.properties.OAuth2AuthorizationServerProperties;
 import org.ballcat.springsecurity.oauth2.server.authorization.token.BallcatOAuth2TokenCustomizer;
 import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
+import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -50,8 +52,6 @@ import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2A
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenClaimsContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
-
-import java.util.List;
 
 /**
  * OAuth2授权服务器自动配置类

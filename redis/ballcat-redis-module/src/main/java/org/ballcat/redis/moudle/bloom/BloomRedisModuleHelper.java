@@ -16,18 +16,23 @@
 
 package org.ballcat.redis.moudle.bloom;
 
-import org.ballcat.redis.moudle.AbstractRedisModuleHelper;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import io.lettuce.core.output.ArrayOutput;
 import io.lettuce.core.output.BooleanListOutput;
 import io.lettuce.core.output.BooleanOutput;
 import io.lettuce.core.protocol.CommandType;
+import org.ballcat.redis.moudle.AbstractRedisModuleHelper;
 import org.springframework.data.redis.connection.lettuce.BloomCommandEnum;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-
-import java.util.*;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * redisBloom module 的操作帮助类

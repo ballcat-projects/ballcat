@@ -16,12 +16,12 @@
 
 package org.ballcat.redis;
 
+import java.io.IOException;
+
 import org.ballcat.redis.lock.DistributedLock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-
-import java.io.IOException;
 
 /**
  * @author huyuanzhi 2021/11/16

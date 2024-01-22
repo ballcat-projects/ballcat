@@ -16,6 +16,9 @@
 
 package org.ballcat.springsecurity.configuer;
 
+import java.util.Collections;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.springframework.beans.factory.ObjectProvider;
@@ -26,9 +29,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * spring security filter chain 的默认配置类，用户可以通过自定义 SecurityFilterChain 覆盖其默认注册行为, 也可以通过注册

@@ -33,9 +33,7 @@ public enum SignType {
 	/**
 	 * 一般用于正式环境
 	 */
-	HMAC_SHA256("HMAC-SHA256"),
-
-	;
+	HMAC_SHA256("HMAC-SHA256");
 
 	private final String str;
 

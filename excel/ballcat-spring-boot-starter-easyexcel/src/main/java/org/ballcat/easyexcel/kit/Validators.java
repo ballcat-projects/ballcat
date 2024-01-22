@@ -16,8 +16,13 @@
 
 package org.ballcat.easyexcel.kit;
 
-import javax.validation.*;
 import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 /**
  * 校验工具

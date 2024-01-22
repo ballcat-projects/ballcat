@@ -16,13 +16,13 @@
 
 package org.ballcat.sms.aliyun;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.ballcat.sms.properties.SmsProperties;
 import org.ballcat.sms.sender.AbstractSenderParams;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author lingting 2023-10-16 19:31

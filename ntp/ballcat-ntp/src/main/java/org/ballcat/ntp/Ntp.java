@@ -16,11 +16,11 @@
 
 package org.ballcat.ntp;
 
+import java.net.InetAddress;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
-
-import java.net.InetAddress;
 
 /**
  * ntp 校时服务

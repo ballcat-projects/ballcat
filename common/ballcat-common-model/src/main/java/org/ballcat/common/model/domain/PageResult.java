@@ -16,12 +16,11 @@
 
 package org.ballcat.common.model.domain;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import lombok.Data;
-
 import java.util.Collections;
 import java.util.List;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
  * 分页返回结果

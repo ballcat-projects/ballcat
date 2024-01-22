@@ -16,9 +16,9 @@
 
 package org.ballcat.common.util;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.function.Supplier;
+
+import lombok.experimental.UtilityClass;
 
 /**
  * 定制Assert 抛BusinessException

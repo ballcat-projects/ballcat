@@ -16,14 +16,18 @@
 
 package org.ballcat.autoconfigure.openapi;
 
-import org.ballcat.common.model.domain.PageableConstants;
-import org.ballcat.autoconfigure.web.pageable.PageableProperties;
-import org.ballcat.common.model.domain.PageParam;
-import org.ballcat.openapi.pageable.PageParamOpenAPIConverter;
-import org.ballcat.openapi.pageable.PageableRequestClassCreator;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import lombok.RequiredArgsConstructor;
+import org.ballcat.autoconfigure.web.pageable.PageableProperties;
+import org.ballcat.common.model.domain.PageParam;
+import org.ballcat.common.model.domain.PageableConstants;
+import org.ballcat.openapi.pageable.PageParamOpenAPIConverter;
+import org.ballcat.openapi.pageable.PageableRequestClassCreator;
 import org.springdoc.core.SpringDocConfiguration;
 import org.springdoc.core.SpringDocUtils;
 import org.springdoc.core.providers.ObjectMapperProvider;
@@ -39,10 +43,6 @@ import org.springframework.core.Ordered;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * OpenAPI 的自动配置类

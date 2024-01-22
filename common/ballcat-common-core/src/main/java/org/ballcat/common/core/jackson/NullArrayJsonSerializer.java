@@ -16,12 +16,12 @@
 
 package org.ballcat.common.core.jackson;
 
+import java.io.IOException;
+import java.io.Serializable;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-
-import java.io.IOException;
-import java.io.Serializable;
 
 /**
  * 空数组序列化处理器 如果 Array 为 null，则序列化为 []

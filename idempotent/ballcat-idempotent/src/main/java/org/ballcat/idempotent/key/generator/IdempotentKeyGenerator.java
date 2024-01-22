@@ -16,8 +16,8 @@
 
 package org.ballcat.idempotent.key.generator;
 
-import org.ballcat.idempotent.annotation.Idempotent;
 import org.aspectj.lang.JoinPoint;
+import org.ballcat.idempotent.annotation.Idempotent;
 import org.springframework.lang.NonNull;
 
 /**

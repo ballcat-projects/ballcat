@@ -16,6 +16,10 @@
 
 package org.ballcat.autoconfigure.i18n;
 
+import javax.validation.MessageInterpolator;
+import javax.validation.Validator;
+import javax.validation.executable.ExecutableValidator;
+
 import org.ballcat.common.core.validation.EmptyCurlyToDefaultMessageInterpolator;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -31,10 +35,6 @@ import org.springframework.context.annotation.Role;
 import org.springframework.core.Ordered;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
-
-import javax.validation.MessageInterpolator;
-import javax.validation.Validator;
-import javax.validation.executable.ExecutableValidator;
 
 /**
  * 支持国际化的校验配置，order 为最高优先级，用于覆盖 starter-web 中的配置

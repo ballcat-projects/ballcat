@@ -16,8 +16,8 @@
 
 package org.ballcat.autoconfigure.websocket;
 
-import org.ballcat.websocket.handler.ConcurrentWebSocketSessionOptions;
 import lombok.Data;
+import org.ballcat.websocket.handler.ConcurrentWebSocketSessionOptions;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 

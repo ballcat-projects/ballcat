@@ -16,15 +16,15 @@
 
 package org.ballcat.common.util;
 
-import org.ballcat.common.util.tree.TreeNode;
-import org.ballcat.common.util.tree.TreeUtils;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
+import org.ballcat.common.util.tree.TreeNode;
+import org.ballcat.common.util.tree.TreeUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author hccake

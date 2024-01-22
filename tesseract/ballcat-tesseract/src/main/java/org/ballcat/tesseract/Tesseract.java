@@ -16,14 +16,14 @@
 
 package org.ballcat.tesseract;
 
-import org.ballcat.tesseract.enums.TesseractLang;
+import java.util.List;
+import java.util.function.Consumer;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
-import java.util.function.Consumer;
+import org.ballcat.tesseract.enums.TesseractLang;
 
 /**
  * <p>

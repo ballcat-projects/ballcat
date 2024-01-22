@@ -16,13 +16,13 @@
 
 package org.ballcat.ip2region.core;
 
-import lombok.Data;
-import org.springframework.util.StringUtils;
-
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import lombok.Data;
+import org.springframework.util.StringUtils;
 
 /**
  * IP信息

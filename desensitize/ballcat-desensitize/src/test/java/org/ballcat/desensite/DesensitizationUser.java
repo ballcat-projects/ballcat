@@ -16,14 +16,14 @@
 
 package org.ballcat.desensite;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.ballcat.desensite.custom.CustomerDesensitize;
+import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
+import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
 import org.ballcat.desensitize.json.annotation.JsonRegexDesensitize;
 import org.ballcat.desensitize.json.annotation.JsonSimpleDesensitize;
 import org.ballcat.desensitize.json.annotation.JsonSlideDesensitize;
-import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
-import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * @author Hccake 2021/1/23

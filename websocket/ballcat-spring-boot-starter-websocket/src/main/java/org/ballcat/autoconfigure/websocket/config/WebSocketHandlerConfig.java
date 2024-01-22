@@ -16,6 +16,7 @@
 
 package org.ballcat.autoconfigure.websocket.config;
 
+import lombok.RequiredArgsConstructor;
 import org.ballcat.autoconfigure.websocket.WebSocketProperties;
 import org.ballcat.websocket.handler.CustomWebSocketHandler;
 import org.ballcat.websocket.handler.PlanTextMessageHandler;
@@ -23,7 +24,6 @@ import org.ballcat.websocket.session.DefaultWebSocketSessionStore;
 import org.ballcat.websocket.session.MapSessionWebSocketHandlerDecorator;
 import org.ballcat.websocket.session.SessionKeyGenerator;
 import org.ballcat.websocket.session.WebSocketSessionStore;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

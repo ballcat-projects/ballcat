@@ -17,18 +17,14 @@
 package org.ballcat.springsecurity.configuration;
 
 import org.ballcat.security.authorization.SecurityChecker;
-import org.ballcat.security.configuration.BallcatSecurityAutoConfiguration;
 import org.ballcat.springsecurity.authorization.SpringSecurityChecker;
 import org.ballcat.springsecurity.component.CustomPermissionEvaluator;
 import org.ballcat.springsecurity.util.PasswordUtils;
 import org.ballcat.springsecurity.web.CustomAuthenticationEntryPoint;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;

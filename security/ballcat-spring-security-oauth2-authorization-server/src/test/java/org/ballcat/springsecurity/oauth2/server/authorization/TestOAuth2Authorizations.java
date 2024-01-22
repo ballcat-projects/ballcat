@@ -16,9 +16,16 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization;
 
-import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
+import java.security.Principal;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.ballcat.springsecurity.oauth2.server.authorization.client.TestRegisteredClients;
 import org.ballcat.springsecurity.oauth2.server.authorization.user.TestUsers;
+import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -31,18 +38,14 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.util.CollectionUtils;
 
-import java.security.Principal;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Joe Grandja
  * @author Daniel Garnier-Moiroux
  */
-public class TestOAuth2Authorizations {
+public final class TestOAuth2Authorizations {
+
+	private TestOAuth2Authorizations() {
+	}
 
 	public static OAuth2Authorization.Builder authorization() {
 		return authorization(TestRegisteredClients.registeredClient().build());

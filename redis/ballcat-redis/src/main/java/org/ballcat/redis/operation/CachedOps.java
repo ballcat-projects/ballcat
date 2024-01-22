@@ -16,11 +16,11 @@
 
 package org.ballcat.redis.operation;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import org.aspectj.lang.ProceedingJoinPoint;
 
 /**
  * @author Hccake 2019/9/2 15:19

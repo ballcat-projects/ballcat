@@ -16,6 +16,8 @@
 
 package org.ballcat.dingtalk;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -25,8 +27,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
-
-import java.io.IOException;
 
 /**
  * 钉钉返回信息

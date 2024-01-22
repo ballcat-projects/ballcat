@@ -16,9 +16,13 @@
 
 package org.ballcat.mybatisplus.alias;
 
-import org.ballcat.mybatisplus.conditions.query.LambdaAliasQueryWrapperX;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.lang.annotation.*;
+import org.ballcat.mybatisplus.conditions.query.LambdaAliasQueryWrapperX;
 
 /**
  * 表别名注解，注解在 entity 上，便于构建带别名的查询条件或者查询列

@@ -16,20 +16,21 @@
 
 package org.ballcat.easyexcel.util;
 
-import com.alibaba.excel.converters.Converter;
-import com.alibaba.excel.converters.ConverterKeyBuild.ConverterKey;
-import lombok.experimental.UtilityClass;
-
 import java.util.Map;
 import java.util.Objects;
+
+import com.alibaba.excel.converters.Converter;
+import com.alibaba.excel.converters.ConverterKeyBuild.ConverterKey;
 
 /**
  * @author lingting 2024-01-11 15:25
  * @since 2.0.0
  */
-@UtilityClass
 @SuppressWarnings("java:S1452")
-public class EasyExcelUtils {
+public final class EasyExcelUtils {
+
+	private EasyExcelUtils() {
+	}
 
 	public static Converter<?> find(ConverterKey key, Map<ConverterKey, Converter<?>> map) {
 		// 先直接获取

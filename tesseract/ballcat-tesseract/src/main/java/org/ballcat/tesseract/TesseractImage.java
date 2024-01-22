@@ -16,14 +16,15 @@
 
 package org.ballcat.tesseract;
 
-import lombok.Getter;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
+
+import javax.imageio.ImageIO;
+
+import lombok.Getter;
 
 /**
  * <p>

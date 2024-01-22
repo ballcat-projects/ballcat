@@ -16,11 +16,11 @@
 
 package org.ballcat.websocket.distribute;
 
+import javax.annotation.PostConstruct;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-
-import javax.annotation.PostConstruct;
 
 /**
  * 初始化 redis 消息的监听器

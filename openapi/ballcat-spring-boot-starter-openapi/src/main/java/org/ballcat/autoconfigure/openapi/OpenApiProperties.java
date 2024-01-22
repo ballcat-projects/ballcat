@@ -16,6 +16,11 @@
 
 package org.ballcat.autoconfigure.openapi;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.Paths;
@@ -28,8 +33,6 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.web.cors.CorsConfiguration;
-
-import java.util.*;
 
 /**
  * @author Hccake 2019/11/1 19:37

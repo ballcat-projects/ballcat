@@ -16,13 +16,13 @@
 
 package org.ballcat.ip2region.searcher;
 
+import java.io.InputStream;
+
 import org.ballcat.autoconfigure.ip2region.Ip2regionProperties;
 import org.lionsoul.ip2region.xdb.Searcher;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.StreamUtils;
-
-import java.io.InputStream;
 
 /**
  *

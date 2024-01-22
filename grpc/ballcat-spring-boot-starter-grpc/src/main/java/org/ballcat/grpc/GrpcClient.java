@@ -16,6 +16,9 @@
 
 package org.ballcat.grpc;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import io.grpc.ManagedChannel;
 import io.grpc.stub.AbstractAsyncStub;
 import io.grpc.stub.AbstractBlockingStub;
@@ -23,9 +26,6 @@ import io.grpc.stub.AbstractFutureStub;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.grpc.properties.GrpcClientProperties;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * @deprecated use ballcat-spring-boot-starter-grpc-client

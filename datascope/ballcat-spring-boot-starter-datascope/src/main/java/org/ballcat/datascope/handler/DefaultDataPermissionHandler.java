@@ -16,17 +16,17 @@
 
 package org.ballcat.datascope.handler;
 
-import org.ballcat.datascope.DataScope;
-import org.ballcat.datascope.holder.DataPermissionRuleHolder;
-import org.ballcat.datascope.holder.MappedStatementIdsWithoutDataScope;
-import lombok.RequiredArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
+import org.ballcat.datascope.DataScope;
+import org.ballcat.datascope.holder.DataPermissionRuleHolder;
+import org.ballcat.datascope.holder.MappedStatementIdsWithoutDataScope;
 
 /**
  * 默认的数据权限控制处理器

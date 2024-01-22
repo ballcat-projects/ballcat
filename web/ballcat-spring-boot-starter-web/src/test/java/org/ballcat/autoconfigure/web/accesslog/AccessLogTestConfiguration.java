@@ -16,6 +16,8 @@
 
 package org.ballcat.autoconfigure.web.accesslog;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.web.accesslog.AccessLogFilter;
@@ -26,8 +28,6 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
-import java.util.List;
 
 /**
  * @author Hccake 2019/10/15 18:20

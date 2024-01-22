@@ -16,9 +16,9 @@
 
 package org.ballcat.autoconfigure.pay.virtual;
 
+import live.lingting.virtual.currency.bitcoin.endpoints.BitcoinEndpoints;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import live.lingting.virtual.currency.bitcoin.endpoints.BitcoinEndpoints;
 
 /**
  * @author lingting 2021/1/22 17:45

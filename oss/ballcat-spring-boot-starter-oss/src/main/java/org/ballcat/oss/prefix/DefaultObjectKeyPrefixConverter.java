@@ -16,10 +16,10 @@
 
 package org.ballcat.oss.prefix;
 
-import org.ballcat.oss.OssConstants;
-import org.ballcat.oss.OssProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.oss.OssConstants;
+import org.ballcat.oss.OssProperties;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;

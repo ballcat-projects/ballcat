@@ -16,8 +16,8 @@
 
 package org.ballcat.mail.event;
 
-import org.ballcat.mail.model.MailSendInfo;
 import lombok.ToString;
+import org.ballcat.mail.model.MailSendInfo;
 import org.springframework.context.ApplicationEvent;
 
 /**

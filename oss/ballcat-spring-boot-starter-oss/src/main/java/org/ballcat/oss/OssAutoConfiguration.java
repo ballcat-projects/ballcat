@@ -16,6 +16,8 @@
 
 package org.ballcat.oss;
 
+import java.net.URI;
+
 import org.ballcat.oss.prefix.DefaultObjectKeyPrefixConverter;
 import org.ballcat.oss.prefix.ObjectKeyPrefixConverter;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -31,8 +33,6 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.transfer.s3.S3TransferManager;
-
-import java.net.URI;
 
 /**
  * oss 自动配置类

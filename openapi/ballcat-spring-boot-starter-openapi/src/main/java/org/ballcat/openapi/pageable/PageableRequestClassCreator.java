@@ -16,6 +16,12 @@
 
 package org.ballcat.openapi.pageable;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import org.springframework.asm.ClassReader;
 import org.springframework.asm.ClassVisitor;
 import org.springframework.asm.ClassWriter;
@@ -23,12 +29,6 @@ import org.springframework.asm.FieldVisitor;
 import org.springframework.asm.MethodVisitor;
 import org.springframework.asm.Opcodes;
 import org.springframework.util.StringUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * 分页请求参数对应的 class 创建器
@@ -38,6 +38,24 @@ import java.util.Objects;
 public final class PageableRequestClassCreator {
 
 	private PageableRequestClassCreator() {
+	}
+
+	public static Class<?> create(Map<String, String> modifyFiledMap) throws IOException {
+		String className = PageableRequest.class.getCanonicalName();
+		String classFilePath = className.replace('.', '/') + ".class";
+		ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+
+		try (InputStream resourceAsStream = contextClassLoader.getResourceAsStream(classFilePath)) {
+			Objects.requireNonNull(resourceAsStream, className + " 必须存在");
+			ClassReader classReader = new ClassReader(resourceAsStream);
+			ClassWriter classWriter = new ClassWriter(classReader, 0);
+			ModifyFieldNameAdapter modifyFieldNameAdapter = new ModifyFieldNameAdapter(Opcodes.ASM9, classWriter,
+					modifyFiledMap);
+			classReader.accept(modifyFieldNameAdapter, 0);
+
+			ByteClassLoader myClassLoader = new ByteClassLoader(contextClassLoader);
+			return myClassLoader.defineClass(classWriter.toByteArray());
+		}
 	}
 
 	public static class ModifyFieldNameAdapter extends ClassVisitor {
@@ -76,24 +94,6 @@ public final class PageableRequestClassCreator {
 			return cv.visitMethod(access, name, desc, signature, exceptions);
 		}
 
-	}
-
-	public static Class<?> create(Map<String, String> modifyFiledMap) throws IOException {
-		String className = PageableRequest.class.getCanonicalName();
-		String classFilePath = className.replace('.', '/') + ".class";
-		ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-
-		try (InputStream resourceAsStream = contextClassLoader.getResourceAsStream(classFilePath)) {
-			Objects.requireNonNull(resourceAsStream, className + " 必须存在");
-			ClassReader classReader = new ClassReader(resourceAsStream);
-			ClassWriter classWriter = new ClassWriter(classReader, 0);
-			ModifyFieldNameAdapter modifyFieldNameAdapter = new ModifyFieldNameAdapter(Opcodes.ASM9, classWriter,
-					modifyFiledMap);
-			classReader.accept(modifyFieldNameAdapter, 0);
-
-			ByteClassLoader myClassLoader = new ByteClassLoader(contextClassLoader);
-			return myClassLoader.defineClass(classWriter.toByteArray());
-		}
 	}
 
 }

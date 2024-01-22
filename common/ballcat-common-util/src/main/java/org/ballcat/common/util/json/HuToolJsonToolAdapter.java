@@ -16,12 +16,12 @@
 
 package org.ballcat.common.util.json;
 
+import java.lang.reflect.Type;
+import java.util.function.Consumer;
+
 import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
 import lombok.Getter;
-
-import java.lang.reflect.Type;
-import java.util.function.Consumer;
 
 /**
  * @author lingting 2021/2/26 10:00

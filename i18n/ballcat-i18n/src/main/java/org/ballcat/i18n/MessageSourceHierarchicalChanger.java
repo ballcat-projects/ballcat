@@ -16,12 +16,12 @@
 
 package org.ballcat.i18n;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
 import org.springframework.context.HierarchicalMessageSource;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.AbstractApplicationContext;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 /**
  * 用于修改 MessageSource 的层级关系，保证 DynamicMessageSource 在父级位置，减少开销

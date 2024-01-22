@@ -16,14 +16,14 @@
 
 package org.ballcat.springsecurity.userdetails;
 
+import java.util.Collection;
+import java.util.Map;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * @author Hccake 2019/9/25 21:03

@@ -16,6 +16,16 @@
 
 package org.ballcat.file.ftp.support;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.UnknownHostException;
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -26,12 +36,6 @@ import org.ballcat.file.ftp.FtpMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-
-import java.io.*;
-import java.net.UnknownHostException;
-import java.time.Duration;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * alibaba.datax.ftpreader

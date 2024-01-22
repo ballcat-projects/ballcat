@@ -16,6 +16,8 @@
 
 package org.ballcat.autoconfigure.i18n;
 
+import java.time.Duration;
+
 import org.ballcat.i18n.WildcardReloadableResourceBundleMessageSource;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -40,8 +42,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.StringUtils;
-
-import java.time.Duration;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for {@link MessageSource}.

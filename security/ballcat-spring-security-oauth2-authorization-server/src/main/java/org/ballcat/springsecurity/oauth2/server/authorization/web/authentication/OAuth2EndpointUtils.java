@@ -16,13 +16,14 @@
 
 package org.ballcat.springsecurity.oauth2.server.authorization.web.authentication;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * Utility methods for the OAuth 2.0 Protocol Endpoints. copy from SAS
@@ -30,7 +31,7 @@ import java.util.Map;
  * @author Joe Grandja
  * @since 0.0.1
  */
-public class OAuth2EndpointUtils {
+public final class OAuth2EndpointUtils {
 
 	static final String ACCESS_TOKEN_REQUEST_ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
 

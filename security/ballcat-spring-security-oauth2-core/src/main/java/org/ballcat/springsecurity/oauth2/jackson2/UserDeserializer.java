@@ -16,6 +16,10 @@
 
 package org.ballcat.springsecurity.oauth2.jackson2;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -27,10 +31,6 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import org.ballcat.springsecurity.oauth2.userdetails.DefaultOAuth2User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * 自定义的 User jackson 反序列化器

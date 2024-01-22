@@ -16,11 +16,11 @@
 
 package org.ballcat.common.core.thread;
 
-import org.ballcat.common.lock.JavaReentrantLock;
-
 import java.util.Comparator;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
+
+import org.ballcat.common.lock.JavaReentrantLock;
 
 /**
  * @author lingting 2023-04-22 10:39

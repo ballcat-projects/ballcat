@@ -16,11 +16,11 @@
 
 package org.ballcat.dingtalk.message;
 
-import org.ballcat.dingtalk.DingTalkParams;
-import org.ballcat.dingtalk.enums.MessageTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.ballcat.dingtalk.DingTalkParams;
+import org.ballcat.dingtalk.enums.MessageTypeEnum;
 
 /**
  * @author lingting 2020/6/10 22:13

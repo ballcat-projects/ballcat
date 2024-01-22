@@ -58,9 +58,7 @@ public enum TradeState {
 	/**
 	 * 异常
 	 */
-	ERROR,
-
-	;
+	ERROR;
 
 	@JsonCreator
 	public static TradeState of(String status) {

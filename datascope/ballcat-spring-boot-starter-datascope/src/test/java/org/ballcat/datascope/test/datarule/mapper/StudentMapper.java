@@ -16,11 +16,11 @@
 
 package org.ballcat.datascope.test.datarule.mapper;
 
-import org.ballcat.datascope.test.datarule.entity.Student;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
+import org.ballcat.datascope.test.datarule.entity.Student;
 
 @Mapper
 public interface StudentMapper {

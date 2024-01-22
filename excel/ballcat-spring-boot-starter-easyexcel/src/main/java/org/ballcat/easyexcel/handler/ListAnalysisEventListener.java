@@ -16,10 +16,10 @@
 
 package org.ballcat.easyexcel.handler;
 
+import java.util.List;
+
 import com.alibaba.excel.event.AnalysisEventListener;
 import org.ballcat.easyexcel.domain.ErrorMessage;
-
-import java.util.List;
 
 /**
  * list analysis EventListener

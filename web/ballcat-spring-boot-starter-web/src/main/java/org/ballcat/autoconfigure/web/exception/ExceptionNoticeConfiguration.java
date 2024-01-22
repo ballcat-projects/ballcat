@@ -16,7 +16,8 @@
 
 package org.ballcat.autoconfigure.web.exception;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.ballcat.dingtalk.DingTalkSender;
 import org.ballcat.mail.sender.MailSender;
 import org.ballcat.web.exception.notice.DingTalkExceptionNotifier;
@@ -24,12 +25,8 @@ import org.ballcat.web.exception.notice.MailExceptionNotifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 异常通知配置

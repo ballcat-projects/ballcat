@@ -1,5 +1,9 @@
 package com.alibaba.excel.read.processor;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.enums.HeadKindEnum;
 import com.alibaba.excel.enums.RowTypeEnum;
@@ -14,10 +18,6 @@ import com.alibaba.excel.util.ConverterUtils;
 import com.alibaba.excel.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Analysis event

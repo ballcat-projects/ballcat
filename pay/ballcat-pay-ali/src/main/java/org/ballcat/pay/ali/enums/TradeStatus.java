@@ -46,9 +46,7 @@ public enum TradeStatus {
 	/**
 	 * 异常. 具体信息查询 subCode和subMsg
 	 */
-	ERROR(""),
-
-	;
+	ERROR("");
 
 	private final String str;
 

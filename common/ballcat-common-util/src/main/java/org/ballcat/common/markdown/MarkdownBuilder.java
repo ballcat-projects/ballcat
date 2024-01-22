@@ -16,14 +16,14 @@
 
 package org.ballcat.common.markdown;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.ballcat.common.util.json.JacksonJsonToolAdapter;
-import lombok.SneakyThrows;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.SneakyThrows;
+import org.ballcat.common.util.json.JacksonJsonToolAdapter;
 
 /**
  * 生成 markdown 文本

@@ -16,12 +16,12 @@
 
 package org.ballcat.i18n;
 
+import java.text.MessageFormat;
+import java.util.Locale;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.lang.Nullable;
-
-import java.text.MessageFormat;
-import java.util.Locale;
 
 /**
  * 动态获取的 MessageSource，比如从数据库 或者 redis 中获取 message 信息

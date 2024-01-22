@@ -16,16 +16,16 @@
 
 package org.ballcat.tesseract;
 
-import org.ballcat.tesseract.exception.OcrException;
-import lombok.Builder;
-import lombok.Getter;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.Builder;
+import lombok.Getter;
+import org.ballcat.tesseract.exception.OcrException;
 
 /**
  * <p>

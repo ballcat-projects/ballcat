@@ -16,10 +16,10 @@
 
 package org.ballcat.i18n;
 
+import java.util.Locale;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.context.NoSuchMessageException;
-
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

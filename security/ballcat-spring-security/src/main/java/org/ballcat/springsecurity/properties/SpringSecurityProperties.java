@@ -16,14 +16,14 @@
 
 package org.ballcat.springsecurity.properties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.config.http.SessionCreationPolicy;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 定制 spring security 的配置文件

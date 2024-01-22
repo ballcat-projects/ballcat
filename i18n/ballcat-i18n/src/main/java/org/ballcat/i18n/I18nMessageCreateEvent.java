@@ -16,9 +16,9 @@
 
 package org.ballcat.i18n;
 
-import org.springframework.context.ApplicationEvent;
-
 import java.util.List;
+
+import org.springframework.context.ApplicationEvent;
 
 /**
  * I18nMessage 的创建事件，Listener 监听此事件，进行 I18nMessage 的存储

@@ -18,11 +18,11 @@ package org.ballcat.mybatisplus;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import org.ballcat.mybatisplus.conditions.query.LambdaQueryWrapperX;
-import org.ballcat.mybatisplus.conditions.query.ColumnFunction;
-import org.ballcat.mybatisplus.toolkit.WrappersX;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.ballcat.mybatisplus.conditions.query.ColumnFunction;
+import org.ballcat.mybatisplus.conditions.query.LambdaQueryWrapperX;
+import org.ballcat.mybatisplus.toolkit.WrappersX;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

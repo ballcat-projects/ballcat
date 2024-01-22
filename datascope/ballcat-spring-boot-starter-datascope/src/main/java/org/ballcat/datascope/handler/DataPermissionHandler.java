@@ -16,9 +16,9 @@
 
 package org.ballcat.datascope.handler;
 
-import org.ballcat.datascope.DataScope;
-
 import java.util.List;
+
+import org.ballcat.datascope.DataScope;
 
 /**
  * 数据权限处理器

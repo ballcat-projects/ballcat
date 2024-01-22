@@ -16,11 +16,11 @@
 
 package org.ballcat.common.core.jackson;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-
 import java.util.Collection;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 
 /**
  * jackson 测试序列化的对象
