@@ -18,15 +18,15 @@ package org.ballcat.common.util;
 
 import java.util.function.Supplier;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * 定制Assert 抛BusinessException
  *
  * @author <a href="mailto:cs.liaow@gmail.com">evil0th</a> Create on 2023/6/7
  */
-@UtilityClass
-public class Assert {
+public final class Assert {
+
+	private Assert() {
+	}
 
 	/**
 	 * Assert a boolean expression, throwing an {@code Throwable}
@@ -35,7 +35,7 @@ public class Assert {
 	 * @param supplier supplier
 	 * @throws X if expression is {@code false}
 	 */
-	public <X extends Throwable> void isTrue(boolean expression, Supplier<? extends X> supplier) throws X {
+	public static <X extends Throwable> void isTrue(boolean expression, Supplier<? extends X> supplier) throws X {
 		if (!expression) {
 			throw supplier.get();
 		}
@@ -48,7 +48,7 @@ public class Assert {
 	 * @param errorSupplier errorSupplier
 	 * @throws X if expression is {@code false}
 	 */
-	public <T, X extends Throwable> T notNull(T object, Supplier<X> errorSupplier) throws X {
+	public static <T, X extends Throwable> T notNull(T object, Supplier<X> errorSupplier) throws X {
 		if (null == object) {
 			throw errorSupplier.get();
 		}

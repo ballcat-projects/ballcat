@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import lombok.NonNull;
-import lombok.experimental.UtilityClass;
 import org.ballcat.common.constant.Symbol;
 
 /**
@@ -34,35 +33,37 @@ import org.ballcat.common.constant.Symbol;
  *
  * @author <a href="mailto:cs.liaow@gmail.com">evil0th</a> Create on 2023/6/9
  */
-@UtilityClass
-public class RegexUtils {
+public final class RegexUtils {
+
+	private RegexUtils() {
+	}
 
 	/**
 	 * 日期
 	 */
-	public final String RE_DATE = "^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$";
+	public static final String RE_DATE = "^((((1[6-9]|[2-9]\\d)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((1[6-9]|[2-9]\\d)\\d{2})-(0?[13456789]|1[012])-(0?[1-9]|[12]\\d|30))|(((1[6-9]|[2-9]\\d)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|(((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))-0?2-29-)) (20|21|22|23|[0-1]?\\d):[0-5]?\\d:[0-5]?\\d$";
 
 	/**
 	 * 身份证号码
 	 */
-	public final String RE_CITIZEN_ID = "^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|12])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$";
+	public static final String RE_CITIZEN_ID = "^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|12])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$";
 
 	/**
 	 * 邮件，符合<a href="http://emailregex.com/">RFC 5322</a>规范
 	 */
-	public final String RE_EMAIL = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])";
+	public static final String RE_EMAIL = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])";
 
 	/**
 	 * 正则中需要被转义的关键字
 	 */
-	public final Set<Character> RE_KEYS = Arrays
+	public static final Set<Character> RE_KEYS = Arrays
 		.stream(new Character[] { '$', '(', ')', '*', '+', '.', '[', ']', '?', '\\', '^', '{', '}', '|' })
 		.collect(Collectors.toSet());
 
 	/**
 	 * 中国车牌号码
 	 */
-	public final String RE_PLATE_NUMBER = "^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领]"
+	public static final String RE_PLATE_NUMBER = "^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领]"
 			+ "[A-Z](([0-9]{5}[ABCDEFGHJK])|([ABCDEFGHJK]([A-HJ-NP-Z0-9])[0-9]{4})))|"
 			+ "([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领]\\d{3}\\d{1,3}[领]?)|"
 			+ "([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$";
@@ -70,47 +71,47 @@ public class RegexUtils {
 	/**
 	 * 十六进制字符串
 	 */
-	public final String RE_HEX = "^[a-fA-F0-9]+$";
+	public static final String RE_HEX = "^[a-fA-F0-9]+$";
 
 	/**
 	 * 整数
 	 */
-	public final String RE_INTEGER = "^-?[1-9]\\d*$";
+	public static final String RE_INTEGER = "^-?[1-9]\\d*$";
 
 	/**
 	 * 正整数
 	 */
-	public final String RE_INTEGER_POSITIVE = "^[1-9]\\d*$";
+	public static final String RE_INTEGER_POSITIVE = "^[1-9]\\d*$";
 
 	/**
 	 * 非正整数
 	 */
-	public final String RE_INTEGER_POSITIVE_REVERSE = "^-[1-9]\\d*|0$";
+	public static final String RE_INTEGER_POSITIVE_REVERSE = "^-[1-9]\\d*|0$";
 
 	/**
 	 * 负整数
 	 */
-	public final String RE_INTEGER_NEGATIVE = "^-[1-9]\\d*$";
+	public static final String RE_INTEGER_NEGATIVE = "^-[1-9]\\d*$";
 
 	/**
 	 * 非负整数
 	 */
-	public final String RE_INTEGER_NEGATIVE_REVERSE = "^[1-9]\\d*|0$";
+	public static final String RE_INTEGER_NEGATIVE_REVERSE = "^[1-9]\\d*|0$";
 
 	/**
 	 * 浮点数
 	 */
-	public final String RE_FLOAT = "^-?[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
+	public static final String RE_FLOAT = "^-?[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
 
 	/**
 	 * 正浮点数
 	 */
-	public final String RE_FLOAT_POSITIVE = "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
+	public static final String RE_FLOAT_POSITIVE = "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
 
 	/**
 	 * 负浮点数
 	 */
-	public final String RE_FLOAT_NEGATIVE = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$";
+	public static final String RE_FLOAT_NEGATIVE = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$";
 
 	/**
 	 * 给定内容是否匹配正则(matches)
@@ -118,31 +119,31 @@ public class RegexUtils {
 	 * @param input 内容
 	 * @return 是否匹配
 	 */
-	public boolean match(@NonNull String regex, @NonNull CharSequence input) {
+	public static boolean match(@NonNull String regex, @NonNull CharSequence input) {
 		Pattern pattern = getCache(regex, 0);
 		return pattern.matcher(input).matches();
 	}
 
 	/**
 	 * 给定内容是否匹配正则(find)
-	 *
+	 * <p>
 	 * <b>字符串某个部分匹配上模式就会返回true</b>
 	 * @param regex 正则
 	 * @param input 内容
 	 * @return 是否匹配
 	 */
-	public boolean find(@NonNull String regex, @NonNull CharSequence input) {
+	public static boolean find(@NonNull String regex, @NonNull CharSequence input) {
 		Pattern pattern = getCache(regex, Pattern.CASE_INSENSITIVE);
 		return pattern.matcher(input).find();
 	}
 
 	/**
-	 * 取得内容中匹配的所有结果
+	 * 取得内容中匹配的所有结果。
 	 * @param regex 正则
 	 * @param input 被查找的内容
 	 * @return 结果集
 	 */
-	public List<String> group(@NonNull String regex, @NonNull CharSequence input) {
+	public static List<String> group(@NonNull String regex, @NonNull CharSequence input) {
 		List<String> matches = new ArrayList<>();
 		Pattern pattern = getCache(regex, Pattern.DOTALL);
 		Matcher matcher = pattern.matcher(input);
@@ -155,23 +156,23 @@ public class RegexUtils {
 	}
 
 	/**
-	 * 取得内容中匹配的第一个结果
+	 * 取得内容中匹配的第一个结果。
 	 * @param regex 正则
 	 * @param input 被查找的内容
 	 * @return 结果集
 	 */
-	public String groupFirst(@NonNull String regex, @NonNull CharSequence input) {
+	public static String groupFirst(@NonNull String regex, @NonNull CharSequence input) {
 		return group(regex, input, 1);
 	}
 
 	/**
-	 * 取得内容中匹配的第N个结果
+	 * 取得内容中匹配的第N个结果。
 	 * @param regex 正则
 	 * @param input 被查找的内容
 	 * @param groupIndex 匹配正则的分组序号
 	 * @return 匹配后得到的字符串
 	 */
-	public String group(@NonNull String regex, @NonNull CharSequence input, int groupIndex) {
+	public static String group(@NonNull String regex, @NonNull CharSequence input, int groupIndex) {
 		Pattern pattern = getCache(regex, Pattern.DOTALL);
 		Matcher matcher = pattern.matcher(input);
 		if (matcher.find()) {
@@ -181,13 +182,13 @@ public class RegexUtils {
 	}
 
 	/**
-	 * 正则替换指定值
+	 * 正则替换指定值。
 	 * @param input 被替换文本
 	 * @param regex 正则
 	 * @param replacement 替换的文本
 	 * @return 处理后的文本
 	 */
-	public String replaceAll(@NonNull String regex, @NonNull CharSequence input, @NonNull String replacement) {
+	public static String replaceAll(@NonNull String regex, @NonNull CharSequence input, @NonNull String replacement) {
 		Pattern pattern = getCache(regex, 0);
 		return pattern.matcher(input).replaceAll(replacement);
 	}
@@ -199,7 +200,7 @@ public class RegexUtils {
 	 * @param replacement 替换的文本
 	 * @return 处理后的文本
 	 */
-	public String replaceFirst(@NonNull String regex, @NonNull CharSequence input, @NonNull String replacement) {
+	public static String replaceFirst(@NonNull String regex, @NonNull CharSequence input, @NonNull String replacement) {
 		Pattern pattern = getCache(regex, Pattern.DOTALL);
 		return pattern.matcher(input).replaceFirst(replacement);
 	}
@@ -215,7 +216,7 @@ public class RegexUtils {
 	 * @param content 内容
 	 * @return 正则为null或者""则不检查，返回true，内容为null返回false
 	 */
-	public boolean isCitizenId(String content) {
+	public static boolean isCitizenId(String content) {
 		if (content == null) {
 			// 提供null的字符串为不匹配
 			return false;
@@ -246,11 +247,11 @@ public class RegexUtils {
 	}
 
 	/**
-	 * 是否是有效的统一社会信用代码
+	 * 是否是有效的统一社会信用代码。
 	 * @param socialCreditCode 统一社会信用代码
 	 * @return 符合返回true，否则返回false
 	 */
-	public boolean isSocialCreditCode(String socialCreditCode) {
+	public static boolean isSocialCreditCode(String socialCreditCode) {
 		if (null == socialCreditCode) {
 			return false;
 		}
@@ -273,7 +274,7 @@ public class RegexUtils {
 	/**
 	 * 正则编译缓存
 	 */
-	private final ConcurrentHashMap<String, Pattern> CACHE = new ConcurrentHashMap<>();
+	private static final ConcurrentHashMap<String, Pattern> CACHE = new ConcurrentHashMap<>();
 
 	/**
 	 * 获取缓存，如果获取不到，先编译后存入缓存
@@ -281,7 +282,7 @@ public class RegexUtils {
 	 * @param flags 匹配规则
 	 * @return 正则表达式
 	 */
-	public Pattern getCache(String regex, int flags) {
+	public static Pattern getCache(String regex, int flags) {
 		Pattern pattern = CACHE.get(regex);
 		if (pattern == null) {
 			pattern = Pattern.compile(regex, flags);
@@ -295,14 +296,14 @@ public class RegexUtils {
 	 * @param regex 正则字符串
 	 * @return 正则表达式
 	 */
-	public Pattern removeCache(String regex) {
+	public static Pattern removeCache(String regex) {
 		return CACHE.remove(regex);
 	}
 
 	/**
 	 * 清空缓存
 	 */
-	public void clearCache() {
+	public static void clearCache() {
 		CACHE.clear();
 	}
 

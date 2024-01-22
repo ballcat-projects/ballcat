@@ -17,7 +17,6 @@ import com.alibaba.excel.metadata.data.CellData;
 import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
 import com.alibaba.excel.read.metadata.holder.ReadSheetHolder;
-import lombok.experimental.UtilityClass;
 import org.ballcat.easyexcel.util.EasyExcelUtils;
 
 /**
@@ -26,7 +25,6 @@ import org.ballcat.easyexcel.util.EasyExcelUtils;
  * @author Jiaju Zhuang
  * @author lingting 2023-12-21 17:53
  */
-@UtilityClass
 @SuppressWarnings("java:S107")
 public class ConverterUtils {
 

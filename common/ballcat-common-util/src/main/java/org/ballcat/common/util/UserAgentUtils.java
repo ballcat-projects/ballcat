@@ -16,7 +16,6 @@
 
 package org.ballcat.common.util;
 
-import lombok.experimental.UtilityClass;
 import org.ballcat.common.constant.enums.Browser;
 import org.ballcat.common.constant.enums.OS;
 import org.springframework.lang.NonNull;
@@ -27,21 +26,23 @@ import org.springframework.util.StringUtils;
  *
  * @author <a href="mailto:cs.liaow@gmail.com">evil0th</a> Create on 2023/6/8
  */
-@UtilityClass
-public class UserAgentUtils {
+public final class UserAgentUtils {
 
-	public final String UNKNOWN_VALUE = "Unknown";
+	private UserAgentUtils() {
+	}
 
-	public final String UNKNOWN_VERSION = "??";
+	public static final String UNKNOWN_VALUE = "Unknown";
 
-	public final String UNKNOWN_NAME_VERSION = "Unknown ??";
+	public static final String UNKNOWN_VERSION = "??";
+
+	public static final String UNKNOWN_NAME_VERSION = "Unknown ??";
 
 	/**
 	 * 根据 UA 猜测浏览器(版本)
 	 * @param userAgent UA
 	 * @return 结果
 	 */
-	public String detectBrowser(String userAgent) {
+	public static String detectBrowser(String userAgent) {
 		return detectBrowser(userAgent, false);
 	}
 
@@ -51,7 +52,7 @@ public class UserAgentUtils {
 	 * @param withVersion 是否携带版本信息
 	 * @return 结果
 	 */
-	public String detectBrowser(String userAgent, boolean withVersion) {
+	public static String detectBrowser(String userAgent, boolean withVersion) {
 		if (!StringUtils.hasText(userAgent)) {
 			return withVersion ? UNKNOWN_NAME_VERSION : UNKNOWN_VALUE;
 		}
@@ -73,7 +74,7 @@ public class UserAgentUtils {
 	 * @param userAgent UA
 	 * @return 结果
 	 */
-	public String detectOS(String userAgent) {
+	public static String detectOS(String userAgent) {
 		return detectOS(userAgent, false);
 	}
 
@@ -83,7 +84,7 @@ public class UserAgentUtils {
 	 * @param withVersion 是否携带版本信息
 	 * @return 结果
 	 */
-	public String detectOS(String userAgent, boolean withVersion) {
+	public static String detectOS(String userAgent, boolean withVersion) {
 		if (!StringUtils.hasText(userAgent)) {
 			return withVersion ? UNKNOWN_NAME_VERSION : UNKNOWN_VALUE;
 		}
@@ -100,7 +101,7 @@ public class UserAgentUtils {
 		}
 	}
 
-	public Browser parseBrowser(@NonNull String info) {
+	public static Browser parseBrowser(@NonNull String info) {
 		for (Browser browser : Browser.values()) {
 			if (RegexUtils.find(browser.getRegex(), info)) {
 				return browser;
@@ -109,7 +110,7 @@ public class UserAgentUtils {
 		return null;
 	}
 
-	public OS parseOS(@NonNull String info) {
+	public static OS parseOS(@NonNull String info) {
 		for (OS os : OS.values()) {
 			if (RegexUtils.find(os.getRegex(), info)) {
 				return os;

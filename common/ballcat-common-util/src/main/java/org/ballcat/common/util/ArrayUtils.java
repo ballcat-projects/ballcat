@@ -18,21 +18,21 @@ package org.ballcat.common.util;
 
 import java.util.Objects;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * @author lingting
  */
-@UtilityClass
-public class ArrayUtils {
+public final class ArrayUtils {
 
-	public final int NOT_FOUNT = -1;
+	private ArrayUtils() {
+	}
 
-	public <T> boolean isEmpty(T[] array) {
+	public static final int NOT_FOUNT = -1;
+
+	public static <T> boolean isEmpty(T[] array) {
 		return array == null || array.length == 0;
 	}
 
-	public <T> int indexOf(T[] array, T val) {
+	public static <T> int indexOf(T[] array, T val) {
 		if (!isEmpty(array)) {
 			for (int i = 0; i < array.length; i++) {
 				T t = array[i];
@@ -44,7 +44,7 @@ public class ArrayUtils {
 		return NOT_FOUNT;
 	}
 
-	public <T> boolean contains(T[] array, T val) {
+	public static <T> boolean contains(T[] array, T val) {
 		return indexOf(array, val) > NOT_FOUNT;
 	}
 

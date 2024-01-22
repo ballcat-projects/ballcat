@@ -16,7 +16,6 @@
 
 package org.ballcat.common.util;
 
-import lombok.experimental.UtilityClass;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.util.StringUtils;
@@ -25,8 +24,10 @@ import org.springframework.util.StringUtils;
  * @author Hccake 2020/12/21
  *
  */
-@UtilityClass
 public final class HtmlUtils {
+
+	private HtmlUtils() {
+	}
 
 	/**
 	 * html 转字符串，保留换行样式
@@ -36,7 +37,7 @@ public final class HtmlUtils {
 	 * @param mergeLineBreak 是否合并换行符
 	 * @return 保留换行格式的纯文本
 	 */
-	public String toText(String html, boolean mergeLineBreak) {
+	public static String toText(String html, boolean mergeLineBreak) {
 		if (!StringUtils.hasText(html)) {
 			return html;
 		}
@@ -64,7 +65,7 @@ public final class HtmlUtils {
 	 * @param html html字符串
 	 * @return 保留换行格式的纯文本
 	 */
-	public String toText(String html) {
+	public static String toText(String html) {
 		return toText(html, true);
 	}
 

@@ -20,7 +20,6 @@ import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
-import lombok.experimental.UtilityClass;
 import org.ballcat.common.constant.Symbol;
 import org.springframework.util.ObjectUtils;
 
@@ -29,21 +28,23 @@ import org.springframework.util.ObjectUtils;
  *
  * @author Hccake
  */
-@UtilityClass
 public final class IpUtils {
 
-	private final String[] CLIENT_IP_HEADERS = { "X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP",
+	private IpUtils() {
+	}
+
+	private static final String[] CLIENT_IP_HEADERS = { "X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP",
 			"WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR" };
 
 	/**
 	 * 如果在前端和服务端中间还有一层Node服务 在Node对前端数据进行处理并发起新请求时，需携带此头部信息 便于获取真实IP
 	 */
-	public final String NODE_FORWARDED_IP = "Node-Forwarded-IP";
+	public static final String NODE_FORWARDED_IP = "Node-Forwarded-IP";
 
 	/**
 	 * 获取客户端IP
 	 */
-	public String getIpAddr(HttpServletRequest request) {
+	public static String getIpAddr(HttpServletRequest request) {
 		return getIpAddr(request, NODE_FORWARDED_IP);
 	}
 
@@ -52,7 +53,7 @@ public final class IpUtils {
 	 * <p>
 	 * 参考 huTool 稍微调整了下headers 顺序
 	 */
-	public String getIpAddr(HttpServletRequest request, String... otherHeaderNames) {
+	public static String getIpAddr(HttpServletRequest request, String... otherHeaderNames) {
 		return getClientIpByHeader(request, mergeClientIpHeaders(otherHeaderNames));
 	}
 
@@ -68,7 +69,7 @@ public final class IpUtils {
 	 * @return IP地址
 	 * @since 4.4.1
 	 */
-	public String getClientIpByHeader(HttpServletRequest request, String... headerNames) {
+	public static String getClientIpByHeader(HttpServletRequest request, String... headerNames) {
 		String ip;
 		for (String header : headerNames) {
 			ip = request.getHeader(header);
@@ -80,7 +81,7 @@ public final class IpUtils {
 		return getMultistageReverseProxyIp(ip);
 	}
 
-	private String[] mergeClientIpHeaders(String... otherHeaderNames) {
+	private static String[] mergeClientIpHeaders(String... otherHeaderNames) {
 		if (ObjectUtils.isEmpty(otherHeaderNames)) {
 			return CLIENT_IP_HEADERS;
 		}
@@ -92,7 +93,7 @@ public final class IpUtils {
 	 * @param ip ip
 	 * @return 真实ip
 	 */
-	private String getMultistageReverseProxyIp(String ip) {
+	private static String getMultistageReverseProxyIp(String ip) {
 		if (null == ip || ip.indexOf(Symbol.COMMA) <= 0) {
 			return ip;
 		}
@@ -105,7 +106,7 @@ public final class IpUtils {
 		return ip;
 	}
 
-	private boolean checkNotUnknown(String checkString) {
+	private static boolean checkNotUnknown(String checkString) {
 		return !"unknown".equalsIgnoreCase(checkString);
 	}
 

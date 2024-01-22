@@ -46,12 +46,9 @@ import java.util.function.Predicate;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * @author lingting 2021/2/25 21:17
  */
-@UtilityClass
 @SuppressWarnings({ "java:S3011", "unchecked" })
 public final class ClassUtils {
 

@@ -16,19 +16,19 @@
 
 package org.ballcat.common.util;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * @author lingting 2023-05-06 14:16
  */
-@UtilityClass
-public class BooleanUtils {
+public final class BooleanUtils {
 
-	private final String[] STR_TRUE = { "1", "true", "yes", "ok", "y" };
+	private BooleanUtils() {
+	}
 
-	private final String[] STR_FALSE = { "0", "false", "no", "n" };
+	private static final String[] STR_TRUE = { "1", "true", "yes", "ok", "y" };
 
-	public boolean isTrue(Object obj) {
+	private static final String[] STR_FALSE = { "0", "false", "no", "n" };
+
+	public static boolean isTrue(Object obj) {
 		if (obj instanceof String) {
 			return ArrayUtils.contains(STR_TRUE, obj);
 		}
@@ -41,7 +41,7 @@ public class BooleanUtils {
 		return false;
 	}
 
-	public boolean isFalse(Object obj) {
+	public static boolean isFalse(Object obj) {
 		if (obj instanceof String) {
 			return ArrayUtils.contains(STR_FALSE, obj);
 		}

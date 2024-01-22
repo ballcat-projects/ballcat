@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import lombok.experimental.UtilityClass;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -39,16 +38,18 @@ import org.apache.ibatis.session.Configuration;
  * @author TaoYu , hubin
  * @since 2017-06-20
  */
-@UtilityClass
-public class PluginUtils {
+public final class PluginUtils {
 
-	public final String DELEGATE_BOUNDSQL_SQL = "delegate.boundSql.sql";
+	private PluginUtils() {
+	}
+
+	public static final String DELEGATE_BOUNDSQL_SQL = "delegate.boundSql.sql";
 
 	/**
 	 * 获得真正的处理对象,可能多层代理.
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T realTarget(Object target) {
+	public static <T> T realTarget(Object target) {
 		if (Proxy.isProxyClass(target.getClass())) {
 			MetaObject metaObject = SystemMetaObject.forObject(target);
 			return realTarget(metaObject.getValue("h.target"));
@@ -61,15 +62,15 @@ public class PluginUtils {
 	 * @param boundSql BoundSql
 	 * @param additionalParameters additionalParameters
 	 */
-	public void setAdditionalParameter(BoundSql boundSql, Map<String, Object> additionalParameters) {
+	public static void setAdditionalParameter(BoundSql boundSql, Map<String, Object> additionalParameters) {
 		additionalParameters.forEach(boundSql::setAdditionalParameter);
 	}
 
-	public MPBoundSql mpBoundSql(BoundSql boundSql) {
+	public static MPBoundSql mpBoundSql(BoundSql boundSql) {
 		return new MPBoundSql(boundSql);
 	}
 
-	public MPStatementHandler mpStatementHandler(StatementHandler statementHandler) {
+	public static MPStatementHandler mpStatementHandler(StatementHandler statementHandler) {
 		statementHandler = realTarget(statementHandler);
 		MetaObject object = SystemMetaObject.forObject(statementHandler);
 		return new MPStatementHandler(SystemMetaObject.forObject(object.getValue("delegate")));
@@ -112,7 +113,7 @@ public class PluginUtils {
 
 		@SuppressWarnings("unchecked")
 		private <T> T get(String property) {
-			return (T) statementHandler.getValue(property);
+			return (T) this.statementHandler.getValue(property);
 		}
 
 	}
@@ -132,20 +133,20 @@ public class PluginUtils {
 		}
 
 		public String sql() {
-			return delegate.getSql();
+			return this.delegate.getSql();
 		}
 
 		public void sql(String sql) {
-			boundSql.setValue("sql", sql);
+			this.boundSql.setValue("sql", sql);
 		}
 
 		public List<ParameterMapping> parameterMappings() {
-			List<ParameterMapping> parameterMappings = delegate.getParameterMappings();
+			List<ParameterMapping> parameterMappings = this.delegate.getParameterMappings();
 			return new ArrayList<>(parameterMappings);
 		}
 
 		public void parameterMappings(List<ParameterMapping> parameterMappings) {
-			boundSql.setValue("parameterMappings", Collections.unmodifiableList(parameterMappings));
+			this.boundSql.setValue("parameterMappings", Collections.unmodifiableList(parameterMappings));
 		}
 
 		public Object parameterObject() {
@@ -158,7 +159,7 @@ public class PluginUtils {
 
 		@SuppressWarnings("unchecked")
 		private <T> T get(String property) {
-			return (T) boundSql.getValue(property);
+			return (T) this.boundSql.getValue(property);
 		}
 
 	}

@@ -19,22 +19,22 @@ package org.ballcat.datascope.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * @author Hccake 2021/1/27
- *
  */
-@UtilityClass
 public final class AnnotationUtil {
+
+	private AnnotationUtil() {
+	}
 
 	/**
 	 * 获取数据权限注解 优先获取方法上的注解，再获取类上的注解
 	 * @param mappedStatementId 类名.方法名
 	 * @return 数据权限注解
 	 */
-	public <A extends Annotation> A findAnnotationByMappedStatementId(String mappedStatementId, Class<A> aClass) {
-		if (mappedStatementId == null || "".equals(mappedStatementId)) {
+	public static <A extends Annotation> A findAnnotationByMappedStatementId(String mappedStatementId,
+			Class<A> aClass) {
+		if (mappedStatementId == null || mappedStatementId.isEmpty()) {
 			return null;
 		}
 		// 1.得到类路径和方法路径
@@ -44,7 +44,7 @@ public final class AnnotationUtil {
 		}
 		String className = mappedStatementId.substring(0, lastIndexOfDot);
 		String methodName = mappedStatementId.substring(lastIndexOfDot + 1);
-		if ("".equals(className) || "".equals(methodName)) {
+		if (className.isEmpty() || methodName.isEmpty()) {
 			return null;
 		}
 

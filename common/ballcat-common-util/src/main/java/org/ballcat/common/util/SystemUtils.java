@@ -19,55 +19,55 @@ package org.ballcat.common.util;
 import java.io.File;
 import java.nio.charset.Charset;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * @author lingting 2022/6/25 12:10
  */
-@UtilityClass
-public class SystemUtils {
+public final class SystemUtils {
+
+	private SystemUtils() {
+	}
 
 	/**
 	 * 当前系统是否为Windows系统, 参考以下系统API
 	 * @see sun.awt.OSInfo#getOSType()
 	 * @return boolean
 	 */
-	public boolean isWindows() {
+	public static boolean isWindows() {
 		return osName().contains("Windows");
 	}
 
-	public boolean isLinux() {
+	public static boolean isLinux() {
 		return osName().contains("Linux");
 	}
 
-	public boolean isMacX() {
+	public static boolean isMacX() {
 		return osName().contains("OS X");
 	}
 
-	public boolean isMac() {
+	public static boolean isMac() {
 		return osName().contains("Mac OS");
 	}
 
-	public boolean isAix() {
+	public static boolean isAix() {
 		return osName().contains("AIX");
 	}
 
-	public String osName() {
+	public static String osName() {
 		return System.getProperty("os.name");
 	}
 
 	/**
 	 * 获取系统字符集
 	 */
-	public Charset charset() {
+	public static Charset charset() {
 		return Charset.forName(System.getProperty("sun.jnu.encoding"));
 	}
 
-	public String lineSeparator() {
+	public static String lineSeparator() {
 		return System.lineSeparator();
 	}
 
-	public String fileSeparator() {
+	public static String fileSeparator() {
 		return File.separator;
 	}
 
@@ -76,31 +76,31 @@ public class SystemUtils {
 	 * @deprecated 更换了方法名
 	 */
 	@Deprecated
-	public File tempDir() {
+	public static File tempDir() {
 		return tmpDir();
 	}
 
-	public File tmpDir() {
+	public static File tmpDir() {
 		return new File(System.getProperty("java.io.tmpdir"));
 	}
 
-	public File tmpDirBallcat() {
+	public static File tmpDirBallcat() {
 		return new File(System.getProperty("java.io.tmpdir"), "ballcat");
 	}
 
-	public File homeDir() {
+	public static File homeDir() {
 		return new File(System.getProperty("user.home"));
 	}
 
-	public File homeDirBallcat() {
+	public static File homeDirBallcat() {
 		return new File(System.getProperty("user.home"), ".ballcat");
 	}
 
-	public File workDir() {
+	public static File workDir() {
 		return new File(System.getProperty("user.dir"));
 	}
 
-	public String username() {
+	public static String username() {
 		return System.getProperty("user.name");
 	}
 

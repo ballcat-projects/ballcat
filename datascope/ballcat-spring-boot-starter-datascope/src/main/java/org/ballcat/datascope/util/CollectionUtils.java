@@ -18,22 +18,22 @@ package org.ballcat.datascope.util;
 
 import java.util.Collection;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * Collection 工具类
  *
  * @author hccake
  */
-@UtilityClass
 public final class CollectionUtils {
+
+	private CollectionUtils() {
+	}
 
 	/**
 	 * 校验集合是否为空
 	 * @param collection 集合
 	 * @return boolean
 	 */
-	public boolean isEmpty(Collection<?> collection) {
+	public static boolean isEmpty(Collection<?> collection) {
 		return collection == null || collection.isEmpty();
 	}
 
@@ -42,7 +42,7 @@ public final class CollectionUtils {
 	 * @param collection 集合
 	 * @return boolean
 	 */
-	public boolean isNotEmpty(Collection<?> collection) {
+	public static boolean isNotEmpty(Collection<?> collection) {
 		return !isEmpty(collection);
 	}
 

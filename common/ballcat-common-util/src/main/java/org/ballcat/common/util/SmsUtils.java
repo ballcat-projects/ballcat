@@ -18,7 +18,6 @@ package org.ballcat.common.util;
 
 import java.nio.charset.StandardCharsets;
 
-import lombok.experimental.UtilityClass;
 import org.ballcat.common.charset.GSMCharset;
 
 /**
@@ -26,29 +25,31 @@ import org.ballcat.common.charset.GSMCharset;
  *
  * @author hccake
  */
-@UtilityClass
 public final class SmsUtils {
+
+	private SmsUtils() {
+	}
 
 	/**
 	 * 短信载荷可用字节数
 	 */
-	public final int SMS_PAYLOAD_BYTE_NUM = 140;
+	public static final int SMS_PAYLOAD_BYTE_NUM = 140;
 
 	/**
 	 * 在 GSM-7 编码下，短信的最大有效字数：（140 * 8） / 7 = 160 GSM-7 编码使用 7 个 bit 表示一个标准字符，对于 €^ {} []〜|
 	 * 这些扩展字符会使用 2 个 7bit位 展示
 	 */
-	public final int MAX_WORLD_NUM_IN_GSM = 160;
+	public static final int MAX_WORLD_NUM_IN_GSM = 160;
 
 	/**
 	 * 在 UCS-2 编码下，长短信的各部分消息需要占用 7 个bit来记录 UDH
 	 */
-	public final int MAX_WORLD_NUM_IN_UCS2 = 70;
+	public static final int MAX_WORLD_NUM_IN_UCS2 = 70;
 
 	/**
 	 * UDH 占用 6 Byte / 48 bit
 	 */
-	public final int UDH_BYTE_NUM = 6;
+	public static final int UDH_BYTE_NUM = 6;
 
 	/**
 	 * 根据短信内容，获得对应的短信条数
@@ -60,7 +61,7 @@ public final class SmsUtils {
 	 * @param smsContent 短信内容
 	 * @return 短信条数
 	 */
-	public int smsNumber(String smsContent) {
+	public static int smsNumber(String smsContent) {
 		int wordsNum = GSMCharset.need7bitsNum(smsContent);
 		if (wordsNum == 0) {
 			return 0;

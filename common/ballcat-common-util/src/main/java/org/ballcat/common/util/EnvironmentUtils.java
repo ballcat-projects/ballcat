@@ -22,7 +22,6 @@ import java.util.Optional;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.UtilityClass;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
@@ -34,124 +33,126 @@ import org.springframework.core.env.PropertySource;
 /**
  * @author lingting 2022/10/15 11:33
  */
-@UtilityClass
-public class EnvironmentUtils {
+public final class EnvironmentUtils {
 
-	public final String ENVIRONMENT_NAME_REPLACE = "replaceEnvironment";
+	private EnvironmentUtils() {
+	}
+
+	public static final String ENVIRONMENT_NAME_REPLACE = "replaceEnvironment";
 
 	@Getter
 	@Setter
-	private static ConfigurableEnvironment environment;
+	private static ConfigurableEnvironment ENVIRONMENT;
 
-	public boolean containsProperty(String key) {
-		return environment.containsProperty(key);
+	public static boolean containsProperty(String key) {
+		return ENVIRONMENT.containsProperty(key);
 	}
 
-	public String getProperty(String key) {
-		return environment.getProperty(key);
+	public static String getProperty(String key) {
+		return ENVIRONMENT.getProperty(key);
 	}
 
-	public String getProperty(String key, String defaultValue) {
-		return environment.getProperty(key, defaultValue);
+	public static String getProperty(String key, String defaultValue) {
+		return ENVIRONMENT.getProperty(key, defaultValue);
 	}
 
-	public <T> T getProperty(String key, Class<T> targetType) {
-		return environment.getProperty(key, targetType);
+	public static <T> T getProperty(String key, Class<T> targetType) {
+		return ENVIRONMENT.getProperty(key, targetType);
 	}
 
-	public <T> T getProperty(String key, Class<T> targetType, T defaultValue) {
-		return environment.getProperty(key, targetType, defaultValue);
+	public static <T> T getProperty(String key, Class<T> targetType, T defaultValue) {
+		return ENVIRONMENT.getProperty(key, targetType, defaultValue);
 	}
 
-	public String getRequiredProperty(String key) throws IllegalStateException {
-		return environment.getRequiredProperty(key);
+	public static String getRequiredProperty(String key) throws IllegalStateException {
+		return ENVIRONMENT.getRequiredProperty(key);
 	}
 
-	public <T> T getRequiredProperty(String key, Class<T> targetType) throws IllegalStateException {
-		return environment.getRequiredProperty(key, targetType);
+	public static <T> T getRequiredProperty(String key, Class<T> targetType) throws IllegalStateException {
+		return ENVIRONMENT.getRequiredProperty(key, targetType);
 	}
 
-	public String resolvePlaceholders(String text) {
-		return environment.resolvePlaceholders(text);
+	public static String resolvePlaceholders(String text) {
+		return ENVIRONMENT.resolvePlaceholders(text);
 	}
 
-	public String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
-		return environment.resolveRequiredPlaceholders(text);
+	public static String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
+		return ENVIRONMENT.resolveRequiredPlaceholders(text);
 	}
 
-	public void setActiveProfiles(String... profiles) {
-		environment.setActiveProfiles(profiles);
+	public static void setActiveProfiles(String... profiles) {
+		ENVIRONMENT.setActiveProfiles(profiles);
 	}
 
-	public void addActiveProfile(String profile) {
-		environment.addActiveProfile(profile);
+	public static void addActiveProfile(String profile) {
+		ENVIRONMENT.addActiveProfile(profile);
 	}
 
-	public void setDefaultProfiles(String... profiles) {
-		environment.setDefaultProfiles(profiles);
+	public static void setDefaultProfiles(String... profiles) {
+		ENVIRONMENT.setDefaultProfiles(profiles);
 	}
 
-	public MutablePropertySources getPropertySources() {
-		return environment.getPropertySources();
+	public static MutablePropertySources getPropertySources() {
+		return ENVIRONMENT.getPropertySources();
 	}
 
-	public Map<String, Object> getSystemProperties() {
-		return environment.getSystemProperties();
+	public static Map<String, Object> getSystemProperties() {
+		return ENVIRONMENT.getSystemProperties();
 	}
 
-	public Map<String, Object> getSystemEnvironment() {
-		return environment.getSystemEnvironment();
+	public static Map<String, Object> getSystemEnvironment() {
+		return ENVIRONMENT.getSystemEnvironment();
 	}
 
-	public void merge(ConfigurableEnvironment parent) {
-		environment.merge(parent);
+	public static void merge(ConfigurableEnvironment parent) {
+		ENVIRONMENT.merge(parent);
 	}
 
-	public ConfigurableConversionService getConversionService() {
-		return environment.getConversionService();
+	public static ConfigurableConversionService getConversionService() {
+		return ENVIRONMENT.getConversionService();
 	}
 
-	public void setConversionService(ConfigurableConversionService conversionService) {
-		environment.setConversionService(conversionService);
+	public static void setConversionService(ConfigurableConversionService conversionService) {
+		ENVIRONMENT.setConversionService(conversionService);
 	}
 
-	public void setPlaceholderPrefix(String placeholderPrefix) {
-		environment.setPlaceholderPrefix(placeholderPrefix);
+	public static void setPlaceholderPrefix(String placeholderPrefix) {
+		ENVIRONMENT.setPlaceholderPrefix(placeholderPrefix);
 	}
 
-	public void setPlaceholderSuffix(String placeholderSuffix) {
-		environment.setPlaceholderSuffix(placeholderSuffix);
+	public static void setPlaceholderSuffix(String placeholderSuffix) {
+		ENVIRONMENT.setPlaceholderSuffix(placeholderSuffix);
 	}
 
-	public void setValueSeparator(String valueSeparator) {
-		environment.setValueSeparator(valueSeparator);
+	public static void setValueSeparator(String valueSeparator) {
+		ENVIRONMENT.setValueSeparator(valueSeparator);
 	}
 
-	public void setIgnoreUnresolvableNestedPlaceholders(boolean ignoreUnresolvableNestedPlaceholders) {
-		environment.setIgnoreUnresolvableNestedPlaceholders(ignoreUnresolvableNestedPlaceholders);
+	public static void setIgnoreUnresolvableNestedPlaceholders(boolean ignoreUnresolvableNestedPlaceholders) {
+		ENVIRONMENT.setIgnoreUnresolvableNestedPlaceholders(ignoreUnresolvableNestedPlaceholders);
 	}
 
-	public void setRequiredProperties(String... requiredProperties) {
-		environment.setRequiredProperties(requiredProperties);
+	public static void setRequiredProperties(String... requiredProperties) {
+		ENVIRONMENT.setRequiredProperties(requiredProperties);
 	}
 
-	public void validateRequiredProperties() throws MissingRequiredPropertiesException {
-		environment.validateRequiredProperties();
+	public static void validateRequiredProperties() throws MissingRequiredPropertiesException {
+		ENVIRONMENT.validateRequiredProperties();
 	}
 
-	public String[] getActiveProfiles() {
-		return environment.getActiveProfiles();
+	public static String[] getActiveProfiles() {
+		return ENVIRONMENT.getActiveProfiles();
 	}
 
-	public String[] getDefaultProfiles() {
-		return environment.getDefaultProfiles();
+	public static String[] getDefaultProfiles() {
+		return ENVIRONMENT.getDefaultProfiles();
 	}
 
-	public boolean acceptsProfiles(Profiles profiles) {
-		return environment.acceptsProfiles(profiles);
+	public static boolean acceptsProfiles(Profiles profiles) {
+		return ENVIRONMENT.acceptsProfiles(profiles);
 	}
 
-	public Map<String, Object> getReplaceMapPropertySource() {
+	public static Map<String, Object> getReplaceMapPropertySource() {
 		MutablePropertySources propertySources = getPropertySources();
 		MapPropertySource target = null;
 
@@ -173,7 +174,7 @@ public class EnvironmentUtils {
 	 * 判断当前是否为指定环境
 	 * @param profile 指定环境
 	 */
-	public boolean isProfile(String profile) {
+	public static boolean isProfile(String profile) {
 		return ArrayUtils.contains(getActiveProfiles(), profile);
 	}
 

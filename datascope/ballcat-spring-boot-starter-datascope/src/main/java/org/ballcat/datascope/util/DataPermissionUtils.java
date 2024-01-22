@@ -16,7 +16,6 @@
 
 package org.ballcat.datascope.util;
 
-import lombok.experimental.UtilityClass;
 import org.ballcat.datascope.function.Action;
 import org.ballcat.datascope.function.ResultAction;
 import org.ballcat.datascope.handler.DataPermissionRule;
@@ -25,14 +24,16 @@ import org.ballcat.datascope.holder.DataPermissionRuleHolder;
 /**
  * @author hccake
  */
-@UtilityClass
 public final class DataPermissionUtils {
+
+	private DataPermissionUtils() {
+	}
 
 	/**
 	 * 使用指定的数据权限执行任务
 	 * @param action 待执行的动作
 	 */
-	public void executeAndIgnoreAll(Action action) {
+	public static void executeAndIgnoreAll(Action action) {
 		DataPermissionRule ignoreAll = new DataPermissionRule(true);
 		executeWithDataPermissionRule(ignoreAll, action);
 	}
@@ -41,7 +42,7 @@ public final class DataPermissionUtils {
 	 * 使用指定的数据权限执行任务
 	 * @param resultAction 待执行的动作
 	 */
-	public <T> T executeAndIgnoreAll(ResultAction<T> resultAction) {
+	public static <T> T executeAndIgnoreAll(ResultAction<T> resultAction) {
 		DataPermissionRule ignoreAll = new DataPermissionRule(true);
 		return executeWithDataPermissionRule(ignoreAll, resultAction);
 	}
@@ -51,7 +52,7 @@ public final class DataPermissionUtils {
 	 * @param dataPermissionRule 当前任务执行时使用的数据权限规则
 	 * @param action 待执行的动作
 	 */
-	public void executeWithDataPermissionRule(DataPermissionRule dataPermissionRule, Action action) {
+	public static void executeWithDataPermissionRule(DataPermissionRule dataPermissionRule, Action action) {
 		DataPermissionRuleHolder.push(dataPermissionRule);
 		try {
 			action.execute();
@@ -66,7 +67,8 @@ public final class DataPermissionUtils {
 	 * @param dataPermissionRule 当前任务执行时使用的数据权限规则
 	 * @param resultAction 待执行的动作
 	 */
-	public <T> T executeWithDataPermissionRule(DataPermissionRule dataPermissionRule, ResultAction<T> resultAction) {
+	public static <T> T executeWithDataPermissionRule(DataPermissionRule dataPermissionRule,
+			ResultAction<T> resultAction) {
 		DataPermissionRuleHolder.push(dataPermissionRule);
 		try {
 			return resultAction.execute();

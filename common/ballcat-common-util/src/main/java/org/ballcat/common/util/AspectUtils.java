@@ -19,7 +19,6 @@ package org.ballcat.common.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import lombok.experimental.UtilityClass;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -29,15 +28,17 @@ import org.aspectj.lang.reflect.MethodSignature;
  *
  * @author lingting 2022/10/28 15:03
  */
-@UtilityClass
-public class AspectUtils {
+public final class AspectUtils {
+
+	private AspectUtils() {
+	}
 
 	/**
 	 * 获取切入的方法
 	 * @param point 切面
 	 * @return java.lang.reflect.Method
 	 */
-	public Method getMethod(ProceedingJoinPoint point) {
+	public static Method getMethod(ProceedingJoinPoint point) {
 		Signature signature = point.getSignature();
 		if (signature instanceof MethodSignature) {
 			MethodSignature ms = (MethodSignature) signature;
@@ -52,7 +53,7 @@ public class AspectUtils {
 	 * @param cls 注解类型
 	 * @return T 注解类型
 	 */
-	public <T extends Annotation> T getAnnotation(ProceedingJoinPoint point, Class<T> cls) {
+	public static <T extends Annotation> T getAnnotation(ProceedingJoinPoint point, Class<T> cls) {
 		Method method = getMethod(point);
 		T t = null;
 		if (method != null) {
