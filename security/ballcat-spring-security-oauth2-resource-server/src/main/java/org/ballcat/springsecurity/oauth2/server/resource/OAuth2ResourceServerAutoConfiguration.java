@@ -26,6 +26,7 @@ import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2Resour
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.web.CustomAuthenticationEntryPoint;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -86,42 +87,6 @@ public class OAuth2ResourceServerAutoConfiguration {
 			return new BasicOauth2ResourceServerConfigurerCustomizer(authenticationEntryPoint, bearerTokenResolver);
 		}
 
-	}
-
-	/**
-	 * 不透明令牌处理配置类
-	 */
-	@Configuration(proxyBeanMethods = false)
-	static class OAuth2ResourceServerOpaqueTokenConfiguration {
-
-		/**
-		 * 当资源服务器和授权服务器的 token 共享存储时，直接使用 OAuth2AuthorizationService 读取 token 信息
-		 * @return SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector
-		 */
-		@Bean
-		@ConditionalOnMissingBean
-		@ConditionalOnProperty(prefix = "ballcat.springsecurity.oauth2.resourceserver", name = "shared-stored-token",
-				havingValue = "true")
-		public OpaqueTokenIntrospector sharedStoredOpaqueTokenIntrospector(
-				OAuth2AuthorizationService authorizationService) {
-			return new SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector(authorizationService);
-		}
-
-		/**
-		 * 当资源服务器和授权服务器的 token 存储无法共享时，通过远程调用的方式，向授权服务鉴定 token，并同时获取对应的授权信息
-		 * @return NimbusOpaqueTokenIntrospector
-		 */
-		@Bean
-		@ConditionalOnMissingBean
-		@ConditionalOnProperty(prefix = "ballcat.security.oauth2.resourceserver", name = "shared-stored-token",
-				havingValue = "false", matchIfMissing = true)
-		public OpaqueTokenIntrospector remoteOpaqueTokenIntrospector(
-				OAuth2ResourceServerProperties oAuth2ResourceServerProperties) {
-			OAuth2ResourceServerProperties.Opaquetoken opaqueToken = oAuth2ResourceServerProperties.getOpaqueToken();
-			return new BallcatRemoteOpaqueTokenIntrospector(opaqueToken.getIntrospectionUri(),
-					opaqueToken.getClientId(), opaqueToken.getClientSecret());
-		}
-
 		/**
 		 * spring-security 5.x 中开启资源服务器功能，需要的不透明令牌的支持
 		 * @return OpaqueTokenAuthenticationProvider
@@ -131,6 +96,51 @@ public class OAuth2ResourceServerAutoConfiguration {
 		public OpaqueTokenAuthenticationProvider opaqueTokenAuthenticationProvider(
 				OpaqueTokenIntrospector opaqueTokenIntrospector) {
 			return new OpaqueTokenAuthenticationProvider(opaqueTokenIntrospector);
+		}
+
+	}
+
+	/**
+	 * 共享令牌配置
+	 */
+	@ConditionalOnClass(OAuth2AuthorizationService.class)
+	@Configuration(proxyBeanMethods = false)
+	static class SharedStoredOpaqueTokenIntrospectorConfiguration {
+
+		/**
+		 * 当资源服务器和授权服务器的 token 共享存储时，直接使用 OAuth2AuthorizationService 读取 token 信息
+		 * @return SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector
+		 */
+		@Bean
+		@ConditionalOnMissingBean(OpaqueTokenIntrospector.class)
+		@ConditionalOnProperty(prefix = "ballcat.springsecurity.oauth2.resourceserver", name = "shared-stored-token",
+				havingValue = "true")
+		public OpaqueTokenIntrospector sharedStoredOpaqueTokenIntrospector(
+				OAuth2AuthorizationService authorizationService) {
+			return new SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector(authorizationService);
+		}
+
+	}
+
+	/**
+	 * 不透明令牌处理配置类
+	 */
+	@Configuration(proxyBeanMethods = false)
+	static class OAuth2ResourceServerOpaqueTokenConfiguration {
+
+		/**
+		 * 当资源服务器和授权服务器的 token 存储无法共享时，通过远程调用的方式，向授权服务鉴定 token，并同时获取对应的授权信息
+		 * @return NimbusOpaqueTokenIntrospector
+		 */
+		@Bean
+		@ConditionalOnMissingBean(OpaqueTokenIntrospector.class)
+		@ConditionalOnProperty(prefix = "ballcat.springsecurity.oauth2.resourceserver", name = "shared-stored-token",
+				havingValue = "false", matchIfMissing = true)
+		public OpaqueTokenIntrospector remoteOpaqueTokenIntrospector(
+				OAuth2ResourceServerProperties oAuth2ResourceServerProperties) {
+			OAuth2ResourceServerProperties.Opaquetoken opaqueToken = oAuth2ResourceServerProperties.getOpaqueToken();
+			return new BallcatRemoteOpaqueTokenIntrospector(opaqueToken.getIntrospectionUri(),
+					opaqueToken.getClientId(), opaqueToken.getClientSecret());
 		}
 
 	}
