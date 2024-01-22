@@ -32,9 +32,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class OAuth2ResourceServerProperties {
 
 	/**
-	 * 共享存储的token，这种情况下，利用 tokenStore 可以直接获取 token 信息
+	 * 资源服务器是否和授权服务器共享 token 存储，共享时资源服务器可以直接从 tokenStore 中获取 token 信息
 	 */
-	private boolean sharedStoredToken = true;
+	private boolean sharedStoredToken = false;
 
 	/**
 	 * 当 sharedStoredToken 为 false 时生效。 主要用于配置远程端点

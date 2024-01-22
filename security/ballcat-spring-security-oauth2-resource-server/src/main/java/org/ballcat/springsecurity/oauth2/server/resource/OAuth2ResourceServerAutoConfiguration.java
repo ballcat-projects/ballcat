@@ -21,6 +21,7 @@ import org.ballcat.springsecurity.configuration.SpringSecurityAutoConfiguration;
 import org.ballcat.springsecurity.configuration.SpringSecurityComponentConfiguration;
 import org.ballcat.springsecurity.oauth2.server.resource.configurer.BasicOauth2ResourceServerConfigurerCustomizer;
 import org.ballcat.springsecurity.oauth2.server.resource.introspection.BallcatRemoteOpaqueTokenIntrospector;
+import org.ballcat.springsecurity.oauth2.server.resource.introspection.SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
 import org.ballcat.springsecurity.web.CustomAuthenticationEntryPoint;
@@ -31,6 +32,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.authentication.OpaqueTokenAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
@@ -93,14 +95,27 @@ public class OAuth2ResourceServerAutoConfiguration {
 	static class OAuth2ResourceServerOpaqueTokenConfiguration {
 
 		/**
+		 * 当资源服务器和授权服务器的 token 共享存储时，直接使用 OAuth2AuthorizationService 读取 token 信息
+		 * @return SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector
+		 */
+		@Bean
+		@ConditionalOnMissingBean
+		@ConditionalOnProperty(prefix = "ballcat.springsecurity.oauth2.resourceserver", name = "shared-stored-token",
+				havingValue = "true")
+		public OpaqueTokenIntrospector sharedStoredOpaqueTokenIntrospector(
+				OAuth2AuthorizationService authorizationService) {
+			return new SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector(authorizationService);
+		}
+
+		/**
 		 * 当资源服务器和授权服务器的 token 存储无法共享时，通过远程调用的方式，向授权服务鉴定 token，并同时获取对应的授权信息
 		 * @return NimbusOpaqueTokenIntrospector
 		 */
 		@Bean
 		@ConditionalOnMissingBean
 		@ConditionalOnProperty(prefix = "ballcat.security.oauth2.resourceserver", name = "shared-stored-token",
-				havingValue = "false")
-		public OpaqueTokenIntrospector opaqueTokenIntrospector(
+				havingValue = "false", matchIfMissing = true)
+		public OpaqueTokenIntrospector remoteOpaqueTokenIntrospector(
 				OAuth2ResourceServerProperties oAuth2ResourceServerProperties) {
 			OAuth2ResourceServerProperties.Opaquetoken opaqueToken = oAuth2ResourceServerProperties.getOpaqueToken();
 			return new BallcatRemoteOpaqueTokenIntrospector(opaqueToken.getIntrospectionUri(),
