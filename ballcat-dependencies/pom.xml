@@ -7,7 +7,7 @@
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 	<name>ballcat-dependencies</name>
-	<url>https://github.com/hccake/ballcat</url>
+	<url>https://github.com/ballcat-projects/ballcat</url>
 	<description>Ballcat Dependencies</description>
 
 	<properties>
@@ -741,14 +741,13 @@
 	</developers>
 	<licenses>
 		<license>
-			<name>MIT License</name>
-			<url>http://www.opensource.org/licenses/mit-license.php</url>
-			<distribution>repo</distribution>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
 	<scm>
-		<url>https://github.com/hccake/ballcat</url>
-		<connection>https://github.com/hccake/ballcat.git</connection>
+		<url>https://github.com/ballcat-projects/ballcat</url>
+		<connection>https://github.com/ballcat-projects/ballcat.git</connection>
 		<developerConnection>https://github.com/hccake</developerConnection>
 	</scm>
 </project>
