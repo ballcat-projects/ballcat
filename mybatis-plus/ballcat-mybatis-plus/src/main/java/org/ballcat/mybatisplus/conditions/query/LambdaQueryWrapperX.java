@@ -256,7 +256,7 @@ public class LambdaQueryWrapperX<T> extends AbstractLambdaWrapper<T, LambdaQuery
 				.map(i -> this.formatParam(null, i))
 				.collect(Collectors.joining(",", "(", ")"));
 
-			return String.format("%s(%s,%s)", keyword, field, content);
+			return String.format("%s(%s,JSON_ARRAY%s)", keyword, field, content);
 		});
 		return this;
 	}
