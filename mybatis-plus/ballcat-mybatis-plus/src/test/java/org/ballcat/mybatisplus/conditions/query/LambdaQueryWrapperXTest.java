@@ -43,10 +43,10 @@ class LambdaQueryWrapperXTest {
 							new EqualsTo(column, new StringValue("ex2")))));
 
 		assertContains(
-				"JSON_CONTAINS(a.list,(#{ew.paramNameValuePairs.MPGENVAL1},#{ew.paramNameValuePairs.MPGENVAL2}))",
+				"JSON_CONTAINS(a.list,JSON_ARRAY(#{ew.paramNameValuePairs.MPGENVAL1},#{ew.paramNameValuePairs.MPGENVAL2}))",
 				wrapper().jsonContainsIfPresent(Entity::getList, Arrays.asList("1", "2")));
 		assertContains(
-				" JSON_CONTAINS(a.list,(#{ew.paramNameValuePairs.MPGENVAL1},#{ew.paramNameValuePairs.MPGENVAL2})) AND",
+				" JSON_CONTAINS(a.list,JSON_ARRAY(#{ew.paramNameValuePairs.MPGENVAL1},#{ew.paramNameValuePairs.MPGENVAL2})) AND",
 				wrapper().jsonContains(Entity::getList, "1", "2").eq(Entity::getString, "eq1"));
 	}
 
