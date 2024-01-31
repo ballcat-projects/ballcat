@@ -37,12 +37,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.Ordered;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 /**
  * OpenAPI 的自动配置类
@@ -94,37 +89,6 @@ public class OpenApiAutoConfiguration {
 		info.setVersion(infoProperties.getVersion());
 		info.setExtensions(infoProperties.getExtensions());
 		return info;
-	}
-
-	/**
-	 * 允许聚合者对提供者的文档进行跨域访问 解决聚合文档导致的跨域问题
-	 * @return FilterRegistrationBean
-	 */
-	@Bean
-	@ConditionalOnProperty(prefix = OpenApiProperties.PREFIX + ".cors-config", name = "enabled", havingValue = "true")
-	public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
-		// 获取 CORS 配置
-		OpenApiProperties.CorsConfig corsConfig = this.openApiProperties.getCorsConfig();
-
-		// 转换 CORS 配置
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOrigins(corsConfig.getAllowedOrigins());
-		corsConfiguration.setAllowedOriginPatterns(corsConfig.getAllowedOriginPatterns());
-		corsConfiguration.setAllowedMethods(corsConfig.getAllowedMethods());
-		corsConfiguration.setAllowedHeaders(corsConfig.getAllowedHeaders());
-		corsConfiguration.setExposedHeaders(corsConfig.getExposedHeaders());
-		corsConfiguration.setAllowCredentials(corsConfig.getAllowCredentials());
-		corsConfiguration.setMaxAge(corsConfig.getMaxAge());
-
-		// 注册 CORS 配置与资源的映射关系
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration(corsConfig.getUrlPattern(), corsConfiguration);
-
-		// 注册 CORS 过滤器，设置最高优先级
-		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-
-		return bean;
 	}
 
 	/**
