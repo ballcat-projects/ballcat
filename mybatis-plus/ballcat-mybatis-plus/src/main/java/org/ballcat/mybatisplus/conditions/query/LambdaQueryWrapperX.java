@@ -16,6 +16,16 @@
 
 package org.ballcat.mybatisplus.conditions.query;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
 import com.baomidou.mybatisplus.core.conditions.ISqlSegment;
 import com.baomidou.mybatisplus.core.conditions.SharedString;
@@ -28,16 +38,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import net.sf.jsqlparser.expression.Expression;
 import org.springframework.util.StringUtils;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * 增加了一些简单条件的 IfPresent 条件 支持，Collection String Object 等等判断是否为空，或者是否为null
