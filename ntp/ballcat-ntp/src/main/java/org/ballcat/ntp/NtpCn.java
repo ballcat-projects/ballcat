@@ -26,7 +26,7 @@ public final class NtpCn {
 	private NtpCn() {
 	}
 
-	public static final String DEFAULT_TIME_SERVER = "time.windows.com";
+	public static final String DEFAULT_TIME_SERVER = "ntp.aliyun.com";
 
 	private static final Ntp INSTANCE = new Ntp(DEFAULT_TIME_SERVER);
 
