@@ -32,6 +32,7 @@ import org.springframework.data.redis.core.ValueOperations;
 public class RedisIdempotentKeyStore implements IdempotentKeyStore {
 
 	@Autowired
+	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 	private StringRedisTemplate stringRedisTemplate;
 
 	@Override

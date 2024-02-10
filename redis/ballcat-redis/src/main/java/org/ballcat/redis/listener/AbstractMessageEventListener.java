@@ -33,6 +33,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 public abstract class AbstractMessageEventListener<T> implements MessageEventListener {
 
 	@Autowired
+	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 	protected StringRedisTemplate stringRedisTemplate;
 
 	protected final Class<T> clz;

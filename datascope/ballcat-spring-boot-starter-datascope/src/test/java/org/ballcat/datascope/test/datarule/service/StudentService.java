@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 public class StudentService {
 
 	@Autowired
+	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 	private StudentMapper studentMapper;
 
 	public List<Student> listStudent() {

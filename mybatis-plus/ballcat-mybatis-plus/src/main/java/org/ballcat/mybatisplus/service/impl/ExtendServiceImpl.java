@@ -55,6 +55,7 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> implements ExtendSe
 	protected Log log = LogFactory.getLog(getClass());
 
 	@Autowired
+	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 	protected M baseMapper;
 
 	@Override

@@ -41,6 +41,7 @@ import org.springframework.util.StringUtils;
 public abstract class AbstractRedisThread<E> extends AbstractQueueThread<E> {
 
 	@Autowired
+	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 	protected RedisHelper redisHelper;
 
 	/**
