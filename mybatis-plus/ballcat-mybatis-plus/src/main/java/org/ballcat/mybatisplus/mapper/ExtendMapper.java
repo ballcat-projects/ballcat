@@ -26,8 +26,11 @@ import org.ballcat.common.model.domain.PageParam;
 import org.ballcat.mybatisplus.toolkit.PageUtil;
 
 /**
- * 所有的 Mapper接口 都需要继承当前接口 如果想自己定义其他的全局方法， 您的全局 BaseMapper 需要继承当前接口
+ * 扩展 BaseMapper 额外提供 {@link InsertBatchSomeColumn} 方法。
  *
+ * @link <a href=
+ * "https://gitee.com/baomidou/mybatis-plus-samples/tree/master/mybatis-plus-sample-deluxe">自定义
+ * BaseMapper 示例</a>
  * @author lingting 2020/5/27 11:39
  */
 public interface ExtendMapper<T> extends BaseMapper<T> {
