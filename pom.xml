@@ -57,6 +57,7 @@
 		<module>mail/ballcat-spring-boot-starter-mail</module>
 
 		<module>mybatis-plus/ballcat-mybatis-plus</module>
+		<module>mybatis-plus/ballcat-spring-boot-starter-mybatis-plus</module>
 
 		<module>ntp/ballcat-ntp</module>
 
