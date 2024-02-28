@@ -23,14 +23,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.autoconfigure.xxljob.properties.XxlExecutorProperties;
 import org.ballcat.autoconfigure.xxljob.properties.XxlJobProperties;
-import org.ballcat.autoconfigure.xxljob.trace.TraceXxlJobAnnotationAdvisor;
-import org.ballcat.autoconfigure.xxljob.trace.TraceXxlJobAnnotationInterceptor;
+import org.ballcat.autoconfigure.xxljob.trace.TraceXxlJobSpringExecutor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
@@ -53,7 +50,7 @@ public class XxlJobAutoConfiguration {
 		if (log.isInfoEnabled()) {
 			log.info(">>>>>>>>>>> xxl-job config init.");
 		}
-		XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
+		XxlJobSpringExecutor xxlJobSpringExecutor = new TraceXxlJobSpringExecutor();
 		xxlJobSpringExecutor.setAdminAddresses(xxlJobProperties.getAdmin().getAddresses());
 		XxlExecutorProperties executorProperties = xxlJobProperties.getExecutor();
 		xxlJobSpringExecutor.setAppname(getExecutorName(executorProperties));
@@ -110,24 +107,6 @@ public class XxlJobAutoConfiguration {
 			.concat("/")
 			.concat(Objects.requireNonNull(this.environment.getProperty("spring.application.name")))
 			.concat("/jobs");
-	}
-
-	@Configuration(proxyBeanMethods = false)
-	static class TraceConfiguration {
-
-		@Bean
-		@ConditionalOnMissingBean
-		public TraceXxlJobAnnotationInterceptor traceXxlJobAnnotationInterceptor() {
-			return new TraceXxlJobAnnotationInterceptor();
-		}
-
-		@Bean
-		@ConditionalOnMissingBean
-		public TraceXxlJobAnnotationAdvisor traceXxlJobAnnotationAdvisor(
-				TraceXxlJobAnnotationInterceptor xxlJobAnnotationInterceptor) {
-			return new TraceXxlJobAnnotationAdvisor(xxlJobAnnotationInterceptor);
-		}
-
 	}
 
 }

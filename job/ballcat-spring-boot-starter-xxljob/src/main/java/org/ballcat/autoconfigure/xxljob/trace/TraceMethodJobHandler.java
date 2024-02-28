@@ -19,28 +19,50 @@ package org.ballcat.autoconfigure.xxljob.trace;
 import java.util.UUID;
 
 import com.xxl.job.core.context.XxlJobHelper;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
+import com.xxl.job.core.handler.IJobHandler;
+import com.xxl.job.core.handler.impl.MethodJobHandler;
 import org.slf4j.MDC;
 
 /**
- * 增强 XxlJob Trace 能力的拦截器，在 jobHandler execute 前在 MDC 中置入 traceId, 方便追踪上下文日志。
+ * 可追踪的 MethodJobHandler.
  *
  * @author Hccake
+ * @see MethodJobHandler
  */
-public class TraceXxlJobAnnotationInterceptor implements MethodInterceptor {
+public class TraceMethodJobHandler extends IJobHandler {
 
 	private final static String TRACE_ID = "traceId";
 
+	private final MethodJobHandler methodJobHandler;
+
+	public TraceMethodJobHandler(MethodJobHandler target) {
+		this.methodJobHandler = target;
+	}
+
 	@Override
-	public Object invoke(MethodInvocation invocation) throws Throwable {
+	public void execute() throws Exception {
 		MDC.put(TRACE_ID, generateTraceId());
 		try {
-			return invocation.proceed();
+			this.methodJobHandler.execute();
 		}
 		finally {
 			MDC.remove(TRACE_ID);
 		}
+	}
+
+	@Override
+	public void init() throws Exception {
+		this.methodJobHandler.init();
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		this.methodJobHandler.destroy();
+	}
+
+	@Override
+	public String toString() {
+		return this.methodJobHandler.toString();
 	}
 
 	/**
