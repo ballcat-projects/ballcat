@@ -30,7 +30,6 @@ import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 import org.ballcat.common.core.exception.handler.GlobalExceptionHandler;
-import org.ballcat.common.core.util.WebUtils;
 import org.ballcat.common.util.LocalDateTimeUtils;
 import org.ballcat.web.exception.domain.ExceptionMessage;
 import org.ballcat.web.exception.notice.ExceptionNoticeConfig;
@@ -39,6 +38,9 @@ import org.ballcat.web.exception.notice.ExceptionNotifier;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 import org.springframework.util.FastByteArrayOutputStream;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 对外发送通知的异常处理类
@@ -147,7 +149,7 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 				}
 			}
 			// 一次处理结束
-			if (this.messages.size() > 0) {
+			if (!this.messages.isEmpty()) {
 				// 如果需要发送的消息不为空
 				for (ExceptionMessage exceptionMessage : this.messages.values()) {
 					notifyExceptionMessage(exceptionMessage);
@@ -194,7 +196,14 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 	@Override
 	public void handle(Throwable throwable) {
 		try {
-			this.requestUri = WebUtils.getRequest().getRequestURI();
+			RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+			if (requestAttributes instanceof ServletRequestAttributes) {
+				ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+				this.requestUri = servletRequestAttributes.getRequest().getRequestURI();
+			}
+			else {
+				this.requestUri = null;
+			}
 			// 是否忽略该异常
 			boolean ignore = false;
 
