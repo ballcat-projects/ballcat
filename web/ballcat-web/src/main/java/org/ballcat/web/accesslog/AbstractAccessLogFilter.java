@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ballcat.common.core.constant.MDCConstants;
-import org.ballcat.common.core.request.wrapper.RepeatBodyRequestWrapper;
+import org.ballcat.web.util.RepeatBodyRequestWrapper;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;

@@ -51,11 +51,6 @@
 			<artifactId>hibernate-validator</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>jakarta.servlet</groupId>
-			<artifactId>jakarta.servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.glassfish</groupId>

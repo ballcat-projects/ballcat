@@ -27,12 +27,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ballcat.common.core.request.wrapper.ModifyParameterRequestWrapper;
 import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.ballcat.common.util.JsonUtils;
 import org.ballcat.springsecurity.oauth2.ScopeNames;
 import org.ballcat.springsecurity.util.PasswordUtils;
+import org.ballcat.web.util.ModifyParameterRequestWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;

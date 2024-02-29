@@ -26,8 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lombok.extern.slf4j.Slf4j;
-import org.ballcat.common.core.request.wrapper.ModifyParameterRequestWrapper;
 import org.ballcat.springsecurity.util.PasswordUtils;
+import org.ballcat.web.util.ModifyParameterRequestWrapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.support.MessageSourceAccessor;

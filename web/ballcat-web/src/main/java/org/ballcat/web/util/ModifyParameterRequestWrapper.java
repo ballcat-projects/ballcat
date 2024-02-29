@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballcat.common.core.request.wrapper;
+package org.ballcat.web.util;
 
 import java.util.Collections;
 import java.util.Enumeration;
