@@ -26,6 +26,7 @@ import org.ballcat.web.accesslog.AccessLogRecordOptions;
 import org.ballcat.web.accesslog.AccessLogRule;
 import org.ballcat.web.accesslog.DefaultAccessLogFilter;
 import org.ballcat.web.accesslog.annotation.AccessLogRuleFinder;
+import org.slf4j.event.Level;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -54,17 +55,22 @@ public class AccessLogAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(AccessLogFilter.class)
 	public AccessLogFilter defaultAccessLogFilter() {
+		List<AccessLogRule> propertiesRules = this.accessLogProperties.getAccessLogRules();
+		Integer maxBodyLength = this.accessLogProperties.getMaxBodyLength();
+		Integer filterOrder = this.accessLogProperties.getFilterOrder();
+		Level defaultFilterLogLevel = this.accessLogProperties.getDefaultFilterLogLevel();
+		AccessLogRecordOptions defaultRecordOptions = this.accessLogProperties.getDefaultAccessLogRecordOptions();
+
 		// 合并 annotationRules 和 propertiesRules, 注解高于配置
 		List<AccessLogRule> annotationRules = AccessLogRuleFinder
 			.findRulesFormAnnotation(this.requestMappingHandlerMapping);
-		List<AccessLogRule> propertiesRules = this.accessLogProperties.getAccessLogRules();
 		List<AccessLogRule> accessLogRules = AccessLogRuleFinder.mergeRules(annotationRules, propertiesRules);
 
-		AccessLogRecordOptions defaultRecordOptions = this.accessLogProperties.getDefaultAccessLogRecordOptions();
-
-		AbstractAccessLogFilter accessLogFilter = new DefaultAccessLogFilter(defaultRecordOptions, accessLogRules);
-		accessLogFilter.setMaxBodyLength(this.accessLogProperties.getMaxBodyLength());
-		accessLogFilter.setOrder(this.accessLogProperties.getFilterOrder());
+		// 创建默认访问日志过滤器
+		AbstractAccessLogFilter accessLogFilter = new DefaultAccessLogFilter(defaultRecordOptions, accessLogRules,
+				defaultFilterLogLevel);
+		accessLogFilter.setMaxBodyLength(maxBodyLength);
+		accessLogFilter.setOrder(filterOrder);
 		return accessLogFilter;
 	}
 

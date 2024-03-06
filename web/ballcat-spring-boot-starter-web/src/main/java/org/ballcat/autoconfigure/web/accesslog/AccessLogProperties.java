@@ -25,6 +25,7 @@ import lombok.Setter;
 import org.ballcat.web.accesslog.AbstractAccessLogFilter;
 import org.ballcat.web.accesslog.AccessLogRecordOptions;
 import org.ballcat.web.accesslog.AccessLogRule;
+import org.slf4j.event.Level;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -43,6 +44,11 @@ public class AccessLogProperties {
 	 * 开启 access log 的记录
 	 */
 	private boolean enabled = false;
+
+	/**
+	 * 默认的访问日志过滤器写日志时的级别
+	 */
+	private Level defaultFilterLogLevel = Level.DEBUG;
 
 	/**
 	 * access log filter 的优先级

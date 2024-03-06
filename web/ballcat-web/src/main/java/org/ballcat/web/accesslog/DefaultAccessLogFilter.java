@@ -21,24 +21,46 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.common.util.IpUtils;
+import org.slf4j.event.Level;
 
 /**
  * 默认的访问日志过滤器，使用 log 输出
  *
  * @author Hccake
  */
+@Getter
+@Setter
 @Slf4j
 public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 
-	public DefaultAccessLogFilter(AccessLogRecordOptions defaultRecordOptions, List<AccessLogRule> logRules) {
+	private Level logLevel;
+
+	public DefaultAccessLogFilter(AccessLogRecordOptions defaultRecordOptions, List<AccessLogRule> logRules,
+			Level logLevel) {
 		super(defaultRecordOptions, logRules);
+		this.logLevel = logLevel != null ? logLevel : Level.DEBUG;
 	}
 
 	@Override
 	protected boolean shouldLog(HttpServletRequest request) {
-		return log.isDebugEnabled();
+		switch (this.logLevel) {
+			case TRACE:
+				return log.isTraceEnabled();
+			case DEBUG:
+				return log.isDebugEnabled();
+			case INFO:
+				return log.isInfoEnabled();
+			case WARN:
+				return log.isWarnEnabled();
+			case ERROR:
+				return log.isErrorEnabled();
+			default:
+				return false;
+		}
 	}
 
 	@Override
@@ -60,7 +82,7 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 
 		msg.append("]");
 
-		log.debug(msg.toString());
+		writeLogWithSpecialLevel(msg);
 	}
 
 	@Override
@@ -97,7 +119,30 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 
 		msg.append("]");
 
-		log.debug(msg.toString());
+		writeLogWithSpecialLevel(msg);
+	}
+
+	/**
+	 * 根据指定的日志级别进行日志输出。
+	 */
+	private void writeLogWithSpecialLevel(StringBuilder msg) {
+		switch (this.logLevel) {
+			case TRACE:
+				log.trace(msg.toString());
+				break;
+			case DEBUG:
+				log.debug(msg.toString());
+				break;
+			case INFO:
+				log.info(msg.toString());
+				break;
+			case WARN:
+				log.warn(msg.toString());
+				break;
+			case ERROR:
+				log.error(msg.toString());
+				break;
+		}
 	}
 
 }
