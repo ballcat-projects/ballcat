@@ -20,9 +20,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,8 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface BaseService<T> {
 
-	// ======= Copy From com.baomidou.mybatisplus.extension.service.IService 开始 =======
-
 	/**
 	 * 默认批次提交数量
 	 */
@@ -44,9 +39,7 @@ public interface BaseService<T> {
 	 * 插入一条记录（选择字段，策略插入）
 	 * @param entity 实体对象
 	 */
-	default boolean save(T entity) {
-		return SqlHelper.retBool(getBaseMapper().insert(entity));
-	}
+	boolean save(T entity);
 
 	/**
 	 * 插入（批量）
@@ -84,9 +77,7 @@ public interface BaseService<T> {
 	 * 根据 ID 删除
 	 * @param id 主键ID
 	 */
-	default boolean removeById(Serializable id) {
-		return SqlHelper.retBool(getBaseMapper().deleteById(id));
-	}
+	boolean removeById(Serializable id);
 
 	/**
 	 * 根据 ID 删除
@@ -105,21 +96,14 @@ public interface BaseService<T> {
 	 * @since 3.4.4
 	 * @return 删除结果
 	 */
-	default boolean removeById(T entity) {
-		return SqlHelper.retBool(getBaseMapper().deleteById(entity));
-	}
+	boolean removeById(T entity);
 
 	/**
 	 * 删除（根据ID 批量删除）
 	 * @param list 主键ID或实体列表
 	 * @return 删除结果
 	 */
-	default boolean removeByIds(Collection<?> list) {
-		if (CollectionUtils.isEmpty(list)) {
-			return false;
-		}
-		return SqlHelper.retBool(getBaseMapper().deleteBatchIds(list));
-	}
+	boolean removeByIds(Collection<?> list);
 
 	/**
 	 * 批量删除
@@ -128,16 +112,7 @@ public interface BaseService<T> {
 	 * @return 删除结果
 	 * @since 3.5.0
 	 */
-	@Transactional(rollbackFor = Exception.class)
-	default boolean removeByIds(Collection<?> list, boolean useFill) {
-		if (CollectionUtils.isEmpty(list)) {
-			return false;
-		}
-		if (useFill) {
-			return removeBatchByIds(list, true);
-		}
-		return SqlHelper.retBool(getBaseMapper().deleteBatchIds(list));
-	}
+	boolean removeByIds(Collection<?> list, boolean useFill);
 
 	/**
 	 * 批量删除(jdbc批量提交)
@@ -189,9 +164,7 @@ public interface BaseService<T> {
 	 * 根据 ID 选择修改
 	 * @param entity 实体对象
 	 */
-	default boolean updateById(T entity) {
-		return SqlHelper.retBool(getBaseMapper().updateById(entity));
-	}
+	boolean updateById(T entity);
 
 	/**
 	 * 根据ID 批量更新
@@ -219,38 +192,24 @@ public interface BaseService<T> {
 	 * 根据 ID 查询
 	 * @param id 主键ID
 	 */
-	default T getById(Serializable id) {
-		return getBaseMapper().selectById(id);
-	}
+	T getById(Serializable id);
 
 	/**
 	 * 查询（根据ID 批量查询）
 	 * @param idList 主键ID列表
 	 */
-	default List<T> listByIds(Collection<? extends Serializable> idList) {
-		return getBaseMapper().selectBatchIds(idList);
-	}
+	List<T> listByIds(Collection<? extends Serializable> idList);
 
 	/**
 	 * 查询所有
 	 *
 	 */
-	default List<T> list() {
-		return getBaseMapper().selectList(null);
-	}
-
-	/**
-	 * 获取对应 entity 的 BaseMapper
-	 * @return BaseMapper
-	 */
-	BaseMapper<T> getBaseMapper();
+	List<T> list();
 
 	/**
 	 * 获取 entity 的 class
 	 * @return {@link Class<T>}
 	 */
 	Class<T> getEntityClass();
-
-	// ^^^^^^ Copy From com.baomidou.mybatisplus.extension.service.IService end ^^^^^^
 
 }

@@ -18,6 +18,7 @@ package org.ballcat.mybatisplus.service.impl;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
@@ -48,18 +49,11 @@ import org.springframework.transaction.annotation.Transactional;
 @SuppressWarnings("unchecked")
 public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<T> {
 
-	// == Copy From com.baomidou.mybatisplus.extension.service.impl.ServiceImpl 开始 ===
-
 	protected Log log = LogFactory.getLog(getClass());
 
 	@Autowired
 	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 	protected M baseMapper;
-
-	@Override
-	public M getBaseMapper() {
-		return this.baseMapper;
-	}
 
 	protected Class<T> entityClass = currentModelClass();
 
@@ -70,23 +64,21 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 
 	protected Class<M> mapperClass = currentMapperClass();
 
-	/**
-	 * 判断数据库操作是否成功
-	 * @param result 数据库操作返回影响条数
-	 * @return boolean
-	 * @deprecated 3.3.1
-	 */
-	@Deprecated
-	protected boolean retBool(Integer result) {
-		return SqlHelper.retBool(result);
-	}
-
 	protected Class<M> currentMapperClass() {
 		return (Class<M>) ReflectionKit.getSuperClassGenericType(this.getClass(), ExtendServiceImpl.class, 0);
 	}
 
 	protected Class<T> currentModelClass() {
 		return (Class<T>) ReflectionKit.getSuperClassGenericType(this.getClass(), ExtendServiceImpl.class, 1);
+	}
+
+	/**
+	 * 插入一条记录（选择字段，策略插入）
+	 * @param entity 实体对象
+	 */
+	@Override
+	public boolean save(T entity) {
+		return SqlHelper.retBool(this.baseMapper.insert(entity));
 	}
 
 	/**
@@ -163,6 +155,15 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 	}
 
 	/**
+	 * 根据 ID 选择修改
+	 * @param entity 实体对象
+	 */
+	@Override
+	public boolean updateById(T entity) {
+		return SqlHelper.retBool(this.baseMapper.updateById(entity));
+	}
+
+	/**
 	 * 执行批量操作
 	 * @param list 数据集合
 	 * @param batchSize 批量大小
@@ -181,7 +182,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 		if (tableInfo.isWithLogicDelete() && tableInfo.isWithUpdateFill()) {
 			return removeById(id, true);
 		}
-		return SqlHelper.retBool(getBaseMapper().deleteById(id));
+		return SqlHelper.retBool(this.baseMapper.deleteById(id));
 	}
 
 	@Override
@@ -194,7 +195,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 		if (tableInfo.isWithLogicDelete() && tableInfo.isWithUpdateFill()) {
 			return removeBatchByIds(list, true);
 		}
-		return SqlHelper.retBool(getBaseMapper().deleteBatchIds(list));
+		return SqlHelper.retBool(this.baseMapper.deleteBatchIds(list));
 	}
 
 	@Override
@@ -202,13 +203,42 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 		TableInfo tableInfo = TableInfoHelper.getTableInfo(this.entityClass);
 		if (useFill && tableInfo.isWithLogicDelete()) {
 			if (this.entityClass.isAssignableFrom(id.getClass())) {
-				return SqlHelper.retBool(getBaseMapper().deleteById(id));
+				return SqlHelper.retBool(this.baseMapper.deleteById(id));
 			}
 			T instance = tableInfo.newInstance();
 			tableInfo.setPropertyValue(instance, tableInfo.getKeyProperty(), id);
 			return removeById(instance);
 		}
-		return SqlHelper.retBool(getBaseMapper().deleteById(id));
+		return SqlHelper.retBool(this.baseMapper.deleteById(id));
+	}
+
+	/**
+	 * 根据实体(ID)删除
+	 * @param entity 实体
+	 * @return 删除结果
+	 * @since 3.4.4
+	 */
+	public boolean removeById(T entity) {
+		return SqlHelper.retBool(this.baseMapper.deleteById(entity));
+	}
+
+	/**
+	 * 批量删除
+	 * @param list 主键ID或实体列表
+	 * @param useFill 是否填充(为true的情况,会将入参转换实体进行delete删除)
+	 * @return 删除结果
+	 * @since 3.5.0
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean removeByIds(Collection<?> list, boolean useFill) {
+		if (CollectionUtils.isEmpty(list)) {
+			return false;
+		}
+		if (useFill) {
+			return removeBatchByIds(list, true);
+		}
+		return SqlHelper.retBool(this.baseMapper.deleteBatchIds(list));
 	}
 
 	@Override
@@ -240,6 +270,27 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 		});
 	}
 
-	// ^^^ Copy From com.baomidou.mybatisplus.extension.service.impl.ServiceImpl end ^^^
+	/**
+	 * 根据 ID 查询
+	 * @param id 主键ID
+	 */
+	public T getById(Serializable id) {
+		return this.baseMapper.selectById(id);
+	}
+
+	/**
+	 * 查询（根据ID 批量查询）
+	 * @param idList 主键ID列表
+	 */
+	public List<T> listByIds(Collection<? extends Serializable> idList) {
+		return this.baseMapper.selectBatchIds(idList);
+	}
+
+	/**
+	 * 查询所有
+	 */
+	public List<T> list() {
+		return this.baseMapper.selectList(null);
+	}
 
 }
