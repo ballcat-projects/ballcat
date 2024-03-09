@@ -66,7 +66,7 @@ public class GlobalHandlerExceptionResolver {
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public R<String> handleGlobalException(Exception e, HttpServletRequest request) {
-		log.error("请求地址: {}, 全局异常信息 ex={}", request.getRequestURI(), e.getMessage(), e);
+		log.error(String.format("请求地址: %s, 全局异常信息 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
 		// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
 		String errorMessage = GlobalConstants.ENV_PROD.equals(this.profile) ? PROD_ERR_MSG : e.getLocalizedMessage();
@@ -81,7 +81,7 @@ public class GlobalHandlerExceptionResolver {
 	@ExceptionHandler(NullPointerException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public R<String> handleNullPointerException(NullPointerException e, HttpServletRequest request) {
-		log.error("请求地址: {}, 空指针异常 ex={}", request.getRequestURI(), e.getMessage(), e);
+		log.error(String.format("请求地址: %s, 空指针异常 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
 		// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
 		String errorMessage = GlobalConstants.ENV_PROD.equals(this.profile) ? PROD_ERR_MSG : NLP_MSG;
@@ -96,7 +96,7 @@ public class GlobalHandlerExceptionResolver {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public R<String> handleMethodArgumentTypeMismatchException(Exception e, HttpServletRequest request) {
-		log.error("请求地址: {}, 请求入参异常 ex={}", request.getRequestURI(), e.getMessage(), e);
+		log.error(String.format("请求地址: %s, 请求入参异常 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
 		String errorMessage = GlobalConstants.ENV_PROD.equals(this.profile) ? PROD_ERR_MSG : e.getMessage();
 		return R.failed(SystemResultCode.BAD_REQUEST, errorMessage);
@@ -108,7 +108,7 @@ public class GlobalHandlerExceptionResolver {
 	 */
 	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, HttpRequestMethodNotSupportedException.class })
 	public R<String> requestNotSupportedException(Exception e, HttpServletRequest request) {
-		log.error("请求地址: {}, 请求方式异常 ex={}", request.getRequestURI(), e.getMessage(), e);
+		log.error(String.format("请求地址: %s, 请求方式异常 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
 	}
@@ -121,7 +121,7 @@ public class GlobalHandlerExceptionResolver {
 	@ExceptionHandler(IllegalArgumentException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<String> handleIllegalArgumentException(IllegalArgumentException e, HttpServletRequest request) {
-		log.error("请求地址: {}, 非法数据输入 ex={}", request.getRequestURI(), e.getMessage(), e);
+		log.error(String.format("请求地址: %s, 非法数据输入 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getMessage());
 	}
@@ -138,7 +138,8 @@ public class GlobalHandlerExceptionResolver {
 		String errorMsg = bindingResult.getErrorCount() > 0 ? bindingResult.getAllErrors().get(0).getDefaultMessage()
 				: "未获取到错误信息!";
 
-		log.error("请求地址: {}, 参数绑定异常 ex={}", request.getRequestURI(), errorMsg);
+		log.error(String.format("请求地址: %s, 非法数据输入 ex=%s", request.getRequestURI(), errorMsg));
+
 		this.globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, errorMsg);
 	}
@@ -151,7 +152,7 @@ public class GlobalHandlerExceptionResolver {
 	@ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<String> handleValidationException(ValidationException e, HttpServletRequest request) {
-		log.error("请求地址: {}, 参数校验异常 ex={}", request.getRequestURI(), e.getMessage());
+		log.error(String.format("请求地址: %s, 参数校验异常 ex=%s", request.getRequestURI(), e.getMessage()));
 		this.globalExceptionHandler.handle(e);
 		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
 	}
