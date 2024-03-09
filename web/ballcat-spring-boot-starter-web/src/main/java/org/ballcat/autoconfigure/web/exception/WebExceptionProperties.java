@@ -28,7 +28,7 @@ public class WebExceptionProperties {
 
 	public static final String PREFIX = "ballcat.web.exception";
 
-	private ExceptionResolverConfig resolverConfig;
+	private ExceptionResolverConfig resolverConfig = new ExceptionResolverConfig();
 
 	@Data
 	public static class ExceptionResolverConfig {
