@@ -19,6 +19,8 @@ package org.ballcat.common.core.thread;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -26,7 +28,9 @@ import org.springframework.util.CollectionUtils;
  *
  * @author lingting 2021/3/2 15:07
  */
-public abstract class AbstractQueueThread<E> extends AbstractThreadContextComponent {
+public abstract class AbstractQueueThread<E> extends Thread {
+
+	protected final Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * 默认缓存数据数量
@@ -65,6 +69,13 @@ public abstract class AbstractQueueThread<E> extends AbstractThreadContextCompon
 	 */
 	public long getPollTimeout() {
 		return POLL_TIMEOUT_MS;
+	}
+
+	public boolean isRun() {
+		return !isInterrupted() && isAlive();
+	}
+
+	protected void init() {
 	}
 
 	/**
@@ -131,9 +142,9 @@ public abstract class AbstractQueueThread<E> extends AbstractThreadContextCompon
 				error(e, list);
 			}
 			// Throwable 异常直接结束. 这里捕获用来保留信息. 方便排查问题
-			catch (Throwable t) {
-				this.log.error("线程队列运行异常!", t);
-				throw t;
+			catch (Throwable throwable) {
+				this.log.error("线程队列运行异常!", throwable);
+				throw throwable;
 			}
 		}
 	}

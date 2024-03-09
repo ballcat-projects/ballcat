@@ -22,37 +22,27 @@ import org.slf4j.Logger;
 /**
  * @author lingting 2023-04-22 10:40
  */
-public abstract class AbstractThreadContextComponent extends Thread implements ContextComponent {
+public abstract class ThreadContextComponent implements ContextComponent {
 
 	protected final Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
 
-	protected void init() {
+	private final Thread thread;
 
-	}
-
-	public boolean isRun() {
-		return !isInterrupted() && isAlive();
+	protected ThreadContextComponent(Thread thread) {
+		this.thread = thread;
 	}
 
 	@Override
 	public void onApplicationStart() {
-		setName(getClass().getSimpleName());
-		if (!isAlive()) {
-			start();
+		if (!this.thread.isAlive()) {
+			this.thread.start();
 		}
 	}
 
 	@Override
 	public void onApplicationStop() {
-		this.log.warn("{} 线程: {}; 开始关闭!", getClass().getSimpleName(), getId());
-		interrupt();
+		this.log.warn("{} 线程: {}; 开始关闭!", getClass().getSimpleName(), this.thread.getId());
+		this.thread.interrupt();
 	}
-
-	public String getSimpleName() {
-		return getClass().getSimpleName();
-	}
-
-	@Override
-	public abstract void run();
 
 }

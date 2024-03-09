@@ -18,10 +18,15 @@ package org.ballcat.common.core.thread;
 
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author lingting 2022/6/27 20:26
  */
-public abstract class AbstractTimer extends AbstractThreadContextComponent {
+public abstract class AbstractTimer extends Thread {
+
+	protected final Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * 获取超时时间, 单位: 毫秒
@@ -34,6 +39,13 @@ public abstract class AbstractTimer extends AbstractThreadContextComponent {
 	 * 执行任务
 	 */
 	protected abstract void process();
+
+	protected void init() {
+	}
+
+	public boolean isRun() {
+		return !isInterrupted() && isAlive();
+	}
 
 	/**
 	 * 线程被中断触发.

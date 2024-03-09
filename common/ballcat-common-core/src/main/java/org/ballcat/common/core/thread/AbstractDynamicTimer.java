@@ -21,12 +21,16 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.ballcat.common.lock.JavaReentrantLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author lingting 2023-04-22 10:39
  */
 @SuppressWarnings("java:S1066")
-public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextComponent {
+public abstract class AbstractDynamicTimer<T> extends Thread {
+
+	protected final Logger log = LoggerFactory.getLogger(getClass());
 
 	private final JavaReentrantLock lock = new JavaReentrantLock();
 
@@ -48,6 +52,13 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 	 */
 	protected abstract long sleepTime(T t);
 
+	protected void init() {
+	}
+
+	public boolean isRun() {
+		return !isInterrupted() && isAlive();
+	}
+
 	public void put(T t) {
 		if (t == null) {
 			return;
@@ -63,7 +74,7 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 			interrupt();
 		}
 		catch (Exception e) {
-			this.log.error("{} put error, param: {}", this.getClass().toString(), t, e);
+			this.log.error("{} put error, param: {}", this.getClass(), t, e);
 		}
 	}
 
@@ -117,11 +128,11 @@ public abstract class AbstractDynamicTimer<T> extends AbstractThreadContextCompo
 	protected abstract void process(T t);
 
 	protected void error(Exception e) {
-		this.log.error("类: {}; 线程: {}; 运行异常! ", getSimpleName(), getId(), e);
+		this.log.error("类: {}; 线程: {}; 运行异常! ", getClass().getName(), getId(), e);
 	}
 
 	protected void shutdown() {
-		this.log.warn("类: {}; 线程: {}; 被中断! 剩余数据: {}", getSimpleName(), getId(), this.queue.size());
+		this.log.warn("类: {}; 线程: {}; 被中断! 剩余数据: {}", getClass().getName(), getId(), this.queue.size());
 	}
 
 }

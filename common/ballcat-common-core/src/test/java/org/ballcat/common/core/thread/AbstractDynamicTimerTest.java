@@ -43,12 +43,12 @@ class AbstractDynamicTimerTest {
 	@BeforeEach
 	void before() {
 		this.timer = new DynamicTimer();
-		this.timer.onApplicationStart();
+		this.timer.start();
 	}
 
 	@AfterEach
 	void after() {
-		this.timer.onApplicationStop();
+		this.timer.interrupt();
 	}
 
 	@Test
