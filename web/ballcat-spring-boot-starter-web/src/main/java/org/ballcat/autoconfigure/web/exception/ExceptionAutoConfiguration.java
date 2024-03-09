@@ -42,7 +42,7 @@ import org.springframework.security.access.AccessDeniedException;
 @Import(ExceptionNoticeConfiguration.class)
 @RequiredArgsConstructor
 @AutoConfiguration
-@EnableConfigurationProperties(ExceptionNoticeProperties.class)
+@EnableConfigurationProperties({ ExceptionNoticeProperties.class, WebExceptionProperties.class })
 public class ExceptionAutoConfiguration {
 
 	/**
@@ -82,9 +82,15 @@ public class ExceptionAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(GlobalHandlerExceptionResolver.class)
-	public GlobalHandlerExceptionResolver globalExceptionHandlerResolver(
-			GlobalExceptionHandler globalExceptionHandler) {
-		return new GlobalHandlerExceptionResolver(globalExceptionHandler);
+	public GlobalHandlerExceptionResolver globalExceptionHandlerResolver(GlobalExceptionHandler globalExceptionHandler,
+			WebExceptionProperties webExceptionProperties) {
+		GlobalHandlerExceptionResolver globalHandlerExceptionResolver = new GlobalHandlerExceptionResolver(
+				globalExceptionHandler);
+		WebExceptionProperties.ExceptionResolverConfig resolverConfig = webExceptionProperties.getResolverConfig();
+		globalHandlerExceptionResolver.setHideExceptionDetails(resolverConfig.getHideExceptionDetails());
+		globalHandlerExceptionResolver.setHiddenMessage(resolverConfig.getHiddenMessage());
+		globalHandlerExceptionResolver.setNpeErrorMessage(resolverConfig.getNpeErrorMessage());
+		return globalHandlerExceptionResolver;
 	}
 
 	/**
