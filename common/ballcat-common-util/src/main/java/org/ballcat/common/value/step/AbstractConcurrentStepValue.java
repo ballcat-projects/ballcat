@@ -79,8 +79,8 @@ public abstract class AbstractConcurrentStepValue<T> extends AbstractStepValue<T
 
 	@Override
 	@SneakyThrows
-	public T calculate(BigInteger index) {
-		return this.lock.getByInterruptibly(() -> doCalculate(this.index));
+	public T calculate(BigInteger calculateIndex) {
+		return this.lock.getByInterruptibly(() -> doCalculate(calculateIndex));
 	}
 
 	@Override
