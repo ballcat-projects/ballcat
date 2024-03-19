@@ -2,6 +2,8 @@ root = true
 
 [*.{adoc,bat,groovy,html,java,js,jsp,kt,kts,md,properties,py,rb,sh,sql,svg,txt,xml,xsd}]
 charset = utf-8
+ij_java_use_single_class_imports = true
+ij_java_class_count_to_use_import_on_demand = 999999
 
 [*.{groovy,java,kt,kts,xml,xsd}]
 indent_style = tab
