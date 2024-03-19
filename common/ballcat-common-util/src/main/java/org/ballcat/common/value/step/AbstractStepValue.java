@@ -80,6 +80,6 @@ public abstract class AbstractStepValue<T> implements StepValue<T> {
 		return calculate(this.index.add(BigInteger.ONE));
 	}
 
-	public abstract T calculate(BigInteger index);
+	public abstract T calculate(BigInteger calculateIndex);
 
 }
