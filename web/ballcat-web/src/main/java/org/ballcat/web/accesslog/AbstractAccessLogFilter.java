@@ -200,7 +200,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 		if (wrapper == null) {
 			return null;
 		}
-		return getMessagePayload(wrapper.getContentAsByteArray(), wrapper.getCharacterEncoding());
+		return getMessagePayload(wrapper.getContentAsByteArray(), Charset.defaultCharset().name());
 	}
 
 	@Nullable
