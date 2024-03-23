@@ -12,6 +12,10 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.ballcat</groupId>
+			<artifactId>ballcat-common-model</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-json</artifactId>
 			<optional>true</optional>

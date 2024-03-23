@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballcat.common.util.tree;
+package org.ballcat.common.model.domain;
 
 import java.util.List;
 

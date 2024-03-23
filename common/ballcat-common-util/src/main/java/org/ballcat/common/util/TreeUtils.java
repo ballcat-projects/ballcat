@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballcat.common.util.tree;
+package org.ballcat.common.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,6 +30,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.ballcat.common.model.domain.TreeNode;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
