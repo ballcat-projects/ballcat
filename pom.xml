@@ -124,6 +124,7 @@
 	<!--环境变量-->
 	<profiles>
 		<profile>
+			<id>ossrh</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -131,11 +132,11 @@
 						<artifactId>maven-gpg-plugin</artifactId>
 						<executions>
 							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
 								<goals>
 									<goal>sign</goal>
 								</goals>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
 							</execution>
 						</executions>
 					</plugin>
@@ -153,10 +154,10 @@
 						</configuration>
 						<executions>
 							<execution>
+								<id>attach-javadocs</id>
 								<goals>
 									<goal>jar</goal>
 								</goals>
-								<id>attach-javadocs</id>
 							</execution>
 						</executions>
 					</plugin>
@@ -175,28 +176,28 @@
 						<artifactId>maven-source-plugin</artifactId>
 						<executions>
 							<execution>
+								<id>attach-sources</id>
 								<goals>
 									<goal>jar-no-fork</goal>
 								</goals>
-								<id>attach-sources</id>
 							</execution>
 						</executions>
 					</plugin>
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<extensions>true</extensions>
 						<configuration>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 							<stagingProgressTimeoutMinutes>20</stagingProgressTimeoutMinutes>
 						</configuration>
-						<extensions>true</extensions>
 					</plugin>
 				</plugins>
 			</build>
-			<id>ossrh</id>
 		</profile>
 		<profile>
+			<id>dev</id>
 			<properties>
 				<profiles.active>dev</profiles.active>
 			</properties>
@@ -204,31 +205,30 @@
 				<!-- 默认环境 -->
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<id>dev</id>
 		</profile>
 		<profile>
+			<id>test</id>
 			<properties>
 				<profiles.active>test</profiles.active>
 			</properties>
-			<id>test</id>
 		</profile>
 		<profile>
+			<id>prod</id>
 			<properties>
 				<profiles.active>prod</profiles.active>
 			</properties>
-			<id>prod</id>
 		</profile>
 	</profiles>
 
 	<distributionManagement>
-		<repository>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-			<id>ossrh</id>
-		</repository>
 		<snapshotRepository>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
 
 	<build>

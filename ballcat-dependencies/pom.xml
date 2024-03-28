@@ -585,6 +585,7 @@
 	<!--region 环境变量-->
 	<profiles>
 		<profile>
+			<id>ossrh</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -616,28 +617,27 @@
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>
 						<version>${nexus-staging-maven-plugin.version}</version>
-						<configuration>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<serverId>ossrh</serverId>
-						</configuration>
 						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
-			<id>ossrh</id>
 		</profile>
 	</profiles>
 	<!--endregion 结束环境变量-->
 
 	<distributionManagement>
-		<repository>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-			<id>ossrh</id>
-		</repository>
 		<snapshotRepository>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
 
 	<build>
