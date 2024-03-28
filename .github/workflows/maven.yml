@@ -41,6 +41,7 @@ jobs:
         env:
           CI_DEPLOY_USERNAME: ${{ secrets.HCCAKE_OSSRH_USERNAME }}
           CI_DEPLOY_PASSWORD: ${{ secrets.HCCAKE_OSSRH_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
         # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
