@@ -32,11 +32,12 @@ jobs:
         run: mvn -B package --file pom.xml "-Dextend.dingtalk.webhook=${{ secrets.CI_DINGTALK_HOOK }}" "-Dextend.dingtalk.secret=${{ secrets.CI_DINGTALK_SECRET }}" -P ci
 
       - name: Extract project Maven version
+        if: github.event_name != 'pull_request'
         id: projectVersion
         run: echo "version=$(mvn org.apache.maven.plugins:maven-help-plugin:3.3.0:evaluate -DforceStdout -Dexpression=revision -q)" >> $GITHUB_OUTPUT
 
       - name: Deploy Snapshot
-        if: endsWith(steps.projectVersion.outputs.version, '-SNAPSHOT')
+        if: github.event_name != 'pull_request' && endsWith(steps.projectVersion.outputs.version, '-SNAPSHOT')
         run: mvn -B deploy -DskipTests -P ossrh
         env:
           CI_DEPLOY_USERNAME: ${{ secrets.HCCAKE_OSSRH_USERNAME }}
@@ -45,4 +46,5 @@ jobs:
 
         # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
+        if: github.event_name != 'pull_request'
         uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
