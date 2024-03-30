@@ -28,12 +28,12 @@ import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
@@ -73,13 +73,13 @@ public class GlobalHandlerExceptionResolver {
 	 * @return R
 	 */
 	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public R<String> handleGlobalException(Exception e, HttpServletRequest request) {
+	public ResponseEntity<R<String>> handleGlobalException(Exception e, HttpServletRequest request) {
 		log.error(String.format("请求地址: %s, 全局异常信息 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
 		// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
 		String errorMessage = isHideExceptionDetails() ? this.hiddenMessage : e.getLocalizedMessage();
-		return R.failed(SystemResultCode.SERVER_ERROR, errorMessage);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(R.failed(SystemResultCode.SERVER_ERROR, errorMessage));
 	}
 
 	/**
@@ -88,13 +88,13 @@ public class GlobalHandlerExceptionResolver {
 	 * @return R
 	 */
 	@ExceptionHandler(NullPointerException.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public R<String> handleNullPointerException(NullPointerException e, HttpServletRequest request) {
+	public ResponseEntity<R<String>> handleNullPointerException(NullPointerException e, HttpServletRequest request) {
 		log.error(String.format("请求地址: %s, 空指针异常 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
 		// 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
 		String errorMessage = isHideExceptionDetails() ? this.hiddenMessage : this.npeErrorMessage;
-		return R.failed(SystemResultCode.SERVER_ERROR, errorMessage);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(R.failed(SystemResultCode.SERVER_ERROR, errorMessage));
 	}
 
 	/**
@@ -102,12 +102,13 @@ public class GlobalHandlerExceptionResolver {
 	 * @param e the e
 	 * @return R
 	 */
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	public R<String> handleMethodArgumentTypeMismatchException(Exception e, HttpServletRequest request) {
+	public ResponseEntity<R<String>> handleMethodArgumentTypeMismatchException(Exception e,
+			HttpServletRequest request) {
 		log.error(String.format("请求地址: %s, 请求入参异常 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage()));
 	}
 
 	/**
@@ -115,10 +116,11 @@ public class GlobalHandlerExceptionResolver {
 	 * @return R
 	 */
 	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, HttpRequestMethodNotSupportedException.class })
-	public R<String> requestNotSupportedException(Exception e, HttpServletRequest request) {
+	public ResponseEntity<R<String>> requestNotSupportedException(Exception e, HttpServletRequest request) {
 		log.error(String.format("请求地址: %s, 请求方式异常 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage()));
 	}
 
 	/**
@@ -127,11 +129,12 @@ public class GlobalHandlerExceptionResolver {
 	 * @return R
 	 */
 	@ExceptionHandler(IllegalArgumentException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R<String> handleIllegalArgumentException(IllegalArgumentException e, HttpServletRequest request) {
+	public ResponseEntity<R<String>> handleIllegalArgumentException(IllegalArgumentException e,
+			HttpServletRequest request) {
 		log.error(String.format("请求地址: %s, 非法数据输入 ex=%s", request.getRequestURI(), e.getMessage()), e);
 		this.globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage()));
 	}
 
 	/**
@@ -140,8 +143,7 @@ public class GlobalHandlerExceptionResolver {
 	 * @return R
 	 */
 	@ExceptionHandler(BindException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R<String> handleBodyValidException(BindException e, HttpServletRequest request) {
+	public ResponseEntity<R<String>> handleBodyValidException(BindException e, HttpServletRequest request) {
 		BindingResult bindingResult = e.getBindingResult();
 		String errorMsg = bindingResult.getErrorCount() > 0 ? bindingResult.getAllErrors().get(0).getDefaultMessage()
 				: "未获取到错误信息!";
@@ -149,7 +151,7 @@ public class GlobalHandlerExceptionResolver {
 		log.error(String.format("请求地址: %s, 非法数据输入 ex=%s", request.getRequestURI(), errorMsg));
 
 		this.globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.BAD_REQUEST, errorMsg);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(R.failed(SystemResultCode.BAD_REQUEST, errorMsg));
 	}
 
 	/**
@@ -158,11 +160,11 @@ public class GlobalHandlerExceptionResolver {
 	 * @return R
 	 */
 	@ExceptionHandler(ValidationException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R<String> handleValidationException(ValidationException e, HttpServletRequest request) {
+	public ResponseEntity<R<String>> handleValidationException(ValidationException e, HttpServletRequest request) {
 		log.error(String.format("请求地址: %s, 参数校验异常 ex=%s", request.getRequestURI(), e.getMessage()));
 		this.globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(R.failed(SystemResultCode.BAD_REQUEST, e.getLocalizedMessage()));
 	}
 
 	/**
@@ -171,11 +173,10 @@ public class GlobalHandlerExceptionResolver {
 	 * @return R
 	 */
 	@ExceptionHandler(BusinessException.class)
-	@ResponseStatus(HttpStatus.OK)
-	public R<String> handleBallCatException(BusinessException e, HttpServletRequest request) {
+	public ResponseEntity<R<String>> handleBallCatException(BusinessException e, HttpServletRequest request) {
 		log.error("请求地址: {}, 业务异常信息 ex={}", request.getRequestURI(), e.getMessage());
 		this.globalExceptionHandler.handle(e);
-		return R.failed(e.getCode(), e.getMessage());
+		return ResponseEntity.status(HttpStatus.OK).body(R.failed(e.getCode(), e.getMessage()));
 	}
 
 }

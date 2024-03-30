@@ -23,10 +23,10 @@ import org.ballcat.common.model.result.R;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -46,13 +46,13 @@ public class SecurityHandlerExceptionResolver {
 	 * @return R
 	 */
 	@ExceptionHandler(AccessDeniedException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public R<String> handleAccessDeniedException(AccessDeniedException e) {
+	public ResponseEntity<R<String>> handleAccessDeniedException(AccessDeniedException e) {
 		String msg = SpringSecurityMessageSource.getAccessor()
 			.getMessage("AbstractAccessDecisionManager.accessDenied", e.getMessage());
 		log.error("拒绝授权异常信息 ex={}", msg);
 		this.globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN)
+			.body(R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage()));
 	}
 
 }
