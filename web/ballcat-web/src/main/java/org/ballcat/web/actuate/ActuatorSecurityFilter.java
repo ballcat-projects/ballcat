@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.ballcat.common.core.constant.HeaderConstants;
-import org.ballcat.common.model.result.R;
+import org.ballcat.common.model.result.ApiResult;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.ballcat.common.util.JsonUtils;
 import org.springframework.http.HttpStatus;
@@ -80,8 +80,8 @@ public class ActuatorSecurityFilter extends OncePerRequestFilter {
 		else {
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED);
-			response.getWriter().write(JsonUtils.toJson(r));
+			ApiResult<String> apiResult = ApiResult.failed(SystemResultCode.UNAUTHORIZED);
+			response.getWriter().write(JsonUtils.toJson(apiResult));
 		}
 	}
 

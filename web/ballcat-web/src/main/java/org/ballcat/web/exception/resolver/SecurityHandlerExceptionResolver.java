@@ -19,7 +19,7 @@ package org.ballcat.web.exception.resolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.common.core.exception.handler.GlobalExceptionHandler;
-import org.ballcat.common.model.result.R;
+import org.ballcat.common.model.result.ApiResult;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -47,12 +47,12 @@ public class SecurityHandlerExceptionResolver {
 	 */
 	@ExceptionHandler(AccessDeniedException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public R<String> handleAccessDeniedException(AccessDeniedException e) {
+	public ApiResult<String> handleAccessDeniedException(AccessDeniedException e) {
 		String msg = SpringSecurityMessageSource.getAccessor()
 			.getMessage("AbstractAccessDecisionManager.accessDenied", e.getMessage());
 		log.error("拒绝授权异常信息 ex={}", msg);
 		this.globalExceptionHandler.handle(e);
-		return R.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
+		return ApiResult.failed(SystemResultCode.FORBIDDEN, e.getLocalizedMessage());
 	}
 
 }

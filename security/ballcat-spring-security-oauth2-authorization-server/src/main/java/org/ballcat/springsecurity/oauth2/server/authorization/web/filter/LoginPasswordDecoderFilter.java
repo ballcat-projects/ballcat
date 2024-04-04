@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.ballcat.common.model.result.R;
+import org.ballcat.common.model.result.ApiResult;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.ballcat.common.util.JsonUtils;
 import org.ballcat.springsecurity.oauth2.ScopeNames;
@@ -106,8 +106,8 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 					this.passwordSecretKey, e);
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
-			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED, "用户名或密码错误！");
-			response.getWriter().write(JsonUtils.toJson(r));
+			ApiResult<String> apiResult = ApiResult.failed(SystemResultCode.UNAUTHORIZED, "用户名或密码错误！");
+			response.getWriter().write(JsonUtils.toJson(apiResult));
 			return;
 		}
 

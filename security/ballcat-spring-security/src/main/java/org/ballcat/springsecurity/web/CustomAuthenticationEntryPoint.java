@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.ballcat.common.model.result.R;
+import org.ballcat.common.model.result.ApiResult;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.ballcat.common.util.JsonUtils;
 import org.springframework.http.HttpStatus;
@@ -44,8 +44,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 		httpServletResponse.setCharacterEncoding(utf8);
 		httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-		R<Object> r = R.failed(SystemResultCode.UNAUTHORIZED, e.getMessage());
-		httpServletResponse.getWriter().write(JsonUtils.toJson(r));
+		ApiResult<Object> apiResult = ApiResult.failed(SystemResultCode.UNAUTHORIZED, e.getMessage());
+		httpServletResponse.getWriter().write(JsonUtils.toJson(apiResult));
 	}
 
 }

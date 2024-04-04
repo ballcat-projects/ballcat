@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lombok.RequiredArgsConstructor;
-import org.ballcat.common.model.result.R;
+import org.ballcat.common.model.result.ApiResult;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.ballcat.common.util.JsonUtils;
 import org.ballcat.security.captcha.CaptchaValidateResult;
@@ -89,10 +89,10 @@ public class LoginCaptchaFilter extends OncePerRequestFilter {
 		else {
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			R<String> r = R.failed(SystemResultCode.UNAUTHORIZED,
+			ApiResult<String> apiResult = ApiResult.failed(SystemResultCode.UNAUTHORIZED,
 					StringUtils.hasText(captchaValidateResult.getMessage()) ? captchaValidateResult.getMessage()
 							: "Captcha code error");
-			response.getWriter().write(JsonUtils.toJson(r));
+			response.getWriter().write(JsonUtils.toJson(apiResult));
 		}
 
 	}

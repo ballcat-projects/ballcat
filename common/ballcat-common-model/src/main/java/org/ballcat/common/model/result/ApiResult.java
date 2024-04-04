@@ -20,10 +20,8 @@ import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.ballcat.i18n.I18nClass;
 
@@ -34,14 +32,12 @@ import org.ballcat.i18n.I18nClass;
  * @author Hccake
  */
 @I18nClass
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
 @Schema(title = "返回体结构")
-public class R<T> implements Serializable {
+public class ApiResult<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,27 +50,27 @@ public class R<T> implements Serializable {
 	@Schema(title = "数据", nullable = true, defaultValue = "null")
 	private T data;
 
-	public static <T> R<T> ok() {
+	public static <T> ApiResult<T> ok() {
 		return ok(null);
 	}
 
-	public static <T> R<T> ok(T data) {
+	public static <T> ApiResult<T> ok(T data) {
 		return ok(data, SystemResultCode.SUCCESS.getMessage());
 	}
 
-	public static <T> R<T> ok(T data, String message) {
-		return new R<T>().setCode(SystemResultCode.SUCCESS.getCode()).setData(data).setMessage(message);
+	public static <T> ApiResult<T> ok(T data, String message) {
+		return new ApiResult<T>().setCode(SystemResultCode.SUCCESS.getCode()).setData(data).setMessage(message);
 	}
 
-	public static <T> R<T> failed(int code, String message) {
-		return new R<T>().setCode(code).setMessage(message);
+	public static <T> ApiResult<T> failed(int code, String message) {
+		return new ApiResult<T>().setCode(code).setMessage(message);
 	}
 
-	public static <T> R<T> failed(ResultCode failMsg) {
+	public static <T> ApiResult<T> failed(ResultCode failMsg) {
 		return failed(failMsg.getCode(), failMsg.getMessage());
 	}
 
-	public static <T> R<T> failed(ResultCode failMsg, String message) {
+	public static <T> ApiResult<T> failed(ResultCode failMsg, String message) {
 		return failed(failMsg.getCode(), message);
 	}
 
