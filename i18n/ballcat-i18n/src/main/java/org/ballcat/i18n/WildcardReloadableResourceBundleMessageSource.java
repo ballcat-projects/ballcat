@@ -71,7 +71,7 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 		if (containsWildcard(basename)) {
 			filenames.remove(basename);
 			try {
-				Resource[] resources = this.resolver.getResources(basename + PROPERTIES_SUFFIX);
+				Resource[] resources = getResources(basename);
 				for (Resource resource : resources) {
 					String resourceUriStr = resource.getURI().toString();
 					// 根据通配符匹配到的多个 basename 对应的文件添加到文件列表末尾，作为兜底匹配
@@ -90,19 +90,18 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 
 	@Override
 	protected List<String> calculateFilenamesForLocale(String basename, Locale locale) {
-		// 支持 basename 用 . 表示文件层级
-		basename = basename.replace(".", "/");
-
 		// 资源文件名
 		List<String> fileNames = new ArrayList<>();
 		// 获取到待匹配的国际化信息文件名集合
 		List<String> matchFilenames = super.calculateFilenamesForLocale(basename, locale);
 		for (String matchFilename : matchFilenames) {
 			try {
-				Resource[] resources = this.resolver.getResources(matchFilename + PROPERTIES_SUFFIX);
+				Resource[] resources = getResources(matchFilename);
 				for (Resource resource : resources) {
-					String sourcePath = resource.getURI().toString().replace(PROPERTIES_SUFFIX, "");
-					fileNames.add(sourcePath);
+					if (resource.exists()) {
+						String sourcePath = resource.getURI().toString().replace(PROPERTIES_SUFFIX, "");
+						fileNames.add(sourcePath);
+					}
 				}
 			}
 			catch (IOException ex) {
@@ -110,6 +109,12 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 			}
 		}
 		return fileNames;
+	}
+
+	private Resource[] getResources(String resourceLocationPattern) throws IOException {
+		// 支持用 . 表示文件层级
+		resourceLocationPattern = resourceLocationPattern.replace(".", "/");
+		return this.resolver.getResources(resourceLocationPattern + PROPERTIES_SUFFIX);
 	}
 
 	private boolean containsWildcard(String str) {
