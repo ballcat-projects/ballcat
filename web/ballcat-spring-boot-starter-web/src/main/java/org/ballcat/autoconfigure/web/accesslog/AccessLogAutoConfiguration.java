@@ -56,7 +56,6 @@ public class AccessLogAutoConfiguration {
 	@ConditionalOnMissingBean(AccessLogFilter.class)
 	public AccessLogFilter defaultAccessLogFilter() {
 		List<AccessLogRule> propertiesRules = this.accessLogProperties.getAccessLogRules();
-		Integer maxBodyLength = this.accessLogProperties.getMaxBodyLength();
 		Integer filterOrder = this.accessLogProperties.getFilterOrder();
 		Level defaultFilterLogLevel = this.accessLogProperties.getDefaultFilterLogLevel();
 		AccessLogRecordOptions defaultRecordOptions = this.accessLogProperties.getDefaultAccessLogRecordOptions();
@@ -69,7 +68,6 @@ public class AccessLogAutoConfiguration {
 		// 创建默认访问日志过滤器
 		AbstractAccessLogFilter accessLogFilter = new DefaultAccessLogFilter(defaultRecordOptions, accessLogRules,
 				defaultFilterLogLevel);
-		accessLogFilter.setMaxBodyLength(maxBodyLength);
 		accessLogFilter.setOrder(filterOrder);
 		return accessLogFilter;
 	}

@@ -22,6 +22,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.ballcat.web.accesslog.AbstractAccessLogFilter;
+
 /**
  * @author Alickx 2023/11/23 17:48
  * @since 2.0.0
@@ -50,5 +52,15 @@ public @interface AccessLoggingRule {
 	 * 记录响应体
 	 */
 	boolean includeResponseBody() default false;
+
+	/**
+	 * 记录的最大的请求 body 长度
+	 */
+	int maxRequestBodyLength() default AbstractAccessLogFilter.DEFAULT_MAX_BODY_LENGTH;
+
+	/**
+	 * 记录的最大的响应 body 长度
+	 */
+	int maxResponseBodyLength() default AbstractAccessLogFilter.DEFAULT_MAX_BODY_LENGTH;
 
 }

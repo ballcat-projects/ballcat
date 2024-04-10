@@ -81,6 +81,8 @@ public final class AccessLogRuleFinder {
 			.includeQueryString(accessLoggingRule.includeQueryString())
 			.includeRequestBody(accessLoggingRule.includeRequestBody())
 			.includeResponseBody(accessLoggingRule.includeResponseBody())
+			.maxRequestBodyLength(accessLoggingRule.maxRequestBodyLength())
+			.maxResponseBodyLength(accessLoggingRule.maxResponseBodyLength())
 			.build();
 	}
 

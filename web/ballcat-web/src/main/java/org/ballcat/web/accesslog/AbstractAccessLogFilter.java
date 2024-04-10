@@ -58,8 +58,6 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 
 	public static final int DEFAULT_MAX_BODY_LENGTH = 256;
 
-	private int maxBodyLength = DEFAULT_MAX_BODY_LENGTH;
-
 	private int order = 0;
 
 	private final AccessLogRecordOptions defaultRecordOptions;
@@ -180,35 +178,42 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 	}
 
 	@Nullable
-	protected String getRequestBody(HttpServletRequest request) {
+	protected String getRequestBody(HttpServletRequest request, int maxLength) {
 		RepeatBodyRequestWrapper wrapper = WebUtils.getNativeRequest(request, RepeatBodyRequestWrapper.class);
 		if (wrapper == null) {
 			return null;
 		}
 		if (wrapper.getCharacterEncoding() != null) {
-			return getMessagePayload(wrapper.getBodyByteArray(), wrapper.getCharacterEncoding());
+			return getMessagePayload(wrapper.getBodyByteArray(), maxLength, wrapper.getCharacterEncoding());
 		}
 		else {
-			return getMessagePayload(wrapper.getBodyByteArray(), Charset.defaultCharset().name());
+			return getMessagePayload(wrapper.getBodyByteArray(), maxLength, Charset.defaultCharset().name());
 		}
 	}
 
 	@Nullable
-	protected String getResponseBody(HttpServletResponse response) {
+	protected String getResponseBody(HttpServletResponse response, int maxLength) {
 		ContentCachingResponseWrapper wrapper = WebUtils.getNativeResponse(response,
 				ContentCachingResponseWrapper.class);
 		if (wrapper == null) {
 			return null;
 		}
-		return getMessagePayload(wrapper.getContentAsByteArray(), Charset.defaultCharset().name());
+		return getMessagePayload(wrapper.getContentAsByteArray(), maxLength, Charset.defaultCharset().name());
 	}
 
 	@Nullable
-	protected String getMessagePayload(byte[] buf, String characterEncoding) {
+	protected String getMessagePayload(byte[] buf, int maxLength, String characterEncoding) {
 		if (buf.length > 0) {
-			int length = Math.min(buf.length, getMaxBodyLength());
 			try {
-				return new String(buf, 0, length, characterEncoding);
+				if (maxLength < 0) {
+					return new String(buf, characterEncoding);
+				}
+				else if (maxLength == 0) {
+					return "";
+				}
+				else {
+					return new String(buf, 0, Math.min(buf.length, maxLength), characterEncoding);
+				}
 			}
 			catch (UnsupportedEncodingException ex) {
 				return "[unknown]";
@@ -233,11 +238,6 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 		return this.defaultRecordOptions;
 	}
 
-	public void setMaxBodyLength(int maxBodyLength) {
-		Assert.isTrue(maxBodyLength >= 0, "'maxBodyLength' must be greater than or equal to 0");
-		this.maxBodyLength = maxBodyLength;
-	}
-
 	public void setOrder(int order) {
 		this.order = order;
 	}
@@ -245,10 +245,6 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 	@Override
 	public int getOrder() {
 		return this.order;
-	}
-
-	protected int getMaxBodyLength() {
-		return this.maxBodyLength;
 	}
 
 	protected boolean shouldLog(HttpServletRequest request) {

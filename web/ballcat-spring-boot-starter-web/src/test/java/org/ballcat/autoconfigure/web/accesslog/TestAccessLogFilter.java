@@ -47,14 +47,14 @@ public class TestAccessLogFilter extends AbstractAccessLogFilter {
 	protected void afterRequest(HttpServletRequest request, HttpServletResponse response, Long executionTime,
 			Throwable throwable, AccessLogRecordOptions recordOptions) {
 		if (recordOptions.isIncludeRequestBody()) {
-			String payload = getRequestBody(request);
+			String payload = getRequestBody(request, recordOptions.getMaxRequestBodyLength());
 			if (payload != null) {
 				this.httpInfo.setRequestBody(payload);
 			}
 		}
 
 		if (recordOptions.isIncludeResponseBody()) {
-			String payload = getResponseBody(response);
+			String payload = getResponseBody(response, recordOptions.getMaxResponseBodyLength());
 			if (payload != null) {
 				this.httpInfo.setResponseBody(payload);
 			}

@@ -104,14 +104,14 @@ public class DefaultAccessLogFilter extends AbstractAccessLogFilter {
 		msg.append(", client=").append(ipAddr);
 
 		if (recordOptions.isIncludeRequestBody()) {
-			String payload = getRequestBody(request);
+			String payload = getRequestBody(request, recordOptions.getMaxRequestBodyLength());
 			if (payload != null) {
 				msg.append(", request body=").append(payload);
 			}
 		}
 
 		if (recordOptions.isIncludeResponseBody()) {
-			String payload = getResponseBody(response);
+			String payload = getResponseBody(response, recordOptions.getMaxResponseBodyLength());
 			if (payload != null) {
 				msg.append(", response body=").append(payload);
 			}

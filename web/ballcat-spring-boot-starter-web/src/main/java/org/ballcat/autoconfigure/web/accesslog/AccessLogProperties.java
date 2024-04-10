@@ -63,11 +63,6 @@ public class AccessLogProperties {
 	private Boolean filterAutoRegister = true;
 
 	/**
-	 * 记录的最大的 body 长度
-	 */
-	private Integer maxBodyLength = AbstractAccessLogFilter.DEFAULT_MAX_BODY_LENGTH;
-
-	/**
 	 * 访问日志记录的默认选项，当请求路径无法在 rules 中匹配时，使用该选项
 	 */
 	private RecordOptions defaultRecordOptions = new RecordOptions();
@@ -93,6 +88,8 @@ public class AccessLogProperties {
 			.includeQueryString(recordOptions.isIncludeQueryString())
 			.includeRequestBody(recordOptions.isIncludeRequestBody())
 			.includeResponseBody(recordOptions.isIncludeResponseBody())
+			.maxRequestBodyLength(recordOptions.getMaxRequestBodyLength())
+			.maxResponseBodyLength(recordOptions.getMaxResponseBodyLength())
 			.build();
 	}
 
@@ -123,6 +120,16 @@ public class AccessLogProperties {
 		 * 记录响应体
 		 */
 		private boolean includeResponseBody = false;
+
+		/**
+		 * 记录的最大的请求 body 长度
+		 */
+		private Integer maxRequestBodyLength = AbstractAccessLogFilter.DEFAULT_MAX_BODY_LENGTH;
+
+		/**
+		 * 记录的最大的响应 body 长度
+		 */
+		private Integer maxResponseBodyLength = AbstractAccessLogFilter.DEFAULT_MAX_BODY_LENGTH;
 
 	}
 
