@@ -49,4 +49,14 @@ public class AccessLogRecordOptions {
 	 */
 	private boolean includeResponseBody;
 
+	/**
+	 * 记录的最大的请求 body 长度
+	 */
+	private int maxRequestBodyLength;
+
+	/**
+	 * 记录的最大的响应 body 长度
+	 */
+	private int maxResponseBodyLength;
+
 }

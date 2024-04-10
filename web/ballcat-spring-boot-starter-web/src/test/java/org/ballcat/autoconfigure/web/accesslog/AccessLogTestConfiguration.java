@@ -57,7 +57,6 @@ public class AccessLogTestConfiguration {
 		AccessLogRecordOptions defaultRecordOptions = this.accessLogProperties.getDefaultAccessLogRecordOptions();
 
 		TestAccessLogFilter accessLogFilter = new TestAccessLogFilter(defaultRecordOptions, accessLogRules);
-		accessLogFilter.setMaxBodyLength(this.accessLogProperties.getMaxBodyLength());
 		accessLogFilter.setOrder(this.accessLogProperties.getFilterOrder());
 		return accessLogFilter;
 	}
