@@ -25,6 +25,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -44,6 +45,24 @@ public class SpringSecurityComponentConfiguration {
 	@ConditionalOnMissingBean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordUtils.createDelegatingPasswordEncoder();
+	}
+
+	/**
+	 * login 登录支持。
+	 * <p>
+	 * 注册为 spring bean 是为了解决 spring security 默认配置行为是 new 了一个 DaoAuthenticationProvider，没有被
+	 * spring 管理，导致 messageSource 没有被替换，国际化失效。
+	 * @see org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer
+	 */
+	@Bean
+	@ConditionalOnBean(UserDetailsService.class)
+	@ConditionalOnMissingBean
+	public DaoAuthenticationProvider daoAuthenticationProvider(UserDetailsService userDetailsService,
+			PasswordEncoder passwordEncoder) {
+		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+		return daoAuthenticationProvider;
 	}
 
 	/**
