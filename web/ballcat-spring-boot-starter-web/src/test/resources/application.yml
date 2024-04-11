@@ -14,4 +14,16 @@ ballcat:
             include-query-string: true
             include-request-body: true
             include-response-body: true
-
+  jackson:
+    serialization:
+      write-null-string-values-as-quotes: true
+      write-null-array-values-as-brackets: true
+      write-null-map-values-as-braces: true
+spring:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+    deserialization:
+      fail-on-unknown-properties: false
+    parser:
+      allow-unquoted-control-chars: true

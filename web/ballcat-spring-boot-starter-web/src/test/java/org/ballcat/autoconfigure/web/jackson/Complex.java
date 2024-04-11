@@ -14,16 +14,26 @@
  * limitations under the License.
  */
 
-package org.ballcat.autoconfigure.web.accesslog;
+package org.ballcat.autoconfigure.web.jackson;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-@SpringBootApplication
-public class TestApplication {
+import lombok.Data;
 
-	public static void main(String[] args) {
-		SpringApplication.run(TestApplication.class, args);
-	}
+/**
+ * @author evil0th Create on 2024/4/11
+ */
+@Data
+public class Complex {
+
+	private String string;
+
+	private Map<String, Object> map;
+
+	private Set<String> set;
+
+	private List<String> list;
 
 }

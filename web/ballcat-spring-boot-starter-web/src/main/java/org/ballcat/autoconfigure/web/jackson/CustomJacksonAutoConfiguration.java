@@ -16,10 +16,8 @@
 
 package org.ballcat.autoconfigure.web.jackson;
 
-import com.fasterxml.jackson.core.json.JsonReadFeature;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.RequiredArgsConstructor;
 import org.ballcat.common.core.jackson.CustomJavaTimeModule;
 import org.ballcat.common.core.jackson.NullSerializerProvider;
 import org.ballcat.common.util.json.JacksonJsonToolAdapter;
@@ -30,15 +28,39 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 /**
  * @author Hccake 2019/10/17 22:14
  */
+@RequiredArgsConstructor
 @AutoConfiguration(before = JacksonAutoConfiguration.class)
+@EnableConfigurationProperties({ JacksonProperties.class })
 public class CustomJacksonAutoConfiguration {
+
+	private final JacksonProperties jacksonProperties;
+
+	@Bean
+	public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+		return builder -> {
+			if (null != this.jacksonProperties.getSerialization()) {
+				JacksonProperties.Serialization serialization = this.jacksonProperties.getSerialization();
+				final boolean writeNullStringValuesAsQuotes = serialization.isWriteNullStringValuesAsQuotes();
+				final boolean writeNullMapValuesAsBraces = serialization.isWriteNullMapValuesAsBraces();
+				final boolean writeNullArrayValuesAsBrackets = serialization.isWriteNullArrayValuesAsBrackets();
+
+				final NullSerializerProvider nullSerializerProvider = new NullSerializerProvider();
+				nullSerializerProvider.setWriteNullStringValuesAsQuotes(writeNullStringValuesAsQuotes);
+				nullSerializerProvider.setWriteNullMapValuesAsBraces(writeNullMapValuesAsBraces);
+				nullSerializerProvider.setWriteNullArrayValuesAsBrackets(writeNullArrayValuesAsBrackets);
+				builder.postConfigurer(c -> c.setSerializerProvider(nullSerializerProvider));
+			}
+		};
+	}
 
 	/**
 	 * 自定义objectMapper
@@ -50,18 +72,8 @@ public class CustomJacksonAutoConfiguration {
 	public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
 		// org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration.JacksonObjectMapperConfiguration
 		ObjectMapper objectMapper = builder.createXmlMapper(false).build();
-
-		// 对于空对象的序列化不抛异常
-		objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-		// 序列化时忽略未知属性
-		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		// NULL值修改
-		objectMapper.setSerializerProvider(new NullSerializerProvider());
-		// 有特殊需要转义字符, 不报错
-		objectMapper.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature());
 		// 更新 JsonUtils 中的 ObjectMapper，保持容器和工具类中的 ObjectMapper 对象一致
 		JacksonJsonToolAdapter.setMapper(objectMapper);
-
 		return objectMapper;
 	}
 
