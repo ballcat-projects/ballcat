@@ -1,8 +1,14 @@
 package org.ballcat.springsecurity.oauth2.server.resource.introspection;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
+
 import cn.hutool.core.collection.CollUtil;
 import com.hccake.ballcat.common.security.userdetails.ClientPrincipal;
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.springsecurity.oauth2.server.resource.exception.InternalServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,11 +19,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.introspection.BadOpaqueTokenException;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
 
 /**
  * 共享存储的不透明令牌的处理器
@@ -45,7 +46,14 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 	 */
 	@Override
 	public OAuth2AuthenticatedPrincipal introspect(String accessTokenValue) {
-		OAuth2Authorization authorization = authorizationService.findByToken(accessTokenValue, null);
+		OAuth2Authorization authorization;
+		try {
+			authorization = authorizationService.findByToken(accessTokenValue, null);
+		}
+		catch (Exception ex) {
+			log.error("An error occurred while attempting to introspect the token: {}", accessTokenValue, ex);
+			throw new InternalServiceException("An error occurred while attempting to introspect the token");
+		}
 		if (authorization == null) {
 			if (log.isTraceEnabled()) {
 				log.trace("Did not authenticate token introspection request since token was not found");
