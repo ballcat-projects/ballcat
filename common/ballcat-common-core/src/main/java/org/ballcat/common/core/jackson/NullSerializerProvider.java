@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.fasterxml.jackson.databind.ser.SerializerFactory;
+import lombok.Setter;
 
 /**
  * <p>
@@ -41,9 +42,16 @@ import com.fasterxml.jackson.databind.ser.SerializerFactory;
  *
  * @author hccake
  */
+@Setter
 public class NullSerializerProvider extends DefaultSerializerProvider {
 
 	private static final long serialVersionUID = 1L;
+
+	private boolean writeNullStringValuesAsQuotes = false;
+
+	private boolean writeNullMapValuesAsBraces = false;
+
+	private boolean writeNullArrayValuesAsBrackets = false;
 
 	public NullSerializerProvider() {
 		super();
@@ -77,24 +85,28 @@ public class NullSerializerProvider extends DefaultSerializerProvider {
 		if (getClass() != NullSerializerProvider.class) {
 			return super.copy();
 		}
-		return new NullSerializerProvider(this);
+		NullSerializerProvider nullSerializerProvider = new NullSerializerProvider(this);
+		copyProperties(nullSerializerProvider, this);
+		return nullSerializerProvider;
 	}
 
 	@Override
 	public NullSerializerProvider createInstance(SerializationConfig config, SerializerFactory jsf) {
-		return new NullSerializerProvider(this, config, jsf);
+		NullSerializerProvider nullSerializerProvider = new NullSerializerProvider(this, config, jsf);
+		copyProperties(nullSerializerProvider, this);
+		return nullSerializerProvider;
 	}
 
 	@Override
 	public JsonSerializer<Object> findNullValueSerializer(BeanProperty property) throws JsonMappingException {
 		JavaType propertyType = property.getType();
-		if (isStringType(propertyType)) {
+		if (this.writeNullStringValuesAsQuotes && isStringType(propertyType)) {
 			return this.nullStringJsonSerializer;
 		}
-		else if (isArrayOrCollectionTrype(propertyType)) {
+		else if (this.writeNullArrayValuesAsBrackets && isArrayOrCollectionTrype(propertyType)) {
 			return this.nullArrayJsonSerializer;
 		}
-		else if (isMapType(propertyType)) {
+		else if (this.writeNullMapValuesAsBraces && isMapType(propertyType)) {
 			return this.nullMapJsonSerializer;
 		}
 		else {
@@ -131,6 +143,12 @@ public class NullSerializerProvider extends DefaultSerializerProvider {
 		Class<?> clazz = type.getRawClass();
 		return clazz.isArray() || Collection.class.isAssignableFrom(clazz);
 
+	}
+
+	private void copyProperties(NullSerializerProvider target, NullSerializerProvider src) {
+		target.writeNullStringValuesAsQuotes = src.writeNullStringValuesAsQuotes;
+		target.writeNullMapValuesAsBraces = src.writeNullMapValuesAsBraces;
+		target.writeNullArrayValuesAsBrackets = src.writeNullArrayValuesAsBrackets;
 	}
 
 }
