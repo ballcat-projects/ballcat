@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Hccake 2021/1/23
  */
 @Slf4j
-class DesensitisedTest {
+class DesensitizationTest {
 
 	@Test
 	void testSimple() {

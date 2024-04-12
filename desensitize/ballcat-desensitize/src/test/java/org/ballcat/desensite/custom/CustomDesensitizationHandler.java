@@ -18,7 +18,7 @@ package org.ballcat.desensite.custom;
 
 import org.ballcat.desensitize.handler.DesensitizationHandler;
 
-public class CustomDesensitisedHandler implements DesensitizationHandler {
+public class CustomDesensitizationHandler implements DesensitizationHandler {
 
 	public String handle(String text) {
 		return "customer rule" + text;

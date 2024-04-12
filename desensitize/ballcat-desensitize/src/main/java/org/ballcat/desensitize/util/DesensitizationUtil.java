@@ -36,9 +36,9 @@ import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
  *
  * @author evil0th Create on 2024/4/12
  */
-public final class DesensitizedUtil {
+public final class DesensitizationUtil {
 
-	private DesensitizedUtil() {
+	private DesensitizationUtil() {
 	}
 
 	/**
@@ -53,7 +53,7 @@ public final class DesensitizedUtil {
 		if (invalidText(input)) {
 			return input;
 		}
-		return maskString(input, input.length() > 2 ? 1 : 0, 1);
+		return maskBySlide(input, input.length() > 2 ? 1 : 0, 1);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public final class DesensitizedUtil {
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskIdCard(String input) {
+	public static String maskIdCardNo(String input) {
 		if (invalidText(input)) {
 			return input;
 		}
@@ -78,7 +78,7 @@ public final class DesensitizedUtil {
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskMobile(String input) {
+	public static String maskPhoneNumber(String input) {
 		if (invalidText(input)) {
 			return input;
 		}
@@ -97,7 +97,7 @@ public final class DesensitizedUtil {
 		if (invalidText(input)) {
 			return input;
 		}
-		return maskString(input, 6, 0);
+		return maskBySlide(input, 6, 0);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public final class DesensitizedUtil {
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskMail(String input) {
+	public static String maskEmail(String input) {
 		if (invalidText(input)) {
 			return input;
 		}
@@ -122,7 +122,7 @@ public final class DesensitizedUtil {
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskBankAccount(String input) {
+	public static String maskBankCardNo(String input) {
 		if (invalidText(input)) {
 			return input;
 		}
@@ -183,7 +183,7 @@ public final class DesensitizedUtil {
 	}
 
 	/**
-	 * 替换任意字符串
+	 * 根据正则进行打码。
 	 *
 	 * <pre>
 	 *     DesensitizedUtil.maskString("test.demo@qq.com", RegexDesensitizationTypeEnum.EMAIL) = "t****@qq.com"
@@ -192,13 +192,13 @@ public final class DesensitizedUtil {
 	 * @param type {@link RegexDesensitizationTypeEnum}
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskString(String input, RegexDesensitizationTypeEnum type) {
+	public static String maskByRegex(String input, RegexDesensitizationTypeEnum type) {
 		RegexDesensitizationHandler regexHandler = DesensitizationHandlerHolder.getRegexDesensitizationHandler();
 		return regexHandler.handle(input, type);
 	}
 
 	/**
-	 * 替换任意字符串
+	 * 滑动打码。
 	 *
 	 * <pre>
 	 *     DesensitizedUtil.maskString("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER) = "010******76"
@@ -207,12 +207,12 @@ public final class DesensitizedUtil {
 	 * @param type {@link SlideDesensitizationTypeEnum}
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskString(String input, SlideDesensitizationTypeEnum type) {
-		return maskString(input, type, false);
+	public static String maskBySlide(String input, SlideDesensitizationTypeEnum type) {
+		return maskBySlide(input, type, false);
 	}
 
 	/**
-	 * 替换任意字符串
+	 * 滑动打码。
 	 *
 	 * <pre>
 	 *     DesensitizedUtil.maskString("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER, true) = "***898989**"
@@ -222,13 +222,13 @@ public final class DesensitizedUtil {
 	 * @param reverse 是否反转
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskString(String input, SlideDesensitizationTypeEnum type, boolean reverse) {
+	public static String maskBySlide(String input, SlideDesensitizationTypeEnum type, boolean reverse) {
 		SlideDesensitizationHandler slideHandler = DesensitizationHandlerHolder.getSlideDesensitizationHandler();
 		return slideHandler.handle(input, type, reverse);
 	}
 
 	/**
-	 * 替换任意字符串
+	 * 滑动打码。
 	 *
 	 * <pre>
 	 *     DesensitizedUtil.maskString("Hello World", 2, 3) = "He******rld"
@@ -238,12 +238,12 @@ public final class DesensitizedUtil {
 	 * @param tail 尾部保留长度
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskString(String input, int head, int tail) {
-		return maskString(input, head, tail, false);
+	public static String maskBySlide(String input, int head, int tail) {
+		return maskBySlide(input, head, tail, false);
 	}
 
 	/**
-	 * 替换任意字符串
+	 * 滑动打码。
 	 *
 	 * <pre>
 	 *     DesensitizedUtil.maskString("Hello World", 2, 3) = "He******rld"
@@ -254,35 +254,35 @@ public final class DesensitizedUtil {
 	 * @param reverse 是否反转
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskString(String input, int head, int tail, boolean reverse) {
-		return maskString(input, head, tail, "*", reverse);
+	public static String maskBySlide(String input, int head, int tail, boolean reverse) {
+		return maskBySlide(input, head, tail, "*", reverse);
 	}
 
 	/**
-	 * 替换任意字符串 <pre>
+	 * 滑动打码。 <pre>
 	 * DesensitizedUtil.maskString("Hello World", 2, 3, "#") = "He######rld"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param head 头部保留长度
 	 * @param tail 尾部保留长度
-	 * @param replacement 替换结果字符
+	 * @param maskString 替换结果字符
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskString(String input, int head, int tail, String replacement) {
-		return maskString(input, head, tail, replacement, false);
+	public static String maskBySlide(String input, int head, int tail, String maskString) {
+		return maskBySlide(input, head, tail, maskString, false);
 	}
 
 	/**
-	 * 替换任意字符串 <pre>
+	 * 滑动打码。 <pre>
 	 * DesensitizedUtil.maskString("Hello World", 2, 3, "#") = "He######rld"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param head 头部保留长度
 	 * @param tail 尾部保留长度
-	 * @param replacement 替换结果字符
+	 * @param maskString 替换结果字符
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskString(String input, int head, int tail, String replacement, boolean reverse) {
+	public static String maskBySlide(String input, int head, int tail, String maskString, boolean reverse) {
 		if (invalidText(input)) {
 			return input;
 		}
@@ -290,7 +290,7 @@ public final class DesensitizedUtil {
 			return input;
 		}
 		SlideDesensitizationHandler slideHandler = DesensitizationHandlerHolder.getSlideDesensitizationHandler();
-		return slideHandler.handle(input, head, tail, replacement, reverse);
+		return slideHandler.handle(input, head, tail, maskString, reverse);
 	}
 
 	/**
@@ -301,7 +301,7 @@ public final class DesensitizedUtil {
 	 * @param rule 规则。<br>
 	 * @return 脱敏字符串
 	 */
-	public static String maskString(String input, String... rule) {
+	public static String maskByRule(String input, String... rule) {
 		final RuleDesensitizationHandler ruleHandler = DesensitizationHandlerHolder.getRuleDesensitizationHandler();
 		return ruleHandler.handle(input, rule);
 	}
@@ -315,7 +315,7 @@ public final class DesensitizedUtil {
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	public static String maskString(String input, boolean reverse, String... rule) {
+	public static String maskByRule(String input, boolean reverse, String... rule) {
 		final RuleDesensitizationHandler ruleHandler = DesensitizationHandlerHolder.getRuleDesensitizationHandler();
 		return ruleHandler.handle(input, reverse, rule);
 	}
@@ -331,7 +331,7 @@ public final class DesensitizedUtil {
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	public static String maskString(String input, char symbol, boolean reverse, String... rule) {
+	public static String maskByRule(String input, char symbol, boolean reverse, String... rule) {
 		final RuleDesensitizationHandler ruleHandler = DesensitizationHandlerHolder.getRuleDesensitizationHandler();
 		return ruleHandler.handle(input, symbol, reverse, rule);
 	}

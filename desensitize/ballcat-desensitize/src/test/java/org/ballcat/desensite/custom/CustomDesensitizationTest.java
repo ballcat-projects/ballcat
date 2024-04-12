@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  *
  */
 @Slf4j
-class CustomDesensitisedTest {
+class CustomDesensitizationTest {
 
 	@Test
 	void desensitizedExtend() throws Exception {
@@ -40,15 +40,15 @@ class CustomDesensitisedTest {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		// 注册自定义脱敏类型处理器
-		CustomDesensitisedHandler customDesensitisedHandler = new CustomDesensitisedHandler();
-		DesensitizationHandlerHolder.addHandler(CustomDesensitisedHandler.class, customDesensitisedHandler);
+		CustomDesensitizationHandler customDesensitizationHandler = new CustomDesensitizationHandler();
+		DesensitizationHandlerHolder.addHandler(CustomDesensitizationHandler.class, customDesensitizationHandler);
 		// 注册注解 处理器
 		AnnotationHandlerHolder.addHandleFunction(CustomerDesensitize.class, (annotation, value) -> {
 			CustomerDesensitize customerDesensitize = (CustomerDesensitize) annotation;
 			String type = customerDesensitize.type();
 			log.info("注解上的参数：{}", type);
-			CustomDesensitisedHandler handler = (CustomDesensitisedHandler) DesensitizationHandlerHolder
-				.getHandler(CustomDesensitisedHandler.class);
+			CustomDesensitizationHandler handler = (CustomDesensitizationHandler) DesensitizationHandlerHolder
+				.getHandler(CustomDesensitizationHandler.class);
 			return handler.handle(value);
 		});
 		// 初始化序列号modifier
