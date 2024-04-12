@@ -47,11 +47,11 @@ public class NullSerializerProvider extends DefaultSerializerProvider {
 
 	private static final long serialVersionUID = 1L;
 
-	private boolean writeNullStringValuesAsQuotes = false;
+	private boolean writeNullStringValuesAsQuotes = true;
 
-	private boolean writeNullMapValuesAsBraces = false;
+	private boolean writeNullMapValuesAsBraces = true;
 
-	private boolean writeNullArrayValuesAsBrackets = false;
+	private boolean writeNullArrayValuesAsBrackets = true;
 
 	public NullSerializerProvider() {
 		super();
