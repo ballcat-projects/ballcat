@@ -42,17 +42,17 @@ public class JacksonProperties {
 		/**
 		 * null string -> ""
 		 */
-		private boolean writeNullStringValuesAsQuotes = false;
+		private boolean writeNullStringValuesAsQuotes = true;
 
 		/**
 		 * null map -> {}
 		 */
-		private boolean writeNullMapValuesAsBraces = false;
+		private boolean writeNullMapValuesAsBraces = true;
 
 		/**
 		 * null array -> []
 		 */
-		private boolean writeNullArrayValuesAsBrackets = false;
+		private boolean writeNullArrayValuesAsBrackets = true;
 
 	}
 

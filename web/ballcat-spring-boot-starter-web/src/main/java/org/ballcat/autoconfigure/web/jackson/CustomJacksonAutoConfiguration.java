@@ -49,14 +49,12 @@ public class CustomJacksonAutoConfiguration {
 		return builder -> {
 			if (null != this.jacksonProperties.getSerialization()) {
 				JacksonProperties.Serialization serialization = this.jacksonProperties.getSerialization();
-				final boolean writeNullStringValuesAsQuotes = serialization.isWriteNullStringValuesAsQuotes();
-				final boolean writeNullMapValuesAsBraces = serialization.isWriteNullMapValuesAsBraces();
-				final boolean writeNullArrayValuesAsBrackets = serialization.isWriteNullArrayValuesAsBrackets();
-
 				final NullSerializerProvider nullSerializerProvider = new NullSerializerProvider();
-				nullSerializerProvider.setWriteNullStringValuesAsQuotes(writeNullStringValuesAsQuotes);
-				nullSerializerProvider.setWriteNullMapValuesAsBraces(writeNullMapValuesAsBraces);
-				nullSerializerProvider.setWriteNullArrayValuesAsBrackets(writeNullArrayValuesAsBrackets);
+				nullSerializerProvider
+					.setWriteNullStringValuesAsQuotes(serialization.isWriteNullStringValuesAsQuotes());
+				nullSerializerProvider.setWriteNullMapValuesAsBraces(serialization.isWriteNullMapValuesAsBraces());
+				nullSerializerProvider
+					.setWriteNullArrayValuesAsBrackets(serialization.isWriteNullArrayValuesAsBrackets());
 				builder.postConfigurer(c -> c.setSerializerProvider(nullSerializerProvider));
 			}
 		};
