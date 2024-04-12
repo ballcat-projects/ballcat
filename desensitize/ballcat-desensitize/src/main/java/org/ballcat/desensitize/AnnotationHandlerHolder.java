@@ -25,9 +25,11 @@ import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
 import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
 import org.ballcat.desensitize.functions.DesensitizeFunction;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
+import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
 import org.ballcat.desensitize.json.annotation.JsonRegexDesensitize;
+import org.ballcat.desensitize.json.annotation.JsonRuleDesensitize;
 import org.ballcat.desensitize.json.annotation.JsonSimpleDesensitize;
 import org.ballcat.desensitize.json.annotation.JsonSlideDesensitize;
 
@@ -77,9 +79,18 @@ public final class AnnotationHandlerHolder {
 			SlideDesensitizationTypeEnum type = an.type();
 			SlideDesensitizationHandler slideDesensitizationHandler = DesensitizationHandlerHolder
 				.getSlideDesensitizationHandler();
-			return SlideDesensitizationTypeEnum.CUSTOM.equals(type) ? slideDesensitizationHandler.handle(value,
-					an.leftPlainTextLen(), an.rightPlainTextLen(), an.maskString())
-					: slideDesensitizationHandler.handle(value, type);
+			return SlideDesensitizationTypeEnum.CUSTOM.equals(type)
+					? slideDesensitizationHandler.handle(value, an.leftPlainTextLen(), an.rightPlainTextLen(),
+							an.maskString(), an.reverse())
+					: slideDesensitizationHandler.handle(value, type, an.reverse());
+		});
+
+		this.annotationHandlers.put(JsonRuleDesensitize.class, (annotation, value) -> {
+			// 规则类型脱敏处理
+			JsonRuleDesensitize an = (JsonRuleDesensitize) annotation;
+			RuleDesensitizationHandler ruleDesensitizationHandler = DesensitizationHandlerHolder
+				.getRuleDesensitizationHandler();
+			return ruleDesensitizationHandler.handle(value, an.maskChar(), an.reverse(), an.rule());
 		});
 	}
 

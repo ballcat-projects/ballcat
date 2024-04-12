@@ -63,7 +63,7 @@ class CustomDesensitisedTest {
 			.setCustomDesensitize("自定义属性");
 		String value = objectMapper.writeValueAsString(user);
 		log.info("脱敏后的数据：{}", value);
-		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"customer rule自定义属性\"}";
+		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"customer rule自定义属性\",\"ruleDesensitize\":null,\"ruleReverseDesensitize\":null}";
 		Assertions.assertEquals(expected, value);
 	}
 

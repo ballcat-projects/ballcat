@@ -22,16 +22,17 @@ import org.ballcat.desensitize.DesensitizationHandlerHolder;
 import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
 import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
+import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SixAsteriskDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
 import org.ballcat.desensitize.json.JsonDesensitizeSerializerModifier;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Hccake 2021/1/23
- *
  */
 @Slf4j
 class DesensitisedTest {
@@ -43,7 +44,7 @@ class DesensitisedTest {
 			.getSimpleHandler(SixAsteriskDesensitizationHandler.class);
 		String origin = "你好吗？"; // 原始字符串
 		String target = desensitizationHandler.handle(origin); // 替换处理
-		Assertions.assertEquals("******", target);
+		assertEquals("******", target);
 	}
 
 	@Test
@@ -55,11 +56,11 @@ class DesensitisedTest {
 		String regex = "(^.)[^@]*(@.*$)"; // 正则表达式
 		String replacement = "$1****$2"; // 占位替换表达式
 		String target1 = desensitizationHandler.handle(origin, regex, replacement); // 替换处理
-		Assertions.assertEquals("1****@qq.com", target1);
+		assertEquals("1****@qq.com", target1);
 
 		// 内置的正则脱敏类型
 		String target2 = desensitizationHandler.handle(origin, RegexDesensitizationTypeEnum.EMAIL);
-		Assertions.assertEquals("1****@qq.com", target2);
+		assertEquals("1****@qq.com", target2);
 	}
 
 	@Test
@@ -69,10 +70,26 @@ class DesensitisedTest {
 			.getSlideDesensitizationHandler();
 		String origin = "15805516789"; // 原始字符串
 		String target1 = desensitizationHandler.handle(origin, 3, 2); // 替换处理
-		Assertions.assertEquals("158******89", target1);
+		assertEquals("158******89", target1);
+
+		String target11 = desensitizationHandler.handle(origin, 3, 2, true); // 替换处理
+		assertEquals("***055167**", target11);
 
 		String target2 = desensitizationHandler.handle(origin, SlideDesensitizationTypeEnum.PHONE_NUMBER); // 替换处理
-		Assertions.assertEquals("158******89", target2);
+		assertEquals("158******89", target2);
+	}
+
+	@Test
+	void testRule() {
+		// 获取基于规则脱敏处理器
+		RuleDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
+			.getRuleDesensitizationHandler();
+		String origin = "43012319990101432X"; // 原始字符串
+		String target1 = desensitizationHandler.handle(origin, "1", "4-6", "9-"); // 替换处理
+		assertEquals("4*01***99*********", target1);
+
+		String target2 = desensitizationHandler.handle(origin, true, "1", "4-6", "9-"); // 替换处理
+		assertEquals("*3**231**90101432X", target2);
 	}
 
 	@Test
@@ -93,12 +110,14 @@ class DesensitisedTest {
 			.setPassword("admina123456")
 			.setPhoneNumber("15800000000")
 			.setTestField("这是测试属性")
-			.setCustomDesensitize("test");
+			.setCustomDesensitize("test")
+			.setRuleDesensitize("43012319990101432X")
+			.setRuleReverseDesensitize("43012319990101432X");
 		String value = objectMapper.writeValueAsString(user);
 		log.info("脱敏后的数据：{}", value);
 
-		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"test\"}";
-		Assertions.assertEquals(expected, value);
+		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"test\",\"ruleDesensitize\":\"4*01***99*********\",\"ruleReverseDesensitize\":\"*3**231**90101432X\"}";
+		assertEquals(expected, value);
 	}
 
 }
