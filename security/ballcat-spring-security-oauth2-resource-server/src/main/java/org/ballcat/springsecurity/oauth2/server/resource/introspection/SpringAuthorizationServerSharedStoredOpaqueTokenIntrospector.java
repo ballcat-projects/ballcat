@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
+import org.ballcat.springsecurity.exception.InternalServiceException;
 import org.ballcat.springsecurity.oauth2.userdetails.ClientPrincipal;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -61,7 +62,16 @@ public class SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector implem
 	 */
 	@Override
 	public OAuth2AuthenticatedPrincipal introspect(String accessTokenValue) {
-		OAuth2Authorization authorization = this.authorizationService.findByToken(accessTokenValue, null);
+		OAuth2Authorization authorization;
+		try {
+			authorization = this.authorizationService.findByToken(accessTokenValue, null);
+		}
+		catch (Exception ex) {
+			log.error("An error occurred while attempting to find OAuth2 Authorization by token: {}", accessTokenValue,
+					ex);
+			throw new InternalServiceException(
+					"An error occurred while attempting to find OAuth2 Authorization by token");
+		}
 		if (authorization == null) {
 			if (log.isTraceEnabled()) {
 				log.trace("Did not authenticate token introspection request since token was not found");

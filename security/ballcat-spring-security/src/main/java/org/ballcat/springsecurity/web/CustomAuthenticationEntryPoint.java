@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.ballcat.common.model.result.ApiResult;
 import org.ballcat.common.model.result.SystemResultCode;
 import org.ballcat.common.util.JsonUtils;
+import org.ballcat.springsecurity.exception.InternalServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -43,9 +44,17 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
 		httpServletResponse.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 		httpServletResponse.setCharacterEncoding(utf8);
-		httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-		ApiResult<Object> apiResult = ApiResult.failed(SystemResultCode.UNAUTHORIZED, e.getMessage());
-		httpServletResponse.getWriter().write(JsonUtils.toJson(apiResult));
+
+		if (e instanceof InternalServiceException) {
+			httpServletResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			ApiResult<Object> r = ApiResult.failed(SystemResultCode.SERVER_ERROR, e.getMessage());
+			httpServletResponse.getWriter().write(JsonUtils.toJson(r));
+		}
+		else {
+			httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+			ApiResult<Object> r = ApiResult.failed(SystemResultCode.UNAUTHORIZED, e.getMessage());
+			httpServletResponse.getWriter().write(JsonUtils.toJson(r));
+		}
 	}
 
 }
