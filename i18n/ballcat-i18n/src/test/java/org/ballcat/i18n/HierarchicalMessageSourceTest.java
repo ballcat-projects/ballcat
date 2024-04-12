@@ -16,20 +16,24 @@
 
 package org.ballcat.i18n;
 
+import java.io.IOException;
 import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class HierarchicalMessageSourceTest {
 
 	MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new WildcardReloadableResourceBundleMessageSource();
 		// Specify the location of the properties file
-		messageSource.setBasename("classpath:test-*");
+		messageSource.setBasename("classpath*:test-*");
 		messageSource.setDefaultEncoding("UTF-8");
 		messageSource.setFallbackToSystemLocale(false);
 
@@ -38,6 +42,17 @@ class HierarchicalMessageSourceTest {
 		dynamicMessageSource.setParentMessageSource(messageSource);
 
 		return dynamicMessageSource;
+	}
+
+	@Test
+	void testResourcePatternResolver() throws IOException {
+		final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		Resource[] resources = resolver.getResources("classpath:test*" + ".properties");
+		assertNotNull(resources);
+		assertEquals(0, resources.length);
+		resources = resolver.getResources("classpath*:test*" + ".properties");
+		assertNotNull(resources);
+		assertEquals(3, resources.length);
 	}
 
 	@Test
