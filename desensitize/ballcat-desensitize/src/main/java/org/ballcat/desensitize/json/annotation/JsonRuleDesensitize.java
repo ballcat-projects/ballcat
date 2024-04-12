@@ -22,46 +22,35 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
-import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
+import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
+import org.ballcat.desensitize.rule.DesensitizeRule;
 
 /**
- * Jackson Filed 序列化脱敏注解, 对应使用滑动脱敏处理器对值进行脱敏处理
+ * Jackson Filed 序列化脱敏注解, 对应基于规则脱敏处理器对值进行脱敏处理
  *
- * @see SlideDesensitizationHandler
- * @author Hccake 2021/1/22
- *
+ * @author evil0th Create on 2024/4/12
+ * @see RuleDesensitizationHandler
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface JsonSlideDesensitize {
+public @interface JsonRuleDesensitize {
 
 	/**
-	 * 脱敏类型，只有当值为 CUSTOM 时，以下三个参数才有效
-	 * @see SlideDesensitizationTypeEnum#CUSTOM
+	 * 脱敏规则
 	 * @return type
+	 * @see DesensitizeRule
 	 */
-	SlideDesensitizationTypeEnum type();
+	String[] rule();
 
 	/**
-	 * 左边的明文数，只有当type值为 CUSTOM 时，才生效
-	 */
-	int leftPlainTextLen() default 0;
-
-	/**
-	 * 右边的明文数，只有当type值为 CUSTOM 时，才生效
-	 */
-	int rightPlainTextLen() default 0;
-
-	/**
-	 * 剩余部分字符逐个替换的字符串，只有当type值为 CUSTOM 时，才生效
-	 */
-	String maskString() default "*";
-
-	/**
-	 * 是否反转
+	 * 是否反转规则
 	 */
 	boolean reverse() default false;
+
+	/**
+	 * 替换的字符串
+	 */
+	char maskChar() default '*';
 
 }

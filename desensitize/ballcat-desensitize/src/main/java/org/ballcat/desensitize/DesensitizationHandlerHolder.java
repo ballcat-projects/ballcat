@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.ballcat.desensitize.handler.DesensitizationHandler;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
+import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
 
@@ -47,6 +48,8 @@ public final class DesensitizationHandlerHolder {
 		this.desensitizationHandlerMap.put(SlideDesensitizationHandler.class, new SlideDesensitizationHandler());
 		// 正则脱敏处理器
 		this.desensitizationHandlerMap.put(RegexDesensitizationHandler.class, new RegexDesensitizationHandler());
+		// 基于规则脱敏处理器
+		this.desensitizationHandlerMap.put(RuleDesensitizationHandler.class, new RuleDesensitizationHandler());
 		// SPI 加载所有的 Simple脱敏类型处理
 		ServiceLoader<SimpleDesensitizationHandler> loadedDrivers = ServiceLoader
 			.load(SimpleDesensitizationHandler.class);
@@ -77,6 +80,14 @@ public final class DesensitizationHandlerHolder {
 	 */
 	public static SlideDesensitizationHandler getSlideDesensitizationHandler() {
 		return (SlideDesensitizationHandler) INSTANCE.desensitizationHandlerMap.get(SlideDesensitizationHandler.class);
+	}
+
+	/**
+	 * 获取 RuleDesensitizationHandler
+	 * @return 处理器实例
+	 */
+	public static RuleDesensitizationHandler getRuleDesensitizationHandler() {
+		return (RuleDesensitizationHandler) INSTANCE.desensitizationHandlerMap.get(RuleDesensitizationHandler.class);
 	}
 
 	/**

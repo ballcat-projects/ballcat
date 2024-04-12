@@ -34,7 +34,19 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @return 脱敏后的字符串
 	 */
 	public String handle(String origin, int leftPlainTextLen, int rightPlainTextLen) {
-		return this.handle(origin, leftPlainTextLen, rightPlainTextLen, "*");
+		return this.handle(origin, leftPlainTextLen, rightPlainTextLen, false);
+	}
+
+	/**
+	 * 滑动脱敏
+	 * @param origin 原文
+	 * @param leftPlainTextLen 处理完后左边的明文数
+	 * @param rightPlainTextLen 处理完后右边的明文数
+	 * @param reverse 是否反转
+	 * @return 脱敏后的字符串
+	 */
+	public String handle(String origin, int leftPlainTextLen, int rightPlainTextLen, boolean reverse) {
+		return this.handle(origin, leftPlainTextLen, rightPlainTextLen, "*", reverse);
 	}
 
 	/**
@@ -46,6 +58,20 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @return 脱敏后的字符串
 	 */
 	public String handle(String origin, int leftPlainTextLen, int rightPlainTextLen, String maskString) {
+		return this.handle(origin, leftPlainTextLen, rightPlainTextLen, maskString, false);
+	}
+
+	/**
+	 * 滑动脱敏
+	 * @param origin 原文
+	 * @param leftPlainTextLen 处理完后左边的明文数
+	 * @param rightPlainTextLen 处理完后右边的明文数
+	 * @param maskString 原文窗口内每个字符被替换后的字符串
+	 * @param reverse 是否反转
+	 * @return 脱敏后的字符串
+	 */
+	public String handle(String origin, int leftPlainTextLen, int rightPlainTextLen, String maskString,
+			boolean reverse) {
 		if (origin == null) {
 			return null;
 		}
@@ -56,10 +82,10 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 		for (int i = 0; i < length; i++) {
 			// 明文位内则明文显示
 			if (i < leftPlainTextLen || i > (length - rightPlainTextLen - 1)) {
-				sb.append(chars[i]);
+				sb.append(reverse ? maskString : chars[i]);
 			}
 			else {
-				sb.append(maskString);
+				sb.append(reverse ? chars[i] : maskString);
 			}
 		}
 		return sb.toString();
@@ -72,7 +98,19 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @return 脱敏后的字符串
 	 */
 	public String handle(String value, SlideDesensitizationTypeEnum type) {
-		return this.handle(value, type.getLeftPlainTextLen(), type.getRightPlainTextLen(), type.getMaskString());
+		return this.handle(value, type, false);
+	}
+
+	/**
+	 * 根据指定枚举类型进行滑动脱敏
+	 * @param value 原文
+	 * @param type 滑动脱敏类型
+	 * @param reverse 是否反转
+	 * @return 脱敏后的字符串
+	 */
+	public String handle(String value, SlideDesensitizationTypeEnum type, boolean reverse) {
+		return this.handle(value, type.getLeftPlainTextLen(), type.getRightPlainTextLen(), type.getMaskString(),
+				reverse);
 	}
 
 }

@@ -22,6 +22,7 @@ import org.ballcat.desensite.custom.CustomerDesensitize;
 import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
 import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
 import org.ballcat.desensitize.json.annotation.JsonRegexDesensitize;
+import org.ballcat.desensitize.json.annotation.JsonRuleDesensitize;
 import org.ballcat.desensitize.json.annotation.JsonSimpleDesensitize;
 import org.ballcat.desensitize.json.annotation.JsonSlideDesensitize;
 
@@ -67,5 +68,17 @@ public class DesensitizationUser {
 	 */
 	@CustomerDesensitize(type = "自定义注解示例")
 	private String customDesensitize;
+
+	/**
+	 * 测试规则脱敏
+	 */
+	@JsonRuleDesensitize(rule = { "1", "4-6", "9-" })
+	private String ruleDesensitize;
+
+	/**
+	 * 测试规则脱敏（反转）
+	 */
+	@JsonRuleDesensitize(rule = { "1", "4-6", "9-" }, reverse = true)
+	private String ruleReverseDesensitize;
 
 }
