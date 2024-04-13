@@ -43,186 +43,205 @@ public final class DesensitizationUtil {
 
 	/**
 	 * 中文姓名只显示第一个姓和最后一个汉字（单名则只显示最后一个汉字），其他隐藏为星号 <pre>
-	 *     DesensitizedUtil.maskChineseName("张梦") = "*梦"
-	 *     DesensitizedUtil.maskChineseName("张小梦") = "张*梦"
+	 *     DesensitizationUtil.desensitizeChineseName("张梦") = "*梦"
+	 *     DesensitizationUtil.desensitizeChineseName("张小梦") = "张*梦"
 	 * </pre>
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskChineseName(String input) {
-		if (invalidText(input)) {
+	public static String desensitizeChineseName(String input) {
+		if (isEmptyText(input)) {
 			return input;
 		}
-		return maskBySlide(input, input.length() > 2 ? 1 : 0, 1);
+		return desensitizeBySlide(input, input.length() > 2 ? 1 : 0, 1);
 	}
 
 	/**
 	 * 身份证(18位或者15位)显示前六位, 四位，其他隐藏。 <pre>
-	 *     DesensitizedUtil.maskIdCard("43012319990101432X") = "430123********432X"
+	 *     DesensitizationUtil.desensitizeIdCardNo("43012319990101432X") = "430123********432X"
 	 * </pre>
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskIdCardNo(String input) {
-		if (invalidText(input)) {
+	public static String desensitizeIdCardNo(String input) {
+		if (isEmptyText(input)) {
 			return input;
 		}
-		SlideDesensitizationHandler slideHandler = DesensitizationHandlerHolder.getSlideDesensitizationHandler();
-		return slideHandler.handle(input, SlideDesensitizationTypeEnum.ID_CARD_NO);
+		return desensitizeBySlide(input, SlideDesensitizationTypeEnum.ID_CARD_NO);
 	}
 
 	/**
 	 * 移动电话前三位，后四位，其他隐藏，比如 <pre>
-	 * DesensitizedUtil.maskMobile("13812345678") = "138******10"
+	 * DesensitizationUtil.desensitizePhoneNumber("13812345678") = "138******10"
 	 * </pre>
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskPhoneNumber(String input) {
-		if (invalidText(input)) {
+	public static String desensitizePhoneNumber(String input) {
+		if (isEmptyText(input)) {
 			return input;
 		}
-		SlideDesensitizationHandler slideHandler = DesensitizationHandlerHolder.getSlideDesensitizationHandler();
-		return slideHandler.handle(input, SlideDesensitizationTypeEnum.PHONE_NUMBER);
+		return desensitizeBySlide(input, SlideDesensitizationTypeEnum.PHONE_NUMBER);
 	}
 
 	/**
 	 * 地址脱敏，只显示到地区，不显示详细地址 <pre>
-	 * DesensitizedUtil.maskAddress("北京市西城区金城坊街2号") = "北京市西城区******"
+	 * DesensitizationUtil.desensitizeAddress("北京市西城区金城坊街2号") = "北京市西城区******"
 	 * </pre>
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskAddress(String input) {
-		if (invalidText(input)) {
+	public static String desensitizeAddress(String input) {
+		if (isEmptyText(input)) {
 			return input;
 		}
-		return maskBySlide(input, 6, 0);
+		return desensitizeBySlide(input, 6, 0);
 	}
 
 	/**
 	 * 电子邮箱脱敏，邮箱前缀最多显示前1字母，前缀其他隐藏，用星号代替，@及后面的地址显示 <pre>
-	 * DesensitizedUtil.maskMail("test.demo@qq.com") = "t****@qq.com"
+	 * DesensitizationUtil.desensitizeEmail("test.demo@qq.com") = "t****@qq.com"
 	 * </pre>
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskEmail(String input) {
-		if (invalidText(input)) {
+	public static String desensitizeEmail(String input) {
+		if (isEmptyText(input)) {
 			return input;
 		}
-		RegexDesensitizationHandler regexHandler = DesensitizationHandlerHolder.getRegexDesensitizationHandler();
-		return regexHandler.handle(input, RegexDesensitizationTypeEnum.EMAIL);
+		return desensitizeByRegex(input, RegexDesensitizationTypeEnum.EMAIL);
 	}
 
 	/**
 	 * 银行卡号脱敏，显示前六位后四位 <pre>
-	 * DesensitizedUtil.maskBankAccount("62226000000043211234") = "622260**********1234"
+	 * DesensitizationUtil.desensitizeBankCardNo("62226000000043211234") = "622260**********1234"
 	 * </pre>
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskBankCardNo(String input) {
-		if (invalidText(input)) {
+	public static String desensitizeBankCardNo(String input) {
+		if (isEmptyText(input)) {
 			return input;
 		}
-		SlideDesensitizationHandler slideHandler = DesensitizationHandlerHolder.getSlideDesensitizationHandler();
-		return slideHandler.handle(input, SlideDesensitizationTypeEnum.BANK_CARD_NO);
+		return desensitizeBySlide(input, SlideDesensitizationTypeEnum.BANK_CARD_NO);
 	}
 
 	/**
 	 * 密码脱敏，用******代替 <pre>
-	 * DesensitizedUtil.maskPassword(password) = "******"
+	 * DesensitizationUtil.desensitizePassword(password) = "******"
 	 * </pre>
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskPassword(String input) {
-		if (invalidText(input)) {
-			return input;
-		}
-		SimpleDesensitizationHandler simpleHandler = DesensitizationHandlerHolder
-			.getSimpleHandler(SixAsteriskDesensitizationHandler.class);
-		return simpleHandler.handle(input);
+	public static String desensitizePassword(String input) {
+		return desensitizeBySimpleHandler(input, SixAsteriskDesensitizationHandler.class);
 	}
 
 	/**
 	 * IPv脱敏，支持IPv4和IPv6 <pre>
-	 * DesensitizedUtil.maskIP("192.168.2.1") = "192.*.*.*"
-	 * DesensitizedUtil.maskIP("2001:0db8:02de:0000:0000:0000:0000:0e13") = "2001:*:*:*:*:*:*:*"
-	 * DesensitizedUtil.maskIP("2001:db8:2de:0000:0000:0000:0000:e13") = "2001:*:*:*:*:*:*:*"
-	 * DesensitizedUtil.maskIP("2001:db8:2de:0:0:0:0:e13") = "2001:*:*:*:*:*:*:*"
+	 * DesensitizationUtil.desensitizeIP("192.168.2.1") = "192.*.*.*"
+	 * DesensitizationUtil.desensitizeIP("2001:0db8:02de:0000:0000:0000:0000:0e13") = "2001:*:*:*:*:*:*:*"
+	 * DesensitizationUtil.desensitizeIP("2001:db8:2de:0000:0000:0000:0000:e13") = "2001:*:*:*:*:*:*:*"
+	 * DesensitizationUtil.desensitizeIP("2001:db8:2de:0:0:0:0:e13") = "2001:*:*:*:*:*:*:*"
 	 * </pre>
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskIP(String input) {
-		if (invalidText(input)) {
-			return input;
-		}
-		SimpleDesensitizationHandler simpleHandler = DesensitizationHandlerHolder
-			.getSimpleHandler(IPDesensitizationHandler.class);
-		return simpleHandler.handle(input);
+	public static String desensitizeIP(String input) {
+		return desensitizeBySimpleHandler(input, IPDesensitizationHandler.class);
 	}
 
 	/**
 	 * 密文脱敏，前3后2，中间替换为 4个 *
 	 *
 	 * <pre>
-	 * DesensitizedUtil.maskKey("0000000123456q34") = "000****34"
+	 * DesensitizationUtil.desensitizeKey("0000000123456q34") = "000****34"
 	 * </pre>
 	 * @param input 待处理的文本
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskKey(String input) {
-		if (invalidText(input)) {
+	public static String desensitizeKey(String input) {
+		if (isEmptyText(input)) {
 			return input;
 		}
-		RegexDesensitizationHandler regexHandler = DesensitizationHandlerHolder.getRegexDesensitizationHandler();
-		return regexHandler.handle(input, RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD);
+		return desensitizeByRegex(input, RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD);
+	}
+
+	/**
+	 * 使用简单脱敏处理器进行脱敏。
+	 *
+	 * <pre>
+	 *     DesensitizationUtil.desensitizeBySimpleHandler(password, SixAsteriskDesensitizationHandler.class) = "******"
+	 * </pre>
+	 * @param input 输入字符串
+	 * @return 屏蔽后的文本
+	 */
+	public static String desensitizeBySimpleHandler(String input,
+			Class<? extends SimpleDesensitizationHandler> handlerClass) {
+		if (isEmptyText(input)) {
+			return input;
+		}
+		SimpleDesensitizationHandler simpleHandler = DesensitizationHandlerHolder.getSimpleHandler(handlerClass);
+		return simpleHandler.handle(input);
 	}
 
 	/**
 	 * 根据正则进行打码。
 	 *
 	 * <pre>
-	 *     DesensitizedUtil.maskString("test.demo@qq.com", RegexDesensitizationTypeEnum.EMAIL) = "t****@qq.com"
+	 *     DesensitizationUtil.desensitizeByRegex("test.demo@qq.com", RegexDesensitizationTypeEnum.EMAIL) = "t****@qq.com"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param type {@link RegexDesensitizationTypeEnum}
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskByRegex(String input, RegexDesensitizationTypeEnum type) {
+	public static String desensitizeByRegex(String input, RegexDesensitizationTypeEnum type) {
 		RegexDesensitizationHandler regexHandler = DesensitizationHandlerHolder.getRegexDesensitizationHandler();
 		return regexHandler.handle(input, type);
 	}
 
 	/**
-	 * 滑动打码。
+	 * 根据正则进行打码。
 	 *
 	 * <pre>
-	 *     DesensitizedUtil.maskString("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER) = "010******76"
+	 *     DesensitizationUtil.desensitizeByRegex("test.demo@qq.com", RegexDesensitizationTypeEnum.EMAIL) = "t****@qq.com"
 	 * </pre>
 	 * @param input 输入字符串
-	 * @param type {@link SlideDesensitizationTypeEnum}
+	 * @param regex 正则
+	 * @param replacement 替换模板
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskBySlide(String input, SlideDesensitizationTypeEnum type) {
-		return maskBySlide(input, type, false);
+	public static String desensitizeByRegex(String input, String regex, String replacement) {
+		RegexDesensitizationHandler regexHandler = DesensitizationHandlerHolder.getRegexDesensitizationHandler();
+		return regexHandler.handle(input, regex, replacement);
 	}
 
 	/**
 	 * 滑动打码。
 	 *
 	 * <pre>
-	 *     DesensitizedUtil.maskString("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER, true) = "***898989**"
+	 *     DesensitizationUtil.desensitizeBySlide("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER) = "010******76"
+	 * </pre>
+	 * @param input 输入字符串
+	 * @param type {@link SlideDesensitizationTypeEnum}
+	 * @return 屏蔽后的文本
+	 */
+	public static String desensitizeBySlide(String input, SlideDesensitizationTypeEnum type) {
+		return desensitizeBySlide(input, type, false);
+	}
+
+	/**
+	 * 滑动打码。
+	 *
+	 * <pre>
+	 *     DesensitizationUtil.desensitizeBySlide("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER, true) = "***898989**"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param type {@link SlideDesensitizationTypeEnum}
 	 * @param reverse 是否反转
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskBySlide(String input, SlideDesensitizationTypeEnum type, boolean reverse) {
+	public static String desensitizeBySlide(String input, SlideDesensitizationTypeEnum type, boolean reverse) {
 		SlideDesensitizationHandler slideHandler = DesensitizationHandlerHolder.getSlideDesensitizationHandler();
 		return slideHandler.handle(input, type, reverse);
 	}
@@ -231,22 +250,22 @@ public final class DesensitizationUtil {
 	 * 滑动打码。
 	 *
 	 * <pre>
-	 *     DesensitizedUtil.maskString("Hello World", 2, 3) = "He******rld"
+	 *     DesensitizationUtil.desensitizeBySlide("Hello World", 2, 3) = "He******rld"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param head 头部保留长度
 	 * @param tail 尾部保留长度
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskBySlide(String input, int head, int tail) {
-		return maskBySlide(input, head, tail, false);
+	public static String desensitizeBySlide(String input, int head, int tail) {
+		return desensitizeBySlide(input, head, tail, false);
 	}
 
 	/**
 	 * 滑动打码。
 	 *
 	 * <pre>
-	 *     DesensitizedUtil.maskString("Hello World", 2, 3) = "He******rld"
+	 *     DesensitizationUtil.desensitizeBySlide("Hello World", 2, 3) = "He******rld"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param head 头部保留长度
@@ -254,13 +273,13 @@ public final class DesensitizationUtil {
 	 * @param reverse 是否反转
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskBySlide(String input, int head, int tail, boolean reverse) {
-		return maskBySlide(input, head, tail, "*", reverse);
+	public static String desensitizeBySlide(String input, int head, int tail, boolean reverse) {
+		return desensitizeBySlide(input, head, tail, "*", reverse);
 	}
 
 	/**
 	 * 滑动打码。 <pre>
-	 * DesensitizedUtil.maskString("Hello World", 2, 3, "#") = "He######rld"
+	 * DesensitizationUtil.desensitizeBySlide("Hello World", 2, 3, "#") = "He######rld"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param head 头部保留长度
@@ -268,13 +287,13 @@ public final class DesensitizationUtil {
 	 * @param maskString 替换结果字符
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskBySlide(String input, int head, int tail, String maskString) {
-		return maskBySlide(input, head, tail, maskString, false);
+	public static String desensitizeBySlide(String input, int head, int tail, String maskString) {
+		return desensitizeBySlide(input, head, tail, maskString, false);
 	}
 
 	/**
 	 * 滑动打码。 <pre>
-	 * DesensitizedUtil.maskString("Hello World", 2, 3, "#") = "He######rld"
+	 * DesensitizationUtil.desensitizeBySlide("Hello World", 2, 3, "#") = "He######rld"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param head 头部保留长度
@@ -282,8 +301,8 @@ public final class DesensitizationUtil {
 	 * @param maskString 替换结果字符
 	 * @return 屏蔽后的文本
 	 */
-	public static String maskBySlide(String input, int head, int tail, String maskString, boolean reverse) {
-		if (invalidText(input)) {
+	public static String desensitizeBySlide(String input, int head, int tail, String maskString, boolean reverse) {
+		if (isEmptyText(input)) {
 			return input;
 		}
 		if (head + tail >= input.length()) {
@@ -295,35 +314,35 @@ public final class DesensitizationUtil {
 
 	/**
 	 * 基于规则的替换字符串 <pre>
-	 *     DesensitizedUtil.maskString("43012319990101432X", "1", "4-6", "9-")) = "4*01***99*********"
+	 *     DesensitizationUtil.desensitizeByRule("43012319990101432X", "1", "4-6", "9-")) = "4*01***99*********"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param rule 规则。<br>
 	 * @return 脱敏字符串
 	 */
-	public static String maskByRule(String input, String... rule) {
+	public static String desensitizeByRule(String input, String... rule) {
 		final RuleDesensitizationHandler ruleHandler = DesensitizationHandlerHolder.getRuleDesensitizationHandler();
 		return ruleHandler.handle(input, rule);
 	}
 
 	/**
 	 * 基于规则的替换字符串 <pre>
-	 *     DesensitizedUtil.maskString("43012319990101432X", true, "1", "4-6", "9-")) = "4*01***99*********"
+	 *     DesensitizationUtil.desensitizeByRule("43012319990101432X", true, "1", "4-6", "9-")) = "4*01***99*********"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param rule 规则
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	public static String maskByRule(String input, boolean reverse, String... rule) {
+	public static String desensitizeByRule(String input, boolean reverse, String... rule) {
 		final RuleDesensitizationHandler ruleHandler = DesensitizationHandlerHolder.getRuleDesensitizationHandler();
 		return ruleHandler.handle(input, reverse, rule);
 	}
 
 	/**
 	 * 基于规则的替换字符串 <pre>
-	 *     DesensitizedUtil.maskString("43012319990101432X", '-', false, "1", "4-6", "9-")) = "4-01---99---------"
-	 *     DesensitizedUtil.maskString("43012319990101432X", '-', true, "1", "4-6", "9-")) = "-3--231--90101432X"
+	 *     DesensitizationUtil.desensitizeByRule("43012319990101432X", '-', false, "1", "4-6", "9-")) = "4-01---99---------"
+	 *     DesensitizationUtil.desensitizeByRule("43012319990101432X", '-', true, "1", "4-6", "9-")) = "-3--231--90101432X"
 	 * </pre>
 	 * @param input 输入字符串
 	 * @param rule 规则
@@ -331,7 +350,7 @@ public final class DesensitizationUtil {
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	public static String maskByRule(String input, char symbol, boolean reverse, String... rule) {
+	public static String desensitizeByRule(String input, char symbol, boolean reverse, String... rule) {
 		final RuleDesensitizationHandler ruleHandler = DesensitizationHandlerHolder.getRuleDesensitizationHandler();
 		return ruleHandler.handle(input, symbol, reverse, rule);
 	}
@@ -341,7 +360,7 @@ public final class DesensitizationUtil {
 	 * @param text 字符串
 	 * @return true-无效字符串
 	 */
-	private static boolean invalidText(String text) {
+	private static boolean isEmptyText(String text) {
 		return null == text || text.isEmpty();
 	}
 
