@@ -5,9 +5,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.ballcat</groupId>
-		<artifactId>ballcat</artifactId>
+		<artifactId>ballcat-parent</artifactId>
 		<version>${revision}</version>
-		<relativePath>../../pom.xml</relativePath>
+		<relativePath>../../ballcat-parent</relativePath>
 	</parent>
 
 	<artifactId>ballcat-spring-boot-starter-grpc-server</artifactId>

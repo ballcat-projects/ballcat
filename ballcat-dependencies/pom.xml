@@ -2,7 +2,12 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.ballcat</groupId>
+	<parent>
+		<groupId>org.ballcat</groupId>
+		<artifactId>ballcat</artifactId>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 	<artifactId>ballcat-dependencies</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
@@ -11,20 +16,18 @@
 	<description>Ballcat Dependencies</description>
 
 	<properties>
-		<revision>2.0.0-SNAPSHOT</revision>
-
 		<!-- 插件版本 -->
 		<flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
 		<maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-		<maven-release-plugin.version>3.0.0</maven-release-plugin.version>
 		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
 		<maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<spring-javaformat-checkstyle.version>0.0.41</spring-javaformat-checkstyle.version>
 		<maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
+		<git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
 
 		<!-- 依赖版本 -->
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
@@ -598,7 +601,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-release-plugin</artifactId>
-						<version>${maven-release-plugin.version}</version>
 						<configuration>
 							<autoVersionSubmodules>true</autoVersionSubmodules>
 							<goals>deploy</goals>
@@ -635,19 +637,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>io.spring.javaformat</groupId>
-				<artifactId>spring-javaformat-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>validate</goal>
-						</goals>
-						<inherited>true</inherited>
-						<phase>validate</phase>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>flatten-maven-plugin</artifactId>
@@ -697,11 +686,6 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>${maven-release-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>${maven-resources-plugin.version}</version>
 				</plugin>
@@ -747,6 +731,12 @@
 							<version>${spring-javaformat-checkstyle.version}</version>
 						</dependency>
 					</dependencies>
+				</plugin>
+				<!-- git hook 配置 -->
+				<plugin>
+				<groupId>com.rudikershaw.gitbuildhook</groupId>
+				<artifactId>git-build-hook-maven-plugin</artifactId>
+				<version>${git-build-hook-maven-plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
