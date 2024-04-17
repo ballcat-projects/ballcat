@@ -18,8 +18,6 @@
 	<modules>
 		<module>ballcat-dependencies</module>
 
-		<module>toolchain/ballcat-codestyle</module>
-
 		<module>common/ballcat-common-core</module>
 		<module>common/ballcat-common-model</module>
 		<module>common/ballcat-common-util</module>
@@ -355,8 +353,8 @@
 						<id>checkstyle-validation</id>
 						<phase>validate</phase>
 						<configuration>
-							<configLocation>ballcat/checkstyle.xml</configLocation>
-							<suppressionsLocation>ballcat/checkstyle-suppressions.xml</suppressionsLocation>
+							<configLocation>.etc/checkstyle/checkstyle.xml</configLocation>
+							<suppressionsLocation>.etc/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
 							<consoleOutput>true</consoleOutput>
 							<failsOnError>true</failsOnError>
 							<includeTestSourceDirectory>true</includeTestSourceDirectory>
