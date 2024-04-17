@@ -572,13 +572,6 @@
 				<artifactId>ballcat-spring-boot-starter-xss</artifactId>
 				<version>${revision}</version>
 			</dependency>
-
-			<!-- toolchains -->
-			<dependency>
-				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-codestyle</artifactId>
-				<version>${revision}</version>
-			</dependency>
 			<!--endregion ============= 结束定义ballcat 自身模块版本 =========== -->
 		</dependencies>
 	</dependencyManagement>
@@ -752,11 +745,6 @@
 							<groupId>io.spring.javaformat</groupId>
 							<artifactId>spring-javaformat-checkstyle</artifactId>
 							<version>${spring-javaformat-checkstyle.version}</version>
-						</dependency>
-						<dependency>
-							<groupId>org.ballcat</groupId>
-							<artifactId>ballcat-codestyle</artifactId>
-							<version>${revision}</version>
 						</dependency>
 					</dependencies>
 				</plugin>
