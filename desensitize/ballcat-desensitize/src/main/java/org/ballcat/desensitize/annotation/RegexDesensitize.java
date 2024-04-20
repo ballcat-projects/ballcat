@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensitize.json.annotation;
+package org.ballcat.desensitize.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -22,35 +22,37 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
-import org.ballcat.desensitize.rule.index.IndexDesensitizeRule;
+import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
+import org.ballcat.desensitize.rule.regex.NoneRegexDesensitizeRule;
+import org.ballcat.desensitize.rule.regex.RegexDesensitizeRule;
 
 /**
- * Jackson Filed 序列化脱敏注解, 对应基于规则脱敏处理器对值进行脱敏处理
+ * 使用正则脱敏处理器对值进行脱敏处理.
  *
- * @author evil0th Create on 2024/4/12
- * @see RuleDesensitizationHandler
+ * @see RegexDesensitizationHandler
+ * @author Hccake 2021/1/22
+ *
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface JsonIndexDesensitize {
+public @interface RegexDesensitize {
 
 	/**
-	 * 脱敏规则
+	 * 脱敏类型，用于指定正则处理方式。 只有当值为 NoneRegexDesensitizeRule.class 时，以下两个参数才有效
+	 * @see NoneRegexDesensitizeRule
 	 * @return type
-	 * @see IndexDesensitizeRule
 	 */
-	String[] rule();
+	Class<? extends RegexDesensitizeRule> rule() default NoneRegexDesensitizeRule.class;
 
 	/**
-	 * 是否反转规则
+	 * 匹配的正则表达式，只有当type值为 CUSTOM 时，才生效
 	 */
-	boolean reverse() default false;
+	String regex() default "^[\\s\\S]*$";
 
 	/**
-	 * 替换的字符
+	 * 替换规则，只有当type值为 CUSTOM 时，才生效
 	 */
-	char maskCharacter() default '*';
+	String replacement() default "******";
 
 }

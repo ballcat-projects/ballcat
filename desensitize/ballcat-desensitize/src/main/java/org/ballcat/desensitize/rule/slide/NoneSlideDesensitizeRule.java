@@ -16,10 +16,12 @@
 
 package org.ballcat.desensitize.rule.slide;
 
+import org.ballcat.desensitize.annotation.SimpleDesensitize;
+
 /**
  * 无脱敏规则，用于搭配注解使用，当注解的规则类为 NoneSlideDesensitizeRule 时，使用注解的其他属性进行脱敏。
  *
- * @see org.ballcat.desensitize.json.annotation.JsonSimpleDesensitize
+ * @see SimpleDesensitize
  * @author Hccake
  * @since 2.0.0
  */

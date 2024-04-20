@@ -22,7 +22,7 @@ import java.lang.annotation.Annotation;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import org.ballcat.desensitize.AnnotationHandlerHolder;
+import org.ballcat.desensitize.annotation.AnnotationHandlerHolder;
 import org.ballcat.desensitize.functions.DesensitizeFunction;
 
 /**

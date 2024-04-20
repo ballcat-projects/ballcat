@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensitize.json.annotation;
+package org.ballcat.desensitize.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 
 /**
- * Jackson Filed 序列化脱敏注解 使用脱敏处理器对值进行脱敏处理
+ * 使用 Simple 脱敏处理器对值进行脱敏处理.
  *
  * @see SimpleDesensitizationHandler
  * @author Hccake 2021/1/22
@@ -34,7 +34,7 @@ import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface JsonSimpleDesensitize {
+public @interface SimpleDesensitize {
 
 	/**
 	 * 脱敏类型，用于指定脱敏处理器

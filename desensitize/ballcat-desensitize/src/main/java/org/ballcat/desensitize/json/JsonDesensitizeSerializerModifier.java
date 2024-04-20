@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
-import org.ballcat.desensitize.AnnotationHandlerHolder;
+import org.ballcat.desensitize.annotation.AnnotationHandlerHolder;
 
 /**
  * json serial modifier

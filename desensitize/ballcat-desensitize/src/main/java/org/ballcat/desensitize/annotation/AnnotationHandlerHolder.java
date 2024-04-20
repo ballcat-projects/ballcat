@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensitize;
+package org.ballcat.desensitize.annotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -23,15 +23,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.ballcat.desensitize.DesensitizationHandlerHolder;
 import org.ballcat.desensitize.functions.DesensitizeFunction;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
 import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
-import org.ballcat.desensitize.json.annotation.JsonIndexDesensitize;
-import org.ballcat.desensitize.json.annotation.JsonRegexDesensitize;
-import org.ballcat.desensitize.json.annotation.JsonSimpleDesensitize;
-import org.ballcat.desensitize.json.annotation.JsonSlideDesensitize;
 import org.ballcat.desensitize.rule.RuleClassReflectionException;
 import org.ballcat.desensitize.rule.regex.NoneRegexDesensitizeRule;
 import org.ballcat.desensitize.rule.regex.RegexDesensitizeRule;
@@ -55,9 +52,9 @@ public final class AnnotationHandlerHolder {
 	private AnnotationHandlerHolder() {
 		this.annotationHandlers = new ConcurrentHashMap<>();
 
-		this.annotationHandlers.put(JsonSimpleDesensitize.class, (annotation, value) -> {
+		this.annotationHandlers.put(SimpleDesensitize.class, (annotation, value) -> {
 			// Simple 类型处理
-			JsonSimpleDesensitize an = (JsonSimpleDesensitize) annotation;
+			SimpleDesensitize an = (SimpleDesensitize) annotation;
 			Class<? extends SimpleDesensitizationHandler> handlerClass = an.handler();
 			SimpleDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
 				.getSimpleHandler(handlerClass);
@@ -67,9 +64,9 @@ public final class AnnotationHandlerHolder {
 			return desensitizationHandler.handle(value);
 		});
 
-		this.annotationHandlers.put(JsonRegexDesensitize.class, (annotation, value) -> {
+		this.annotationHandlers.put(RegexDesensitize.class, (annotation, value) -> {
 			// 正则类型脱敏处理
-			JsonRegexDesensitize regexAnnotation = (JsonRegexDesensitize) annotation;
+			RegexDesensitize regexAnnotation = (RegexDesensitize) annotation;
 			Class<? extends RegexDesensitizeRule> ruleClass = regexAnnotation.rule();
 			RegexDesensitizationHandler regexDesensitizationHandler = DesensitizationHandlerHolder
 				.getRegexDesensitizationHandler();
@@ -85,9 +82,9 @@ public final class AnnotationHandlerHolder {
 
 		});
 
-		this.annotationHandlers.put(JsonSlideDesensitize.class, (annotation, value) -> {
+		this.annotationHandlers.put(SlideDesensitize.class, (annotation, value) -> {
 			// 滑动类型脱敏处理
-			JsonSlideDesensitize slideAnnotation = (JsonSlideDesensitize) annotation;
+			SlideDesensitize slideAnnotation = (SlideDesensitize) annotation;
 			Class<? extends SlideDesensitizeRule> ruleClass = slideAnnotation.rule();
 			SlideDesensitizationHandler slideDesensitizationHandler = DesensitizationHandlerHolder
 				.getSlideDesensitizationHandler();
@@ -103,9 +100,9 @@ public final class AnnotationHandlerHolder {
 			}
 		});
 
-		this.annotationHandlers.put(JsonIndexDesensitize.class, (annotation, value) -> {
+		this.annotationHandlers.put(IndexDesensitize.class, (annotation, value) -> {
 			// 规则类型脱敏处理
-			JsonIndexDesensitize an = (JsonIndexDesensitize) annotation;
+			IndexDesensitize an = (IndexDesensitize) annotation;
 			RuleDesensitizationHandler ruleDesensitizationHandler = DesensitizationHandlerHolder
 				.getRuleDesensitizationHandler();
 			return ruleDesensitizationHandler.handle(value, an.maskCharacter(), an.reverse(), an.rule());

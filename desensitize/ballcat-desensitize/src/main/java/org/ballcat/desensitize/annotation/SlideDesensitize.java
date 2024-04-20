@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensitize.json.annotation;
+package org.ballcat.desensitize.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -27,7 +27,7 @@ import org.ballcat.desensitize.rule.slide.NoneSlideDesensitizeRule;
 import org.ballcat.desensitize.rule.slide.SlideDesensitizeRule;
 
 /**
- * Jackson Filed 序列化脱敏注解, 对应使用滑动脱敏处理器对值进行脱敏处理
+ * 使用滑动脱敏处理器对值进行脱敏处理.
  *
  * @see SlideDesensitizationHandler
  * @author Hccake 2021/1/22
@@ -36,7 +36,7 @@ import org.ballcat.desensitize.rule.slide.SlideDesensitizeRule;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface JsonSlideDesensitize {
+public @interface SlideDesensitize {
 
 	/**
 	 * 脱敏类型，只有当值为 NoneSlideDesensitizeRule 时，以下三个参数才有效

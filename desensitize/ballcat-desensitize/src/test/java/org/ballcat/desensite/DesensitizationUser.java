@@ -19,10 +19,10 @@ package org.ballcat.desensite;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.ballcat.desensite.custom.CustomerDesensitize;
-import org.ballcat.desensitize.json.annotation.JsonIndexDesensitize;
-import org.ballcat.desensitize.json.annotation.JsonRegexDesensitize;
-import org.ballcat.desensitize.json.annotation.JsonSimpleDesensitize;
-import org.ballcat.desensitize.json.annotation.JsonSlideDesensitize;
+import org.ballcat.desensitize.annotation.IndexDesensitize;
+import org.ballcat.desensitize.annotation.RegexDesensitize;
+import org.ballcat.desensitize.annotation.SimpleDesensitize;
+import org.ballcat.desensitize.annotation.SlideDesensitize;
 import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
 import org.ballcat.desensitize.rule.regex.EncryptedPasswordRegexDesensitizeRule;
 import org.ballcat.desensitize.rule.slide.PhoneNumberSlideDesensitizeRule;
@@ -43,25 +43,25 @@ public class DesensitizationUser {
 	/**
 	 * 密码脱敏
 	 */
-	@JsonRegexDesensitize(rule = EncryptedPasswordRegexDesensitizeRule.class)
+	@RegexDesensitize(rule = EncryptedPasswordRegexDesensitizeRule.class)
 	private String password;
 
 	/**
 	 * 邮件
 	 */
-	@JsonRegexDesensitize(rule = EmailRegexDesensitizeRule.class)
+	@RegexDesensitize(rule = EmailRegexDesensitizeRule.class)
 	private String email;
 
 	/**
 	 * 手机号
 	 */
-	@JsonSlideDesensitize(rule = PhoneNumberSlideDesensitizeRule.class)
+	@SlideDesensitize(rule = PhoneNumberSlideDesensitizeRule.class)
 	private String phoneNumber;
 
 	/**
 	 * 测试自定义脱敏
 	 */
-	@JsonSimpleDesensitize(handler = TestDesensitizationHandler.class)
+	@SimpleDesensitize(handler = TestDesensitizationHandler.class)
 	private String testField;
 
 	/**
@@ -73,13 +73,13 @@ public class DesensitizationUser {
 	/**
 	 * 测试规则脱敏
 	 */
-	@JsonIndexDesensitize(rule = { "1", "4-6", "9-" })
+	@IndexDesensitize(rule = { "1", "4-6", "9-" })
 	private String ruleDesensitize;
 
 	/**
 	 * 测试规则脱敏（反转）
 	 */
-	@JsonIndexDesensitize(rule = { "1", "4-6", "9-" }, reverse = true)
+	@IndexDesensitize(rule = { "1", "4-6", "9-" }, reverse = true)
 	private String ruleReverseDesensitize;
 
 }
