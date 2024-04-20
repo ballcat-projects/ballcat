@@ -21,8 +21,8 @@ import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.ballcat.desensitize.handler.DesensitizationHandler;
+import org.ballcat.desensitize.handler.IndexDesensitizationHandler;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
-import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
 
@@ -49,7 +49,7 @@ public final class DesensitizationHandlerHolder {
 		// 正则脱敏处理器
 		this.desensitizationHandlerMap.put(RegexDesensitizationHandler.class, new RegexDesensitizationHandler());
 		// 基于规则脱敏处理器
-		this.desensitizationHandlerMap.put(RuleDesensitizationHandler.class, new RuleDesensitizationHandler());
+		this.desensitizationHandlerMap.put(IndexDesensitizationHandler.class, new IndexDesensitizationHandler());
 		// SPI 加载所有的 Simple脱敏类型处理
 		ServiceLoader<SimpleDesensitizationHandler> loadedDrivers = ServiceLoader
 			.load(SimpleDesensitizationHandler.class);
@@ -62,7 +62,8 @@ public final class DesensitizationHandlerHolder {
 	 * 获取 DesensitizationHandler
 	 * @return 处理器实例
 	 */
-	public static DesensitizationHandler getHandler(Class<? extends DesensitizationHandler> handlerClass) {
+	public static DesensitizationHandler getDesensitizationHandler(
+			Class<? extends DesensitizationHandler> handlerClass) {
 		return INSTANCE.desensitizationHandlerMap.get(handlerClass);
 	}
 
@@ -86,8 +87,8 @@ public final class DesensitizationHandlerHolder {
 	 * 获取 RuleDesensitizationHandler
 	 * @return 处理器实例
 	 */
-	public static RuleDesensitizationHandler getRuleDesensitizationHandler() {
-		return (RuleDesensitizationHandler) INSTANCE.desensitizationHandlerMap.get(RuleDesensitizationHandler.class);
+	public static IndexDesensitizationHandler getIndexDesensitizationHandler() {
+		return (IndexDesensitizationHandler) INSTANCE.desensitizationHandlerMap.get(IndexDesensitizationHandler.class);
 	}
 
 	/**
@@ -95,7 +96,7 @@ public final class DesensitizationHandlerHolder {
 	 * @param handlerClass SimpleDesensitizationHandler的实现类
 	 * @return 处理器实例
 	 */
-	public static SimpleDesensitizationHandler getSimpleHandler(
+	public static SimpleDesensitizationHandler getSimpleDesensitizationHandler(
 			Class<? extends SimpleDesensitizationHandler> handlerClass) {
 		return (SimpleDesensitizationHandler) INSTANCE.desensitizationHandlerMap.get(handlerClass);
 	}
@@ -104,11 +105,10 @@ public final class DesensitizationHandlerHolder {
 	 * 添加Handler
 	 * @param handlerClass DesensitizationHandler的实现类
 	 * @param handler 处理器实例
-	 * @return handler 处理器实例
 	 */
-	public static DesensitizationHandler addHandler(Class<? extends DesensitizationHandler> handlerClass,
+	public static void addDesensitizationHandler(Class<? extends DesensitizationHandler> handlerClass,
 			DesensitizationHandler handler) {
-		return INSTANCE.desensitizationHandlerMap.put(handlerClass, handler);
+		INSTANCE.desensitizationHandlerMap.put(handlerClass, handler);
 	}
 
 }

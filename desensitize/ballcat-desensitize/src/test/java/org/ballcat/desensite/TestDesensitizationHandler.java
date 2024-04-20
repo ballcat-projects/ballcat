@@ -25,7 +25,7 @@ import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 public class TestDesensitizationHandler implements SimpleDesensitizationHandler {
 
 	@Override
-	public String handle(String s) {
+	public String mask(String s) {
 		return "TEST-" + s;
 	}
 

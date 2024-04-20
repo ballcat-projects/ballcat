@@ -33,8 +33,8 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @param rightPlainTextLen 处理完后右边的明文数
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String origin, int leftPlainTextLen, int rightPlainTextLen) {
-		return this.handle(origin, leftPlainTextLen, rightPlainTextLen, false);
+	public String mask(String origin, int leftPlainTextLen, int rightPlainTextLen) {
+		return this.mask(origin, leftPlainTextLen, rightPlainTextLen, false);
 	}
 
 	/**
@@ -45,8 +45,8 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @param reverse 是否反转
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String origin, int leftPlainTextLen, int rightPlainTextLen, boolean reverse) {
-		return this.handle(origin, leftPlainTextLen, rightPlainTextLen, "*", reverse);
+	public String mask(String origin, int leftPlainTextLen, int rightPlainTextLen, boolean reverse) {
+		return this.mask(origin, leftPlainTextLen, rightPlainTextLen, "*", reverse);
 	}
 
 	/**
@@ -57,8 +57,8 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @param maskString 原文窗口内每个字符被替换后的字符串
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String origin, int leftPlainTextLen, int rightPlainTextLen, String maskString) {
-		return this.handle(origin, leftPlainTextLen, rightPlainTextLen, maskString, false);
+	public String mask(String origin, int leftPlainTextLen, int rightPlainTextLen, String maskString) {
+		return this.mask(origin, leftPlainTextLen, rightPlainTextLen, maskString, false);
 	}
 
 	/**
@@ -70,8 +70,7 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @param reverse 是否反转
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String origin, int leftPlainTextLen, int rightPlainTextLen, String maskString,
-			boolean reverse) {
+	public String mask(String origin, int leftPlainTextLen, int rightPlainTextLen, String maskString, boolean reverse) {
 		if (origin == null) {
 			return null;
 		}
@@ -97,8 +96,8 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @param slideDesensitizeRule 滑动脱敏规则
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String value, SlideDesensitizeRule slideDesensitizeRule) {
-		return this.handle(value, slideDesensitizeRule, false);
+	public String mask(String value, SlideDesensitizeRule slideDesensitizeRule) {
+		return this.mask(value, slideDesensitizeRule, false);
 	}
 
 	/**
@@ -108,8 +107,8 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	 * @param reverse 是否反转
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String value, SlideDesensitizeRule slideDesensitizeRule, boolean reverse) {
-		return this.handle(value, slideDesensitizeRule.leftPlainTextLen(), slideDesensitizeRule.rightPlainTextLen(),
+	public String mask(String value, SlideDesensitizeRule slideDesensitizeRule, boolean reverse) {
+		return this.mask(value, slideDesensitizeRule.leftPlainTextLen(), slideDesensitizeRule.rightPlainTextLen(),
 				slideDesensitizeRule.maskString(), reverse);
 	}
 

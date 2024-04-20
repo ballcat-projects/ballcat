@@ -29,7 +29,7 @@ public class IPDesensitizationHandler implements SimpleDesensitizationHandler {
 	 * @return 脱敏处理后的IP
 	 */
 	@Override
-	public String handle(String origin) {
+	public String mask(String origin) {
 		if (null == origin) {
 			return null;
 		}

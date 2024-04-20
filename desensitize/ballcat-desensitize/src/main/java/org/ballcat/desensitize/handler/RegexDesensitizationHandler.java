@@ -33,7 +33,7 @@ public class RegexDesensitizationHandler implements DesensitizationHandler {
 	 * @param replacement 替换模板
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String origin, String regex, String replacement) {
+	public String mask(String origin, String regex, String replacement) {
 		return origin.replaceAll(regex, replacement);
 	}
 
@@ -43,7 +43,7 @@ public class RegexDesensitizationHandler implements DesensitizationHandler {
 	 * @param regexDesensitizeRule 正则脱敏规则
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String origin, RegexDesensitizeRule regexDesensitizeRule) {
+	public String mask(String origin, RegexDesensitizeRule regexDesensitizeRule) {
 		return origin.replaceAll(regexDesensitizeRule.getRegex(), regexDesensitizeRule.getReplacement());
 	}
 

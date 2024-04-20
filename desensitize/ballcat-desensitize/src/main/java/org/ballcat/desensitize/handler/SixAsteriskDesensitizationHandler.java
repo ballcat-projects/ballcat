@@ -30,7 +30,7 @@ public class SixAsteriskDesensitizationHandler implements SimpleDesensitizationH
 	 * @return 脱敏处理后的字符串
 	 */
 	@Override
-	public String handle(String origin) {
+	public String mask(String origin) {
 		return "******";
 	}
 

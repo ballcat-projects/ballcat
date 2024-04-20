@@ -22,14 +22,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
+import org.ballcat.desensitize.handler.IndexDesensitizationHandler;
 import org.ballcat.desensitize.rule.index.IndexDesensitizeRule;
 
 /**
  * 使用 index脱敏处理器对值进行脱敏处理.
  *
  * @author evil0th Create on 2024/4/12
- * @see RuleDesensitizationHandler
+ * @see IndexDesensitizationHandler
  */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)

@@ -41,14 +41,15 @@ class CustomDesensitizationTest {
 
 		// 注册自定义脱敏类型处理器
 		CustomDesensitizationHandler customDesensitizationHandler = new CustomDesensitizationHandler();
-		DesensitizationHandlerHolder.addHandler(CustomDesensitizationHandler.class, customDesensitizationHandler);
+		DesensitizationHandlerHolder.addDesensitizationHandler(CustomDesensitizationHandler.class,
+				customDesensitizationHandler);
 		// 注册注解 处理器
 		AnnotationHandlerHolder.addHandleFunction(CustomerDesensitize.class, (annotation, value) -> {
 			CustomerDesensitize customerDesensitize = (CustomerDesensitize) annotation;
 			String type = customerDesensitize.type();
 			log.info("注解上的参数：{}", type);
 			CustomDesensitizationHandler handler = (CustomDesensitizationHandler) DesensitizationHandlerHolder
-				.getHandler(CustomDesensitizationHandler.class);
+				.getDesensitizationHandler(CustomDesensitizationHandler.class);
 			return handler.handle(value);
 		});
 		// 初始化序列号modifier

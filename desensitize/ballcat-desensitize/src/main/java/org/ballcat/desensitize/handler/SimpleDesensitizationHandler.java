@@ -29,6 +29,6 @@ public interface SimpleDesensitizationHandler extends DesensitizationHandler {
 	 * @param origin 原始字符串
 	 * @return 脱敏处理后的字符串
 	 */
-	String handle(String origin);
+	String mask(String origin);
 
 }

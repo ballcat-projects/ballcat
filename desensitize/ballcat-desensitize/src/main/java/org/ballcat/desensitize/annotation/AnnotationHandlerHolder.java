@@ -24,8 +24,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.ballcat.desensitize.DesensitizationHandlerHolder;
+import org.ballcat.desensitize.handler.IndexDesensitizationHandler;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
-import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
 import org.ballcat.desensitize.rule.RuleClassReflectionException;
@@ -56,11 +56,11 @@ public final class AnnotationHandlerHolder {
 			SimpleDesensitize an = (SimpleDesensitize) annotation;
 			Class<? extends SimpleDesensitizationHandler> handlerClass = an.handler();
 			SimpleDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
-				.getSimpleHandler(handlerClass);
+				.getSimpleDesensitizationHandler(handlerClass);
 			if (null == desensitizationHandler) {
 				throw new IllegalArgumentException("SimpleDesensitizationHandler can not be Null");
 			}
-			return desensitizationHandler.handle(value);
+			return desensitizationHandler.mask(value);
 		});
 
 		this.annotationHandlers.put(RegexDesensitize.class, (annotation, value) -> {
@@ -70,12 +70,11 @@ public final class AnnotationHandlerHolder {
 			RegexDesensitizationHandler regexDesensitizationHandler = DesensitizationHandlerHolder
 				.getRegexDesensitizationHandler();
 			if (ruleClass.equals(NoneRegexDesensitizeRule.class)) {
-				return regexDesensitizationHandler.handle(value, regexAnnotation.regex(),
-						regexAnnotation.replacement());
+				return regexDesensitizationHandler.mask(value, regexAnnotation.regex(), regexAnnotation.replacement());
 			}
 			else {
 				RegexDesensitizeRule regexDesensitizeRule = newInstance(ruleClass);
-				return regexDesensitizationHandler.handle(value, regexDesensitizeRule.getRegex(),
+				return regexDesensitizationHandler.mask(value, regexDesensitizeRule.getRegex(),
 						regexDesensitizeRule.getReplacement());
 			}
 
@@ -88,12 +87,12 @@ public final class AnnotationHandlerHolder {
 			SlideDesensitizationHandler slideDesensitizationHandler = DesensitizationHandlerHolder
 				.getSlideDesensitizationHandler();
 			if (ruleClass.equals(NoneSlideDesensitizeRule.class)) {
-				return slideDesensitizationHandler.handle(value, slideAnnotation.leftPlainTextLen(),
+				return slideDesensitizationHandler.mask(value, slideAnnotation.leftPlainTextLen(),
 						slideAnnotation.rightPlainTextLen(), slideAnnotation.maskString(), slideAnnotation.reverse());
 			}
 			else {
 				SlideDesensitizeRule slideDesensitizeRule = newInstance(ruleClass);
-				return slideDesensitizationHandler.handle(value, slideDesensitizeRule.leftPlainTextLen(),
+				return slideDesensitizationHandler.mask(value, slideDesensitizeRule.leftPlainTextLen(),
 						slideDesensitizeRule.rightPlainTextLen(), slideDesensitizeRule.maskString(),
 						slideDesensitizeRule.reverse());
 			}
@@ -102,9 +101,9 @@ public final class AnnotationHandlerHolder {
 		this.annotationHandlers.put(IndexDesensitize.class, (annotation, value) -> {
 			// 规则类型脱敏处理
 			IndexDesensitize an = (IndexDesensitize) annotation;
-			RuleDesensitizationHandler ruleDesensitizationHandler = DesensitizationHandlerHolder
-				.getRuleDesensitizationHandler();
-			return ruleDesensitizationHandler.handle(value, an.maskCharacter(), an.reverse(), an.rule());
+			IndexDesensitizationHandler indexDesensitizationHandler = DesensitizationHandlerHolder
+				.getIndexDesensitizationHandler();
+			return indexDesensitizationHandler.mask(value, an.maskCharacter(), an.reverse(), an.rule());
 		});
 	}
 

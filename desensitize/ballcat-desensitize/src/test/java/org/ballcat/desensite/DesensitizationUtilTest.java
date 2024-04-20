@@ -33,34 +33,32 @@ class DesensitizationUtilTest {
 	@Test
 	void test() {
 		assertEquals("t****@qq.com",
-				DesensitizationUtil.desensitizeByRegex("test.demo@qq.com", new EmailRegexDesensitizeRule()));
+				DesensitizationUtil.maskByRegex("test.demo@qq.com", new EmailRegexDesensitizeRule()));
 		assertEquals("t****@qq.com",
-				DesensitizationUtil.desensitizeByRegex("test.demo@qq.com", "(^.)[^@]*(@.*$)", "$1****$2"));
+				DesensitizationUtil.maskByRegex("test.demo@qq.com", "(^.)[^@]*(@.*$)", "$1****$2"));
 		assertEquals("010******76",
-				DesensitizationUtil.desensitizeBySlide("01089898976", new PhoneNumberSlideDesensitizeRule()));
+				DesensitizationUtil.maskBySlide("01089898976", new PhoneNumberSlideDesensitizeRule()));
 		assertEquals("***898989**",
-				DesensitizationUtil.desensitizeBySlide("01089898976", new PhoneNumberSlideDesensitizeRule(), true));
-		assertEquals("430123******431", DesensitizationUtil.desensitizeBySlide("430123990101431", 6, 3));
-		assertEquals("430123********432X", DesensitizationUtil.desensitizeBySlide("43012319990101432X", 6, 4));
-		assertEquals("430123????????432X", DesensitizationUtil.desensitizeBySlide("43012319990101432X", 6, 4, "?"));
-		assertEquals("张*丰", DesensitizationUtil.desensitizeChineseName("张三丰"));
-		assertEquals("430123********432X", DesensitizationUtil.desensitizeIdCardNo("43012319990101432X"));
-		assertEquals("138******78", DesensitizationUtil.desensitizePhoneNumber("13812345678"));
-		assertEquals("北京市西城区******", DesensitizationUtil.desensitizeAddress("北京市西城区金城坊街2号"));
-		assertEquals("t****@qq.com", DesensitizationUtil.desensitizeEmail("test.demo@qq.com"));
-		assertEquals("622260**********1234", DesensitizationUtil.desensitizeBankCardNo("62226000000043211234"));
-		assertEquals("******", DesensitizationUtil.desensitizePassword(UUID.randomUUID().toString()));
-		assertEquals("000****34", DesensitizationUtil.desensitizeKey("0000000123456q34"));
-		assertEquals("192.*.*.*", DesensitizationUtil.desensitizeIP("192.168.2.1"));
-		assertEquals("2001:*:*:*:*:*:*:*",
-				DesensitizationUtil.desensitizeIP("2001:0db8:02de:0000:0000:0000:0000:0e13"));
-		assertEquals("2001:*:*:*:*:*:*:*", DesensitizationUtil.desensitizeIP("2001:db8:2de:0:0:0:0:e13"));
-		assertEquals("4*01***99*********",
-				DesensitizationUtil.desensitizeByIndex("43012319990101432X", "1", "4-6", "9-"));
+				DesensitizationUtil.maskBySlide("01089898976", new PhoneNumberSlideDesensitizeRule(), true));
+		assertEquals("430123******431", DesensitizationUtil.maskBySlide("430123990101431", 6, 3));
+		assertEquals("430123********432X", DesensitizationUtil.maskBySlide("43012319990101432X", 6, 4));
+		assertEquals("430123????????432X", DesensitizationUtil.maskBySlide("43012319990101432X", 6, 4, "?"));
+		assertEquals("张*丰", DesensitizationUtil.maskChineseName("张三丰"));
+		assertEquals("430123********432X", DesensitizationUtil.maskIdCardNo("43012319990101432X"));
+		assertEquals("138******78", DesensitizationUtil.maskPhoneNumber("13812345678"));
+		assertEquals("北京市西城区******", DesensitizationUtil.maskAddress("北京市西城区金城坊街2号"));
+		assertEquals("t****@qq.com", DesensitizationUtil.maskEmail("test.demo@qq.com"));
+		assertEquals("622260**********1234", DesensitizationUtil.maskBankCardNo("62226000000043211234"));
+		assertEquals("******", DesensitizationUtil.maskPassword(UUID.randomUUID().toString()));
+		assertEquals("000****34", DesensitizationUtil.maskKey("0000000123456q34"));
+		assertEquals("192.*.*.*", DesensitizationUtil.maskIP("192.168.2.1"));
+		assertEquals("2001:*:*:*:*:*:*:*", DesensitizationUtil.maskIP("2001:0db8:02de:0000:0000:0000:0000:0e13"));
+		assertEquals("2001:*:*:*:*:*:*:*", DesensitizationUtil.maskIP("2001:db8:2de:0:0:0:0:e13"));
+		assertEquals("4*01***99*********", DesensitizationUtil.maskByIndex("43012319990101432X", "1", "4-6", "9-"));
 		assertEquals("4-01---99---------",
-				DesensitizationUtil.desensitizeByIndex("43012319990101432X", '-', false, "1", "4-6", "9-"));
+				DesensitizationUtil.maskByIndex("43012319990101432X", '-', false, "1", "4-6", "9-"));
 		assertEquals("-3--231--90101432X",
-				DesensitizationUtil.desensitizeByIndex("43012319990101432X", '-', true, "1", "4-6", "9-"));
+				DesensitizationUtil.maskByIndex("43012319990101432X", '-', true, "1", "4-6", "9-"));
 	}
 
 }

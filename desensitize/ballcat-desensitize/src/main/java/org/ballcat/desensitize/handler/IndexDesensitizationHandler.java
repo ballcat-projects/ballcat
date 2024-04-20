@@ -23,7 +23,7 @@ import org.ballcat.desensitize.rule.index.IndexDesensitizeRule;
  *
  * @author evil0th Create on 2024/4/12
  */
-public class RuleDesensitizationHandler implements DesensitizationHandler {
+public class IndexDesensitizationHandler implements DesensitizationHandler {
 
 	/**
 	 * 基于规则的替换字符串
@@ -35,8 +35,8 @@ public class RuleDesensitizationHandler implements DesensitizationHandler {
 	 * @param rule 规则
 	 * @return 脱敏字符串
 	 */
-	public String handle(String input, String... rule) {
-		return handle(input, false, rule);
+	public String mask(String input, String... rule) {
+		return mask(input, false, rule);
 	}
 
 	/**
@@ -50,8 +50,8 @@ public class RuleDesensitizationHandler implements DesensitizationHandler {
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	public String handle(String input, boolean reverse, String... rule) {
-		return handle(input, '*', reverse, rule);
+	public String mask(String input, boolean reverse, String... rule) {
+		return mask(input, '*', reverse, rule);
 	}
 
 	/**
@@ -67,8 +67,8 @@ public class RuleDesensitizationHandler implements DesensitizationHandler {
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	public String handle(String input, char symbol, boolean reverse, String... rule) {
-		return handle(input, symbol, reverse, IndexDesensitizeRule.analysis(rule));
+	public String mask(String input, char symbol, boolean reverse, String... rule) {
+		return mask(input, symbol, reverse, IndexDesensitizeRule.analysis(rule));
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class RuleDesensitizationHandler implements DesensitizationHandler {
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	private String handle(String origin, char symbol, boolean reverse, IndexDesensitizeRule rule) {
+	private String mask(String origin, char symbol, boolean reverse, IndexDesensitizeRule rule) {
 		if (origin == null) {
 			return null;
 		}

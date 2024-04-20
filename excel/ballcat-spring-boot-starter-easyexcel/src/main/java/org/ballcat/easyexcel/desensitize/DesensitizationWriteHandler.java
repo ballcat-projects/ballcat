@@ -52,7 +52,7 @@ public class DesensitizationWriteHandler implements CellWriteHandler {
 		// 获取脱敏方法
 		AnnotationDesensitizeFunction handleFunction = AnnotationHandlerHolder
 			.getHandleFunction(desensitizeAnnotation.annotationType());
-		String desensitizedCellValue = handleFunction.desensitize(desensitizeAnnotation, cell.getStringCellValue());
+		String desensitizedCellValue = handleFunction.mask(desensitizeAnnotation, cell.getStringCellValue());
 		cell.setCellValue(desensitizedCellValue);
 	}
 

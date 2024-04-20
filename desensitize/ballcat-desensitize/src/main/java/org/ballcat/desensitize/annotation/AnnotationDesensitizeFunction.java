@@ -32,6 +32,6 @@ public interface AnnotationDesensitizeFunction {
 	 * @param value 原始值
 	 * @return 脱敏处理后的值
 	 */
-	String desensitize(Annotation annotation, String value);
+	String mask(Annotation annotation, String value);
 
 }

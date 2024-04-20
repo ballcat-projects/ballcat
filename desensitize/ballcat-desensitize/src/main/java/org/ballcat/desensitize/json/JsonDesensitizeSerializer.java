@@ -66,7 +66,7 @@ public class JsonDesensitizeSerializer extends JsonSerializer<Object> {
 				jsonGenerator.writeString(str);
 				return;
 			}
-			jsonGenerator.writeString(handleFunction.desensitize(this.jsonDesensitizeAnnotation, str));
+			jsonGenerator.writeString(handleFunction.mask(this.jsonDesensitizeAnnotation, str));
 		}
 	}
 

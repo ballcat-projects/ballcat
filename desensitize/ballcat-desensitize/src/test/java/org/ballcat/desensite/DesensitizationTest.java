@@ -19,8 +19,8 @@ package org.ballcat.desensite;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.desensitize.DesensitizationHandlerHolder;
+import org.ballcat.desensitize.handler.IndexDesensitizationHandler;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
-import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SixAsteriskDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
@@ -41,9 +41,9 @@ class DesensitizationTest {
 	void testSimple() {
 		// 获取简单脱敏处理器
 		SimpleDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
-			.getSimpleHandler(SixAsteriskDesensitizationHandler.class);
+			.getSimpleDesensitizationHandler(SixAsteriskDesensitizationHandler.class);
 		String origin = "你好吗？"; // 原始字符串
-		String target = desensitizationHandler.handle(origin); // 替换处理
+		String target = desensitizationHandler.mask(origin); // 替换处理
 		assertEquals("******", target);
 	}
 
@@ -55,11 +55,11 @@ class DesensitizationTest {
 		String origin = "12123124213@qq.com"; // 原始字符串
 		String regex = "(^.)[^@]*(@.*$)"; // 正则表达式
 		String replacement = "$1****$2"; // 占位替换表达式
-		String target1 = desensitizationHandler.handle(origin, regex, replacement); // 替换处理
+		String target1 = desensitizationHandler.mask(origin, regex, replacement); // 替换处理
 		assertEquals("1****@qq.com", target1);
 
 		// 内置的正则脱敏类型
-		String target2 = desensitizationHandler.handle(origin, new EmailRegexDesensitizeRule());
+		String target2 = desensitizationHandler.mask(origin, new EmailRegexDesensitizeRule());
 		assertEquals("1****@qq.com", target2);
 	}
 
@@ -69,26 +69,26 @@ class DesensitizationTest {
 		SlideDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
 			.getSlideDesensitizationHandler();
 		String origin = "15805516789"; // 原始字符串
-		String target1 = desensitizationHandler.handle(origin, 3, 2); // 替换处理
+		String target1 = desensitizationHandler.mask(origin, 3, 2); // 替换处理
 		assertEquals("158******89", target1);
 
-		String target11 = desensitizationHandler.handle(origin, 3, 2, true); // 替换处理
+		String target11 = desensitizationHandler.mask(origin, 3, 2, true); // 替换处理
 		assertEquals("***055167**", target11);
 
-		String target2 = desensitizationHandler.handle(origin, new PhoneNumberSlideDesensitizeRule()); // 替换处理
+		String target2 = desensitizationHandler.mask(origin, new PhoneNumberSlideDesensitizeRule()); // 替换处理
 		assertEquals("158******89", target2);
 	}
 
 	@Test
 	void testRule() {
 		// 获取基于规则脱敏处理器
-		RuleDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
-			.getRuleDesensitizationHandler();
+		IndexDesensitizationHandler desensitizationHandler = DesensitizationHandlerHolder
+			.getIndexDesensitizationHandler();
 		String origin = "43012319990101432X"; // 原始字符串
-		String target1 = desensitizationHandler.handle(origin, "1", "4-6", "9-"); // 替换处理
+		String target1 = desensitizationHandler.mask(origin, "1", "4-6", "9-"); // 替换处理
 		assertEquals("4*01***99*********", target1);
 
-		String target2 = desensitizationHandler.handle(origin, true, "1", "4-6", "9-"); // 替换处理
+		String target2 = desensitizationHandler.mask(origin, true, "1", "4-6", "9-"); // 替换处理
 		assertEquals("*3**231**90101432X", target2);
 	}
 
