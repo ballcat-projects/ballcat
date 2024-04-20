@@ -16,7 +16,7 @@
 
 package org.ballcat.desensitize.handler;
 
-import org.ballcat.desensitize.rule.DesensitizeRule;
+import org.ballcat.desensitize.rule.index.IndexDesensitizeRule;
 
 /**
  * 基于规则的替换脱敏处理器，如指定"3-6，8，10-"表示第4，5，6，7，9，11以及11之后的位替换处理
@@ -62,24 +62,24 @@ public class RuleDesensitizationHandler implements DesensitizationHandler {
 	 *     handle("43012319990101432X", '-', true, "1", "4-6", "9-")) = "-3--231--90101432X"
 	 * </pre>
 	 * @param input 输入字符串
-	 * @param rule 规则。{@link DesensitizeRule}
+	 * @param rule 规则。{@link IndexDesensitizeRule}
 	 * @param symbol 符号，默认*
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
 	public String handle(String input, char symbol, boolean reverse, String... rule) {
-		return handle(input, symbol, reverse, DesensitizeRule.analysis(rule));
+		return handle(input, symbol, reverse, IndexDesensitizeRule.analysis(rule));
 	}
 
 	/**
 	 * 基于规则的替换字符串
 	 * @param origin 输入字符串
-	 * @param rule 规则。{@link DesensitizeRule}
+	 * @param rule 规则。{@link IndexDesensitizeRule}
 	 * @param symbol 符号，默认*
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	private String handle(String origin, char symbol, boolean reverse, DesensitizeRule rule) {
+	private String handle(String origin, char symbol, boolean reverse, IndexDesensitizeRule rule) {
 		if (origin == null) {
 			return null;
 		}

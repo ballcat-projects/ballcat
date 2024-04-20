@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensitize.rule;
+package org.ballcat.desensitize.rule.index;
 
 import java.util.PriorityQueue;
 
 /**
  *
- * 脱敏规则
+ * index 脱敏规则工具类.
  * <p>
  * 1. 下标从0开始<br>
  * 2. 单个下标：数字<br>
@@ -30,13 +30,13 @@ import java.util.PriorityQueue;
  *
  * @author evil0th Create on 2024/4/12
  */
-public final class DesensitizeRule {
+public final class IndexDesensitizeRule {
 
 	private final PriorityQueue<Integer> indexQueue;
 
 	private boolean endless;
 
-	private DesensitizeRule() {
+	private IndexDesensitizeRule() {
 		this.indexQueue = new PriorityQueue<>((o1, o2) -> o2 - o1);
 		this.endless = false;
 	}
@@ -46,8 +46,8 @@ public final class DesensitizeRule {
 	 * @param rules 规则列表
 	 * @return rule
 	 */
-	public static DesensitizeRule analysis(String... rules) {
-		DesensitizeRule rule = new DesensitizeRule();
+	public static IndexDesensitizeRule analysis(String... rules) {
+		IndexDesensitizeRule rule = new IndexDesensitizeRule();
 		if (null == rules) {
 			return rule;
 		}
@@ -106,7 +106,7 @@ public final class DesensitizeRule {
 
 	@Override
 	public String toString() {
-		return "Rule{" + "index=" + this.indexQueue + ", endless=" + this.endless + "}";
+		return "IndexRule{" + "index=" + this.indexQueue + ", endless=" + this.endless + "}";
 	}
 
 }

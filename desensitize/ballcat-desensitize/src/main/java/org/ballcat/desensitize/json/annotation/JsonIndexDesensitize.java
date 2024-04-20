@@ -23,7 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
-import org.ballcat.desensitize.rule.DesensitizeRule;
+import org.ballcat.desensitize.rule.index.IndexDesensitizeRule;
 
 /**
  * Jackson Filed 序列化脱敏注解, 对应基于规则脱敏处理器对值进行脱敏处理
@@ -34,12 +34,12 @@ import org.ballcat.desensitize.rule.DesensitizeRule;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface JsonRuleDesensitize {
+public @interface JsonIndexDesensitize {
 
 	/**
 	 * 脱敏规则
 	 * @return type
-	 * @see DesensitizeRule
+	 * @see IndexDesensitizeRule
 	 */
 	String[] rule();
 
@@ -49,8 +49,8 @@ public @interface JsonRuleDesensitize {
 	boolean reverse() default false;
 
 	/**
-	 * 替换的字符串
+	 * 替换的字符
 	 */
-	char maskChar() default '*';
+	char maskCharacter() default '*';
 
 }

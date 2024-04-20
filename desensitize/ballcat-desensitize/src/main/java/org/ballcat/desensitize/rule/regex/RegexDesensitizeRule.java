@@ -14,42 +14,23 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensitize.enums;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+package org.ballcat.desensitize.rule.regex;
 
 /**
- * @author Hccake 2021/1/23
+ * 正则脱敏规则。 使用正则匹配原始数据，然后根据替换规则进行脱敏处理，
  *
+ * @author Hccake
  */
-@Getter
-@RequiredArgsConstructor
-public enum RegexDesensitizationTypeEnum {
-
-	/**
-	 * 自定义类型
-	 */
-	CUSTOM("^[\\s\\S]*$", "******"),
-
-	/**
-	 * 【邮箱】脱敏，保留邮箱第一个字符和'@'之后的原文显示，中间的显示为4个* eg. 12@qq.com -> 1****@qq.com
-	 */
-	EMAIL("(^.)[^@]*(@.*$)", "$1****$2"),
-
-	/**
-	 * 【对称密文的密码】脱敏，前3后2，中间替换为 4个 *
-	 */
-	ENCRYPTED_PASSWORD("(.{3}).*(.{2}$)", "$1****$2");
+public interface RegexDesensitizeRule {
 
 	/**
 	 * 匹配的正则表达式
 	 */
-	private final String regex;
+	String getRegex();
 
 	/**
 	 * 替换规则
 	 */
-	private final String replacement;
+	String getReplacement();
 
 }

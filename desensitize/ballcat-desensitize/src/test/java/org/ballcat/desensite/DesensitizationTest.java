@@ -19,14 +19,14 @@ package org.ballcat.desensite;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.desensitize.DesensitizationHandlerHolder;
-import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
-import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
 import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SixAsteriskDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
 import org.ballcat.desensitize.json.JsonDesensitizeSerializerModifier;
+import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
+import org.ballcat.desensitize.rule.slide.PhoneNumberSlideDesensitizeRule;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,7 +59,7 @@ class DesensitizationTest {
 		assertEquals("1****@qq.com", target1);
 
 		// 内置的正则脱敏类型
-		String target2 = desensitizationHandler.handle(origin, RegexDesensitizationTypeEnum.EMAIL);
+		String target2 = desensitizationHandler.handle(origin, new EmailRegexDesensitizeRule());
 		assertEquals("1****@qq.com", target2);
 	}
 
@@ -75,7 +75,7 @@ class DesensitizationTest {
 		String target11 = desensitizationHandler.handle(origin, 3, 2, true); // 替换处理
 		assertEquals("***055167**", target11);
 
-		String target2 = desensitizationHandler.handle(origin, SlideDesensitizationTypeEnum.PHONE_NUMBER); // 替换处理
+		String target2 = desensitizationHandler.handle(origin, new PhoneNumberSlideDesensitizeRule()); // 替换处理
 		assertEquals("158******89", target2);
 	}
 

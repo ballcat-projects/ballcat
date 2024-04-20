@@ -17,14 +17,19 @@
 package org.ballcat.desensitize.util;
 
 import org.ballcat.desensitize.DesensitizationHandlerHolder;
-import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
-import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
 import org.ballcat.desensitize.handler.IPDesensitizationHandler;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
 import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SixAsteriskDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
+import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
+import org.ballcat.desensitize.rule.regex.EncryptedPasswordRegexDesensitizeRule;
+import org.ballcat.desensitize.rule.regex.RegexDesensitizeRule;
+import org.ballcat.desensitize.rule.slide.BankCardNoSlideDesensitizeRule;
+import org.ballcat.desensitize.rule.slide.IdCardNoSlideDesensitizeRule;
+import org.ballcat.desensitize.rule.slide.PhoneNumberSlideDesensitizeRule;
+import org.ballcat.desensitize.rule.slide.SlideDesensitizeRule;
 
 /**
  * 脱敏工具类
@@ -35,6 +40,7 @@ import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
  * </ul>
  *
  * @author evil0th Create on 2024/4/12
+ * @author Hccake
  */
 public final class DesensitizationUtil {
 
@@ -67,7 +73,7 @@ public final class DesensitizationUtil {
 		if (isEmptyText(input)) {
 			return input;
 		}
-		return desensitizeBySlide(input, SlideDesensitizationTypeEnum.ID_CARD_NO);
+		return desensitizeBySlide(input, new IdCardNoSlideDesensitizeRule());
 	}
 
 	/**
@@ -81,7 +87,7 @@ public final class DesensitizationUtil {
 		if (isEmptyText(input)) {
 			return input;
 		}
-		return desensitizeBySlide(input, SlideDesensitizationTypeEnum.PHONE_NUMBER);
+		return desensitizeBySlide(input, new PhoneNumberSlideDesensitizeRule());
 	}
 
 	/**
@@ -109,7 +115,7 @@ public final class DesensitizationUtil {
 		if (isEmptyText(input)) {
 			return input;
 		}
-		return desensitizeByRegex(input, RegexDesensitizationTypeEnum.EMAIL);
+		return desensitizeByRegex(input, new EmailRegexDesensitizeRule());
 	}
 
 	/**
@@ -123,7 +129,7 @@ public final class DesensitizationUtil {
 		if (isEmptyText(input)) {
 			return input;
 		}
-		return desensitizeBySlide(input, SlideDesensitizationTypeEnum.BANK_CARD_NO);
+		return desensitizeBySlide(input, new BankCardNoSlideDesensitizeRule());
 	}
 
 	/**
@@ -164,7 +170,7 @@ public final class DesensitizationUtil {
 		if (isEmptyText(input)) {
 			return input;
 		}
-		return desensitizeByRegex(input, RegexDesensitizationTypeEnum.ENCRYPTED_PASSWORD);
+		return desensitizeByRegex(input, new EncryptedPasswordRegexDesensitizeRule());
 	}
 
 	/**
@@ -192,12 +198,12 @@ public final class DesensitizationUtil {
 	 *     DesensitizationUtil.desensitizeByRegex("test.demo@qq.com", RegexDesensitizationTypeEnum.EMAIL) = "t****@qq.com"
 	 * </pre>
 	 * @param input 输入字符串
-	 * @param type {@link RegexDesensitizationTypeEnum}
+	 * @param regexDesensitizeRule {@link RegexDesensitizeRule}
 	 * @return 屏蔽后的文本
 	 */
-	public static String desensitizeByRegex(String input, RegexDesensitizationTypeEnum type) {
+	public static String desensitizeByRegex(String input, RegexDesensitizeRule regexDesensitizeRule) {
 		RegexDesensitizationHandler regexHandler = DesensitizationHandlerHolder.getRegexDesensitizationHandler();
-		return regexHandler.handle(input, type);
+		return regexHandler.handle(input, regexDesensitizeRule);
 	}
 
 	/**
@@ -223,11 +229,11 @@ public final class DesensitizationUtil {
 	 *     DesensitizationUtil.desensitizeBySlide("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER) = "010******76"
 	 * </pre>
 	 * @param input 输入字符串
-	 * @param type {@link SlideDesensitizationTypeEnum}
+	 * @param slideDesensitizeRule {@link SlideDesensitizeRule}
 	 * @return 屏蔽后的文本
 	 */
-	public static String desensitizeBySlide(String input, SlideDesensitizationTypeEnum type) {
-		return desensitizeBySlide(input, type, false);
+	public static String desensitizeBySlide(String input, SlideDesensitizeRule slideDesensitizeRule) {
+		return desensitizeBySlide(input, slideDesensitizeRule, false);
 	}
 
 	/**
@@ -237,13 +243,13 @@ public final class DesensitizationUtil {
 	 *     DesensitizationUtil.desensitizeBySlide("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER, true) = "***898989**"
 	 * </pre>
 	 * @param input 输入字符串
-	 * @param type {@link SlideDesensitizationTypeEnum}
+	 * @param slideDesensitizeRule {@link SlideDesensitizeRule}
 	 * @param reverse 是否反转
 	 * @return 屏蔽后的文本
 	 */
-	public static String desensitizeBySlide(String input, SlideDesensitizationTypeEnum type, boolean reverse) {
+	public static String desensitizeBySlide(String input, SlideDesensitizeRule slideDesensitizeRule, boolean reverse) {
 		SlideDesensitizationHandler slideHandler = DesensitizationHandlerHolder.getSlideDesensitizationHandler();
-		return slideHandler.handle(input, type, reverse);
+		return slideHandler.handle(input, slideDesensitizeRule, reverse);
 	}
 
 	/**
@@ -317,12 +323,12 @@ public final class DesensitizationUtil {
 	 *     DesensitizationUtil.desensitizeByRule("43012319990101432X", "1", "4-6", "9-")) = "4*01***99*********"
 	 * </pre>
 	 * @param input 输入字符串
-	 * @param rule 规则。<br>
+	 * @param indexRules 规则。<br>
 	 * @return 脱敏字符串
 	 */
-	public static String desensitizeByRule(String input, String... rule) {
+	public static String desensitizeByIndex(String input, String... indexRules) {
 		final RuleDesensitizationHandler ruleHandler = DesensitizationHandlerHolder.getRuleDesensitizationHandler();
-		return ruleHandler.handle(input, rule);
+		return ruleHandler.handle(input, indexRules);
 	}
 
 	/**
@@ -330,13 +336,13 @@ public final class DesensitizationUtil {
 	 *     DesensitizationUtil.desensitizeByRule("43012319990101432X", true, "1", "4-6", "9-")) = "4*01***99*********"
 	 * </pre>
 	 * @param input 输入字符串
-	 * @param rule 规则
+	 * @param indexRules 规则
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	public static String desensitizeByRule(String input, boolean reverse, String... rule) {
+	public static String desensitizeByIndex(String input, boolean reverse, String... indexRules) {
 		final RuleDesensitizationHandler ruleHandler = DesensitizationHandlerHolder.getRuleDesensitizationHandler();
-		return ruleHandler.handle(input, reverse, rule);
+		return ruleHandler.handle(input, reverse, indexRules);
 	}
 
 	/**
@@ -345,14 +351,14 @@ public final class DesensitizationUtil {
 	 *     DesensitizationUtil.desensitizeByRule("43012319990101432X", '-', true, "1", "4-6", "9-")) = "-3--231--90101432X"
 	 * </pre>
 	 * @param input 输入字符串
-	 * @param rule 规则
+	 * @param indexRules 规则
 	 * @param symbol 符号，默认*
 	 * @param reverse 是否反转规则
 	 * @return 脱敏字符串
 	 */
-	public static String desensitizeByRule(String input, char symbol, boolean reverse, String... rule) {
+	public static String desensitizeByIndex(String input, char symbol, boolean reverse, String... indexRules) {
 		final RuleDesensitizationHandler ruleHandler = DesensitizationHandlerHolder.getRuleDesensitizationHandler();
-		return ruleHandler.handle(input, symbol, reverse, rule);
+		return ruleHandler.handle(input, symbol, reverse, indexRules);
 	}
 
 	/**

@@ -18,8 +18,8 @@ package org.ballcat.desensite;
 
 import java.util.UUID;
 
-import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
-import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
+import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
+import org.ballcat.desensitize.rule.slide.PhoneNumberSlideDesensitizeRule;
 import org.ballcat.desensitize.util.DesensitizationUtil;
 import org.junit.jupiter.api.Test;
 
@@ -33,13 +33,13 @@ class DesensitizationUtilTest {
 	@Test
 	void test() {
 		assertEquals("t****@qq.com",
-				DesensitizationUtil.desensitizeByRegex("test.demo@qq.com", RegexDesensitizationTypeEnum.EMAIL));
+				DesensitizationUtil.desensitizeByRegex("test.demo@qq.com", new EmailRegexDesensitizeRule()));
 		assertEquals("t****@qq.com",
 				DesensitizationUtil.desensitizeByRegex("test.demo@qq.com", "(^.)[^@]*(@.*$)", "$1****$2"));
 		assertEquals("010******76",
-				DesensitizationUtil.desensitizeBySlide("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER));
+				DesensitizationUtil.desensitizeBySlide("01089898976", new PhoneNumberSlideDesensitizeRule()));
 		assertEquals("***898989**",
-				DesensitizationUtil.desensitizeBySlide("01089898976", SlideDesensitizationTypeEnum.PHONE_NUMBER, true));
+				DesensitizationUtil.desensitizeBySlide("01089898976", new PhoneNumberSlideDesensitizeRule(), true));
 		assertEquals("430123******431", DesensitizationUtil.desensitizeBySlide("430123990101431", 6, 3));
 		assertEquals("430123********432X", DesensitizationUtil.desensitizeBySlide("43012319990101432X", 6, 4));
 		assertEquals("430123????????432X", DesensitizationUtil.desensitizeBySlide("43012319990101432X", 6, 4, "?"));
@@ -56,11 +56,11 @@ class DesensitizationUtilTest {
 				DesensitizationUtil.desensitizeIP("2001:0db8:02de:0000:0000:0000:0000:0e13"));
 		assertEquals("2001:*:*:*:*:*:*:*", DesensitizationUtil.desensitizeIP("2001:db8:2de:0:0:0:0:e13"));
 		assertEquals("4*01***99*********",
-				DesensitizationUtil.desensitizeByRule("43012319990101432X", "1", "4-6", "9-"));
+				DesensitizationUtil.desensitizeByIndex("43012319990101432X", "1", "4-6", "9-"));
 		assertEquals("4-01---99---------",
-				DesensitizationUtil.desensitizeByRule("43012319990101432X", '-', false, "1", "4-6", "9-"));
+				DesensitizationUtil.desensitizeByIndex("43012319990101432X", '-', false, "1", "4-6", "9-"));
 		assertEquals("-3--231--90101432X",
-				DesensitizationUtil.desensitizeByRule("43012319990101432X", '-', true, "1", "4-6", "9-"));
+				DesensitizationUtil.desensitizeByIndex("43012319990101432X", '-', true, "1", "4-6", "9-"));
 	}
 
 }

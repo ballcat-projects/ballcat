@@ -16,7 +16,7 @@
 
 package org.ballcat.desensitize.handler;
 
-import org.ballcat.desensitize.enums.RegexDesensitizationTypeEnum;
+import org.ballcat.desensitize.rule.regex.RegexDesensitizeRule;
 
 /**
  * 正则替换脱敏处理器，使用正则匹配替换处理原数据
@@ -40,11 +40,11 @@ public class RegexDesensitizationHandler implements DesensitizationHandler {
 	/**
 	 * 正则脱敏处理
 	 * @param origin 原文
-	 * @param typeEnum 正则脱敏枚举类型
+	 * @param regexDesensitizeRule 正则脱敏规则
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String origin, RegexDesensitizationTypeEnum typeEnum) {
-		return origin.replaceAll(typeEnum.getRegex(), typeEnum.getReplacement());
+	public String handle(String origin, RegexDesensitizeRule regexDesensitizeRule) {
+		return origin.replaceAll(regexDesensitizeRule.getRegex(), regexDesensitizeRule.getReplacement());
 	}
 
 }

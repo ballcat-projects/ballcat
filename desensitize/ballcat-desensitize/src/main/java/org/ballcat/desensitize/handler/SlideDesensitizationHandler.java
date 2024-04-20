@@ -16,7 +16,7 @@
 
 package org.ballcat.desensitize.handler;
 
-import org.ballcat.desensitize.enums.SlideDesensitizationTypeEnum;
+import org.ballcat.desensitize.rule.slide.SlideDesensitizeRule;
 
 /**
  * 滑动脱敏处理器，根据左右边界值滑动左右指针，中间处脱敏
@@ -94,23 +94,23 @@ public class SlideDesensitizationHandler implements DesensitizationHandler {
 	/**
 	 * 根据指定枚举类型进行滑动脱敏
 	 * @param value 原文
-	 * @param type 滑动脱敏类型
+	 * @param slideDesensitizeRule 滑动脱敏规则
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String value, SlideDesensitizationTypeEnum type) {
-		return this.handle(value, type, false);
+	public String handle(String value, SlideDesensitizeRule slideDesensitizeRule) {
+		return this.handle(value, slideDesensitizeRule, false);
 	}
 
 	/**
 	 * 根据指定枚举类型进行滑动脱敏
 	 * @param value 原文
-	 * @param type 滑动脱敏类型
+	 * @param slideDesensitizeRule 滑动脱敏规则
 	 * @param reverse 是否反转
 	 * @return 脱敏后的字符串
 	 */
-	public String handle(String value, SlideDesensitizationTypeEnum type, boolean reverse) {
-		return this.handle(value, type.getLeftPlainTextLen(), type.getRightPlainTextLen(), type.getMaskString(),
-				reverse);
+	public String handle(String value, SlideDesensitizeRule slideDesensitizeRule, boolean reverse) {
+		return this.handle(value, slideDesensitizeRule.leftPlainTextLen(), slideDesensitizeRule.rightPlainTextLen(),
+				slideDesensitizeRule.maskString(), reverse);
 	}
 
 }
