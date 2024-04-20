@@ -53,7 +53,6 @@ class DesensitizationUtilTest {
 		assertEquals("t****@qq.com", DesensitizationUtil.maskEmail("test.demo@qq.com"));
 		assertEquals("622260**********1234", DesensitizationUtil.maskBankCardNo("62226000000043211234"));
 		assertEquals("******", DesensitizationUtil.maskPassword(UUID.randomUUID().toString()));
-		assertEquals("000****34", DesensitizationUtil.maskKey("0000000123456q34"));
 		assertEquals("192.*.*.*", DesensitizationUtil.maskIP("192.168.2.1"));
 		assertEquals("2001:*:*:*:*:*:*:*", DesensitizationUtil.maskIP("2001:0db8:02de:0000:0000:0000:0000:0e13"));
 		assertEquals("2001:*:*:*:*:*:*:*", DesensitizationUtil.maskIP("2001:db8:2de:0:0:0:0:e13"));

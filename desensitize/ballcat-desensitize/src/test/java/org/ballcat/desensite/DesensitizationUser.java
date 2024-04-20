@@ -24,7 +24,6 @@ import org.ballcat.desensitize.annotation.RegexDesensitize;
 import org.ballcat.desensitize.annotation.SimpleDesensitize;
 import org.ballcat.desensitize.handler.PhoneNumberDesensitizationHandler;
 import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
-import org.ballcat.desensitize.rule.regex.EncryptedPasswordRegexDesensitizeRule;
 
 /**
  * @author Hccake 2021/1/23
@@ -39,9 +38,9 @@ public class DesensitizationUser {
 	private String username;
 
 	/**
-	 * 密码脱敏
+	 * 密码脱敏, 前3后2明文，中间无论多少位，都显示 4 个 *，已混淆位数
 	 */
-	@RegexDesensitize(rule = EncryptedPasswordRegexDesensitizeRule.class)
+	@RegexDesensitize(regex = "(.{3}).*(.{2}$)", replacement = "$1****$2")
 	private String password;
 
 	/**

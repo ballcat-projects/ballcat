@@ -18,7 +18,6 @@ package org.ballcat.easyexcel.application;
 
 import lombok.Data;
 import org.ballcat.desensitize.annotation.RegexDesensitize;
-import org.ballcat.desensitize.rule.regex.EncryptedPasswordRegexDesensitizeRule;
 
 // 实体对象
 @Data
@@ -26,7 +25,10 @@ public class DemoData {
 
 	private String username;
 
-	@RegexDesensitize(rule = EncryptedPasswordRegexDesensitizeRule.class)
+	/**
+	 * 密码脱敏, 前3后2明文，中间无论多少位，都显示 4 个 *，已混淆位数
+	 */
+	@RegexDesensitize(regex = "(.{3}).*(.{2}$)", replacement = "$1****$2")
 	private String password;
 
 }

@@ -25,7 +25,6 @@ import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SixAsteriskDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
 import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
-import org.ballcat.desensitize.rule.regex.EncryptedPasswordRegexDesensitizeRule;
 import org.ballcat.desensitize.rule.regex.RegexDesensitizeRule;
 import org.ballcat.desensitize.rule.slide.BankCardNoSlideDesensitizeRule;
 import org.ballcat.desensitize.rule.slide.IdCardNoSlideDesensitizeRule;
@@ -155,22 +154,6 @@ public final class DesensitizationUtil {
 	 */
 	public static String maskIP(String input) {
 		return maskBySimpleHandler(input, IPDesensitizationHandler.class);
-	}
-
-	/**
-	 * 密文脱敏，前3后2，中间替换为 4个 *
-	 *
-	 * <pre>
-	 * DesensitizationUtil.maskKey("0000000123456q34") = "000****34"
-	 * </pre>
-	 * @param input 待处理的文本
-	 * @return 屏蔽后的文本
-	 */
-	public static String maskKey(String input) {
-		if (isEmptyText(input)) {
-			return input;
-		}
-		return maskByRegex(input, new EncryptedPasswordRegexDesensitizeRule());
 	}
 
 	/**
