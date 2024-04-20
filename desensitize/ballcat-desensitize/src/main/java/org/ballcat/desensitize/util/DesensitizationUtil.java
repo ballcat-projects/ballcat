@@ -19,6 +19,7 @@ package org.ballcat.desensitize.util;
 import org.ballcat.desensitize.DesensitizationHandlerHolder;
 import org.ballcat.desensitize.handler.IPDesensitizationHandler;
 import org.ballcat.desensitize.handler.IndexDesensitizationHandler;
+import org.ballcat.desensitize.handler.PhoneNumberDesensitizationHandler;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SixAsteriskDesensitizationHandler;
@@ -28,7 +29,6 @@ import org.ballcat.desensitize.rule.regex.EncryptedPasswordRegexDesensitizeRule;
 import org.ballcat.desensitize.rule.regex.RegexDesensitizeRule;
 import org.ballcat.desensitize.rule.slide.BankCardNoSlideDesensitizeRule;
 import org.ballcat.desensitize.rule.slide.IdCardNoSlideDesensitizeRule;
-import org.ballcat.desensitize.rule.slide.PhoneNumberSlideDesensitizeRule;
 import org.ballcat.desensitize.rule.slide.SlideDesensitizeRule;
 
 /**
@@ -87,7 +87,7 @@ public final class DesensitizationUtil {
 		if (isEmptyText(input)) {
 			return input;
 		}
-		return maskBySlide(input, new PhoneNumberSlideDesensitizeRule());
+		return maskBySimpleHandler(input, PhoneNumberDesensitizationHandler.class);
 	}
 
 	/**

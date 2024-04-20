@@ -1,2 +1,3 @@
 org.ballcat.desensitize.handler.SixAsteriskDesensitizationHandler
 org.ballcat.desensitize.handler.IPDesensitizationHandler
+org.ballcat.desensitize.handler.PhoneNumberDesensitizationHandler

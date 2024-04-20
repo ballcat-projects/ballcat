@@ -20,13 +20,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.desensitize.DesensitizationHandlerHolder;
 import org.ballcat.desensitize.handler.IndexDesensitizationHandler;
+import org.ballcat.desensitize.handler.PhoneNumberDesensitizationHandler;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SixAsteriskDesensitizationHandler;
 import org.ballcat.desensitize.handler.SlideDesensitizationHandler;
 import org.ballcat.desensitize.json.JsonDesensitizeSerializerModifier;
 import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
-import org.ballcat.desensitize.rule.slide.PhoneNumberSlideDesensitizeRule;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,6 +45,11 @@ class DesensitizationTest {
 		String origin = "你好吗？"; // 原始字符串
 		String target = desensitizationHandler.mask(origin); // 替换处理
 		assertEquals("******", target);
+
+		SimpleDesensitizationHandler phoneNumberDesensitizationHandler = DesensitizationHandlerHolder
+			.getSimpleDesensitizationHandler(PhoneNumberDesensitizationHandler.class);
+		String target2 = phoneNumberDesensitizationHandler.mask("15834427989");
+		assertEquals("158****7989", target2);
 	}
 
 	@Test
@@ -74,9 +79,6 @@ class DesensitizationTest {
 
 		String target11 = desensitizationHandler.mask(origin, 3, 2, true); // 替换处理
 		assertEquals("***055167**", target11);
-
-		String target2 = desensitizationHandler.mask(origin, new PhoneNumberSlideDesensitizeRule()); // 替换处理
-		assertEquals("158******89", target2);
 	}
 
 	@Test
@@ -116,7 +118,7 @@ class DesensitizationTest {
 		String value = objectMapper.writeValueAsString(user);
 		log.info("脱敏后的数据：{}", value);
 
-		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158******00\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"test\",\"ruleDesensitize\":\"4*01***99*********\",\"ruleReverseDesensitize\":\"*3**231**90101432X\"}";
+		String expected = "{\"username\":\"xiaoming\",\"password\":\"adm****56\",\"email\":\"c****@foxmail.com\",\"phoneNumber\":\"158****0000\",\"testField\":\"TEST-这是测试属性\",\"customDesensitize\":\"test\",\"ruleDesensitize\":\"4*01***99*********\",\"ruleReverseDesensitize\":\"*3**231**90101432X\"}";
 		assertEquals(expected, value);
 	}
 

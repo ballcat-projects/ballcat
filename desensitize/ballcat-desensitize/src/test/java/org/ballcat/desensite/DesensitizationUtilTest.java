@@ -18,8 +18,9 @@ package org.ballcat.desensite;
 
 import java.util.UUID;
 
+import org.ballcat.desensitize.handler.PhoneNumberDesensitizationHandler;
 import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
-import org.ballcat.desensitize.rule.slide.PhoneNumberSlideDesensitizeRule;
+import org.ballcat.desensitize.rule.slide.IdCardNoSlideDesensitizeRule;
 import org.ballcat.desensitize.util.DesensitizationUtil;
 import org.junit.jupiter.api.Test;
 
@@ -36,16 +37,18 @@ class DesensitizationUtilTest {
 				DesensitizationUtil.maskByRegex("test.demo@qq.com", new EmailRegexDesensitizeRule()));
 		assertEquals("t****@qq.com",
 				DesensitizationUtil.maskByRegex("test.demo@qq.com", "(^.)[^@]*(@.*$)", "$1****$2"));
-		assertEquals("010******76",
-				DesensitizationUtil.maskBySlide("01089898976", new PhoneNumberSlideDesensitizeRule()));
-		assertEquals("***898989**",
-				DesensitizationUtil.maskBySlide("01089898976", new PhoneNumberSlideDesensitizeRule(), true));
+		assertEquals("010****8976",
+				DesensitizationUtil.maskBySimpleHandler("01089898976", PhoneNumberDesensitizationHandler.class));
+		assertEquals("655356********1234",
+				DesensitizationUtil.maskBySlide("655356198812031234", new IdCardNoSlideDesensitizeRule()));
+		assertEquals("******19881203****",
+				DesensitizationUtil.maskBySlide("655356198812031234", new IdCardNoSlideDesensitizeRule(), true));
 		assertEquals("430123******431", DesensitizationUtil.maskBySlide("430123990101431", 6, 3));
 		assertEquals("430123********432X", DesensitizationUtil.maskBySlide("43012319990101432X", 6, 4));
 		assertEquals("430123????????432X", DesensitizationUtil.maskBySlide("43012319990101432X", 6, 4, "?"));
 		assertEquals("张*丰", DesensitizationUtil.maskChineseName("张三丰"));
 		assertEquals("430123********432X", DesensitizationUtil.maskIdCardNo("43012319990101432X"));
-		assertEquals("138******78", DesensitizationUtil.maskPhoneNumber("13812345678"));
+		assertEquals("138****5678", DesensitizationUtil.maskPhoneNumber("13812345678"));
 		assertEquals("北京市西城区******", DesensitizationUtil.maskAddress("北京市西城区金城坊街2号"));
 		assertEquals("t****@qq.com", DesensitizationUtil.maskEmail("test.demo@qq.com"));
 		assertEquals("622260**********1234", DesensitizationUtil.maskBankCardNo("62226000000043211234"));
@@ -59,6 +62,37 @@ class DesensitizationUtilTest {
 				DesensitizationUtil.maskByIndex("43012319990101432X", '-', false, "1", "4-6", "9-"));
 		assertEquals("-3--231--90101432X",
 				DesensitizationUtil.maskByIndex("43012319990101432X", '-', true, "1", "4-6", "9-"));
+	}
+
+	@Test
+	void testMaskPhoneNumber() {
+		String input1 = "12-34-567";
+		String expected1 = "1*-**-*67";
+		assertEquals(expected1, DesensitizationUtil.maskPhoneNumber(input1));
+
+		String input2 = "12 34 567";
+		String expected2 = "1* ** *67";
+		assertEquals(expected2, DesensitizationUtil.maskPhoneNumber(input2));
+
+		String input3 = "+86 12345678901";
+		String expected3 = "+86 1******8901";
+		assertEquals(expected3, DesensitizationUtil.maskPhoneNumber(input3));
+
+		String input4 = "1234";
+		String expected4 = "1*34";
+		assertEquals(expected4, DesensitizationUtil.maskPhoneNumber(input4));
+
+		String input5 = "12345678";
+		String expected5 = "1*****78";
+		assertEquals(expected5, DesensitizationUtil.maskPhoneNumber(input5));
+
+		String input6 = "12345678012";
+		String expected6 = "123****8012";
+		assertEquals(expected6, DesensitizationUtil.maskPhoneNumber(input6));
+
+		String input7 = "12";
+		String expected7 = "12";
+		assertEquals(input7, DesensitizationUtil.maskPhoneNumber(expected7));
 	}
 
 }

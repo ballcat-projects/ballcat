@@ -22,14 +22,12 @@ import org.ballcat.desensite.custom.CustomerDesensitize;
 import org.ballcat.desensitize.annotation.IndexDesensitize;
 import org.ballcat.desensitize.annotation.RegexDesensitize;
 import org.ballcat.desensitize.annotation.SimpleDesensitize;
-import org.ballcat.desensitize.annotation.SlideDesensitize;
+import org.ballcat.desensitize.handler.PhoneNumberDesensitizationHandler;
 import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
 import org.ballcat.desensitize.rule.regex.EncryptedPasswordRegexDesensitizeRule;
-import org.ballcat.desensitize.rule.slide.PhoneNumberSlideDesensitizeRule;
 
 /**
  * @author Hccake 2021/1/23
- *
  */
 @Data
 @Accessors(chain = true)
@@ -55,7 +53,7 @@ public class DesensitizationUser {
 	/**
 	 * 手机号
 	 */
-	@SlideDesensitize(rule = PhoneNumberSlideDesensitizeRule.class)
+	@SimpleDesensitize(handler = PhoneNumberDesensitizationHandler.class)
 	private String phoneNumber;
 
 	/**
