@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.ballcat.desensitize.DesensitizationHandlerHolder;
-import org.ballcat.desensitize.functions.DesensitizeFunction;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;
 import org.ballcat.desensitize.handler.RuleDesensitizationHandler;
 import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
@@ -47,7 +46,7 @@ public final class AnnotationHandlerHolder {
 	/**
 	 * 注解类型 处理函数映射
 	 */
-	private final Map<Class<? extends Annotation>, DesensitizeFunction> annotationHandlers;
+	private final Map<Class<? extends Annotation>, AnnotationDesensitizeFunction> annotationHandlers;
 
 	private AnnotationHandlerHolder() {
 		this.annotationHandlers = new ConcurrentHashMap<>();
@@ -112,28 +111,28 @@ public final class AnnotationHandlerHolder {
 	/**
 	 * 得到注解类型处理函数
 	 * @param annotationType {@code annotationType} 注解类型
-	 * @return {@link DesensitizeFunction}脱敏处理函数|null
+	 * @return {@link AnnotationDesensitizeFunction}脱敏处理函数|null
 	 */
-	public static DesensitizeFunction getHandleFunction(Class<? extends Annotation> annotationType) {
+	public static AnnotationDesensitizeFunction getHandleFunction(Class<? extends Annotation> annotationType) {
 		return INSTANCE.annotationHandlers.get(annotationType);
 	}
 
 	/**
 	 * 添加注解处理函数
 	 * @param annotationType {@code annotationType}指定注解类型
-	 * @param desensitizeFunction {@link DesensitizeFunction}指定脱敏处理函数
+	 * @param annotationDesensitizeFunction {@link AnnotationDesensitizeFunction}指定脱敏处理函数
 	 * @return 上一个key 对应的脱敏处理函数 | null
 	 */
-	public static DesensitizeFunction addHandleFunction(Class<? extends Annotation> annotationType,
-			DesensitizeFunction desensitizeFunction) {
+	public static AnnotationDesensitizeFunction addHandleFunction(Class<? extends Annotation> annotationType,
+			AnnotationDesensitizeFunction annotationDesensitizeFunction) {
 		if (null == annotationType) {
 			throw new IllegalArgumentException("annotation cannot be null");
 		}
-		if (null == desensitizeFunction) {
+		if (null == annotationDesensitizeFunction) {
 			throw new IllegalArgumentException("desensitization function cannot be null");
 		}
 		// 加入注解处理映射
-		return INSTANCE.annotationHandlers.put(annotationType, desensitizeFunction);
+		return INSTANCE.annotationHandlers.put(annotationType, annotationDesensitizeFunction);
 	}
 
 	/**

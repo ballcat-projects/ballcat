@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-package org.ballcat.easyexcel.application;
+package org.ballcat.desensitize.annotation;
 
-import lombok.Data;
-import org.ballcat.desensitize.annotation.RegexDesensitize;
-import org.ballcat.desensitize.rule.regex.EncryptedPasswordRegexDesensitizeRule;
+import java.lang.annotation.Annotation;
 
-// 实体对象
-@Data
-public class DemoData {
+/**
+ * 注解脱敏函数.
+ *
+ * @author Yakir
+ */
+@FunctionalInterface
+public interface AnnotationDesensitizeFunction {
 
-	private String username;
-
-	@RegexDesensitize(rule = EncryptedPasswordRegexDesensitizeRule.class)
-	private String password;
+	/**
+	 * 脱敏函数
+	 * @param annotation 当前脱敏注解
+	 * @param value 原始值
+	 * @return 脱敏处理后的值
+	 */
+	String desensitize(Annotation annotation, String value);
 
 }

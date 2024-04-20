@@ -22,8 +22,8 @@ import java.lang.annotation.Annotation;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import org.ballcat.desensitize.annotation.AnnotationDesensitizeFunction;
 import org.ballcat.desensitize.annotation.AnnotationHandlerHolder;
-import org.ballcat.desensitize.functions.DesensitizeFunction;
 
 /**
  * Jackson脱敏处理序列化器
@@ -60,7 +60,7 @@ public class JsonDesensitizeSerializer extends JsonSerializer<Object> {
 				jsonGenerator.writeString(str);
 				return;
 			}
-			DesensitizeFunction handleFunction = AnnotationHandlerHolder
+			AnnotationDesensitizeFunction handleFunction = AnnotationHandlerHolder
 				.getHandleFunction(this.jsonDesensitizeAnnotation.annotationType());
 			if (handleFunction == null) {
 				jsonGenerator.writeString(str);

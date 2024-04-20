@@ -75,6 +75,29 @@ class ExcelExportTest {
 	}
 
 	/**
+	 * 导出脱敏测试
+	 */
+	@Test
+	void desensitizationExport() throws Exception {
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/export/desensitization"))
+			.andExpect(status().isOk())
+			.andReturn();
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray());
+		DefaultAnalysisEventListener readListener = new DefaultAnalysisEventListener();
+		EasyExcel.read(inputStream, DemoData.class, readListener).sheet().doRead();
+
+		List<Object> list = readListener.getList();
+		Assertions.assertEquals(10, list.size());
+
+		Object o = list.get(9);
+		Assertions.assertInstanceOf(DemoData.class, o);
+
+		DemoData demoData = (DemoData) o;
+		Assertions.assertEquals("username9", demoData.getUsername());
+		Assertions.assertEquals("pas****d9", demoData.getPassword());
+	}
+
+	/**
 	 * 模板导出，写入数据时不写入头信息
 	 */
 	@Test

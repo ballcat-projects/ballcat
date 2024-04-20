@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.ballcat.easyexcel.annotation.ResponseExcel;
 import org.ballcat.easyexcel.annotation.Sheet;
+import org.ballcat.easyexcel.desensitize.DesensitizationWriteHandler;
 import org.ballcat.easyexcel.head.EmptyHeadGenerator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,19 +37,23 @@ public class ExcelExportTestController {
 	@ResponseExcel(name = "test", sheets = @Sheet(sheetName = "testSheet1"))
 	@GetMapping("/simple")
 	public List<DemoData> simple() {
-		List<DemoData> dataList = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
-			DemoData data = new DemoData();
-			data.setUsername("username" + i);
-			data.setPassword("password" + i);
-			dataList.add(data);
-		}
-		return dataList;
+		return getDemoData();
 	}
 
 	@ResponseExcel(name = "test-export", template = "template.xlsx", headGenerator = EmptyHeadGenerator.class)
 	@GetMapping("/templateExportIgnoreHeader")
 	public List<DemoData> templateExportIgnoreHeader() {
+		return getDemoData();
+	}
+
+	@ResponseExcel(name = "test-desensitization", sheets = @Sheet(sheetName = "testSheet1"),
+			writeHandler = DesensitizationWriteHandler.class)
+	@GetMapping("/desensitization")
+	public List<DemoData> desensitization() {
+		return getDemoData();
+	}
+
+	private static List<DemoData> getDemoData() {
 		List<DemoData> dataList = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
 			DemoData data = new DemoData();
