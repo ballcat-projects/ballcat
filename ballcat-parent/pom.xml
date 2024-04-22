@@ -230,31 +230,10 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- git hook 配置 -->
-			<plugin>
-				<groupId>com.rudikershaw.gitbuildhook</groupId>
-				<artifactId>git-build-hook-maven-plugin</artifactId>
-				<inherited>false</inherited>
-				<configuration>
-					<gitConfig>
-						<!-- The location of the directory you are using to store the Git hooks in your project. -->
-						<core.hooksPath>.etc/git-hooks/</core.hooksPath>
-					</gitConfig>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<!-- Sets git config specified under configuration > gitConfig. -->
-							<goal>configure</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<!-- checkstyle 配置 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<inherited>true</inherited>
 				<executions>
 					<execution>
 						<id>checkstyle-validation</id>
