@@ -20,6 +20,7 @@ import java.util.UUID;
 
 import org.ballcat.desensitize.handler.PhoneNumberDesensitizationHandler;
 import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
+import org.ballcat.desensitize.rule.regex.KeyRegexDesensitizeRule;
 import org.ballcat.desensitize.rule.slide.IdCardNoSlideDesensitizeRule;
 import org.ballcat.desensitize.util.DesensitizationUtil;
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,8 @@ class DesensitizationUtilTest {
 		assertEquals("t****@qq.com", DesensitizationUtil.maskEmail("test.demo@qq.com"));
 		assertEquals("622260**********1234", DesensitizationUtil.maskBankCardNo("62226000000043211234"));
 		assertEquals("******", DesensitizationUtil.maskPassword(UUID.randomUUID().toString()));
+		assertEquals("395****61",
+				DesensitizationUtil.maskByRegex("3950587458326514452641976780061", new KeyRegexDesensitizeRule()));
 		assertEquals("192.*.*.*", DesensitizationUtil.maskIP("192.168.2.1"));
 		assertEquals("2001:*:*:*:*:*:*:*", DesensitizationUtil.maskIP("2001:0db8:02de:0000:0000:0000:0000:0e13"));
 		assertEquals("2001:*:*:*:*:*:*:*", DesensitizationUtil.maskIP("2001:db8:2de:0:0:0:0:e13"));
