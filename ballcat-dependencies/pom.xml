@@ -2,12 +2,7 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.ballcat</groupId>
-		<artifactId>ballcat</artifactId>
-		<version>${revision}</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
+	<groupId>org.ballcat</groupId>
 	<artifactId>ballcat-dependencies</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
@@ -16,6 +11,7 @@
 	<description>Ballcat Dependencies</description>
 
 	<properties>
+		<revision>2.0.0-SNAPSHOT</revision>
 		<!-- 插件版本 -->
 		<flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
 		<maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
