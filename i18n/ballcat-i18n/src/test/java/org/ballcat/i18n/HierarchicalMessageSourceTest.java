@@ -29,7 +29,7 @@ class HierarchicalMessageSourceTest {
 	MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new WildcardReloadableResourceBundleMessageSource();
 		// Specify the location of the properties file
-		messageSource.setBasename("classpath:test-*");
+		messageSource.setBasename("test-*");
 		messageSource.setDefaultEncoding("UTF-8");
 		messageSource.setFallbackToSystemLocale(false);
 

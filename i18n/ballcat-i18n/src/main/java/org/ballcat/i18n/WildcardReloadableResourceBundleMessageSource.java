@@ -114,7 +114,7 @@ public class WildcardReloadableResourceBundleMessageSource extends ReloadableRes
 	private Resource[] getResources(String resourceLocationPattern) throws IOException {
 		// 支持用 . 表示文件层级
 		resourceLocationPattern = resourceLocationPattern.replace(".", "/");
-		return this.resolver.getResources(resourceLocationPattern + PROPERTIES_SUFFIX);
+		return this.resolver.getResources("classpath*:" + resourceLocationPattern + PROPERTIES_SUFFIX);
 	}
 
 	private boolean containsWildcard(String str) {

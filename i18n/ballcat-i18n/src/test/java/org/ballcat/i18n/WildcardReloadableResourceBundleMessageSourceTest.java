@@ -30,7 +30,7 @@ class WildcardReloadableResourceBundleMessageSourceTest {
 		ReloadableResourceBundleMessageSource messageSource = new WildcardReloadableResourceBundleMessageSource();
 
 		// Specify the location of the properties file
-		messageSource.setBasename("classpath*:org.ballcat.**.messages");
+		messageSource.setBasename("org.ballcat.**.messages");
 		messageSource.setDefaultEncoding("UTF-8");
 		messageSource.setFallbackToSystemLocale(fallbackToSystemLocale);
 		return messageSource;
