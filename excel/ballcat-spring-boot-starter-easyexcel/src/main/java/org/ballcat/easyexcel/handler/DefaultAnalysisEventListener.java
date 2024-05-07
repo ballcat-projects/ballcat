@@ -27,7 +27,6 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.metadata.holder.ReadRowHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.easyexcel.domain.ErrorMessage;
-import org.ballcat.easyexcel.kit.Validators;
 
 /**
  * 默认的 AnalysisEventListener
@@ -47,7 +46,7 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 		ReadRowHolder readRowHolder = analysisContext.readRowHolder();
 		Long lineNum = readRowHolder.getRowIndex().longValue() + 1;
 
-		Set<ConstraintViolation<Object>> violations = Validators.validate(o);
+		Set<ConstraintViolation<Object>> violations = this.getValidator().validate(o);
 		if (!violations.isEmpty()) {
 			Set<String> messageSet = violations.stream()
 				.map(ConstraintViolation::getMessage)

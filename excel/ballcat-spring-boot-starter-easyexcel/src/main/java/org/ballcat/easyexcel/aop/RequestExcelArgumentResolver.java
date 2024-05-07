@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Validator;
 
 import com.alibaba.excel.EasyExcel;
 import lombok.SneakyThrows;
@@ -63,6 +64,12 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 
 	private final ExpressionParser expressionParser = new SpelExpressionParser();
 
+	private final Validator validator;
+
+	public RequestExcelArgumentResolver(Validator validator) {
+		this.validator = validator;
+	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.hasParameterAnnotation(RequestExcel.class);
@@ -83,6 +90,7 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 		assert requestExcel != null;
 		Class<? extends ListAnalysisEventListener<?>> readListenerClass = requestExcel.readListener();
 		ListAnalysisEventListener<?> readListener = BeanUtils.instantiateClass(readListenerClass);
+		readListener.setValidator(this.validator);
 
 		// 获取请求文件流
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);

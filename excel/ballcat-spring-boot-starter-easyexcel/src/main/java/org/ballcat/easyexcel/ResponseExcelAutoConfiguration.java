@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Validator;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.easyexcel.aop.DynamicNameAspect;
@@ -52,6 +53,8 @@ public class ResponseExcelAutoConfiguration {
 	private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
 	private final ResponseExcelReturnValueHandler responseExcelReturnValueHandler;
+
+	private final Validator validator;
 
 	/**
 	 * SPEL 解析处理器
@@ -107,7 +110,7 @@ public class ResponseExcelAutoConfiguration {
 		List<HandlerMethodArgumentResolver> argumentResolvers = this.requestMappingHandlerAdapter
 			.getArgumentResolvers();
 		List<HandlerMethodArgumentResolver> resolverList = new ArrayList<>();
-		resolverList.add(new RequestExcelArgumentResolver());
+		resolverList.add(new RequestExcelArgumentResolver(this.validator));
 		resolverList.addAll(argumentResolvers);
 		this.requestMappingHandlerAdapter.setArgumentResolvers(resolverList);
 	}

@@ -18,6 +18,8 @@ package org.ballcat.easyexcel;
 
 import java.util.List;
 
+import javax.validation.Validator;
+
 import com.alibaba.excel.converters.Converter;
 import lombok.RequiredArgsConstructor;
 import org.ballcat.easyexcel.aop.ResponseExcelReturnValueHandler;
@@ -29,11 +31,16 @@ import org.ballcat.easyexcel.handler.SheetWriteHandler;
 import org.ballcat.easyexcel.handler.SingleSheetWriteHandler;
 import org.ballcat.easyexcel.head.I18nHeaderCellWriteHandler;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.validation.MessageInterpolatorFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * @author Hccake 2020/10/28
@@ -96,6 +103,16 @@ public class ExcelHandlerConfiguration {
 	@ConditionalOnMissingBean
 	public I18nHeaderCellWriteHandler i18nHeaderCellWriteHandler(MessageSource messageSource) {
 		return new I18nHeaderCellWriteHandler(messageSource);
+	}
+
+	@Bean
+	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+	@ConditionalOnMissingBean(Validator.class)
+	public static LocalValidatorFactoryBean validator(ApplicationContext applicationContext) {
+		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+		MessageInterpolatorFactory interpolatorFactory = new MessageInterpolatorFactory(applicationContext);
+		factoryBean.setMessageInterpolator(interpolatorFactory.getObject());
+		return factoryBean;
 	}
 
 }
