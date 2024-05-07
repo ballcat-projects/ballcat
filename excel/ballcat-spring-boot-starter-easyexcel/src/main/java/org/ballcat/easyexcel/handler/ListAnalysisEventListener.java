@@ -18,7 +18,11 @@ package org.ballcat.easyexcel.handler;
 
 import java.util.List;
 
+import javax.validation.Validator;
+
 import com.alibaba.excel.event.AnalysisEventListener;
+import lombok.Getter;
+import lombok.Setter;
 import org.ballcat.easyexcel.domain.ErrorMessage;
 
 /**
@@ -26,7 +30,14 @@ import org.ballcat.easyexcel.domain.ErrorMessage;
  *
  * @author L.cm
  */
+@Getter
+@Setter
 public abstract class ListAnalysisEventListener<T> extends AnalysisEventListener<T> {
+
+	/**
+	 * 校验器
+	 */
+	private Validator validator;
 
 	/**
 	 * 获取 excel 解析的对象列表
