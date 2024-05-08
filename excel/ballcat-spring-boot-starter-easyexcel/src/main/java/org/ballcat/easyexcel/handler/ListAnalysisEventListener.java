@@ -18,6 +18,7 @@ package org.ballcat.easyexcel.handler;
 
 import java.util.List;
 
+import javax.validation.Validation;
 import javax.validation.Validator;
 
 import com.alibaba.excel.event.AnalysisEventListener;
@@ -37,7 +38,7 @@ public abstract class ListAnalysisEventListener<T> extends AnalysisEventListener
 	/**
 	 * 校验器
 	 */
-	private Validator validator;
+	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
 	/**
 	 * 获取 excel 解析的对象列表
