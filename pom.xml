@@ -46,6 +46,7 @@
 		<module>ip/ballcat-spring-boot-starter-ip2region</module>
 
 		<module>job/ballcat-spring-boot-starter-xxljob</module>
+		<module>job/ballcat-spring-boot-starter-quartz</module>
 
 		<module>kafka/ballcat-kafka</module>
 		<module>kafka/ballcat-kafka-stream</module>
