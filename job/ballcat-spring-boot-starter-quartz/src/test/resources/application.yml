@@ -1,0 +1,6 @@
+logging:
+  level:
+    root: info
+    org.ballcat: debug
+    org.quartz: debug
+    org.springframework.boot: debug

@@ -6,8 +6,7 @@
 	<suppress files="org.bson.types.ObjectId" checks="[a-zA-Z0-9]*" />
 	<suppress files="com.alibaba.excel.*.*\.java" checks="[a-zA-Z0-9]*" />
 
-	<suppress files="org.ballcat.easyexcel.application.ExcelTestApplication" checks="HideUtilityClassConstructorCheck" />
-	<suppress files="org.ballcat.autoconfigure.web.TestApplication" checks="HideUtilityClassConstructorCheck" />
+	<suppress files="org.ballcat.*.*TestApplication" checks="HideUtilityClassConstructorCheck" />
 	<suppress files="org.ballcat.pay.wx.domain.DefaultWxDomain" checks="FinalClassCheck" />
 	<suppress files="org.ballcat.autoconfigure.redis.RedisKeyEventAutoConfiguration" checks="HideUtilityClassConstructorCheck" />
 </suppressions>
