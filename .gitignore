@@ -16,6 +16,8 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+!/.idea/icon.png
+!/.idea/vcs.xml
 *.iws
 *.iml
 *.ipr
