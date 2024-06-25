@@ -6,5 +6,3 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     org.ballcat.autoconfigure.web.validation.BallcatValidationAutoConfiguration,\
     org.ballcat.autoconfigure.web.undertow.BallcatUndertowAutoConfiguration,\
     org.ballcat.autoconfigure.web.accesslog.AccessLogAutoConfiguration
-org.springframework.context.ApplicationListener=\
-  org.ballcat.autoconfigure.web.event.ApplicationContextInitialized
