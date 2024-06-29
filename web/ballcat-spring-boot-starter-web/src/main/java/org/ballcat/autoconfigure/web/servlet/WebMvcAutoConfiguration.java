@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.ballcat.autoconfigure.web.pageable.PageableProperties;
 import org.ballcat.web.pageable.DefaultPageParamArgumentResolver;
 import org.ballcat.web.pageable.PageParamArgumentResolver;
+import org.ballcat.web.pageable.PageableRequestOptions;
 import org.ballcat.web.trace.TraceIdFilter;
 import org.ballcat.web.trace.TraceIdGenerator;
 import org.bson.types.ObjectId;
@@ -52,9 +53,12 @@ public class WebMvcAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public PageParamArgumentResolver pageParamArgumentResolver(PageableProperties pageableProperties) {
-		return new DefaultPageParamArgumentResolver(pageableProperties.getMaxPageSize(),
-				pageableProperties.getPageParameterName(), pageableProperties.getSizeParameterName(),
-				pageableProperties.getSortParameterName());
+		PageableRequestOptions pageableRequestOptions = new PageableRequestOptions()
+			.setMaxPageSize(pageableProperties.getMaxPageSize())
+			.setPageParameterName(pageableProperties.getPageParameterName())
+			.setSizeParameterName(pageableProperties.getSizeParameterName())
+			.setSortParameterName(pageableProperties.getSortParameterName());
+		return new DefaultPageParamArgumentResolver(pageableRequestOptions);
 	}
 
 	/**

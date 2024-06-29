@@ -36,12 +36,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class DefaultPageParamArgumentResolver extends PageParamArgumentResolverSupport
 		implements PageParamArgumentResolver {
 
-	public DefaultPageParamArgumentResolver(int maxPageSize, String pageParameterName, String sizeParameterName,
-			String sortParameterName) {
-		setMaxPageSize(maxPageSize);
-		setPageParameterName(pageParameterName);
-		setSizeParameterName(sizeParameterName);
-		setSortParameterName(sortParameterName);
+	public DefaultPageParamArgumentResolver(PageableRequestOptions defaultPageableRequestOptions) {
+		this.setDefaultPageableRequestOptions(defaultPageableRequestOptions);
 	}
 
 	/**
@@ -55,30 +51,37 @@ public class DefaultPageParamArgumentResolver extends PageParamArgumentResolverS
 	}
 
 	/**
+	 * page 只支持查询 GET .如需解析POST获取请求报文体处理.
 	 * @param parameter 入参集合
 	 * @param mavContainer model 和 view
 	 * @param webRequest web相关
 	 * @param binderFactory 入参解析
 	 * @return 检查后新的page对象
 	 * @throws Exception ex
-	 * <p>
-	 * page 只支持查询 GET .如需解析POST获取请求报文体处理
 	 */
 	@NonNull
 	@Override
 	public PageParam resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		if (request == null) {
 			return new PageParam();
 		}
 
-		PageParam pageParam = getPageParam(parameter, request);
+		Pageable pageableAnnotation = parameter.getParameterAnnotation(Pageable.class);
+		PageableRequestOptions pageableRequestOptions = pageableAnnotation == null
+				? this.getDefaultPageableRequestOptions() : getPageableRequestOptions(pageableAnnotation);
 
-		paramValidate(parameter, mavContainer, webRequest, binderFactory, pageParam);
-
+		PageParam pageParam = getPageParam(parameter, request, pageableRequestOptions);
+		paramValidate(parameter, mavContainer, webRequest, binderFactory, pageParam, pageableRequestOptions);
 		return pageParam;
+	}
+
+	private static PageableRequestOptions getPageableRequestOptions(Pageable pageableAnnotation) {
+		return new PageableRequestOptions().setMaxPageSize(pageableAnnotation.maxPageSize())
+			.setPageParameterName(pageableAnnotation.pageParameterName())
+			.setSizeParameterName(pageableAnnotation.sizeParameterName())
+			.setSortParameterName(pageableAnnotation.sortParameterName());
 	}
 
 }

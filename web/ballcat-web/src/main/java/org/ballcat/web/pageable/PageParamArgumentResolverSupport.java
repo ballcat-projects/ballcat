@@ -50,23 +50,10 @@ public abstract class PageParamArgumentResolverSupport {
 
 	@Setter
 	@Getter
-	private String pageParameterName = PageableConstants.DEFAULT_PAGE_PARAMETER;
+	private PageableRequestOptions defaultPageableRequestOptions = new PageableRequestOptions();
 
-	@Setter
-	@Getter
-	private String sizeParameterName = PageableConstants.DEFAULT_SIZE_PARAMETER;
-
-	@Setter
-	@Getter
-	private String sortParameterName = PageableConstants.DEFAULT_SORT_PARAMETER;
-
-	@Setter
-	@Getter
-	private int maxPageSize = PageableConstants.DEFAULT_MAX_PAGE_SIZE;
-
-	protected PageParam getPageParam(MethodParameter parameter, HttpServletRequest request) {
-		String pageParameterValue = request.getParameter(this.pageParameterName);
-		String sizeParameterValue = request.getParameter(this.sizeParameterName);
+	protected PageParam getPageParam(MethodParameter parameter, HttpServletRequest request,
+			PageableRequestOptions pageableRequestOptions) {
 
 		PageParam pageParam;
 		try {
@@ -76,19 +63,21 @@ public abstract class PageParamArgumentResolverSupport {
 			pageParam = new PageParam();
 		}
 
+		String pageParameterValue = request.getParameter(pageableRequestOptions.getPageParameterName());
 		long pageValue = parseValueFormString(pageParameterValue, 1);
 		pageParam.setPage(pageValue);
 		pageParam.setCurrent(pageValue);
 
+		String sizeParameterValue = request.getParameter(pageableRequestOptions.getSizeParameterName());
 		long sizeValue = parseValueFormString(sizeParameterValue, 10);
 		pageParam.setSize(sizeValue);
 
 		// ========== 排序处理 ===========
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		// sort 可以传多个，所以同时支持 sort 和 sort[]
-		String[] sort = parameterMap.get(this.sortParameterName);
+		String[] sort = parameterMap.get(pageableRequestOptions.getSortParameterName());
 		if (ObjectUtils.isEmpty(sort)) {
-			sort = parameterMap.get(this.sortParameterName + "[]");
+			sort = parameterMap.get(pageableRequestOptions.getSortParameterName() + "[]");
 		}
 
 		List<PageParam.Sort> sorts;
@@ -212,7 +201,8 @@ public abstract class PageParamArgumentResolverSupport {
 	}
 
 	protected void paramValidate(MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory binderFactory, PageParam pageParam) throws Exception {
+			NativeWebRequest webRequest, WebDataBinderFactory binderFactory, PageParam pageParam,
+			PageableRequestOptions pageableRequestOptions) throws Exception {
 		// 数据校验处理
 		if (binderFactory != null) {
 			WebDataBinder binder = binderFactory.createBinder(webRequest, pageParam, "pageParam");
@@ -220,8 +210,9 @@ public abstract class PageParamArgumentResolverSupport {
 			BindingResult bindingResult = binder.getBindingResult();
 
 			long size = pageParam.getSize();
-			if (size > this.maxPageSize) {
-				bindingResult.addError(new ObjectError("size", "分页条数不能大于" + this.maxPageSize));
+			int maxPageSize = pageableRequestOptions.getMaxPageSize();
+			if (maxPageSize > 0 && size > maxPageSize) {
+				bindingResult.addError(new ObjectError("size", "分页条数不能大于" + maxPageSize));
 			}
 
 			if (bindingResult.hasErrors() && isBindExceptionRequired(binder, parameter)) {
