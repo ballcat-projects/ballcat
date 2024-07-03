@@ -1,1 +1,2 @@
 org.ballcat.common.util.SpringUtils
+org.ballcat.common.util.SpringUtilsInitBeanFactoryPostProcessor

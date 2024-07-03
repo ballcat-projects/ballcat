@@ -29,8 +29,10 @@ import org.springframework.stereotype.Component;
 /**
  * @author lingting 2020/6/12 16:36
  */
-@Component
+@Component(SpringUtils.BEAN_NAME)
 public class SpringUtils implements ApplicationContextAware {
+
+	public static final String BEAN_NAME = "ballcatSpringUtils";
 
 	/**
 	 * Spring应用上下文环境
