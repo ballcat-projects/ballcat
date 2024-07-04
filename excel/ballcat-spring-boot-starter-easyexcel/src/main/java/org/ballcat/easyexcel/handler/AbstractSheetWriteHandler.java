@@ -43,8 +43,6 @@ import lombok.SneakyThrows;
 import org.ballcat.easyexcel.annotation.ResponseExcel;
 import org.ballcat.easyexcel.aop.DynamicNameAspect;
 import org.ballcat.easyexcel.config.ExcelConfigProperties;
-import org.ballcat.easyexcel.converters.LocalDateStringConverter;
-import org.ballcat.easyexcel.converters.LocalDateTimeStringConverter;
 import org.ballcat.easyexcel.domain.SheetBuildProperties;
 import org.ballcat.easyexcel.enhance.WriterBuilderEnhancer;
 import org.ballcat.easyexcel.head.HeadGenerator;
@@ -125,8 +123,6 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	@SneakyThrows(IOException.class)
 	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel) {
 		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream())
-			.registerConverter(LocalDateStringConverter.INSTANCE)
-			.registerConverter(LocalDateTimeStringConverter.INSTANCE)
 			.autoCloseStream(true)
 			.excelType(responseExcel.suffix())
 			.inMemory(responseExcel.inMemory());
