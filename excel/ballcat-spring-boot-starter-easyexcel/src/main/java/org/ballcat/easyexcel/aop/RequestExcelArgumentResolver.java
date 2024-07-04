@@ -27,8 +27,6 @@ import com.alibaba.excel.EasyExcel;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.easyexcel.annotation.RequestExcel;
-import org.ballcat.easyexcel.converters.LocalDateStringConverter;
-import org.ballcat.easyexcel.converters.LocalDateTimeStringConverter;
 import org.ballcat.easyexcel.handler.ListAnalysisEventListener;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
@@ -113,8 +111,6 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 
 		// 这里需要指定读用哪个 class 去读，然后读取第一个 sheet 文件流会自动关闭
 		EasyExcel.read(inputStream, excelModelClass, readListener)
-			.registerConverter(LocalDateStringConverter.INSTANCE)
-			.registerConverter(LocalDateTimeStringConverter.INSTANCE)
 			.ignoreEmptyRow(requestExcel.ignoreEmptyRow())
 			.sheet(sheetName)
 			.headRowNumber(requestExcel.headRowNumber())
