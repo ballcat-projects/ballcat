@@ -81,8 +81,4 @@ public class PageParamOpenAPIConverter implements ModelConverter {
 		return (chain.hasNext()) ? chain.next().resolve(type, context, chain) : null;
 	}
 
-	public static void main(String[] args) {
-		System.out.printf(PageParam.class.getName());
-	}
-
 }

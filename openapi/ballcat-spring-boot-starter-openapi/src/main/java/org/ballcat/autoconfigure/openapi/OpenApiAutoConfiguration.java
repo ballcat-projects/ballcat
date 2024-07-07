@@ -27,6 +27,7 @@ import org.ballcat.autoconfigure.web.pageable.PageableProperties;
 import org.ballcat.common.model.domain.PageParam;
 import org.ballcat.common.model.domain.PageableConstants;
 import org.ballcat.openapi.pageable.PageParamOpenAPIConverter;
+import org.ballcat.openapi.pageable.PageableDelegatingMethodParameterCustomizer;
 import org.ballcat.openapi.pageable.PageableRequestClassCreator;
 import org.springdoc.core.SpringDocConfiguration;
 import org.springdoc.core.SpringDocUtils;
@@ -131,6 +132,16 @@ public class OpenApiAutoConfiguration {
 			Class<?> pageParamRequestClass = PageableRequestClassCreator.create(map);
 			config.replaceParameterObjectWithClass(PageParam.class, pageParamRequestClass);
 			return new PageParamOpenAPIConverter(objectMapperProvider);
+		}
+
+		/**
+		 * 支持 #{@link org.ballcat.web.pageable.Pageable} 注解的参数自定义。
+		 * @return PageableDelegatingMethodParameterCustomizer
+		 */
+		@Bean
+		@ConditionalOnMissingBean
+		PageableDelegatingMethodParameterCustomizer pageableDelegatingMethodParameterCustomizer() {
+			return new PageableDelegatingMethodParameterCustomizer();
 		}
 
 	}
