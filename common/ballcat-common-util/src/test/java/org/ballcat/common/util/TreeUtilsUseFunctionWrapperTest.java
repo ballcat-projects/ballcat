@@ -23,22 +23,22 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.ballcat.common.model.domain.TreeNode;
+import org.ballcat.common.model.domain.TreeFunctionWrapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author hccake
  */
-class TreeUtilsTest {
+class TreeUtilsUseFunctionWrapperTest {
 
 	/**
 	 * 构建一棵树
 	 * @param levelNums 每个节点的子节点数量
 	 * @return List
 	 */
-	private List<TreeNode<Long>> buildTreeNodes(List<Integer> levelNums) {
-		List<TreeNode<Long>> list = new ArrayList<>();
+	private List<TestTreeNode> buildTreeNodes(List<Integer> levelNums) {
+		List<TestTreeNode> list = new ArrayList<>();
 		List<Long> parentIds = new ArrayList<>(levelNums.size());
 		parentIds.add(0L);
 
@@ -62,14 +62,17 @@ class TreeUtilsTest {
 
 	@Test
 	void treeTest() {
+		TreeFunctionWrapper<TestTreeNode, Long> wrapper = new TreeFunctionWrapper<>(TestTreeNode::getId,
+				TestTreeNode::getParentId, TestTreeNode::setChildList, TestTreeNode::getChildList);
+
 		// 构建一个树节点列表
-		List<TreeNode<Long>> list = buildTreeNodes(Arrays.asList(2, 1, 1, 2, 3, 4));
+		List<TestTreeNode> list = buildTreeNodes(Arrays.asList(2, 1, 1, 2, 3, 4));
 		// 树节点列表转树结构
-		List<TreeNode<Long>> nodes = TreeUtils.buildTree(list, 0L);
+		List<TestTreeNode> nodes = TreeUtils.buildTree(list, 0L, wrapper);
 		// 树结构转回树节点列表
-		List<TreeNode<Long>> abstractIdTreeNodes = TreeUtils.treeToList(nodes);
+		List<TestTreeNode> abstractIdTreeNodes = TreeUtils.treeToList(nodes, wrapper);
 		// 排序处理
-		abstractIdTreeNodes.sort(Comparator.comparingLong(TreeNode::getKey));
+		abstractIdTreeNodes.sort(Comparator.comparingLong(TestTreeNode::getId));
 
 		// 比较初始的树节点列表和通过两次转换完毕的结果是否一致
 		Assertions.assertEquals(list, abstractIdTreeNodes);
@@ -77,7 +80,7 @@ class TreeUtilsTest {
 
 	@Setter
 	@Getter
-	static class TestTreeNode implements TreeNode<Long> {
+	static class TestTreeNode {
 
 		/**
 		 * 节点ID
@@ -92,29 +95,7 @@ class TreeUtilsTest {
 		/**
 		 * 子节点集合
 		 */
-		private List<TestTreeNode> children;
-
-		@Override
-		public Long getKey() {
-			return this.id;
-		}
-
-		@Override
-		public Long getParentKey() {
-			return this.parentId;
-		}
-
-		@Override
-		@SuppressWarnings("unchecked")
-		public <T extends TreeNode<Long>> void setChildren(List<T> children) {
-			this.children = (List<TestTreeNode>) children;
-		}
-
-		@Override
-		@SuppressWarnings("unchecked")
-		public <T extends TreeNode<Long>> List<T> getChildren() {
-			return (List<T>) this.children;
-		}
+		private List<TestTreeNode> childList;
 
 	}
 
