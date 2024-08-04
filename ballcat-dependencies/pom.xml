@@ -402,6 +402,11 @@
 				<artifactId>ballcat-spring-boot-starter-xxljob</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-quartz</artifactId>
+				<version>${revision}</version>
+			</dependency>
 
 			<!-- kafka 消息队列 -->
 			<dependency>
