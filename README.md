@@ -17,7 +17,9 @@
 
 - Github 地址 ：https://github.com/ballcat-projects/ballcat
 - Gitee 地址：https://gitee.com/ballcat-projects/ballcat （如果 Github 访问速度比较慢的话，可以访问 Gitee ）
-- 1.x 文档地址：http://docs.ballcat.cn/ 
+- GitCode 地址：https://gitcode.com/ballcat-projects/ballcat
+- 1.x 文档地址：https://v1.ballcat.cn/ 
+- 2.x 文档地址：https://v2.ballcat.cn/
 
 
 ## 相关仓库
