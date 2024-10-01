@@ -17,7 +17,9 @@
 package org.ballcat.springsecurity.oauth2.server.resource.configurer;
 
 import org.ballcat.springsecurity.configuer.SpringSecurityConfigurerCustomizer;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -34,17 +36,25 @@ public class BasicOauth2ResourceServerConfigurerCustomizer implements SpringSecu
 
 	private final BearerTokenResolver bearerTokenResolver;
 
-	public BasicOauth2ResourceServerConfigurerCustomizer(AuthenticationEntryPoint authenticationEntryPoint,
+	public BasicOauth2ResourceServerConfigurerCustomizer(
+			ObjectProvider<AuthenticationEntryPoint> authenticationEntryPointObjectProvider,
 			BearerTokenResolver bearerTokenResolver) {
-		this.authenticationEntryPoint = authenticationEntryPoint;
+		this.authenticationEntryPoint = authenticationEntryPointObjectProvider.getIfAvailable();
 		this.bearerTokenResolver = bearerTokenResolver;
 	}
 
 	@Override
 	public void customize(HttpSecurity httpSecurity) throws Exception {
 		// 开启 OAuth2 资源服务
-		httpSecurity.oauth2ResourceServer()
-			.authenticationEntryPoint(this.authenticationEntryPoint)
+		OAuth2ResourceServerConfigurer<HttpSecurity> httpSecurityOAuth2ResourceServerConfigurer = httpSecurity
+			.oauth2ResourceServer();
+
+		// 认证错误处理
+		if (this.authenticationEntryPoint != null) {
+			httpSecurity.exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint);
+		}
+
+		httpSecurityOAuth2ResourceServerConfigurer
 			// bearToken 解析器
 			.bearerTokenResolver(this.bearerTokenResolver)
 			// 不透明令牌，

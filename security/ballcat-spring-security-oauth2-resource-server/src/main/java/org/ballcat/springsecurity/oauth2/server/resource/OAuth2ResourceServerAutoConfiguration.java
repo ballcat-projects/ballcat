@@ -24,7 +24,7 @@ import org.ballcat.springsecurity.oauth2.server.resource.introspection.BallcatRe
 import org.ballcat.springsecurity.oauth2.server.resource.introspection.SpringAuthorizationServerSharedStoredOpaqueTokenIntrospector;
 import org.ballcat.springsecurity.oauth2.server.resource.properties.OAuth2ResourceServerProperties;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
-import org.ballcat.springsecurity.web.CustomAuthenticationEntryPoint;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -67,24 +67,16 @@ public class OAuth2ResourceServerAutoConfiguration {
 		}
 
 		/**
-		 * 自定义异常处理
-		 * @return AuthenticationEntryPoint
-		 */
-		@Bean
-		@ConditionalOnMissingBean
-		public AuthenticationEntryPoint authenticationEntryPoint() {
-			return new CustomAuthenticationEntryPoint();
-		}
-
-		/**
 		 * 资源服务器的定制器
 		 */
 		@Bean
 		@ConditionalOnMissingBean(
 				name = BasicOauth2ResourceServerConfigurerCustomizer.BASIC_OAUTH2_RESOURCE_SERVER_CONFIGURER_CUSTOMIZER_BEAN_NAME)
 		public BasicOauth2ResourceServerConfigurerCustomizer basicOauth2ResourceServerConfigurerCustomizer(
-				AuthenticationEntryPoint authenticationEntryPoint, BearerTokenResolver bearerTokenResolver) {
-			return new BasicOauth2ResourceServerConfigurerCustomizer(authenticationEntryPoint, bearerTokenResolver);
+				ObjectProvider<AuthenticationEntryPoint> authenticationEntryPointObjectProvider,
+				BearerTokenResolver bearerTokenResolver) {
+			return new BasicOauth2ResourceServerConfigurerCustomizer(authenticationEntryPointObjectProvider,
+					bearerTokenResolver);
 		}
 
 		/**
