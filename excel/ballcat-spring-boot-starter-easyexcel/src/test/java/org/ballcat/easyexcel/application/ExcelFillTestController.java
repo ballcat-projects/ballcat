@@ -17,9 +17,12 @@
 package org.ballcat.easyexcel.application;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.ballcat.easyexcel.annotation.ResponseExcel;
+import org.ballcat.easyexcel.fill.FillDataSupplier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +45,31 @@ public class ExcelFillTestController {
 			dataList.add(data);
 		}
 		return dataList;
+	}
+
+	@ResponseExcel(name = "complex-fill", fill = true, template = "fill-complex.xlsx",
+			fillDataSupplier = DemoFillDataSupplier.class)
+	@GetMapping("/complex")
+	public List<DemoData> complex() {
+		List<DemoData> dataList = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			DemoData data = new DemoData();
+			data.setUsername("username" + i);
+			data.setPassword("password" + i);
+			dataList.add(data);
+		}
+		return dataList;
+	}
+
+	public static class DemoFillDataSupplier implements FillDataSupplier {
+
+		@Override
+		public Object getFillData() {
+			Map<String, String> map = new HashMap<>(2);
+			map.put("date", "2019年10月9日13:28:28");
+			return map;
+		}
+
 	}
 
 }

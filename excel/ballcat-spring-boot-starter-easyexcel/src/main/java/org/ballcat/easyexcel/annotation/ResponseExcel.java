@@ -25,6 +25,7 @@ import java.lang.annotation.Target;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.write.handler.WriteHandler;
+import org.ballcat.easyexcel.fill.FillDataSupplier;
 import org.ballcat.easyexcel.head.HeadGenerator;
 
 /**
@@ -71,6 +72,12 @@ public @interface ResponseExcel {
 	 * @return String
 	 */
 	String template() default "";
+
+	/**
+	 * 填充数据提供器
+	 * @return HeadGenerator
+	 */
+	Class<? extends FillDataSupplier> fillDataSupplier() default FillDataSupplier.class;
 
 	/**
 	 * + 包含字段

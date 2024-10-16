@@ -34,8 +34,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
  * @author Hccake
@@ -54,7 +53,7 @@ class ExcelFillTest {
 	@Test
 	void simpleFill() throws Exception {
 		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/fill/simple"))
-			.andExpect(status().isOk())
+			.andExpect(MockMvcResultMatchers.status().isOk())
 			.andReturn();
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray());
 		DefaultAnalysisEventListener readListener = new DefaultAnalysisEventListener();
@@ -70,6 +69,35 @@ class ExcelFillTest {
 		Assertions.assertEquals("username9你好", demoData.getUsername());
 		Assertions.assertEquals("password9Hello", demoData.getPassword());
 
+	}
+
+	/**
+	 * 简单的导出测试
+	 */
+	@Test
+	void complexFill() throws Exception {
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/fill/complex"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andReturn();
+		byte[] contentAsByteArray = mvcResult.getResponse().getContentAsByteArray();
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(contentAsByteArray);
+
+		// ByteArrayInputStream fileInputStream = new
+		// ByteArrayInputStream(contentAsByteArray);
+		// FileUtils.writeToFile(new File("complex-export.xlsx"), fileInputStream);
+
+		DefaultAnalysisEventListener readListener = new DefaultAnalysisEventListener();
+		EasyExcel.read(inputStream, DemoData.class, readListener).sheet().headRowNumber(3).doRead();
+
+		List<Object> list = readListener.getList();
+		Assertions.assertEquals(10, list.size());
+
+		Object o = list.get(9);
+		Assertions.assertInstanceOf(DemoData.class, o);
+
+		DemoData demoData = (DemoData) o;
+		Assertions.assertEquals("username9", demoData.getUsername());
+		Assertions.assertEquals("password9", demoData.getPassword());
 	}
 
 }

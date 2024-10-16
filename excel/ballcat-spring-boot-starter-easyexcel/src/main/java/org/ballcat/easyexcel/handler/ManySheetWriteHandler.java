@@ -29,7 +29,9 @@ import org.ballcat.easyexcel.annotation.Sheet;
 import org.ballcat.easyexcel.config.ExcelConfigProperties;
 import org.ballcat.easyexcel.domain.SheetBuildProperties;
 import org.ballcat.easyexcel.enhance.WriterBuilderEnhancer;
+import org.ballcat.easyexcel.fill.FillDataSupplier;
 import org.ballcat.easyexcel.kit.ExcelException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.ObjectProvider;
 
 /**
@@ -91,6 +93,14 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 			if (responseExcel.fill()) {
 				// 填充 sheet
 				excelWriter.fill(eleList, sheet);
+				Class<? extends FillDataSupplier> fillDataSupplierClazz = responseExcel.fillDataSupplier();
+				if (fillDataSupplierClazz != null && !fillDataSupplierClazz.isInterface()) {
+					FillDataSupplier fillDataSupplier = BeanUtils.instantiateClass(fillDataSupplierClazz);
+					Object fillData = fillDataSupplier.getFillData();
+					if (fillData != null) {
+						excelWriter.fill(fillData, sheet);
+					}
+				}
 			}
 			else {
 				// 写入 sheet
