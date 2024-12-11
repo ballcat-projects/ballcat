@@ -27,7 +27,7 @@
 
 		<!-- 依赖版本 -->
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
-		<easyexcel.version>4.0.1</easyexcel.version>
+		<fastexcel.version>1.0.0</fastexcel.version>
 		<fastjson.version>1.2.83</fastjson.version>
 		<hutool.version>5.8.16</hutool.version>
 		<io.swagger.v3.version>2.2.7</io.swagger.v3.version>
@@ -104,11 +104,11 @@
 				<scope>import</scope>
 			</dependency>
 			<!-- ======================= 第三方依赖 ===================== -->
-			<!--easyExcel 处理-->
+			<!-- fast excel-->
 			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>easyexcel</artifactId>
-				<version>${easyexcel.version}</version>
+				<groupId>cn.idev.excel</groupId>
+				<artifactId>fastexcel</artifactId>
+				<version>${fastexcel.version}</version>
 			</dependency>
 			<!-- fastjson -->
 			<dependency>
@@ -337,7 +337,7 @@
 			<!-- excel -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-easyexcel</artifactId>
+				<artifactId>ballcat-spring-boot-starter-fastexcel</artifactId>
 				<version>${revision}</version>
 			</dependency>
 
