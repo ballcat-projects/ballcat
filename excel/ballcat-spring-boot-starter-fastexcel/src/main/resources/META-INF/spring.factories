@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.ballcat.fastexcel.ResponseExcelAutoConfiguration
+

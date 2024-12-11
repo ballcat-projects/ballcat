@@ -31,7 +31,7 @@
 		<module>dingtalk/ballcat-dingtalk</module>
 		<module>dingtalk/ballcat-spring-boot-starter-dingtalk</module>
 
-		<module>excel/ballcat-spring-boot-starter-easyexcel</module>
+		<module>excel/ballcat-spring-boot-starter-fastexcel</module>
 
 		<module>file/ballcat-spring-boot-starter-file</module>
 
