@@ -428,7 +428,7 @@
 			<!-- log 日志 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-log</artifactId>
+				<artifactId>ballcat-operation-log</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
