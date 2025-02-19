@@ -22,17 +22,20 @@ import java.util.stream.Collectors;
 
 import lombok.Data;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.ballcat.web.accesslog.AbstractAccessLogFilter;
 import org.ballcat.web.accesslog.AccessLogRecordOptions;
 import org.ballcat.web.accesslog.AccessLogRule;
 import org.slf4j.event.Level;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.StringUtils;
 
 /**
  * 访问日志配置
  *
  * @author Hccake 2020/6/11 14:56
  */
+@Slf4j
 @Data
 @Setter
 @ConfigurationProperties(prefix = AccessLogProperties.PREFIX)
@@ -79,7 +82,22 @@ public class AccessLogProperties {
 	}
 
 	public List<AccessLogRule> getAccessLogRules() {
-		return this.rules.stream().map(AccessLogProperties::convertToAccessLogRule).collect(Collectors.toList());
+		return this.rules.stream()
+			.filter(this::isValidRule)
+			.map(AccessLogProperties::convertToAccessLogRule)
+			.collect(Collectors.toList());
+	}
+
+	private boolean isValidRule(Rule rule) {
+		if (!StringUtils.hasText(rule.getUrlPattern())) {
+			log.warn("Access log rule urlPattern is empty, ignore it.");
+			return false;
+		}
+		if (rule.getRecordOptions() == null) {
+			log.warn("Access log rule recordOptions is null, ignore it. urlPattern: {}", rule.getUrlPattern());
+			return false;
+		}
+		return true;
 	}
 
 	private static AccessLogRecordOptions convertToAccessLogRecordOptions(RecordOptions recordOptions) {
