@@ -94,7 +94,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 	@Override
 	@SneakyThrows(UnsupportedEncodingException.class)
-	public void export(Object o, HttpServletResponse response, ResponseExcel responseExcel) {
+	public void export(List<?> returnValue, HttpServletResponse response, ResponseExcel responseExcel) {
 		check(responseExcel);
 		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 		String name = (String) Objects.requireNonNull(requestAttributes)
@@ -111,7 +111,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		response.setContentType(contentType);
 		response.setCharacterEncoding("utf-8");
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + fileName);
-		write(o, response, responseExcel);
+		write(returnValue, response, responseExcel);
 	}
 
 	/**

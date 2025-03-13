@@ -29,7 +29,6 @@ import org.ballcat.fastexcel.config.ExcelConfigProperties;
 import org.ballcat.fastexcel.domain.SheetBuildProperties;
 import org.ballcat.fastexcel.enhance.WriterBuilderEnhancer;
 import org.ballcat.fastexcel.fill.FillDataSupplier;
-import org.ballcat.fastexcel.kit.ExcelException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.ObjectProvider;
 
@@ -47,23 +46,16 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 
 	/**
 	 * obj 是List 且list不为空同时list中的元素不是是List 才返回true
-	 * @param obj 返回对象
+	 * @param returnValue 返回对象
 	 * @return boolean
 	 */
 	@Override
-	public boolean support(Object obj) {
-		if (obj instanceof List) {
-			List<?> objList = (List<?>) obj;
-			return !objList.isEmpty() && !(objList.get(0) instanceof List);
-		}
-		else {
-			throw new ExcelException("@ResponseExcel 返回值必须为List类型");
-		}
+	public boolean support(List<?> returnValue) {
+		return !returnValue.isEmpty() && !(returnValue.get(0) instanceof List);
 	}
 
 	@Override
-	public void write(Object obj, HttpServletResponse response, ResponseExcel responseExcel) {
-		List<?> eleList = (List<?>) obj;
+	public void write(List<?> returnValue, HttpServletResponse response, ResponseExcel responseExcel) {
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
 
 		// 获取 Sheet 配置
@@ -81,17 +73,17 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 
 		// 创建sheet
 		WriteSheet sheet;
-		if (eleList.isEmpty()) {
+		if (returnValue.isEmpty()) {
 			sheet = this.emptySheet(sheetBuildProperties, template);
 		}
 		else {
-			Class<?> dataClass = eleList.get(0).getClass();
+			Class<?> dataClass = returnValue.get(0).getClass();
 			sheet = this.emptySheet(sheetBuildProperties, dataClass, template, responseExcel.headGenerator());
 		}
 
 		if (responseExcel.fill()) {
 			// 填充 sheet
-			excelWriter.fill(eleList, sheet);
+			excelWriter.fill(returnValue, sheet);
 			Class<? extends FillDataSupplier> fillDataSupplierClazz = responseExcel.fillDataSupplier();
 			if (fillDataSupplierClazz != null && !fillDataSupplierClazz.isInterface()) {
 				FillDataSupplier fillDataSupplier = BeanUtils.instantiateClass(fillDataSupplierClazz);
@@ -103,7 +95,7 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 		}
 		else {
 			// 写入 sheet
-			excelWriter.write(eleList, sheet);
+			excelWriter.write(returnValue, sheet);
 		}
 
 		excelWriter.finish();
