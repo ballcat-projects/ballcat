@@ -52,6 +52,11 @@ public @interface Sheet {
 	String[] excludes() default {};
 
 	/**
+	 * Head Class, 用于生成 Excel 头部，以便可以在返回数据为空时, 导出带有头信息的 Excel。
+	 */
+	Class<?> headClass() default Object.class;
+
+	/**
 	 * 头生成器
 	 */
 	Class<? extends HeadGenerator> headGenerateClass() default HeadGenerator.class;

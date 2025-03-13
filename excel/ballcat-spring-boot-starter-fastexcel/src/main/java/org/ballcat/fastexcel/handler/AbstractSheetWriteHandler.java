@@ -192,6 +192,26 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? FastExcel.writerSheet(sheetNo)
 				: FastExcel.writerSheet(sheetNo, sheetName);
 
+		// 头信息增强
+		Class<? extends HeadGenerator> headGenerateClass = null;
+		if (isNotInterface(sheetBuildProperties.getHeadGenerateClass())) {
+			headGenerateClass = sheetBuildProperties.getHeadGenerateClass();
+		}
+
+		// 优先使用注解中的 headClass，其次使用使用实际数据类型 dataClass
+		Class<?> headClass = sheetBuildProperties.getHeadClass();
+		if (Object.class.equals(headClass)) {
+			headClass = null;
+		}
+
+		// 定义头信息增强则使用其生成头信息，否则使用 headClass 来自动获取
+		if (headGenerateClass != null) {
+			fillCustomHeadInfo(headClass, headGenerateClass, writerSheetBuilder);
+		}
+		else if (headClass != null) {
+			writerSheetBuilder.head(headClass);
+		}
+
 		return writerSheetBuilder.build();
 	}
 
@@ -212,23 +232,31 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? FastExcel.writerSheet(sheetNo)
 				: FastExcel.writerSheet(sheetNo, sheetName);
 
-		// 头信息增强 1. 优先使用 sheet 指定的头信息增强 2. 其次使用 @ResponseExcel 中定义的全局头信息增强
+		// 头信息增强
 		Class<? extends HeadGenerator> headGenerateClass = null;
 		if (isNotInterface(sheetBuildProperties.getHeadGenerateClass())) {
 			headGenerateClass = sheetBuildProperties.getHeadGenerateClass();
 		}
-		// 定义头信息增强则使用其生成头信息，否则使用 dataClass 来自动获取
-		if (headGenerateClass != null) {
-			fillCustomHeadInfo(dataClass, headGenerateClass, writerSheetBuilder);
+
+		// 优先使用注解中的 headClass，其次使用使用实际数据类型 dataClass
+		Class<?> headClass = sheetBuildProperties.getHeadClass();
+		if (headClass == null || Object.class.equals(headClass)) {
+			headClass = dataClass;
 		}
-		else if (dataClass != null) {
-			writerSheetBuilder.head(dataClass);
-			if (sheetBuildProperties.getExcludes().length > 0) {
-				writerSheetBuilder.excludeColumnFieldNames(Arrays.asList(sheetBuildProperties.getExcludes()));
-			}
-			if (sheetBuildProperties.getIncludes().length > 0) {
-				writerSheetBuilder.includeColumnFieldNames(Arrays.asList(sheetBuildProperties.getIncludes()));
-			}
+
+		// 定义头信息增强则使用其生成头信息，否则使用 headClass 来自动获取
+		if (headGenerateClass != null) {
+			fillCustomHeadInfo(headClass, headGenerateClass, writerSheetBuilder);
+		}
+		else if (headClass != null) {
+			writerSheetBuilder.head(headClass);
+		}
+
+		if (sheetBuildProperties.getExcludes().length > 0) {
+			writerSheetBuilder.excludeColumnFieldNames(Arrays.asList(sheetBuildProperties.getExcludes()));
+		}
+		if (sheetBuildProperties.getIncludes().length > 0) {
+			writerSheetBuilder.includeColumnFieldNames(Arrays.asList(sheetBuildProperties.getIncludes()));
 		}
 
 		// sheetBuilder 增强

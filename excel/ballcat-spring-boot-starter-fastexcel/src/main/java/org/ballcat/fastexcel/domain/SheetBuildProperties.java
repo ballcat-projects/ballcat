@@ -50,6 +50,11 @@ public class SheetBuildProperties {
 	private String[] excludes = new String[0];
 
 	/**
+	 * Head Class, 用于生成 Excel 头部，以便可以在返回数据为空时, 导出带有头信息的 Excel。
+	 */
+	Class<?> headClass = Object.class;
+
+	/**
 	 * 头生成器
 	 */
 	private Class<? extends HeadGenerator> headGenerateClass = HeadGenerator.class;
@@ -71,6 +76,7 @@ public class SheetBuildProperties {
 		}
 		this.includes = sheetAnnotation.includes();
 		this.excludes = sheetAnnotation.excludes();
+		this.headClass = sheetAnnotation.headClass();
 		this.headGenerateClass = sheetAnnotation.headGenerateClass();
 	}
 
