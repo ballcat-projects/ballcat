@@ -17,6 +17,7 @@
 package org.ballcat.fastexcel.domain;
 
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.ballcat.fastexcel.annotation.Sheet;
 import org.ballcat.fastexcel.head.HeadGenerator;
 
@@ -31,7 +32,7 @@ public class SheetBuildProperties {
 	/**
 	 * sheet 编号
 	 */
-	private int sheetNo = -1;
+	private int sheetNo;
 
 	/**
 	 * sheet name
@@ -53,16 +54,28 @@ public class SheetBuildProperties {
 	 */
 	private Class<? extends HeadGenerator> headGenerateClass = HeadGenerator.class;
 
-	public SheetBuildProperties(Sheet sheetAnnotation) {
-		this.sheetNo = sheetAnnotation.sheetNo();
-		this.sheetName = sheetAnnotation.sheetName();
+	public SheetBuildProperties(Sheet sheetAnnotation, int sheetIndex) {
+		// 如果指定了 sheetNo，则使用指定的 sheetNo，否则使用 sheetIndex
+		if (sheetAnnotation.sheetNo() >= 0) {
+			this.sheetNo = sheetAnnotation.sheetNo();
+		}
+		else {
+			this.sheetNo = sheetIndex;
+		}
+		// 如果没有指定 sheetName, 则默认使用前缀 “sheet” + {sheetNo}，如 “sheet1”
+		if (StringUtils.isEmpty(sheetAnnotation.sheetName())) {
+			this.sheetName = "sheet" + (this.sheetNo + 1);
+		}
+		else {
+			this.sheetName = sheetAnnotation.sheetName();
+		}
 		this.includes = sheetAnnotation.includes();
 		this.excludes = sheetAnnotation.excludes();
 		this.headGenerateClass = sheetAnnotation.headGenerateClass();
 	}
 
-	public SheetBuildProperties(int index) {
-		this.sheetNo = index;
+	public SheetBuildProperties(int sheetIndex) {
+		this.sheetNo = sheetIndex;
 		this.sheetName = "sheet" + (this.sheetNo + 1);
 	}
 

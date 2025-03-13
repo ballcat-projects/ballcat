@@ -62,7 +62,7 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 		SheetBuildProperties sheetBuildProperties;
 		Sheet[] sheets = responseExcel.sheets();
 		if (sheets != null && sheets.length > 0) {
-			sheetBuildProperties = new SheetBuildProperties(sheets[0]);
+			sheetBuildProperties = new SheetBuildProperties(sheets[0], 0);
 		}
 		else {
 			sheetBuildProperties = new SheetBuildProperties(0);

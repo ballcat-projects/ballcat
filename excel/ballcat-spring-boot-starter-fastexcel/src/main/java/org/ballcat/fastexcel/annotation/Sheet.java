@@ -37,9 +37,9 @@ public @interface Sheet {
 	int sheetNo() default -1;
 
 	/**
-	 * sheet name
+	 * sheet name, 为空时，默认使用前缀 “sheet” + {sheetNo}，如 “sheet1”
 	 */
-	String sheetName();
+	String sheetName() default "";
 
 	/**
 	 * 包含字段

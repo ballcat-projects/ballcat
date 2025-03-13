@@ -107,8 +107,8 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 		List<SheetBuildProperties> sheetBuildPropertiesList = new ArrayList<>();
 		Sheet[] sheets = responseExcel.sheets();
 		if (sheets != null && sheets.length > 0) {
-			for (Sheet sheet : sheets) {
-				sheetBuildPropertiesList.add(new SheetBuildProperties(sheet));
+			for (int i = 0; i < sheets.length; i++) {
+				sheetBuildPropertiesList.add(new SheetBuildProperties(sheets[i], i));
 			}
 		}
 		else {
