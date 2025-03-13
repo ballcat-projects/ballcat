@@ -40,7 +40,8 @@ public class ExcelExportTestController {
 		return getDemoData();
 	}
 
-	@ResponseExcel(name = "test-export", template = "template.xlsx", headGenerator = EmptyHeadGenerator.class)
+	@ResponseExcel(name = "test-export", template = "template.xlsx",
+			sheets = @Sheet(headGenerateClass = EmptyHeadGenerator.class))
 	@GetMapping("/templateExportIgnoreHeader")
 	public List<DemoData> templateExportIgnoreHeader() {
 		return getDemoData();

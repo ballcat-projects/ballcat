@@ -78,7 +78,7 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 		}
 		else {
 			Class<?> dataClass = returnValue.get(0).getClass();
-			sheet = this.emptySheet(sheetBuildProperties, dataClass, template, responseExcel.headGenerator());
+			sheet = this.emptySheet(sheetBuildProperties, dataClass, template);
 		}
 
 		if (responseExcel.fill()) {

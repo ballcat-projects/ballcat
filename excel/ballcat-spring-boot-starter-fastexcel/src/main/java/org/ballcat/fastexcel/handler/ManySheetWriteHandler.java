@@ -78,7 +78,7 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 				}
 				else {
 					Class<?> dataClass = eleList.get(0).getClass();
-					sheet = this.emptySheet(sheetBuildProperties, dataClass, template, responseExcel.headGenerator());
+					sheet = this.emptySheet(sheetBuildProperties, dataClass, template);
 				}
 			}
 

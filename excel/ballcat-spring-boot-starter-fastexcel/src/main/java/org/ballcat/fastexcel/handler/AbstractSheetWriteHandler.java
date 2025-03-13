@@ -200,11 +200,9 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	 * @param sheetBuildProperties sheet annotation info
 	 * @param dataClass 数据类型
 	 * @param template 模板
-	 * @param bookHeadEnhancerClass 自定义头处理器
 	 * @return WriteSheet
 	 */
-	public WriteSheet emptySheet(SheetBuildProperties sheetBuildProperties, Class<?> dataClass, String template,
-			Class<? extends HeadGenerator> bookHeadEnhancerClass) {
+	public WriteSheet emptySheet(SheetBuildProperties sheetBuildProperties, Class<?> dataClass, String template) {
 
 		// Sheet 编号和名称
 		Integer sheetNo = sheetBuildProperties.getSheetNo() >= 0 ? sheetBuildProperties.getSheetNo() : null;
@@ -219,12 +217,9 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		if (isNotInterface(sheetBuildProperties.getHeadGenerateClass())) {
 			headGenerateClass = sheetBuildProperties.getHeadGenerateClass();
 		}
-		else if (isNotInterface(bookHeadEnhancerClass)) {
-			headGenerateClass = bookHeadEnhancerClass;
-		}
 		// 定义头信息增强则使用其生成头信息，否则使用 dataClass 来自动获取
 		if (headGenerateClass != null) {
-			fillCustomHeadInfo(dataClass, bookHeadEnhancerClass, writerSheetBuilder);
+			fillCustomHeadInfo(dataClass, headGenerateClass, writerSheetBuilder);
 		}
 		else if (dataClass != null) {
 			writerSheetBuilder.head(dataClass);
