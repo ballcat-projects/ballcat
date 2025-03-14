@@ -22,7 +22,9 @@ import org.springframework.context.expression.MethodBasedEvaluationContext;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.ParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 /**
@@ -42,13 +44,10 @@ public class NameSpelExpressionProcessor implements NameProcessor {
 
 	@Override
 	public String doDetermineName(Object[] args, Method method, String key) {
-
-		if (!key.contains("#")) {
-			return key;
-		}
-
-		EvaluationContext context = new MethodBasedEvaluationContext(null, method, args, NAME_DISCOVERER);
-		final Object value = PARSER.parseExpression(key).getValue(context);
+		Expression expr = PARSER.parseExpression(key, ParserContext.TEMPLATE_EXPRESSION);
+		EvaluationContext context = new MethodBasedEvaluationContext(ExcelNameParseRoot.class, method, args,
+				NAME_DISCOVERER);
+		final Object value = expr.getValue(context);
 		return value == null ? null : value.toString();
 	}
 

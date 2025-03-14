@@ -38,8 +38,9 @@ import org.ballcat.fastexcel.fill.FillDataSupplier;
 public @interface ResponseExcel {
 
 	/**
-	 * 文件名称
+	 * 文件名称， 支持 Spel 表达式，提供了默认的一些后缀生成方法。 eg. name = "订单数据-#{currentDateTime()}"
 	 * @return string
+	 * @see org.ballcat.fastexcel.processor.ExcelNameParseRoot
 	 */
 	String name() default "";
 
