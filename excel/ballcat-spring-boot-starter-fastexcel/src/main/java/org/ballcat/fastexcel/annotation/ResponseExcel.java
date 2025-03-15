@@ -26,6 +26,7 @@ import cn.idev.excel.converters.Converter;
 import cn.idev.excel.support.ExcelTypeEnum;
 import cn.idev.excel.write.handler.WriteHandler;
 import org.ballcat.fastexcel.fill.FillDataSupplier;
+import org.ballcat.fastexcel.head.HeadGenerator;
 
 /**
  * `@ResponseExcel 注解`
@@ -102,6 +103,16 @@ public @interface ResponseExcel {
 	 * @return Converter[]
 	 */
 	Class<? extends Converter>[] converter() default {};
+
+	/**
+	 * Head Class, 用于生成 Excel 头部，以便可以在返回数据为空时, 导出带有头信息的 Excel。
+	 */
+	Class<?> headClass() default Object.class;
+
+	/**
+	 * 头生成器
+	 */
+	Class<? extends HeadGenerator> headGenerateClass() default HeadGenerator.class;
 
 	/**
 	 * excel 头信息国际化

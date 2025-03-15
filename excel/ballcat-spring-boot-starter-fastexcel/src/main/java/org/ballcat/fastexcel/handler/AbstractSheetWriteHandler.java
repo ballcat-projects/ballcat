@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import cn.idev.excel.ExcelWriter;
 import cn.idev.excel.FastExcel;
 import cn.idev.excel.converters.Converter;
+import cn.idev.excel.write.builder.AbstractExcelWriterParameterBuilder;
 import cn.idev.excel.write.builder.ExcelWriterBuilder;
 import cn.idev.excel.write.builder.ExcelWriterSheetBuilder;
 import cn.idev.excel.write.handler.WriteHandler;
@@ -163,6 +164,21 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 			writerBuilder.withTemplate(inputStream);
 		}
 
+		// 头信息增强
+		Class<? extends HeadGenerator> headGenerateClass = null;
+		if (isNotInterface(responseExcel.headGenerateClass())) {
+			headGenerateClass = responseExcel.headGenerateClass();
+		}
+		// 优先使用注解中的 headClass，其次使用使用实际数据类型 dataClass
+		Class<?> headClass = responseExcel.headClass();
+		// 定义头信息增强则使用其生成头信息，否则使用 headClass 来自动获取
+		if (headGenerateClass != null) {
+			fillCustomHeadInfo(headClass, headGenerateClass, writerBuilder);
+		}
+		else if (headClass != null && !Object.class.equals(headClass)) {
+			writerBuilder.head(headClass);
+		}
+
 		writerBuilder = this.excelWriterBuilderEnhance.enhanceExcel(writerBuilder, response, responseExcel,
 				templatePath);
 
@@ -267,7 +283,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	}
 
 	private void fillCustomHeadInfo(Class<?> dataClass, Class<? extends HeadGenerator> headEnhancerClass,
-			ExcelWriterSheetBuilder writerSheetBuilder) {
+			AbstractExcelWriterParameterBuilder<?, ?> writerSheetBuilder) {
 		HeadGenerator headGenerator = this.applicationContext.getBean(headEnhancerClass);
 		Assert.notNull(headGenerator, "The header generated bean does not exist.");
 		HeadMeta head = headGenerator.head(dataClass);
