@@ -46,16 +46,25 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 
 	/**
 	 * obj 是List 且list不为空同时list中的元素不是是List 才返回true
-	 * @param returnValue 返回对象
+	 * @param resultObject 返回对象
 	 * @return boolean
 	 */
 	@Override
-	public boolean support(List<?> returnValue) {
-		return !returnValue.isEmpty() && !(returnValue.get(0) instanceof List);
+	public boolean support(Object resultObject) {
+		if (resultObject instanceof List) {
+			List<?> list = (List<?>) resultObject;
+			if (list.isEmpty()) {
+				return false;
+			}
+			return !(list.get(0) instanceof List);
+		}
+		return false;
 	}
 
 	@Override
-	public void write(List<?> returnValue, HttpServletResponse response, ResponseExcel responseExcel) {
+	public void write(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel) {
+		List<?> returnValue = (List<?>) resultObject;
+
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
 
 		// 获取 Sheet 配置

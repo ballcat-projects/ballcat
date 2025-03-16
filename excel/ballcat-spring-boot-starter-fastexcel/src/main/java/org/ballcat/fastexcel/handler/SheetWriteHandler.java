@@ -16,8 +16,6 @@
 
 package org.ballcat.fastexcel.handler;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.ballcat.fastexcel.annotation.ResponseExcel;
@@ -31,10 +29,10 @@ public interface SheetWriteHandler {
 
 	/**
 	 * 是否支持
-	 * @param returnValue 返回对象
+	 * @param resultObject 返回对象
 	 * @return boolean
 	 */
-	boolean support(List<?> returnValue);
+	boolean support(Object resultObject);
 
 	/**
 	 * 校验
@@ -44,18 +42,18 @@ public interface SheetWriteHandler {
 
 	/**
 	 * 返回的对象
-	 * @param returnValue 返回对象
+	 * @param resultObject 返回对象
 	 * @param response 输出对象
 	 * @param responseExcel 注解
 	 */
-	void export(List<?> returnValue, HttpServletResponse response, ResponseExcel responseExcel);
+	void export(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel);
 
 	/**
 	 * 写成对象
-	 * @param returnValue 返回对象
+	 * @param resultObject 返回对象
 	 * @param response 输出对象
 	 * @param responseExcel 注解
 	 */
-	void write(List<?> returnValue, HttpServletResponse response, ResponseExcel responseExcel);
+	void write(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel);
 
 }

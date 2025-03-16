@@ -66,16 +66,15 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
 		Assert.state(response != null, "No HttpServletResponse");
 		ResponseExcel responseExcel = parameter.getMethodAnnotation(ResponseExcel.class);
 		Assert.state(responseExcel != null, "No @ResponseExcel");
-		Assert.isTrue(o instanceof List, "导出Excel时，返回值必须为List类型");
-
-		List<?> returnValue = (List<?>) o;
 
 		mavContainer.setRequestHandled(true);
 
-		this.sheetWriteHandlerList.stream()
-			.filter(handler -> handler.support(returnValue))
+		SheetWriteHandler sheetWriteHandler = this.sheetWriteHandlerList.stream()
+			.filter(handler -> handler.support(o))
 			.findFirst()
-			.ifPresent(handler -> handler.export(returnValue, response, responseExcel));
+			.orElseThrow(() -> new IllegalArgumentException("No suitable sheetWriteHandler found"));
+
+		sheetWriteHandler.export(o, response, responseExcel);
 	}
 
 }

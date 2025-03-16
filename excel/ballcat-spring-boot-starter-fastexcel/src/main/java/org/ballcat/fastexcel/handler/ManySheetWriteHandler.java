@@ -45,16 +45,25 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 
 	/**
 	 * 当且仅当List不为空且List中的元素也是List 才返回true
-	 * @param returnValue 返回对象
+	 * @param resultObject 返回对象
 	 * @return boolean
 	 */
 	@Override
-	public boolean support(List<?> returnValue) {
-		return !returnValue.isEmpty() && returnValue.get(0) instanceof List;
+	public boolean support(Object resultObject) {
+		if (resultObject instanceof List) {
+			List<?> list = (List<?>) resultObject;
+			if (list.isEmpty()) {
+				return false;
+			}
+			return list.get(0) instanceof List;
+		}
+		return false;
 	}
 
 	@Override
-	public void write(List<?> returnValue, HttpServletResponse response, ResponseExcel responseExcel) {
+	public void write(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel) {
+		List<List<?>> returnValue = (List<List<?>>) resultObject;
+
 		int objListSize = returnValue.size();
 
 		String template = responseExcel.template();
@@ -72,7 +81,7 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 				sheet = this.emptySheet(sheetBuildProperties, template);
 			}
 			else {
-				eleList = (List<?>) returnValue.get(i);
+				eleList = returnValue.get(i);
 				if (eleList.isEmpty()) {
 					sheet = this.emptySheet(sheetBuildProperties, template);
 				}
