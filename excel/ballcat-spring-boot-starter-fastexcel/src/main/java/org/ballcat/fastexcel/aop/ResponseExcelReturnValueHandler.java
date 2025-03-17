@@ -70,7 +70,7 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
 		mavContainer.setRequestHandled(true);
 
 		SheetWriteHandler sheetWriteHandler = this.sheetWriteHandlerList.stream()
-			.filter(handler -> handler.support(o))
+			.filter(handler -> handler.support(o, responseExcel))
 			.findFirst()
 			.orElseThrow(() -> new IllegalArgumentException("No suitable sheetWriteHandler found"));
 

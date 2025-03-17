@@ -30,9 +30,10 @@ public interface SheetWriteHandler {
 	/**
 	 * 是否支持
 	 * @param resultObject 返回对象
+	 * @param responseExcel 注解
 	 * @return boolean
 	 */
-	boolean support(Object resultObject);
+	boolean support(Object resultObject, ResponseExcel responseExcel);
 
 	/**
 	 * 校验
