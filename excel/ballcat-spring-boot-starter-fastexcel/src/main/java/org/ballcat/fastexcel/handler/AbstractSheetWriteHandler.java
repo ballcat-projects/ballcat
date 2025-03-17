@@ -194,44 +194,6 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	}
 
 	/**
-	 * 构建一个 空的 WriteSheet 对象
-	 * @param sheetBuildProperties sheet build 属性
-	 * @param template 模板信息
-	 * @return WriteSheet
-	 */
-	public WriteSheet emptySheet(SheetBuildProperties sheetBuildProperties, String template) {
-		// Sheet 编号和名称
-		Integer sheetNo = sheetBuildProperties.getSheetNo() >= 0 ? sheetBuildProperties.getSheetNo() : null;
-		String sheetName = sheetBuildProperties.getSheetName();
-
-		// 是否模板写入
-		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? FastExcel.writerSheet(sheetNo)
-				: FastExcel.writerSheet(sheetNo, sheetName);
-
-		// 头信息增强
-		Class<? extends HeadGenerator> headGenerateClass = null;
-		if (isNotInterface(sheetBuildProperties.getHeadGenerateClass())) {
-			headGenerateClass = sheetBuildProperties.getHeadGenerateClass();
-		}
-
-		// 优先使用注解中的 headClass，其次使用使用实际数据类型 dataClass
-		Class<?> headClass = sheetBuildProperties.getHeadClass();
-		if (Object.class.equals(headClass)) {
-			headClass = null;
-		}
-
-		// 定义头信息增强则使用其生成头信息，否则使用 headClass 来自动获取
-		if (headGenerateClass != null) {
-			fillCustomHeadInfo(headClass, headGenerateClass, writerSheetBuilder);
-		}
-		else if (headClass != null) {
-			writerSheetBuilder.head(headClass);
-		}
-
-		return writerSheetBuilder.build();
-	}
-
-	/**
 	 * 获取 WriteSheet 对象
 	 * @param sheetBuildProperties sheet annotation info
 	 * @param dataClass 数据类型

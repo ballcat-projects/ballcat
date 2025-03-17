@@ -28,8 +28,6 @@ import org.ballcat.fastexcel.annotation.Sheet;
 import org.ballcat.fastexcel.config.ExcelConfigProperties;
 import org.ballcat.fastexcel.domain.SheetBuildProperties;
 import org.ballcat.fastexcel.enhance.WriterBuilderEnhancer;
-import org.ballcat.fastexcel.fill.FillDataSupplier;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.ObjectProvider;
 
 /**
@@ -68,49 +66,23 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 
 	@Override
 	public void write(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel) {
-		List<?> returnValue = (List<?>) resultObject;
+		List<?> eleList = (List<?>) resultObject;
 
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
 
 		// 获取 Sheet 配置
-		SheetBuildProperties sheetBuildProperties;
-		Sheet[] sheets = responseExcel.sheets();
-		if (sheets != null && sheets.length > 0) {
-			sheetBuildProperties = new SheetBuildProperties(sheets[0], 0);
-		}
-		else {
-			sheetBuildProperties = new SheetBuildProperties(0);
-		}
+		SheetBuildProperties sheetBuildProperties = SheetWriteHandlerUtils.getSheetBuildProperties(responseExcel);
 
 		// 模板信息
 		String template = responseExcel.template();
 
-		// 创建sheet
-		WriteSheet sheet;
-		if (returnValue.isEmpty()) {
-			sheet = this.emptySheet(sheetBuildProperties, template);
-		}
-		else {
-			Class<?> dataClass = returnValue.get(0).getClass();
-			sheet = this.emptySheet(sheetBuildProperties, dataClass, template);
-		}
+		// 实际数据类型
+		Class<?> dataClass = eleList.isEmpty() ? null : eleList.get(0).getClass();
 
-		if (responseExcel.fill()) {
-			// 填充 sheet
-			excelWriter.fill(returnValue, sheet);
-			Class<? extends FillDataSupplier> fillDataSupplierClazz = responseExcel.fillDataSupplier();
-			if (fillDataSupplierClazz != null && !fillDataSupplierClazz.isInterface()) {
-				FillDataSupplier fillDataSupplier = BeanUtils.instantiateClass(fillDataSupplierClazz);
-				Object fillData = fillDataSupplier.getFillData();
-				if (fillData != null) {
-					excelWriter.fill(fillData, sheet);
-				}
-			}
-		}
-		else {
-			// 写入 sheet
-			excelWriter.write(returnValue, sheet);
-		}
+		// 创建sheet
+		WriteSheet sheet = this.emptySheet(sheetBuildProperties, dataClass, template);
+
+		SheetWriteHandlerUtils.writeOrFillExcel(responseExcel, excelWriter, eleList, sheet);
 
 		excelWriter.finish();
 	}

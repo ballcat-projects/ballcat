@@ -25,12 +25,9 @@ import cn.idev.excel.ExcelWriter;
 import cn.idev.excel.converters.Converter;
 import cn.idev.excel.write.metadata.WriteSheet;
 import org.ballcat.fastexcel.annotation.ResponseExcel;
-import org.ballcat.fastexcel.annotation.Sheet;
 import org.ballcat.fastexcel.config.ExcelConfigProperties;
 import org.ballcat.fastexcel.domain.SheetBuildProperties;
 import org.ballcat.fastexcel.enhance.WriterBuilderEnhancer;
-import org.ballcat.fastexcel.fill.FillDataSupplier;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.ObjectProvider;
 
 /**
@@ -61,48 +58,19 @@ public class NullDataSheetWriteHandler extends AbstractSheetWriteHandler {
 	public void write(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel) {
 		String template = responseExcel.template();
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
-		int objListSize = 1;
-		List<SheetBuildProperties> sheetBuildPropertiesList = getSheetBuildProperties(responseExcel, objListSize);
+
+		List<SheetBuildProperties> sheetBuildPropertiesList = SheetWriteHandlerUtils
+			.getSheetBuildPropertiesList(responseExcel, 1);
+
+		List<?> eleList = new ArrayList<>();
 
 		for (SheetBuildProperties sheetBuildProperties : sheetBuildPropertiesList) {
 			// 创建sheet
-			WriteSheet sheet = this.emptySheet(sheetBuildProperties, sheetBuildProperties.getHeadClass(), template);
-			List<?> eleList = new ArrayList<>();
+			WriteSheet sheet = this.emptySheet(sheetBuildProperties, null, template);
 
-			if (responseExcel.fill()) {
-				// 填充 sheet
-				excelWriter.fill(eleList, sheet);
-				Class<? extends FillDataSupplier> fillDataSupplierClazz = responseExcel.fillDataSupplier();
-				if (fillDataSupplierClazz != null && !fillDataSupplierClazz.isInterface()) {
-					FillDataSupplier fillDataSupplier = BeanUtils.instantiateClass(fillDataSupplierClazz);
-					Object fillData = fillDataSupplier.getFillData();
-					if (fillData != null) {
-						excelWriter.fill(fillData, sheet);
-					}
-				}
-			}
-			else {
-				// 写入 sheet
-				excelWriter.write(eleList, sheet);
-			}
+			SheetWriteHandlerUtils.writeOrFillExcel(responseExcel, excelWriter, eleList, sheet);
 		}
 
-	}
-
-	private static List<SheetBuildProperties> getSheetBuildProperties(ResponseExcel responseExcel, int objListSize) {
-		List<SheetBuildProperties> sheetBuildPropertiesList = new ArrayList<>();
-		Sheet[] sheets = responseExcel.sheets();
-		if (sheets != null && sheets.length > 0) {
-			for (int i = 0; i < sheets.length; i++) {
-				sheetBuildPropertiesList.add(new SheetBuildProperties(sheets[i], i));
-			}
-		}
-		else {
-			for (int i = 0; i < objListSize; i++) {
-				sheetBuildPropertiesList.add(new SheetBuildProperties(i));
-			}
-		}
-		return sheetBuildPropertiesList;
 	}
 
 }

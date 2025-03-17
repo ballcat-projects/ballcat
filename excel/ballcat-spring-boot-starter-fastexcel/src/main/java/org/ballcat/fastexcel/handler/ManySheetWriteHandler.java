@@ -29,8 +29,6 @@ import org.ballcat.fastexcel.annotation.Sheet;
 import org.ballcat.fastexcel.config.ExcelConfigProperties;
 import org.ballcat.fastexcel.domain.SheetBuildProperties;
 import org.ballcat.fastexcel.enhance.WriterBuilderEnhancer;
-import org.ballcat.fastexcel.fill.FillDataSupplier;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.ObjectProvider;
 
 /**
@@ -74,63 +72,29 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 		String template = responseExcel.template();
 
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
-		List<SheetBuildProperties> sheetBuildPropertiesList = getSheetBuildProperties(responseExcel, objListSize);
+		List<SheetBuildProperties> sheetBuildPropertiesList = SheetWriteHandlerUtils
+			.getSheetBuildPropertiesList(responseExcel, objListSize);
 
 		for (int i = 0; i < sheetBuildPropertiesList.size(); i++) {
 			SheetBuildProperties sheetBuildProperties = sheetBuildPropertiesList.get(i);
 			// 创建sheet
 			WriteSheet sheet;
 			List<?> eleList;
-			if (objListSize <= i) {
+
+			if (objListSize <= i || returnValue.get(i).isEmpty()) {
 				eleList = new ArrayList<>();
-				sheet = this.emptySheet(sheetBuildProperties, template);
+				sheet = this.emptySheet(sheetBuildProperties, null, template);
 			}
 			else {
 				eleList = returnValue.get(i);
-				if (eleList.isEmpty()) {
-					sheet = this.emptySheet(sheetBuildProperties, template);
-				}
-				else {
-					Class<?> dataClass = eleList.get(0).getClass();
-					sheet = this.emptySheet(sheetBuildProperties, dataClass, template);
-				}
+				Class<?> dataClass = eleList.get(0).getClass();
+				sheet = this.emptySheet(sheetBuildProperties, dataClass, template);
 			}
 
-			if (responseExcel.fill()) {
-				// 填充 sheet
-				excelWriter.fill(eleList, sheet);
-				Class<? extends FillDataSupplier> fillDataSupplierClazz = responseExcel.fillDataSupplier();
-				if (fillDataSupplierClazz != null && !fillDataSupplierClazz.isInterface()) {
-					FillDataSupplier fillDataSupplier = BeanUtils.instantiateClass(fillDataSupplierClazz);
-					Object fillData = fillDataSupplier.getFillData();
-					if (fillData != null) {
-						excelWriter.fill(fillData, sheet);
-					}
-				}
-			}
-			else {
-				// 写入 sheet
-				excelWriter.write(eleList, sheet);
-			}
+			SheetWriteHandlerUtils.writeOrFillExcel(responseExcel, excelWriter, eleList, sheet);
 		}
 
 		excelWriter.finish();
-	}
-
-	private static List<SheetBuildProperties> getSheetBuildProperties(ResponseExcel responseExcel, int objListSize) {
-		List<SheetBuildProperties> sheetBuildPropertiesList = new ArrayList<>();
-		Sheet[] sheets = responseExcel.sheets();
-		if (sheets != null && sheets.length > 0) {
-			for (int i = 0; i < sheets.length; i++) {
-				sheetBuildPropertiesList.add(new SheetBuildProperties(sheets[i], i));
-			}
-		}
-		else {
-			for (int i = 0; i < objListSize; i++) {
-				sheetBuildPropertiesList.add(new SheetBuildProperties(i));
-			}
-		}
-		return sheetBuildPropertiesList;
 	}
 
 }
