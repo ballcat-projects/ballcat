@@ -27,6 +27,7 @@ import org.ballcat.fastexcel.config.ExcelConfigProperties;
 import org.ballcat.fastexcel.enhance.DefaultWriterBuilderEnhancer;
 import org.ballcat.fastexcel.enhance.WriterBuilderEnhancer;
 import org.ballcat.fastexcel.handler.ManySheetWriteHandler;
+import org.ballcat.fastexcel.handler.NullDataSheetWriteHandler;
 import org.ballcat.fastexcel.handler.SheetWriteHandler;
 import org.ballcat.fastexcel.handler.SingleSheetWriteHandler;
 import org.ballcat.fastexcel.head.I18nHeaderCellWriteHandler;
@@ -80,6 +81,15 @@ public class ExcelHandlerConfiguration {
 	@ConditionalOnMissingBean
 	public ManySheetWriteHandler manySheetWriteHandler() {
 		return new ManySheetWriteHandler(this.configProperties, this.converterProvider, writerBuilderEnhancer());
+	}
+
+	/**
+	 * null 值，excel 写入处理器
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public NullDataSheetWriteHandler nullDataSheetWriteHandler() {
+		return new NullDataSheetWriteHandler(this.configProperties, this.converterProvider, writerBuilderEnhancer());
 	}
 
 	/**
