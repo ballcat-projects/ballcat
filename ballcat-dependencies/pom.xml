@@ -433,7 +433,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
-				<artifactId>ballcat-spring-boot-starter-log</artifactId>
+				<artifactId>ballcat-spring-boot-starter-operation-log</artifactId>
 				<version>${revision}</version>
 			</dependency>
 
