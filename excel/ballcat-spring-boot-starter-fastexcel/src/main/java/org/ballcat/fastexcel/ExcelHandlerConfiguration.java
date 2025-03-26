@@ -26,6 +26,7 @@ import org.ballcat.fastexcel.aop.ResponseExcelReturnValueHandler;
 import org.ballcat.fastexcel.config.ExcelConfigProperties;
 import org.ballcat.fastexcel.enhance.DefaultWriterBuilderEnhancer;
 import org.ballcat.fastexcel.enhance.WriterBuilderEnhancer;
+import org.ballcat.fastexcel.handler.IterableExcelDataSheetWriteHandler;
 import org.ballcat.fastexcel.handler.ManySheetWriteHandler;
 import org.ballcat.fastexcel.handler.NullDataSheetWriteHandler;
 import org.ballcat.fastexcel.handler.SheetWriteHandler;
@@ -56,7 +57,7 @@ public class ExcelHandlerConfiguration {
 	private final ObjectProvider<List<Converter<?>>> converterProvider;
 
 	/**
-	 * ExcelBuild增强
+	 * ExcelBuild增强.
 	 * @return DefaultWriterBuilderEnhancer 默认什么也不做的增强器
 	 */
 	@Bean
@@ -66,7 +67,7 @@ public class ExcelHandlerConfiguration {
 	}
 
 	/**
-	 * 单sheet 写入处理器
+	 * 单sheet 写入处理器.
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -75,7 +76,7 @@ public class ExcelHandlerConfiguration {
 	}
 
 	/**
-	 * 多sheet 写入处理器
+	 * 多sheet 写入处理器.
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -84,12 +85,22 @@ public class ExcelHandlerConfiguration {
 	}
 
 	/**
-	 * null 值，excel 写入处理器
+	 * null 值，excel 写入处理器.
 	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public NullDataSheetWriteHandler nullDataSheetWriteHandler() {
 		return new NullDataSheetWriteHandler(this.configProperties, this.converterProvider, writerBuilderEnhancer());
+	}
+
+	/**
+	 * 迭代 excel 写入处理器。
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public IterableExcelDataSheetWriteHandler iterableExcelDataSheetWriteHandler() {
+		return new IterableExcelDataSheetWriteHandler(this.configProperties, this.converterProvider,
+				writerBuilderEnhancer());
 	}
 
 	/**

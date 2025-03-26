@@ -81,8 +81,12 @@ public class SheetBuildProperties {
 	}
 
 	public SheetBuildProperties(int sheetIndex) {
+		this("sheet", sheetIndex);
+	}
+
+	public SheetBuildProperties(String sheetNamePrefix, int sheetIndex) {
 		this.sheetNo = sheetIndex;
-		this.sheetName = "sheet" + (this.sheetNo + 1);
+		this.sheetName = sheetNamePrefix + (this.sheetNo + 1);
 	}
 
 }
