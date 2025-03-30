@@ -23,6 +23,7 @@ import org.ballcat.fastexcel.annotation.ResponseExcel;
 import org.ballcat.fastexcel.annotation.Sheet;
 import org.ballcat.fastexcel.desensitize.DesensitizationWriteHandler;
 import org.ballcat.fastexcel.head.EmptyHeadGenerator;
+import org.ballcat.fastexcel.test.TestIterableSheetDataProvider;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +53,13 @@ public class ExcelExportTestController {
 	@GetMapping("/desensitization")
 	public List<DemoData> desensitization() {
 		return getDemoData();
+	}
+
+	@ResponseExcel(name = "test-iterable")
+	@GetMapping("/iterable")
+	public TestIterableSheetDataProvider iterable() {
+		// 总共2500条数据，每批次500条，每个sheet最多1000条
+		return new TestIterableSheetDataProvider(2500, 500);
 	}
 
 	private static List<DemoData> getDemoData() {
