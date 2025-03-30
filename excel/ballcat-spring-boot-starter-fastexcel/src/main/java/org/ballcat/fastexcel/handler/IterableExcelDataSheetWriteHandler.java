@@ -58,24 +58,62 @@ public class IterableExcelDataSheetWriteHandler extends AbstractSheetWriteHandle
 
 		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
 
-		// 获取 Sheet 配置
-		SheetBuildProperties sheetBuildProperties = new SheetBuildProperties(0);
-
 		// 模板信息
 		String template = responseExcel.template();
 
 		// 数据类型
 		Class<?> dataClass = sheetDataProvider.getDataClass();
 
-		// 创建sheet
-		WriteSheet sheet = this.emptySheet(sheetBuildProperties, dataClass, template);
+		int sheetRowLimit = sheetDataProvider.getSheetRowLimit();
+		int currentRowCount = 0;
+		int sheetIndex = 0;
 
+		// 创建sheet
+		WriteSheet sheet = createNewSheet(sheetDataProvider, sheetIndex, dataClass, template);
+		// 遍历数据提供者返回的数据批次
 		while (sheetDataProvider.hasNext()) {
-			List<?> eleList = sheetDataProvider.next();
-			SheetWriteHandlerUtils.writeOrFillExcel(responseExcel, excelWriter, eleList, sheet);
+			List<?> batchData = sheetDataProvider.next();
+			int batchSize = batchData.size();
+			int fromIndex = 0;
+
+			// 按当前 sheet 剩余空间分片写入数据
+			while (fromIndex < batchSize) {
+				// 在每次循环开始时检查当前 sheet 是否已满，已满则创建新的 sheet，并重置当前行计数
+				if (currentRowCount >= sheetRowLimit) {
+					sheet = createNewSheet(sheetDataProvider, ++sheetIndex, dataClass, template);
+					currentRowCount = 0;
+				}
+
+				// 计算当前 sheet 剩余可写入的行数
+				int remaining = sheetRowLimit - currentRowCount;
+				// 计算本次写入数据的结束索引，不能超过 batchData 总大小
+				int toIndex = Math.min(fromIndex + remaining, batchSize);
+				// 获取当前分片数据
+				List<?> subList = batchData.subList(fromIndex, toIndex);
+
+				// 立即写入当前分片数据
+				flushSheetData(responseExcel, excelWriter, subList, sheet);
+				// 更新当前 sheet 已写入的行数
+				currentRowCount += subList.size();
+				// 更新当前处理数据的起始索引
+				fromIndex = toIndex;
+			}
+			// 此处 batchData 已经全部处理完，可以被GC回收
 		}
 
 		excelWriter.finish();
+	}
+
+	private WriteSheet createNewSheet(IterableSheetDataProvider<?> sheetDataProvider, int sheetIndex,
+			Class<?> dataClass, String template) {
+		String sheetName = sheetDataProvider.getSheetName(sheetIndex);
+		SheetBuildProperties sheetBuildProperties = new SheetBuildProperties(sheetIndex);
+		sheetBuildProperties.setSheetName(sheetName);
+		return this.emptySheet(sheetBuildProperties, dataClass, template);
+	}
+
+	private void flushSheetData(ResponseExcel responseExcel, ExcelWriter excelWriter, List<?> data, WriteSheet sheet) {
+		SheetWriteHandlerUtils.writeOrFillExcel(responseExcel, excelWriter, data, sheet);
 	}
 
 }

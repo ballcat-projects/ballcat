@@ -28,6 +28,26 @@ import java.util.List;
  */
 public interface IterableSheetDataProvider<T> extends Iterator<List<T>> {
 
+	/**
+	 * 获取数据类型
+	 * @return 数据类型
+	 */
 	Class<T> getDataClass();
+
+	/**
+	 * 获取 sheet 名称前缀.
+	 * @param sheetIndex sheet 索引
+	 */
+	default String getSheetName(int sheetIndex) {
+		return "sheet" + sheetIndex + 1;
+	}
+
+	/**
+	 * 获取单个sheet的最大行数
+	 * @return 最大行数，如果返回负数表示不限制，默认值为 Excel2007 的最大行数 1048576
+	 */
+	default int getSheetRowLimit() {
+		return 1048576;
+	}
 
 }
