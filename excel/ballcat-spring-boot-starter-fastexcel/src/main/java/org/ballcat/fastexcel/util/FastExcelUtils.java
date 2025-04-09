@@ -16,11 +16,17 @@
 
 package org.ballcat.fastexcel.util;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletResponse;
+
 import cn.idev.excel.converters.Converter;
 import cn.idev.excel.converters.ConverterKeyBuild.ConverterKey;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 
 /**
  * @author lingting 2024-01-11 15:25
@@ -55,6 +61,36 @@ public final class FastExcelUtils {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 根据 Excel 的文件名推断响应的 media type。
+	 * @param filename excel 文件名
+	 */
+	public static String resolveMediaType(String filename) {
+		return MediaTypeFactory.getMediaType(filename).map(MediaType::toString).orElse("application/vnd.ms-excel");
+	}
+
+	/**
+	 * 设置响应头.
+	 * @param response 响应
+	 * @param filename 文件名
+	 */
+	public static void setResponseHeader(HttpServletResponse response, String filename) {
+		String contentType = resolveMediaType(filename);
+		setResponseHeader(response, filename, contentType);
+	}
+
+	/**
+	 * 设置响应头.
+	 * @param response 响应
+	 * @param filename 文件名
+	 * @param contentType 内容类型
+	 */
+	public static void setResponseHeader(HttpServletResponse response, String filename, String contentType) {
+		response.setContentType(contentType);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filename);
 	}
 
 }

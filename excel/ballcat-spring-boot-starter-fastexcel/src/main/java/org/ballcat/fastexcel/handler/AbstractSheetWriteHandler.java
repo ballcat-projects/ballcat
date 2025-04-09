@@ -50,6 +50,7 @@ import org.ballcat.fastexcel.head.HeadGenerator;
 import org.ballcat.fastexcel.head.HeadMeta;
 import org.ballcat.fastexcel.head.I18nHeaderCellWriteHandler;
 import org.ballcat.fastexcel.kit.ExcelException;
+import org.ballcat.fastexcel.util.FastExcelUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
@@ -57,9 +58,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.MediaTypeFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
@@ -103,15 +101,10 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		if (name == null) {
 			name = UUID.randomUUID().toString();
 		}
-		String fileName = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue())
-			.replaceAll("\\+", "%20");
+		String filename = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue())
+			.replace("+", "%20");
 		// 根据实际的文件类型找到对应的 contentType
-		String contentType = MediaTypeFactory.getMediaType(fileName)
-			.map(MediaType::toString)
-			.orElse("application/vnd.ms-excel");
-		response.setContentType(contentType);
-		response.setCharacterEncoding("utf-8");
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + fileName);
+		FastExcelUtils.setResponseHeader(response, filename);
 		write(resultObject, response, responseExcel);
 	}
 
