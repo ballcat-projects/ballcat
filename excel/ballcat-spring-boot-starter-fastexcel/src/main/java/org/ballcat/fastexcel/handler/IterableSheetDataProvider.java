@@ -28,6 +28,8 @@ import java.util.List;
  */
 public interface IterableSheetDataProvider<T> extends Iterator<List<T>> {
 
+	int EXCEL2007_MAX_ROW_SIZE = 1048576;
+
 	/**
 	 * 获取数据类型
 	 * @return 数据类型
@@ -47,7 +49,7 @@ public interface IterableSheetDataProvider<T> extends Iterator<List<T>> {
 	 * @return 最大行数，如果返回负数表示不限制，默认值为 Excel2007 的最大行数 1048576
 	 */
 	default int getSheetRowLimit() {
-		return 1048576;
+		return EXCEL2007_MAX_ROW_SIZE;
 	}
 
 }

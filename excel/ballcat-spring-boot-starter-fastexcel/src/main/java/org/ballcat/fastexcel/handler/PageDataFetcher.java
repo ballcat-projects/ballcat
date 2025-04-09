@@ -32,7 +32,7 @@ public class PageDataFetcher<T> implements DataFetcher<T> {
 
 	private final int pageSize;
 
-	private int currentPage = 0;
+	private int currentPage = 1;
 
 	public PageDataFetcher(BiFunction<Integer, Integer, List<T>> pageFetcher, int pageSize) {
 		this.pageFetcher = pageFetcher;

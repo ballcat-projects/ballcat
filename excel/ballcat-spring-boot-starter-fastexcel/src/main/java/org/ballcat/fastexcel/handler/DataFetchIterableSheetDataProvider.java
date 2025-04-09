@@ -17,7 +17,8 @@
 package org.ballcat.fastexcel.handler;
 
 import java.util.List;
-import java.util.function.Supplier;
+
+import lombok.Setter;
 
 /**
  * 通过数据获取的方式提供数据. 常见于数据库分批查询数据。
@@ -30,11 +31,14 @@ public class DataFetchIterableSheetDataProvider<T> implements IterableSheetDataP
 
 	private final Class<T> dataClass;
 
-	private final Supplier<List<T>> dataFetcher;
+	private final DataFetcher<T> dataFetcher;
 
 	private List<T> currentBatch;
 
-	public DataFetchIterableSheetDataProvider(Class<T> dataClass, Supplier<List<T>> dataFetcher) {
+	@Setter
+	private int sheetRowLimit = IterableSheetDataProvider.EXCEL2007_MAX_ROW_SIZE;
+
+	public DataFetchIterableSheetDataProvider(Class<T> dataClass, DataFetcher<T> dataFetcher) {
 		this.dataClass = dataClass;
 		this.dataFetcher = dataFetcher;
 		this.currentBatch = fetchNextBatch();
@@ -55,6 +59,11 @@ public class DataFetchIterableSheetDataProvider<T> implements IterableSheetDataP
 	@Override
 	public Class<T> getDataClass() {
 		return this.dataClass;
+	}
+
+	@Override
+	public int getSheetRowLimit() {
+		return this.sheetRowLimit;
 	}
 
 	private List<T> fetchNextBatch() {
