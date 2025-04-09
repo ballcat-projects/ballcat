@@ -16,12 +16,16 @@
 
 package org.ballcat.fastexcel.application;
 
+import cn.idev.excel.annotation.ExcelIgnore;
 import lombok.Data;
 import org.ballcat.desensitize.annotation.RegexDesensitize;
 
 // 实体对象
 @Data
 public class DemoData {
+
+	@ExcelIgnore
+	private Integer id;
 
 	private String username;
 

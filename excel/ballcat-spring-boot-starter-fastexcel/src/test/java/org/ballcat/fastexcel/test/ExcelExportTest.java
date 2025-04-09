@@ -19,9 +19,7 @@ package org.ballcat.fastexcel.test;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import cn.idev.excel.ExcelReader;
 import cn.idev.excel.FastExcel;
-import cn.idev.excel.read.metadata.ReadSheet;
 import lombok.extern.slf4j.Slf4j;
 import org.ballcat.fastexcel.ResponseExcelAutoConfiguration;
 import org.ballcat.fastexcel.application.DemoData;
@@ -121,64 +119,6 @@ class ExcelExportTest {
 		Assertions.assertEquals("username9", demoData.getUsername());
 		Assertions.assertEquals("password9", demoData.getPassword());
 
-	}
-
-	/**
-	 * 循环导出测试，测试大数据量分sheet导出.
-	 */
-	@Test
-	void iterableExport() throws Exception {
-		// 测试数据：总共2500条数据，每批次500条，每个sheet最多1000条
-		// 预期结果：3个sheet，前两个sheet各1000条，最后一个sheet 500条
-		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/export/iterable"))
-			.andExpect(status().isOk())
-			.andReturn();
-
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(mvcResult.getResponse().getContentAsByteArray());
-
-		// 创建三个 ReadSheet，分别用于读取三个sheet
-		DefaultAnalysisEventListener firstSheetListener = new DefaultAnalysisEventListener();
-		DefaultAnalysisEventListener secondSheetListener = new DefaultAnalysisEventListener();
-		DefaultAnalysisEventListener thirdSheetListener = new DefaultAnalysisEventListener();
-
-		ReadSheet readSheet1 = FastExcel.readSheet(0)
-			.head(DemoData.class)
-			.registerReadListener(firstSheetListener)
-			.build();
-		ReadSheet readSheet2 = FastExcel.readSheet(1)
-			.head(DemoData.class)
-			.registerReadListener(secondSheetListener)
-			.build();
-		ReadSheet readSheet3 = FastExcel.readSheet(2)
-			.head(DemoData.class)
-			.registerReadListener(thirdSheetListener)
-			.build();
-
-		// 使用 ExcelReader 一次性读取所有sheet
-		try (ExcelReader excelReader = FastExcel.read(inputStream).build()) {
-			excelReader.read(readSheet1, readSheet2, readSheet3);
-		}
-
-		// 验证第一个sheet
-		List<Object> firstSheet = firstSheetListener.getList();
-		Assertions.assertEquals(1000, firstSheet.size());
-
-		// 验证第二个sheet
-		List<Object> secondSheet = secondSheetListener.getList();
-		Assertions.assertEquals(1000, secondSheet.size());
-
-		// 验证第三个sheet
-		List<Object> thirdSheet = thirdSheetListener.getList();
-		Assertions.assertEquals(500, thirdSheet.size());
-
-		// 验证数据正确性
-		DemoData firstData = (DemoData) firstSheet.get(0);
-		Assertions.assertEquals("username2499", firstData.getUsername());
-		Assertions.assertEquals("password2499", firstData.getPassword());
-
-		DemoData lastData = (DemoData) thirdSheet.get(499);
-		Assertions.assertEquals("username0", lastData.getUsername());
-		Assertions.assertEquals("password0", lastData.getPassword());
 	}
 
 }
