@@ -41,7 +41,7 @@
 		<mybatis-plus.version>3.5.3.2</mybatis-plus.version>
 		<mybatis.version>3.5.13</mybatis.version>
 		<mybatis-spring-boot-starter.version>2.3.1</mybatis-spring-boot-starter.version>
-		<poi.version>5.2.5</poi.version>
+		<poi.version>5.4.0</poi.version>
 		<rocketmq.version>2.2.0</rocketmq.version>
 		<software.amazon.awssdk.version>2.20.70</software.amazon.awssdk.version>
 		<spring-authorization-server.version>0.4.5</spring-authorization-server.version>
