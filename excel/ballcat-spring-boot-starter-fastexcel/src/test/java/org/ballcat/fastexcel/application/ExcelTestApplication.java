@@ -18,10 +18,12 @@ package org.ballcat.fastexcel.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * @author Hccake
  */
+@EnableAspectJAutoProxy
 @SpringBootApplication
 public class ExcelTestApplication {
 

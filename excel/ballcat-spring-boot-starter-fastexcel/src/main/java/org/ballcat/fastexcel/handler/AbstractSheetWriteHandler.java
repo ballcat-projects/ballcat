@@ -19,15 +19,10 @@ package org.ballcat.fastexcel.handler;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.OutputStream;
 import java.lang.reflect.Modifier;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletResponse;
 
 import cn.idev.excel.ExcelWriter;
 import cn.idev.excel.FastExcel;
@@ -42,15 +37,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.ballcat.fastexcel.annotation.ResponseExcel;
-import org.ballcat.fastexcel.aop.DynamicNameAspect;
 import org.ballcat.fastexcel.config.ExcelConfigProperties;
+import org.ballcat.fastexcel.context.ExcelExportInfo;
 import org.ballcat.fastexcel.domain.SheetBuildProperties;
 import org.ballcat.fastexcel.enhance.WriterBuilderEnhancer;
 import org.ballcat.fastexcel.head.HeadGenerator;
 import org.ballcat.fastexcel.head.HeadMeta;
 import org.ballcat.fastexcel.head.I18nHeaderCellWriteHandler;
 import org.ballcat.fastexcel.kit.ExcelException;
-import org.ballcat.fastexcel.util.FastExcelUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
@@ -60,8 +54,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
 
 /**
  * @author lengleng
@@ -91,32 +83,16 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 	}
 
-	@Override
-	@SneakyThrows(UnsupportedEncodingException.class)
-	public void export(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel) {
-		check(responseExcel);
-		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-		String name = (String) Objects.requireNonNull(requestAttributes)
-			.getAttribute(DynamicNameAspect.EXCEL_NAME_KEY, RequestAttributes.SCOPE_REQUEST);
-		if (name == null) {
-			name = UUID.randomUUID().toString();
-		}
-		String filename = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue())
-			.replace("+", "%20");
-		// 根据实际的文件类型找到对应的 contentType
-		FastExcelUtils.setResponseHeader(response, filename);
-		write(resultObject, response, responseExcel);
-	}
-
 	/**
 	 * 通用的获取ExcelWriter方法
-	 * @param response HttpServletResponse
+	 * @param outputStream OutputStream
 	 * @param responseExcel ResponseExcel注解
 	 * @return ExcelWriter
 	 */
 	@SneakyThrows(IOException.class)
-	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel) {
-		ExcelWriterBuilder writerBuilder = FastExcel.write(response.getOutputStream())
+	public ExcelWriter getExcelWriter(OutputStream outputStream, ResponseExcel responseExcel,
+			ExcelExportInfo excelExportInfo) {
+		ExcelWriterBuilder writerBuilder = FastExcel.write(outputStream)
 			.autoCloseStream(true)
 			.excelType(responseExcel.suffix())
 			.inMemory(responseExcel.inMemory());
@@ -152,7 +128,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		String templatePath = this.configProperties.getTemplatePath();
 		if (StringUtils.hasText(responseExcel.template())) {
 			ClassPathResource classPathResource = new ClassPathResource(
-					templatePath + File.separator + responseExcel.template());
+					templatePath + File.separator + excelExportInfo.getTemplate());
 			InputStream inputStream = classPathResource.getInputStream();
 			writerBuilder.withTemplate(inputStream);
 		}
@@ -172,8 +148,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 			writerBuilder.head(headClass);
 		}
 
-		writerBuilder = this.excelWriterBuilderEnhance.enhanceExcel(writerBuilder, response, responseExcel,
-				templatePath);
+		writerBuilder = this.excelWriterBuilderEnhance.enhanceExcel(writerBuilder, responseExcel, templatePath);
 
 		return writerBuilder.build();
 	}

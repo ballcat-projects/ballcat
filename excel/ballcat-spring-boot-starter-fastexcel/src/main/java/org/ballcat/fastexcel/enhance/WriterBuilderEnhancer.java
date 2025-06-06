@@ -16,8 +16,6 @@
 
 package org.ballcat.fastexcel.enhance;
 
-import javax.servlet.http.HttpServletResponse;
-
 import cn.idev.excel.write.builder.ExcelWriterBuilder;
 import cn.idev.excel.write.builder.ExcelWriterSheetBuilder;
 import org.ballcat.fastexcel.annotation.ResponseExcel;
@@ -34,13 +32,11 @@ public interface WriterBuilderEnhancer {
 	/**
 	 * ExcelWriterBuilder 增强
 	 * @param writerBuilder ExcelWriterBuilder
-	 * @param response HttpServletResponse
 	 * @param responseExcel ResponseExcel
 	 * @param templatePath 模板地址
 	 * @return ExcelWriterBuilder
 	 */
-	ExcelWriterBuilder enhanceExcel(ExcelWriterBuilder writerBuilder, HttpServletResponse response,
-			ResponseExcel responseExcel, String templatePath);
+	ExcelWriterBuilder enhanceExcel(ExcelWriterBuilder writerBuilder, ResponseExcel responseExcel, String templatePath);
 
 	/**
 	 * ExcelWriterSheetBuilder 增强

@@ -16,16 +16,22 @@
 
 package org.ballcat.fastexcel.handler;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletOutputStream;
 
 import cn.idev.excel.ExcelWriter;
 import cn.idev.excel.converters.Converter;
 import cn.idev.excel.write.metadata.WriteSheet;
+import lombok.SneakyThrows;
 import org.ballcat.fastexcel.annotation.ResponseExcel;
 import org.ballcat.fastexcel.annotation.Sheet;
 import org.ballcat.fastexcel.config.ExcelConfigProperties;
+import org.ballcat.fastexcel.context.ExcelContextHolder;
+import org.ballcat.fastexcel.context.ExcelExportInfo;
 import org.ballcat.fastexcel.domain.SheetBuildProperties;
 import org.ballcat.fastexcel.enhance.WriterBuilderEnhancer;
 import org.springframework.beans.factory.ObjectProvider;
@@ -65,16 +71,39 @@ public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 	}
 
 	@Override
-	public void write(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel) {
-		List<?> eleList = (List<?>) resultObject;
+	@SneakyThrows
+	public void write(Object resultObject, ServletOutputStream outputStream, ResponseExcel responseExcel,
+			ExcelExportInfo excelExportInfo) {
+		ExcelWriter excelWriter = getExcelWriter(outputStream, responseExcel, excelExportInfo);
+		writeDataToExcel(responseExcel, excelWriter, resultObject, excelExportInfo);
+	}
 
-		ExcelWriter excelWriter = getExcelWriter(response, responseExcel);
+	@Override
+	@SneakyThrows
+	public void write(Object resultObject, ZipOutputStream outputStream, ResponseExcel responseExcel,
+			ExcelExportInfo excelExportInfo) {
+		try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+			ExcelWriter excelWriter = getExcelWriter(bos, responseExcel, excelExportInfo);
+			writeDataToExcel(responseExcel, excelWriter, resultObject, excelExportInfo);
+
+			// 将内存中的 Excel 数据写入 ZIP 条目
+			String excelFileName = ExcelContextHolder.getExcelExportInfo(responseExcel.name()).getFileName();
+			ZipEntry zipEntry = new ZipEntry(excelFileName);
+			outputStream.putNextEntry(zipEntry);
+			outputStream.write(bos.toByteArray());
+			outputStream.closeEntry();
+		}
+	}
+
+	private void writeDataToExcel(ResponseExcel responseExcel, ExcelWriter excelWriter, Object resultObject,
+			ExcelExportInfo excelExportInfo) {
+		List<?> eleList = (List<?>) resultObject;
 
 		// 获取 Sheet 配置
 		SheetBuildProperties sheetBuildProperties = SheetWriteHandlerUtils.getSheetBuildProperties(responseExcel);
 
 		// 模板信息
-		String template = responseExcel.template();
+		String template = excelExportInfo.getTemplate();
 
 		// 实际数据类型
 		Class<?> dataClass = eleList.isEmpty() ? null : eleList.get(0).getClass();

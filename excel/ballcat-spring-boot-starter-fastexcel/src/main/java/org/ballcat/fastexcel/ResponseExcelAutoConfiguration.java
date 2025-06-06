@@ -23,9 +23,9 @@ import javax.annotation.PostConstruct;
 import javax.validation.Validator;
 
 import lombok.RequiredArgsConstructor;
+import org.ballcat.fastexcel.aop.AbstractExcelReturnValueHandler;
 import org.ballcat.fastexcel.aop.DynamicNameAspect;
 import org.ballcat.fastexcel.aop.RequestExcelArgumentResolver;
-import org.ballcat.fastexcel.aop.ResponseExcelReturnValueHandler;
 import org.ballcat.fastexcel.config.ExcelConfigProperties;
 import org.ballcat.fastexcel.head.EmptyHeadGenerator;
 import org.ballcat.fastexcel.processor.NameProcessor;
@@ -52,7 +52,7 @@ public class ResponseExcelAutoConfiguration {
 
 	private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
-	private final ResponseExcelReturnValueHandler responseExcelReturnValueHandler;
+	private final List<? extends AbstractExcelReturnValueHandler<?>> excelReturnValueHandlers;
 
 	private final Validator validator;
 
@@ -94,10 +94,8 @@ public class ResponseExcelAutoConfiguration {
 	public void setReturnValueHandlers() {
 		List<HandlerMethodReturnValueHandler> returnValueHandlers = this.requestMappingHandlerAdapter
 			.getReturnValueHandlers();
-
-		List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>();
-		newHandlers.add(this.responseExcelReturnValueHandler);
 		assert returnValueHandlers != null;
+		List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>(this.excelReturnValueHandlers);
 		newHandlers.addAll(returnValueHandlers);
 		this.requestMappingHandlerAdapter.setReturnValueHandlers(newHandlers);
 	}
