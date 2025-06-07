@@ -16,6 +16,8 @@
 
 package org.ballcat.fastexcel.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
@@ -88,9 +90,14 @@ public final class FastExcelUtils {
 	 * @param contentType 内容类型
 	 */
 	public static void setResponseHeader(HttpServletResponse response, String filename, String contentType) {
-		response.setContentType(contentType);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filename);
+		try {
+			String encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+			response.setContentType(contentType);
+			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + encodedFilename);
+		}
+		catch (UnsupportedEncodingException ignored) {
+		}
 	}
 
 }

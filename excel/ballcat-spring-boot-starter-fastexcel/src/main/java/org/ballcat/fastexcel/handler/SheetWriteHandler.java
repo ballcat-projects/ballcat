@@ -16,9 +16,12 @@
 
 package org.ballcat.fastexcel.handler;
 
-import javax.servlet.http.HttpServletResponse;
+import java.util.zip.ZipOutputStream;
+
+import javax.servlet.ServletOutputStream;
 
 import org.ballcat.fastexcel.annotation.ResponseExcel;
+import org.ballcat.fastexcel.context.ExcelExportInfo;
 
 /**
  * sheet 写出处理器
@@ -42,19 +45,23 @@ public interface SheetWriteHandler {
 	void check(ResponseExcel responseExcel);
 
 	/**
-	 * 返回的对象
+	 * 写成对象
 	 * @param resultObject 返回对象
-	 * @param response 输出对象
+	 * @param outputStream 输出对象
 	 * @param responseExcel 注解
+	 * @param excelExportInfo 导出信息
 	 */
-	void export(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel);
+	void write(Object resultObject, ServletOutputStream outputStream, ResponseExcel responseExcel,
+			ExcelExportInfo excelExportInfo);
 
 	/**
 	 * 写成对象
 	 * @param resultObject 返回对象
-	 * @param response 输出对象
+	 * @param outputStream 输出对象
 	 * @param responseExcel 注解
+	 * @param excelExportInfo 导出信息
 	 */
-	void write(Object resultObject, HttpServletResponse response, ResponseExcel responseExcel);
+	void write(Object resultObject, ZipOutputStream outputStream, ResponseExcel responseExcel,
+			ExcelExportInfo excelExportInfo);
 
 }

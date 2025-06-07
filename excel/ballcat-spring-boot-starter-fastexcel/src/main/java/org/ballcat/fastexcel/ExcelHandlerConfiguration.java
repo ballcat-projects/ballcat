@@ -22,7 +22,10 @@ import javax.validation.Validator;
 
 import cn.idev.excel.converters.Converter;
 import lombok.RequiredArgsConstructor;
+import org.ballcat.fastexcel.annotation.ResponseExcel;
+import org.ballcat.fastexcel.annotation.ResponseExcelZip;
 import org.ballcat.fastexcel.aop.ResponseExcelReturnValueHandler;
+import org.ballcat.fastexcel.aop.ResponseExcelZipReturnValueHandler;
 import org.ballcat.fastexcel.config.ExcelConfigProperties;
 import org.ballcat.fastexcel.enhance.DefaultWriterBuilderEnhancer;
 import org.ballcat.fastexcel.enhance.WriterBuilderEnhancer;
@@ -104,15 +107,37 @@ public class ExcelHandlerConfiguration {
 	}
 
 	/**
-	 * 返回Excel文件的 response 处理器
-	 * @param sheetWriteHandlerList 页签写入处理器集合
-	 * @return ResponseExcelReturnValueHandler
+	 * 创建 Excel 响应处理器 Bean
+	 * <p>
+	 * 用于处理带有 {@link ResponseExcel} 注解的控制器方法返回值，将数据写入 Excel 并返回 HTTP 响应
+	 * </p>
+	 * @param sheetWriteHandlerList 页签写入处理器集合（用于支持不同格式/样式的 Excel 写入）
+	 * @return 配置好的 {@link ResponseExcelReturnValueHandler} 实例
+	 * @see ResponseExcelReturnValueHandler
+	 * @see ConditionalOnMissingBean 仅当容器中不存在同类型 Bean 时创建
 	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public ResponseExcelReturnValueHandler responseExcelReturnValueHandler(
 			List<SheetWriteHandler> sheetWriteHandlerList) {
 		return new ResponseExcelReturnValueHandler(sheetWriteHandlerList);
+	}
+
+	/**
+	 * 创建 Excel ZIP 响应处理器 Bean
+	 * <p>
+	 * 用于处理带有 {@link ResponseExcelZip} 注解的控制器方法返回值，将多个 Excel 文件打包为 ZIP 格式返回
+	 * </p>
+	 * @param sheetWriteHandlerList 页签写入处理器集合（用于支持不同格式/样式的 Excel 写入）
+	 * @return 配置好的 {@link ResponseExcelZipReturnValueHandler} 实例
+	 * @see ResponseExcelZipReturnValueHandler
+	 * @see ConditionalOnMissingBean 仅当容器中不存在同类型 Bean 时创建
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public ResponseExcelZipReturnValueHandler responseExcelZipReturnValueHandler(
+			List<SheetWriteHandler> sheetWriteHandlerList) {
+		return new ResponseExcelZipReturnValueHandler(sheetWriteHandlerList);
 	}
 
 	/**
