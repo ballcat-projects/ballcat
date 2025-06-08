@@ -16,10 +16,12 @@
 
 package org.ballcat.fastexcel.handler;
 
+import java.io.IOException;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.ServletOutputStream;
 
+import cn.idev.excel.ExcelWriter;
 import org.ballcat.fastexcel.annotation.ResponseExcel;
 import org.ballcat.fastexcel.context.ExcelExportInfo;
 
@@ -33,35 +35,46 @@ public interface SheetWriteHandler {
 	/**
 	 * 是否支持
 	 * @param resultObject 返回对象
-	 * @param responseExcel 注解
+	 * @param responseExcel 导出注解
 	 * @return boolean
 	 */
 	boolean support(Object resultObject, ResponseExcel responseExcel);
 
 	/**
 	 * 校验
-	 * @param responseExcel 注解
+	 * @param responseExcel 导出注解
 	 */
 	void check(ResponseExcel responseExcel);
 
 	/**
-	 * 写成对象
+	 * 导出文件
 	 * @param resultObject 返回对象
 	 * @param outputStream 输出对象
-	 * @param responseExcel 注解
+	 * @param responseExcel 导出注解
 	 * @param excelExportInfo 导出信息
 	 */
-	void write(Object resultObject, ServletOutputStream outputStream, ResponseExcel responseExcel,
+	void export(Object resultObject, ServletOutputStream outputStream, ResponseExcel responseExcel,
 			ExcelExportInfo excelExportInfo);
 
 	/**
-	 * 写成对象
+	 * 导出文件
 	 * @param resultObject 返回对象
 	 * @param outputStream 输出对象
-	 * @param responseExcel 注解
+	 * @param responseExcel 导出注解
+	 * @param excelExportInfo 导出信息
+	 * @throws IOException 写入过程中发生错误
+	 */
+	void export(Object resultObject, ZipOutputStream outputStream, ResponseExcel responseExcel,
+			ExcelExportInfo excelExportInfo) throws IOException;
+
+	/**
+	 * 将数据写入Excel文件
+	 * @param resultObject 返回对象
+	 * @param responseExcel 导出注解
+	 * @param excelWriter 写入工具
 	 * @param excelExportInfo 导出信息
 	 */
-	void write(Object resultObject, ZipOutputStream outputStream, ResponseExcel responseExcel,
+	void write(Object resultObject, ResponseExcel responseExcel, ExcelWriter excelWriter,
 			ExcelExportInfo excelExportInfo);
 
 }
