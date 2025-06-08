@@ -62,7 +62,7 @@ public class ResponseExcelZipReturnValueHandler extends AbstractExcelReturnValue
 				SheetWriteHandler handler = findSuitableWriteHandler(subData, config);
 				handler.check(config);
 
-				handler.write(subData, zipOut, config, getExportInfo(config.name()));
+				handler.export(subData, zipOut, config, getExportInfo(config.name()));
 				zipOut.closeEntry();
 			}
 			zipOut.flush();

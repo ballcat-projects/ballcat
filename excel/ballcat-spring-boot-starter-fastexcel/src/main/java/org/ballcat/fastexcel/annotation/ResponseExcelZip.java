@@ -54,7 +54,7 @@ public @interface ResponseExcelZip {
 	 * </ul>
 	 * @return The generated ZIP file name
 	 */
-	String name() default "ExportData-#{currentDateTime()}.zip";
+	String name() default "Export-#{currentDateTime()}.zip";
 
 	/**
 	 * Array of Excel file configurations to be included in the ZIP package. Each entry

@@ -51,7 +51,7 @@ public class ResponseExcelReturnValueHandler extends AbstractExcelReturnValueHan
 	protected void doWrite(Object data, ResponseExcel annotation, HttpServletResponse response) throws IOException {
 		SheetWriteHandler handler = this.findSuitableWriteHandler(data, annotation);
 		handler.check(annotation);
-		handler.write(data, response.getOutputStream(), annotation, getExportInfo(annotation.name()));
+		handler.export(data, response.getOutputStream(), annotation, getExportInfo(annotation.name()));
 	}
 
 }

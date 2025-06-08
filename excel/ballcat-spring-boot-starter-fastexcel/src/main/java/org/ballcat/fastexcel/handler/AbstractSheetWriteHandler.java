@@ -16,6 +16,7 @@
 
 package org.ballcat.fastexcel.handler;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +24,10 @@ import java.io.OutputStream;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.servlet.ServletOutputStream;
 
 import cn.idev.excel.ExcelWriter;
 import cn.idev.excel.FastExcel;
@@ -52,6 +57,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -80,6 +86,29 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	public void check(ResponseExcel responseExcel) {
 		if (responseExcel.fill() && !StringUtils.hasText(responseExcel.template())) {
 			throw new ExcelException("@ResponseExcel fill 必须配合 template 使用");
+		}
+	}
+
+	@Override
+	public void export(Object resultObject, ServletOutputStream outputStream, ResponseExcel responseExcel,
+			ExcelExportInfo excelExportInfo) {
+		ExcelWriter excelWriter = getExcelWriter(outputStream, responseExcel, excelExportInfo);
+		this.write(resultObject, responseExcel, excelWriter, excelExportInfo);
+	}
+
+	@Override
+	public void export(Object resultObject, ZipOutputStream outputStream, ResponseExcel responseExcel,
+			ExcelExportInfo excelExportInfo) throws IOException {
+		try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+			ExcelWriter excelWriter = getExcelWriter(bos, responseExcel, excelExportInfo);
+			this.write(resultObject, responseExcel, excelWriter, excelExportInfo);
+
+			// 将内存中的 Excel 数据写入 ZIP 条目
+			String excelFileName = excelExportInfo.getFileName();
+			ZipEntry zipEntry = new ZipEntry(excelFileName);
+			outputStream.putNextEntry(zipEntry);
+			outputStream.write(bos.toByteArray());
+			outputStream.closeEntry();
 		}
 	}
 
@@ -231,7 +260,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
 
