@@ -16,31 +16,32 @@
 
 package org.ballcat.fastexcel.context;
 
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.util.Assert;
 
 /**
- * ExcelExportInfo
+ * Excel export information
  *
  * @author xm.z
  */
-@Data
+@Getter
 public final class ExcelExportInfo {
 
 	/**
-	 * 最终生成的 Excel 文件名（含后缀）
+	 * Final generated Excel file name including extension.
 	 */
 	private String fileName;
 
 	/**
-	 * 模板路径（可为空，表示无模板）
+	 * Optional template file path for content-based generation.
 	 */
 	private String template;
 
 	/**
-	 * 私有构造函数，用于工厂方法创建实例
-	 * @param fileName 最终生成的文件名（建议包含后缀）
-	 * @param template 模板路径，可以为 null
+	 * Private constructor enforcing factory method usage.
+	 * @param fileName target file name (with extension)
+	 * @param template optional template path
+	 * @throws IllegalArgumentException if fileName is blank
 	 */
 	private ExcelExportInfo(String fileName, String template) {
 		Assert.hasText(fileName, "fileName must not be blank");
@@ -49,13 +50,35 @@ public final class ExcelExportInfo {
 	}
 
 	/**
-	 * 静态工厂方法：构建 ExcelExportInfo 实例
-	 * @param fileName 最终生成的文件名（建议包含后缀）
-	 * @param template 模板路径，可以为 null
-	 * @return 构建好的 ExcelExportInfo 实例
+	 * Factory method to create Excel export configuration.
+	 * @param fileName target file name (should include extension)
+	 * @param template optional template path, null for no template
+	 * @return configured ExcelExportInfo instance
 	 */
 	public static ExcelExportInfo of(String fileName, String template) {
 		return new ExcelExportInfo(fileName, template);
+	}
+
+	/**
+	 * Fluent method to update fileName.
+	 * @param fileName target file name (should include extension)
+	 * @return this ExcelExportInfo instance for method chaining
+	 * @throws IllegalArgumentException if fileName is blank
+	 */
+	public ExcelExportInfo withFileName(String fileName) {
+		Assert.hasText(fileName, "fileName must not be blank");
+		this.fileName = fileName;
+		return this;
+	}
+
+	/**
+	 * Fluent method to update template.
+	 * @param template optional template path, null for no template
+	 * @return this ExcelExportInfo instance for method chaining
+	 */
+	public ExcelExportInfo withTemplate(String template) {
+		this.template = template;
+		return this;
 	}
 
 }
