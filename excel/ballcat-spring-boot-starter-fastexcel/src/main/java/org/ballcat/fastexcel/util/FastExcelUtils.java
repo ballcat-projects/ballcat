@@ -16,8 +16,6 @@
 
 package org.ballcat.fastexcel.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
@@ -26,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.idev.excel.converters.Converter;
 import cn.idev.excel.converters.ConverterKeyBuild.ConverterKey;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
@@ -66,17 +65,21 @@ public final class FastExcelUtils {
 	}
 
 	/**
-	 * 根据 Excel 的文件名推断响应的 media type。
-	 * @param filename excel 文件名
+	 * Resolves the media type for an Excel file based on its filename.
+	 * @param filename The name of the Excel file (e.g., "example.xlsx").
+	 * @return The resolved media type as a string. If the media type cannot be
+	 * determined, defaults to "application/vnd.ms-excel".
 	 */
 	public static String resolveMediaType(String filename) {
+		// Determine the content type based on the actual file type.
 		return MediaTypeFactory.getMediaType(filename).map(MediaType::toString).orElse("application/vnd.ms-excel");
 	}
 
 	/**
-	 * 设置响应头.
-	 * @param response 响应
-	 * @param filename 文件名
+	 * Sets the HTTP response headers for downloading an Excel file. This method
+	 * automatically resolves the media type based on the filename.
+	 * @param response The HTTP response object.
+	 * @param filename The name of the Excel file to be downloaded.
 	 */
 	public static void setResponseHeader(HttpServletResponse response, String filename) {
 		String contentType = resolveMediaType(filename);
@@ -84,20 +87,28 @@ public final class FastExcelUtils {
 	}
 
 	/**
-	 * 设置响应头.
-	 * @param response 响应
-	 * @param filename 文件名
-	 * @param contentType 内容类型
+	 * Sets response headers for file download (e.g., Excel files). Configures content
+	 * type, encoding, and Content-Disposition header.
+	 * @param response HTTP response object
+	 * @param filename File name to use for the downloaded file (including extension)
+	 * @param contentType MIME type of the file
 	 */
 	public static void setResponseHeader(HttpServletResponse response, String filename, String contentType) {
-		try {
-			String encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
-			response.setContentType(contentType);
-			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + encodedFilename);
-		}
-		catch (UnsupportedEncodingException ignored) {
-		}
+		// Set the MIME type for the response
+		response.setContentType(contentType);
+
+		// Set character encoding to UTF-8 to prevent encoding issues in the filename
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+		// Build Content-Disposition header to force browser to download the file
+		// Use UTF-8 encoding when specifying the filename to support international
+		// characters
+		ContentDisposition contentDisposition = ContentDisposition.attachment()
+				.filename(filename, StandardCharsets.UTF_8)
+				.build();
+
+		// Add the Content-Disposition header to the response
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
 	}
 
 }
