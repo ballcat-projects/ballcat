@@ -204,27 +204,30 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		String sheetName = sheetBuildProperties.getSheetName();
 
 		// 是否模板写入
-		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? FastExcel.writerSheet(sheetNo)
+		boolean hasTemplate = StringUtils.hasText(template);
+		ExcelWriterSheetBuilder writerSheetBuilder = hasTemplate ? FastExcel.writerSheet(sheetNo)
 				: FastExcel.writerSheet(sheetNo, sheetName);
 
 		// 头信息增强
 		Class<? extends HeadGenerator> headGenerateClass = null;
-		if (isNotInterface(sheetBuildProperties.getHeadGenerateClass())) {
-			headGenerateClass = sheetBuildProperties.getHeadGenerateClass();
-		}
+		if (!hasTemplate) {
+			if (isNotInterface(sheetBuildProperties.getHeadGenerateClass())) {
+				headGenerateClass = sheetBuildProperties.getHeadGenerateClass();
+			}
 
-		// 优先使用注解中的 headClass，其次使用使用实际数据类型 dataClass
-		Class<?> headClass = sheetBuildProperties.getHeadClass();
-		if (headClass == null || Object.class.equals(headClass)) {
-			headClass = dataClass;
-		}
+			// 优先使用注解中的 headClass，其次使用使用实际数据类型 dataClass
+			Class<?> headClass = sheetBuildProperties.getHeadClass();
+			if (headClass == null || Object.class.equals(headClass)) {
+				headClass = dataClass;
+			}
 
-		// 定义头信息增强则使用其生成头信息，否则使用 headClass 来自动获取
-		if (headGenerateClass != null) {
-			fillCustomHeadInfo(headClass, headGenerateClass, writerSheetBuilder);
-		}
-		else if (headClass != null) {
-			writerSheetBuilder.head(headClass);
+			// 定义头信息增强则使用其生成头信息，否则使用 headClass 来自动获取
+			if (headGenerateClass != null) {
+				fillCustomHeadInfo(headClass, headGenerateClass, writerSheetBuilder);
+			}
+			else if (headClass != null) {
+				writerSheetBuilder.head(headClass);
+			}
 		}
 
 		if (sheetBuildProperties.getExcludes().length > 0) {
