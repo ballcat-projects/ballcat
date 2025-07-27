@@ -18,6 +18,7 @@ package org.ballcat.springsecurity.configuer;
 
 import lombok.RequiredArgsConstructor;
 import org.ballcat.springsecurity.properties.SpringSecurityProperties;
+import org.ballcat.springsecurity.web.CustomAuthenticationEntryPoint;
 import org.ballcat.springsecurity.web.DefaultFormLoginSuccessHandler;
 import org.ballcat.springsecurity.web.DefaultLogoutSuccessHandler;
 import org.ballcat.springsecurity.web.FormLoginSuccessHandler;
@@ -26,7 +27,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.util.StringUtils;
 
@@ -54,10 +54,14 @@ public class SeparationLoginSpringSecurityConfigurerCustomizer implements Spring
 		if (formLogin.isEnabled()) {
 			AuthenticationSuccessHandler successHandler = this.formLoginSuccessHandler == null
 					? new DefaultFormLoginSuccessHandler() : this.formLoginSuccessHandler;
+			AuthenticationEntryPoint finalAuthenticationEntryPoint = this.authenticationEntryPoint == null
+					? new CustomAuthenticationEntryPoint() : this.authenticationEntryPoint;
 			AuthenticationEntryPointFailureHandler failureHandler = new AuthenticationEntryPointFailureHandler(
-					this.authenticationEntryPoint == null ? new Http403ForbiddenEntryPoint()
-							: this.authenticationEntryPoint);
+					finalAuthenticationEntryPoint);
 			httpSecurity.setSharedObject(AuthenticationFailureHandler.class, failureHandler);
+
+			// 添加异常处理配置
+			httpSecurity.exceptionHandling().authenticationEntryPoint(finalAuthenticationEntryPoint);
 
 			SeparationLoginConfigurer<HttpSecurity> separationLoginConfigurer = httpSecurity
 				.apply(new SeparationLoginConfigurer<>())
