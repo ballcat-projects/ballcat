@@ -66,7 +66,7 @@ public class OperationLogAutoConfiguration {
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(DefaultOperationLogHandler.class)
+	@ConditionalOnMissingBean(OperationLogHandler.class)
 	public OperationLogHandler defaultOperationLogHandler() {
 		return new DefaultOperationLogHandler();
 	}

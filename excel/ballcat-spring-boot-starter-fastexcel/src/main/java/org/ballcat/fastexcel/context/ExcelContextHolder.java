@@ -77,7 +77,7 @@ public final class ExcelContextHolder {
 	@SuppressWarnings("unchecked")
 	private static Map<String, ExcelExportInfo> getFilesMap() {
 		Map<String, ExcelExportInfo> files = (Map<String, ExcelExportInfo>) getRequestAttributes()
-				.getAttribute(EXCEL_CONTEXT_KEY, RequestAttributes.SCOPE_REQUEST);
+			.getAttribute(EXCEL_CONTEXT_KEY, RequestAttributes.SCOPE_REQUEST);
 
 		if (files == null) {
 			files = new HashMap<>(8);

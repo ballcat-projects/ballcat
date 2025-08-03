@@ -104,8 +104,8 @@ public final class FastExcelUtils {
 		// Use UTF-8 encoding when specifying the filename to support international
 		// characters
 		ContentDisposition contentDisposition = ContentDisposition.attachment()
-				.filename(filename, StandardCharsets.UTF_8)
-				.build();
+			.filename(filename, StandardCharsets.UTF_8)
+			.build();
 
 		// Add the Content-Disposition header to the response
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());

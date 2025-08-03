@@ -33,6 +33,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.access.AccessDeniedException;
 
@@ -96,6 +97,7 @@ public class ExceptionAutoConfiguration {
 	/**
 	 * Security 异常处理，隔离出一个配置类
 	 */
+	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass(AccessDeniedException.class)
 	static class SecurityExceptionConfiguration {
 
