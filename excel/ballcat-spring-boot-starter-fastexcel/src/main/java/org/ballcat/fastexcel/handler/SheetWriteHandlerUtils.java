@@ -25,6 +25,7 @@ import org.ballcat.fastexcel.annotation.ResponseExcel;
 import org.ballcat.fastexcel.annotation.Sheet;
 import org.ballcat.fastexcel.domain.SheetBuildProperties;
 import org.ballcat.fastexcel.fill.FillDataSupplier;
+import org.ballcat.fastexcel.fill.FillEntry;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -63,9 +64,9 @@ final class SheetWriteHandlerUtils {
 		if (responseExcel.fill()) {
 			// 填充 sheet
 			excelWriter.fill(eleList, sheet);
-			Object customFillData = SheetWriteHandlerUtils.getCustomFillData(responseExcel);
-			if (customFillData != null) {
-				excelWriter.fill(customFillData, sheet);
+			List<FillEntry> customFillData = getCustomFillData(responseExcel);
+			if (customFillData != null && !customFillData.isEmpty()) {
+				customFillData.forEach(entry -> excelWriter.fill(entry.getData(), entry.getFillConfig(), sheet));
 			}
 		}
 		else {
@@ -74,11 +75,11 @@ final class SheetWriteHandlerUtils {
 		}
 	}
 
-	public static Object getCustomFillData(ResponseExcel responseExcel) {
+	public static List<FillEntry> getCustomFillData(ResponseExcel responseExcel) {
 		Class<? extends FillDataSupplier> fillDataSupplierClazz = responseExcel.fillDataSupplier();
 		if (fillDataSupplierClazz != null && !fillDataSupplierClazz.isInterface()) {
 			FillDataSupplier fillDataSupplier = BeanUtils.instantiateClass(fillDataSupplierClazz);
-			return fillDataSupplier.getFillData();
+			return fillDataSupplier.fillEntries();
 		}
 		return null;
 	}

@@ -75,12 +75,6 @@ public @interface ResponseExcel {
 	String template() default "";
 
 	/**
-	 * 填充数据提供器
-	 * @return HeadGenerator
-	 */
-	Class<? extends FillDataSupplier> fillDataSupplier() default FillDataSupplier.class;
-
-	/**
 	 * + 包含字段
 	 * @return String[]
 	 */
@@ -125,5 +119,11 @@ public @interface ResponseExcel {
 	 * @return boolean
 	 */
 	boolean fill() default false;
+
+	/**
+	 * 填充数据提供器
+	 * @return HeadGenerator
+	 */
+	Class<? extends FillDataSupplier> fillDataSupplier() default FillDataSupplier.class;
 
 }
