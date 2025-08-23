@@ -17,12 +17,14 @@
 package org.ballcat.fastexcel.application;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.ballcat.fastexcel.annotation.ResponseExcel;
 import org.ballcat.fastexcel.fill.FillDataSupplier;
+import org.ballcat.fastexcel.fill.FillEntry;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,10 +66,10 @@ public class ExcelFillTestController {
 	public static class DemoFillDataSupplier implements FillDataSupplier {
 
 		@Override
-		public Object getFillData() {
+		public List<FillEntry> fillEntries() {
 			Map<String, String> map = new HashMap<>(2);
 			map.put("date", "2019年10月9日13:28:28");
-			return map;
+			return Collections.singletonList(FillEntry.of(map));
 		}
 
 	}

@@ -16,18 +16,28 @@
 
 package org.ballcat.fastexcel.fill;
 
+import java.util.List;
+
 /**
- * 填充数据提供者，在使用模板填充导出时使用，提供列表之外的数据。
+ * Provides fill entries for Excel template rendering.
+ * <p>
+ * Implementations supply dynamic data regions via {@link FillEntry}.
+ * </p>
  *
  * @author Hccake
  * @since 2.0.0
+ * @see FillEntry
  */
 public interface FillDataSupplier {
 
 	/**
-	 * 获取填充数据
-	 * @return 填充数据
+	 * Provides the fill entries to be applied to the Excel template.
+	 * <p>
+	 * This method is invoked during the fill phase of export. Each returned
+	 * {@link FillEntry} corresponds to a data region in the template.
+	 * </p>
+	 * @return a list of fill entries; never {@code null} — return empty list if no data
 	 */
-	Object getFillData();
+	List<FillEntry> fillEntries();
 
 }
