@@ -16,12 +16,12 @@
 
 package org.ballcat.fastexcel.fill;
 
+import java.util.Collection;
+
 import cn.idev.excel.enums.WriteDirectionEnum;
 import cn.idev.excel.write.metadata.fill.FillConfig;
 import cn.idev.excel.write.metadata.fill.FillWrapper;
 import lombok.Getter;
-
-import java.util.Collection;
 
 /**
  * Represents a unit of data and configuration for Excel template filling.
