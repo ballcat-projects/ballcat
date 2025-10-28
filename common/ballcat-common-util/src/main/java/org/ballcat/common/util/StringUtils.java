@@ -92,7 +92,7 @@ public final class StringUtils {
 		}
 		else {
 			for (String cs : css) {
-				if (cs == null || cs.isEmpty() && containsText(cs)) {
+				if (cs == null || cs.isEmpty() || !containsText(cs)) {
 					return true;
 				}
 			}
