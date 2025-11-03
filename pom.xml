@@ -13,7 +13,7 @@
 
 	<properties>
 		<!-- Version Management -->
-		<revision>2.0.1-SNAPSHOT</revision>
+		<revision>2.0.0-SNAPSHOT</revision>
 
 		<!-- Java Version -->
 		<java.version>1.8</java.version>
@@ -46,85 +46,35 @@
 	</properties>
 
 	<modules>
-		<module>api-signature/ballcat-spring-boot-starter-apisignature</module>
-
+		<module>api-signature</module>
 		<module>ballcat-dependencies</module>
 		<module>ballcat-parent</module>
-
-		<module>common/ballcat-common-core</module>
-		<module>common/ballcat-common-model</module>
-		<module>common/ballcat-common-util</module>
-
-		<module>datascope/ballcat-spring-boot-starter-datascope</module>
-
-		<module>desensitize/ballcat-desensitize</module>
-
-		<module>dingtalk/ballcat-dingtalk</module>
-		<module>dingtalk/ballcat-spring-boot-starter-dingtalk</module>
-
-		<module>excel/ballcat-spring-boot-starter-fastexcel</module>
-
-		<module>file/ballcat-spring-boot-starter-file</module>
-
-		<module>grpc/ballcat-spring-boot-starter-grpc</module>
-		<module>grpc/ballcat-spring-boot-starter-grpc-server</module>
-		<module>grpc/ballcat-spring-boot-starter-grpc-client</module>
-
-		<module>i18n/ballcat-i18n</module>
-		<module>i18n/ballcat-spring-boot-starter-i18n</module>
-
-		<module>idempotent/ballcat-idempotent</module>
-		<module>idempotent/ballcat-spring-boot-starter-idempotent</module>
-
-		<module>ip/ballcat-spring-boot-starter-ip2region</module>
-
-		<module>job/ballcat-spring-boot-starter-xxljob</module>
-		<module>job/ballcat-spring-boot-starter-quartz</module>
-
-		<module>kafka/ballcat-kafka</module>
-		<module>kafka/ballcat-kafka-stream</module>
-		<module>kafka/ballcat-spring-boot-starter-kafka</module>
-
-		<module>log/ballcat-operation-log</module>
-		<module>log/ballcat-spring-boot-starter-operation-log</module>
-
-		<module>mail/ballcat-spring-boot-starter-mail</module>
-
-		<module>mybatis-plus/ballcat-mybatis-plus</module>
-		<module>mybatis-plus/ballcat-spring-boot-starter-mybatis-plus</module>
-
-		<module>ntp/ballcat-ntp</module>
-
-		<module>openapi/ballcat-spring-boot-starter-openapi</module>
-
-		<module>oss/ballcat-spring-boot-starter-oss</module>
-
-		<module>pay/ballcat-pay-ali</module>
-		<module>pay/ballcat-pay-virtual</module>
-		<module>pay/ballcat-pay-wx</module>
-		<module>pay/ballcat-spring-boot-starter-pay</module>
-
-		<module>redis/ballcat-redis</module>
-		<module>redis/ballcat-redis-module</module>
-		<module>redis/ballcat-spring-boot-starter-redis</module>
-
-		<module>security/ballcat-security-core</module>
-		<module>security/ballcat-spring-security</module>
-		<module>security/ballcat-spring-security-oauth2-authorization-server</module>
-		<module>security/ballcat-spring-security-oauth2-core</module>
-		<module>security/ballcat-spring-security-oauth2-resource-server</module>
-
-		<module>sms/ballcat-spring-boot-starter-sms</module>
-
-		<module>tesseract/ballcat-tesseract</module>
-
-		<module>web/ballcat-spring-boot-starter-web</module>
-		<module>web/ballcat-web</module>
-
-		<module>websocket/ballcat-websocket</module>
-		<module>websocket/ballcat-spring-boot-starter-websocket</module>
-
-		<module>xss/ballcat-spring-boot-starter-xss</module>
+		<module>common</module>
+		<module>datascope</module>
+		<module>desensitize</module>
+		<module>dingtalk</module>
+		<module>excel</module>
+		<module>file</module>
+		<module>grpc</module>
+		<module>i18n</module>
+		<module>idempotent</module>
+		<module>ip</module>
+		<module>job</module>
+		<module>kafka</module>
+		<module>log</module>
+		<module>mail</module>
+		<module>mybatis-plus</module>
+		<module>ntp</module>
+		<module>openapi</module>
+		<module>oss</module>
+		<module>pay</module>
+		<module>redis</module>
+		<module>security</module>
+		<module>sms</module>
+		<module>tesseract</module>
+		<module>web</module>
+		<module>websocket</module>
+		<module>xss</module>
     </modules>
 
 	<url>https://github.com/ballcat-projects/ballcat</url>
