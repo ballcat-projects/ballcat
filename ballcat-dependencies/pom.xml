@@ -2,30 +2,26 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.ballcat</groupId>
+
+	<parent>
+		<groupId>org.ballcat</groupId>
+		<artifactId>ballcat-build</artifactId>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
 	<artifactId>ballcat-dependencies</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
+
 	<name>ballcat-dependencies</name>
-	<url>https://github.com/ballcat-projects/ballcat</url>
 	<description>Ballcat Dependencies</description>
 
 	<properties>
-		<revision>2.0.0-SNAPSHOT</revision>
-		<!-- 插件版本 -->
-		<flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
-		<maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
-		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
-		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-		<maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
-		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-		<spring-javaformat-checkstyle.version>0.0.41</spring-javaformat-checkstyle.version>
-		<maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
-		<git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
+		<!-- Ballcat Version 保留 revision 变量，否则 idea 会提示错误，不影响工作，但是很难受 -->
+		<ballcat.version>${revision}</ballcat.version>
 
-		<!-- 依赖版本 -->
+		<!-- Dependency Versions for BOM -->
 		<alipay-sdk.version>4.11.28.ALL</alipay-sdk.version>
 		<fastexcel.version>1.2.0</fastexcel.version>
 		<fastjson.version>1.2.83</fastjson.version>
@@ -295,468 +291,321 @@
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-common-core</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-common-model</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-common-util</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- datascope 数据权限 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-datascope</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- desensitize 脱敏 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-desensitize</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- dingtalk 钉钉 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-dingtalk</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-dingtalk</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- excel -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-fastexcel</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- file 文件 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-file</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- grpc -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-grpc</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-grpc-client</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-grpc-server</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- i18n 国际化 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-i18n</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-i18n</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- idempotent 幂等 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-idempotent</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-idempotent</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- ip 解析 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-ip2region</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- job 定时任务 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-xxljob</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-quartz</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- kafka 消息队列 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-kafka</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-kafka-stream</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-kafka</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- log 日志 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-operation-log</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-operation-log</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- maill 邮件 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-mail</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- ntp 时间同步 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-mybatis-plus</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-ntp</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- swagger openapi 文档 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-openapi</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- oss 对象存储 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-oss</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- pay 支付 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-pay-ali</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-pay-virtual</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-pay-wx</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-pay</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- redis -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-redis</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-redis</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- security 安全 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-security-core</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security-oauth2-authorization-server</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security-oauth2-core</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-security-oauth2-resource-server</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- sms 短信 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-sms</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- tesseract OCR 文字识别 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-tesseract</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- web -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-web</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-web</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- websocket -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-websocket</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-websocket</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 
 			<!-- xss 防注入 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-spring-boot-starter-xss</artifactId>
-				<version>${revision}</version>
+				<version>${ballcat.version}</version>
 			</dependency>
 			<!--endregion ============= 结束定义ballcat 自身模块版本 =========== -->
 		</dependencies>
 	</dependencyManagement>
-	<!--region 环境变量-->
-	<profiles>
-		<profile>
-			<id>ossrh</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>${maven-gpg-plugin.version}</version>
-						<executions>
-							<execution>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-release-plugin</artifactId>
-						<configuration>
-							<autoVersionSubmodules>true</autoVersionSubmodules>
-							<goals>deploy</goals>
-							<releaseProfiles>release</releaseProfiles>
-							<useReleaseProfile>false</useReleaseProfile>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>${nexus-staging-maven-plugin.version}</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-	<!--endregion 结束环境变量-->
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${flatten-maven-plugin.version}</version>
 				<configuration>
-					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+					<!-- BOM mode: removes parent, keeps dependencyManagement and properties -->
+					<flattenMode>bom</flattenMode>
 					<updatePomFile>true</updatePomFile>
 				</configuration>
 				<executions>
 					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
 						<goals>
 							<goal>flatten</goal>
 						</goals>
-						<id>flatten</id>
-						<phase>process-resources</phase>
 					</execution>
 					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
 						<goals>
 							<goal>clean</goal>
 						</goals>
-						<id>flatten.clean</id>
-						<phase>clean</phase>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>io.spring.javaformat</groupId>
-					<artifactId>spring-javaformat-maven-plugin</artifactId>
-					<version>${spring-javaformat-checkstyle.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${maven-compiler-plugin.verison}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-gpg-plugin</artifactId>
-					<version>${maven-gpg-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven-javadoc-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>${maven-resources-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>${maven-source-plugin.version}</version>
-				</plugin>
-				<!-- 测试插件 -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven-surefire-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.sonatype.plugins</groupId>
-					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>${nexus-staging-maven-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>flatten-maven-plugin</artifactId>
-					<version>${flatten-maven-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<version>${spring-boot.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>${maven-checkstyle-plugin.version}</version>
-					<dependencies>
-						<dependency>
-							<groupId>com.puppycrawl.tools</groupId>
-							<artifactId>checkstyle</artifactId>
-							<version>9.3</version>
-						</dependency>
-						<dependency>
-							<groupId>io.spring.javaformat</groupId>
-							<artifactId>spring-javaformat-checkstyle</artifactId>
-							<version>${spring-javaformat-checkstyle.version}</version>
-						</dependency>
-					</dependencies>
-				</plugin>
-				<!-- git hook 配置 -->
-				<plugin>
-				<groupId>com.rudikershaw.gitbuildhook</groupId>
-				<artifactId>git-build-hook-maven-plugin</artifactId>
-				<version>${git-build-hook-maven-plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
-	<developers>
-		<developer>
-			<name>hccake</name>
-			<email>chengbohua@foxmail.com</email>
-		</developer>
-	</developers>
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
-		</license>
-	</licenses>
-	<scm>
-		<url>https://github.com/ballcat-projects/ballcat</url>
-		<connection>https://github.com/ballcat-projects/ballcat.git</connection>
-		<developerConnection>https://github.com/hccake</developerConnection>
-	</scm>
+
 </project>

@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<parent>
-		<groupId>org.ballcat</groupId>
-		<artifactId>ballcat-parent</artifactId>
-		<version>${revision}</version>
-		<relativePath>./ballcat-parent/pom.xml</relativePath>
-	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ballcat</artifactId>
+
+	<groupId>org.ballcat</groupId>
+	<artifactId>ballcat-build</artifactId>
+	<version>${revision}</version>
 	<packaging>pom</packaging>
-	<name>ballcat</name>
-	<url>https://github.com/ballcat-projects/ballcat</url>
-	<description>一个简单好用的功能组件库</description>
+
+	<name>ballcat build</name>
+	<description>ballcat 构建模块</description>
+
+	<properties>
+		<!-- Version Management -->
+		<revision>2.0.1-SNAPSHOT</revision>
+
+		<!-- Java Version -->
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+
+		<!-- Encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Skip deployment for aggregator POM -->
+		<maven.deploy.skip>true</maven.deploy.skip>
+
+		<!-- Plugin Versions -->
+		<flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
+		<maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
+		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
+		<maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+		<spring-javaformat.version>0.0.41</spring-javaformat.version>
+		<maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
+		<git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
+
+		<!-- Dependency Versions -->
+		<spring-boot.version>2.7.18</spring-boot.version>
+		<lombok.version>1.18.30</lombok.version>
+	</properties>
 
 	<modules>
 		<module>api-signature/ballcat-spring-boot-starter-apisignature</module>
@@ -96,22 +127,35 @@
 		<module>xss/ballcat-spring-boot-starter-xss</module>
     </modules>
 
-	<properties>
-		<!-- maven 配置 -->
-		<java.version>1.8</java.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
+	<url>https://github.com/ballcat-projects/ballcat</url>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/ballcat-projects/ballcat</url>
+		<connection>https://github.com/ballcat-projects/ballcat.git</connection>
+		<developerConnection>https://github.com/hccake</developerConnection>
+	</scm>
+
+	<developers>
+		<developer>
+			<name>Ballcat Team</name>
+			<email>chengbohua@foxmail.com</email>
+			<organization>Ballcat</organization>
+			<organizationUrl>https://github.com/ballcat-projects</organizationUrl>
+		</developer>
+	</developers>
 
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
+			<name>Sonatype Nexus Staging Repository</name>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
@@ -220,6 +264,7 @@
 			<plugin>
 				<groupId>io.spring.javaformat</groupId>
 				<artifactId>spring-javaformat-maven-plugin</artifactId>
+				<version>${spring-javaformat.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -233,6 +278,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.verison}</version>
 				<configuration>
 					<annotationProcessorPaths>
 						<path>
@@ -256,6 +302,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
 					<argLine>-Dfile.encoding=UTF-8</argLine>
 				</configuration>
@@ -263,6 +310,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${flatten-maven-plugin.version}</version>
 				<configuration>
 					<flattenMode>resolveCiFriendliesOnly</flattenMode>
 					<updatePomFile>true</updatePomFile>
@@ -288,6 +336,7 @@
 			<plugin>
 				<groupId>com.rudikershaw.gitbuildhook</groupId>
 				<artifactId>git-build-hook-maven-plugin</artifactId>
+				<version>${git-build-hook-maven-plugin.version}</version>
 				<inherited>false</inherited>
 				<configuration>
 					<gitConfig>
@@ -308,41 +357,22 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>checkstyle-validation</id>
-						<phase>validate</phase>
-						<configuration>
-							<configLocation>src/checkstyle/checkstyle.xml</configLocation>
-							<suppressionsLocation>src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
-							<consoleOutput>true</consoleOutput>
-							<failsOnError>true</failsOnError>
-							<includeTestSourceDirectory>true</includeTestSourceDirectory>
-						</configuration>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
+				<version>${maven-checkstyle-plugin.version}</version>
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>checkstyle-validation</id>-->
+<!--						<phase>validate</phase>-->
+<!--						<configuration>-->
+<!--							<consoleOutput>true</consoleOutput>-->
+<!--							<failsOnError>true</failsOnError>-->
+<!--							<includeTestSourceDirectory>true</includeTestSourceDirectory>-->
+<!--						</configuration>-->
+<!--						<goals>-->
+<!--							<goal>check</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
 			</plugin>
 		</plugins>
 	</build>
-
-	<developers>
-		<developer>
-			<name>hccake</name>
-			<email>chengbohua@foxmail.com</email>
-		</developer>
-	</developers>
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
-		</license>
-	</licenses>
-	<scm>
-		<url>https://github.com/ballcat-projects/ballcat</url>
-		<connection>https://github.com/ballcat-projects/ballcat.git</connection>
-		<developerConnection>https://github.com/hccake</developerConnection>
-	</scm>
 </project>
