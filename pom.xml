@@ -61,7 +61,7 @@
 		<module>ip</module>
 		<module>job</module>
 		<module>kafka</module>
-		<module>log</module>
+		<module>operation-log</module>
 		<module>mail</module>
 		<module>mybatis-plus</module>
 		<module>ntp</module>

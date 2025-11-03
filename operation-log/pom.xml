@@ -13,11 +13,11 @@
 	</parent>
 
 	<!-- 聚合模块 -->
-	<artifactId>log</artifactId>
+	<artifactId>operation-log</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
-	<name>log</name>
+	<name>operation-log</name>
 	<description>Aggregator (build-only) for Ballcat Operation Log modules</description>
 
 	<properties>
