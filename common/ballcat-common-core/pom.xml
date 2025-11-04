@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -17,19 +16,6 @@
 	<description>Ballcat 公共模块</description>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.ballcat</groupId>
-			<artifactId>ballcat-common-model</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.ballcat</groupId>
-			<artifactId>ballcat-common-util</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
 
 		<!--json模块-->
 		<dependency>
@@ -39,6 +25,19 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ballcat</groupId>
+			<artifactId>ballcat-common-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ballcat</groupId>
+			<artifactId>ballcat-common-util</artifactId>
 		</dependency>
 
 		<!-- slf4j日志 -->

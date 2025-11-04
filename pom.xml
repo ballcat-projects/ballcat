@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-		 child.project.url.inherit.append.path="false">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" child.project.url.inherit.append.path="false" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.ballcat</groupId>
@@ -11,40 +9,6 @@
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>ballcat 构建模块</description>
-
-	<properties>
-		<!-- Version Management -->
-		<revision>2.0.0-SNAPSHOT</revision>
-
-		<!-- Java Version -->
-		<java.version>1.8</java.version>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-
-		<!-- Encoding -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-		<!-- Skip deployment for aggregator POM -->
-		<maven.deploy.skip>true</maven.deploy.skip>
-
-		<!-- Plugin Versions -->
-		<flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
-		<maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
-		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
-		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-		<maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
-		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-		<spring-javaformat.version>0.0.41</spring-javaformat.version>
-		<maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
-		<git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
-
-		<!-- Dependency Versions -->
-		<spring-boot.version>2.7.18</spring-boot.version>
-		<lombok.version>1.18.30</lombok.version>
-	</properties>
 
 	<modules>
 		<module>api-signature</module>
@@ -78,6 +42,177 @@
 		<module>xss</module>
 	</modules>
 
+	<properties>
+		<!-- Version Management -->
+		<revision>2.0.0-SNAPSHOT</revision>
+
+		<!-- Java Version -->
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+
+		<!-- Encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Skip deployment for aggregator POM -->
+		<maven.deploy.skip>true</maven.deploy.skip>
+
+		<!-- Plugin Versions -->
+		<flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
+		<git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
+		<maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
+		<maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
+		<maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
+		<spring-javaformat.version>0.0.41</spring-javaformat.version>
+		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+		<!-- 注意: 使用 sortpom-maven-plugin 2.x 以上版本需要 jdk11 -->
+		<sortpom-maven-plugin.version>4.0.0</sortpom-maven-plugin.version>
+
+		<!-- Dependency Versions -->
+		<lombok.version>1.18.30</lombok.version>
+		<spring-boot.version>2.7.18</spring-boot.version>
+	</properties>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>com.github.ekryd.sortpom</groupId>
+				<artifactId>sortpom-maven-plugin</artifactId>
+				<version>${sortpom-maven-plugin.version}</version>
+				<configuration>
+					<createBackupFile>false</createBackupFile>
+					<predefinedSortOrder>custom_1</predefinedSortOrder>
+					<!-- 插件排序规则 -->
+					<sortPlugins>groupId,artifactId</sortPlugins>
+					<!-- 依赖排序规则 -->
+					<sortDependencies>scope,groupId,artifactId</sortDependencies>
+					<!-- 使用tab缩进 -->
+					<nrOfIndentSpace>-1</nrOfIndentSpace>
+					<!-- 保留空行，增加可读性 -->
+					<keepBlankLines>true</keepBlankLines>
+				</configuration>
+			</plugin>
+			<!-- git hook 配置 -->
+			<plugin>
+				<groupId>com.rudikershaw.gitbuildhook</groupId>
+				<artifactId>git-build-hook-maven-plugin</artifactId>
+				<version>${git-build-hook-maven-plugin.version}</version>
+				<inherited>false</inherited>
+				<configuration>
+					<gitConfig>
+						<!-- The location of the directory you are using to store the Git hooks in your project. -->
+						<core.hooksPath>.etc/git-hooks/</core.hooksPath>
+					</gitConfig>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<!-- Sets git config specified under configuration > gitConfig. -->
+							<goal>configure</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.spring.javaformat</groupId>
+				<artifactId>spring-javaformat-maven-plugin</artifactId>
+				<version>${spring-javaformat.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>validate</goal>
+						</goals>
+						<phase>validate</phase>
+						<inherited>true</inherited>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- checkstyle 配置 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${maven-checkstyle-plugin.version}</version>
+				<!--				<executions>-->
+				<!--					<execution>-->
+				<!--						<id>checkstyle-validation</id>-->
+				<!--						<phase>validate</phase>-->
+				<!--						<configuration>-->
+				<!--							<consoleOutput>true</consoleOutput>-->
+				<!--							<failsOnError>true</failsOnError>-->
+				<!--							<includeTestSourceDirectory>true</includeTestSourceDirectory>-->
+				<!--						</configuration>-->
+				<!--						<goals>-->
+				<!--							<goal>check</goal>-->
+				<!--						</goals>-->
+				<!--					</execution>-->
+				<!--				</executions>-->
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.verison}</version>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+						<!-- spring-boot 配置处理 -->
+						<path>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-configuration-processor</artifactId>
+							<version>${spring-boot.version}</version>
+						</path>
+					</annotationProcessorPaths>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+			<!-- 测试插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${flatten-maven-plugin.version}</version>
+				<configuration>
+					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+					<updatePomFile>true</updatePomFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+						<phase>process-resources</phase>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<phase>clean</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<url>https://v2.ballcat.cn/</url>
 
 	<licenses>
@@ -88,14 +223,6 @@
 		</license>
 	</licenses>
 
-	<scm child.scm.connection.inherit.append.path="false"
-		 child.scm.url.inherit.append.path="false"
-		 child.scm.developerConnection.inherit.append.path="false">
-		<connection>scm:git:git@github.com:ballcat-projects/ballcat.git</connection>
-		<developerConnection>https://github.com/hccake</developerConnection>
-		<url>https://github.com/ballcat-projects/ballcat</url>
-	</scm>
-
 	<developers>
 		<developer>
 			<name>Ballcat Team</name>
@@ -104,6 +231,12 @@
 			<organizationUrl>https://github.com/ballcat-projects</organizationUrl>
 		</developer>
 	</developers>
+
+	<scm child.scm.connection.inherit.append.path="false" child.scm.developerConnection.inherit.append.path="false" child.scm.url.inherit.append.path="false">
+		<connection>scm:git:git@github.com:ballcat-projects/ballcat.git</connection>
+		<developerConnection>https://github.com/hccake</developerConnection>
+		<url>https://github.com/ballcat-projects/ballcat</url>
+	</scm>
 
 	<distributionManagement>
 		<repository>
@@ -125,10 +258,10 @@
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
-								<phase>verify</phase>
 								<goals>
 									<goal>sign</goal>
 								</goals>
+								<phase>verify</phase>
 							</execution>
 						</executions>
 					</plugin>
@@ -190,13 +323,13 @@
 		</profile>
 		<profile>
 			<id>dev</id>
-			<properties>
-				<profiles.active>dev</profiles.active>
-			</properties>
 			<activation>
 				<!-- 默认环境 -->
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<properties>
+				<profiles.active>dev</profiles.active>
+			</properties>
 		</profile>
 		<profile>
 			<id>test</id>
@@ -211,121 +344,4 @@
 			</properties>
 		</profile>
 	</profiles>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>io.spring.javaformat</groupId>
-				<artifactId>spring-javaformat-maven-plugin</artifactId>
-				<version>${spring-javaformat.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>validate</goal>
-						</goals>
-						<inherited>true</inherited>
-						<phase>validate</phase>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.verison}</version>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version>
-						</path>
-						<!-- spring-boot 配置处理 -->
-						<path>
-							<groupId>org.springframework.boot</groupId>
-							<artifactId>spring-boot-configuration-processor</artifactId>
-							<version>${spring-boot.version}</version>
-						</path>
-					</annotationProcessorPaths>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
-				</configuration>
-			</plugin>
-			<!-- 测试插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
-				<configuration>
-					<argLine>-Dfile.encoding=UTF-8</argLine>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>flatten-maven-plugin</artifactId>
-				<version>${flatten-maven-plugin.version}</version>
-				<configuration>
-					<flattenMode>resolveCiFriendliesOnly</flattenMode>
-					<updatePomFile>true</updatePomFile>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>flatten</goal>
-						</goals>
-						<id>flatten</id>
-						<phase>process-resources</phase>
-					</execution>
-					<execution>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-						<id>flatten.clean</id>
-						<phase>clean</phase>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- git hook 配置 -->
-			<plugin>
-				<groupId>com.rudikershaw.gitbuildhook</groupId>
-				<artifactId>git-build-hook-maven-plugin</artifactId>
-				<version>${git-build-hook-maven-plugin.version}</version>
-				<inherited>false</inherited>
-				<configuration>
-					<gitConfig>
-						<!-- The location of the directory you are using to store the Git hooks in your project. -->
-						<core.hooksPath>.etc/git-hooks/</core.hooksPath>
-					</gitConfig>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<!-- Sets git config specified under configuration > gitConfig. -->
-							<goal>configure</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- checkstyle 配置 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${maven-checkstyle-plugin.version}</version>
-				<!--				<executions>-->
-				<!--					<execution>-->
-				<!--						<id>checkstyle-validation</id>-->
-				<!--						<phase>validate</phase>-->
-				<!--						<configuration>-->
-				<!--							<consoleOutput>true</consoleOutput>-->
-				<!--							<failsOnError>true</failsOnError>-->
-				<!--							<includeTestSourceDirectory>true</includeTestSourceDirectory>-->
-				<!--						</configuration>-->
-				<!--						<goals>-->
-				<!--							<goal>check</goal>-->
-				<!--						</goals>-->
-				<!--					</execution>-->
-				<!--				</executions>-->
-			</plugin>
-		</plugins>
-	</build>
 </project>
