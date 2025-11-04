@@ -12,6 +12,9 @@
 
 	<artifactId>ballcat-ntp</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat NTP 组件</description>
+
 
 	<dependencies>
 		<!--ntp服务-->

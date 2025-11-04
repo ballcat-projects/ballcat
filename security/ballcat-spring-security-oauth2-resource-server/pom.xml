@@ -10,6 +10,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-spring-security-oauth2-resource-server</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat Spring Security OAuth2 资源服务器</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>

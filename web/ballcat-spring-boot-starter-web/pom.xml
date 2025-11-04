@@ -10,6 +10,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-spring-boot-starter-web</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat Web 组件 starter</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>

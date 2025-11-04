@@ -10,6 +10,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-tesseract</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat Tesseract 集成组件</description>
+
 	<properties>
 		<skipTests>true</skipTests>
 	</properties>

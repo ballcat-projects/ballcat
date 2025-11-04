@@ -10,6 +10,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-spring-boot-starter-i18n</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat I18n 国际化组件 starter</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>

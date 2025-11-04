@@ -17,7 +17,7 @@
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
-	<name>file</name>
+	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Aggregator (build-only) for Ballcat File modules</description>
 
 	<properties>

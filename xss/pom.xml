@@ -17,7 +17,7 @@
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
-	<name>xss</name>
+	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Aggregator (build-only) for Ballcat XSS modules</description>
 
 	<properties>

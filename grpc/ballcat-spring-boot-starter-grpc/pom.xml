@@ -12,6 +12,9 @@
 
 	<artifactId>ballcat-spring-boot-starter-grpc</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat GRPC starter</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>

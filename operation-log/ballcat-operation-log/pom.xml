@@ -10,6 +10,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-operation-log</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat 操作日志组件</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>

@@ -13,7 +13,7 @@
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
-	<name>ballcat-parent</name>
+	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Parent POM for Ballcat components</description>
 
 	<dependencies>

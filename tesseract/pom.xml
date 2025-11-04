@@ -17,7 +17,7 @@
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
-	<name>tesseract</name>
+	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Aggregator (build-only) for Ballcat Tesseract modules</description>
 
 	<properties>

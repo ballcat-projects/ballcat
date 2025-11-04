@@ -12,6 +12,8 @@
 
 	<artifactId>ballcat-spring-boot-starter-grpc-server</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat GRPC Server starter</description>
 
 	<dependencies>
 		<dependency>

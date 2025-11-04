@@ -10,6 +10,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-redis-module</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat Redis Module 扩展组件</description>
+
 	<properties>
 		<skipTests>true</skipTests>
 	</properties>

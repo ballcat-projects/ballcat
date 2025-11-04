@@ -11,6 +11,9 @@
 	<artifactId>ballcat-dingtalk</artifactId>
 	<packaging>jar</packaging>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat 钉钉通知集成组件</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>

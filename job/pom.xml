@@ -17,7 +17,7 @@
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
-	<name>job</name>
+	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Aggregator (build-only) for Ballcat Job modules</description>
 
 	<properties>

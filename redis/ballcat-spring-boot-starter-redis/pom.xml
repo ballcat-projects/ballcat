@@ -10,6 +10,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-spring-boot-starter-redis</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat Redis 组件 starter</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

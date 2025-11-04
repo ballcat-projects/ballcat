@@ -11,6 +11,9 @@
 	<artifactId>ballcat-kafka-stream</artifactId>
 	<packaging>jar</packaging>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat Kafka Stream 集成组件</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>

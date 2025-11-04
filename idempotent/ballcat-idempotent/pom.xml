@@ -10,6 +10,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-idempotent</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat 幂等组件</description>
+
 	<dependencies>
 		<!--hutool-->
 		<dependency>

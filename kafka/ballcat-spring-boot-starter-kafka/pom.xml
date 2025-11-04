@@ -11,6 +11,9 @@
 	<artifactId>ballcat-spring-boot-starter-kafka</artifactId>
 	<packaging>jar</packaging>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat Kafka 组件 starter</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>

@@ -10,6 +10,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-websocket</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat Websocket 组件</description>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>org.ballcat</groupId>

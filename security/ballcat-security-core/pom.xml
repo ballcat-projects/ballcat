@@ -10,6 +10,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-security-core</artifactId>
 
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat 安全组件核心模块</description>
+
 	<dependencies>
 		<!-- slf4j日志 -->
 		<dependency>

@@ -14,7 +14,7 @@
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 
-	<name>ballcat-dependencies</name>
+	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Ballcat Dependencies</description>
 
 	<properties>
