@@ -12,6 +12,7 @@
 
 	<modules>
 		<module>api-signature</module>
+		<module>ballcat-checkstyle</module>
 		<module>ballcat-dependencies</module>
 		<module>ballcat-parent</module>
 		<module>common</module>
@@ -68,14 +69,19 @@
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
 		<maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
-		<spring-javaformat.version>0.0.41</spring-javaformat.version>
+		<spring-javaformat-maven-plugin.version>0.0.41</spring-javaformat-maven-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<!-- 注意: 使用 sortpom-maven-plugin 2.x 以上版本需要 jdk11 -->
 		<sortpom-maven-plugin.version>4.0.0</sortpom-maven-plugin.version>
 
 		<!-- Dependency Versions -->
+		<checkstyle.version>9.3</checkstyle.version>
 		<lombok.version>1.18.30</lombok.version>
 		<spring-boot.version>2.7.18</spring-boot.version>
+
+		<!-- Checkstyle config locations for multi-module local builds -->
+		<ballcat.checkstyle.config>${maven.multiModuleProjectDirectory}/ballcat-checkstyle/src/main/resources/checkstyle/checkstyle.xml</ballcat.checkstyle.config>
+		<ballcat.checkstyle.suppressions>${maven.multiModuleProjectDirectory}/ballcat-checkstyle/src/main/resources/checkstyle/checkstyle-suppressions.xml</ballcat.checkstyle.suppressions>
 	</properties>
 
 	<build>
@@ -122,7 +128,7 @@
 			<plugin>
 				<groupId>io.spring.javaformat</groupId>
 				<artifactId>spring-javaformat-maven-plugin</artifactId>
-				<version>${spring-javaformat.version}</version>
+				<version>${spring-javaformat-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -138,20 +144,34 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${maven-checkstyle-plugin.version}</version>
-				<!--				<executions>-->
-				<!--					<execution>-->
-				<!--						<id>checkstyle-validation</id>-->
-				<!--						<phase>validate</phase>-->
-				<!--						<configuration>-->
-				<!--							<consoleOutput>true</consoleOutput>-->
-				<!--							<failsOnError>true</failsOnError>-->
-				<!--							<includeTestSourceDirectory>true</includeTestSourceDirectory>-->
-				<!--						</configuration>-->
-				<!--						<goals>-->
-				<!--							<goal>check</goal>-->
-				<!--						</goals>-->
-				<!--					</execution>-->
-				<!--				</executions>-->
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyle.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>io.spring.javaformat</groupId>
+						<artifactId>spring-javaformat-checkstyle</artifactId>
+						<version>${spring-javaformat-maven-plugin.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>checkstyle-validation</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<consoleOutput>true</consoleOutput>
+							<failsOnError>true</failsOnError>
+							<includeTestSourceDirectory>true</includeTestSourceDirectory>
+							<configLocation>${ballcat.checkstyle.config}</configLocation>
+							<suppressionsLocation>${ballcat.checkstyle.suppressions}</suppressionsLocation>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
