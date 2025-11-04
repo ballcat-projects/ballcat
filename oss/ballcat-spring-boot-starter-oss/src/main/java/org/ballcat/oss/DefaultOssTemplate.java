@@ -26,10 +26,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.activation.FileTypeMap;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.ballcat.oss.util.MimeTypeDetector;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -194,7 +193,7 @@ public class DefaultOssTemplate implements OssTemplate {
 			.bucket(bucket)
 			.key(key)
 			.contentLength(file.length())
-			.contentType(FileTypeMap.getDefaultFileTypeMap().getContentType(file))
+			.contentType(MimeTypeDetector.detect(file))
 			.build(), RequestBody.fromFile(file));
 	}
 

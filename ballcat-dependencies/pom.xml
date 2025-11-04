@@ -45,6 +45,7 @@
 		<springdoc-openapi.verison>1.7.0</springdoc-openapi.verison>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.6.8</swagger.version>
+		<tika.version>2.9.4</tika.version>
 		<virtual-currency.version>0.4.2</virtual-currency.version>
 		<xxl-job.version>2.4.0</xxl-job.version>
 		<!--grpc-->
@@ -244,6 +245,12 @@
 				<groupId>org.apache.rocketmq</groupId>
 				<artifactId>rocketmq-spring-boot-starter</artifactId>
 				<version>${rocketmq.version}</version>
+			</dependency>
+			<!-- tika -->
+			<dependency>
+				<groupId>org.apache.tika</groupId>
+				<artifactId>tika-core</artifactId>
+				<version>${tika.version}</version>
 			</dependency>
 			<!--jsoup-->
 			<dependency>
