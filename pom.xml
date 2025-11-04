@@ -321,27 +321,5 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>dev</id>
-			<activation>
-				<!-- 默认环境 -->
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<profiles.active>dev</profiles.active>
-			</properties>
-		</profile>
-		<profile>
-			<id>test</id>
-			<properties>
-				<profiles.active>test</profiles.active>
-			</properties>
-		</profile>
-		<profile>
-			<id>prod</id>
-			<properties>
-				<profiles.active>prod</profiles.active>
-			</properties>
-		</profile>
 	</profiles>
 </project>
