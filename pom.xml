@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+		 child.project.url.inherit.append.path="false">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.ballcat</groupId>
@@ -75,9 +76,9 @@
 		<module>web</module>
 		<module>websocket</module>
 		<module>xss</module>
-    </modules>
+	</modules>
 
-	<url>https://github.com/ballcat-projects/ballcat</url>
+	<url>https://v2.ballcat.cn/</url>
 
 	<licenses>
 		<license>
@@ -87,10 +88,12 @@
 		</license>
 	</licenses>
 
-	<scm>
-		<url>https://github.com/ballcat-projects/ballcat</url>
-		<connection>https://github.com/ballcat-projects/ballcat.git</connection>
+	<scm child.scm.connection.inherit.append.path="false"
+		 child.scm.url.inherit.append.path="false"
+		 child.scm.developerConnection.inherit.append.path="false">
+		<connection>scm:git:git@github.com:ballcat-projects/ballcat.git</connection>
 		<developerConnection>https://github.com/hccake</developerConnection>
+		<url>https://github.com/ballcat-projects/ballcat</url>
 	</scm>
 
 	<developers>
@@ -308,20 +311,20 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${maven-checkstyle-plugin.version}</version>
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<id>checkstyle-validation</id>-->
-<!--						<phase>validate</phase>-->
-<!--						<configuration>-->
-<!--							<consoleOutput>true</consoleOutput>-->
-<!--							<failsOnError>true</failsOnError>-->
-<!--							<includeTestSourceDirectory>true</includeTestSourceDirectory>-->
-<!--						</configuration>-->
-<!--						<goals>-->
-<!--							<goal>check</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
+				<!--				<executions>-->
+				<!--					<execution>-->
+				<!--						<id>checkstyle-validation</id>-->
+				<!--						<phase>validate</phase>-->
+				<!--						<configuration>-->
+				<!--							<consoleOutput>true</consoleOutput>-->
+				<!--							<failsOnError>true</failsOnError>-->
+				<!--							<includeTestSourceDirectory>true</includeTestSourceDirectory>-->
+				<!--						</configuration>-->
+				<!--						<goals>-->
+				<!--							<goal>check</goal>-->
+				<!--						</goals>-->
+				<!--					</execution>-->
+				<!--				</executions>-->
 			</plugin>
 		</plugins>
 	</build>
