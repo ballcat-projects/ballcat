@@ -38,10 +38,8 @@ jobs:
 
       - name: Deploy Snapshot
         if: github.event_name != 'pull_request' && endsWith(steps.projectVersion.outputs.version, '-SNAPSHOT')
-        run: |
-          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
-          echo RELOADAGENT | gpg-connect-agent
-          mvn -B deploy -DskipTests -P ossrh -Dgpg.passphrase=${{ secrets.MAVEN_GPG_PASSPHRASE }} -Dgpg.args="--pinentry-mode loopback"
+        run:
+          mvn -B deploy -DskipTests -P ossrh
         env:
           CI_DEPLOY_USERNAME: ${{ secrets.HCCAKE_OSSRH_USERNAME }}
           CI_DEPLOY_PASSWORD: ${{ secrets.HCCAKE_OSSRH_PASSWORD }}

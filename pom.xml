@@ -65,7 +65,7 @@
 		<git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
 		<maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
 		<maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
-		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
 		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
@@ -275,6 +275,12 @@
 									<goal>sign</goal>
 								</goals>
 								<phase>verify</phase>
+								<configuration>
+									<gpgArguments>
+										<arg>--pinentry-mode</arg>
+										<arg>loopback</arg>
+									</gpgArguments>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
