@@ -60,6 +60,7 @@
 		<maven.deploy.skip>true</maven.deploy.skip>
 
 		<!-- Plugin Versions -->
+		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
 		<flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
 		<git-build-hook-maven-plugin.version>3.4.1</git-build-hook-maven-plugin.version>
 		<maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
@@ -86,7 +87,6 @@
 
 	<build>
 		<plugins>
-
 			<plugin>
 				<groupId>com.github.ekryd.sortpom</groupId>
 				<artifactId>sortpom-maven-plugin</artifactId>
@@ -258,14 +258,6 @@
 		<url>https://github.com/ballcat-projects/ballcat</url>
 	</scm>
 
-	<distributionManagement>
-		<repository>
-			<id>ossrh</id>
-			<name>Sonatype Nexus Staging Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
-
 	<!--环境变量-->
 	<profiles>
 		<profile>
@@ -329,13 +321,12 @@
 						</executions>
 					</plugin>
 					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<version>${central-publishing-maven-plugin.version}</version>
 						<extensions>true</extensions>
 						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<stagingProgressTimeoutMinutes>20</stagingProgressTimeoutMinutes>
+							<publishingServerId>central</publishingServerId>
 						</configuration>
 					</plugin>
 				</plugins>
