@@ -30,7 +30,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2.0.0
  */
 @Data
-@ConfigurationProperties(prefix = "wd.api-signature")
+@ConfigurationProperties(prefix = "ballcat.api-signature")
 public class ApiSignatureProperties {
 
 	/**
