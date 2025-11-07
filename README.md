@@ -38,6 +38,27 @@
 | [ballcat-samples](https://github.com/ballcat-projects/ballcat-samples)             | 一些组件的使用示例        |   
 
 
+## 快照版本使用说明
+
+如需使用 Ballcat 的 SNAPSHOT 版本组件，请在项目的 pom.xml 中添加如下仓库快照配置：
+
+```xml
+<repositories>
+  <repository>
+    <name>Central Portal Snapshots</name>
+    <id>central-portal-snapshots</id>
+    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
+</repositories>
+```
+
+
 ## 交流群
 
 可以扫下方左侧二维码进群，或者扫我的个人微信二维码，备注 `BallCat 进群`，我再邀请你入群
