@@ -20,6 +20,7 @@
 		<module>desensitize</module>
 		<module>dingtalk</module>
 		<module>excel</module>
+		<module>fieldcrypt</module>
 		<module>file</module>
 		<module>grpc</module>
 		<module>i18n</module>
