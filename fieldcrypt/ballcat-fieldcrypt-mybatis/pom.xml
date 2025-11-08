@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.ballcat</groupId>
+		<artifactId>ballcat-parent</artifactId>
+		<version>${revision}</version>
+		<relativePath>../../ballcat-parent</relativePath>
+	</parent>
+	<artifactId>ballcat-fieldcrypt-mybatis</artifactId>
+
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Ballcat 数据库字段加密组件mybatis支持</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.ballcat</groupId>
+			<artifactId>ballcat-fieldcrypt-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<!-- test dependency -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

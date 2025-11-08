@@ -35,6 +35,7 @@
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<mybatis-plus.version>3.5.3.2</mybatis-plus.version>
 		<mybatis.version>3.5.13</mybatis.version>
+		<mybatis-spring.version>2.1.1</mybatis-spring.version>
 		<mybatis-spring-boot-starter.version>2.3.1</mybatis-spring-boot-starter.version>
 		<poi.version>5.2.5</poi.version>
 		<rocketmq.version>2.2.0</rocketmq.version>
@@ -380,6 +381,19 @@
 				<version>${ballcat.version}</version>
 			</dependency>
 
+			<!-- fieldcrypt 数据库字段加解密 -->
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-fieldcrypt-core</artifactId>
+				<version>${ballcat.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-fieldcrypt-mybatis</artifactId>
+				<version>${ballcat.version}</version>
+			</dependency>
+
+
 			<!-- file 文件 -->
 			<dependency>
 				<groupId>org.ballcat</groupId>
@@ -560,6 +574,11 @@
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis</artifactId>
 				<version>${mybatis.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-spring</artifactId>
+				<version>${mybatis-spring.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.mybatis.spring.boot</groupId>
