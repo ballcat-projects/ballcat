@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS t_user (
+  id BIGINT PRIMARY KEY,
+  name VARCHAR(64),
+  mobile VARCHAR(256),
+  email VARCHAR(256),
+  address VARCHAR(256)
+);

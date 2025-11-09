@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:mpds;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password: 
+  # Boot 2.3 will initialize schema.sql automatically for embedded DB
+  main:
+    allow-bean-definition-overriding: true
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+
+ballcat:
+  fieldcrypt:
+    enabled: true
+    enable-parameter: true
+    enable-result: true
+    fail-fast: true
+    restore-plaintext: false
+    # Use strict default algorithm to match @Encrypted without explicit algo
+    default-algo: AES_CBC_FIXED_IV
