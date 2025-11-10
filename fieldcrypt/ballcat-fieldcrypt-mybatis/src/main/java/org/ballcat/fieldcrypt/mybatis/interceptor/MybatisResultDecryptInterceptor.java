@@ -277,7 +277,7 @@ public class MybatisResultDecryptInterceptor implements Interceptor {
 		seen.add(node);
 		ClassMetaData meta = this.classMetaResolver.resolve(cls);
 		if (meta != null && meta.shouldProcess()) {
-			for (FieldMetaData fm : meta.getEncryptedFields()) {
+			for (FieldMetaData fm : meta.getEncryptedFieldMap().values()) {
 				Field f = fm.getField();
 				try {
 					Object val = f.get(node);

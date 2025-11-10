@@ -17,7 +17,8 @@
 package org.ballcat.fieldcrypt.core;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Getter;
 import org.ballcat.fieldcrypt.annotation.EncryptedEntity;
@@ -36,10 +37,13 @@ public final class ClassMetaData {
 	private final Class<?> type;
 
 	/**
-	 * 已标记需要加密的字段集合（包含满足继承规则的父类字段）。
+	 * 已标记需要加密的字段映射（包含满足继承规则的父类字段）。 Key 为 Java 字段名（property name），Value 为对应字段的元数据。
+	 * 为保证并发安全与只读语义，使用不可变 Map。
+	 * <p>
+	 * 获取按字段名索引的不可变映射。
 	 * @see FieldMetaData
 	 */
-	private final List<FieldMetaData> encryptedFields;
+	private final Map<String, FieldMetaData> encryptedFieldMap;
 
 	/**
 	 * 类是否携带 @DataShieldEntity 注解。
@@ -47,21 +51,22 @@ public final class ClassMetaData {
 	 */
 	private final boolean entityAnnotated;
 
-	public ClassMetaData(Class<?> type, List<FieldMetaData> encryptedFields, boolean entityAnnotated) {
+	public ClassMetaData(Class<?> type, Map<String, FieldMetaData> encryptedFieldMap, boolean entityAnnotated) {
 		this.type = type;
-		this.encryptedFields = Collections.unmodifiableList(encryptedFields);
+		this.encryptedFieldMap = encryptedFieldMap == null ? Collections.unmodifiableMap(new HashMap<>())
+				: Collections.unmodifiableMap(encryptedFieldMap);
 		this.entityAnnotated = entityAnnotated;
 	}
 
 	public boolean hasEncryptedFields() {
-		return !this.encryptedFields.isEmpty();
+		return !this.encryptedFieldMap.isEmpty();
 	}
 
 	/**
 	 * 是否应该对此类进行加密/解密处理。当前规则：类被注解标记且至少有一个加密字段。
 	 */
 	public boolean shouldProcess() {
-		return this.entityAnnotated && !this.encryptedFields.isEmpty();
+		return this.entityAnnotated && !this.encryptedFieldMap.isEmpty();
 	}
 
 }

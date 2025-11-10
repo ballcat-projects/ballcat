@@ -17,9 +17,8 @@
 package org.ballcat.fieldcrypt.core.cache;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -48,14 +47,14 @@ public class ClassMetaResolver {
 	private ClassMetaData build(Class<?> type) {
 		if (!type.isAnnotationPresent(EncryptedEntity.class)) {
 			// 未标注的类型：标记为false，字段列表为空
-			return new ClassMetaData(type, Collections.emptyList(), false);
+			return new ClassMetaData(type, new HashMap<>(), false);
 		}
-		List<FieldMetaData> metas = new ArrayList<>();
-		collect(type, metas);
-		return new ClassMetaData(type, metas, true);
+		Map<String, FieldMetaData> encryptedFieldMap = new LinkedHashMap<>();
+		collect(type, encryptedFieldMap);
+		return new ClassMetaData(type, encryptedFieldMap, true);
 	}
 
-	private void collect(Class<?> type, List<FieldMetaData> out) {
+	private void collect(Class<?> type, Map<String, FieldMetaData> out) {
 		if (type == null || type == Object.class) {
 			return;
 		}
@@ -69,7 +68,7 @@ public class ClassMetaResolver {
 			Encrypted ds = f.getAnnotation(Encrypted.class);
 			if (ds != null) {
 				// 不在解析期回填默认算法，保留注解原样（空表示运行时由注册表默认算法决定）
-				out.add(new FieldMetaData(f, ds.algo(), ds.params()));
+				out.put(f.getName(), new FieldMetaData(f, ds.algo(), ds.params()));
 			}
 		}
 	}

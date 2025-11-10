@@ -544,7 +544,7 @@ public class MybatisParameterEncryptInterceptor implements Interceptor {
 		if (meta == null || !meta.shouldProcess()) {
 			return;
 		}
-		for (FieldMetaData fm : meta.getEncryptedFields()) {
+		for (FieldMetaData fm : meta.getEncryptedFieldMap().values()) {
 			Field f = fm.getField();
 			try {
 				Object val = f.get(obj);

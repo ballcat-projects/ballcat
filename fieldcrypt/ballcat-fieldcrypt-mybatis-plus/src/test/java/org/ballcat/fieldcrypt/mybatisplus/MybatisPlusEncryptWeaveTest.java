@@ -87,7 +87,7 @@ class MybatisPlusEncryptWeaveTest {
 
 	private CryptoContext ctxOf(String fieldName) {
 		ClassMetaData meta = this.resolver.resolve(User.class);
-		for (FieldMetaData fm : meta.getEncryptedFields()) {
+		for (FieldMetaData fm : meta.getEncryptedFieldMap().values()) {
 			if (fm.getField().getName().equals(fieldName)) {
 				return fm.getContext();
 			}
