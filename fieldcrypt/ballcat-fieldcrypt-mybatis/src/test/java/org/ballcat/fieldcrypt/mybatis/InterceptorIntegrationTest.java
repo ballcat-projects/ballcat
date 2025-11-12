@@ -563,7 +563,7 @@ public class InterceptorIntegrationTest {
 	}
 
 	@Test
-	void testSetStringParameterLimitation() throws Exception {
+	void testSetStringParameterLimitation() {
 		try (SqlSession session = sqlSessionFactory.openSession(true)) {
 			UserMapper mapper = session.getMapper(UserMapper.class);
 			insertUser(mapper, 207L, "ST", "19900000008");
@@ -574,8 +574,8 @@ public class InterceptorIntegrationTest {
 			Set<String> set = new HashSet<>();
 			set.add("19900000008");
 			int n = mapper.countByMobilesSet(set);
-			// 当前实现不替换 Set 元素，SQL 收到明文，匹配失败
-			Assertions.assertEquals(0, n);
+			// Set 元素可以正确被替换加密处理
+			Assertions.assertEquals(1, n);
 		}
 	}
 
@@ -993,6 +993,21 @@ public class InterceptorIntegrationTest {
 			int count2 = mapper.countByMobiles(list);
 			Assertions.assertEquals(1, count2);
 			Assertions.assertEquals("19100000017", list.get(0));
+		}
+	}
+
+	@Test
+	void testGroupedPriorityAnnotatedWins() {
+		try (SqlSession session = sqlSessionFactory.openSession(true)) {
+			UserMapper mapper = session.getMapper(UserMapper.class);
+			insertUser(mapper, 401L, "GP", "19800000001");
+
+			List<String> same = new ArrayList<>();
+			same.add("19800000001");
+
+			// 同一引用传给 a 和 b，只有 a 有 @Encrypted；SQL 使用 b
+			int n = mapper.countByMobilesTwoParamsMixed(same, same);
+			Assertions.assertEquals(1, n, "应按带注解的参数元信息对分组值执行加密");
 		}
 	}
 

@@ -189,4 +189,9 @@ public interface UserMapper {
 	@Select("SELECT COUNT(1) FROM t_user WHERE mobile = #{mobile}")
 	int countByMobileForLazy(@Encrypted @Param("mobile") String mobile);
 
+	// ------- 参数分组优先级验证：同一 List 引用作为两个参数传入，仅第一个参数标注 @Encrypted，SQL 使用第二个参数 -------
+	@Select({ "<script>", "SELECT COUNT(1) FROM t_user WHERE mobile IN",
+			"<foreach collection='b' item='m' open='(' separator=',' close=')'>", "#{m}", "</foreach>", "</script>" })
+	int countByMobilesTwoParamsMixed(@Encrypted @Param("a") List<String> a, @Param("b") List<String> b);
+
 }
