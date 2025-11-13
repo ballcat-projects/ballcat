@@ -392,6 +392,16 @@
 				<artifactId>ballcat-fieldcrypt-mybatis</artifactId>
 				<version>${ballcat.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-fieldcrypt-mybatis-plus</artifactId>
+				<version>${ballcat.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-fieldcrypt</artifactId>
+				<version>${ballcat.version}</version>
+			</dependency>
 
 
 			<!-- file 文件 -->

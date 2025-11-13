@@ -1,0 +1,3 @@
+org.ballcat.fieldcrypt.autoconfigure.FieldCryptAutoConfiguration
+org.ballcat.fieldcrypt.autoconfigure.FieldCryptCloudRefreshConfiguration
+org.ballcat.fieldcrypt.autoconfigure.FieldCryptMybatisPlusAutoConfiguration

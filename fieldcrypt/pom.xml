@@ -23,7 +23,8 @@
 		<module>ballcat-fieldcrypt-core</module>
 		<module>ballcat-fieldcrypt-mybatis</module>
 		<module>ballcat-fieldcrypt-mybatis-plus</module>
-	</modules>
+        <module>ballcat-spring-boot-starter-fieldcrypt</module>
+    </modules>
 
 	<properties>
 		<!-- 防止误发布 -->

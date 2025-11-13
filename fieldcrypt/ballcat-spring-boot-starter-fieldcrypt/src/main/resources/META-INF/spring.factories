@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    org.ballcat.fieldcrypt.autoconfigure.FieldCryptAutoConfiguration,\
+    org.ballcat.fieldcrypt.autoconfigure.FieldCryptCloudRefreshConfiguration,\
+    org.ballcat.fieldcrypt.autoconfigure.FieldCryptMybatisPlusAutoConfiguration
+org.springframework.context.ApplicationContextInitializer=\
+    org.ballcat.fieldcrypt.autoconfigure.MpWeaverContextInitializer

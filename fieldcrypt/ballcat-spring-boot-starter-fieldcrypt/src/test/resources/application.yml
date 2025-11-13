@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:boot_test;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ''
+  main:
+    allow-bean-definition-overriding: true
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+ballcat:
+  fieldcrypt:
+    enabled: true
+    enable-parameter: true
+    enable-result: true
+    fail-fast: true
+    restore-plaintext: true
+    aes-key: 6DvlLtb5S7c49usgi8AaWFlsehzH4QUe
