@@ -58,19 +58,13 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- hutool工具类 -->
+			<!-- ==================== 第三方 bom 导入 ================== -->
+			<!-- 注意 bom 导入有优先级顺序，写在前面的优先级高 -->
+			<!-- spring boot 依赖管理 -->
 			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-bom</artifactId>
-				<version>${hutool.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- GRPC -->
-			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-bom</artifactId>
-				<version>${grpc.version}</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -82,21 +76,27 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<!-- ==================== 第三方 bom 导入 ================== -->
-			<!-- 注意 bom 导入有优先级顺序，写在前面的优先级高 -->
-			<!-- spring boot 依赖管理 -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${spring-boot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
 			<!-- 亚马逊云 Java sdk -->
 			<dependency>
 				<groupId>software.amazon.awssdk</groupId>
 				<artifactId>bom</artifactId>
 				<version>${software.amazon.awssdk.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- GRPC -->
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-bom</artifactId>
+				<version>${grpc.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- hutool工具类 -->
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-bom</artifactId>
+				<version>${hutool.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
