@@ -21,6 +21,7 @@
 		<module>ballcat-desensitize</module>
         <module>ballcat-desensitize-logback</module>
 		<module>ballcat-spring-boot-starter-desensitize</module>
+		<module>ballcat-desensitize-benchmarks</module>
 	</modules>
 
 	<properties>
