@@ -1,0 +1,35 @@
+ballcat:
+  desensitize:
+    logging:
+      enabled: true
+      scopes:
+        root: true
+        org.springframework: false
+        org.ballcat.desensitize.logging.integration.hot: false
+    text:
+      boundary:
+        window-size: 256
+      rules:
+        - name: phone
+          prefixes: ["phone", "mobile", "手机号"]
+          valuePattern: "(1[3-9]\\d)(\\d{4})(\\d{4})"
+          desensitize-type: regex_replacement
+          regex:
+            replacement: "$1****$3"
+        - name: bank
+          prefixes: ["bank", "bankCard", "银行卡"]
+          valuePattern: "\\d{16,19}"
+          desensitize-type: slide_mask
+          slide:
+            left-plain-text-len: 0
+            right-plain-text-len: 4
+            mask-string: "*"
+        - name: idCard
+          prefixes: ["idCard", "证件号", "身份证号", "身份证", "idNo"]
+          valuePattern: "\\d{17}[\\dXx]"
+          desensitize-type: slide_mask
+          slide:
+            left-plain-text-len: 4
+            right-plain-text-len: 3
+            mask-string: "*"
+

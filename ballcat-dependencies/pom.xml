@@ -43,6 +43,7 @@
 		<software.amazon.awssdk.version>2.20.70</software.amazon.awssdk.version>
 		<spring-authorization-server.version>0.4.5</spring-authorization-server.version>
 		<spring-boot.version>2.7.18</spring-boot.version>
+		<spring-cloud.version>2021.0.9</spring-cloud.version>
 		<springdoc-openapi.verison>1.7.0</springdoc-openapi.verison>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.6.8</swagger.version>
@@ -69,6 +70,16 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
+			<!-- spring cloud 依赖管理 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 			<!-- spring-openapi 依赖管理 -->
 			<dependency>
 				<groupId>org.springdoc</groupId>
@@ -282,6 +293,16 @@
 			<dependency>
 				<groupId>org.ballcat</groupId>
 				<artifactId>ballcat-desensitize</artifactId>
+				<version>${ballcat.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-desensitize-logback</artifactId>
+				<version>${ballcat.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ballcat</groupId>
+				<artifactId>ballcat-spring-boot-starter-desensitize</artifactId>
 				<version>${ballcat.version}</version>
 			</dependency>
 

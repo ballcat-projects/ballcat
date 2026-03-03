@@ -20,7 +20,8 @@
 	<modules>
 		<module>ballcat-desensitize</module>
         <module>ballcat-desensitize-logback</module>
-    </modules>
+		<module>ballcat-spring-boot-starter-desensitize</module>
+	</modules>
 
 	<properties>
 		<!-- 防止误发布 -->

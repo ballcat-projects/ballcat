@@ -1,0 +1,28 @@
+<configuration>
+    <property name="TEST_LOG" value="target/test-logs/e2e.log"/>
+    <conversionRule conversionWord="dMsg" converterClass="org.ballcat.desensitize.logging.logback.DesensitizeMessageConverter"/>
+    <conversionRule conversionWord="dEx"  converterClass="org.ballcat.desensitize.logging.logback.DesensitizeThrowableProxyConverter"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger - %dMsg %n%dEx%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${TEST_LOG}</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger - %dMsg %n%dEx%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${TEST_LOG}.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>1</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
+
