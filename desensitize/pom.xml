@@ -19,7 +19,8 @@
 
 	<modules>
 		<module>ballcat-desensitize</module>
-	</modules>
+        <module>ballcat-desensitize-logback</module>
+    </modules>
 
 	<properties>
 		<!-- 防止误发布 -->
