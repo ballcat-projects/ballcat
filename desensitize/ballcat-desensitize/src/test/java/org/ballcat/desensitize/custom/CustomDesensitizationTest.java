@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensite.custom;
+package org.ballcat.desensitize.custom;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.ballcat.desensite.DesensitizationUser;
-import org.ballcat.desensite.TestUtils;
 import org.ballcat.desensitize.DesensitizationHandlerHolder;
+import org.ballcat.desensitize.DesensitizationUser;
+import org.ballcat.desensitize.TestUtils;
 import org.ballcat.desensitize.annotation.AnnotationHandlerHolder;
 import org.ballcat.desensitize.json.JsonDesensitizeSerializerModifier;
 import org.junit.jupiter.api.Assertions;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensite;
+package org.ballcat.desensitize;
 
 import java.util.UUID;
 

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensite;
+package org.ballcat.desensitize;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.ballcat.desensite.custom.CustomerDesensitize;
 import org.ballcat.desensitize.annotation.IndexDesensitize;
 import org.ballcat.desensitize.annotation.RegexDesensitize;
 import org.ballcat.desensitize.annotation.SimpleDesensitize;
+import org.ballcat.desensitize.custom.CustomerDesensitize;
 import org.ballcat.desensitize.handler.PhoneNumberDesensitizationHandler;
 import org.ballcat.desensitize.rule.regex.EmailRegexDesensitizeRule;
 

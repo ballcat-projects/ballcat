@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensite.custom;
+package org.ballcat.desensitize;
 
-import org.ballcat.desensitize.handler.DesensitizationHandler;
+import org.ballcat.desensitize.handler.SimpleDesensitizationHandler;
 
-public class CustomDesensitizationHandler implements DesensitizationHandler {
+/**
+ * @author Hccake 2021/1/23
+ *
+ */
+public class TestDesensitizationHandler implements SimpleDesensitizationHandler {
 
-	public String handle(String text) {
-		return "customer rule" + text;
+	@Override
+	public String mask(String s) {
+		return "TEST-" + s;
 	}
 
 }

@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensite;
+package org.ballcat.desensitize;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import org.ballcat.desensitize.DesensitizationHandlerHolder;
 import org.ballcat.desensitize.annotation.AnnotationHandlerHolder;
 
 /**

@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensite;
+package org.ballcat.desensitize;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.ballcat.desensitize.DesensitizationHandlerHolder;
 import org.ballcat.desensitize.handler.IndexDesensitizationHandler;
 import org.ballcat.desensitize.handler.PhoneNumberDesensitizationHandler;
 import org.ballcat.desensitize.handler.RegexDesensitizationHandler;

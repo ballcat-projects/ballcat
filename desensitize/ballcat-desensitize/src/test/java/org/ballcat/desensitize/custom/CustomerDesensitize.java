@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ballcat.desensite.custom;
+package org.ballcat.desensitize.custom;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
