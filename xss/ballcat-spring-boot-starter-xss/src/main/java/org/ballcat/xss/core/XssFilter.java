@@ -100,7 +100,7 @@ public class XssFilter extends OncePerRequestFilter {
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 }
