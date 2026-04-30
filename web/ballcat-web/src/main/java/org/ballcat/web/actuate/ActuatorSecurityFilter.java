@@ -93,21 +93,31 @@ public class ActuatorSecurityFilter extends OncePerRequestFilter {
 	 * @return boolean 通过返回true
 	 */
 	private boolean verifySign(String reqSecretId, String sign, String reqTime) {
-		if (StringUtils.hasText(sign) && StringUtils.hasText(reqTime) && StringUtils.hasText(reqSecretId)) {
-			if (!reqSecretId.equals(this.secretId)) {
-				return false;
-			}
-			// 过期时间 30秒失效
-			long expireTime = 30 * 1000L;
-			long nowTime = System.currentTimeMillis();
-			if (nowTime - Long.parseLong(reqTime) <= expireTime) {
-				String reverse = new StringBuilder(reqTime).reverse().toString();
-				String checkSign = DigestUtils
-					.md5DigestAsHex((reverse + this.secretId + this.secretKey).getBytes(StandardCharsets.UTF_8));
-				return checkSign.equalsIgnoreCase(sign);
-			}
+		if (!StringUtils.hasText(sign) || !StringUtils.hasText(reqTime) || !StringUtils.hasText(reqSecretId)) {
+			return false;
 		}
-		return false;
+		if (!reqSecretId.equals(this.secretId)) {
+			return false;
+		}
+		long reqTimeMillis;
+		try {
+			reqTimeMillis = Long.parseLong(reqTime);
+		}
+		catch (NumberFormatException e) {
+			return false;
+		}
+		// 过期时间 30秒失效
+		long expireTime = 30 * 1000L;
+		// 允许调用方服务器时间比当前服务器快 30 秒
+		long allowedClockSkew = 30 * 1000L;
+		long nowTime = System.currentTimeMillis();
+		if (reqTimeMillis < nowTime - expireTime || reqTimeMillis > nowTime + allowedClockSkew) {
+			return false;
+		}
+		String reverse = new StringBuilder(reqTime).reverse().toString();
+		String checkSign = DigestUtils
+			.md5DigestAsHex((reverse + this.secretId + this.secretKey).getBytes(StandardCharsets.UTF_8));
+		return checkSign.equalsIgnoreCase(sign);
 	}
 
 }

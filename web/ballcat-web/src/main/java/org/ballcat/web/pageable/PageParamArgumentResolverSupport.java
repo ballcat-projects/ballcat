@@ -211,8 +211,14 @@ public abstract class PageParamArgumentResolverSupport {
 
 			long size = pageParam.getSize();
 			int maxPageSize = pageableRequestOptions.getMaxPageSize();
+			if (size <= 0) {
+				bindingResult.addError(new ObjectError("size", "分页条数必须大于0"));
+			}
 			if (maxPageSize > 0 && size > maxPageSize) {
 				bindingResult.addError(new ObjectError("size", "分页条数不能大于" + maxPageSize));
+			}
+			if (pageParam.getPage() <= 0) {
+				bindingResult.addError(new ObjectError("page", "当前页不能小于1"));
 			}
 
 			if (bindingResult.hasErrors() && isBindExceptionRequired(binder, parameter)) {

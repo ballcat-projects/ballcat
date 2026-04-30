@@ -51,7 +51,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Slf4j
 public class NoticeGlobalExceptionHandler extends Thread implements GlobalExceptionHandler, InitializingBean {
 
-	private final BlockingQueue<Throwable> queue = new LinkedBlockingQueue<>();
+	private final BlockingQueue<ThrowableWithContext> queue = new LinkedBlockingQueue<>();
 
 	private static final String NULL_MESSAGE_KEY = "";
 
@@ -80,11 +80,6 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 	 * 本地ip
 	 */
 	private String ip;
-
-	/**
-	 * 请求地址
-	 */
-	private String requestUri;
 
 	public NoticeGlobalExceptionHandler(String applicationName, ExceptionNoticeConfig noticeConfig,
 			List<ExceptionNotifier> exceptionNotifiers) {
@@ -121,29 +116,30 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 		while (!isInterrupted()) {
 			int i = 0;
 			while (i < this.noticeConfig.getMax() && watch.getTime(TimeUnit.SECONDS) < this.noticeConfig.getTime()) {
-				Throwable t = null;
+				ThrowableWithContext ctx = null;
 				try {
 					// 如果 i=0,即 当前未处理异常，则等待超时时间为 1 小时， 否则为 10 秒
-					t = this.queue.poll(i == 0 ? TimeUnit.HOURS.toSeconds(1) : 10, TimeUnit.SECONDS);
+					ctx = this.queue.poll(i == 0 ? TimeUnit.HOURS.toSeconds(1) : 10, TimeUnit.SECONDS);
 				}
 				catch (InterruptedException e) {
 					interrupt();
 				}
-				if (t != null) {
+				if (ctx != null) {
+					Throwable t = ctx.throwable;
 					key = t.getMessage() == null ? NULL_MESSAGE_KEY : t.getMessage();
 					// i++
 					if (i++ == 0) {
 						// 第一次收到数据, 重置计时
 						watch.reset();
 						watch.start();
-						this.messages.put(key, toMessage(t).setKey(key).setThreadId(threadId));
+						this.messages.put(key, toMessage(t, ctx.requestUri).setKey(key).setThreadId(threadId));
 					}
 					else {
 						if (this.messages.containsKey(key)) {
 							this.messages.put(key, this.messages.get(key).increment());
 						}
 						else {
-							this.messages.put(key, toMessage(t).setKey(key).setThreadId(threadId));
+							this.messages.put(key, toMessage(t, ctx.requestUri).setKey(key).setThreadId(threadId));
 						}
 					}
 				}
@@ -178,7 +174,7 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 		}
 	}
 
-	public ExceptionMessage toMessage(Throwable t) {
+	public ExceptionMessage toMessage(Throwable t, String requestUri) {
 		final FastByteArrayOutputStream stream = new FastByteArrayOutputStream();
 		t.printStackTrace(new PrintStream(stream));
 		final String e = stream.toString();
@@ -187,7 +183,7 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 			.setApplicationName(this.applicationName)
 			.setHostname(this.hostname)
 			.setIp(this.ip)
-			.setRequestUri(this.requestUri)
+			.setRequestUri(requestUri)
 			.setStack((e.length() > this.noticeConfig.getLength() ? e.substring(0, this.noticeConfig.getLength()) : e)
 				.replace("\\r", ""))
 			.setTime(LocalDateTime.now().format(LocalDateTimeUtils.FORMATTER_YMD_HMS));
@@ -196,13 +192,11 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 	@Override
 	public void handle(Throwable throwable) {
 		try {
+			String requestUri = null;
 			RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 			if (requestAttributes instanceof ServletRequestAttributes) {
 				ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
-				this.requestUri = servletRequestAttributes.getRequest().getRequestURI();
-			}
-			else {
-				this.requestUri = null;
+				requestUri = servletRequestAttributes.getRequest().getRequestURI();
 			}
 			// 是否忽略该异常
 			boolean ignore = false;
@@ -225,7 +219,7 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 
 			// 不忽略则插入队列
 			if (!ignore) {
-				this.queue.put(throwable);
+				this.queue.put(new ThrowableWithContext(throwable, requestUri));
 			}
 		}
 		catch (InterruptedException e) {
@@ -240,6 +234,22 @@ public class NoticeGlobalExceptionHandler extends Thread implements GlobalExcept
 	public void afterPropertiesSet() {
 		this.setName("exception-notice");
 		this.start();
+	}
+
+	/**
+	 * 将异常和请求上下文绑定，避免实例字段在多线程下的竞态条件
+	 */
+	private static final class ThrowableWithContext {
+
+		final Throwable throwable;
+
+		final String requestUri;
+
+		ThrowableWithContext(Throwable throwable, String requestUri) {
+			this.throwable = throwable;
+			this.requestUri = requestUri;
+		}
+
 	}
 
 }

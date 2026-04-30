@@ -167,7 +167,7 @@ public abstract class AbstractAccessLogFilter extends OncePerRequestFilter imple
 				afterRequest(requestToUse, responseToUse, executionTime, myThrowable, recordOptions);
 			}
 			catch (Exception e) {
-				this.logger.error("[Access Log] process after request error, handler: %s", e);
+				this.logger.error("[Access Log] process after request error", e);
 			}
 
 			// 重新写入数据到响应信息中

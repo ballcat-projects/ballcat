@@ -17,6 +17,7 @@
 package org.ballcat.web.trace;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -38,6 +39,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class TraceIdFilter extends OncePerRequestFilter {
 
+	private static final Pattern TRACE_ID_PATTERN = Pattern.compile("^[A-Za-z0-9\\-_.]{1,64}$");
+
 	private final String traceIdHeaderName;
 
 	private final TraceIdGenerator traceIdGenerator;
@@ -45,9 +48,9 @@ public class TraceIdFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		// 先获取请求头中的 traceId，如果没有，则生成一个
+		// 先获取请求头中的 traceId，如果没有或格式非法，则生成一个
 		String traceId = request.getHeader(this.traceIdHeaderName);
-		if (traceId == null || traceId.isEmpty()) {
+		if (traceId == null || traceId.isEmpty() || !TRACE_ID_PATTERN.matcher(traceId).matches()) {
 			traceId = this.traceIdGenerator.generate();
 		}
 
