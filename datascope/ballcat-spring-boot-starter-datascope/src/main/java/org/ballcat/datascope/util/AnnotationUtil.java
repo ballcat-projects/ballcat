@@ -19,9 +19,12 @@ package org.ballcat.datascope.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Hccake 2021/1/27
  */
+@Slf4j
 public final class AnnotationUtil {
 
 	private AnnotationUtil() {
@@ -54,7 +57,7 @@ public final class AnnotationUtil {
 			clazz = Class.forName(className);
 		}
 		catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			log.warn("Cannot load class for DataPermission annotation lookup: {}", className, e);
 		}
 		if (clazz == null) {
 			return null;
