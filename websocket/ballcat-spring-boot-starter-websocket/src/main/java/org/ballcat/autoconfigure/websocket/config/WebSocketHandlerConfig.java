@@ -24,8 +24,10 @@ import org.ballcat.websocket.session.DefaultWebSocketSessionStore;
 import org.ballcat.websocket.session.MapSessionWebSocketHandlerDecorator;
 import org.ballcat.websocket.session.SessionKeyGenerator;
 import org.ballcat.websocket.session.WebSocketSessionStore;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.socket.WebSocketHandler;
 
@@ -43,22 +45,31 @@ public class WebSocketHandlerConfig {
 	 * @return DefaultWebSocketSessionStore
 	 */
 	@Bean
-	@ConditionalOnMissingBean
-	public WebSocketSessionStore webSocketSessionStore(
-			@Autowired(required = false) SessionKeyGenerator sessionKeyGenerator) {
+	@ConditionalOnMissingBean(WebSocketSessionStore.class)
+	@ConditionalOnProperty(prefix = WebSocketProperties.PREFIX, name = "map-session", havingValue = "true",
+			matchIfMissing = true)
+	public WebSocketSessionStore webSocketSessionStore(SessionKeyGenerator sessionKeyGenerator) {
 		return new DefaultWebSocketSessionStore(sessionKeyGenerator);
 	}
 
 	@Bean
 	@ConditionalOnMissingBean(WebSocketHandler.class)
-	public WebSocketHandler webSocketHandler(WebSocketSessionStore webSocketSessionStore,
+	public WebSocketHandler webSocketHandler(ObjectProvider<WebSocketSessionStore> webSocketSessionStoreProvider,
 			@Autowired(required = false) PlanTextMessageHandler planTextMessageHandler) {
 		CustomWebSocketHandler customWebSocketHandler = new CustomWebSocketHandler(planTextMessageHandler);
 		if (this.webSocketProperties.isMapSession()) {
+			WebSocketSessionStore webSocketSessionStore = webSocketSessionStoreProvider
+				.getIfAvailable(this::missingWebSocketSessionStore);
 			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, webSocketSessionStore,
 					this.webSocketProperties.getConcurrent());
 		}
 		return customWebSocketHandler;
+	}
+
+	private WebSocketSessionStore missingWebSocketSessionStore() {
+		// map-session=true 需要存储 session，才能按 sessionKey 路由消息。
+		throw new IllegalStateException(
+				"WebSocket session mapping requires a WebSocketSessionStore. Register a SessionKeyGenerator or provide a WebSocketSessionStore bean.");
 	}
 
 }

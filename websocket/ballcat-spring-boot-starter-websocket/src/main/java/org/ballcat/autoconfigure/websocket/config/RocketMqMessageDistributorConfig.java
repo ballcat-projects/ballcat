@@ -23,6 +23,8 @@ import org.ballcat.autoconfigure.websocket.WebSocketProperties;
 import org.ballcat.websocket.distribute.MessageDistributor;
 import org.ballcat.websocket.distribute.RocketmqMessageDistributor;
 import org.ballcat.websocket.session.WebSocketSessionStore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +38,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @ConditionalOnProperty(prefix = WebSocketProperties.PREFIX, name = "message-distributor",
 		havingValue = MessageDistributorTypeConstants.ROCKETMQ)
+@ConditionalOnClass(RocketMQTemplate.class)
+@ConditionalOnBean(WebSocketSessionStore.class)
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class RocketMqMessageDistributorConfig {
