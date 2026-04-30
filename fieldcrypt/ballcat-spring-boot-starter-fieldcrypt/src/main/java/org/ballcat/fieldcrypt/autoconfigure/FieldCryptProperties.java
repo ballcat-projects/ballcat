@@ -17,6 +17,7 @@
 package org.ballcat.fieldcrypt.autoconfigure;
 
 import lombok.Data;
+import lombok.ToString;
 import org.ballcat.fieldcrypt.crypto.impl.AesCbcFixedIvCryptoAlgorithm;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -53,6 +54,7 @@ public class FieldCryptProperties {
 	/**
 	 * AES256密钥。
 	 */
+	@ToString.Exclude
 	private String aesKey = "";
 
 	public void setDefaultAlgo(String defaultAlgo) {

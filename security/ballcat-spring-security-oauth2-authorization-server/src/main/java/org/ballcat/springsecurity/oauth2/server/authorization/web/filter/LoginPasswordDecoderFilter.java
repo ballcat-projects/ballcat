@@ -102,8 +102,8 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter {
 			parameterMap.put(OAuth2ParameterNames.PASSWORD, new String[] { password });
 		}
 		catch (Exception e) {
-			log.error("[doFilterInternal] password decode aes error，passwordAes: {}，passwordSecretKey: {}", passwordAes,
-					this.passwordSecretKey, e);
+			log.error("[doFilterInternal] password decode aes error，passwordAes length: {}",
+					passwordAes == null ? 0 : passwordAes.length(), e);
 			response.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
 			ApiResult<String> apiResult = ApiResult.failed(SystemResultCode.UNAUTHORIZED, "用户名或密码错误！");

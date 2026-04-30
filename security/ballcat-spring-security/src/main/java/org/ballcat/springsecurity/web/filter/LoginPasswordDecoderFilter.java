@@ -89,8 +89,8 @@ public class LoginPasswordDecoderFilter extends OncePerRequestFilter implements 
 			parameterMap.put(this.passwordParameterName, new String[] { password });
 		}
 		catch (Exception e) {
-			log.error("[doFilterInternal] password decode aes error，passwordAes: {}，passwordSecretKey: {}", passwordAes,
-					this.passwordSecretKey, e);
+			log.error("[doFilterInternal] password decode aes error，passwordAes length: {}",
+					passwordAes == null ? 0 : passwordAes.length(), e);
 			this.failureHandler.onAuthenticationFailure(request, response, new BadCredentialsException(this.messages
 				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials")));
 			return;

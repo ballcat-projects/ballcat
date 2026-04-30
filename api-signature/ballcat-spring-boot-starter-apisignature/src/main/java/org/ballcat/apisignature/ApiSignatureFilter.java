@@ -117,8 +117,8 @@ public class ApiSignatureFilter extends OncePerRequestFilter {
 
 		// 获取对应的 SECRET_KEY
 		String secretKey = getSecretKey(subject);
-		if (StringUtils.isEmpty(accessKey)) {
-			sendErrorResponse(response, "invalid access key.");
+		if (StringUtils.isEmpty(secretKey)) {
+			sendErrorResponse(response, "invalid secret key.");
 			return;
 		}
 
