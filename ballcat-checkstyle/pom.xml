@@ -8,7 +8,6 @@
 	</parent>
 
 	<artifactId>ballcat-checkstyle</artifactId>
-	<version>${revision}</version>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
@@ -18,5 +17,54 @@
 	<properties>
 		<checkstyle.skip>true</checkstyle.skip>
 	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.spring.javaformat</groupId>
+			<artifactId>spring-javaformat-checkstyle</artifactId>
+			<version>${spring-javaformat-maven-plugin.version}</version>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<!-- Flatten Maven Plugin for publishing -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${flatten-maven-plugin.version}</version>
+				<configuration>
+					<!-- OSSRH mode: removes parent, resolves dependency versions, keeps required metadata -->
+					<flattenMode>ossrh</flattenMode>
+					<updatePomFile>true</updatePomFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+						<phase>process-resources</phase>
+					</execution>
+					<execution>
+						<id>flatten-clean</id>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<phase>clean</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
