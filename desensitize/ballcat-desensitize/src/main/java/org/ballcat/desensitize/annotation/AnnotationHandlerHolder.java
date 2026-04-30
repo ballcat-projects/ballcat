@@ -44,6 +44,11 @@ public final class AnnotationHandlerHolder {
 	private static final AnnotationHandlerHolder INSTANCE = new AnnotationHandlerHolder();
 
 	/**
+	 * 规则类实例缓存。规则类应为无状态单例，缓存可避免每次序列化字段时重复反射构造。
+	 */
+	private static final ConcurrentHashMap<Class<?>, Object> RULE_INSTANCE_CACHE = new ConcurrentHashMap<>();
+
+	/**
 	 * 注解类型 处理函数映射
 	 */
 	private final Map<Class<? extends Annotation>, AnnotationDesensitizeFunction> annotationHandlers;
@@ -143,6 +148,25 @@ public final class AnnotationHandlerHolder {
 	}
 
 	private static <T> T newInstance(Class<T> clazz) {
+		// Rule classes are expected to be stateless; reuse the cached instance to avoid
+		// repeated reflection overhead on high-throughput serialization paths.
+		Object cached = RULE_INSTANCE_CACHE.get(clazz);
+		if (cached != null) {
+			@SuppressWarnings("unchecked")
+			T result = (T) cached;
+			return result;
+		}
+		T instance = createNewInstance(clazz);
+		Object existing = RULE_INSTANCE_CACHE.putIfAbsent(clazz, instance);
+		if (existing != null) {
+			@SuppressWarnings("unchecked")
+			T result = (T) existing;
+			return result;
+		}
+		return instance;
+	}
+
+	private static <T> T createNewInstance(Class<T> clazz) {
 		try {
 			Constructor<T> constructor = clazz.getDeclaredConstructor();
 			constructor.setAccessible(true);

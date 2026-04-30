@@ -34,6 +34,9 @@ public class RegexDesensitizationHandler implements DesensitizationHandler {
 	 * @return 脱敏后的字符串
 	 */
 	public String mask(String origin, String regex, String replacement) {
+		if (origin == null) {
+			return null;
+		}
 		return origin.replaceAll(regex, replacement);
 	}
 
@@ -44,6 +47,9 @@ public class RegexDesensitizationHandler implements DesensitizationHandler {
 	 * @return 脱敏后的字符串
 	 */
 	public String mask(String origin, RegexDesensitizeRule regexDesensitizeRule) {
+		if (origin == null) {
+			return null;
+		}
 		return origin.replaceAll(regexDesensitizeRule.getRegex(), regexDesensitizeRule.getReplacement());
 	}
 

@@ -19,13 +19,12 @@ package org.ballcat.desensitize.autoconfigure;
 import org.ballcat.desensitize.logging.logback.LoggerDesensitizationFilter;
 import org.ballcat.desensitize.logging.logback.LoggerDesensitizationFilterHolder;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
 import org.springframework.context.SmartLifecycle;
-import org.springframework.context.event.EventListener;
 
 /**
- * Logger 过滤器 Holder 绑定器： - 容器就绪后，将过滤器设置到 Holder； - 收到 RefreshScopeRefreshedEvent
- * 时，重新设置，确保 holder 指向最新代理。
+ * Logger 过滤器 Holder 绑定器：容器就绪后，将当前过滤器设置到 Holder。
+ * <p>
+ * Spring Cloud 刷新事件由 Cloud 配置监听，并复用 {@link #bind()} 重新绑定。
  *
  * @author Hccake
  */
@@ -41,11 +40,15 @@ public class LoggerDesensitizationFilterHolderBinder implements SmartLifecycle {
 
 	@Override
 	public void start() {
+		bind();
+		this.running = true;
+	}
+
+	public void bind() {
 		LoggerDesensitizationFilter f = this.provider.getIfAvailable();
 		if (f != null) {
 			LoggerDesensitizationFilterHolder.set(f);
 		}
-		this.running = true;
 	}
 
 	@Override
@@ -56,14 +59,6 @@ public class LoggerDesensitizationFilterHolderBinder implements SmartLifecycle {
 	@Override
 	public boolean isRunning() {
 		return this.running;
-	}
-
-	@EventListener(RefreshScopeRefreshedEvent.class)
-	public void onRefresh() {
-		LoggerDesensitizationFilter f = this.provider.getIfAvailable();
-		if (f != null) {
-			LoggerDesensitizationFilterHolder.set(f);
-		}
 	}
 
 }

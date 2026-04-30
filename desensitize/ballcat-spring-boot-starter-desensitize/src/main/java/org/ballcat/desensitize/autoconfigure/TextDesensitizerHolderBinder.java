@@ -19,13 +19,12 @@ package org.ballcat.desensitize.autoconfigure;
 import org.ballcat.desensitize.logging.logback.TextDesensitizerHolder;
 import org.ballcat.desensitize.text.TextDesensitizer;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
 import org.springframework.context.SmartLifecycle;
-import org.springframework.context.event.EventListener;
 
 /**
- * TextDesensitizer 绑定器： - 容器就绪后，将代理 bean 设置到 TextDesensitizerHolder； - 收到
- * RefreshScopeRefreshedEvent 时，重新设置，确保 holder 指向最新代理。
+ * TextDesensitizer 绑定器：容器就绪后，将当前 bean 设置到 TextDesensitizerHolder。
+ * <p>
+ * Spring Cloud 刷新事件由 Cloud 配置监听，并复用 {@link #bind()} 重新绑定。
  *
  * @see TextDesensitizerHolder
  * @author Hccake
@@ -42,11 +41,15 @@ public class TextDesensitizerHolderBinder implements SmartLifecycle {
 
 	@Override
 	public void start() {
+		bind();
+		this.running = true;
+	}
+
+	public void bind() {
 		TextDesensitizer engine = this.engineProvider.getIfAvailable();
 		if (engine != null) {
 			TextDesensitizerHolder.set(engine);
 		}
-		this.running = true;
 	}
 
 	@Override
@@ -57,14 +60,6 @@ public class TextDesensitizerHolderBinder implements SmartLifecycle {
 	@Override
 	public boolean isRunning() {
 		return this.running;
-	}
-
-	@EventListener(RefreshScopeRefreshedEvent.class)
-	public void onRefresh() {
-		TextDesensitizer engine = this.engineProvider.getIfAvailable();
-		if (engine != null) {
-			TextDesensitizerHolder.set(engine);
-		}
 	}
 
 }

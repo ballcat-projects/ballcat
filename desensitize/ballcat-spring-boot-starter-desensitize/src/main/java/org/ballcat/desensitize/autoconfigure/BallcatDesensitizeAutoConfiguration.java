@@ -30,8 +30,11 @@ import org.ballcat.desensitize.text.config.RuleSpec;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -45,29 +48,15 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass({ LoggerContext.class, PatternLayout.class })
 public class BallcatDesensitizeAutoConfiguration {
 
-	@RefreshScope
-	@Bean
-	@ConditionalOnMissingBean
-	public TextDesensitizer desensitizationEngine(BallcatDesensitizeTextProperties props) {
+	private static final String REFRESH_SCOPE_CLASS = "org.springframework.cloud.context.config.annotation.RefreshScope";
+
+	static TextDesensitizer buildTextDesensitizer(BallcatDesensitizeTextProperties props) {
 		BoundaryOptions matcher = props.getBoundary();
 		List<RuleSpec> ruleSpecs = props.getRules();
 		return new TextDesensitizerBuilder(ruleSpecs).config(matcher).build();
 	}
 
-	/**
-	 * 通过代理 Bean 绑定 EngineHolder，并在刷新后重新绑定。
-	 */
-	@Bean
-	public TextDesensitizerHolderBinder engineHolderBinder(ObjectProvider<TextDesensitizer> engineProvider) {
-		return new TextDesensitizerHolderBinder(engineProvider);
-	}
-
-	/**
-	 * 基于配置构建 Logger 过滤器，并注入 Holder；支持刷新后更新。
-	 */
-	@RefreshScope
-	@Bean
-	public LoggerDesensitizationFilter loggerDesensitizationFilter(BallcatDesensitizeLoggingProperties props) {
+	static LoggerDesensitizationFilter buildLoggerDesensitizationFilter(BallcatDesensitizeLoggingProperties props) {
 		boolean enabled = props.isEnabled();
 		Map<String, Boolean> rules = new HashMap<>(props.getScopes());
 		// 支持 root 作为默认决策；未配置时默认 true（与此前行为一致）
@@ -76,10 +65,66 @@ public class BallcatDesensitizeAutoConfiguration {
 		return new LoggerDesensitizationFilter(enabled, defaultDecision, rules);
 	}
 
+	/**
+	 * 通过当前 Bean 绑定 EngineHolder。Cloud 环境刷新后由监听器重新调用 binder。
+	 */
+	@Bean
+	public TextDesensitizerHolderBinder engineHolderBinder(ObjectProvider<TextDesensitizer> engineProvider) {
+		return new TextDesensitizerHolderBinder(engineProvider);
+	}
+
 	@Bean
 	public LoggerDesensitizationFilterHolderBinder loggerDesensitizationFilterHolderBinder(
 			org.springframework.beans.factory.ObjectProvider<LoggerDesensitizationFilter> provider) {
 		return new LoggerDesensitizationFilterHolderBinder(provider);
+	}
+
+	@Configuration
+	@ConditionalOnMissingClass(REFRESH_SCOPE_CLASS)
+	static class NonCloudCoreConfiguration {
+
+		@Bean
+		@ConditionalOnMissingBean
+		public TextDesensitizer desensitizationEngine(BallcatDesensitizeTextProperties props) {
+			return buildTextDesensitizer(props);
+		}
+
+		@Bean
+		@ConditionalOnMissingBean
+		public LoggerDesensitizationFilter loggerDesensitizationFilter(BallcatDesensitizeLoggingProperties props) {
+			return buildLoggerDesensitizationFilter(props);
+		}
+
+	}
+
+	@Configuration
+	@ConditionalOnClass(name = REFRESH_SCOPE_CLASS)
+	static class CloudCoreConfiguration {
+
+		@RefreshScope
+		@Bean
+		@ConditionalOnMissingBean
+		public TextDesensitizer desensitizationEngine(BallcatDesensitizeTextProperties props) {
+			return buildTextDesensitizer(props);
+		}
+
+		@RefreshScope
+		@Bean
+		@ConditionalOnMissingBean
+		public LoggerDesensitizationFilter loggerDesensitizationFilter(BallcatDesensitizeLoggingProperties props) {
+			return buildLoggerDesensitizationFilter(props);
+		}
+
+		@Bean
+		public ApplicationListener<RefreshScopeRefreshedEvent> desensitizeRefreshListener(
+				TextDesensitizerHolderBinder engineHolderBinder,
+				LoggerDesensitizationFilterHolderBinder loggerFilterHolderBinder) {
+			return event -> {
+				engineHolderBinder.bind();
+				loggerFilterHolderBinder.bind();
+			};
+		}
+
 	}
 
 }

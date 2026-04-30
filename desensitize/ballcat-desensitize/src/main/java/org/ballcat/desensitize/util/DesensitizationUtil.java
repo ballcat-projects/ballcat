@@ -185,6 +185,9 @@ public final class DesensitizationUtil {
 	 * @return 屏蔽后的文本
 	 */
 	public static String maskByRegex(String input, RegexDesensitizeRule regexDesensitizeRule) {
+		if (isEmptyText(input)) {
+			return input;
+		}
 		RegexDesensitizationHandler regexHandler = DesensitizationHandlerHolder.getRegexDesensitizationHandler();
 		return regexHandler.mask(input, regexDesensitizeRule);
 	}
@@ -201,6 +204,9 @@ public final class DesensitizationUtil {
 	 * @return 屏蔽后的文本
 	 */
 	public static String maskByRegex(String input, String regex, String replacement) {
+		if (isEmptyText(input)) {
+			return input;
+		}
 		RegexDesensitizationHandler regexHandler = DesensitizationHandlerHolder.getRegexDesensitizationHandler();
 		return regexHandler.mask(input, regex, replacement);
 	}
