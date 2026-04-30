@@ -65,8 +65,7 @@ public class RocketmqMessageDistributor extends AbstractMessageDistributor imple
 	public void distribute(MessageDO messageDO) {
 		log.info("the send message body is [{}]", messageDO);
 		String destination = this.appName + ":" + this.tag;
-		SendResult sendResult = this.template.sendAndReceive(destination, JsonUtils.toJson(messageDO),
-				SendResult.class);
+		SendResult sendResult = this.template.syncSend(destination, JsonUtils.toJson(messageDO));
 		if (log.isDebugEnabled()) {
 			log.debug("send message to `{}` finished. result:{}", destination, sendResult);
 		}

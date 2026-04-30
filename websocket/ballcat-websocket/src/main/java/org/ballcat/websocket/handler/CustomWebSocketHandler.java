@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.ballcat.websocket.exception.ErrorJsonMessageException;
 import org.ballcat.websocket.holder.JsonMessageHandlerHolder;
 import org.ballcat.websocket.message.JsonWebSocketMessage;
+import org.springframework.util.StringUtils;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -93,9 +94,12 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 		}
 
 		JsonNode typeNode = jsonNode.get(JsonWebSocketMessage.TYPE_FIELD);
-		String messageType = typeNode.asText();
-		if (messageType == null) {
+		if (typeNode == null || typeNode.isNull()) {
 			throw new ErrorJsonMessageException("json 无 type 属性");
+		}
+		String messageType = typeNode.asText();
+		if (!StringUtils.hasText(messageType)) {
+			throw new ErrorJsonMessageException("json type 属性为空");
 		}
 
 		// 获得对应的消息处理器

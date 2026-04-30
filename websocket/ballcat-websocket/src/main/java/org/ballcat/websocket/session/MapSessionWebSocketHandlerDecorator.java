@@ -47,7 +47,7 @@ public class MapSessionWebSocketHandlerDecorator extends WebSocketHandlerDecorat
 	 * @param wsSession websocket session 对象
 	 */
 	@Override
-	public void afterConnectionEstablished(WebSocketSession wsSession) {
+	public void afterConnectionEstablished(WebSocketSession wsSession) throws Exception {
 		// 包装一层，防止并发发送出现问题
 		if (Boolean.TRUE.equals(this.concurrentWebSocketSessionOptions.isEnable())) {
 			wsSession = new ConcurrentWebSocketSessionDecorator(wsSession,
@@ -56,6 +56,7 @@ public class MapSessionWebSocketHandlerDecorator extends WebSocketHandlerDecorat
 					this.concurrentWebSocketSessionOptions.getOverflowStrategy());
 		}
 		this.webSocketSessionStore.addSession(wsSession);
+		super.afterConnectionEstablished(wsSession);
 	}
 
 	/**
@@ -66,6 +67,7 @@ public class MapSessionWebSocketHandlerDecorator extends WebSocketHandlerDecorat
 	@Override
 	public void afterConnectionClosed(WebSocketSession wsSession, CloseStatus closeStatus) throws Exception {
 		this.webSocketSessionStore.removeSession(wsSession);
+		super.afterConnectionClosed(wsSession, closeStatus);
 	}
 
 }

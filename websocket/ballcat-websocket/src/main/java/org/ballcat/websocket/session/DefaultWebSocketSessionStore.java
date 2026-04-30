@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	private final ConcurrentHashMap<Object, Map<String, WebSocketSession>> sessionKeyToWsSessions = new ConcurrentHashMap<>();
 
 	public DefaultWebSocketSessionStore(SessionKeyGenerator sessionKeyGenerator) {
-		this.sessionKeyGenerator = sessionKeyGenerator;
+		this.sessionKeyGenerator = Objects.requireNonNull(sessionKeyGenerator, "SessionKeyGenerator must not be null");
 	}
 
 	/**
@@ -49,13 +50,13 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	@Override
 	public void addSession(WebSocketSession wsSession) {
 		Object sessionKey = this.sessionKeyGenerator.sessionKey(wsSession);
-		Map<String, WebSocketSession> sessions = this.sessionKeyToWsSessions.get(sessionKey);
-		if (sessions == null) {
-			sessions = new ConcurrentHashMap<>();
-			this.sessionKeyToWsSessions.putIfAbsent(sessionKey, sessions);
-			sessions = this.sessionKeyToWsSessions.get(sessionKey);
-		}
-		sessions.put(wsSession.getId(), wsSession);
+		this.sessionKeyToWsSessions.compute(sessionKey, (k, sessions) -> {
+			if (sessions == null) {
+				sessions = new ConcurrentHashMap<>();
+			}
+			sessions.put(wsSession.getId(), wsSession);
+			return sessions;
+		});
 	}
 
 	/**
@@ -66,24 +67,17 @@ public class DefaultWebSocketSessionStore implements WebSocketSessionStore {
 	public void removeSession(WebSocketSession session) throws IOException {
 		Object sessionKey = this.sessionKeyGenerator.sessionKey(session);
 		String wsSessionId = session.getId();
-
-		Map<String, WebSocketSession> sessions = this.sessionKeyToWsSessions.get(sessionKey);
-		if (sessions != null) {
-			try (WebSocketSession webSocketSession = sessions.remove(wsSessionId)) {
-				boolean result = webSocketSession != null;
+		this.sessionKeyToWsSessions.computeIfPresent(sessionKey, (k, sessions) -> {
+			try (WebSocketSession removed = sessions.remove(wsSessionId)) {
 				if (log.isDebugEnabled()) {
-					log.debug("Removal of " + wsSessionId + " was " + result);
+					log.debug("Removal of {} was {}", wsSessionId, removed != null);
 				}
 			}
-
-			if (sessions.isEmpty()) {
-				this.sessionKeyToWsSessions.remove(sessionKey);
-				if (log.isDebugEnabled()) {
-					log.debug("Removed the corresponding HTTP Session for " + wsSessionId
-							+ " since it contained no WebSocket mappings");
-				}
+			catch (IOException e) {
+				log.warn("Failed to close WebSocketSession {}", wsSessionId, e);
 			}
-		}
+			return sessions.isEmpty() ? null : sessions;
+		});
 	}
 
 	/**

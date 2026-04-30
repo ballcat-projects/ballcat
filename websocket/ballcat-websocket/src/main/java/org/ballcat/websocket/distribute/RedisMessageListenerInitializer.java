@@ -19,7 +19,7 @@ package org.ballcat.websocket.distribute;
 import javax.annotation.PostConstruct;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
 /**
@@ -37,7 +37,7 @@ public class RedisMessageListenerInitializer {
 	@PostConstruct
 	public void addMessageListener() {
 		this.redisMessageListenerContainer.addMessageListener(this.redisWebsocketMessageListener,
-				new PatternTopic(RedisMessageDistributor.CHANNEL));
+				new ChannelTopic(RedisMessageDistributor.CHANNEL));
 	}
 
 }
