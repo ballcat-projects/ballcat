@@ -19,6 +19,14 @@ package org.ballcat.mybatisplus.methods;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 
 /**
+ * ON DUPLICATE KEY UPDATE 时使用调用方指定的列值进行更新。
+ *
+ * <p>
+ * <b>安全警告</b>：{@code columns.list} 中每个条目的 {@code val} 字段通过 MyBatis {@code ${}} 直接拼入 SQL，
+ * 不经过 PreparedStatement 参数化处理。<br>
+ * <b>严禁将任何用户可控输入赋值给 {@code val}</b>，否则将导致 SQL 注入（OWASP A03）。 {@code val}
+ * 只能来自框架元数据、常量或经过严格校验的可信内部数据。
+ *
  * @author lingting 2020/5/27 11:47
  */
 public class InsertOrUpdateFieldByBatch extends BaseInsertBatch {

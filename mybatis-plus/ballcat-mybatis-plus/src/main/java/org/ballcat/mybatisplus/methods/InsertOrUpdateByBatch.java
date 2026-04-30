@@ -37,11 +37,11 @@ public class InsertOrUpdateByBatch extends BaseInsertBatch {
 	}
 
 	/**
-	 * 字段筛选条件
+	 * 字段筛选条件，返回 true 表示忽略该字段。默认不忽略任何字段。
 	 */
 	@Setter
 	@Accessors(chain = true)
-	private Predicate<TableFieldInfo> predicate;
+	private Predicate<TableFieldInfo> predicate = field -> false;
 
 	@Override
 	protected String getSql() {

@@ -65,11 +65,11 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<
 	protected Class<M> mapperClass = currentMapperClass();
 
 	protected Class<M> currentMapperClass() {
-		return (Class<M>) ReflectionKit.getSuperClassGenericType(this.getClass(), ExtendServiceImpl.class, 0);
+		return (Class<M>) ReflectionKit.getSuperClassGenericType(this.getClass(), BaseServiceImpl.class, 0);
 	}
 
 	protected Class<T> currentModelClass() {
-		return (Class<T>) ReflectionKit.getSuperClassGenericType(this.getClass(), ExtendServiceImpl.class, 1);
+		return (Class<T>) ReflectionKit.getSuperClassGenericType(this.getClass(), BaseServiceImpl.class, 1);
 	}
 
 	/**

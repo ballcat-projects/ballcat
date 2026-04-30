@@ -57,7 +57,7 @@ public class ExtendServiceImpl<M extends ExtendMapper<T>, T> extends BaseService
 			}
 			subList.add(t);
 		}
-		if (CollectionUtils.isEmpty(subList)) {
+		if (CollectionUtils.isNotEmpty(subList)) {
 			this.baseMapper.insertBatchSomeColumn(subList);
 		}
 		return true;
