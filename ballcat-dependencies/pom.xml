@@ -47,7 +47,7 @@
 		<springdoc-openapi.verison>1.7.0</springdoc-openapi.verison>
 		<springfox.version>3.0.0</springfox.version>
 		<swagger.version>1.6.8</swagger.version>
-		<tika.version>2.9.4</tika.version>
+		<tika.version>3.2.2</tika.version>
 		<virtual-currency.version>0.4.2</virtual-currency.version>
 		<xxl-job.version>2.4.0</xxl-job.version>
 		<!--grpc-->
