@@ -8,6 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-extend-redis-module</artifactId>
+	<name>${project.artifactId}</name>
 
 	<properties>
 		<skipTests>true</skipTests>

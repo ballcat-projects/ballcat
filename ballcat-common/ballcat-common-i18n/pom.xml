@@ -8,6 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-common-i18n</artifactId>
+	<name>${project.artifactId}</name>
 
 	<dependencies>
 		<dependency>

@@ -10,6 +10,7 @@
 	</parent>
 
 	<artifactId>ballcat-extend-ntp</artifactId>
+	<name>${project.artifactId}</name>
 
 
 	<dependencies>

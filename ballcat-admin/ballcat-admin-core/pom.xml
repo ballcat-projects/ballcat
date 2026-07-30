@@ -8,6 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ballcat-admin-core</artifactId>
+	<name>${project.artifactId}</name>
 
 	<dependencies>
 		<!--mybatis plus-->

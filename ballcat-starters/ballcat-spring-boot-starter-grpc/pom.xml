@@ -10,6 +10,7 @@
 	</parent>
 
 	<artifactId>ballcat-spring-boot-starter-grpc</artifactId>
+	<name>${project.artifactId}</name>
 
 	<dependencies>
 		<dependency>

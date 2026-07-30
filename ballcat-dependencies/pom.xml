@@ -663,6 +663,11 @@
 				<artifactId>flatten-maven-plugin</artifactId>
 				<configuration>
 					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+					<pomElements>
+						<name>expand</name>
+						<description>expand</description>
+						<url>expand</url>
+					</pomElements>
 					<updatePomFile>true</updatePomFile>
 				</configuration>
 				<executions>
