@@ -3,6 +3,12 @@ name: Deploy 1.x to Maven Central
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release tag, for example 1.4.3
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -13,14 +19,14 @@ concurrency:
 
 jobs:
   build:
-    if: startsWith(github.event.release.tag_name, '1.')
+    if: startsWith(github.event.release.tag_name || inputs.release_tag, '1.')
     runs-on: ubuntu-latest
     environment: ci
     steps:
       - name: Check out release tag
         uses: actions/checkout@v5
         with:
-          ref: refs/tags/${{ github.event.release.tag_name }}
+          ref: refs/tags/${{ github.event.release.tag_name || inputs.release_tag }}
 
       - name: Set up JDK 8
         uses: actions/setup-java@v5
@@ -36,7 +42,7 @@ jobs:
 
       - name: Validate release tag and project version
         env:
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.release_tag }}
         run: |
           git tag --points-at HEAD | grep -Fx -- "$RELEASE_TAG"
           PROJECT_VERSION="$(mvn org.apache.maven.plugins:maven-help-plugin:3.3.0:evaluate -DforceStdout -Dexpression=revision -q)"
