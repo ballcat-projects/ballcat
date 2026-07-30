@@ -54,6 +54,20 @@ jobs:
       - name: Verify release
         run: mvn -B verify --file pom.xml "-Dextend.dingtalk.webhook=${{ secrets.CI_DINGTALK_HOOK }}" "-Dextend.dingtalk.secret=${{ secrets.CI_DINGTALK_SECRET }}" -P ci
 
+      - name: Validate Maven Central POM metadata
+        run: |
+          mapfile -t SOURCE_POMS < <(git ls-files '*pom.xml')
+          mapfile -t FLATTENED_POMS < <(find . -name .flattened-pom.xml -type f -print)
+          test "${#FLATTENED_POMS[@]}" -eq "${#SOURCE_POMS[@]}"
+          for POM in "${FLATTENED_POMS[@]}"; do
+            for ELEMENT in name description url; do
+              if ! grep -Eq "^  <${ELEMENT}>[^<]+</${ELEMENT}>$" "$POM"; then
+                echo "Missing project ${ELEMENT} in ${POM}" >&2
+                exit 1
+              fi
+            done
+          done
+
       - name: Upload release to Central Portal
         run: mvn -B deploy -DskipTests -P ossrh
         env:
