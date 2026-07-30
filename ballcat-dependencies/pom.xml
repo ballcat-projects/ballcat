@@ -14,15 +14,15 @@
 		<revision>1.4.2</revision>
 
 		<!-- 插件版本 -->
+		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
 		<flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
 		<maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
-		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 		<maven-release-plugin.version>3.0.0</maven-release-plugin.version>
 		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
 		<maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
-		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<spring-javaformat-checkstyle.version>0.0.39</spring-javaformat-checkstyle.version>
 
 		<!-- 依赖版本 -->
@@ -600,11 +600,17 @@
 						<version>${maven-gpg-plugin.version}</version>
 						<executions>
 							<execution>
+								<id>sign-artifacts</id>
 								<goals>
 									<goal>sign</goal>
 								</goals>
-								<id>sign-artifacts</id>
 								<phase>verify</phase>
+								<configuration>
+									<gpgArguments>
+										<arg>--pinentry-mode</arg>
+										<arg>loopback</arg>
+									</gpgArguments>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -620,14 +626,15 @@
 						</configuration>
 					</plugin>
 					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>${nexus-staging-maven-plugin.version}</version>
-						<configuration>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<serverId>ossrh</serverId>
-						</configuration>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<version>${central-publishing-maven-plugin.version}</version>
 						<extensions>true</extensions>
+						<configuration>
+							<publishingServerId>ossrh</publishingServerId>
+							<autoPublish>false</autoPublish>
+							<waitUntil>VALIDATED</waitUntil>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -635,17 +642,6 @@
 		</profile>
 	</profiles>
 	<!--endregion 结束环境变量-->
-
-	<distributionManagement>
-		<repository>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-			<id>ossrh</id>
-		</repository>
-		<snapshotRepository>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<id>ossrh</id>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<build>
 		<plugins>
@@ -729,11 +725,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${maven-surefire-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.sonatype.plugins</groupId>
-					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>${nexus-staging-maven-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
