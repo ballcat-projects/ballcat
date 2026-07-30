@@ -1,0 +1,62 @@
+name: Deploy 1.x to Maven Central
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release tag, for example 1.4.3
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-1x-maven-central
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: startsWith(github.event.release.tag_name || inputs.release_tag, '1.')
+    runs-on: ubuntu-latest
+    environment: ci
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v5
+        with:
+          ref: refs/tags/${{ github.event.release.tag_name || inputs.release_tag }}
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v5
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: 'maven'
+          server-id: ossrh
+          server-username: CI_DEPLOY_USERNAME
+          server-password: CI_DEPLOY_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Validate release tag and project version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.release_tag }}
+        run: |
+          git tag --points-at HEAD | grep -Fx -- "$RELEASE_TAG"
+          PROJECT_VERSION="$(mvn org.apache.maven.plugins:maven-help-plugin:3.3.0:evaluate -DforceStdout -Dexpression=revision -q)"
+          test "$PROJECT_VERSION" = "$RELEASE_TAG"
+          case "$PROJECT_VERSION" in
+            *-SNAPSHOT) exit 1 ;;
+          esac
+
+      - name: Verify release
+        run: mvn -B verify --file pom.xml "-Dextend.dingtalk.webhook=${{ secrets.CI_DINGTALK_HOOK }}" "-Dextend.dingtalk.secret=${{ secrets.CI_DINGTALK_SECRET }}" -P ci
+
+      - name: Upload release to Central Portal
+        run: mvn -B deploy -DskipTests -P ossrh
+        env:
+          CI_DEPLOY_USERNAME: ${{ secrets.HCCAKE_OSSRH_USERNAME }}
+          CI_DEPLOY_PASSWORD: ${{ secrets.HCCAKE_OSSRH_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
