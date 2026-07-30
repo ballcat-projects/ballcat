@@ -218,35 +218,62 @@ public class RedisHelper {
 	}
 
 	/**
-	 * 使用 Cursor 遍历指定规则的 keys
-	 * @param scanOptions scan 的配置
+	 * 使用 Cursor 遍历符合指定逻辑规则的 keys。
+	 * <p>
+	 * {@link ScanOptions} 中的 MATCH pattern 会经过当前 RedisTemplate 的 key serializer，确保全局 key
+	 * 前缀等序列化规则同样作用于扫描条件。 未设置 MATCH pattern 时，将使用逻辑 pattern {@code *}，避免扫描到当前
+	 * RedisTemplate 命名空间之外的 key。
+	 * @param scanOptions scan 的配置，其中的 MATCH pattern 应使用逻辑 key 格式
 	 * @return Cursor，一个可迭代对象
 	 * @see <a href="https://redis.io/commands/scan/">Scan Command</a>
 	 */
 	public static Cursor<String> scan(ScanOptions scanOptions) {
+		String pattern = Optional.ofNullable(scanOptions.getPattern()).orElse("*");
+		ScanOptions.ScanOptionsBuilder builder = ScanOptions.scanOptions().match(getKeySerializer().serialize(pattern));
+		if (scanOptions.getCount() != null) {
+			builder.count(scanOptions.getCount());
+		}
+		if (scanOptions instanceof KeyScanOptions) {
+			String type = ((KeyScanOptions) scanOptions).getType();
+			if (type != null) {
+				builder.type(type);
+			}
+		}
+		return scanRaw(builder.build());
+	}
+
+	/**
+	 * 使用 Cursor 遍历符合指定物理规则的 keys。
+	 * <p>
+	 * {@link ScanOptions} 中的 MATCH pattern 将直接传递给 Redis，不会再经过 key serializer。
+	 * @param scanOptions scan 的配置，其中的 MATCH pattern 应使用 Redis 中实际存储的 key 格式
+	 * @return Cursor，一个可迭代对象
+	 * @see <a href="https://redis.io/commands/scan/">Scan Command</a>
+	 */
+	public static Cursor<String> scanRaw(ScanOptions scanOptions) {
 		return redisTemplate.scan(scanOptions);
 	}
 
 	/**
-	 * 使用 Cursor 遍历指定规则的 keys
-	 * @param patten key 的规则
+	 * 使用 Cursor 遍历符合指定逻辑规则的 keys。pattern 会经过当前 RedisTemplate 的 key serializer，确保全局 key
+	 * 前缀等序列化规则同样作用于扫描条件。
+	 * @param pattern 逻辑 key 的规则
 	 * @return Cursor，一个可迭代对象
 	 */
-	public static Cursor<String> scan(String patten) {
-		ScanOptions scanOptions = ScanOptions.scanOptions().match(patten).build();
-		return scan(scanOptions);
+	public static Cursor<String> scan(String pattern) {
+		return scan(ScanOptions.scanOptions().match(pattern).build());
 	}
 
 	/**
-	 * 使用 Cursor 遍历指定规则的 keys
-	 * @param patten key 的规则
+	 * 使用 Cursor 遍历符合指定逻辑规则的 keys。pattern 会经过当前 RedisTemplate 的 key serializer，确保全局 key
+	 * 前缀等序列化规则同样作用于扫描条件。
+	 * @param pattern 逻辑 key 的规则
 	 * @param count 一次扫描获取的 key 数量， 默认为 10
 	 * @return Cursor，一个可迭代对象
 	 * @see <a href="https://redis.io/commands/scan/">Scan Command</a>
 	 */
-	public static Cursor<String> scan(String patten, long count) {
-		ScanOptions scanOptions = ScanOptions.scanOptions().match(patten).count(count).build();
-		return scan(scanOptions);
+	public static Cursor<String> scan(String pattern, long count) {
+		return scan(ScanOptions.scanOptions().match(pattern).count(count).build());
 	}
 	// ====================== key command end ==================
 

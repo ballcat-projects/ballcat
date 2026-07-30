@@ -238,12 +238,10 @@ public class CacheStringAspect {
 		if (cacheDelAnnotation.allEntries()) {
 			// 优先判断是否是删除名称空间下所有的键值对
 			cacheDel = () -> {
-				Cursor<String> scan = RedisHelper.scan(cacheDelAnnotation.key().concat("*"));
-				while (scan.hasNext()) {
-					redisTemplate.delete(scan.next());
-				}
-				if (!scan.isClosed()) {
-					scan.close();
+				try (Cursor<String> scan = RedisHelper.scan(cacheDelAnnotation.key().concat("*"))) {
+					while (scan.hasNext()) {
+						redisTemplate.delete(scan.next());
+					}
 				}
 			};
 		}
